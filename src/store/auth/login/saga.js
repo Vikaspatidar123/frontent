@@ -1,4 +1,6 @@
+/* eslint-disable no-debugger */
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { Buffer } from 'buffer';
 
 // Login Redux States
 import { LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN } from './actionTypes';
@@ -6,40 +8,53 @@ import { apiError, loginSuccess, logoutUserSuccess } from './actions';
 
 // Include Both Helper File with needed methods
 import { getFirebaseBackend } from '../../../helpers/firebase_helper';
-import {
-	postFakeLogin,
-	postJwtLogin,
-} from '../../../helpers/fakebackend_helper';
+import { superAdminLogin } from '../../../utils/apiCalls';
+import { setItem, setLoginToken } from '../../../utils/storageUtils';
 
 const fireBaseBackend = getFirebaseBackend();
 
 function* loginUser({ payload: { user, history } }) {
 	try {
-		if (import.meta.env.VITE_APP_DEFAULTAUTH === 'firebase') {
-			const response = yield call(
-				fireBaseBackend.loginUser,
-				user.email,
-				user.password
-			);
-			yield put(loginSuccess(response));
-		} else if (import.meta.env.VITE_APP_DEFAULTAUTH === 'jwt') {
-			const response = yield call(postJwtLogin, {
-				email: user.email,
-				password: user.password,
-			});
-			localStorage.setItem('authUser', JSON.stringify(response));
-			yield put(loginSuccess(response));
-		} else if (import.meta.env.VITE_APP_DEFAULTAUTH === 'fake') {
-			const response = yield call(postFakeLogin, {
-				email: user.email,
-				password: user.password,
-			});
-			localStorage.setItem('authUser', JSON.stringify(response));
-			yield put(loginSuccess(response));
-		}
+		const encryptedPass = Buffer.from(user.password).toString('base64');
+		const res = yield call(superAdminLogin, {
+			user: user.user,
+			password: encryptedPass,
+		});
+		const {
+			data: { data },
+		} = res;
+		const { accessToken } = data;
+
+		setLoginToken(accessToken);
+		setItem('role', 'Admin');
+		yield put(loginSuccess(data));
+
+		// if (import.meta.env.VITE_APP_DEFAULTAUTH === 'firebase') {
+		// 	const response = yield call(
+		// 		fireBaseBackend.loginUser,
+		// 		user.email,
+		// 		user.password
+		// 	);
+		// 	yield put(loginSuccess(response));
+		// } else if (import.meta.env.VITE_APP_DEFAULTAUTH === 'jwt') {
+		// 	const response = yield call(postJwtLogin, {
+		// 		email: user.email,
+		// 		password: user.password,
+		// 	});
+		// 	localStorage.setItem('authUser', JSON.stringify(response));
+		// 	yield put(loginSuccess(response));
+		// } else if (import.meta.env.VITE_APP_DEFAULTAUTH === 'fake') {
+		// 	const response = yield call(postFakeLogin, {
+		// 		email: user.email,
+		// 		password: user.password,
+		// 	});
+		// 	localStorage.setItem('authUser', JSON.stringify(response));
+		// 	yield put(loginSuccess(response));
+		// }
 		history('/dashboard');
 	} catch (error) {
-		yield put(apiError(error));
+		yield put(apiError('Failed to login', error.message));
+		// yield put(apiError(error.message));
 	}
 }
 
