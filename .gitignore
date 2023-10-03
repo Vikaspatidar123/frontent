@@ -28,4 +28,5 @@ package-lock.json
 *.sln
 *.sw?
 .vercel
+.eslintcache
 
