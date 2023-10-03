@@ -115,7 +115,7 @@ import Dashboard from '../pages/Dashboard/index';
 // import JobGrid from "../pages/JobPages/JobGrid/index";
 // import JobDetails from "../pages/JobPages/JobDetails";
 // import JobCategories from "../pages/JobPages/JobCategories";
-// import JobList from "../pages/JobPages/JobList";
+import JobList from '../pages/JobPages/JobList';
 // import ApplyJobs from "../pages/JobPages/ApplyJobs/index";
 // import CandidateList from "../pages/JobPages/CandidateList";
 // import CandidateOverview from "../pages/JobPages/CandidateOverview";
@@ -178,6 +178,7 @@ import Pages500 from '../pages/Utility/pages-500';
 
 const authProtectedRoutes = [
 	{ path: '/dashboard', component: <Dashboard /> },
+	{ path: '/listing', component: <JobList /> },
 
 	{ path: '*', component: <Dashboard /> },
 
@@ -251,7 +252,7 @@ const authProtectedRoutes = [
 	// { path: "/job-grid", component: <JobGrid /> },
 	// { path: "/job-details", component: <JobDetails /> },
 	// { path: "/job-categories", component: <JobCategories /> },
-	// { path: "/job-list", component: <JobList /> },
+	{ path: '/job-list', component: <JobList /> },
 	// { path: "/job-apply", component: <ApplyJobs /> },
 	// { path: "/candidate-list", component: <CandidateList /> },
 	// { path: "/candidate-overview", component: <CandidateOverview /> },
