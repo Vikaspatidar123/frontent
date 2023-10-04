@@ -3,13 +3,13 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 // Login Redux States
 import { FETCH_COUNTRIES_START } from './actionTypes';
 import { fetchCountriesFail, fetchCountriesSuccess } from './actions';
-import { fetchCountriesApi } from '../../helpers/countries_helper';
+import { getCountries } from '../../network/getRequests';
 
 function* fetchCountries({ payload }) {
 	try {
-		const response = yield call(fetchCountriesApi, payload);
+		const response = yield call(getCountries, payload);
 		console.log('COUNTRIES DATA', response);
-		yield put(fetchCountriesSuccess(response));
+		yield put(fetchCountriesSuccess(response?.data?.data?.countryList));
 	} catch (error) {
 		yield put(fetchCountriesFail(error));
 	}

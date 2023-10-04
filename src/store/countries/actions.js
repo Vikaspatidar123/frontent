@@ -9,9 +9,9 @@ export const fetchCountriesStart = (user, history) => ({
 	payload: { user, history },
 });
 
-export const fetchCountriesSuccess = (user) => ({
+export const fetchCountriesSuccess = (countries) => ({
 	type: FETCH_COUNTRIES_SUCCESS,
-	payload: user,
+	payload: countries,
 });
 
 export const fetchCountriesFail = (history) => ({

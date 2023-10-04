@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Input, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { fetchCountriesStart } from '../../store/actions';
@@ -22,6 +22,8 @@ const CountriesList = ({ t }) => {
 	document.title = 'Login | Skote - Vite React Admin & Dashboard Template';
 	const dispatch = useDispatch();
 	const [name, setName] = useState('');
+	const { countries, error, loading } = useSelector((state) => state.Countries);
+	console.log(countries, error, loading);
 
 	useEffect(() => {
 		dispatch(fetchCountriesStart());

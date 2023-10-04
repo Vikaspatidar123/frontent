@@ -1,8 +1,8 @@
 import axios from 'axios';
-import accessToken from './jwt-token-access/accessToken';
+import { getLoginToken } from '../network/storageUtils';
 
 // pass new generated access token here
-const token = accessToken;
+const token = getLoginToken();
 
 // apply base url for axios
 const API_URL = import.meta.env.VITE_APP_API_URL;
