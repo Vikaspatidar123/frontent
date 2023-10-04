@@ -21,8 +21,8 @@ const getAllCurrencies = ({ limit, pageNo }) =>
 		`${VITE_APP_API_URL}/api/admin/currency?limit=${limit}&pageNo=${pageNo}`
 	);
 
-const getCountries = ({ limit, pageNo }) =>
+const getCountries = ({ limit, pageNo, search }) =>
 	getRequest(
-		`${VITE_APP_API_URL}/api/admin/sportsbook/countries?limit=${limit}&pageNo=${pageNo}`
+		`${VITE_APP_API_URL}/api/admin/sportsbook/countries?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=`
 	);
 export { getAllAdmins, getAllCurrencies, getCountries };

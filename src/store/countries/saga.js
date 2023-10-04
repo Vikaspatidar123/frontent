@@ -8,7 +8,6 @@ import { getCountries } from '../../network/getRequests';
 function* fetchCountries({ payload }) {
 	try {
 		const response = yield call(getCountries, payload);
-		console.log('COUNTRIES DATA', response);
 		yield put(fetchCountriesSuccess(response?.data?.data?.countryList));
 	} catch (error) {
 		yield put(fetchCountriesFail(error));

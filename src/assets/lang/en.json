@@ -179,5 +179,6 @@
 	"t-my-wallet": "My Wallet",
 	"t-t-settings": "Settings",
 	"t-logout": "Logout",
-	"t-countries": "Countries"
+	"t-countries": "Countries",
+	"t-siteConfigurations": "Site Configurations"
 }

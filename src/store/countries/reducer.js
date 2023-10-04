@@ -20,11 +20,13 @@ const countriesReducer = (state = initialState, { type, payload } = {}) => {
 		case FETCH_COUNTRIES_FAIL:
 			return {
 				...state,
+				loading: false,
 				error: true,
 			};
 		case FETCH_COUNTRIES_SUCCESS:
 			return {
 				...state,
+				loading: false,
 				countries: payload,
 			};
 		default:

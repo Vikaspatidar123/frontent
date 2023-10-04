@@ -4,9 +4,9 @@ import {
 	FETCH_COUNTRIES_SUCCESS,
 } from './actionTypes';
 
-export const fetchCountriesStart = (user, history) => ({
+export const fetchCountriesStart = (payload) => ({
 	type: FETCH_COUNTRIES_START,
-	payload: { user, history },
+	payload,
 });
 
 export const fetchCountriesSuccess = (countries) => ({
