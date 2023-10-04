@@ -1,13 +1,23 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Navigate } from 'react-router-dom';
+import { getItem } from '../network/storageUtils';
 
-const Authmiddleware = (props) => {
-  if (!localStorage.getItem("authUser")) {
-    return (
-      <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
-    );
-  }
-  return <React.Fragment>{props.children}</React.Fragment>;
+const Authmiddleware = ({ children, location }) => {
+	if (!getItem('access-token')) {
+		return <Navigate to={{ pathname: '/login', state: { from: location } }} />;
+	}
+	return children;
+};
+
+Authmiddleware.defaultState = {
+	children: <div />,
+	location: '',
+};
+
+Authmiddleware.propTypes = {
+	children: PropTypes.element.isRequired,
+	location: PropTypes.string.isRequired,
 };
 
 export default Authmiddleware;

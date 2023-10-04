@@ -8,8 +8,8 @@ import { apiError, loginSuccess, logoutUserSuccess } from './actions';
 
 // Include Both Helper File with needed methods
 import { getFirebaseBackend } from '../../../helpers/firebase_helper';
-import { superAdminLogin } from '../../../utils/apiCalls';
-import { setItem, setLoginToken } from '../../../utils/storageUtils';
+import { superAdminLogin } from '../../../network/postRequests';
+import { setItem, setLoginToken } from '../../../network/storageUtils';
 
 const fireBaseBackend = getFirebaseBackend();
 
