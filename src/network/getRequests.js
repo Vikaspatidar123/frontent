@@ -11,6 +11,18 @@ const getCasinoCategoryListing = ({
 		`${VITE_APP_API_URL}/api/admin/casino/categories?&pageNo=${pageNo}&limit=${limit}&search=${search}`
 	);
 
+const getCasinoSubCategoryListing = ({
+	limit = 15,
+	pageNo = 1,
+	search = '',
+	gameCategoryId = '',
+	isActive = ''
+}) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/casino/sub-category?pageNo=${pageNo}&gameCategoryId=${gameCategoryId}&search=${search}&limit=${limit}&isActive=${isActive}`
+	);
+
+
 const getAllCurrencies = ({ limit, pageNo }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/currency?limit=${limit}&pageNo=${pageNo}`
@@ -44,4 +56,5 @@ export {
 	getPlayers,
 	getAllCms,
 	getCasinoCategoryListing, 
+	getCasinoSubCategoryListing
 };

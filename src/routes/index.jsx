@@ -173,6 +173,7 @@ import PlayersList from '../pages/Players';
 import Admins from '../pages/Admins';
 import Cms from '../pages/Cms';
 import CasinoCategory from '../pages/CasinoCategory';
+import CasinoSubCategory from '../pages/CasinoSubCategory';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -184,6 +185,7 @@ import CasinoCategory from '../pages/CasinoCategory';
 const authProtectedRoutes = [
 	{ path: '/dashboard', component: <Dashboard /> },
 	{ path: "/categories", component: <CasinoCategory /> },
+	{ path: "/sub-categories", component: <CasinoSubCategory /> },
 	{ path: '/listing', component: <JobList /> },
 	{ path: '/countries', component: <CountriesList /> },
 	{ path: '/users', component: <PlayersList /> },

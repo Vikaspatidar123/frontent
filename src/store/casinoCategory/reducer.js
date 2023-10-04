@@ -2,15 +2,19 @@ import {
 	GET_CASINO_CATEGORY_DATA,
 	GET_CASINO_CATEGORY_DATA_SUCCESS,
 	GET_CASINO_CATEGORY_DATA_FAIL,
+	GET_CASINO_SUB_CATEGORY_DATA_SUCCESS,
+	GET_CASINO_SUB_CATEGORY_DATA_FAIL,
+	GET_CASINO_SUB_CATEGORY_DATA,
 } from './actionTypes';
 
 const INIT_STATE = {
 	getCasinoCategoryDetails: [],
+	getCasinoSubCategoryDetails: [],
 	error: null,
 	loading: true,
 };
 
-const getCasinoCategory = (state = INIT_STATE, {type, payload}) => {
+const getCasinoCategory = (state = INIT_STATE, { type, payload }) => {
 	switch (type) {
 		case GET_CASINO_CATEGORY_DATA:
 			return {
@@ -27,6 +31,27 @@ const getCasinoCategory = (state = INIT_STATE, {type, payload}) => {
 			};
 
 		case GET_CASINO_CATEGORY_DATA_FAIL:
+			return {
+				...state,
+				error: payload,
+				loading: true,
+			};
+
+		case GET_CASINO_SUB_CATEGORY_DATA:
+			return {
+				...state,
+				loading: false,
+			};
+
+		case GET_CASINO_SUB_CATEGORY_DATA_SUCCESS:
+			return {
+				...state,
+				loading: true,
+				getCasinoSubCategoryDetails: payload,
+				error: null,
+			};
+
+		case GET_CASINO_SUB_CATEGORY_DATA_FAIL:
 			return {
 				...state,
 				error: payload,
