@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ import logoLightPng from '../../assets/images/logo-light.png';
 import logoLightSvg from '../../assets/images/logo-light.svg';
 import logoDark from '../../assets/images/logo-dark.png';
 
-const Sidebar = ({ type }) => (
+const Sidebar = () => (
 	<div className="vertical-menu">
 		<div className="navbar-brand-box">
 			<Link to="/" className="logo logo-dark">
@@ -35,7 +35,7 @@ const Sidebar = ({ type }) => (
 			</Link>
 		</div>
 		<div data-simplebar className="h-100">
-			{type !== 'condensed' ? <SidebarContent /> : <SidebarContent />}
+			<SidebarContent />
 		</div>
 
 		<div className="sidebar-background" />
@@ -43,11 +43,11 @@ const Sidebar = ({ type }) => (
 );
 
 Sidebar.defaultProps = {
-	type: '',
+	// type: '',
 };
 
 Sidebar.propTypes = {
-	type: PropTypes.string,
+	// type: PropTypes.string,
 };
 
 const mapStatetoProps = (state) => ({
