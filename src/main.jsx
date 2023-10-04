@@ -7,7 +7,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './i18n';
 import store from './store';
-import { setupInterceptors } from './utils/axios';
+import { setupInterceptors } from './network/axios';
 
 setupInterceptors();
 
