@@ -69,6 +69,8 @@ import getAllAdmins from './admins/reducer';
 
 // All cms data
 import getAllCms from './cms/reducer';
+// Admins data
+import getCasinoCategory from "./casinoCategory/reducer";
 
 const rootReducer = combineReducers({
 	// New theme
@@ -99,6 +101,7 @@ const rootReducer = combineReducers({
 	DashboardJob,
 	getAllAdmins,
 	getAllCms,
+  getCasinoCategory
 });
 
 export default rootReducer;

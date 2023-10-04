@@ -2,18 +2,13 @@ import { getRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
-const getAllAdmins = ({
-	limit,
-	pageNo,
-	orderBy,
-	sort,
-	search,
-	// superAdminId,
-	adminRoleId,
-	status,
+const getCasinoCategoryListing = ({
+	limit = 15,
+	pageNo = 1,
+	search = '',
 }) =>
 	getRequest(
-		`${VITE_APP_API_URL}/api/admin?orderBy=${orderBy}&pageNo=${pageNo}&limit=${limit}&sort=${sort}&search=${search}&status=${status}&adminRoleId=${adminRoleId}`
+		`${VITE_APP_API_URL}/api/admin/casino/categories?&pageNo=${pageNo}&limit=${limit}&search=${search}`
 	);
 
 const getAllCurrencies = ({ limit, pageNo }) =>
@@ -42,11 +37,11 @@ const getAllCms = ({ pageNo, limit, search, isActive }) =>
 	);
 
 export {
-	getAllAdmins,
 	getAllCurrencies,
 	getAdminRole,
 	getCountries,
 	getPermissionDetails,
 	getPlayers,
 	getAllCms,
+	getCasinoCategoryListing, 
 };

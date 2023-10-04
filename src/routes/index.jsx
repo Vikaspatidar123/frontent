@@ -172,6 +172,7 @@ import CountriesList from '../pages/CountriesList';
 import PlayersList from '../pages/Players';
 import Admins from '../pages/Admins';
 import Cms from '../pages/Cms';
+import CasinoCategory from '../pages/CasinoCategory';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -182,6 +183,7 @@ import Cms from '../pages/Cms';
 
 const authProtectedRoutes = [
 	{ path: '/dashboard', component: <Dashboard /> },
+	{ path: "/categories", component: <CasinoCategory /> },
 	{ path: '/listing', component: <JobList /> },
 	{ path: '/countries', component: <CountriesList /> },
 	{ path: '/users', component: <PlayersList /> },
