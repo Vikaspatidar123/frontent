@@ -9,6 +9,9 @@ export * from './auth/profile/actions';
 // countries
 export * from './countries/actions';
 
+// players
+export * from './players/actions';
+
 // Ecommerce
 export * from './e-commerce/actions';
 

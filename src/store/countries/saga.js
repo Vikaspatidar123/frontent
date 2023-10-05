@@ -14,8 +14,8 @@ function* fetchCountries({ payload }) {
 	}
 }
 
-function* authSaga() {
+function* countriesSaga() {
 	yield takeEvery(FETCH_COUNTRIES_START, fetchCountries);
 }
 
-export default authSaga;
+export default countriesSaga;
