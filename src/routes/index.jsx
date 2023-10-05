@@ -168,6 +168,7 @@ import PagesComingsoon from '../pages/Utility/pages-comingsoon';
 // import PagesPricing from "../pages/Utility/pages-pricing";
 import Pages404 from '../pages/Utility/pages-404';
 import Pages500 from '../pages/Utility/pages-500';
+import CountriesList from '../pages/CountriesList';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -179,6 +180,7 @@ import Pages500 from '../pages/Utility/pages-500';
 const authProtectedRoutes = [
 	{ path: '/dashboard', component: <Dashboard /> },
 	{ path: '/listing', component: <JobList /> },
+	{ path: '/countries', component: <CountriesList /> },
 
 	{ path: '*', component: <Dashboard /> },
 

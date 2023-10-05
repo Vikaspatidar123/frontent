@@ -18,6 +18,9 @@
 		"@ckeditor/ckeditor5-build-classic": "^38.1.1",
 		"@ckeditor/ckeditor5-react": "^6.1.0",
 		"@coreui/react": "^4.10.1",
+		"@emotion/react": "^11.11.1",
+		"@emotion/styled": "^11.11.0",
+		"@mui/material": "^5.14.12",
 		"@reduxjs/toolkit": "^1.9.5",
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^14.0.0",
@@ -128,6 +131,8 @@
 		"eslint-plugin-jsx-a11y": "^6.7.1",
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
+		"husky": "^8.0.3",
+		"lint-staged": "^14.0.1",
 		"prettier": "3.0.3",
 		"sass": "^1.64.2"
 	},
@@ -187,6 +192,7 @@
 	},
 	"lint-staged": {
 		"*.{js,jsx}": "eslint --cache --fix",
-		"*.{js,jsx,json,md,html,css,less,scss}": "prettier --write"
+		"*.{js,jsx,json,md,html,css,less,scss}": "prettier --write",
+		"*.js": "eslint --cache --fix"
 	}
 }
