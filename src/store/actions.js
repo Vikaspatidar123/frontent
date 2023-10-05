@@ -56,3 +56,6 @@ export * from './dashboard-blog/actions';
 
 // dashboard-jobs
 export * from './dashboard-jobs/actions';
+
+// Admins data
+export * from './admins/actions';
