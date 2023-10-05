@@ -61,33 +61,36 @@ import PermissionDetails from './auth/permissionDetails/reducer';
 // Countries
 import Countries from './countries/reducer';
 
-const rootReducer = combineReducers({
-	// New theme
-	AdminRoles,
-	Countries,
-	PermissionDetails,
+// Players
+import Players from './players/reducer';
 
-	// public
-	Layout,
-	Login,
-	Account,
-	ForgetPassword,
-	Profile,
-	ecommerce,
-	calendar,
-	chat,
-	mails,
-	crypto,
-	invoices,
-	JobReducer,
-	projects,
-	tasks,
-	contacts,
-	Dashboard,
-	DashboardSaas,
-	DashboardCrypto,
-	DashboardBlog,
-	DashboardJob,
+const rootReducer = combineReducers({
+  // New theme
+  AdminRoles,
+  Countries,
+  Players,
+  PermissionDetails,
+  // public
+  Layout,
+  Login,
+  Account,
+  ForgetPassword,
+  Profile,
+  ecommerce,
+  calendar,
+  chat,
+  mails,
+  crypto,
+  invoices,
+  JobReducer,
+  projects,
+  tasks,
+  contacts,
+  Dashboard,
+  DashboardSaas,
+  DashboardCrypto,
+  DashboardBlog,
+  DashboardJob,
 });
 
 export default rootReducer;

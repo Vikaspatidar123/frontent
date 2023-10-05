@@ -73,7 +73,7 @@ const App = () => {
 	const muiTheme = createTheme({
 		typography: {
 			fontFamily: `"Helvetica Neue" "Helvetica" "Arial" "sans-serif"`,
-			fontSize: '12',
+			fontSize: 12,
 		},
 	});
 

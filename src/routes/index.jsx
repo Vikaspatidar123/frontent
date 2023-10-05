@@ -169,6 +169,7 @@ import PagesComingsoon from '../pages/Utility/pages-comingsoon';
 import Pages404 from '../pages/Utility/pages-404';
 import Pages500 from '../pages/Utility/pages-500';
 import CountriesList from '../pages/CountriesList';
+import PlayersList from '../pages/Players';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -181,6 +182,7 @@ const authProtectedRoutes = [
 	{ path: '/dashboard', component: <Dashboard /> },
 	{ path: '/listing', component: <JobList /> },
 	{ path: '/countries', component: <CountriesList /> },
+	{ path: '/users', component: <PlayersList /> },
 
 	{ path: '*', component: <Dashboard /> },
 

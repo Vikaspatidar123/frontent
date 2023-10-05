@@ -24,33 +24,35 @@ import dashboardJobSaga from './dashboard-jobs/saga';
 import CountriesSaga from './countries/saga';
 import AdminRoles from './auth/roles/saga';
 import PermissionDetails from './auth/permissionDetails/saga';
+import PlayerSaga from './players/saga'
 
-export default function* rootSaga() {
-	yield all([
-		// New Theme
-		fork(AdminRoles),
-		fork(CountriesSaga),
-		fork(AuthSaga),
-		fork(PermissionDetails),
-		// public
-		fork(AccountSaga),
-		fork(ForgetSaga),
-		fork(ProfileSaga),
-		fork(LayoutSaga),
-		fork(ecommerceSaga),
-		fork(calendarSaga),
-		fork(chatSaga),
-		fork(mailsSaga),
-		fork(cryptoSaga),
-		fork(invoiceSaga),
-		fork(jobsSaga),
-		fork(projectsSaga),
-		fork(tasksSaga),
-		fork(contactsSaga),
-		fork(dashboardSaga),
-		fork(dashboardSaasSaga),
-		fork(dashboardCryptoSaga),
-		fork(dashboardBlogSaga),
-		fork(dashboardJobSaga),
-	]);
+export default function* rootSaga () {
+  yield all([
+    // New Theme
+    fork(AdminRoles),
+    fork(CountriesSaga),
+    fork(AuthSaga),
+    fork(PermissionDetails),
+    fork(PlayerSaga),
+    // public
+    fork(AccountSaga),
+    fork(ForgetSaga),
+    fork(ProfileSaga),
+    fork(LayoutSaga),
+    fork(ecommerceSaga),
+    fork(calendarSaga),
+    fork(chatSaga),
+    fork(mailsSaga),
+    fork(cryptoSaga),
+    fork(invoiceSaga),
+    fork(jobsSaga),
+    fork(projectsSaga),
+    fork(tasksSaga),
+    fork(contactsSaga),
+    fork(dashboardSaga),
+    fork(dashboardSaasSaga),
+    fork(dashboardCryptoSaga),
+    fork(dashboardBlogSaga),
+    fork(dashboardJobSaga),
+  ]);
 }
