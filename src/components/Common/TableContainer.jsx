@@ -13,7 +13,7 @@ import {
 	usePagination,
 } from 'react-table';
 import { Table, Row, Col, Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Pagination } from '@mui/material';
 import { DefaultColumnFilter } from './filters';
 import JobListGlobalFilter from './GlobalSearchFilter';
 
@@ -68,7 +68,7 @@ const TableContainer = ({
 	isShowingPageLength,
 	isPagination,
 	paginationDiv,
-	pagination,
+	// pagination,
 	iscustomPageSizeOptions,
 	theadClass,
 	isJobListGlobalFilter,
@@ -83,18 +83,21 @@ const TableContainer = ({
 		headerGroups,
 		page,
 		prepareRow,
-		canPreviousPage,
-		canNextPage,
-		pageOptions,
+		// canPreviousPage,
+		// canNextPage,
+		// pageOptions,
 		// pageCount,
-		gotoPage,
-		nextPage,
-		previousPage,
+		// gotoPage,
+		// nextPage,
+		// previousPage,
 		setPageSize,
 		state,
 		preGlobalFilteredRows,
 		setGlobalFilter,
-		state: { pageIndex, pageSize },
+		state: {
+			// pageIndex,
+			pageSize,
+		},
 	} = useTable(
 		{
 			columns,
@@ -103,14 +106,14 @@ const TableContainer = ({
 			initialState: {
 				pageIndex: 0,
 				pageSize: customPageSize,
-				sortBy: [
-					{
-						desc: true,
-					},
-				],
+				// sortBy: [
+				//   {
+				//     desc: true,
+				//   },
+				// ],
 			},
 			manualPagination: isManualPagination,
-			pageCount: totalPageCount / customPageSize,
+			pageCount: Math.ceil(totalPageCount / customPageSize),
 		},
 		useGlobalFilter,
 		useFilters,
@@ -125,11 +128,17 @@ const TableContainer = ({
 		setPageSize(Number(event.target.value));
 	};
 
-	const isPageSelected = (item) => {
+	// const isPageSelected = (item) => {
+	//   if (isManualPagination) {
+	//     return currentPage === item + 1;
+	//   }
+	//   return pageIndex === item;
+	// };
+
+	const handlePagination = (e, item) => {
 		if (isManualPagination) {
-			return currentPage === item + 1;
+			onChangePagination(item);
 		}
-		return pageIndex === item;
 	};
 
 	return (
@@ -256,40 +265,48 @@ const TableContainer = ({
 						</div>
 					)}
 					<div className={paginationDiv}>
-						<ul className={pagination}>
-							<li className={`page-item ${!canPreviousPage ? 'disabled' : ''}`}>
-								<Link to="#" className="page-link" onClick={previousPage}>
-									<i className="mdi mdi-chevron-left" />
-								</Link>
-							</li>
-							{pageOptions.map((item) => (
-								<React.Fragment key={item}>
-									<li
-										className={
-											isPageSelected(item) ? 'page-item active' : 'page-item'
-										}
-									>
-										<Link
-											to="#"
-											className="page-link"
-											onClick={() =>
-												isManualPagination
-													? onChangePagination(item + 1)
-													: gotoPage(item)
-											}
-										>
-											{item + 1}
-										</Link>
-									</li>
-								</React.Fragment>
-							))}
-							<li className={`page-item ${!canNextPage ? 'disabled' : ''}`}>
-								<Link to="#" className="page-link" onClick={nextPage}>
-									<i className="mdi mdi-chevron-right" />
-								</Link>
-							</li>
-						</ul>
+						<Pagination
+							color="primary"
+							count={Math.ceil(totalPageCount / customPageSize)}
+							page={currentPage}
+							onChange={handlePagination}
+						/>
 					</div>
+					{/* <div className={paginationDiv}>
+            <ul className={pagination}>
+              <li className={`page-item ${!canPreviousPage ? 'disabled' : ''}`}>
+                <Link to="#" className="page-link" onClick={() => handlePreviousPage(currentPage)}>
+                  <i className="mdi mdi-chevron-left" />
+                </Link>
+              </li>
+              {pageOptions.map((item) => (
+                <React.Fragment key={item}>
+                  <li
+                    className={
+                      isPageSelected(item) ? 'page-item active' : 'page-item'
+                    }
+                  >
+                    <Link
+                      to="#"
+                      className="page-link"
+                      onClick={() =>
+                        isManualPagination
+                          ? onChangePagination(item + 1)
+                          : gotoPage(item)
+                      }
+                    >
+                      {item + 1}
+                    </Link>
+                  </li>
+                </React.Fragment>
+              ))}
+              <li className={`page-item ${!canNextPage ? 'disabled' : ''}`}>
+                <Link to="#" className="page-link" onClick={() => handleNextPage(currentPage)}>
+                  <i className="mdi mdi-chevron-right" />
+                </Link>
+              </li>
+            </ul>
+          </div> */}
 				</Row>
 			)}
 		</>

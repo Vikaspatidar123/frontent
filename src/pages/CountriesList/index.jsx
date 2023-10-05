@@ -7,7 +7,14 @@ import PropTypes from 'prop-types';
 import { fetchCountriesStart } from '../../store/actions';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
-import { Actions, CountryName, Icon, Id, Status } from './CountriesListCol';
+import {
+	Actions,
+	CountryCode,
+	CountryName,
+	Id,
+	Language,
+	Status,
+} from './CountriesListCol';
 
 const itemsPerPage = 10;
 
@@ -28,22 +35,28 @@ const CountriesList = ({ t }) => {
 				Cell: (cellProps) => <Id {...cellProps} />,
 			},
 			{
+				Header: 'Country Code',
+				accessor: 'countryCode',
+				// filterable: true,
+				Cell: (cellProps) => <CountryCode {...cellProps} />,
+			},
+			{
 				Header: 'Name',
 				accessor: 'countryName',
 				// filterable: true,
 				Cell: (cellProps) => <CountryName {...cellProps} />,
 			},
 			{
+				Header: 'Language',
+				accessor: 'language',
+				// filterable: true,
+				Cell: (cellProps) => <Language {...cellProps} />,
+			},
+			{
 				Header: 'Status',
 				accessor: 'status',
 				// filterable: true,
 				Cell: (cellProps) => <Status {...cellProps} />,
-			},
-			{
-				Header: 'Icon',
-				accessor: 'icon',
-				// filterable: true,
-				Cell: (cellProps) => <Icon {...cellProps} />,
 			},
 			{
 				Header: 'Actions',
@@ -60,7 +73,7 @@ const CountriesList = ({ t }) => {
 			fetchCountriesStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				search: name,
+				name,
 			})
 		);
 	}, [currentPage, name]);
@@ -71,8 +84,10 @@ const CountriesList = ({ t }) => {
 			countries.rows.map((country) =>
 				formattedValues.push({
 					...country,
-					countryName: country.countryName?.[0]?.name,
-					status: country.isActive ? 'Active' : 'Not Active',
+					countryName: country.name,
+					language: country.language.languageName,
+					countryCode: country.code,
+					status: country.status ? 'Active' : 'Not Active',
 				})
 			);
 		}
@@ -109,6 +124,7 @@ const CountriesList = ({ t }) => {
 						customPageSize={10}
 						tableClass="table-bordered align-middle nowrap mt-2"
 						// paginationDiv="col-sm-12 col-md-7"
+						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
 						totalPageCount={countries?.count}
 						isManualPagination

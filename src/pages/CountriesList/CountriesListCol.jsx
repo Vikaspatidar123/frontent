@@ -6,6 +6,10 @@ const Id = (cell) => (cell.value ? cell.value : '');
 
 const CountryName = (cell) => (cell.value ? cell.value : '');
 
+const CountryCode = (cell) => (cell.value ? cell.value : '');
+
+const Language = (cell) => (cell.value ? cell.value : '');
+
 const Status = (cell) => {
 	switch (cell.value) {
 		case 'Active':
@@ -22,4 +26,4 @@ const Icon = (cell) =>
 
 const Actions = () => <i className="dripicons-dots-3" />;
 
-export { Id, CountryName, Icon, Status, Actions };
+export { Id, CountryName, Icon, Status, Actions, CountryCode, Language };
