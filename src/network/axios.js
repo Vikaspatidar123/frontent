@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getLoginToken, removeLoginToken } from './storageUtils';
+import { getAccessToken, removeLoginToken } from './storageUtils';
 
 const axiosInstance = axios.create();
 
@@ -31,8 +31,8 @@ const makeRequest = async (url, method, data = {}) => {
 		'Content-Type': 'application/json',
 	};
 
-	if (getLoginToken()) {
-		headers.Authorization = `Bearer ${getLoginToken()}`;
+	if (getAccessToken()) {
+		headers.Authorization = `Bearer ${getAccessToken()}`;
 	}
 
 	return axiosInstance({

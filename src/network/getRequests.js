@@ -25,4 +25,6 @@ const getCountries = ({ limit, pageNo, name }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/country/list?limit=${limit}&pageNo=${pageNo}&name=${name}`
 	);
-export { getAllAdmins, getAllCurrencies, getCountries };
+const getAdminRole = () => getRequest(`${VITE_APP_API_URL}/api/admin/roles`);
+
+export { getAllAdmins, getAllCurrencies, getAdminRole, getCountries };

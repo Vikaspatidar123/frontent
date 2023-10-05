@@ -22,12 +22,17 @@ import dashboardCryptoSaga from './dashboard-crypto/saga';
 import dashboardBlogSaga from './dashboard-blog/saga';
 import dashboardJobSaga from './dashboard-jobs/saga';
 import countriesSaga from './countries/saga';
+import AdminRoles from './auth/roles/saga';
 
 export default function* rootSaga() {
 	yield all([
+		// New Theme
+		fork(AdminRoles),
+		fork(countriesSaga),
+		fork(AuthSaga),
+
 		// public
 		fork(AccountSaga),
-		fork(AuthSaga),
 		fork(ForgetSaga),
 		fork(ProfileSaga),
 		fork(LayoutSaga),
@@ -46,6 +51,5 @@ export default function* rootSaga() {
 		fork(dashboardCryptoSaga),
 		fork(dashboardBlogSaga),
 		fork(dashboardJobSaga),
-		fork(countriesSaga),
 	]);
 }

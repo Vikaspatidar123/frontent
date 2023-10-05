@@ -9,9 +9,6 @@ import Account from './auth/register/reducer';
 import ForgetPassword from './auth/forgetpwd/reducer';
 import Profile from './auth/profile/reducer';
 
-// Countries
-import Countries from './countries/reducer';
-
 // E-commerce
 import ecommerce from './e-commerce/reducer';
 
@@ -57,14 +54,22 @@ import DashboardBlog from './dashboard-blog/reducer';
 // Dasboard job
 import DashboardJob from './dashboard-jobs/reducer';
 
+import AdminRoles from './auth/roles/reducer';
+
+// Countries
+import Countries from './countries/reducer';
+
 const rootReducer = combineReducers({
+	// New theme
+	AdminRoles,
+	Countries,
+
 	// public
 	Layout,
 	Login,
 	Account,
 	ForgetPassword,
 	Profile,
-	Countries,
 	ecommerce,
 	calendar,
 	chat,
