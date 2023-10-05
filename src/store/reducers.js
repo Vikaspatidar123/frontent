@@ -64,33 +64,37 @@ import Countries from './countries/reducer';
 // Players
 import Players from './players/reducer';
 
+// Admins data
+import getAllAdmins from './admins/reducer';
+
 const rootReducer = combineReducers({
-  // New theme
-  AdminRoles,
-  Countries,
-  Players,
-  PermissionDetails,
-  // public
-  Layout,
-  Login,
-  Account,
-  ForgetPassword,
-  Profile,
-  ecommerce,
-  calendar,
-  chat,
-  mails,
-  crypto,
-  invoices,
-  JobReducer,
-  projects,
-  tasks,
-  contacts,
-  Dashboard,
-  DashboardSaas,
-  DashboardCrypto,
-  DashboardBlog,
-  DashboardJob,
+	// New theme
+	AdminRoles,
+	Countries,
+	Players,
+	PermissionDetails,
+	// public
+	Layout,
+	Login,
+	Account,
+	ForgetPassword,
+	Profile,
+	ecommerce,
+	calendar,
+	chat,
+	mails,
+	crypto,
+	invoices,
+	JobReducer,
+	projects,
+	tasks,
+	contacts,
+	Dashboard,
+	DashboardSaas,
+	DashboardCrypto,
+	DashboardBlog,
+	DashboardJob,
+	getAllAdmins,
 });
 
 export default rootReducer;
