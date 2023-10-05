@@ -370,7 +370,7 @@ function JobList() {
                             onClick={() => setModal(true)}
                             className="btn btn-primary me-1"
                           >
-                            Add New Job
+                            Add New Job 132
                           </Link>
                           <Link to="#!" className="btn btn-light me-1">
                             <i className="mdi mdi-refresh"></i>

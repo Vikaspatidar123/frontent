@@ -7,9 +7,7 @@ const getCasinoCategoryListing = ({
 	pageNo = 1,
 	search = '',
 }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/casino/categories?&pageNo=${pageNo}&limit=${limit}&search=${search}`
-	);
+	getRequest(`${VITE_APP_API_URL}/api/admin/casino/categories?&pageNo=${pageNo}&limit=${limit}&search=${search}`);
 
 const getCasinoSubCategoryListing = ({
 	limit = 15,
@@ -18,15 +16,13 @@ const getCasinoSubCategoryListing = ({
 	gameCategoryId = '',
 	isActive = ''
 }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/casino/sub-category?pageNo=${pageNo}&gameCategoryId=${gameCategoryId}&search=${search}&limit=${limit}&isActive=${isActive}`
-	);
-
+	getRequest(`${VITE_APP_API_URL}/api/admin/casino/sub-category?pageNo=${pageNo}&gameCategoryId=${gameCategoryId}&search=${search}&limit=${limit}&isActive=${isActive}`);
 
 const getAllCurrencies = ({ limit, pageNo }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/currency?limit=${limit}&pageNo=${pageNo}`
-	);
+	getRequest(`${VITE_APP_API_URL}/api/admin/currency?limit=${limit}&pageNo=${pageNo}`);
+
+const getLanguages = ({ limit = '', pageNo = '', name = '' }) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/language?limit=${limit}&pageNo=${pageNo}&name=${name}`)
 
 const getCountries = ({ limit, pageNo, name }) =>
 	getRequest(
@@ -56,5 +52,6 @@ export {
 	getPlayers,
 	getAllCms,
 	getCasinoCategoryListing, 
-	getCasinoSubCategoryListing
+	getCasinoSubCategoryListing,
+	getLanguages
 };

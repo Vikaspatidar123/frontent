@@ -5,6 +5,9 @@ import {
 	GET_CASINO_SUB_CATEGORY_DATA_SUCCESS,
 	GET_CASINO_SUB_CATEGORY_DATA_FAIL,
 	GET_CASINO_SUB_CATEGORY_DATA,
+	GET_LANGUAGE_DATA_START,
+	GET_LANGUAGE_DATA_FAIL,
+	GET_LANGUAGE_DATA_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -12,6 +15,8 @@ const INIT_STATE = {
 	getCasinoSubCategoryDetails: [],
 	error: null,
 	loading: true,
+	getLanguageDataLoading: false,
+	getLanguageData: {},
 };
 
 const getCasinoCategory = (state = INIT_STATE, { type, payload }) => {
@@ -56,6 +61,27 @@ const getCasinoCategory = (state = INIT_STATE, { type, payload }) => {
 				...state,
 				error: payload,
 				loading: true,
+			};
+
+		case GET_LANGUAGE_DATA_START:
+			return {
+				...state,
+				getLanguageDataLoading: false,
+			};
+
+		case GET_LANGUAGE_DATA_SUCCESS:
+			return {
+				...state,
+				getLanguageDataLoading: true,
+				getLanguageData: payload,
+				error: null,
+			};
+
+		case GET_LANGUAGE_DATA_FAIL:
+			return {
+				...state,
+				error: payload,
+				getLanguageDataLoading: true,
 			};
 
 		default:

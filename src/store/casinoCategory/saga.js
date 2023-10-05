@@ -1,10 +1,10 @@
 import { put, takeLatest, all, fork } from 'redux-saga/effects';
+import { toast } from "react-toastify";
 
-// Crypto Redux States
-import { getCasinoCategoryDetailSuccess, getCasinoCategoryDetailFailure, getCasinoSubCategoryDetailSuccess, getCasinoSubCategoryDetailFailure } from './actions';
-import { GET_CASINO_CATEGORY_DATA, GET_CASINO_SUB_CATEGORY_DATA } from './actionTypes';
+import { getCasinoCategoryDetailSuccess, getCasinoCategoryDetailFailure, getCasinoSubCategoryDetailSuccess, getCasinoSubCategoryDetailFailure, getLanguagesSuccess, getLanguagesFailure } from './actions';
+import { GET_CASINO_CATEGORY_DATA, GET_CASINO_SUB_CATEGORY_DATA, GET_LANGUAGE_DATA_START } from './actionTypes';
 
-import { getCasinoCategoryListing, getCasinoSubCategoryListing } from '../../network/getRequests';
+import { getCasinoCategoryListing, getCasinoSubCategoryListing, getLanguages } from '../../network/getRequests';
 
 function* getCasinoCategoryWorker(action) {
 	const { limit, pageNo, orderBy, search, sort, status = '' } =
@@ -20,6 +20,7 @@ function* getCasinoCategoryWorker(action) {
 		})
 		yield put(getCasinoCategoryDetailSuccess(data?.data?.casinoCategories));
 	} catch (error) {
+		toast.error("Something Went wrong", { autoClose: 2000 });
 		yield put(getCasinoCategoryDetailFailure(error?.response?.data?.errors[0]?.description));
 	}
 }
@@ -37,13 +38,30 @@ function* getCasinoSubCategoryWorker(action) {
 		})
 		yield put(getCasinoSubCategoryDetailSuccess(data?.data?.casinoSubCategory));
 	} catch (error) {
+		toast.error("Something Went wrong", { autoClose: 2000 });
 		yield put(getCasinoSubCategoryDetailFailure(error?.response?.data?.errors[0]?.description));
 	}
 }
 
+function* getLanguagesWorker(action) {
+	try {
+		const { limit = '', pageNo = '', name = '' } = action && action.payload
+
+		const { data } = yield getLanguages({ limit, pageNo, name })
+
+		yield put(getLanguagesSuccess(data?.data?.languages))
+
+	} catch (error) {
+		toast.error("Something Went wrong", { autoClose: 2000 });
+		yield put(getLanguagesFailure(error?.response?.data?.errors[0].description))
+	}
+}
+
+
 export function* watchGetAdminsData() {
 	yield takeLatest(GET_CASINO_CATEGORY_DATA, getCasinoCategoryWorker);
 	yield takeLatest(GET_CASINO_SUB_CATEGORY_DATA, getCasinoSubCategoryWorker);
+	yield takeLatest(GET_LANGUAGE_DATA_START, getLanguagesWorker);
 }
 
 function* AdminDetailsSaga() {
