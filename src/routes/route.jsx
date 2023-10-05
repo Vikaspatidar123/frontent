@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAccessToken } from '../network/storageUtils';
 import { getRolesStart } from '../store/auth/roles/actions';
+import { getPermissionsStart } from '../store/auth/permissionDetails/actions';
 
 const Authmiddleware = ({ children, location }) => {
 	const accessToken = getAccessToken();
@@ -13,7 +14,7 @@ const Authmiddleware = ({ children, location }) => {
 		if (accessToken) {
 			dispatch(getRolesStart());
 			// dispatch(getTenantRoleStart())
-			// dispatch(getSuperAdminDetailsStart({ isTenant: false, onStart: true }))
+			dispatch(getPermissionsStart());
 		}
 	}, []);
 

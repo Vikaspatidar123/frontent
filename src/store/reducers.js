@@ -54,7 +54,9 @@ import DashboardBlog from './dashboard-blog/reducer';
 // Dasboard job
 import DashboardJob from './dashboard-jobs/reducer';
 
+// admin
 import AdminRoles from './auth/roles/reducer';
+import PermissionDetails from './auth/permissionDetails/reducer';
 
 // Countries
 import Countries from './countries/reducer';
@@ -63,6 +65,7 @@ const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
 	Countries,
+	PermissionDetails,
 
 	// public
 	Layout,
