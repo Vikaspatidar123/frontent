@@ -1,18 +1,18 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { PERMISSIONS_START } from './actionTypes';
-import { getAdminRole } from '../../../network/getRequests';
+import { getPermissionDetails } from '../../../network/getRequests';
 import { getPermissionsError, getPermissionsSuccess } from './actions';
 
-export function* getRoles() {
+export function* getPermissions() {
 	try {
-		let roles = yield call(getAdminRole);
-		roles = roles.data.data.roles;
-		yield put(getPermissionsSuccess(roles));
+		let details = yield call(getPermissionDetails);
+		details = details.data.data.adminDetails;
+		yield put(getPermissionsSuccess(details));
 	} catch (er) {
 		yield put(getPermissionsError(`Unable to get roles ${er?.message || ''}`));
 	}
 }
 
-export default function* rolesWatcherSaga() {
-	yield takeLatest(PERMISSIONS_START, getRoles);
+export default function* PermissionDetails() {
+	yield takeLatest(PERMISSIONS_START, getPermissions);
 }

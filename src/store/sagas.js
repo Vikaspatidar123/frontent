@@ -21,16 +21,17 @@ import dashboardSaasSaga from './dashboard-saas/saga';
 import dashboardCryptoSaga from './dashboard-crypto/saga';
 import dashboardBlogSaga from './dashboard-blog/saga';
 import dashboardJobSaga from './dashboard-jobs/saga';
-import countriesSaga from './countries/saga';
+import CountriesSaga from './countries/saga';
 import AdminRoles from './auth/roles/saga';
+import PermissionDetails from './auth/permissionDetails/saga';
 
 export default function* rootSaga() {
 	yield all([
 		// New Theme
 		fork(AdminRoles),
-		fork(countriesSaga),
+		fork(CountriesSaga),
 		fork(AuthSaga),
-
+		fork(PermissionDetails),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),
