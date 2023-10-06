@@ -7,7 +7,7 @@ import {
 const INIT_STATE = {
 	cmsDetails: null,
 	error: null,
-	loading: true,
+	isLoading: true,
 };
 
 const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
@@ -15,13 +15,13 @@ const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
 		case GET_ALL_CMS_DATA:
 			return {
 				...state,
-				loading: false,
+				isLoading: false,
 			};
 
 		case GET_ALL_CMS_DATA_SUCCESS:
 			return {
 				...state,
-				loading: true,
+				isLoading: true,
 				cmsDetails: payload,
 				error: null,
 			};
@@ -30,11 +30,11 @@ const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				error: payload,
-				loading: true,
+				isLoading: true,
 			};
 
 		default:
-			return state;
+			return { ...state };
 	}
 };
 

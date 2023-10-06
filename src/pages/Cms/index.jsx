@@ -22,8 +22,9 @@ export default () => {
 	// meta title
 	document.title = 'CMS | Skote - Vite React Admin & Dashboard Template';
 
-	const { cmsDetails, loading } = useCmsListing();
-	const [isLoading, setLoading] = useState(loading);
+	const { cmsDetails, formattedCmsDetails, isLoading, page, setPage } =
+		useCmsListing();
+	const [loading, setLoading] = useState(isLoading);
 
 	const columns = useMemo(
 		() => [
@@ -35,7 +36,7 @@ export default () => {
 			},
 			{
 				Header: 'Title',
-				accessor: '',
+				accessor: 'title',
 				filterable: true,
 				Cell: (cellProps) => <Title {...cellProps} />,
 			},
@@ -73,25 +74,28 @@ export default () => {
 				<div className="container-fluid">
 					<Breadcrumbs title="Jobs" breadcrumbItem="Staff" />
 
-					{isLoading && <Spinners setLoading={setLoading} />}
+					{loading && <Spinners setLoading={setLoading} />}
 
-					{!isLoading && cmsDetails && (
+					{!loading && formattedCmsDetails && (
 						<Row>
 							<Col lg="12">
 								<Card>
 									<CardBody>
 										<TableContainer
 											columns={columns}
-											data={cmsDetails?.rows}
+											data={formattedCmsDetails}
 											isGlobalFilter
 											isAddOptions={false}
 											isPagination
 											iscustomPageSizeOptions
-											isShowingPageLength
-											customPageSize={5}
+											customPageSize={10}
 											tableClass="table-bordered align-middle nowrap mt-2"
-											paginationDiv="col-sm-12 col-md-7"
-											pagination="pagination justify-content-end pagination-rounded"
+											paginationDiv="justify-content-center"
+											pagination="pagination justify-content-start pagination-rounded"
+											totalPageCount={cmsDetails?.count}
+											isManualPagination
+											onChangePagination={setPage}
+											currentPage={page}
 										/>
 									</CardBody>
 								</Card>

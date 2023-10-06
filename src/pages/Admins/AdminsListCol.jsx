@@ -1,24 +1,22 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Badge, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-const AdminUserID = (cell) => (
-	<Link to="#" className="text-body fw-bold">
-		{cell.value ? cell.value : ''}
+const AdminUserID = ({ value }) => (
+	<Link to="/" className="text-body fw-bold">
+		{value ?? ''}
 	</Link>
 );
-const Email = (cell) => (cell.value ? cell.value : '');
+const Email = ({ value }) => value ?? '';
 
-const FullName = (cell) => (cell.value ? cell.value : '');
+const FullName = ({ value }) => value ?? '';
+const Role = ({ value }) => value ?? '';
 
-const Role = (cell) => (cell.value ? cell.value : '');
+const Group = ({ value }) => value ?? '';
 
-const Group = (cell) => (cell.value ? cell.value : '');
-
-const Status = (cell) =>
-	cell.value ? (
+const Status = ({ value }) =>
+	value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">Close</Badge>
@@ -27,7 +25,7 @@ const Status = (cell) =>
 const ActionButtons = () => (
 	<ul className="list-unstyled hstack gap-1 mb-0">
 		<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-			<Link to="#" className="btn btn-sm btn-soft-primary">
+			<Link to="/" className="btn btn-sm btn-soft-primary">
 				<i className="mdi mdi-eye-outline" id="viewtooltip" />
 			</Link>
 		</li>
@@ -36,7 +34,7 @@ const ActionButtons = () => (
 		</UncontrolledTooltip>
 
 		<li>
-			<Link to="#" className="btn btn-sm btn-soft-info">
+			<Link to="/" className="btn btn-sm btn-soft-info">
 				<i className="mdi mdi-pencil-outline" id="edittooltip" />
 				<UncontrolledTooltip placement="top" target="edittooltip">
 					Edit
@@ -45,7 +43,7 @@ const ActionButtons = () => (
 		</li>
 
 		<li>
-			<Link to="#" className="btn btn-sm btn-soft-danger">
+			<Link to="/" className="btn btn-sm btn-soft-danger">
 				<i className="mdi mdi-delete-outline" id="deletetooltip" />
 				<UncontrolledTooltip placement="top" target="deletetooltip">
 					Delete
