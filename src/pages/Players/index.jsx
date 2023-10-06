@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Container, Input, Row, Spinner } from 'reactstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	Action,
@@ -15,16 +14,20 @@ import {
 	Status,
 	UserName,
 } from './PlayersListCol';
-import { fetchPlayersStart } from '../../store/players/actions';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-
-const itemsPerPage = 10;
+import usePlayersListing from './hooks/usePlayersListing';
 
 const PlayersList = ({ t }) => {
-	const dispatch = useDispatch();
-	const [searchText, setSearchText] = useState('');
-	const [currentPage, setCurrentPage] = useState(1);
-	const { players, loading } = useSelector((state) => state.Players);
+	const {
+		searchText,
+		setSearchText,
+		currentPage,
+		setCurrentPage,
+		totalPlayersCount,
+		isPlayersLoading,
+		formattedPlayers,
+		itemsPerPage,
+	} = usePlayersListing();
 
 	const columns = useMemo(
 		() => [
@@ -77,31 +80,6 @@ const PlayersList = ({ t }) => {
 		[]
 	);
 
-	useEffect(() => {
-		dispatch(
-			fetchPlayersStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
-				search: searchText,
-			})
-		);
-	}, [currentPage, searchText]);
-
-	const formattedPlayers = useMemo(() => {
-		const formattedValues = [];
-		if (players) {
-			players.rows.map((player) =>
-				formattedValues.push({
-					...player,
-					fullName: `${player.firstName} ${player.lastName}`,
-					status: player.isActive ? 'Active' : 'In-Active',
-					isInternal: player.isInternalUser ? 'YES' : 'NO',
-				})
-			);
-		}
-		return formattedValues;
-	}, [players]);
-
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -119,7 +97,7 @@ const PlayersList = ({ t }) => {
 						/>
 					</Col>
 				</Row>
-				{loading ? (
+				{isPlayersLoading ? (
 					<Spinner
 						color="primary"
 						className="position-absolute top-50 start-50"
@@ -129,12 +107,12 @@ const PlayersList = ({ t }) => {
 						columns={columns}
 						data={formattedPlayers}
 						isPagination
-						customPageSize={10}
+						customPageSize={itemsPerPage}
 						tableClass="table-bordered align-middle nowrap mt-2"
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={players?.count}
+						totalPageCount={totalPlayersCount}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}

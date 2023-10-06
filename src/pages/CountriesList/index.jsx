@@ -1,10 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useMemo } from 'react';
 import { Col, Container, Input, Row, Spinner } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { fetchCountriesStart } from '../../store/actions';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import {
@@ -15,16 +13,19 @@ import {
 	Language,
 	Status,
 } from './CountriesListCol';
-
-const itemsPerPage = 10;
+import useCountriesListing from './hooks/useCountriesListing';
 
 const CountriesList = ({ t }) => {
-	// meta title
-	document.title = 'Login | Skote - Vite React Admin & Dashboard Template';
-	const dispatch = useDispatch();
-	const [name, setName] = useState('');
-	const [currentPage, setCurrentPage] = useState(1);
-	const { countries, loading } = useSelector((state) => state.Countries);
+	const {
+		name,
+		setName,
+		currentPage,
+		setCurrentPage,
+		totalCountriesCount,
+		isCountriesLoading,
+		formattedCountries,
+		itemsPerPage,
+	} = useCountriesListing();
 
 	const columns = useMemo(
 		() => [
@@ -68,32 +69,6 @@ const CountriesList = ({ t }) => {
 		[]
 	);
 
-	useEffect(() => {
-		dispatch(
-			fetchCountriesStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
-				name,
-			})
-		);
-	}, [currentPage, name]);
-
-	const formattedCountries = useMemo(() => {
-		const formattedValues = [];
-		if (countries) {
-			countries.rows.map((country) =>
-				formattedValues.push({
-					...country,
-					countryName: country.name,
-					language: country.language.languageName,
-					countryCode: country.code,
-					status: country.status ? 'Active' : 'Not Active',
-				})
-			);
-		}
-		return formattedValues;
-	}, [countries]);
-
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -111,7 +86,7 @@ const CountriesList = ({ t }) => {
 						/>
 					</Col>
 				</Row>
-				{loading ? (
+				{isCountriesLoading ? (
 					<Spinner
 						color="primary"
 						className="position-absolute top-50 start-50"
@@ -121,12 +96,11 @@ const CountriesList = ({ t }) => {
 						columns={columns}
 						data={formattedCountries}
 						isPagination
-						customPageSize={10}
+						customPageSize={itemsPerPage}
 						tableClass="table-bordered align-middle nowrap mt-2"
-						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={countries?.count}
+						totalPageCount={totalCountriesCount}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}
