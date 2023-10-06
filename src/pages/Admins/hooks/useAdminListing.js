@@ -3,6 +3,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAdminDetails } from '../../../store/actions';
 
+const itemsPerPage = 10;
+
 const useAdminListing = () => {
 	const dispatch = useDispatch();
 
@@ -28,7 +30,7 @@ const useAdminListing = () => {
 	const fetchData = () => {
 		dispatch(
 			getAdminDetails({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				orderBy,
 				sort,
@@ -41,9 +43,10 @@ const useAdminListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, orderBy, sort, status]);
+	}, [page, orderBy, sort, status]);
 
 	return {
+		adminDetails,
 		formattedAdminDetails,
 		loading,
 		error,

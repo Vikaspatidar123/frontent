@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Col, Row, Card, CardBody } from 'reactstrap';
+import { Col, Container, Row, Card, CardBody } from 'reactstrap';
 import { ToastContainer } from 'react-toastify';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
@@ -23,7 +23,9 @@ export default () => {
 	// meta title
 	document.title = 'Staff | Skote - Vite React Admin & Dashboard Template';
 
-	const { formattedAdminDetails, loading } = useAdminListing();
+	const { adminDetails, formattedAdminDetails, loading, page, setPage } =
+		useAdminListing();
+
 	const [isLoading, setLoading] = useState(loading);
 
 	const columns = useMemo(
@@ -77,7 +79,7 @@ export default () => {
 	return (
 		<>
 			<div className="page-content">
-				<div className="container-fluid">
+				<Container fluid>
 					<Breadcrumbs title="Jobs" breadcrumbItem="Staff" />
 
 					{isLoading && <Spinners setLoading={setLoading} />}
@@ -91,21 +93,24 @@ export default () => {
 											columns={columns}
 											data={formattedAdminDetails}
 											isGlobalFilter
-											isAddOptions={false}
 											isPagination
 											iscustomPageSizeOptions
-											isShowingPageLength
-											customPageSize={5}
+											customPageSize={10}
 											tableClass="table-bordered align-middle nowrap mt-2"
-											paginationDiv="col-sm-12 col-md-7"
-											pagination="pagination justify-content-end pagination-rounded"
+											// paginationDiv="col-sm-12 col-md-7",
+											paginationDiv="justify-content-center"
+											pagination="pagination justify-content-start pagination-rounded"
+											totalPageCount={adminDetails?.count}
+											isManualPagination
+											onChangePagination={setPage}
+											currentPage={page}
 										/>
 									</CardBody>
 								</Card>
 							</Col>
 						</Row>
 					)}
-				</div>
+				</Container>
 			</div>
 			<ToastContainer />
 		</>
