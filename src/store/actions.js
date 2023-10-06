@@ -64,6 +64,9 @@ export * from './admins/actions';
 export * from './cms/actions';
 
 // Category data
-export * from "./casinoCategory/actions";
+export * from './casinoCategory/actions';
+
+// Bonus Data
+export * from './bonusListing/actions';
 // aggregators
 export * from './aggregators/actions';

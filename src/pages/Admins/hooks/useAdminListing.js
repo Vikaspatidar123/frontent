@@ -10,7 +10,6 @@ const useAdminListing = () => {
 	const { adminDetails, isLoading, error } = useSelector(
 		(state) => state.getAllAdmins
 	);
-	const [limit, setLimit] = useState(15);
 	const [page, setPage] = useState(1);
 	const [orderBy, setOrderBy] = useState('adminUserId');
 	const [search, setSearch] = useState('');
@@ -52,8 +51,6 @@ const useAdminListing = () => {
 		isLoading,
 		error,
 		totalAdminsCount: adminDetails?.count,
-		limit,
-		setLimit,
 		page,
 		setPage,
 		orderBy,

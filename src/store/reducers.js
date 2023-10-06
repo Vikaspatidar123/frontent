@@ -75,12 +75,16 @@ import getCasinoCategory from './casinoCategory/reducer';
 // Aggregators
 import AggregatorsReducer from './aggregators/reducer';
 
+// Bonus data
+import getAllBonusDetails from './bonusListing/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
 	Countries,
 	Players,
 	PermissionDetails,
+	getAllBonusDetails,
 	// public
 	Layout,
 	Login,
