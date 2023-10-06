@@ -1,17 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
-import { Container, Spinner } from 'reactstrap';
+import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	Actions,
-	CountryCode,
-	CountryName,
+	Code,
+	ExchangeRate,
 	Id,
-	Language,
-	Status,
+	LoyaltyPoints,
+	Name,
+	Primary,
+	Type,
 } from './CurrencyListCol';
 import useCurrencyListing from './hooks/useCurrencyListing';
 
@@ -29,33 +31,45 @@ const CurrencyList = ({ t }) => {
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'countryId',
+				accessor: 'currencyId',
 				// filterable: true,
 				Cell: (cellProps) => <Id {...cellProps} />,
 			},
 			{
-				Header: 'Country Code',
-				accessor: 'countryCode',
-				// filterable: true,
-				Cell: (cellProps) => <CountryCode {...cellProps} />,
-			},
-			{
 				Header: 'Name',
-				accessor: 'countryName',
+				accessor: 'name',
 				// filterable: true,
-				Cell: (cellProps) => <CountryName {...cellProps} />,
+				Cell: (cellProps) => <Name {...cellProps} />,
 			},
 			{
-				Header: 'Language',
-				accessor: 'language',
+				Header: 'Code',
+				accessor: 'code',
 				// filterable: true,
-				Cell: (cellProps) => <Language {...cellProps} />,
+				Cell: (cellProps) => <Code {...cellProps} />,
 			},
 			{
-				Header: 'Status',
-				accessor: 'status',
+				Header: 'Exchange Rate',
+				accessor: 'exchangeRate',
 				// filterable: true,
-				Cell: (cellProps) => <Status {...cellProps} />,
+				Cell: (cellProps) => <ExchangeRate {...cellProps} />,
+			},
+			{
+				Header: 'Loyalty Points',
+				accessor: 'loyaltyPoint',
+				// filterable: true,
+				Cell: (cellProps) => <LoyaltyPoints {...cellProps} />,
+			},
+			{
+				Header: 'Type',
+				accessor: 'type',
+				// filterable: true,
+				Cell: (cellProps) => <Type {...cellProps} />,
+			},
+			{
+				Header: 'Primary',
+				accessor: 'primary',
+				// filterable: true,
+				Cell: (cellProps) => <Primary {...cellProps} />,
 			},
 			{
 				Header: 'Actions',
@@ -72,26 +86,20 @@ const CurrencyList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb title={t('Currencies')} breadcrumbItem={t('Currencies')} />
-				{isCurrenciesLoading ? (
-					<Spinner
-						color="primary"
-						className="position-absolute top-50 start-50"
-					/>
-				) : (
-					<TableContainer
-						columns={columns}
-						data={formattedCurrencies}
-						isPagination
-						customPageSize={itemsPerPage}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={totalCurrenciesCount}
-						isManualPagination
-						onChangePagination={setCurrentPage}
-						currentPage={currentPage}
-					/>
-				)}
+				<TableContainer
+					isLoading={isCurrenciesLoading}
+					columns={columns}
+					data={formattedCurrencies}
+					isPagination
+					customPageSize={itemsPerPage}
+					tableClass="table-bordered align-middle nowrap mt-2"
+					paginationDiv="justify-content-center"
+					pagination="pagination justify-content-start pagination-rounded"
+					totalPageCount={totalCurrenciesCount}
+					isManualPagination
+					onChangePagination={setCurrentPage}
+					currentPage={currentPage}
+				/>
 			</Container>
 		</div>
 	);

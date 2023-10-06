@@ -1,29 +1,20 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import { Badge } from 'reactstrap';
 
 const Id = (cell) => (cell.value ? cell.value : '');
 
-const CountryName = (cell) => (cell.value ? cell.value : '');
+const Name = (cell) => (cell.value ? cell.value : '');
 
-const CountryCode = (cell) => (cell.value ? cell.value : '');
+const Code = (cell) => (cell.value ? cell.value : '');
 
-const Language = (cell) => (cell.value ? cell.value : '');
+const ExchangeRate = (cell) => (cell.value ? cell.value : '');
 
-const Status = (cell) => {
-	switch (cell.value) {
-		case 'Active':
-			return <Badge className="bg-success">Active</Badge>;
-		case 'Not Active':
-			return <Badge className="bg-danger">In-Active</Badge>;
-		default:
-			return '';
-	}
-};
+const LoyaltyPoints = (cell) => (cell.value ? cell.value : '');
 
-const Icon = (cell) =>
-	cell.value ? <img alt="sidebar_bg_image" width="20" src={cell.value} /> : '-';
+const Type = (cell) => (cell.value ? cell.value : '');
+
+const Primary = (cell) => (cell.value ? cell.value : '');
 
 const Actions = () => <i className="dripicons-dots-3" />;
 
-export { Id, CountryName, Icon, Status, Actions, CountryCode, Language };
+export { Id, Name, Actions, Code, Type, Primary, LoyaltyPoints, ExchangeRate };

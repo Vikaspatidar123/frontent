@@ -8,7 +8,7 @@ import { getCurrencies } from '../../network/getRequests';
 function* fetchCurrencies({ payload }) {
 	try {
 		const response = yield call(getCurrencies, payload);
-		yield put(fetchCurrenciesSuccess(response?.data?.data?.Currencies));
+		yield put(fetchCurrenciesSuccess(response?.data?.data?.currencies));
 	} catch (error) {
 		yield put(fetchCurrenciesFail(error));
 	}

@@ -26,10 +26,8 @@ const useCurrencyListing = () => {
 			currencies.rows.map((currency) =>
 				formattedValues.push({
 					...currency,
-					// countryName: country.name,
-					// language: country.language.languageName,
-					// countryCode: country.code,
-					// status: country.status ? 'Active' : 'Not Active',
+					type: 'Fiat',
+					primary: currency.isPrimary ? 'YES' : 'NO',
 				})
 			);
 		}
