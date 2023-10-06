@@ -12,6 +12,9 @@ export * from './countries/actions';
 // players
 export * from './players/actions';
 
+// currencies
+export * from './currencies/actions';
+
 // Ecommerce
 export * from './e-commerce/actions';
 

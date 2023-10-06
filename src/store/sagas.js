@@ -30,6 +30,7 @@ import CmsDetailsSaga from './cms/saga';
 import aggregatorsSaga from './aggregators/saga';
 import BonusDetailsSaga from './bonusListing/saga';
 import LanguagesSaga from './languages/saga';
+import CurrenciesSaga from './currencies/saga';
 
 export default function* rootSaga () {
 	yield all([
@@ -42,6 +43,7 @@ export default function* rootSaga () {
 		fork(CmsDetailsSaga),
 		fork(BonusDetailsSaga),
 		fork(LanguagesSaga),
+		fork(CurrenciesSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),
