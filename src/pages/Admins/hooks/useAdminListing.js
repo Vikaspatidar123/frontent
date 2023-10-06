@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAdminDetails } from '../../../store/actions';
@@ -8,7 +7,7 @@ const itemsPerPage = 10;
 const useAdminListing = () => {
 	const dispatch = useDispatch();
 
-	const { adminDetails, loading, error } = useSelector(
+	const { adminDetails, isLoading, error } = useSelector(
 		(state) => state.getAllAdmins
 	);
 	const [limit, setLimit] = useState(15);
@@ -25,6 +24,7 @@ const useAdminListing = () => {
 				fullName: `${admin.firstName} ${admin.lastName}`,
 			}));
 		}
+		return [];
 	}, [adminDetails]);
 
 	const fetchData = () => {
@@ -48,7 +48,7 @@ const useAdminListing = () => {
 	return {
 		adminDetails,
 		formattedAdminDetails,
-		loading,
+		isLoading,
 		error,
 		limit,
 		setLimit,

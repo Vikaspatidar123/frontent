@@ -7,7 +7,7 @@ import {
 const INIT_STATE = {
 	adminDetails: null,
 	error: null,
-	loading: true,
+	isLoading: true,
 };
 
 const getAllAdmins = (state = INIT_STATE, { type, payload } = {}) => {
@@ -15,13 +15,13 @@ const getAllAdmins = (state = INIT_STATE, { type, payload } = {}) => {
 		case GET_ADMINS_DATA:
 			return {
 				...state,
-				loading: false,
+				isLoading: false,
 			};
 
 		case GET_ADMINS_DATA_SUCCESS:
 			return {
 				...state,
-				loading: true,
+				isLoading: true,
 				adminDetails: payload,
 				error: null,
 			};
@@ -30,11 +30,11 @@ const getAllAdmins = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				error: payload,
-				loading: true,
+				isLoading: true,
 			};
 
 		default:
-			return state;
+			return { ...state };
 	}
 };
 

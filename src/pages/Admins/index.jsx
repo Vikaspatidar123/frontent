@@ -23,10 +23,10 @@ export default () => {
 	// meta title
 	document.title = 'Staff | Skote - Vite React Admin & Dashboard Template';
 
-	const { adminDetails, formattedAdminDetails, loading, page, setPage } =
+	const { adminDetails, formattedAdminDetails, isLoading, page, setPage } =
 		useAdminListing();
 
-	const [isLoading, setLoading] = useState(loading);
+	const [loading, setLoading] = useState(isLoading);
 
 	const columns = useMemo(
 		() => [
@@ -82,9 +82,9 @@ export default () => {
 				<Container fluid>
 					<Breadcrumbs title="Jobs" breadcrumbItem="Staff" />
 
-					{isLoading && <Spinners setLoading={setLoading} />}
+					{loading && <Spinners setLoading={setLoading} />}
 
-					{!isLoading && formattedAdminDetails && (
+					{!loading && formattedAdminDetails && (
 						<Row>
 							<Col lg="12">
 								<Card>

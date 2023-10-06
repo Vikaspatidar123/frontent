@@ -1,10 +1,11 @@
-/* eslint-disable consistent-return */
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllCmsDetails } from '../../../store/cms/actions';
 
+const itemsPerPage = 10;
+
 const useCmsListing = () => {
-	const { cmsDetails, loading, error } = useSelector(
+	const { cmsDetails, isLoading, error } = useSelector(
 		(state) => state.getAllCms
 	);
 	const [limit, setLimit] = useState(15);
@@ -15,10 +16,23 @@ const useCmsListing = () => {
 	const [active, setActive] = useState('');
 	const dispatch = useDispatch();
 
-	useEffect(() => {
+	const formattedCmsDetails = useMemo(() => {
+		if (cmsDetails) {
+			return cmsDetails?.rows.map((detail) => ({
+				...detail,
+				title: detail?.title?.EN,
+				portal: detail?.tenant?.name
+					? `${detail?.tenant?.name} ${detail.tenant?.domain}`
+					: 'All',
+			}));
+		}
+		return [];
+	}, [cmsDetails]);
+
+	const fetchData = () => {
 		dispatch(
 			getAllCmsDetails({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				tenantId: selectedPortal,
 				adminId: selectedClient,
@@ -26,11 +40,16 @@ const useCmsListing = () => {
 				isActive: active,
 			})
 		);
-	}, [limit, selectedPortal, selectedClient, active]);
+	};
+
+	useEffect(() => {
+		fetchData();
+	}, [limit, selectedPortal, selectedClient, active, page]);
 
 	return {
 		cmsDetails,
-		loading,
+		formattedCmsDetails,
+		isLoading,
 		error,
 		setLimit,
 		setPage,
