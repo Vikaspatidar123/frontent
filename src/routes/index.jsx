@@ -171,6 +171,7 @@ import Pages500 from '../pages/Utility/pages-500';
 import CountriesList from '../pages/CountriesList';
 import PlayersList from '../pages/Players';
 import Admins from '../pages/Admins';
+import Cms from '../pages/Cms';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -187,6 +188,7 @@ const authProtectedRoutes = [
 
 	{ path: '*', component: <Dashboard /> },
 	{ path: '/staff', component: <Admins /> },
+	{ path: '/cms', component: <Cms /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },

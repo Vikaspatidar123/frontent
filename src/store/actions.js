@@ -59,3 +59,6 @@ export * from './dashboard-jobs/actions';
 
 // Admins data
 export * from './admins/actions';
+
+// Cms data
+export * from './cms/actions';

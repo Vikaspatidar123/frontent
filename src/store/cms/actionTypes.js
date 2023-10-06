@@ -1,0 +1,4 @@
+/** Get CMS */
+export const GET_ALL_CMS_DATA_SUCCESS = 'GET_CMS_DATA_SUCCESS';
+export const GET_ALL_CMS_DATA_FAIL = 'GET_CMS_DATA_FAIL';
+export const GET_ALL_CMS_DATA = 'GET_CMS_DATA';
