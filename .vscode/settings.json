@@ -1,0 +1,39 @@
+{
+	"files.trimTrailingWhitespace": true,
+	"files.insertFinalNewline": true,
+	"files.trimFinalNewlines": true,
+	"javascript.validate.enable": false,
+	"typescript.validate.enable": false,
+	"standard.enable": true,
+	"standard.autoFixOnSave": true,
+	"standard.validate": [
+		{
+			"language": "javascript",
+			"autoFix": true
+		},
+		{
+			"language": "javascriptreact",
+			"autoFix": true
+		}
+	],
+	"editor.tabSize": 2,
+	"editor.renderWhitespace": "all",
+	"editor.minimap.enabled": false,
+	"editor.renderControlCharacters": false,
+	"editor.renderFinalNewline": "on",
+	"editor.rulers": [120],
+	"editor.multiCursorModifier": "alt",
+	"editor.autoIndent": "full",
+	"editor.detectIndentation": false,
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true
+	},
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+	"javascript.format.insertSpaceAfterConstructor": true,
+	"breadcrumbs.enabled": true,
+	"emmet.includeLanguages": {
+		"javascript": "javascriptreact"
+	},
+	"editor.formatOnSave": true
+}
