@@ -67,6 +67,9 @@ import Players from './players/reducer';
 // Admins data
 import getAllAdmins from './admins/reducer';
 
+// All cms data
+import getAllCms from './cms/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -95,6 +98,7 @@ const rootReducer = combineReducers({
 	DashboardBlog,
 	DashboardJob,
 	getAllAdmins,
+	getAllCms,
 });
 
 export default rootReducer;
