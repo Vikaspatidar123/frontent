@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState, useMemo } from 'react';
+/* eslint-disable react/no-unused-prop-types */
+import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Col, Row, Card, CardBody } from 'reactstrap';
-import { ToastContainer } from 'react-toastify';
+import PropTypes from 'prop-types';
+import { Container } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import Spinners from '../../components/Common/Spinner';
 import TableContainer from '../../components/Common/TableContainer';
 
 import {
@@ -18,13 +18,18 @@ import {
 } from './CmsListCol';
 import useCmsListing from './hooks/useCmsListing';
 
-export default () => {
+const Cms = () => {
 	// meta title
 	document.title = 'CMS | Skote - Vite React Admin & Dashboard Template';
 
-	const { cmsDetails, formattedCmsDetails, isLoading, page, setPage } =
-		useCmsListing();
-	const [loading, setLoading] = useState(isLoading);
+	const {
+		formattedCmsDetails,
+		isLoading,
+		page,
+		setPage,
+		itemsPerPage,
+		totalCmsCount,
+	} = useCmsListing();
 
 	const columns = useMemo(
 		() => [
@@ -69,42 +74,36 @@ export default () => {
 	);
 
 	return (
-		<>
-			<div className="page-content">
-				<div className="container-fluid">
+		<div className="page-content">
+				<Container fluid>
 					<Breadcrumbs title="Jobs" breadcrumbItem="Staff" />
 
-					{loading && <Spinners setLoading={setLoading} />}
-
-					{!loading && formattedCmsDetails && (
-						<Row>
-							<Col lg="12">
-								<Card>
-									<CardBody>
-										<TableContainer
-											columns={columns}
-											data={formattedCmsDetails}
-											isGlobalFilter
-											isAddOptions={false}
-											isPagination
-											iscustomPageSizeOptions
-											customPageSize={10}
-											tableClass="table-bordered align-middle nowrap mt-2"
-											paginationDiv="justify-content-center"
-											pagination="pagination justify-content-start pagination-rounded"
-											totalPageCount={cmsDetails?.count}
-											isManualPagination
-											onChangePagination={setPage}
-											currentPage={page}
-										/>
-									</CardBody>
-								</Card>
-							</Col>
-						</Row>
-					)}
-				</div>
+					<TableContainer
+						columns={columns}
+						data={formattedCmsDetails}
+						isAddOptions={false}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={totalCmsCount}
+						isManualPagination
+						onChangePagination={setPage}
+						currentPage={page}
+						isLoading={!isLoading}
+					/>
+				</Container>
 			</div>
-			<ToastContainer />
-		</>
 	);
 };
+
+Cms.propTypes = {
+	t: PropTypes.func,
+};
+
+Cms.defaultProps = {
+	t: (string) => string,
+};
+
+export default Cms;

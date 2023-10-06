@@ -16,6 +16,7 @@ const useAdminListing = () => {
 	const [search, setSearch] = useState('');
 	const [sort, setSort] = useState('desc');
 	const [status, setStatus] = useState('');
+	const [name, setName] = useState();
 
 	const formattedAdminDetails = useMemo(() => {
 		if (adminDetails) {
@@ -50,6 +51,7 @@ const useAdminListing = () => {
 		formattedAdminDetails,
 		isLoading,
 		error,
+		totalAdminsCount: adminDetails?.count,
 		limit,
 		setLimit,
 		page,
@@ -62,6 +64,9 @@ const useAdminListing = () => {
 		setSort,
 		status,
 		setStatus,
+		name,
+		setName,
+		itemsPerPage,
 	};
 };
 
