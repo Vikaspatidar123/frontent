@@ -82,14 +82,12 @@ const GetCasinoCategoryDetails = () => {
 			categoryName: Yup.string().required('Please Enter Category Name'),
 		}),
 		onSubmit: (values) => {
-			console.log('values1213: ', values);
 			if (isEdit) {
 				const updateJobList = {
 					language: values.language,
 					categoryName: values.categoryName,
 					status: values.status,
 				};
-				console.log('updateJobList: ', updateJobList);
 				// update Job
 				// dispatch(onUpdateJobList(updateJobList));
 				validation.resetForm();
@@ -99,7 +97,6 @@ const GetCasinoCategoryDetails = () => {
 					categoryName: values.categoryName,
 					status: values.status,
 				};
-				console.log('newJobList: ', newJobList);
 				// save new Job
 				// dispatch(onAddNewJobList(newJobList));
 				validation.resetForm();
@@ -107,99 +104,6 @@ const GetCasinoCategoryDetails = () => {
 			toggle();
 		},
 	});
-
-	// const columns = useMemo(
-	// 	() => [
-	// 		{
-	// 			Header: 'ID',
-	// 			accessor: 'gameCategoryId',
-	// 			filterable: true,
-	// 			Cell: (cellProps) => {
-	// 				console.log('cellProps: ', cellProps);
-	// 				return <GameCategoryId {...cellProps} />;
-	// 			},
-	// 		},
-	// 		{
-	// 			Header: 'NAME',
-	// 			accessor: 'email',
-	// 			filterable: true,
-	// 			Cell: (cellProps) => {
-	// 				console.log('cellProps: ', cellProps);
-	// 				return <Email {...cellProps} />;
-	// 			},
-	// 		},
-	// 		{
-	// 			Header: 'CREATED AT',
-	// 			accessor: 'createdAt',
-	// 			filterable: true,
-	// 			Cell: (cellProps) => (
-	// 				<CreatedAt {...cellProps} />
-	// 			),
-	// 		},
-	// 		{
-	// 			Header: 'UPDATED AT',
-	// 			accessor: 'updatedAt',
-	// 			filterable: true,
-	// 			Cell: (cellProps) => <UpdatedAt {...cellProps} />,
-	// 		},
-	// 		{
-	// 			Header: 'STATUS',
-	// 			accessor: 'isActive',
-	// 			filterable: true,
-	// 			Cell: (cellProps) => <IsActive {...cellProps} />,
-	// 		},
-	// 		{
-	// 			Header: 'Action',
-	// 			accessor: 'action',
-	// 			disableFilters: true,
-	// 			Cell: (cellProps) => (
-	// 				<ul className="list-unstyled hstack gap-1 mb-0">
-	// 					<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-	// 						<Link to="#" className="btn btn-sm btn-soft-primary">
-	// 							<i className="mdi mdi-eye-outline" id="viewtooltip" />
-	// 						</Link>
-	// 					</li>
-	// 					<UncontrolledTooltip placement="top" target="viewtooltip">
-	// 						View
-	// 					</UncontrolledTooltip>
-
-	// 					<li>
-	// 						<Link
-	// 							to="#"
-	// 							className="btn btn-sm btn-soft-info"
-	// 							onClick={() => {
-	// 								// const jobData = cellProps.row.original;
-	// 								// handleJobClick(jobData);
-	// 							}}
-	// 						>
-	// 							<i className="mdi mdi-pencil-outline" id="edittooltip" />
-	// 							<UncontrolledTooltip placement="top" target="edittooltip">
-	// 								Edit
-	// 							</UncontrolledTooltip>
-	// 						</Link>
-	// 					</li>
-
-	// 					<li>
-	// 						<Link
-	// 							to="#"
-	// 							className="btn btn-sm btn-soft-danger"
-	// 							onClick={() => {
-	// 								// const jobData = cellProps.row.original;
-	// 								// onClickDelete(jobData);
-	// 							}}
-	// 						>
-	// 							<i className="mdi mdi-delete-outline" id="deletetooltip" />
-	// 							<UncontrolledTooltip placement="top" target="deletetooltip">
-	// 								Delete
-	// 							</UncontrolledTooltip>
-	// 						</Link>
-	// 					</li>
-	// 				</ul>
-	// 			),
-	// 		},
-	// 	],
-	// 	[]
-	// );
 
 	return (
 		<div className="page-content">
@@ -230,7 +134,8 @@ const GetCasinoCategoryDetails = () => {
 								<CardBody>
 									<TableContainer
 										columns={CasinoCategoryColumn}
-										data={getCasinoCategoryDetails?.rows}
+										data={getCasinoCategoryDetails?.rows || []}
+										isLoading={loading}
 										isGlobalFilter
 										isAddOptions={false}
 										isPagination
@@ -286,18 +191,11 @@ const GetCasinoCategoryDetails = () => {
 													<option value={null}>Select Language</option>
 													{getLanguageData?.count &&
 														getLanguageData?.rows?.map(
-															({ languageName, code, languageId }) => {
-																console.log(
-																	'languageName: ',
-																	languageName,
-																	code
-																);
-																return (
-																	<option key={code} value={languageId}>
-																		{languageName}
-																	</option>
-																);
-															}
+															({ languageName, code, languageId }) => (
+																<option key={code} value={languageId}>
+																	{languageName}
+																</option>
+															)
 														)}
 												</>
 											}
