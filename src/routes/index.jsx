@@ -121,15 +121,15 @@ import JobList from '../pages/JobPages/JobList';
 // import CandidateOverview from "../pages/JobPages/CandidateOverview";
 
 // // // Forms
-// import FormElements from "../pages/Forms/FormElements";
-// import FormLayouts from "../pages/Forms/FormLayouts";
-// import FormAdvanced from "../pages/Forms/FormAdvanced";
-// import FormEditors from "../pages/Forms/FormEditors";
-// import FormValidations from "../pages/Forms/FormValidations";
-// import FormMask from "../pages/Forms/FormMask";
-// import FormRepeater from "../pages/Forms/FormRepeater";
-// import FormUpload from "../pages/Forms/FormUpload";
-// import FormWizard from "../pages/Forms/FormWizard";
+import FormElements from '../pages/Forms/FormElements';
+import FormLayouts from '../pages/Forms/FormLayouts';
+import FormAdvanced from '../pages/Forms/FormAdvanced';
+import FormEditors from '../pages/Forms/FormEditors';
+import FormValidations from '../pages/Forms/FormValidations';
+import FormMask from '../pages/Forms/FormMask';
+import FormRepeater from '../pages/Forms/FormRepeater';
+import FormUpload from '../pages/Forms/FormUpload';
+import FormWizard from '../pages/Forms/FormWizard';
 // import DualListbox from "../pages/Tables/DualListbox";
 
 // // //Ui
@@ -184,11 +184,20 @@ import CasinoSubCategory from '../pages/CasinoSubCategory';
 
 const authProtectedRoutes = [
 	{ path: '/dashboard', component: <Dashboard /> },
-	{ path: "/categories", component: <CasinoCategory /> },
-	{ path: "/sub-categories", component: <CasinoSubCategory /> },
+	{ path: '/categories', component: <CasinoCategory /> },
+	{ path: '/sub-categories', component: <CasinoSubCategory /> },
 	{ path: '/listing', component: <JobList /> },
 	{ path: '/countries', component: <CountriesList /> },
 	{ path: '/users', component: <PlayersList /> },
+	{ path: '/forms1', component: <FormElements /> },
+	{ path: '/forms2', component: <FormLayouts /> },
+	{ path: '/forms3', component: <FormAdvanced /> },
+	{ path: '/forms4', component: <FormEditors /> },
+	{ path: '/forms5', component: <FormValidations /> },
+	{ path: '/forms6', component: <FormMask /> },
+	{ path: '/forms7', component: <FormRepeater /> },
+	{ path: '/forms8', component: <FormUpload /> },
+	{ path: '/forms9', component: <FormWizard /> },
 
 	{ path: '*', component: <Dashboard /> },
 	{ path: '/staff', component: <Admins /> },
