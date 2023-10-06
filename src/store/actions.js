@@ -77,3 +77,6 @@ export * from './aggregators/actions';
 
 // Languages
 export * from './languages/actions';
+
+// language management
+export * from './languageManagement/actions';

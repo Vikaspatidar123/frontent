@@ -84,6 +84,11 @@ const getAllBonus = ({
 const getCurrencies = ({ pageNo, limit }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/currency?pageNo=${pageNo}&limit=${limit}`
+	)
+
+const getLanguageManagement = ({ language }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/language/support-keys?language=${language}`
 	);
 
 export {
@@ -100,4 +105,5 @@ export {
 	getAllAdmins,
 	getAllBonus,
 	getCurrencies,
+	getLanguageManagement,
 };

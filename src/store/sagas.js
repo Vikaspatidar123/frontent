@@ -31,6 +31,7 @@ import aggregatorsSaga from './aggregators/saga';
 import BonusDetailsSaga from './bonusListing/saga';
 import LanguagesSaga from './languages/saga';
 import CurrenciesSaga from './currencies/saga';
+import LanguageManagementSaga from './languageManagement/saga';
 
 export default function* rootSaga () {
 	yield all([
@@ -44,6 +45,7 @@ export default function* rootSaga () {
 		fork(BonusDetailsSaga),
 		fork(LanguagesSaga),
 		fork(CurrenciesSaga),
+		fork(LanguageManagementSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),
