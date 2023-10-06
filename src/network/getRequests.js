@@ -60,6 +60,10 @@ const getAllCms = ({ pageNo, limit, search, isActive }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/cms?pageNo=${pageNo}&limit=${limit}&search=${search}&isActive=${isActive}`
 	);
+const getAggregators = ({ limit, pageNo }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/casino/aggregators?limit=${limit}&pageNo=${pageNo}`
+	);
 
 export {
 	getAllCurrencies,
@@ -68,6 +72,7 @@ export {
 	getPermissionDetails,
 	getPlayers,
 	getAllCms,
+	getAggregators,
 	getCasinoCategoryListing,
 	getCasinoSubCategoryListing,
 	getLanguages,

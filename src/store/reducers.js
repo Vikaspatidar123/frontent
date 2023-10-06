@@ -72,6 +72,9 @@ import getAllCms from './cms/reducer';
 // Admins data
 import getCasinoCategory from "./casinoCategory/reducer";
 
+// Aggregators
+import AggregatorsReducer from './aggregators/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -102,6 +105,7 @@ const rootReducer = combineReducers({
 	getAllAdmins,
 	getAllCms,
   getCasinoCategory
+	AggregatorsReducer,
 });
 
 export default rootReducer;
