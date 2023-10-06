@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Container, Input, Row } from 'reactstrap';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	Action,
@@ -27,7 +27,7 @@ const PlayersList = ({ t }) => {
 		totalPlayersCount,
 		isPlayersLoading,
 		formattedPlayers,
-		itemsPerPage,
+		// itemsPerPage,
 	} = usePlayersListing();
 
 	const columns = useMemo(
@@ -108,7 +108,7 @@ const PlayersList = ({ t }) => {
 					// paginationDiv="col-sm-12 col-md-7"
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={players?.count}
+					totalPageCount={totalPlayersCount}
 					isManualPagination
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}
