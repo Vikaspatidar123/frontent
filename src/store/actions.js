@@ -68,5 +68,9 @@ export * from './casinoCategory/actions';
 
 // Bonus Data
 export * from './bonusListing/actions';
+
 // aggregators
 export * from './aggregators/actions';
+
+// Languages
+export * from './languages/actions';

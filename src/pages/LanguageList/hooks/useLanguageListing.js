@@ -1,28 +1,29 @@
 import { useEffect, useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLanguagesStart } from '../../../store/actions';
 // import { fetchLanguagesStart } from '../../../store/actions';
 
 const itemsPerPage = 10;
 
 const useLanguageListing = () => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const { languages, loading: isLanguagesLoading } = useSelector(
-		(state) => state.Language
+		(state) => state.Languages
 	);
 
 	useEffect(() => {
-		// dispatch(
-		//   fetchLanguagesStart({
-		//     limit: itemsPerPage,
-		//     pageNo: currentPage,
-		//     search: searchText,
-		//   })
-		// );
+		dispatch(
+			fetchLanguagesStart({
+				limit: itemsPerPage,
+				pageNo: currentPage,
+				search: searchText,
+			})
+		);
 	}, [currentPage, searchText]);
 
-	const formattedLanguage = useMemo(() => {
+	const formattedLanguages = useMemo(() => {
 		const formattedValues = [];
 		if (languages) {
 			languages.rows.map((language) =>
@@ -39,9 +40,9 @@ const useLanguageListing = () => {
 		setSearchText,
 		currentPage,
 		setCurrentPage,
-		totalLanguageCount: languages?.count,
+		totalLanguagesCount: languages?.count,
 		isLanguagesLoading,
-		formattedLanguage,
+		formattedLanguages,
 		itemsPerPage,
 	};
 };

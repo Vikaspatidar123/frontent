@@ -24,13 +24,13 @@ const LanguageList = ({ t }) => {
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'id',
+				accessor: 'languageId',
 				filterable: true,
 				Cell: (cellProps) => <Id {...cellProps} />,
 			},
 			{
 				Header: 'Language Code',
-				accessor: 'languageCode',
+				accessor: 'code',
 				filterable: true,
 				Cell: (cellProps) => <LanguageCode {...cellProps} />,
 			},
