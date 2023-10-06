@@ -50,6 +50,8 @@ const useCmsListing = () => {
 		cmsDetails,
 		formattedCmsDetails,
 		isLoading,
+		itemsPerPage,
+		totalCmsCount: cmsDetails?.count,
 		error,
 		setLimit,
 		setPage,

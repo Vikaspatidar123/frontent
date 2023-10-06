@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Badge, UncontrolledTooltip } from 'reactstrap';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const AdminUserID = ({ value }) => (
@@ -52,5 +53,13 @@ const ActionButtons = () => (
 		</li>
 	</ul>
 );
+
+AdminUserID.propTypes = {
+	value: PropTypes.string.isRequired,
+};
+
+Status.propTypes = {
+	value: PropTypes.string.isRequired,
+};
 
 export { AdminUserID, Email, FullName, Role, Group, Status, ActionButtons };
