@@ -2,7 +2,8 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Container, Input, Row, Spinner } from 'reactstrap';
+import { Col, Container, Input, Row } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	Action,
@@ -97,27 +98,21 @@ const PlayersList = ({ t }) => {
 						/>
 					</Col>
 				</Row>
-				{isPlayersLoading ? (
-					<Spinner
-						color="primary"
-						className="position-absolute top-50 start-50"
-					/>
-				) : (
-					<TableContainer
-						columns={columns}
-						data={formattedPlayers}
-						isPagination
-						customPageSize={itemsPerPage}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						// paginationDiv="col-sm-12 col-md-7"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={totalPlayersCount}
-						isManualPagination
-						onChangePagination={setCurrentPage}
-						currentPage={currentPage}
-					/>
-				)}
+				<TableContainer
+					isLoading={isPlayersLoading}
+					columns={columns}
+					data={formattedPlayers}
+					isPagination
+					customPageSize={10}
+					tableClass="table-bordered align-middle nowrap mt-2"
+					// paginationDiv="col-sm-12 col-md-7"
+					paginationDiv="justify-content-center"
+					pagination="pagination justify-content-start pagination-rounded"
+					totalPageCount={players?.count}
+					isManualPagination
+					onChangePagination={setCurrentPage}
+					currentPage={currentPage}
+				/>
 			</Container>
 		</div>
 	);
