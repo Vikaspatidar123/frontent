@@ -70,7 +70,7 @@ import getAllAdmins from './admins/reducer';
 // All cms data
 import getAllCms from './cms/reducer';
 // Admins data
-import getCasinoCategory from "./casinoCategory/reducer";
+import getCasinoCategory from './casinoCategory/reducer';
 
 // Aggregators
 import AggregatorsReducer from './aggregators/reducer';
@@ -104,7 +104,7 @@ const rootReducer = combineReducers({
 	DashboardJob,
 	getAllAdmins,
 	getAllCms,
-  getCasinoCategory
+	getCasinoCategory,
 	AggregatorsReducer,
 });
 
