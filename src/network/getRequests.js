@@ -2,27 +2,31 @@ import { getRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
-const getCasinoCategoryListing = ({
-	limit = 15,
-	pageNo = 1,
-	search = '',
-}) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/casino/categories?&pageNo=${pageNo}&limit=${limit}&search=${search}`);
+const getCasinoCategoryListing = ({ limit = 15, pageNo = 1, search = '' }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/casino/categories?&pageNo=${pageNo}&limit=${limit}&search=${search}`
+	);
 
 const getCasinoSubCategoryListing = ({
 	limit = 15,
 	pageNo = 1,
 	search = '',
 	gameCategoryId = '',
-	isActive = ''
+	isActive = '',
 }) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/casino/sub-category?pageNo=${pageNo}&gameCategoryId=${gameCategoryId}&search=${search}&limit=${limit}&isActive=${isActive}`);
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/casino/sub-category?pageNo=${pageNo}&gameCategoryId=${gameCategoryId}&search=${search}&limit=${limit}&isActive=${isActive}`
+	);
 
 const getAllCurrencies = ({ limit, pageNo }) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/currency?limit=${limit}&pageNo=${pageNo}`);
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/currency?limit=${limit}&pageNo=${pageNo}`
+	);
 
 const getLanguages = ({ limit = '', pageNo = '', name = '' }) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/language?limit=${limit}&pageNo=${pageNo}&name=${name}`)
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/language?limit=${limit}&pageNo=${pageNo}&name=${name}`
+	);
 
 const getCountries = ({ limit, pageNo, name }) =>
 	getRequest(
@@ -30,6 +34,19 @@ const getCountries = ({ limit, pageNo, name }) =>
 	);
 
 const getAdminRole = () => getRequest(`${VITE_APP_API_URL}/api/admin/roles`);
+
+const getAllAdmins = ({
+	limit,
+	pageNo,
+	orderBy,
+	sort,
+	search,
+	adminRoleId,
+	status,
+}) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin?orderBy=${orderBy}&pageNo=${pageNo}&limit=${limit}&sort=${sort}&search=${search}&status=${status}&adminRoleId=${adminRoleId}`
+	);
 
 const getPermissionDetails = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/details`);
@@ -51,7 +68,8 @@ export {
 	getPermissionDetails,
 	getPlayers,
 	getAllCms,
-	getCasinoCategoryListing, 
+	getCasinoCategoryListing,
 	getCasinoSubCategoryListing,
-	getLanguages
+	getLanguages,
+	getAllAdmins,
 };
