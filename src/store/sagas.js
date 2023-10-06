@@ -28,6 +28,7 @@ import PlayerSaga from './players/saga';
 import AdminDetailsSaga from './admins/saga';
 import CmsDetailsSaga from './cms/saga';
 import aggregatorsSaga from './aggregators/saga';
+import BonusDetailsSaga from './bonusListing/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -38,6 +39,7 @@ export default function* rootSaga() {
 		fork(PermissionDetails),
 		fork(PlayerSaga),
 		fork(CmsDetailsSaga),
+		fork(BonusDetailsSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),

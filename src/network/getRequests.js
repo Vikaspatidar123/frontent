@@ -65,6 +65,21 @@ const getAggregators = ({ limit, pageNo }) =>
 		`${VITE_APP_API_URL}/api/admin/casino/aggregators?limit=${limit}&pageNo=${pageNo}`
 	);
 
+const getAllBonus = ({
+	adminId,
+	tenantId,
+	limit,
+	pageNo,
+	bonusType,
+	isActive,
+	search,
+	userId,
+	reorder,
+}) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/bonus?adminId=${adminId}&tenantId=${tenantId}&limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&bonusType=${bonusType}&userId=${userId}&reorder=${reorder}`
+	);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -77,4 +92,5 @@ export {
 	getCasinoSubCategoryListing,
 	getLanguages,
 	getAllAdmins,
+	getAllBonus,
 };
