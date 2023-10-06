@@ -12,7 +12,7 @@ import {
 	useExpanded,
 	usePagination,
 } from 'react-table';
-import { Table, Row, Col, Button } from 'reactstrap';
+import { Table, Row, Col, Button, Spinner } from 'reactstrap';
 import { Pagination } from '@mui/material';
 import { DefaultColumnFilter } from './filters';
 import JobListGlobalFilter from './GlobalSearchFilter';
@@ -76,6 +76,7 @@ const TableContainer = ({
 	isManualPagination,
 	onChangePagination,
 	currentPage,
+	isLoading = false,
 }) => {
 	const {
 		getTableProps,
@@ -235,21 +236,28 @@ const TableContainer = ({
 						))}
 					</thead>
 
-					<tbody {...getTableBodyProps()}>
-						{page.map((row) => {
-							prepareRow(row);
-							return (
-								<Fragment key={row.getRowProps().key}>
-									<tr>
-										{row.cells.map((cell) => (
-											<td key={cell.id} {...cell.getCellProps()}>
-												{cell.render('Cell')}
-											</td>
-										))}
-									</tr>
-								</Fragment>
-							);
-						})}
+					<tbody {...getTableBodyProps({ height: '500px' })}>
+						{isLoading || !page?.length ? (
+							<Spinner
+								color="primary"
+								className="position-absolute top-50 start-50"
+							/>
+						) : (
+							page.map((row) => {
+								prepareRow(row);
+								return (
+									<Fragment key={row.getRowProps().key}>
+										<tr>
+											{row.cells.map((cell) => (
+												<td key={cell.id} {...cell.getCellProps()}>
+													{cell.render('Cell')}
+												</td>
+											))}
+										</tr>
+									</Fragment>
+								);
+							})
+						)}
 					</tbody>
 				</Table>
 			</div>
