@@ -58,5 +58,6 @@ export default function* rootSaga() {
 		fork(dashboardBlogSaga),
 		fork(dashboardJobSaga),
 		fork(AdminDetailsSaga),
+		fork(AccountSaga),
 	]);
 }

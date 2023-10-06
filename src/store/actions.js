@@ -62,3 +62,6 @@ export * from './admins/actions';
 
 // Cms data
 export * from './cms/actions';
+
+// Category data
+export * from "./casinoCategory/actions";

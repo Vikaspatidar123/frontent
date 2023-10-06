@@ -7,7 +7,7 @@ const { VITE_APP_API_URL } = import.meta.env;
 const superAdminLogin = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/login`, data);
 
-const getAllAdmins = ({
+const getCasinoCategoryListing = ({
 	limit,
 	pageNo,
 	orderBy,
