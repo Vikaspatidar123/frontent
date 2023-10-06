@@ -27,6 +27,7 @@ import PermissionDetails from './auth/permissionDetails/saga';
 import PlayerSaga from './players/saga';
 import AdminDetailsSaga from './admins/saga';
 import CmsDetailsSaga from './cms/saga';
+import aggregatorsSaga from './aggregators/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -59,5 +60,6 @@ export default function* rootSaga() {
 		fork(dashboardJobSaga),
 		fork(AdminDetailsSaga),
 		fork(AccountSaga),
+		fork(aggregatorsSaga),
 	]);
 }

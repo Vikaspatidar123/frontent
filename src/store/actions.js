@@ -65,3 +65,5 @@ export * from './cms/actions';
 
 // Category data
 export * from "./casinoCategory/actions";
+// aggregators
+export * from './aggregators/actions';
