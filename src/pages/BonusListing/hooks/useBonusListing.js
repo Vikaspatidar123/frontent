@@ -1,6 +1,9 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBonusDetails } from '../../../store/actions';
+import formatDate from '../../../utils/dateFormatter';
+import safeStringify from '../../../utils/helpers';
+import types from '../contants';
 
 const itemsPerPage = 10;
 
@@ -16,31 +19,53 @@ const useBonsuListing = () => {
 	const [isActive, setIsActive] = useState('');
 	const dispatch = useDispatch();
 
-	const formatDate = (date) => {
-		const d = new Date(date);
-		let month = `${  d.getMonth() + 1}`;
-		let day = `${  d.getDate()}`;
-		const year = d.getFullYear();
-
-		if (month.length < 2) month = `0${  month}`;
-		if (day.length < 2) day = `0${  day}`;
-
-		return [month, day, year].join('-');
-	};
-
-	const safeStringify = (object) => JSON.stringify(object)?.replace(/</g, '\\u003c');
-
 	const formattedBonusDetails = useMemo(() => {
 		if (bonusDetails) {
-			return bonusDetails?.rows.map((bonus) => ({
-				...bonus,
-				title: bonus.promotionTitle.EN ?? 'NA',
-				bonusType: bonus.bonusType,
-				valiTill: formatDate(bonus.validTo),
-				isExpired:
-					formatDate(bonus.validTo) < formatDate(new Date()) ? 'Yes' : 'No',
-				isClaimed: bonus.claimedCount ? 'Yes' : 'No',
-			}));
+			return bonusDetails?.rows.map((bonus) => {
+				const {
+					promotionTitle,
+					bonusType: type,
+					validTo,
+					claimedCount,
+					isSticky,
+				} = bonus;
+
+				const title = promotionTitle.EN || 'NA';
+
+				const bonusType =
+					type === 'freespins' && !isSticky
+						? 'CASH FREESPINS'
+						: types.find((val) => val.value === type)?.label;
+
+				const validTill =
+					type === 'depositCashback' ||
+					type === 'wagering' ||
+					type === 'joining'
+						? '-'
+						: formatDate(validTo);
+
+				let isExpired;
+				if (
+					type === 'depositCashback' ||
+					type === 'wagering' ||
+					type === 'joining'
+				) {
+					isExpired = 'No';
+				} else {
+					isExpired =
+						formatDate(validTo) < formatDate(new Date()) ? 'Yes' : 'No';
+				}
+				const isClaimed = claimedCount ? 'Yes' : 'No';
+
+				return {
+					...bonus,
+					title,
+					bonusType,
+					validTill,
+					isExpired,
+					isClaimed,
+				};
+			});
 		}
 		return [];
 	}, [bonusDetails]);
