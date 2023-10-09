@@ -32,8 +32,9 @@ import BonusDetailsSaga from './bonusListing/saga';
 import LanguagesSaga from './languages/saga';
 import CurrenciesSaga from './currencies/saga';
 import LanguageManagementSaga from './languageManagement/saga';
+import BetSettingsSaga from './betSettings/saga';
 
-export default function* rootSaga () {
+export default function* rootSaga() {
 	yield all([
 		// New Theme
 		fork(AdminRoles),
@@ -46,6 +47,7 @@ export default function* rootSaga () {
 		fork(LanguagesSaga),
 		fork(CurrenciesSaga),
 		fork(LanguageManagementSaga),
+		fork(BetSettingsSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),

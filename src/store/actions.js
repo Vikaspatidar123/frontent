@@ -80,3 +80,6 @@ export * from './languages/actions';
 
 // language management
 export * from './languageManagement/actions';
+
+// Bet Settings
+export * from './betSettings/actions';
