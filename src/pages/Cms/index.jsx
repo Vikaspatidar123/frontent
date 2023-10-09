@@ -1,27 +1,59 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable react/no-unused-prop-types */
-import React, { useMemo } from 'react';
+/* eslint-disable react/prop-types */
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
-
-import {
-	CmsPageId,
-	Title,
-	Slug,
-	Portal,
-	Status,
-	ActionButtons,
-} from './CmsListCol';
 import useCmsListing from './hooks/useCmsListing';
+import { CmsPageId, Title, Slug, Portal, Status } from './CmsListCol';
 
-const Cms = () => {
-	// meta title
+import ActionButtons from './ActionButtons';
+
+const columns = [
+	{
+		Header: 'ID',
+		accessor: 'cmsPageId',
+		filterable: true,
+		Cell: ({ cell }) => <CmsPageId cell={cell} />,
+	},
+	{
+		Header: 'TITLE',
+		accessor: 'title',
+		filterable: true,
+		Cell: ({ cell }) => <Title cell={cell} />,
+	},
+	{
+		Header: 'SLUG',
+		accessor: 'slug',
+		filterable: true,
+		Cell: ({ cell }) => <Slug cell={cell} />,
+	},
+	{
+		Header: 'PORTAL',
+		accessor: 'portal',
+		filterable: true,
+		Cell: ({ cell }) => <Portal cell={cell} />,
+	},
+	{
+		Header: 'STATUS',
+		accessor: 'isActive',
+		disableFilters: true,
+		Cell: ({ cell }) => <Status cell={cell} />,
+	},
+	{
+		Header: 'ACTION',
+		accessor: 'action',
+		disableFilters: true,
+		Cell: () => <ActionButtons />,
+	},
+];
+
+const Cms = ({ t }) => {
+	// Set meta title
 	document.title = 'CMS | Skote - Vite React Admin & Dashboard Template';
 
+	// Fetch CMS page data and manage pagination state
 	const {
 		formattedCmsDetails,
 		isLoading,
@@ -31,70 +63,27 @@ const Cms = () => {
 		totalCmsCount,
 	} = useCmsListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'ID',
-				accessor: 'cmsPageId',
-				filterable: true,
-				Cell: (cellProps) => <CmsPageId {...cellProps} />,
-			},
-			{
-				Header: 'Title',
-				accessor: 'title',
-				filterable: true,
-				Cell: (cellProps) => <Title {...cellProps} />,
-			},
-			{
-				Header: 'Slug',
-				accessor: 'slug',
-				filterable: true,
-				Cell: (cellProps) => <Slug {...cellProps} />,
-			},
-			{
-				Header: 'Portal',
-				accessor: 'portal',
-				filterable: true,
-				Cell: (cellProps) => <Portal {...cellProps} />,
-			},
-			{
-				Header: 'Status',
-				accessor: 'isActive',
-				disableFilters: true,
-				Cell: (cellProps) => <Status {...cellProps} />,
-			},
-			{
-				Header: 'Action',
-				accessor: 'action',
-				disableFilters: true,
-				Cell: () => <ActionButtons />,
-			},
-		],
-		[]
-	);
-
 	return (
 		<div className="page-content">
-				<Container fluid>
-					<Breadcrumbs title="Jobs" breadcrumbItem="Staff" />
-
-					<TableContainer
-						columns={columns}
-						data={formattedCmsDetails}
-						isAddOptions={false}
-						isPagination
-						customPageSize={itemsPerPage}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={totalCmsCount}
-						isManualPagination
-						onChangePagination={setPage}
-						currentPage={page}
-						isLoading={!isLoading}
-					/>
-				</Container>
-			</div>
+			<Container fluid>
+				<Breadcrumbs title={t('Cms')} breadcrumbItem={t('Cms')} />
+				<TableContainer
+					columns={columns}
+					data={formattedCmsDetails}
+					isAddOptions={false}
+					isPagination
+					customPageSize={itemsPerPage}
+					tableClass="table-bordered align-middle nowrap mt-2"
+					paginationDiv="justify-content-center"
+					pagination="pagination justify-content-start pagination-rounded"
+					totalPageCount={totalCmsCount}
+					isManualPagination
+					onChangePagination={setPage}
+					currentPage={page}
+					isLoading={!isLoading}
+				/>
+			</Container>
+		</div>
 	);
 };
 
