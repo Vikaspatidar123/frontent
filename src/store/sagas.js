@@ -35,8 +35,9 @@ import LanguageManagementSaga from './languageManagement/saga';
 import BetSettingsSaga from './betSettings/saga';
 import TransactionBankingSaga from './transactionBanking/saga';
 import sportsBookSaga from './sportsBook/saga';
+import ReviewManagementSaga from './reviewManagement/saga';
 
-export default function* rootSaga() {
+export default function* rootSaga () {
 	yield all([
 		// New Theme
 		fork(AdminRoles),
@@ -52,6 +53,7 @@ export default function* rootSaga() {
 		fork(BetSettingsSaga),
 		fork(TransactionBankingSaga),
 		fork(sportsBookSaga),
+		fork(ReviewManagementSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),

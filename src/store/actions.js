@@ -89,3 +89,6 @@ export * from './transactionBanking/actions';
 
 // Sports Book
 export * from './sportsBook/actions';
+
+// review management
+export * from './reviewManagement/actions';
