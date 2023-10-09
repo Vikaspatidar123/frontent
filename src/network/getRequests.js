@@ -107,11 +107,16 @@ const getSportsList = ({
 	isActive = '',
 }) => isAllListing
 		? getRequest(
-				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
-		  )
+			`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
+		)
 		: getRequest(
-				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
-		  );
+			`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
+		);
+
+const getReviewManagement = ({ limit, pageNo, search, status = '' }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/review?limit=${limit}&pageNo=${pageNo}&search=${search}&status=${status}`
+	);
 
 export {
 	getAllCurrencies,
@@ -131,4 +136,5 @@ export {
 	getBetSettings,
 	getTransactionBanking,
 	getSportsList,
+	getReviewManagement,
 };

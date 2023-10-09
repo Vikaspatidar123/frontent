@@ -96,6 +96,9 @@ import TransactionBanking from './transactionBanking/reducer';
 // Sports List
 import sportsList from './sportsBook/reducer';
 
+// Review Management
+import ReviewManagement from './reviewManagement/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -134,6 +137,7 @@ const rootReducer = combineReducers({
 	Currencies,
 	LanguageManagement,
 	TransactionBanking,
+	ReviewManagement,
 });
 
 export default rootReducer;
