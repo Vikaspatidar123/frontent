@@ -81,6 +81,9 @@ import getAllBonusDetails from './bonusListing/reducer';
 // Languages
 import Languages from './languages/reducer';
 
+// Currencies
+import Currencies from './currencies/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -114,6 +117,7 @@ const rootReducer = combineReducers({
 	getCasinoCategory,
 	AggregatorsReducer,
 	Languages,
+	Currencies,
 });
 
 export default rootReducer;
