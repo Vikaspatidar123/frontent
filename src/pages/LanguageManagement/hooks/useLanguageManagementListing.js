@@ -23,13 +23,17 @@ const useLanguageManagementListing = () => {
 
 	const formattedLanguageManagement = useMemo(() => {
 		const formattedValues = [];
-		// if (languageManagement) {
-		//   languageManagement.rows.map((item) =>
-		//     formattedValues.push({
-		//       ...item,
-		//     })
-		//   );
-		// }
+		if (languageManagement && languageManagement.languageKeys) {
+			Object.values(languageManagement.languageKeys).map((keys) =>
+				keys.map((key) =>
+					formattedValues.push({
+						keys: key,
+						english: languageManagement?.languageData?.[0]?.[key],
+					})
+				)
+			);
+		}
+
 		return formattedValues;
 	}, [languageManagement]);
 

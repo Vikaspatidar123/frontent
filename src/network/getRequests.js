@@ -79,14 +79,14 @@ const getAllBonus = ({
 }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/bonus?adminId=${adminId}&tenantId=${tenantId}&limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&bonusType=${bonusType}&userId=${userId}&reorder=${reorder}`
-	)
+	);
 
 const getCurrencies = ({ pageNo, limit }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/currency?pageNo=${pageNo}&limit=${limit}`
-	)
+	);
 
-const getLanguageManagement = ({ language }) =>
+const getLanguageManagement = ({ language = '' }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/language/support-keys?language=${language}`
 	);

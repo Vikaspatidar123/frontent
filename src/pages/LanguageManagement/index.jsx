@@ -2,23 +2,15 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Container, Input, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useLanguageManagementListing from './hooks/useLanguageManagementListing';
 import { Action, English, Keys } from './LanguageManagementCol';
 
 const LanguageManagementList = ({ t }) => {
-	const {
-		searchText,
-		setSearchText,
-		currentPage,
-		setCurrentPage,
-		totalLanguageManagementCount,
-		isLanguageManagementLoading,
-		formattedLanguageManagement,
-		itemsPerPage,
-	} = useLanguageManagementListing();
+	const { isLanguageManagementLoading, formattedLanguageManagement } =
+		useLanguageManagementListing();
 
 	const columns = useMemo(
 		() => [
@@ -49,35 +41,26 @@ const LanguageManagementList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb
-					title={t('LanguageManagement')}
-					breadcrumbItem={t('LanguageManagement')}
+					title={t('Language Management')}
+					breadcrumbItem={t('Language Management')}
 				/>
-				<Row>
+				{/* <Row>
 					<Col xs="12" sm="3">
 						<Input
 							className="form-control"
-							placeholder="Search LanguageManagement"
+							placeholder="Search Language Management"
 							onChange={({ target }) =>
 								setSearchText(target.value.replace(/[^\w\s]/gi, ''))
 							}
 							value={searchText}
 						/>
 					</Col>
-				</Row>
+				</Row> */}
 				<TableContainer
 					isLoading={isLanguageManagementLoading}
 					columns={columns}
 					data={formattedLanguageManagement}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalLanguageManagementCount}
 					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
 				/>
 			</Container>
 		</div>
