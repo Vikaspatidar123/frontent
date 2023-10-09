@@ -176,6 +176,7 @@ import CasinoCategory from '../pages/CasinoCategory';
 import CasinoSubCategory from '../pages/CasinoSubCategory';
 import CasinoAggregators from '../pages/Casino Management/Aggregators';
 import BonusDetail from '../pages/BonusListing';
+import LanguageList from '../pages/LanguageList';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -206,6 +207,7 @@ const authProtectedRoutes = [
 	{ path: '/cms', component: <Cms /> },
 	{ path: '/casino-aggregators', component: <CasinoAggregators /> },
 	{ path: '/bonus', component: <BonusDetail /> },
+	{ path: '/languages', component: <LanguageList /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },

@@ -29,8 +29,9 @@ import AdminDetailsSaga from './admins/saga';
 import CmsDetailsSaga from './cms/saga';
 import aggregatorsSaga from './aggregators/saga';
 import BonusDetailsSaga from './bonusListing/saga';
+import LanguagesSaga from './languages/saga';
 
-export default function* rootSaga() {
+export default function* rootSaga () {
 	yield all([
 		// New Theme
 		fork(AdminRoles),
@@ -40,6 +41,7 @@ export default function* rootSaga() {
 		fork(PlayerSaga),
 		fork(CmsDetailsSaga),
 		fork(BonusDetailsSaga),
+		fork(LanguagesSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),
