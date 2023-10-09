@@ -83,3 +83,6 @@ export * from './languageManagement/actions';
 
 // Bet Settings
 export * from './betSettings/actions';
+
+// transaction banking
+export * from './transactionBanking/actions';

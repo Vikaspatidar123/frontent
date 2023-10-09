@@ -94,6 +94,11 @@ const getLanguageManagement = ({ language = '' }) =>
 const getBetSettings = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/bet-settings`);
 
+const getTransactionBanking = ({ limit, pageNo, paymentProvider }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/transactions?limit=${limit}&pageNo=${pageNo}&paymentProvider=${paymentProvider}`
+	);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -110,4 +115,5 @@ export {
 	getCurrencies,
 	getLanguageManagement,
 	getBetSettings,
+	getTransactionBanking,
 };

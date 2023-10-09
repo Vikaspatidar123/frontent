@@ -180,6 +180,7 @@ import LanguageList from '../pages/LanguageList';
 import CurrencyList from '../pages/CurrencyList';
 import LanguageManagementList from '../pages/LanguageManagement';
 import BetSettings from '../pages/BetSettings';
+import TransactionBankingListing from '../pages/TransactionBankingList';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -214,6 +215,7 @@ const authProtectedRoutes = [
 	{ path: '/currencies', component: <CurrencyList /> },
 	{ path: '/languages-management', component: <LanguageManagementList /> },
 	{ path: '/bet-settings', component: <BetSettings /> },
+	{ path: '/transaction-banking', component: <TransactionBankingListing /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },
