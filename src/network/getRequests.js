@@ -91,6 +91,9 @@ const getLanguageManagement = ({ language = '' }) =>
 		`${VITE_APP_API_URL}/api/admin/language/support-keys?language=${language}`
 	);
 
+const getBetSettings = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/bet-settings`);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -106,4 +109,5 @@ export {
 	getAllBonus,
 	getCurrencies,
 	getLanguageManagement,
+	getBetSettings,
 };

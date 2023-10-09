@@ -179,6 +179,7 @@ import BonusDetail from '../pages/BonusListing';
 import LanguageList from '../pages/LanguageList';
 import CurrencyList from '../pages/CurrencyList';
 import LanguageManagementList from '../pages/LanguageManagement';
+import BetSettings from '../pages/BetSettings';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -212,6 +213,7 @@ const authProtectedRoutes = [
 	{ path: '/languages', component: <LanguageList /> },
 	{ path: '/currencies', component: <CurrencyList /> },
 	{ path: '/languages-management', component: <LanguageManagementList /> },
+	{ path: '/bet-settings', component: <BetSettings /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },

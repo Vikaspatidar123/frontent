@@ -87,6 +87,9 @@ import Currencies from './currencies/reducer';
 // LanguageManagement
 import LanguageManagement from './languageManagement/reducer';
 
+// Bet Settings
+import BetSettings from './betSettings/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -94,6 +97,7 @@ const rootReducer = combineReducers({
 	Players,
 	PermissionDetails,
 	getAllBonusDetails,
+	BetSettings,
 	// public
 	Layout,
 	Login,
