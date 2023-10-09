@@ -1,0 +1,4 @@
+/** Get sports list */
+export const GET_SPORTS_LIST_SUCCESS = 'GET_SPORTS_LIST_SUCCESS';
+export const GET_SPORTS_LIST_FAIL = 'GET_SPORTS_LIST_FAIL';
+export const GET_SPORTS_LIST = 'GET_SPORTS_LIST';

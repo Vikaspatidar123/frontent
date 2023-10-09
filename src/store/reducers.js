@@ -93,6 +93,9 @@ import BetSettings from './betSettings/reducer';
 // Transaction Banking
 import TransactionBanking from './transactionBanking/reducer';
 
+// Sports List
+import sportsList from './sportsBook/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -101,6 +104,7 @@ const rootReducer = combineReducers({
 	PermissionDetails,
 	getAllBonusDetails,
 	BetSettings,
+	sportsList,
 	// public
 	Layout,
 	Login,

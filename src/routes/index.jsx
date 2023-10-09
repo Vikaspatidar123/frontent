@@ -181,6 +181,7 @@ import CurrencyList from '../pages/CurrencyList';
 import LanguageManagementList from '../pages/LanguageManagement';
 import BetSettings from '../pages/BetSettings';
 import TransactionBankingListing from '../pages/TransactionBankingList';
+import SportsListing from '../pages/SportsListing';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -216,6 +217,7 @@ const authProtectedRoutes = [
 	{ path: '/languages-management', component: <LanguageManagementList /> },
 	{ path: '/bet-settings', component: <BetSettings /> },
 	{ path: '/transaction-banking', component: <TransactionBankingListing /> },
+	{ path: '/sports', component: <SportsListing /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },

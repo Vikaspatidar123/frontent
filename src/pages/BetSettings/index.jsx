@@ -30,7 +30,7 @@ const columns = [
 	},
 	{
 		Header: 'SPORTS NAME',
-		accessor: 'sportId',
+		accessor: 'sportsName',
 		filterable: true,
 		Cell: ({ cell }) => <SportsName cell={cell} />,
 	},

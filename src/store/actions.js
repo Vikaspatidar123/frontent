@@ -86,3 +86,6 @@ export * from './betSettings/actions';
 
 // transaction banking
 export * from './transactionBanking/actions';
+
+// Sports Book
+export * from './sportsBook/actions';
