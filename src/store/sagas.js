@@ -33,8 +33,9 @@ import LanguagesSaga from './languages/saga';
 import CurrenciesSaga from './currencies/saga';
 import LanguageManagementSaga from './languageManagement/saga';
 import BetSettingsSaga from './betSettings/saga';
+import TransactionBankingSaga from './transactionBanking/saga';
 
-export default function* rootSaga() {
+export default function* rootSaga () {
 	yield all([
 		// New Theme
 		fork(AdminRoles),
@@ -48,6 +49,7 @@ export default function* rootSaga() {
 		fork(CurrenciesSaga),
 		fork(LanguageManagementSaga),
 		fork(BetSettingsSaga),
+		fork(TransactionBankingSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),

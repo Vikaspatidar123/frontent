@@ -90,6 +90,9 @@ import LanguageManagement from './languageManagement/reducer';
 // Bet Settings
 import BetSettings from './betSettings/reducer';
 
+// Transaction Banking
+import TransactionBanking from './transactionBanking/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -126,6 +129,7 @@ const rootReducer = combineReducers({
 	Languages,
 	Currencies,
 	LanguageManagement,
+	TransactionBanking,
 });
 
 export default rootReducer;
