@@ -99,6 +99,20 @@ const getTransactionBanking = ({ limit, pageNo, paymentProvider }) =>
 		`${VITE_APP_API_URL}/api/admin/transactions?limit=${limit}&pageNo=${pageNo}&paymentProvider=${paymentProvider}`
 	);
 
+const getSportsList = ({
+	search = '',
+	limit,
+	pageNo,
+	isAllListing = false,
+	isActive = '',
+}) => isAllListing
+		? getRequest(
+				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
+		  )
+		: getRequest(
+				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
+		  );
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -116,4 +130,5 @@ export {
 	getLanguageManagement,
 	getBetSettings,
 	getTransactionBanking,
+	getSportsList,
 };
