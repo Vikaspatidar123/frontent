@@ -84,6 +84,9 @@ import Languages from './languages/reducer';
 // Currencies
 import Currencies from './currencies/reducer';
 
+// LanguageManagement
+import LanguageManagement from './languageManagement/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -118,6 +121,7 @@ const rootReducer = combineReducers({
 	AggregatorsReducer,
 	Languages,
 	Currencies,
+	LanguageManagement,
 });
 
 export default rootReducer;
