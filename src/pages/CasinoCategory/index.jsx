@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -12,39 +12,35 @@ import {
 	ModalBody,
 	Form,
 } from 'reactstrap';
-import { useSelector, useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import TableContainer from '../../components/Common/TableContainer';
-
-import Breadcrumbs from '../../components/Common/Breadcrumb';
-import Spinners from '../../components/Common/Spinner';
-import {
-	getCasinoCategoryDetailStart,
-	getLanguagesStart,
-} from '../../store/actions';
 import {
 	CustomInputField,
 	CustomSwitchButton,
 	CustomSelectField,
 } from '../../helpers/custom_forms';
 import CasinoCategoryColumn from './CasinoCategoryColumn';
+import TableContainer from '../../components/Common/TableContainer';
+import Breadcrumbs from '../../components/Common/Breadcrumb';
+import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 
 const GetCasinoCategoryDetails = () => {
 	document.title =
 		'Casino Category | Skote - Vite React Admin & Dashboard Template';
 
-	const { getCasinoCategoryDetails, loading, getLanguageData } = useSelector(
-		(state) => state.getCasinoCategory
-	);
-	const [isLoading, setLoading] = useState(loading);
-	const [limit, setLimit] = useState(15);
-	const [page, setPage] = useState(1);
-	const [search, setSearch] = useState('');
-	const [modal, setModal] = useState(false);
-	const [isEdit, setIsEdit] = useState(false);
-	const [job, setJob] = useState(null);
-	const dispatch = useDispatch();
+	const {
+		formattedCasinoCategoriesData,
+		iscasinoCategoryDetailsLoading,
+		languageData,
+		page,
+		setPage,
+		itemsPerPage,
+		totalCasinoCategriesCount,
+		modal,
+		setModal,
+		isEdit,
+		job,
+	} = useCasinoCategoryListing();
 
 	const toggle = () => {
 		if (modal) {
@@ -53,20 +49,6 @@ const GetCasinoCategoryDetails = () => {
 			setModal(true);
 		}
 	};
-
-	useEffect(() => {
-		dispatch(
-			getCasinoCategoryDetailStart({
-				limit,
-				pageNo: page,
-				search,
-			})
-		);
-	}, [dispatch]);
-
-	useEffect(() => {
-		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
-	}, []);
 
 	const validation = useFormik({
 		// enableReinitialize : use this flag when initial values needs to be changed
@@ -81,76 +63,51 @@ const GetCasinoCategoryDetails = () => {
 			language: Yup.string().required('Please Select Valid Language'),
 			categoryName: Yup.string().required('Please Enter Category Name'),
 		}),
-		onSubmit: (values) => {
-			if (isEdit) {
-				const updateJobList = {
-					language: values.language,
-					categoryName: values.categoryName,
-					status: values.status,
-				};
-				// update Job
-				// dispatch(onUpdateJobList(updateJobList));
-				validation.resetForm();
-			} else {
-				const newJobList = {
-					language: values.language,
-					categoryName: values.categoryName,
-					status: values.status,
-				};
-				// save new Job
-				// dispatch(onAddNewJobList(newJobList));
-				validation.resetForm();
-			}
-			toggle();
-		},
 	});
 
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
 				<Breadcrumbs title="Jobs" breadcrumbItem="Casino Category" />
-				{isLoading ? (
-					<Spinners setLoading={setLoading} />
-				) : (
-					<Row>
-						<Col lg="12">
-							<Card>
-								<CardBody className="border-bottom">
-									<div className="d-flex align-items-center">
-										<h5 className="mb-0 card-title flex-grow-1">
-											Casino Category List
-										</h5>
-										<div className="flex-shrink-0">
-											<Link
-												to="#!"
-												onClick={() => setModal(true)}
-												className="btn btn-primary me-1"
-											>
-												Create
-											</Link>
-										</div>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CardBody className="border-bottom">
+								<div className="d-flex align-items-center">
+									<h5 className="mb-0 card-title flex-grow-1">
+										Casino Category List
+									</h5>
+									<div className="flex-shrink-0">
+										<Link
+											to="#!"
+											onClick={() => setModal(true)}
+											className="btn btn-primary me-1"
+										>
+											Create
+										</Link>
 									</div>
-								</CardBody>
-								<CardBody>
-									<TableContainer
-										columns={CasinoCategoryColumn}
-										data={getCasinoCategoryDetails?.rows || []}
-										isLoading={loading}
-										isGlobalFilter
-										isAddOptions={false}
-										isPagination
-										iscustomPageSizeOptions
-										isShowingPageLength
-										customPageSize={5}
-										tableClass="table-bordered align-middle nowrap mt-2"
-										paginationDiv="col-sm-12 col-md-7"
-										pagination="pagination justify-content-end pagination-rounded"
-									/>
-								</CardBody>
-							</Card>
-						</Col>
-					</Row>
-				)}
+								</div>
+							</CardBody>
+							<CardBody>
+								<TableContainer
+									columns={CasinoCategoryColumn}
+									data={formattedCasinoCategoriesData}
+									isLoading={!iscasinoCategoryDetailsLoading}
+									isGlobalFilter
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalCasinoCategriesCount}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 				<Modal isOpen={modal} toggle={toggle}>
 					<ModalHeader toggle={toggle} tag="h4">
 						{isEdit ? 'Edit Job' : 'Add Job'}
@@ -189,8 +146,8 @@ const GetCasinoCategoryDetails = () => {
 											options={
 												<>
 													<option value={null}>Select Language</option>
-													{getLanguageData?.count &&
-														getLanguageData?.rows?.map(
+													{languageData?.count &&
+														languageData?.rows?.map(
 															({ languageName, code, languageId }) => (
 																<option key={code} value={languageId}>
 																	{languageName}

@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-props-no-spreading */
-
 import React from 'react';
 
 import { UncontrolledTooltip } from 'reactstrap';
@@ -10,7 +9,7 @@ import {
 	GameCategoryId,
 	CreatedAt,
 	UpdatedAt,
-	IsActive,
+	Status,
 } from './CasinoCategoryListCol';
 
 const CasinoCategoryColumn = [
@@ -22,7 +21,7 @@ const CasinoCategoryColumn = [
 	},
 	{
 		Header: 'NAME',
-		accessor: 'email',
+		accessor: 'name',
 		filterable: true,
 		Cell: (cellProps) => <Email {...cellProps} />,
 	},
@@ -42,7 +41,7 @@ const CasinoCategoryColumn = [
 		Header: 'STATUS',
 		accessor: 'isActive',
 		filterable: true,
-		Cell: (cellProps) => <IsActive {...cellProps} />,
+		Cell: (cellProps) => <Status {...cellProps} />,
 	},
 	{
 		Header: 'Action',
@@ -50,6 +49,14 @@ const CasinoCategoryColumn = [
 		disableFilters: true,
 		Cell: () => (
 			<ul className="list-unstyled hstack gap-1 mb-0">
+				<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+					<Link to="/" className="btn btn-sm btn-soft-primary">
+						<i className="mdi mdi-eye-outline" id="viewtooltip" />
+					</Link>
+				</li>
+				<UncontrolledTooltip placement="top" target="viewtooltip">
+					View
+				</UncontrolledTooltip>
 				<li>
 					<Link
 						to="#"
