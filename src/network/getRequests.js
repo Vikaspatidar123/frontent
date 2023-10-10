@@ -122,9 +122,9 @@ const getReviewManagement = ({ limit, pageNo, search, status = '' }) =>
 const getCountriesList = ({ limit, pageNo, search = '', isActive = '' }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/sportsbook/countries?search=${search}&limit=${limit}&pageNo=${pageNo}&isActive=${isActive}`
-  )
+	)
 
-  const getSportsTransaction = ({ limit, pageNo, email }) =>
+const getSportsTransaction = ({ limit, pageNo, email }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/sportsbook/transactions?limit=${limit}&pageNo=${pageNo}&email=${email}`
 	);
@@ -139,6 +139,11 @@ const getTournamentsList = ({
 }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/sportsbook/tournaments?limit=${limit}&pageNo=${pageNo}&providerCountryId=${providerCountryId}&providerSportId=${providerSportId}&search=${search}&isActive=${isActive}`
+	)
+
+const getCasinoTransactions = ({ limit, pageNo, email }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/casino/transactions?limit=${limit}&pageNo=${pageNo}&email=${email}`
 	);
 
 export {
@@ -163,4 +168,5 @@ export {
 	getCountriesList,
 	getTournamentsList,
 	getSportsTransaction,
+	getCasinoTransactions,
 };

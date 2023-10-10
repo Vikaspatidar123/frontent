@@ -99,8 +99,11 @@ import sportsList from './sportsBook/reducer';
 // Review Management
 import ReviewManagement from './reviewManagement/reducer';
 
-// Review Management
+// Sports Transaction
 import SportsTransaction from './sportsTransaction/reducer';
+
+// Casino Transaction
+import CasinoTransactions from './casinoTransactions/reducer';
 
 const rootReducer = combineReducers({
 	// New theme
@@ -142,6 +145,7 @@ const rootReducer = combineReducers({
 	TransactionBanking,
 	ReviewManagement,
 	SportsTransaction,
+	CasinoTransactions,
 });
 
 export default rootReducer;
