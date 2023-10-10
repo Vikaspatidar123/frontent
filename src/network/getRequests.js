@@ -33,6 +33,11 @@ const getCountries = ({ limit, pageNo, name }) =>
 		`${VITE_APP_API_URL}/api/admin/country/list?limit=${limit}&pageNo=${pageNo}&name=${name}`
 	);
 
+const getAllCasinoProviders = ({ limit, pageNo, search }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/casino/providers?limit=${limit}&pageNo=${pageNo}&search=${search}`
+	);
+
 const getAdminRole = () => getRequest(`${VITE_APP_API_URL}/api/admin/roles`);
 
 const getAllAdmins = ({
@@ -64,6 +69,23 @@ const getAllCms = ({ pageNo, limit, search, isActive }) =>
 const getAggregators = ({ limit, pageNo }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/casino/aggregators?limit=${limit}&pageNo=${pageNo}`
+	);
+
+const getAllCasinoGames = ({
+	bonusId,
+	limit,
+	pageNo,
+	casinoCategoryId,
+	search,
+	isActive,
+	selectedProvider,
+	freespins,
+	addGame,
+	gameSubCategoryId,
+	reorder,
+}) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/casino/games?limit=${limit}&pageNo=${pageNo}&casinoCategoryId=${casinoCategoryId}&search=${search}&isActive=${isActive}&providerId=${selectedProvider}&freespins=${freespins}&bonusId=${bonusId}&addGames=${addGame}&gameSubCategoryId=${gameSubCategoryId}&reorder=${reorder}`
 	);
 
 const getAllBonus = ({
@@ -175,4 +197,6 @@ export {
 	getSportsTransaction,
 	getCasinoTransactions,
 	getWithdrawRequests,
+	getAllCasinoProviders,
+	getAllCasinoGames,
 };

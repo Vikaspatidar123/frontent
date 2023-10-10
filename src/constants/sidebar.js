@@ -208,7 +208,7 @@ const sideBarElements = [
 				ulTagClass: '',
 			},
 			{
-				link: '/providers',
+				link: '/casino-providers',
 				label: 'Providers',
 				iconName: '',
 				linkClass: '',
@@ -238,7 +238,7 @@ const sideBarElements = [
 				ulTagClass: '',
 			},
 			{
-				link: '/games',
+				link: '/casino-games',
 				label: 'Games',
 				iconName: '',
 				linkClass: '',
