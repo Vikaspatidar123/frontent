@@ -37,6 +37,7 @@ import TransactionBankingSaga from './transactionBanking/saga';
 import sportsBookSaga from './sportsBook/saga';
 import ReviewManagementSaga from './reviewManagement/saga';
 import SportsTransactionSaga from './sportsTransaction/saga';
+import CasinoManagementSaga from './casinoManagement/saga';
 import CasinoTransactionsSaga from './casinoTransactions/saga';
 
 export default function* rootSaga() {
@@ -57,6 +58,7 @@ export default function* rootSaga() {
 		fork(sportsBookSaga),
 		fork(ReviewManagementSaga),
 		fork(SportsTransactionSaga),
+		fork(CasinoManagementSaga),
 		fork(CasinoTransactionsSaga),
 		// public
 		fork(AccountSaga),

@@ -198,7 +198,7 @@ const sideBarElements = [
 		ulTagClass: '',
 		subMenu: [
 			{
-				link: '/aggregator',
+				link: '/casino-aggregators',
 				label: 'Aggregators',
 				iconName: '',
 				linkClass: '',

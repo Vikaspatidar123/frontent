@@ -1,45 +1,38 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const GameSubCategoryId = (cell) => {
-    return <Link to="#" className="text-body fw-bold">{cell.value ? cell.value : ''}</Link>
-}
+const GameSubCategoryId = (cell) => (
+		<Link to="/#" className="text-body fw-bold">
+			{cell.value ? cell.value : ''}
+		</Link>
+	);
 
-const Email = (cell) => {
-    return cell.value ? cell.value : "";
+const Name = (cell) => cell.value ? cell.value : '';
+
+const GameCategory = (cell) => cell.value ? cell.value : '';
+
+const ImageUrl = (cell) => cell.value ? cell.value : '';
+
+const Status = ({ cell }) =>
+	cell.value ?? '' ? (
+		<Badge className="bg-success">Active</Badge>
+	) : (
+		<Badge className="bg-danger">Close</Badge>
+	);
+
+GameSubCategoryId.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.string,
+	}).isRequired,
 };
 
-const CreatedAt = (cell) => {
-    console.log('cell321321123: ', cell);
-    return cell.value ? cell.value : "";
+Status.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.bool.isRequired,
+	}).isRequired,
 };
 
-const UpdatedAt = (cell) => {
-    return cell.value ? cell.value : "";
-};
-
-const IsActive = (cell) => {
-    return cell.value ? 'Active' : "In-Active";
-};
-
-const Status = (cell) => {
-    switch (cell.value) {
-        case "Active":
-            return <Badge className="bg-success">Active</Badge>
-        case "New":
-            return <Badge className="bg-info">New</Badge>
-        case "Close":
-            return <Badge className="bg-danger">Close</Badge>
-    }
-};
-
-
-export {
-    GameSubCategoryId,
-    Email,
-    Status,
-    CreatedAt,
-    UpdatedAt,
-    IsActive,
-};
+export { GameSubCategoryId, Name, GameCategory, ImageUrl, Status };

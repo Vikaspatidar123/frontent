@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch } from 'react-redux';
@@ -41,6 +40,8 @@ const CasinoAggregators = () => {
 	);
 	const { aggregatorsData, loading } = useSelector(AggregatorsProperties);
 	const [isLoading, setLoading] = useState(loading);
+	const [page, setPage] = useState(1);
+	const itemsPerPage = 10;
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
@@ -54,18 +55,18 @@ const CasinoAggregators = () => {
 					<CardBody>
 						<TableContainer
 							columns={columns}
-							data={aggregatorsData.rows}
-							// isGlobalFilter={true}
-							// isAddOptions={false}
-							// handleJobClicks={handleJobClicks}
-							// isJobListGlobalFilter={true}
+							data={aggregatorsData?.rows}
+							isGlobalFilter
 							isPagination
-							// iscustomPageSizeOptions={true}
-							isShowingPageLength
-							customPageSize={5}
+							customPageSize={itemsPerPage}
 							tableClass="table-bordered align-middle nowrap mt-2"
-							paginationDiv="col-sm-12 col-md-7"
-							pagination="pagination justify-content-end pagination-rounded"
+							paginationDiv="justify-content-center"
+							pagination="pagination justify-content-start pagination-rounded"
+							totalPageCount={aggregatorsData?.count}
+							isManualPagination
+							onChangePagination={setPage}
+							currentPage={page}
+							isLoading={isLoading}
 						/>
 					</CardBody>
 				)}
