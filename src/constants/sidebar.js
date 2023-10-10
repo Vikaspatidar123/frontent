@@ -394,7 +394,7 @@ const sideBarElements = [
 				ulTagClass: '',
 			},
 			{
-				link: '/countries',
+				link: '/sports/countries',
 				label: 'Countries',
 				iconName: '',
 				linkClass: '',

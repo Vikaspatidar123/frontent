@@ -105,17 +105,23 @@ const getSportsList = ({
 	pageNo,
 	isAllListing = false,
 	isActive = '',
-}) => isAllListing
+}) =>
+	isAllListing
 		? getRequest(
-			`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
-		)
+				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
+		  )
 		: getRequest(
-			`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
-		);
+				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
+		  );
 
 const getReviewManagement = ({ limit, pageNo, search, status = '' }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/review?limit=${limit}&pageNo=${pageNo}&search=${search}&status=${status}`
+	);
+
+const getCountriesList = ({ limit, pageNo, search = '', isActive = '' }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/sportsbook/countries?search=${search}&limit=${limit}&pageNo=${pageNo}&isActive=${isActive}`
 	);
 
 export {
@@ -137,4 +143,5 @@ export {
 	getTransactionBanking,
 	getSportsList,
 	getReviewManagement,
+	getCountriesList,
 };

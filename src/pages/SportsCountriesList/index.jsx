@@ -3,35 +3,35 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import useSportsListing from './hooks/useSportsListing';
+import useSportsCountriesListing from './hooks/useSportsCountriesList';
 
-import { SportId, SportName, Status, Icon } from './sportsListCol';
+import { CountryId, CountryName, Icon, Status } from './sportsCountriesListCol';
 import ActionButtons from './ActionButtons';
 
 const columns = [
 	{
 		Header: 'ID',
-		accessor: 'sportId',
+		accessor: 'countryId',
 		filterable: true,
-		Cell: ({ cell }) => <SportId cell={cell} />,
+		Cell: ({ cell }) => <CountryId cell={cell} />,
 	},
 	{
 		Header: 'NAME',
-		accessor: 'sportName',
+		accessor: 'countryName',
 		filterable: true,
-		Cell: ({ cell }) => <SportName cell={cell} />,
-	},
-	{
-		Header: 'STATUS',
-		accessor: 'isActive',
-		disableFilters: true,
-		Cell: ({ cell }) => <Status cell={cell} />,
+		Cell: ({ cell }) => <CountryName cell={cell} />,
 	},
 	{
 		Header: 'ICON',
 		accessor: 'icons',
 		disableFilters: true,
 		Cell: ({ cell }) => <Icon cell={cell} />,
+	},
+	{
+		Header: 'STATUS',
+		accessor: 'isActive',
+		disableFilters: true,
+		Cell: ({ cell }) => <Status cell={cell} />,
 	},
 	{
 		Header: 'Action',
@@ -41,39 +41,40 @@ const columns = [
 	},
 ];
 
-const SportsListing = () => {
+const SportsCountriesListing = () => {
 	// meta title
-	document.title = 'Sports | Skote - Vite React Admin & Dashboard Template';
+	document.title =
+		'Sports Countries | Skote - Vite React Admin & Dashboard Template';
 
 	const {
-		formattedSportsList,
-		isSportsListLoading,
-		totalSportsListCount,
+		formattedSportsCountries,
+		isSportsCountriesLoading,
+		totalSportsCountriesCount,
 		page,
 		setPage,
 		itemsPerPage,
-	} = useSportsListing();
+	} = useSportsCountriesListing();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				<TableContainer
 					columns={columns}
-					data={formattedSportsList}
+					data={formattedSportsCountries}
 					isPagination
 					customPageSize={itemsPerPage}
 					tableClass="table-bordered align-middle nowrap mt-2"
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalSportsListCount}
+					totalPageCount={totalSportsCountriesCount}
 					isManualPagination
 					onChangePagination={setPage}
 					currentPage={page}
-					isLoading={!isSportsListLoading}
+					isLoading={!isSportsCountriesLoading}
 				/>
 			</Container>
 		</div>
 	);
 };
 
-export default SportsListing;
+export default SportsCountriesListing;
