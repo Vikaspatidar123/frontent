@@ -18,7 +18,7 @@ const useCasinoTransactionsListing = () => {
 			fetchCasinoTransactionsStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				search: searchText,
+				email: searchText,
 			})
 		);
 	}, [currentPage, searchText]);

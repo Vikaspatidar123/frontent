@@ -106,6 +106,9 @@ import SportsTransaction from './sportsTransaction/reducer';
 // Casino Transaction
 import CasinoTransactions from './casinoTransactions/reducer';
 
+// Withdraw Requests
+import WithdrawRequests from './withdrawRequests/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -147,6 +150,7 @@ const rootReducer = combineReducers({
 	ReviewManagement,
 	SportsTransaction,
 	CasinoTransactions,
+	WithdrawRequests,
 });
 
 export default rootReducer;

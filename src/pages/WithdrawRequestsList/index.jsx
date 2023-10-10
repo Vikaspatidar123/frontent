@@ -5,55 +5,50 @@ import PropTypes from 'prop-types';
 import { Col, Container, Input, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import {
-	ActionType,
+	ActionableType,
 	Amount,
-	BonusMoney,
-	CreatedAt,
-	GameName,
+	Email,
 	Id,
+	Name,
+	PaymentProvider,
 	Status,
-	UserEmail,
-} from './CasinoTransactionsListCol';
+	TransactionId,
+	UpdatedAt,
+} from './WithdrawRequestsListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import useCasinoTransactionsListing from './hooks/useCasinoTransactionsListing';
+import useWithdrawRequestsListing from './hooks/useWithdrawRequestsListing';
 
-const CasinoTransactionsList = ({ t }) => {
+const WithdrawRequestsList = ({ t }) => {
 	const {
 		searchText,
 		setSearchText,
 		currentPage,
 		setCurrentPage,
-		totalCasinoTransactionsCount,
-		isCasinoTransactionsLoading,
-		formattedCasinoTransactions,
+		totalWithdrawRequestsCount,
+		isWithdrawRequestsLoading,
+		formattedWithdrawRequests,
 		itemsPerPage,
-	} = useCasinoTransactionsListing();
+	} = useWithdrawRequestsListing();
 
 	const columns = useMemo(
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'casinoTransactionId',
+				accessor: 'userId',
 				filterable: true,
 				Cell: (cellProps) => <Id {...cellProps} />,
 			},
 			{
-				Header: 'User Email',
-				accessor: 'userEmail',
+				Header: 'Email',
+				accessor: 'email',
 				filterable: true,
-				Cell: (cellProps) => <UserEmail {...cellProps} />,
+				Cell: (cellProps) => <Email {...cellProps} />,
 			},
 			{
-				Header: 'Game Name',
-				accessor: 'gameIdentifier',
+				Header: 'Name',
+				accessor: 'name',
 				filterable: true,
-				Cell: (cellProps) => <GameName {...cellProps} />,
-			},
-			{
-				Header: 'Action Type',
-				accessor: 'actionType',
-				filterable: true,
-				Cell: (cellProps) => <ActionType {...cellProps} />,
+				Cell: (cellProps) => <Name {...cellProps} />,
 			},
 			{
 				Header: 'Amount',
@@ -62,9 +57,15 @@ const CasinoTransactionsList = ({ t }) => {
 				Cell: (cellProps) => <Amount {...cellProps} />,
 			},
 			{
-				Header: 'Bonus Money',
-				accessor: 'bonusAmt',
-				Cell: (cellProps) => <BonusMoney {...cellProps} />,
+				Header: 'Payment Provider',
+				accessor: 'paymentProvider',
+				filterable: true,
+				Cell: (cellProps) => <PaymentProvider {...cellProps} />,
+			},
+			{
+				Header: 'Transaction Id',
+				accessor: 'transactionId',
+				Cell: (cellProps) => <TransactionId {...cellProps} />,
 			},
 			{
 				Header: 'Status',
@@ -72,9 +73,14 @@ const CasinoTransactionsList = ({ t }) => {
 				Cell: (cellProps) => <Status {...cellProps} />,
 			},
 			{
-				Header: 'Created At',
-				accessor: 'createdAt',
-				Cell: (cellProps) => <CreatedAt {...cellProps} />,
+				Header: 'Actionable Type',
+				accessor: 'actionableType',
+				Cell: (cellProps) => <ActionableType {...cellProps} />,
+			},
+			{
+				Header: 'Updated At',
+				accessor: 'updatedAt',
+				Cell: (cellProps) => <UpdatedAt {...cellProps} />,
 			},
 		],
 		[]
@@ -85,14 +91,14 @@ const CasinoTransactionsList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb
-					title={t('Casino Transactions')}
-					breadcrumbItem={t('Casino Transactions')}
+					title={t('Withdraw Requests')}
+					breadcrumbItem={t('Withdraw Requests')}
 				/>
 				<Row>
 					<Col xs="12" sm="3">
 						<Input
 							className="form-control"
-							placeholder="Search email"
+							placeholder="Search Payment Providers"
 							onChange={({ target }) =>
 								setSearchText(target.value.replace(/[^\w\s]/gi, ''))
 							}
@@ -101,16 +107,16 @@ const CasinoTransactionsList = ({ t }) => {
 					</Col>
 				</Row>
 				<TableContainer
-					isLoading={isCasinoTransactionsLoading}
+					isLoading={isWithdrawRequestsLoading}
 					columns={columns}
-					data={formattedCasinoTransactions}
+					data={formattedWithdrawRequests}
 					isPagination
 					customPageSize={itemsPerPage}
 					tableClass="table-bordered align-middle nowrap mt-2"
 					// paginationDiv="col-sm-12 col-md-7"
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalCasinoTransactionsCount}
+					totalPageCount={totalWithdrawRequestsCount}
 					isManualPagination
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}
@@ -120,12 +126,12 @@ const CasinoTransactionsList = ({ t }) => {
 	);
 };
 
-CasinoTransactionsList.propTypes = {
+WithdrawRequestsList.propTypes = {
 	t: PropTypes.func,
 };
 
-CasinoTransactionsList.defaultProps = {
+WithdrawRequestsList.defaultProps = {
 	t: (string) => string,
 };
 
-export default CasinoTransactionsList;
+export default WithdrawRequestsList;
