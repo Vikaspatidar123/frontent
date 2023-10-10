@@ -57,11 +57,11 @@ const TableContainer = ({
 	data,
 	isGlobalFilter,
 	isAddOptions,
-	isAddUserList,
-	handleOrderClicks,
-	handleUserClick,
-	handleCustomerClick,
-	isAddCustList,
+	// isAddUserList,
+	// handleOrderClicks,
+	// handleUserClick,
+	// handleCustomerClick,
+	// isAddCustList,
 	customPageSize,
 	tableClass,
 	customPageSizeOptions,
@@ -77,6 +77,8 @@ const TableContainer = ({
 	onChangePagination,
 	currentPage,
 	isLoading = false,
+	handleAddClick,
+	addOptionLabel,
 }) => {
 	const {
 		getTableProps,
@@ -175,15 +177,15 @@ const TableContainer = ({
 								type="button"
 								color="success"
 								className="btn-rounded  mb-2 me-2"
-								onClick={handleOrderClicks}
+								onClick={handleAddClick}
 							>
 								<i className="mdi mdi-plus me-1" />
-								Add New Order
+								{addOptionLabel}
 							</Button>
 						</div>
 					</Col>
 				)}
-				{isAddUserList && (
+				{/* {isAddUserList && (
 					<Col sm="7" xxl="8">
 						<div className="text-sm-end">
 							<Button
@@ -212,7 +214,7 @@ const TableContainer = ({
 							</Button>
 						</div>
 					</Col>
-				)}
+				)} */}
 			</Row>
 
 			<div className="table-responsive react-table">
@@ -321,9 +323,19 @@ const TableContainer = ({
 	);
 };
 
+TableContainer.defaultProps = {
+	preGlobalFilteredRows: [],
+};
+
 TableContainer.propTypes = {
 	// eslint-disable-next-line react/require-default-props
-	preGlobalFilteredRows: PropTypes.any,
+	preGlobalFilteredRows: PropTypes.arrayOf,
+	// columns: PropTypes.arrayOf,
+	// data: PropTypes.arrayOf,
+	// isGlobalFilter: PropTypes.bool,
+	// isAddOptions: PropTypes.bool,
+	// isAddUserList: PropTypes.bool,
+	// handleOrderClicks: PropTypes.func,
 };
 
 export default TableContainer;
