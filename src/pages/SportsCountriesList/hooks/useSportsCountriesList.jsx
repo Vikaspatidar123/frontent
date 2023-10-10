@@ -1,11 +1,11 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSportsList } from '../../../store/actions';
+import { getSportsCountries } from '../../../store/actions';
 
 const itemsPerPage = 10;
 
-const useSportsListing = () => {
-	const { sportsListInfo, isSportsListLoading } = useSelector(
+const useSportsCountriesListing = () => {
+	const { sportsCountries, isSportsCountriesLoading } = useSelector(
 		(state) => state.sportsList
 	);
 	const [limit, setLimit] = useState(10);
@@ -14,16 +14,17 @@ const useSportsListing = () => {
 	const [searchByStatus, setSearchByStatus] = useState('');
 	const dispatch = useDispatch();
 
-	const formattedSportsList = useMemo(() => {
-		if (sportsListInfo) {
-			return sportsListInfo?.rows?.map((item) => ({
+	const formattedSportsCountries = useMemo(() => {
+		if (sportsCountries) {
+			return sportsCountries?.rows?.map((item) => ({
 				...item,
-				sportName: item.sportName[0].name,
+				countryName: item.countryName[0].name,
 				icons: '-',
 			}));
 		}
 		return [];
-	}, [sportsListInfo]);
+	}, [sportsCountries]);
+	console.log('formattedSportsCountries: ', formattedSportsCountries);
 
 	const fetchData = () => {
 		let isActive = '';
@@ -33,10 +34,10 @@ const useSportsListing = () => {
 			isActive = 'false';
 		}
 		dispatch(
-			getSportsList({
+			getSportsCountries({
 				limit,
 				pageNo: page,
-				search: searchByName,
+				searchByName,
 				isActive,
 			})
 		);
@@ -44,12 +45,12 @@ const useSportsListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, limit, searchByName, searchByStatus]);
+	}, [limit, page, searchByName, searchByStatus]);
 
 	return {
-		formattedSportsList,
-		isSportsListLoading,
-		totalSportsListCount: sportsListInfo?.count,
+		formattedSportsCountries,
+		isSportsCountriesLoading,
+		totalSportsCountriesCount: sportsCountries?.count,
 		page,
 		setPage,
 		itemsPerPage,
@@ -62,4 +63,4 @@ const useSportsListing = () => {
 	};
 };
 
-export default useSportsListing;
+export default useSportsCountriesListing;

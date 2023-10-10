@@ -9,12 +9,14 @@ const useBetSettings = () => {
 	const { betSettingsList, isLoading, error } = useSelector(
 		(state) => state.BetSettings
 	);
-	const { sportsList } = useSelector((state) => state.sportsList);
+	const { sportsListInfo } = useSelector((state) => state.sportsList);
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
 
 	const getSportsName = (sportId) => {
-		const sportsName = sportsList?.rows?.filter((x) => x.sportId === sportId);
+		const sportsName = sportsListInfo?.rows?.filter(
+			(x) => x.sportId === sportId
+		);
 		if (sportsName?.length > 0) {
 			return sportsName[0].sportName[0].name || '-';
 		}
@@ -30,7 +32,7 @@ const useBetSettings = () => {
 			}));
 		}
 		return [];
-	}, [betSettingsList, sportsList]);
+	}, [betSettingsList, sportsListInfo]);
 
 	const fetchData = () => {
 		dispatch(getBetSettingsData());
