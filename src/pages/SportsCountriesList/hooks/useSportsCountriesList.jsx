@@ -24,7 +24,6 @@ const useSportsCountriesListing = () => {
 		}
 		return [];
 	}, [sportsCountries]);
-	console.log('formattedSportsCountries: ', formattedSportsCountries);
 
 	const fetchData = () => {
 		let isActive = '';

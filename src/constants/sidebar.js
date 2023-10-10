@@ -404,7 +404,7 @@ const sideBarElements = [
 				ulTagClass: '',
 			},
 			{
-				link: '/tournaments',
+				link: '/sports/tournaments',
 				label: 'Tournaments',
 				iconName: '',
 				linkClass: '',

@@ -5,6 +5,9 @@ import {
 	GET_SPORTS_COUNTRIES,
 	GET_SPORTS_COUNTRIES_SUCCESS,
 	GET_SPORTS_COUNTRIES_FAIL,
+	GET_SPORTS_TOURNAMENT_LIST,
+	GET_SPORTS_TOURNAMENT_LIST_SUCCESS,
+	GET_SPORTS_TOURNAMENT_LIST_FAIL,
 } from './actionTypes';
 
 export const getSportsListSuccess = (payload) => ({
@@ -34,5 +37,20 @@ export const getSportsCountriesFail = (payload) => ({
 
 export const getSportsCountries = (payload) => ({
 	type: GET_SPORTS_COUNTRIES,
+	payload,
+});
+
+export const getSportsTournamentListSuccess = (payload) => ({
+	type: GET_SPORTS_TOURNAMENT_LIST_SUCCESS,
+	payload,
+});
+
+export const getSportsTournamentListFail = (payload) => ({
+	type: GET_SPORTS_TOURNAMENT_LIST_FAIL,
+	payload,
+});
+
+export const getSportsTournamentList = (payload) => ({
+	type: GET_SPORTS_TOURNAMENT_LIST,
 	payload,
 });

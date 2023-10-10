@@ -5,15 +5,21 @@ import {
 	GET_SPORTS_COUNTRIES,
 	GET_SPORTS_COUNTRIES_SUCCESS,
 	GET_SPORTS_COUNTRIES_FAIL,
+	GET_SPORTS_TOURNAMENT_LIST,
+	GET_SPORTS_TOURNAMENT_LIST_SUCCESS,
+	GET_SPORTS_TOURNAMENT_LIST_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
 	sportsListInfo: null,
-	isSportsListError: null,
+	sportsListError: null,
 	isSportsListLoading: true,
 	sportsCountries: null,
-	isSportsCountriesError: null,
+	sportsCountriesError: null,
 	isSportsCountriesLoading: true,
+	sportsTournamentList: null,
+	sportsTournamentListError: null,
+	isSportsTournamentListLoading: true,
 };
 
 const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
@@ -29,13 +35,13 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				isSportsListLoading: true,
 				sportsListInfo: payload,
-				isSportsListError: null,
+				sportsListError: null,
 			};
 
 		case GET_SPORTS_LIST_FAIL:
 			return {
 				...state,
-				isSportsListError: payload,
+				sportsListError: payload,
 				isSportsListLoading: true,
 			};
 
@@ -50,14 +56,35 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				isSportsCountriesLoading: true,
 				sportsCountries: payload,
-				isSportsCountriesError: null,
+				sportsCountriesError: null,
 			};
 
 		case GET_SPORTS_COUNTRIES_FAIL:
 			return {
 				...state,
-				isSportsCountriesError: payload,
+				sportsCountriesError: payload,
 				isSportsCountriesLoading: true,
+			};
+
+		case GET_SPORTS_TOURNAMENT_LIST:
+			return {
+				...state,
+				isSportsTournamentListLoading: false,
+			};
+
+		case GET_SPORTS_TOURNAMENT_LIST_SUCCESS:
+			return {
+				...state,
+				isSportsTournamentListLoading: true,
+				sportsTournamentList: payload,
+				sportsTournamentListError: null,
+			};
+
+		case GET_SPORTS_TOURNAMENT_LIST_FAIL:
+			return {
+				...state,
+				sportsTournamentListError: payload,
+				SportsTournamentListLoading: true,
 			};
 
 		default:

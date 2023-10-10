@@ -184,6 +184,7 @@ import TransactionBankingListing from '../pages/TransactionBankingList';
 import SportsListing from '../pages/SportsListing';
 import ReviewManagementList from '../pages/ReviewManagementList';
 import SportsCountriesListing from '../pages/SportsCountriesList';
+import SportsTournamentList from '../pages/SportsTournamentList';
 import SportsTransactionList from '../pages/SportsTransactionList';
 
 // //Contacts
@@ -223,6 +224,7 @@ const authProtectedRoutes = [
 	{ path: '/sports', component: <SportsListing /> },
 	{ path: '/review-management', component: <ReviewManagementList /> },
 	{ path: '/sports/countries', component: <SportsCountriesListing /> },
+	{ path: '/sports/tournaments', component: <SportsTournamentList /> },
 	{ path: '/sports-transactions', component: <SportsTransactionList /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
