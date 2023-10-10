@@ -108,11 +108,11 @@ const getSportsList = ({
 }) =>
 	isAllListing
 		? getRequest(
-			`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
-		)
+				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
+		  )
 		: getRequest(
-			`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
-		);
+				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
+		  );
 
 const getReviewManagement = ({ limit, pageNo, search, status = '' }) =>
 	getRequest(
@@ -122,7 +122,7 @@ const getReviewManagement = ({ limit, pageNo, search, status = '' }) =>
 const getCountriesList = ({ limit, pageNo, search = '', isActive = '' }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/sportsbook/countries?search=${search}&limit=${limit}&pageNo=${pageNo}&isActive=${isActive}`
-	)
+	);
 
 const getSportsTransaction = ({ limit, pageNo, email }) =>
 	getRequest(
@@ -139,11 +139,16 @@ const getTournamentsList = ({
 }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/sportsbook/tournaments?limit=${limit}&pageNo=${pageNo}&providerCountryId=${providerCountryId}&providerSportId=${providerSportId}&search=${search}&isActive=${isActive}`
-	)
+	);
 
 const getCasinoTransactions = ({ limit, pageNo, email }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/casino/transactions?limit=${limit}&pageNo=${pageNo}&email=${email}`
+	);
+
+const getWithdrawRequests = ({ limit, pageNo, search }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/user/all-withdraw-request?limit=${limit}&pageNo=${pageNo}&search=${search}`
 	);
 
 export {
@@ -169,4 +174,5 @@ export {
 	getTournamentsList,
 	getSportsTransaction,
 	getCasinoTransactions,
+	getWithdrawRequests,
 };
