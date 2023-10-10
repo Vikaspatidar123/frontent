@@ -1,22 +1,34 @@
 import {
+	GET_CASINO_PROVIDERS_DATA,
+	GET_CASINO_PROVIDERS_DATA_SUCCESS,
+	GET_CASINO_PROVIDERS_DATA_FAIL,
 	GET_CASINO_CATEGORY_DATA,
 	GET_CASINO_CATEGORY_DATA_SUCCESS,
 	GET_CASINO_CATEGORY_DATA_FAIL,
 	GET_CASINO_SUB_CATEGORY_DATA_SUCCESS,
 	GET_CASINO_SUB_CATEGORY_DATA_FAIL,
 	GET_CASINO_SUB_CATEGORY_DATA,
+	GET_CASINO_GAMES,
+	GET_CASINO_GAMES_SUCCESS,
+	GET_CASINO_GAMES_FAIL,
 	GET_LANGUAGE_DATA_START,
 	GET_LANGUAGE_DATA_FAIL,
 	GET_LANGUAGE_DATA_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
+	casinoProvidersData: null,
+	casinoProvidersDataError: null,
+	isCasinoProvidersDataLoading: true,
 	casinoCategoryDetails: null,
 	casinoCategoryDetailsError: null,
 	iscasinoCategoryDetailsLoading: true,
 	casinoSubCategoryDetails: null,
 	casinoSubCategoryDetailsError: null,
 	iscasinoSubCategoryDetailsLoading: true,
+	casinoGames: null,
+	casinoGamesError: null,
+	isCasinoGamesLoading: true,
 	languageDataLoading: true,
 	languageData: null,
 	languageDataError: null,
@@ -24,6 +36,27 @@ const INIT_STATE = {
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 	switch (type) {
+		case GET_CASINO_PROVIDERS_DATA:
+			return {
+				...state,
+				isCasinoProvidersDataLoading: false,
+			};
+
+		case GET_CASINO_PROVIDERS_DATA_SUCCESS:
+			return {
+				...state,
+				isCasinoProvidersDataLoading: true,
+				casinoProvidersData: payload,
+				casinoProvidersDataError: null,
+			};
+
+		case GET_CASINO_PROVIDERS_DATA_FAIL:
+			return {
+				...state,
+				casinoProvidersDataError: payload,
+				isCasinoProvidersDataLoading: true,
+			};
+
 		case GET_CASINO_CATEGORY_DATA:
 			return {
 				...state,
@@ -64,6 +97,27 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				casinoSubCategoryDetailsError: payload,
 				iscasinoSubCategoryDetailsLoading: true,
+			};
+
+		case GET_CASINO_GAMES:
+			return {
+				...state,
+				isCasinoGamesLoading: false,
+			};
+
+		case GET_CASINO_GAMES_SUCCESS:
+			return {
+				...state,
+				isCasinoGamesLoading: true,
+				casinoGames: payload,
+				casinoGamesError: null,
+			};
+
+		case GET_CASINO_GAMES_FAIL:
+			return {
+				...state,
+				casinoGamesError: payload,
+				isCasinoGamesLoading: true,
 			};
 
 		case GET_LANGUAGE_DATA_START:

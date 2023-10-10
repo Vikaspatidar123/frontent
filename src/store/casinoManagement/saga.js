@@ -2,10 +2,14 @@ import { put, takeLatest, all, fork } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
 import {
+	getCasinoProvidersDataSuccess,
+	getCasinoProvidersDataFailure,
 	getCasinoCategoryDetailSuccess,
 	getCasinoCategoryDetailFailure,
 	getCasinoSubCategoryDetailSuccess,
 	getCasinoSubCategoryDetailFailure,
+	getCasinoGamesSuccess,
+	getCasinoGamesFailure,
 	getLanguagesSuccess,
 	getLanguagesFailure,
 } from './actions';
@@ -13,9 +17,13 @@ import {
 	GET_CASINO_CATEGORY_DATA,
 	GET_CASINO_SUB_CATEGORY_DATA,
 	GET_LANGUAGE_DATA_START,
+	GET_CASINO_PROVIDERS_DATA,
+	GET_CASINO_GAMES,
 } from './actionTypes';
 
 import {
+	getAllCasinoGames,
+	getAllCasinoProviders,
 	getCasinoCategoryListing,
 	getCasinoSubCategoryListing,
 	getLanguages,
@@ -77,10 +85,69 @@ function* getLanguagesWorker(action) {
 	}
 }
 
+function* getAllCasinoProvidersWorker(action) {
+	try {
+		const { limit, pageNo, search = '' } = action && action.payload;
+		const { data } = yield getAllCasinoProviders({
+			limit,
+			pageNo,
+			search,
+		});
+		yield put(getCasinoProvidersDataSuccess(data?.data?.providerList));
+	} catch (e) {
+		yield toast(e?.response?.data?.errors[0].description, 'error');
+		yield put(
+			getCasinoProvidersDataFailure(e?.response?.data?.errors[0].description)
+		);
+	}
+}
+
+function* getAllCasinoGamesWorker(action) {
+	try {
+		const {
+			bonusId,
+			limit,
+			pageNo,
+			casinoCategoryId,
+			search,
+			isActive,
+			tenantId,
+			selectedProvider,
+			freespins,
+			addGame,
+			gameSubCategoryId,
+			reorder,
+		} = action && action.payload;
+
+		const { data } = yield getAllCasinoGames({
+			limit,
+			pageNo,
+			casinoCategoryId,
+			search,
+			isActive,
+			tenantId,
+			selectedProvider,
+			freespins: freespins || '',
+			bonusId: bonusId || '',
+			addGame: addGame || false,
+			gameSubCategoryId: gameSubCategoryId || '',
+			reorder: reorder || 'false',
+		});
+
+		yield put(getCasinoGamesSuccess(data?.data?.casinoGames));
+	} catch (e) {
+		yield toast(e?.response?.data?.errors[0]?.description, 'error');
+
+		yield put(getCasinoGamesFailure(e?.response?.data?.errors[0]?.description));
+	}
+}
+
 export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_CATEGORY_DATA, getCasinoCategoryWorker);
 	yield takeLatest(GET_CASINO_SUB_CATEGORY_DATA, getCasinoSubCategoryWorker);
 	yield takeLatest(GET_LANGUAGE_DATA_START, getLanguagesWorker);
+	yield takeLatest(GET_CASINO_PROVIDERS_DATA, getAllCasinoProvidersWorker);
+	yield takeLatest(GET_CASINO_GAMES, getAllCasinoGamesWorker);
 }
 
 function* CasinoManagementSaga() {
