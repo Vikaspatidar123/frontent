@@ -3,6 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
+import { useSelector, useDispatch } from 'react-redux';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useAdminListing from './hooks/useAdminListing';
@@ -16,6 +17,11 @@ import {
 	Group,
 } from './AdminsListCol';
 import ActionButtons from './ActionButtons';
+import { projectName } from '../../constants/config';
+import FormModal from '../../components/Common/FormModal';
+import useForm from './hooks/useFormModal';
+import { formFields, getInitialValues, validationSchema } from './formDetails';
+import { getRolesStart } from '../../store/auth/roles/actions';
 
 const columns = [
 	{
@@ -64,7 +70,10 @@ const columns = [
 
 const Admins = ({ t }) => {
 	// meta title
-	document.title = 'Staff | Skote - Vite React Admin & Dashboard Template';
+	document.title = projectName;
+
+	const dispatch = useDispatch();
+	const roles = useSelector((state) => state.AdminRoles.roles);
 
 	const {
 		formattedAdminDetails,
@@ -74,6 +83,26 @@ const Admins = ({ t }) => {
 		setPage,
 		itemsPerPage,
 	} = useAdminListing();
+
+	const handleStaffSubmit = () => {
+		// console.log('add values = ', values);
+	};
+
+	const { isOpen, setIsOpen, header, validation } = useForm({
+		header: 'Add Staff',
+		initialValues: getInitialValues(),
+		validationSchema,
+		isEdit: false,
+		onSubmitEntry: handleStaffSubmit,
+	});
+
+	const handleAddClick = (e) => {
+		e.preventDefault();
+		setIsOpen((prev) => !prev);
+		if (!roles?.length) {
+			dispatch(getRolesStart());
+		}
+	};
 
 	return (
 		<div className="page-content">
@@ -93,8 +122,19 @@ const Admins = ({ t }) => {
 					onChangePagination={setPage}
 					currentPage={page}
 					isLoading={!isLoading}
+					isAddOptions
+					addOptionLabel="Create"
+					handleAddClick={handleAddClick}
 				/>
 			</Container>
+			<FormModal
+				isOpen={isOpen}
+				toggle={() => setIsOpen((prev) => !prev)}
+				header={header}
+				validation={validation}
+				formFields={formFields}
+				submitLabel="Save"
+			/>
 		</div>
 	);
 };
