@@ -9,7 +9,7 @@ const itemsPerPage = 10;
 
 const useBonsuListing = () => {
 	const { bonusDetails, isLoading } = useSelector(
-		(state) => state.getAllBonusDetails
+		(state) => state.AllBonusDetails
 	);
 	const [selectedClient, setSelectedClient] = useState('');
 	const [selectedPortal, setSelectedPortal] = useState('');
