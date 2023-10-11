@@ -238,7 +238,9 @@ const TableContainer = ({
 						))}
 					</thead>
 
-					<tbody {...getTableBodyProps({ height: '500px' })}>
+					<tbody
+						{...getTableBodyProps({ height: `${isLoading ? '500px' : '0'}` })}
+					>
 						{isLoading || !page?.length ? (
 							<Spinner
 								color="primary"
