@@ -7,8 +7,11 @@ import TableContainer from '../../components/Common/TableContainer';
 import { Id, Name } from './SportsMarketsListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsMarketsListing from './hooks/useSportsMarketsListing';
+import { projectName } from '../../constants/config';
 
 const SportsMarketsList = ({ t }) => {
+	document.title = `Sports Markets | ${projectName}`;
+
 	const {
 		searchText,
 		setSearchText,

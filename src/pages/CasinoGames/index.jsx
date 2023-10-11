@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
-
+import { projectName } from '../../constants/config';
 import {
 	CasinoGameId,
 	Name,
@@ -78,8 +78,7 @@ const columns = [
 
 const CasinoGames = ({ t }) => {
 	// meta title
-	document.title =
-		'Casino Games | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Casino Games | ${projectName}`;
 
 	const {
 		formattedCasinoGames,
@@ -93,10 +92,7 @@ const CasinoGames = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs
-					title={t('Casino Providers')}
-					breadcrumbItem={t('Casino Providers')}
-				/>
+				<Breadcrumbs title={t('Casino')} breadcrumbItem={t('Casino Games')} />
 				<TableContainer
 					columns={columns}
 					data={formattedCasinoGames}

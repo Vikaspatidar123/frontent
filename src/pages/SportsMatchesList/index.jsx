@@ -16,8 +16,11 @@ import {
 } from './SportsMatchesListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsMatchesListing from './hooks/useSportsMatchesListing';
+import { projectName } from '../../constants/config';
 
 const SportsMatchesList = ({ t }) => {
+	document.title = `Sports Matches | ${projectName}`;
+
 	const {
 		currentPage,
 		setCurrentPage,

@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useBetSettings from './hooks/useBetSettings';
+import { projectName } from '../../constants/config';
 
 import {
 	BetSettingId,
@@ -104,8 +105,7 @@ const columns = [
 
 const BetSettings = () => {
 	// meta title
-	document.title =
-		'Bet Settings | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Bet Settings | ${projectName}`;
 
 	const {
 		formattedBetSettingsList,

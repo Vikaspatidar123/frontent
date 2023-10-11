@@ -16,8 +16,11 @@ import {
 } from './PlayersListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import usePlayersListing from './hooks/usePlayersListing';
+import { projectName } from '../../constants/config';
 
 const PlayersList = ({ t }) => {
+	document.title = `Players | ${projectName}`;
+
 	const {
 		searchText,
 		setSearchText,

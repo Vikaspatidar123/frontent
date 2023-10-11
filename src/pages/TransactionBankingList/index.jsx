@@ -17,8 +17,11 @@ import {
 	TransactionId,
 } from './TransactionBankingCol';
 import useTransactionBankingListing from './hooks/useTransactionBankingListing';
+import { projectName } from '../../constants/config';
 
 const TransactionBankingList = ({ t }) => {
+	document.title = `Transactions Banking | ${projectName}`;
+
 	const {
 		searchText,
 		setSearchText,

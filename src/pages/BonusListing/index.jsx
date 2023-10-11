@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
+import { projectName } from '../../constants/config';
 
 import {
 	BonusId,
@@ -71,7 +72,7 @@ const columns = [
 
 const BonusDetail = ({ t }) => {
 	// meta title
-	document.title = 'Bonus | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Bonus | ${projectName}`;
 
 	const {
 		formattedBonusDetails,

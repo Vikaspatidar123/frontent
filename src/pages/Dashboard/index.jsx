@@ -21,6 +21,7 @@ import classNames from 'classnames';
 import { withTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
+import { projectName } from '../../constants/config';
 import StackedColumnChart from './StackedColumnChart';
 
 // import action
@@ -92,7 +93,7 @@ const Dashboard = ({ t }) => {
 	}, [dispatch]);
 
 	// meta title
-	document.title = 'Dashboard | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Dashboard | ${projectName}`;
 
 	return (
 		<>

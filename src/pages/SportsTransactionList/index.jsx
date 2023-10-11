@@ -16,8 +16,11 @@ import {
 } from './SportsTransactionListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsTransactionListing from './hooks/useSportsTransactionListing';
+import { projectName } from '../../constants/config';
 
 const SportsTransactionList = ({ t }) => {
+	document.title = `Sports Transactions | ${projectName}`;
+
 	const {
 		searchText,
 		setSearchText,

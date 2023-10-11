@@ -9,6 +9,7 @@ import useCmsListing from './hooks/useCmsListing';
 import { CmsPageId, Title, Slug, Portal, Status } from './CmsListCol';
 
 import ActionButtons from './ActionButtons';
+import { projectName } from '../../constants/config';
 
 const columns = [
 	{
@@ -51,7 +52,7 @@ const columns = [
 
 const Cms = ({ t }) => {
 	// Set meta title
-	document.title = 'CMS | Skote - Vite React Admin & Dashboard Template';
+	document.title = `CMS | ${projectName}`;
 
 	// Fetch CMS page data and manage pagination state
 	const {

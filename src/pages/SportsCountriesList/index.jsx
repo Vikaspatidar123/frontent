@@ -7,6 +7,7 @@ import useSportsCountriesListing from './hooks/useSportsCountriesList';
 
 import { CountryId, CountryName, Icon, Status } from './sportsCountriesListCol';
 import ActionButtons from './ActionButtons';
+import { projectName } from '../../constants/config';
 
 const columns = [
 	{
@@ -43,8 +44,7 @@ const columns = [
 
 const SportsCountriesListing = () => {
 	// meta title
-	document.title =
-		'Sports Countries | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Sports Countries | ${projectName}`;
 
 	const {
 		formattedSportsCountries,

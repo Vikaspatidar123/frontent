@@ -14,6 +14,7 @@ import {
 	ImageUrl,
 	Status,
 } from './CasinoSubCategory';
+import { projectName } from '../../constants/config';
 
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import { getCasinoSubCategoryDetailStart } from '../../store/actions';
@@ -101,8 +102,7 @@ const columns = [
 ];
 const GetCasinoSubCategoryDetail = ({ t }) => {
 	// meta title
-	document.title =
-		'Casino Sub Category | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Casino Sub Category | ${projectName}`;
 
 	const { casinoSubCategoryDetails, iscasinoSubCategoryDetailsLoading } =
 		useSelector((state) => state.CasinoManagementData);
@@ -145,30 +145,30 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 
 	return (
 		<div className="page-content">
-				<div className="container-fluid">
-					<Breadcrumbs
-						Breadcrumbs
-						title={t('Casino Sub Categories')}
-						breadcrumbItem={t('Casino Sub Categories')}
-					/>
+			<div className="container-fluid">
+				<Breadcrumbs
+					Breadcrumbs
+					title={t('Casino')}
+					breadcrumbItem={t('Casino Sub Categories')}
+				/>
 
-					<TableContainer
-						columns={columns}
-						data={formattedgetCasinoSubCategoryDetails}
-						isGlobalFilter
-						isPagination
-						customPageSize={itemsPerPage}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={casinoSubCategoryDetails?.count}
-						isManualPagination
-						onChangePagination={setPage}
-						currentPage={page}
-						isLoading={!iscasinoSubCategoryDetailsLoading}
-					/>
-				</div>
+				<TableContainer
+					columns={columns}
+					data={formattedgetCasinoSubCategoryDetails}
+					isGlobalFilter
+					isPagination
+					customPageSize={itemsPerPage}
+					tableClass="table-bordered align-middle nowrap mt-2"
+					paginationDiv="justify-content-center"
+					pagination="pagination justify-content-start pagination-rounded"
+					totalPageCount={casinoSubCategoryDetails?.count}
+					isManualPagination
+					onChangePagination={setPage}
+					currentPage={page}
+					isLoading={!iscasinoSubCategoryDetailsLoading}
+				/>
 			</div>
+		</div>
 	);
 };
 
