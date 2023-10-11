@@ -21,16 +21,16 @@ const LanguageManagementList = ({ t }) => {
 				Cell: (cellProps) => <Keys {...cellProps} />,
 			},
 			{
-				Header: 'Action',
-				// accessor: 'username',
-				filterable: true,
-				Cell: (cellProps) => <Action {...cellProps} />,
-			},
-			{
 				Header: 'English',
 				accessor: 'english',
 				filterable: true,
 				Cell: (cellProps) => <English {...cellProps} />,
+			},
+			{
+				Header: 'Action',
+				// accessor: 'username',
+				filterable: true,
+				Cell: (cellProps) => <Action {...cellProps} />,
 			},
 		],
 		[]

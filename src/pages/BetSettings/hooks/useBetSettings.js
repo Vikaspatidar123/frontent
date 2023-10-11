@@ -9,7 +9,7 @@ const useBetSettings = () => {
 	const { betSettingsList, isLoading, error } = useSelector(
 		(state) => state.BetSettings
 	);
-	const { sportsListInfo } = useSelector((state) => state.sportsList);
+	const { sportsListInfo } = useSelector((state) => state.SportsList);
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
 

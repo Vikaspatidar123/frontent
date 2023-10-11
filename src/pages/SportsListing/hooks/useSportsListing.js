@@ -6,7 +6,7 @@ const itemsPerPage = 10;
 
 const useSportsListing = () => {
 	const { sportsListInfo, isSportsListLoading } = useSelector(
-		(state) => state.sportsList
+		(state) => state.SportsList
 	);
 	const [limit, setLimit] = useState(10);
 	const [page, setPage] = useState(1);
