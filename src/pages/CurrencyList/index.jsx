@@ -88,7 +88,10 @@ const CurrencyList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb title={t('Currencies')} breadcrumbItem={t('Currencies')} />
+				<Breadcrumb
+					title={t('Site Configurations')}
+					breadcrumbItem={t('Currencies')}
+				/>
 				<TableContainer
 					isLoading={isCurrenciesLoading}
 					columns={columns}

@@ -85,7 +85,7 @@ const SportsMatchesList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb title={t('Matches')} breadcrumbItem={t('Matches')} />
+				<Breadcrumb title={t('Sports Book')} breadcrumbItem={t('Matches')} />
 				<TableContainer
 					isLoading={isSportsMatchesLoading}
 					columns={columns}

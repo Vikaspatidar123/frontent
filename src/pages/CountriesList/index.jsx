@@ -76,7 +76,10 @@ const CountriesList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb title={t('Countries')} breadcrumbItem={t('Countries')} />
+				<Breadcrumb
+					title={t('Site Configurations')}
+					breadcrumbItem={t('Countries')}
+				/>
 				<Row>
 					<Col xs="12" sm="3">
 						<Input

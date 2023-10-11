@@ -11,7 +11,7 @@ const ActionType = (cell) => (cell.value ? cell.value : '');
 
 const Amount = (cell) =>
 	cell.value ? (
-		<div className={cell.value.includes('-') ? 'text-success' : 'text-danger'}>
+		<div className={cell.value.includes('-') ? 'text-danger' : 'text-success'}>
 			{cell.value}
 		</div>
 	) : (
@@ -20,7 +20,7 @@ const Amount = (cell) =>
 
 const BonusMoney = (cell) =>
 	cell.value ? (
-		<div className={cell.value.includes('-') ? 'text-success' : 'text-danger'}>
+		<div className={cell.value.includes('-') ? 'text-danger' : 'text-success'}>
 			{cell.value}
 		</div>
 	) : (

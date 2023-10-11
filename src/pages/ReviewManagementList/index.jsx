@@ -76,7 +76,7 @@ const ReviewManagementList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb
-					title={t('Review Management')}
+					title={t('Reports')}
 					breadcrumbItem={t('Review Management')}
 				/>
 				<Row>

@@ -41,7 +41,7 @@ const BannerManagement = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs
-					title={t('Banner')}
+					title={t('Casino Management')}
 					breadcrumbItem={t('Banner Management')}
 				/>
 				<TableContainer

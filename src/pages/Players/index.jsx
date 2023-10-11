@@ -87,7 +87,7 @@ const PlayersList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb title={t('Players')} breadcrumbItem={t('Players')} />
+				<Breadcrumb title={t('Player')} breadcrumbItem={t('Players')} />
 				<Row>
 					<Col xs="12" sm="3">
 						<Input

@@ -44,7 +44,7 @@ const LanguageManagementList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb
-					title={t('Language Management')}
+					title={t('Site Configurations')}
 					breadcrumbItem={t('Language Management')}
 				/>
 				{/* <Row>
@@ -64,6 +64,7 @@ const LanguageManagementList = ({ t }) => {
 					columns={columns}
 					data={formattedLanguageManagement}
 					isManualPagination
+					isGlobalFilter
 				/>
 			</Container>
 		</div>
