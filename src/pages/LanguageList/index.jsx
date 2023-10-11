@@ -7,8 +7,11 @@ import TableContainer from '../../components/Common/TableContainer';
 import { Id, LanguageCode, LanguageName } from './LanguageListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useLanguageListing from './hooks/useLanguageListing';
+import { projectName } from '../../constants/config';
 
 const LanguageList = ({ t }) => {
+	document.title = `Languages | ${projectName}`;
+
 	const {
 		searchText,
 		setSearchText,

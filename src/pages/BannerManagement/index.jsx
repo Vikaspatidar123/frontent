@@ -7,6 +7,7 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useBannerManagement from './hooks/useBannerManagement';
 import { Pages, BannerPreview } from './BannerManagementListCol';
+import { projectName } from '../../constants/config';
 import ActionButtons from './ActionButtons';
 
 const columns = [
@@ -32,8 +33,7 @@ const columns = [
 
 const BannerManagement = ({ t }) => {
 	// meta title
-	document.title =
-		'Banner Management | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Banner Management | ${projectName}`;
 
 	const { formattedSABanners, SABannersloading } = useBannerManagement();
 
@@ -41,7 +41,7 @@ const BannerManagement = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs
-					title={t('Banner Management')}
+					title={t('Banner')}
 					breadcrumbItem={t('Banner Management')}
 				/>
 				<TableContainer

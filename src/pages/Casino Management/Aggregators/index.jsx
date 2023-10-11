@@ -13,12 +13,12 @@ import { getAggregatorsList } from '../../../store/actions';
 
 // redux
 import Spinners from '../../../components/Common/Spinner';
+import { projectName } from '../../../constants/config';
 import useAggregatorList from './hooks/useAggregatorList';
 
 const CasinoAggregators = () => {
 	// meta title
-	document.title =
-		'Casino Game | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Casino Game | ${projectName}`;
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(

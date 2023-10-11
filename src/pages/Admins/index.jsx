@@ -77,7 +77,7 @@ const columns = [
 
 const Admins = ({ t }) => {
 	// meta title
-	document.title = projectName;
+	document.title = `Staff | ${projectName}`;
 
 	const dispatch = useDispatch();
 	const roles = useSelector((state) => state.AdminRoles.roles);

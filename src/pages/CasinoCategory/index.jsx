@@ -14,6 +14,7 @@ import {
 } from 'reactstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { projectName } from '../../constants/config';
 import {
 	CustomInputField,
 	CustomSwitchButton,
@@ -25,8 +26,7 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 
 const GetCasinoCategoryDetails = () => {
-	document.title =
-		'Casino Category | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Casino Category | ${projectName}`;
 
 	const {
 		formattedCasinoCategoriesData,
@@ -68,7 +68,7 @@ const GetCasinoCategoryDetails = () => {
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
-				<Breadcrumbs title="Jobs" breadcrumbItem="Casino Category" />
+				<Breadcrumbs title="Casino" breadcrumbItem="Casino Category" />
 				<Row>
 					<Col lg="12">
 						<Card>

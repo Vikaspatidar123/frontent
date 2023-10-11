@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsListing from './hooks/useSportsListing';
+import { projectName } from '../../constants/config';
 
 import { SportId, SportName, Status, Icon } from './sportsListCol';
 import ActionButtons from './ActionButtons';
@@ -43,7 +44,7 @@ const columns = [
 
 const SportsListing = () => {
 	// meta title
-	document.title = 'Sports | Skote - Vite React Admin & Dashboard Template';
+	document.title = `Sports | ${projectName}`;
 
 	const {
 		formattedSportsList,

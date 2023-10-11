@@ -17,8 +17,11 @@ import {
 } from './WithdrawRequestsListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useWithdrawRequestsListing from './hooks/useWithdrawRequestsListing';
+import { projectName } from '../../constants/config';
 
 const WithdrawRequestsList = ({ t }) => {
+	document.title = `Withdraw Requests | ${projectName}`;
+
 	const {
 		searchText,
 		setSearchText,

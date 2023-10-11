@@ -14,8 +14,11 @@ import {
 } from './ReviewManagementListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useReviewManagementListing from './hooks/useReviewManagementListing';
+import { projectName } from '../../constants/config';
 
 const ReviewManagementList = ({ t }) => {
+	document.title = `Review Management | ${projectName}`;
+
 	const {
 		searchText,
 		setSearchText,

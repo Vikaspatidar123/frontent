@@ -7,8 +7,11 @@ import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useLanguageManagementListing from './hooks/useLanguageManagementListing';
 import { Action, English, Keys } from './LanguageManagementCol';
+import { projectName } from '../../constants/config';
 
 const LanguageManagementList = ({ t }) => {
+	document.title = `Language Management | ${projectName}`;
+
 	const { isLanguageManagementLoading, formattedLanguageManagement } =
 		useLanguageManagementListing();
 

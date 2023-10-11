@@ -16,8 +16,11 @@ import {
 } from './CasinoTransactionsListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCasinoTransactionsListing from './hooks/useCasinoTransactionsListing';
+import { projectName } from '../../constants/config';
 
 const CasinoTransactionsList = ({ t }) => {
+	document.title = `Casino Transactions | ${projectName}`;
+
 	const {
 		searchText,
 		setSearchText,

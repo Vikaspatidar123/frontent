@@ -16,8 +16,11 @@ import {
 	Type,
 } from './CurrencyListCol';
 import useCurrencyListing from './hooks/useCurrencyListing';
+import { projectName } from '../../constants/config';
 
 const CurrencyList = ({ t }) => {
+	document.title = `Currencies | ${projectName}`;
+
 	const {
 		currentPage,
 		setCurrentPage,
