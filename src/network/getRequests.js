@@ -173,6 +173,11 @@ const getWithdrawRequests = ({ limit, pageNo, search }) =>
 		`${VITE_APP_API_URL}/api/admin/user/all-withdraw-request?limit=${limit}&pageNo=${pageNo}&search=${search}`
 	);
 
+const getAllSABanners = ({ limit, pageNo }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/banner?limit=${limit}&pageNo=${pageNo}`
+	);
+
 const getSportsMatches = ({ limit, pageNo }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/sportsbook/matches?limit=${limit}&pageNo=${pageNo}`
@@ -216,6 +221,7 @@ export {
 	getWithdrawRequests,
 	getAllCasinoProviders,
 	getAllCasinoGames,
+	getAllSABanners,
 	getSportsMatches,
 	getAllGroups,
 	getSportsMarkets,

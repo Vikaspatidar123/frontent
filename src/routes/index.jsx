@@ -190,6 +190,7 @@ import CasinoTransactionsList from '../pages/CasinoTransactionsList';
 import WithdrawRequestsList from '../pages/WithdrawRequestsList';
 import CasinoProviders from '../pages/CasinoProviders';
 import CasinoGames from '../pages/CasinoGames';
+import BannerManagement from '../pages/BannerManagement';
 import SportsMatchesList from '../pages/SportsMatchesList';
 import SportsMarketsList from '../pages/SportsMarketsList';
 
@@ -236,6 +237,7 @@ const authProtectedRoutes = [
 	{ path: '/withdraw-request', component: <WithdrawRequestsList /> },
 	{ path: '/casino-providers', component: <CasinoProviders /> },
 	{ path: '/casino-games', component: <CasinoGames /> },
+	{ path: '/banner-management', component: <BannerManagement /> },
 	{ path: '/matches', component: <SportsMatchesList /> },
 	{ path: '/markets', component: <SportsMarketsList /> },
 

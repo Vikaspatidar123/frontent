@@ -102,6 +102,9 @@ export * from './casinoTransactions/actions';
 // Withdraw Requests
 export * from './withdrawRequests/actions';
 
+// Super Admin Settings
+export * from './superAdminSettings/actions';
+
 // Sports Matches
 export * from './sportsMatches/actions';
 

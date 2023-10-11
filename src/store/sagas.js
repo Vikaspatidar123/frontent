@@ -40,6 +40,7 @@ import SportsTransactionSaga from './sportsTransaction/saga';
 import CasinoManagementSaga from './casinoManagement/saga';
 import CasinoTransactionsSaga from './casinoTransactions/saga';
 import WithdrawRequestsSaga from './withdrawRequests/saga';
+import SASettingsSaga from './superAdminSettings/saga';
 import SportsMatchesSaga from './sportsMatches/saga';
 import adminUserWatcher from './adminUser/saga';
 import SportsMarkets from './sportsMarkets/saga';
@@ -65,6 +66,7 @@ export default function* rootSaga () {
 		fork(CasinoManagementSaga),
 		fork(CasinoTransactionsSaga),
 		fork(WithdrawRequestsSaga),
+		fork(SASettingsSaga),
 		fork(SportsMatchesSaga),
 		fork(adminUserWatcher),
 		fork(SportsMarkets),
