@@ -68,7 +68,7 @@ import Players from './players/reducer';
 import AllAdmins from './admins/reducer';
 
 // All cms data
-import getAllCms from './cms/reducer';
+import AllCms from './cms/reducer';
 
 // Casino Management
 import CasinoManagementData from './casinoManagement/reducer';
@@ -95,7 +95,7 @@ import BetSettings from './betSettings/reducer';
 import TransactionBanking from './transactionBanking/reducer';
 
 // Sports List
-import sportsList from './sportsBook/reducer';
+import SportsList from './sportsBook/reducer';
 
 // Review Management
 import ReviewManagement from './reviewManagement/reducer';
@@ -123,7 +123,7 @@ const rootReducer = combineReducers({
 	PermissionDetails,
 	AllBonusDetails,
 	BetSettings,
-	sportsList,
+	SportsList,
 	AdminUser,
 	Snackbar,
 	// public
@@ -148,7 +148,7 @@ const rootReducer = combineReducers({
 	DashboardBlog,
 	DashboardJob,
 	AllAdmins,
-	getAllCms,
+	AllCms,
 	CasinoManagementData,
 	AggregatorsReducer,
 	Languages,

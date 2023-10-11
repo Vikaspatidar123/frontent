@@ -5,9 +5,7 @@ import { getAllCmsDetails } from '../../../store/cms/actions';
 const itemsPerPage = 10;
 
 const useCmsListing = () => {
-	const { cmsDetails, isLoading, error } = useSelector(
-		(state) => state.getAllCms
-	);
+	const { cmsDetails, isLoading, error } = useSelector((state) => state.AllCms);
 	const [limit, setLimit] = useState(15);
 	const [page, setPage] = useState(1);
 	const [search, setSearch] = useState('');
