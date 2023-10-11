@@ -1,9 +1,11 @@
-/* eslint-disable no-debugger */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 import React from 'react';
 
 import { Label, Input, FormFeedback } from 'reactstrap';
+import 'flatpickr/dist/themes/material_blue.css';
+import FlatPickr from 'react-flatpickr';
 
 export const CustomInputField = ({
 	type,
@@ -20,34 +22,28 @@ export const CustomInputField = ({
 	errorMsg,
 	validate,
 	...props
-}) => {
-	console.log('isError: ', isError, invalid, errorMsg);
-	return (
-		<>
-			{label && <Label className="form-label">{label}</Label>}
-			{isError && <span className="text-danger"> *</span>}
-			<Input
-				name={name}
-				type={type}
-				label={label}
-				value={value}
-				disabled={disabled}
-				validate={validate}
-				onChange={onChange}
-				onBlur={onBlur}
-				invalid={invalid}
-				placeholder={placeholder}
-				{...props}
-			/>
-			{isError && errorMsg ? (
-				<FormFeedback type="invalid">
-					{console.log('jiiiiiiiiiiiiiiiiiiiiiii', name, errorMsg)}
-					{errorMsg}
-				</FormFeedback>
-			) : null}
-		</>
-	);
-};
+}) => (
+	<>
+		{label && <Label className="form-label">{label}</Label>}
+		{isError && <span className="text-danger"> *</span>}
+		<Input
+			name={name}
+			type={type}
+			label={label}
+			value={value}
+			disabled={disabled}
+			validate={validate}
+			onChange={onChange}
+			onBlur={onBlur}
+			invalid={invalid}
+			placeholder={placeholder}
+			{...props}
+		/>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+		) : null}
+	</>
+);
 
 export const CustomSelectField = ({
 	type,
@@ -90,33 +86,34 @@ export const CustomSelectField = ({
 );
 
 export const CustomDateField = ({
-	type,
 	name,
+	label,
 	placeholder,
 	value,
-	onChange,
+	onChange = () => {},
 	onBlur,
-	disabled,
-	label,
-	options,
-	handleBlur,
-	id,
 	isError,
+	dateFormat = 'd M,Y',
+	errorMsg,
 	...props
 }) => (
-	<>
-		{label && <Label for={name}> {label} </Label>}
-		<Input
-			id={id}
+	<div id="datepicker1">
+		{label && <Label for={name}>{label}</Label>}
+		<FlatPickr
+			className="form-control mb-3 mb-xxl-0"
 			name={name}
 			placeholder={placeholder}
-			type={name}
-			value={value}
+			options={{
+				dateFormat,
+			}}
+			selected={value}
 			onChange={onChange}
 			{...props}
 		/>
-		{/* {isError && <ErrorMessage component={component} name={name} className={className} />} */}
-	</>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+		) : null}
+	</div>
 );
 
 export const CustomSwitchButton = ({
@@ -132,6 +129,8 @@ export const CustomSwitchButton = ({
 	onBlur,
 	style,
 	checked,
+	isError,
+	errorMsg,
 }) => (
 	<span className="form-check form-check-inline">
 		{label && (
@@ -150,5 +149,8 @@ export const CustomSwitchButton = ({
 			style={style}
 			checked={checked}
 		/>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+		) : null}
 	</span>
 );

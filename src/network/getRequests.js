@@ -177,6 +177,8 @@ const getSportsMatches = ({ limit, pageNo }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/sportsbook/matches?limit=${limit}&pageNo=${pageNo}`
 	);
+const getAllGroups = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/all-group`);
 
 export {
 	getAllCurrencies,
@@ -205,4 +207,5 @@ export {
 	getAllCasinoProviders,
 	getAllCasinoGames,
 	getSportsMatches,
+	getAllGroups,
 };

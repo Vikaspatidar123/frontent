@@ -41,6 +41,7 @@ import CasinoManagementSaga from './casinoManagement/saga';
 import CasinoTransactionsSaga from './casinoTransactions/saga';
 import WithdrawRequestsSaga from './withdrawRequests/saga';
 import SportsMatchesSaga from './sportsMatches/saga';
+import adminUserWatcher from './adminUser/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -64,6 +65,7 @@ export default function* rootSaga() {
 		fork(CasinoTransactionsSaga),
 		fork(WithdrawRequestsSaga),
 		fork(SportsMatchesSaga),
+		fork(adminUserWatcher),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),
