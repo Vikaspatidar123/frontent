@@ -109,6 +109,9 @@ import CasinoTransactions from './casinoTransactions/reducer';
 // Withdraw Requests
 import WithdrawRequests from './withdrawRequests/reducer';
 
+// Super Admins Settings
+import SASettings from './superAdminSettings/reducer';
+
 // Sports Matches
 import SportsMatches from './sportsMatches/reducer';
 import AdminUser from './adminUser/reducer';
@@ -127,6 +130,7 @@ const rootReducer = combineReducers({
 	AllBonusDetails,
 	BetSettings,
 	SportsList,
+	SASettings,
 	AdminUser,
 	Snackbar,
 	// public
