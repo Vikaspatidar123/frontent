@@ -191,6 +191,7 @@ import WithdrawRequestsList from '../pages/WithdrawRequestsList';
 import CasinoProviders from '../pages/CasinoProviders';
 import CasinoGames from '../pages/CasinoGames';
 import SportsMatchesList from '../pages/SportsMatchesList';
+import SportsMarketsList from '../pages/SportsMarketsList';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -236,6 +237,7 @@ const authProtectedRoutes = [
 	{ path: '/casino-providers', component: <CasinoProviders /> },
 	{ path: '/casino-games', component: <CasinoGames /> },
 	{ path: '/matches', component: <SportsMatchesList /> },
+	{ path: '/markets', component: <SportsMarketsList /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },

@@ -115,6 +115,9 @@ import AdminUser from './adminUser/reducer';
 
 import Snackbar from './snackbar/reducer';
 
+// Sports Markets
+import SportsMarkets from './sportsMarkets/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -160,6 +163,7 @@ const rootReducer = combineReducers({
 	CasinoTransactions,
 	WithdrawRequests,
 	SportsMatches,
+	SportsMarkets,
 });
 
 export default rootReducer;

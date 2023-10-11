@@ -42,8 +42,9 @@ import CasinoTransactionsSaga from './casinoTransactions/saga';
 import WithdrawRequestsSaga from './withdrawRequests/saga';
 import SportsMatchesSaga from './sportsMatches/saga';
 import adminUserWatcher from './adminUser/saga';
+import SportsMarkets from './sportsMarkets/saga';
 
-export default function* rootSaga() {
+export default function* rootSaga () {
 	yield all([
 		// New Theme
 		fork(AdminRoles),
@@ -66,6 +67,7 @@ export default function* rootSaga() {
 		fork(WithdrawRequestsSaga),
 		fork(SportsMatchesSaga),
 		fork(adminUserWatcher),
+		fork(SportsMarkets),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),
