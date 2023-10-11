@@ -9,6 +9,7 @@ const initialState = {
 	error: '',
 	permissions: '',
 	adminDetails: '',
+	superAdminUser: '',
 };
 
 const permissionDetails = (state = initialState, { type, payload } = {}) => {
@@ -20,6 +21,7 @@ const permissionDetails = (state = initialState, { type, payload } = {}) => {
 				...state,
 				adminDetails: payload,
 				permissions: payload.userPermission,
+				superAdminUser: payload,
 				loading: false,
 			};
 		case PERMISSIONS_ERROR:

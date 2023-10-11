@@ -4,11 +4,11 @@ import { getAdminDetails } from '../../../store/actions';
 
 const itemsPerPage = 10;
 
-const useAdminListing = () => {
+const useAdmin = () => {
 	const dispatch = useDispatch();
 
 	const { adminDetails, isLoading, error } = useSelector(
-		(state) => state.getAllAdmins
+		(state) => state.AllAdmins
 	);
 	const [page, setPage] = useState(1);
 	const [orderBy, setOrderBy] = useState('adminUserId');
@@ -22,6 +22,8 @@ const useAdminListing = () => {
 			return adminDetails?.rows.map((admin) => ({
 				...admin,
 				fullName: `${admin.firstName} ${admin.lastName}`,
+				optionLabel: `${admin.firstName} ${admin.lastName}`,
+				value: admin.adminUserId,
 			}));
 		}
 		return [];
@@ -67,4 +69,4 @@ const useAdminListing = () => {
 	};
 };
 
-export default useAdminListing;
+export default useAdmin;

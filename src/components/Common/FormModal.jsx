@@ -35,6 +35,7 @@ const FormModal = ({
 	submitLabel,
 	isLoading,
 	customColClasses,
+	customComponent,
 }) => {
 	const getField = ({
 		fieldType,
@@ -107,9 +108,12 @@ const FormModal = ({
 					<CustomDateField
 						name={name}
 						placeholder={placeholder}
-						type={name}
+						label={label}
 						value={validation.values[name]}
 						onChange={validation.onChange}
+						isError
+						invalid={!!(validation.touched[name] && validation.errors[name])}
+						errorMsg={validation.touched[name] && validation.errors[name]}
 					/>
 				);
 			default:
@@ -144,6 +148,7 @@ const FormModal = ({
 									))}
 								</Col>
 							</Row>
+							<Row>{customComponent}</Row>
 							<Row>
 								<Col>
 									<div className="text-end">
@@ -170,6 +175,7 @@ FormModal.defaultProps = {
 	submitLabel: 'Save',
 	isLoading: false,
 	customColClasses: '',
+	customComponent: <div />,
 };
 
 FormModal.propTypes = {
@@ -181,6 +187,7 @@ FormModal.propTypes = {
 	submitLabel: PropTypes.string,
 	isLoading: PropTypes.bool,
 	customColClasses: PropTypes.string,
+	customComponent: PropTypes.element,
 };
 
 export default FormModal;

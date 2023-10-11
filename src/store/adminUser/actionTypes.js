@@ -1,0 +1,4 @@
+/** Get Admins */
+export const GET_ALL_GROUP_START = 'GET_ALL_GROUP_START,';
+export const GET_ALL_GROUP_SUCCESS = 'GET_ALL_GROUP_SUCCESS,';
+export const GET_ALL_GROUP_FAIL = 'GET_ALL_GROUP_FAIL,';

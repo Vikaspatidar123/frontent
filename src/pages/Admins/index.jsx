@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
@@ -20,8 +20,15 @@ import ActionButtons from './ActionButtons';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
 import useForm from './hooks/useFormModal';
-import { formFields, getInitialValues, validationSchema } from './formDetails';
+import {
+	staticFormFields,
+	getInitialValues,
+	validationSchema,
+	permissionLabel,
+} from './formDetails';
 import { getRolesStart } from '../../store/auth/roles/actions';
+import PermissionForm from './permissionForm';
+import { getAllGroupsStart } from '../../store/adminUser/actions';
 
 const columns = [
 	{
@@ -74,6 +81,12 @@ const Admins = ({ t }) => {
 
 	const dispatch = useDispatch();
 	const roles = useSelector((state) => state.AdminRoles.roles);
+	const groups = useSelector((state) => state.AdminUser.groups);
+	const { adminDetails, superAdminUser } = useSelector(
+		(state) => state.PermissionDetails
+	);
+	// const {data} = useSelector((state) => state.AllAdmins)
+	const [customComponent, setCustomComponent] = useState();
 
 	const {
 		formattedAdminDetails,
@@ -88,13 +101,15 @@ const Admins = ({ t }) => {
 		// console.log('add values = ', values);
 	};
 
-	const { isOpen, setIsOpen, header, validation } = useForm({
-		header: 'Add Staff',
-		initialValues: getInitialValues(),
-		validationSchema,
-		isEdit: false,
-		onSubmitEntry: handleStaffSubmit,
-	});
+	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
+		useForm({
+			header: 'Add Staff',
+			initialValues: getInitialValues(),
+			validationSchema,
+			isEdit: false,
+			onSubmitEntry: handleStaffSubmit,
+			staticFormFields,
+		});
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
@@ -102,7 +117,79 @@ const Admins = ({ t }) => {
 		if (!roles?.length) {
 			dispatch(getRolesStart());
 		}
+		if (!groups?.length) {
+			dispatch(getAllGroupsStart());
+		}
 	};
+
+	useEffect(() => {
+		if (roles?.length && groups?.length) {
+			let customField = {};
+
+			const roleOptions = roles
+				.filter((r) => r.name !== 'Super Admin')
+				.map((r) => ({
+					id: r.adminRoleId,
+					optionLabel: r.name,
+					value: r.name,
+				}));
+
+			const groupOptions = groups
+				.filter((r) => r)
+				.map((g) => ({
+					id: g,
+					optionLabel: g,
+					value: g,
+				}));
+
+			if (validation?.values?.role === 'Manager') {
+				customField = {
+					name: 'adminId',
+					fieldType: 'select',
+					label: 'Admin',
+					placeholder: 'Select Admin',
+					optionList: formattedAdminDetails,
+				};
+			}
+
+			setFormFields([
+				...staticFormFields,
+				{
+					name: 'group',
+					fieldType: 'select',
+					label: 'Group',
+					placeholder: 'Select group',
+					optionList: groupOptions,
+				},
+				{
+					name: 'role',
+					fieldType: 'select',
+					label: 'Role',
+					placeholder: 'Select Role',
+					optionList: roleOptions,
+				},
+				customField,
+			]);
+		}
+	}, [roles, groups, validation?.values?.role]);
+
+	useEffect(() => {
+		// if(validation?.values?.role === 'Admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
+		setCustomComponent(
+			<PermissionForm
+				values={validation.values}
+				adminDetails={adminDetails}
+				superAdminUser={superAdminUser}
+				permissionLabel={permissionLabel}
+				validation={validation}
+			/>
+		);
+	}, [
+		validation?.values,
+		adminDetails,
+		superAdminUser,
+		validation?.values?.role,
+	]);
 
 	return (
 		<div className="page-content">
@@ -134,6 +221,8 @@ const Admins = ({ t }) => {
 				validation={validation}
 				formFields={formFields}
 				submitLabel="Save"
+				customColClasses="col-md-12"
+				customComponent={customComponent}
 			/>
 		</div>
 	);

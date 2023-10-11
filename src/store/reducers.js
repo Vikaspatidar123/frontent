@@ -65,7 +65,7 @@ import Countries from './countries/reducer';
 import Players from './players/reducer';
 
 // Admins data
-import getAllAdmins from './admins/reducer';
+import AllAdmins from './admins/reducer';
 
 // All cms data
 import getAllCms from './cms/reducer';
@@ -77,7 +77,7 @@ import CasinoManagementData from './casinoManagement/reducer';
 import AggregatorsReducer from './aggregators/reducer';
 
 // Bonus data
-import getAllBonusDetails from './bonusListing/reducer';
+import AllBonusDetails from './bonusListing/reducer';
 
 // Languages
 import Languages from './languages/reducer';
@@ -111,6 +111,9 @@ import WithdrawRequests from './withdrawRequests/reducer';
 
 // Sports Matches
 import SportsMatches from './sportsMatches/reducer';
+import AdminUser from './adminUser/reducer';
+
+import Snackbar from './snackbar/reducer';
 
 const rootReducer = combineReducers({
 	// New theme
@@ -118,9 +121,11 @@ const rootReducer = combineReducers({
 	Countries,
 	Players,
 	PermissionDetails,
-	getAllBonusDetails,
+	AllBonusDetails,
 	BetSettings,
 	sportsList,
+	AdminUser,
+	Snackbar,
 	// public
 	Layout,
 	Login,
@@ -142,7 +147,7 @@ const rootReducer = combineReducers({
 	DashboardCrypto,
 	DashboardBlog,
 	DashboardJob,
-	getAllAdmins,
+	AllAdmins,
 	getAllCms,
 	CasinoManagementData,
 	AggregatorsReducer,

@@ -11,7 +11,7 @@ const snackbar = (state = INIT_STATE, { type, payload } = {}) => {
 		case SET_SNACKBAR:
 			return {
 				...state,
-				isOpen: payload.isOpen,
+				isOpen: true,
 				message: payload.message,
 				type: payload.type,
 			};
