@@ -130,11 +130,11 @@ const getSportsList = ({
 }) =>
 	isAllListing
 		? getRequest(
-				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
-		  )
+			`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
+		)
 		: getRequest(
-				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
-		  );
+			`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
+		);
 
 const getReviewManagement = ({ limit, pageNo, search, status = '' }) =>
 	getRequest(
@@ -176,6 +176,16 @@ const getWithdrawRequests = ({ limit, pageNo, search }) =>
 const getSportsMatches = ({ limit, pageNo }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/sportsbook/matches?limit=${limit}&pageNo=${pageNo}`
+	)
+
+const getSportsMarkets = ({
+	limit,
+	pageNo,
+	isLive = true,
+	providerSportId = '1',
+}) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/sportsbook/markets?limit=${limit}&pageNo=${pageNo}&isLive=${isLive}&providerSportId=${providerSportId}`
 	);
 const getAllGroups = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/all-group`);
@@ -208,4 +218,5 @@ export {
 	getAllCasinoGames,
 	getSportsMatches,
 	getAllGroups,
+	getSportsMarkets,
 };

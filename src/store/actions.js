@@ -104,3 +104,6 @@ export * from './withdrawRequests/actions';
 
 // Sports Matches
 export * from './sportsMatches/actions';
+
+// Sports Markets
+export * from './sportsMarkets/actions';
