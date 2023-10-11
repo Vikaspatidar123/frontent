@@ -17,8 +17,8 @@ function* fetchLanguageManagement({ payload }) {
 	}
 }
 
-function* playersSaga() {
+function* languageManagementSaga() {
 	yield takeEvery(FETCH_LANGUAGE_MANAGEMENT_START, fetchLanguageManagement);
 }
 
-export default playersSaga;
+export default languageManagementSaga;

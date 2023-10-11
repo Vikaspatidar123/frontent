@@ -101,3 +101,6 @@ export * from './casinoTransactions/actions';
 
 // Withdraw Requests
 export * from './withdrawRequests/actions';
+
+// Sports Matches
+export * from './sportsMatches/actions';

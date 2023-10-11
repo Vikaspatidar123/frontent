@@ -19,8 +19,8 @@ function* fetchSportsTransaction({ payload }) {
 	}
 }
 
-function* playersSaga() {
+function* sportsTransactionSaga() {
 	yield takeEvery(FETCH_SPORTS_TRANSACTION_START, fetchSportsTransaction);
 }
 
-export default playersSaga;
+export default sportsTransactionSaga;

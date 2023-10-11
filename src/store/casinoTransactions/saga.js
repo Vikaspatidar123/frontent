@@ -19,8 +19,8 @@ function* fetchCasinoTransactions({ payload }) {
 	}
 }
 
-function* playersSaga() {
+function* casinoTransactionsSaga() {
 	yield takeEvery(FETCH_CASINO_TRANSACTIONS_START, fetchCasinoTransactions);
 }
 
-export default playersSaga;
+export default casinoTransactionsSaga;
