@@ -17,8 +17,8 @@ function* fetchWithdrawRequests({ payload }) {
 	}
 }
 
-function* playersSaga() {
+function* withdrawRequestsSaga() {
 	yield takeEvery(FETCH_WITHDRAW_REQUESTS_START, fetchWithdrawRequests);
 }
 
-export default playersSaga;
+export default withdrawRequestsSaga;
