@@ -8,4 +8,7 @@ const superAdminLogin = (data) =>
 const createCurrency = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/currency`, data);
 
-export { superAdminLogin, createCurrency };
+const addSuperAdminUser = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/`, data);
+
+export { superAdminLogin, createCurrency, addSuperAdminUser };

@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { Buffer } from 'buffer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useAdminListing from './hooks/useAdminListing';
@@ -29,6 +30,8 @@ import {
 import { getRolesStart } from '../../store/auth/roles/actions';
 import PermissionForm from './permissionForm';
 import { getAllGroupsStart } from '../../store/adminUser/actions';
+import { showSnackbar } from '../../store/snackbar/actions';
+import { addSuperAdminUserStart } from '../../store/actions';
 
 const columns = [
 	{
@@ -85,7 +88,9 @@ const Admins = ({ t }) => {
 	const { adminDetails, superAdminUser } = useSelector(
 		(state) => state.PermissionDetails
 	);
-	// const {data} = useSelector((state) => state.AllAdmins)
+	const { isAddSuperUserLoading, adminDetails: AllAdminList } = useSelector(
+		(state) => state.AllAdmins
+	);
 	const [customComponent, setCustomComponent] = useState();
 
 	const {
@@ -97,8 +102,30 @@ const Admins = ({ t }) => {
 		itemsPerPage,
 	} = useAdminListing();
 
-	const handleStaffSubmit = () => {
-		// console.log('add values = ', values);
+	const handleStaffSubmit = (values) => {
+		if (
+			[undefined, null].includes(values.permission) ||
+			Object.keys(values.permission).length < 1
+		) {
+			dispatch(
+				showSnackbar({
+					message: 'Please select at least one permission',
+					type: 'error',
+				})
+			);
+		} else {
+			dispatch(
+				addSuperAdminUserStart({
+					data: {
+						...values,
+						password: Buffer.from(values.password).toString('base64'),
+						adminId: values.adminId
+							? Number(values.adminId)
+							: adminDetails.adminUserId,
+					},
+				})
+			);
+		}
 	};
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
@@ -191,6 +218,10 @@ const Admins = ({ t }) => {
 		validation?.values?.role,
 	]);
 
+	useEffect(() => {
+		setIsOpen(false);
+	}, [AllAdminList?.count]);
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -223,6 +254,7 @@ const Admins = ({ t }) => {
 				submitLabel="Save"
 				customColClasses="col-md-12"
 				customComponent={customComponent}
+				isSubmitLoading={isAddSuperUserLoading}
 			/>
 		</div>
 	);
