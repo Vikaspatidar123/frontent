@@ -20,7 +20,6 @@ import {
 import ActionButtons from './ActionButtons';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
-import useForm from './hooks/useFormModal';
 import {
 	staticFormFields,
 	getInitialValues,
@@ -33,6 +32,7 @@ import { getAllGroupsStart } from '../../store/adminUser/actions';
 import { showSnackbar } from '../../store/snackbar/actions';
 import { addSuperAdminUserStart } from '../../store/actions';
 import { getPermissionsStart } from '../../store/auth/permissionDetails/actions';
+import useForm from '../../components/Common/Hooks/useFormModal';
 
 const columns = [
 	{

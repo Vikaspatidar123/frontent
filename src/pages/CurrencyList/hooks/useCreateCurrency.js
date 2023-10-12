@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import useForm from '../../Admins/hooks/useFormModal';
+
 import {
 	getInitialValues,
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
 import { createCurrencyStart } from '../../../store/actions';
+import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateCurrency = () => {
 	const dispatch = useDispatch();
