@@ -32,6 +32,7 @@ import PermissionForm from './permissionForm';
 import { getAllGroupsStart } from '../../store/adminUser/actions';
 import { showSnackbar } from '../../store/snackbar/actions';
 import { addSuperAdminUserStart } from '../../store/actions';
+import { getPermissionsStart } from '../../store/auth/permissionDetails/actions';
 
 const columns = [
 	{
@@ -149,6 +150,10 @@ const Admins = ({ t }) => {
 		}
 	};
 
+	const handleAdminSelect = (e) => {
+		dispatch(getPermissionsStart(Number(e.target.value)));
+	};
+
 	useEffect(() => {
 		if (roles?.length && groups?.length) {
 			let customField = {};
@@ -176,6 +181,7 @@ const Admins = ({ t }) => {
 					label: 'Admin',
 					placeholder: 'Select Admin',
 					optionList: formattedAdminDetails,
+					callBack: handleAdminSelect,
 				};
 			}
 

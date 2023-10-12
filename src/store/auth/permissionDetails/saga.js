@@ -13,8 +13,7 @@ import {
 
 export function* getPermissions({ payload }) {
 	try {
-		const { adminId } = payload;
-		let details = yield call(getAdminDetails, adminId);
+		let details = yield call(getAdminDetails, payload);
 		details = details.data.data.adminDetails;
 		yield put(getPermissionsSuccess(details));
 	} catch (er) {
