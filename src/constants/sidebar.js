@@ -385,7 +385,7 @@ const sideBarElements = [
 			},
 			{
 				link: '/sports',
-				label: 'sports',
+				label: 'Sports',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',

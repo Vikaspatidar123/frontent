@@ -94,7 +94,7 @@ const WithdrawRequestsList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb
-					title={t('Withdraw Requests')}
+					title={t('Reports')}
 					breadcrumbItem={t('Withdraw Requests')}
 				/>
 				<Row>

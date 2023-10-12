@@ -92,7 +92,10 @@ const CasinoGames = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs title={t('Casino')} breadcrumbItem={t('Casino Games')} />
+				<Breadcrumbs
+					title={t('Casino Management')}
+					breadcrumbItem={t('Casino Games')}
+				/>
 				<TableContainer
 					columns={columns}
 					data={formattedCasinoGames}

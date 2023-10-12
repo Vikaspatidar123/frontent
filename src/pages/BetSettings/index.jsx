@@ -21,6 +21,7 @@ import {
 	UpdatedAt,
 } from './BetSettingsListCol';
 import ActionButtons from './ActionButtons';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 
 const columns = [
 	{
@@ -119,6 +120,7 @@ const BetSettings = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
+				<Breadcrumb title="Sports Book" breadcrumbItem="Bet Settings" />
 				<TableContainer
 					columns={columns}
 					data={formattedBetSettingsList}

@@ -194,7 +194,7 @@ const Admins = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs title={t('Staff')} breadcrumbItem={t('Staff')} />
+				<Breadcrumbs title={t('Dashboard')} breadcrumbItem={t('Staff')} />
 				<TableContainer
 					columns={columns}
 					data={formattedAdminDetails}

@@ -243,12 +243,19 @@ const TableContainer = ({
 							height: `${isLoading || !page?.length ? '500px' : '0'}`,
 						})}
 					>
-						{isLoading || !page?.length ? (
+						{isLoading && (
 							<Spinner
 								color="primary"
 								className="position-absolute top-50 start-50"
 							/>
-						) : (
+						)}
+						{!isLoading && !page.length && (
+							<tr style={{ textAlign: 'center' }}>
+								<td colSpan={columns.length}>No data found</td>
+							</tr>
+						)}
+						{!isLoading &&
+							!!page.length &&
 							page.map((row) => {
 								prepareRow(row);
 								return (
@@ -262,8 +269,7 @@ const TableContainer = ({
 										</tr>
 									</Fragment>
 								);
-							})
-						)}
+							})}
 					</tbody>
 				</Table>
 			</div>
@@ -287,40 +293,40 @@ const TableContainer = ({
 						/>
 					</div>
 					{/* <div className={paginationDiv}>
-            <ul className={pagination}>
-              <li className={`page-item ${!canPreviousPage ? 'disabled' : ''}`}>
-                <Link to="#" className="page-link" onClick={() => handlePreviousPage(currentPage)}>
-                  <i className="mdi mdi-chevron-left" />
-                </Link>
-              </li>
-              {pageOptions.map((item) => (
-                <React.Fragment key={item}>
-                  <li
-                    className={
-                      isPageSelected(item) ? 'page-item active' : 'page-item'
-                    }
-                  >
-                    <Link
-                      to="#"
-                      className="page-link"
-                      onClick={() =>
-                        isManualPagination
-                          ? onChangePagination(item + 1)
-                          : gotoPage(item)
-                      }
-                    >
-                      {item + 1}
-                    </Link>
-                  </li>
-                </React.Fragment>
-              ))}
-              <li className={`page-item ${!canNextPage ? 'disabled' : ''}`}>
-                <Link to="#" className="page-link" onClick={() => handleNextPage(currentPage)}>
-                  <i className="mdi mdi-chevron-right" />
-                </Link>
-              </li>
-            </ul>
-          </div> */}
+						<ul className={pagination}>
+							<li className={`page-item ${!canPreviousPage ? 'disabled' : ''}`}>
+								<Link to="#" className="page-link" onClick={() => handlePreviousPage(currentPage)}>
+									<i className="mdi mdi-chevron-left" />
+								</Link>
+							</li>
+							{pageOptions.map((item) => (
+								<React.Fragment key={item}>
+									<li
+										className={
+											isPageSelected(item) ? 'page-item active' : 'page-item'
+										}
+									>
+										<Link
+											to="#"
+											className="page-link"
+											onClick={() =>
+												isManualPagination
+													? onChangePagination(item + 1)
+													: gotoPage(item)
+											}
+										>
+											{item + 1}
+										</Link>
+									</li>
+								</React.Fragment>
+							))}
+							<li className={`page-item ${!canNextPage ? 'disabled' : ''}`}>
+								<Link to="#" className="page-link" onClick={() => handleNextPage(currentPage)}>
+									<i className="mdi mdi-chevron-right" />
+								</Link>
+							</li>
+						</ul>
+					</div> */}
 				</Row>
 			)}
 		</>

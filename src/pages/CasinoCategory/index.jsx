@@ -68,7 +68,10 @@ const GetCasinoCategoryDetails = () => {
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
-				<Breadcrumbs title="Casino" breadcrumbItem="Casino Category" />
+				<Breadcrumbs
+					title="Casino Management"
+					breadcrumbItem="Casino Category"
+				/>
 				<Row>
 					<Col lg="12">
 						<Card>

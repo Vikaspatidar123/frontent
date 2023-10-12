@@ -67,7 +67,10 @@ const Cms = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs title={t('Cms')} breadcrumbItem={t('Cms')} />
+				<Breadcrumbs
+					title={t('Content Management')}
+					breadcrumbItem={t('Cms')}
+				/>
 				<TableContainer
 					columns={columns}
 					data={formattedCmsDetails}
@@ -82,6 +85,7 @@ const Cms = ({ t }) => {
 					onChangePagination={setPage}
 					currentPage={page}
 					isLoading={!isLoading}
+					isGlobalFilter
 				/>
 			</Container>
 		</div>

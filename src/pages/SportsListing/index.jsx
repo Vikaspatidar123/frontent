@@ -8,6 +8,7 @@ import { projectName } from '../../constants/config';
 
 import { SportId, SportName, Status, Icon } from './sportsListCol';
 import ActionButtons from './ActionButtons';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 
 const columns = [
 	{
@@ -58,6 +59,7 @@ const SportsListing = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
+				<Breadcrumb title="Sports Book" breadcrumbItem="Sports" />
 				<TableContainer
 					columns={columns}
 					data={formattedSportsList}

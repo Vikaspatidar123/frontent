@@ -51,7 +51,10 @@ const LanguageList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb title={t('Languages')} breadcrumbItem={t('Languages')} />
+				<Breadcrumb
+					title={t('Site Configurations')}
+					breadcrumbItem={t('Languages')}
+				/>
 				<Row>
 					<Col xs="12" sm="3">
 						<Input

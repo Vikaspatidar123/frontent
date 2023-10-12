@@ -12,6 +12,7 @@ import {
 	SportName,
 } from './sportsTournamentListCol';
 import ActionButtons from './ActionButtons';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 
 const columns = [
 	{
@@ -62,6 +63,7 @@ const SportsTournamentList = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
+				<Breadcrumb title="Sports Book" breadcrumbItem="Tournaments" />
 				<TableContainer
 					columns={columns}
 					data={formattedSportsTournamenList}

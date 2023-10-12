@@ -148,7 +148,7 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 			<div className="container-fluid">
 				<Breadcrumbs
 					Breadcrumbs
-					title={t('Casino')}
+					title={t('Casino Management')}
 					breadcrumbItem={t('Casino Sub Categories')}
 				/>
 

@@ -95,7 +95,7 @@ const TransactionBankingList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb
-					title={t('Transactions Banking')}
+					title={t('Reports')}
 					breadcrumbItem={t('Transactions Banking')}
 				/>
 				<Row>

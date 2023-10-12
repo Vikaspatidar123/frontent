@@ -86,7 +86,10 @@ const BonusDetail = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs title={t('Bonus')} breadcrumbItem={t('Bonus')} />
+				<Breadcrumbs
+					title={t('Bonus Management')}
+					breadcrumbItem={t('Bonus')}
+				/>
 				<TableContainer
 					columns={columns}
 					data={formattedBonusDetails}

@@ -64,7 +64,7 @@ const CasinoProviders = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs
-					title={t('Casino')}
+					title={t('Casino Management')}
 					breadcrumbItem={t('Casino Providers')}
 				/>
 				<TableContainer

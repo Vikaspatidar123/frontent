@@ -88,7 +88,7 @@ const SportsTransactionList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb
-					title={t('Sports Transactions')}
+					title={t('Reports')}
 					breadcrumbItem={t('Sports Transactions')}
 				/>
 				<Row>
