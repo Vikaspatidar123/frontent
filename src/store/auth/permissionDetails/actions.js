@@ -2,7 +2,9 @@ import {
 	PERMISSIONS_START,
 	PERMISSIONS_ERROR,
 	PERMISSIONS_SUCCESS,
-	SAVE_PERMISSIONS,
+	SUPER_ADMIN_START,
+	SUPER_ADMIN_SUCCESS,
+	SUPER_ADMIN_FAIL,
 } from './actionTypes';
 
 export const getPermissionsStart = (loading) => ({
@@ -15,12 +17,22 @@ export const getPermissionsSuccess = (payload) => ({
 	payload,
 });
 
-export const savePermissions = (payload) => ({
-	type: SAVE_PERMISSIONS,
-	payload,
-});
-
 export const getPermissionsError = (error) => ({
 	type: PERMISSIONS_ERROR,
 	payload: error,
+});
+
+export const getSuperAdminStart = (payload) => ({
+	type: SUPER_ADMIN_START,
+	payload,
+});
+
+export const getSuperAdminSuccess = (payload) => ({
+	type: SUPER_ADMIN_SUCCESS,
+	payload,
+});
+
+export const getSuperAdminFail = (payload) => ({
+	type: SUPER_ADMIN_FAIL,
+	payload,
 });
