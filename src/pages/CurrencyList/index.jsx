@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
@@ -18,6 +17,7 @@ import {
 import useCurrencyListing from './hooks/useCurrencyListing';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
+import useCreateCurrency from './hooks/useCreateCurrency';
 
 const columns = [
 	{
@@ -80,13 +80,17 @@ const CurrencyList = ({ t }) => {
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,
+	} = useCurrencyListing();
+
+	const {
 		isOpen,
 		setIsOpen,
 		header,
 		validation,
 		formFields,
 		handleAddClick,
-	} = useCurrencyListing();
+		isCreateCurrencyLoading,
+	} = useCreateCurrency();
 
 	return (
 		<div className="page-content">
@@ -121,6 +125,7 @@ const CurrencyList = ({ t }) => {
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
+					isSubmitLoading={isCreateCurrencyLoading}
 				/>
 			</Container>
 		</div>

@@ -31,7 +31,7 @@ const validationSchema = () =>
 			.typeError('Loyalty Point must be a number')
 			.positive('Loyalty Point must be Greater Than Zero')
 			.required('Loyalty Point cannot be Empty'),
-		type: Yup.string().required('Type cannot be Empty'),
+		type: Yup.number().required('Type cannot be Empty'),
 	});
 
 const staticFormFields = [
@@ -74,12 +74,12 @@ const staticFormFields = [
 			{
 				id: 1,
 				optionLabel: 'Crypto',
-				value: 1,
+				value: 2,
 			},
 			{
 				id: 2,
 				optionLabel: 'Fiat',
-				value: 2,
+				value: 1,
 			},
 		],
 	},

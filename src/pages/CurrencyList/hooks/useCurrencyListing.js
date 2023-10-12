@@ -1,33 +1,29 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCurrenciesStart } from '../../../store/actions';
-import useForm from '../../Admins/hooks/useFormModal';
-import {
-	getInitialValues,
-	staticFormFields,
-	validationSchema,
-} from '../formDetails';
 
 const itemsPerPage = 10;
 
 const useCurrencyListing = () => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
-	const { currencies, loading: isCurrenciesLoading } = useSelector(
-		(state) => state.Currencies
-	);
+	const {
+		currencies,
+		loading: isCurrenciesLoading,
+		isCreateCurrencySuccess,
+	} = useSelector((state) => state.Currencies);
 
-	const handleCreateCurrency = () => {
-		// dispatch()
-	};
-
-	useEffect(() => {
+	const fetchData = () => {
 		dispatch(
 			fetchCurrenciesStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
 			})
 		);
+	};
+
+	useEffect(() => {
+		fetchData();
 	}, [currentPage]);
 
 	const formattedCurrencies = useMemo(() => {
@@ -36,7 +32,7 @@ const useCurrencyListing = () => {
 			currencies.rows.map((currency) =>
 				formattedValues.push({
 					...currency,
-					type: 'Fiat',
+					type: currency.type === 1 ? 'Fiat' : 'Crypto',
 					primary: currency.isPrimary ? 'YES' : 'NO',
 				})
 			);
@@ -44,20 +40,9 @@ const useCurrencyListing = () => {
 		return formattedValues;
 	}, [currencies]);
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Currency',
-			initialValues: getInitialValues(),
-			validationSchema,
-			staticFormFields,
-			onSubmitEntry: handleCreateCurrency,
-			isEdit: false,
-		});
-
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		setIsOpen((prev) => !prev);
-	};
+	useEffect(() => {
+		if (isCreateCurrencySuccess) fetchData();
+	}, [isCreateCurrencySuccess]);
 
 	return {
 		currentPage,
@@ -66,13 +51,6 @@ const useCurrencyListing = () => {
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,
-		isOpen,
-		setIsOpen,
-		header,
-		validation,
-		formFields,
-		setFormFields,
-		handleAddClick,
 	};
 };
 
