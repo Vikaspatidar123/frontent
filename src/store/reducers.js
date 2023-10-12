@@ -121,6 +121,9 @@ import Snackbar from './snackbar/reducer';
 // Sports Markets
 import SportsMarkets from './sportsMarkets/reducer';
 
+// Crm
+import EmailTemplate from './emailTemplate/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -133,6 +136,7 @@ const rootReducer = combineReducers({
 	SASettings,
 	AdminUser,
 	Snackbar,
+	EmailTemplate,
 	// public
 	Layout,
 	Login,

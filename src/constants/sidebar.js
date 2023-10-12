@@ -166,7 +166,7 @@ const sideBarElements = [
 				ulTagClass: '',
 			},
 			{
-				link: '/crm',
+				link: '/email-templates',
 				label: 'CRM',
 				iconName: '',
 				linkClass: '',

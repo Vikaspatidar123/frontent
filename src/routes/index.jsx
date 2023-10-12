@@ -193,6 +193,7 @@ import CasinoGames from '../pages/CasinoGames';
 import BannerManagement from '../pages/BannerManagement';
 import SportsMatchesList from '../pages/SportsMatchesList';
 import SportsMarketsList from '../pages/SportsMarketsList';
+import EmailTemplate from '../pages/EmailTemplate';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -240,6 +241,7 @@ const authProtectedRoutes = [
 	{ path: '/banner-management', component: <BannerManagement /> },
 	{ path: '/matches', component: <SportsMatchesList /> },
 	{ path: '/markets', component: <SportsMarketsList /> },
+	{ path: '/email-templates', component: <EmailTemplate /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },

@@ -195,6 +195,9 @@ const getSportsMarkets = ({
 const getAllGroups = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/all-group`);
 
+const getEmailTemplates = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/email/all`);
+
 const getAdminDetails = (adminId) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/details?adminUserId=${adminId}`);
 
@@ -228,5 +231,6 @@ export {
 	getSportsMatches,
 	getAllGroups,
 	getSportsMarkets,
+	getEmailTemplates,
 	getAdminDetails,
 };

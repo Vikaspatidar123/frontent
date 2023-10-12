@@ -44,8 +44,9 @@ import SASettingsSaga from './superAdminSettings/saga';
 import SportsMatchesSaga from './sportsMatches/saga';
 import adminUserWatcher from './adminUser/saga';
 import SportsMarkets from './sportsMarkets/saga';
+import EmailTemplateSaga from './emailTemplate/saga';
 
-export default function* rootSaga () {
+export default function* rootSaga() {
 	yield all([
 		// New Theme
 		fork(AdminRoles),
@@ -70,6 +71,7 @@ export default function* rootSaga () {
 		fork(SportsMatchesSaga),
 		fork(adminUserWatcher),
 		fork(SportsMarkets),
+		fork(EmailTemplateSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),
