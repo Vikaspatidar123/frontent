@@ -15,20 +15,36 @@ import { getAggregatorsList } from '../../../store/actions';
 import Spinners from '../../../components/Common/Spinner';
 import { projectName } from '../../../constants/config';
 import useAggregatorList from './hooks/useAggregatorList';
+import FormModal from '../../../components/Common/FormModal';
+import useCreateAggregator from './hooks/useCreateAggregator';
 
 const CasinoAggregators = () => {
 	// meta title
 	document.title = `Casino Game | ${projectName}`;
 	const dispatch = useDispatch();
-	useEffect(() => {
+	const fetchData = () => {
 		dispatch(
 			getAggregatorsList({
 				limit: 15,
 				pageNo: 1,
 			})
 		);
+	};
+
+	useEffect(() => {
+		fetchData();
 	}, [dispatch]);
-	//   const {aggregatorsData,loading} = useSelector((state)=>state.AggregatorsReducer)
+
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		handleAddClick,
+		isCreateAggregatorLoading,
+	} = useCreateAggregator();
+
 	const selectAggregatorsState = (state) => state.AggregatorsReducer;
 	const columns = useAggregatorList();
 	const AggregatorsProperties = createSelector(
@@ -36,12 +52,20 @@ const CasinoAggregators = () => {
 		(aggregatorsReducer) => ({
 			aggregatorsData: aggregatorsReducer.aggregatorsData,
 			loading: aggregatorsReducer.loading,
+			isCreateAggregatorSuccess: aggregatorsReducer.isCreateAggregatorSuccess,
 		})
 	);
-	const { aggregatorsData, loading } = useSelector(AggregatorsProperties);
+	const { aggregatorsData, loading, isCreateAggregatorSuccess } = useSelector(
+		AggregatorsProperties
+	);
 	const [isLoading, setLoading] = useState(loading);
 	const [page, setPage] = useState(1);
 	const itemsPerPage = 10;
+
+	useEffect(() => {
+		if (isCreateAggregatorSuccess) fetchData();
+	}, [isCreateAggregatorSuccess]);
+
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
@@ -67,6 +91,19 @@ const CasinoAggregators = () => {
 							onChangePagination={setPage}
 							currentPage={page}
 							isLoading={isLoading}
+							isAddOptions
+							addOptionLabel="Create"
+							handleAddClick={handleAddClick}
+						/>
+						<FormModal
+							isOpen={isOpen}
+							toggle={() => setIsOpen((prev) => !prev)}
+							header={header}
+							validation={validation}
+							formFields={formFields}
+							submitLabel="Submit"
+							customColClasses="col-md-12"
+							isSubmitLoading={isCreateAggregatorLoading}
 						/>
 					</CardBody>
 				)}

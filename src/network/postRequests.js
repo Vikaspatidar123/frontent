@@ -11,4 +11,7 @@ const createCurrency = (data) =>
 const addSuperAdminUser = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/`, data);
 
-export { superAdminLogin, createCurrency, addSuperAdminUser };
+const createAggregator = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/casino/aggregator`, data);
+
+export { superAdminLogin, createCurrency, addSuperAdminUser, createAggregator };
