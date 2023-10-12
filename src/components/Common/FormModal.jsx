@@ -45,6 +45,7 @@ const FormModal = ({
 		name,
 		placeholder,
 		label,
+		callBack,
 	}) => {
 		switch (fieldType) {
 			case 'textField':
@@ -69,7 +70,11 @@ const FormModal = ({
 						label={label}
 						name={name}
 						type="select"
-						onChange={validation.handleChange}
+						onChange={(e) => {
+							validation.handleChange(e);
+							// eslint-disable-next-line no-unused-expressions
+							callBack ? callBack(e) : null;
+						}}
 						onBlur={validation.handleBlur}
 						placeholder={placeholder}
 						validate={{ required: { value: true } }}

@@ -195,7 +195,7 @@ const getSportsMarkets = ({
 const getAllGroups = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/all-group`);
 
-const getAdminDetails = ({ adminId }) =>
+const getAdminDetails = (adminId) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/details?adminUserId=${adminId}`);
 
 export {
