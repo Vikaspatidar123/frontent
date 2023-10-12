@@ -100,7 +100,7 @@ const FormModal = ({
 				return (
 					<CustomSwitchButton
 						labelClassName="form-check-label"
-						label="Status"
+						label={label}
 						htmlFor="customRadioInline1"
 						type="switch"
 						id="customRadioInline1"

@@ -22,7 +22,7 @@ const staticFormFields = [
 	{
 		name: 'isActive',
 		fieldType: 'switch',
-		label: 'Status',
+		label: 'Active',
 	},
 ];
 
