@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { permissionIcons } from './formDetails';
-import { setSnackbar } from '../../store/snackbar/actions';
+import { showSnackbar } from '../../store/snackbar/actions';
 import { CustomInputField } from '../../helpers/custom_forms';
 
 const PermissionForm = ({
@@ -16,6 +16,26 @@ const PermissionForm = ({
 	const permissions = (
 		values.role === 'Manager' ? adminDetails : superAdminUser
 	)?.userPermission?.permission;
+
+	const handleChangeCheckbox = (e, key) => {
+		if (e.target.value === 'R' || values?.permission?.[key]?.includes('R')) {
+			if (e.target.value === 'R' && !e.target.checked) {
+				// eslint-disable-next-line no-param-reassign
+				delete values.permission[key];
+				validation.setFieldValue('permission', values.permission);
+			} else {
+				validation.handleChange(e);
+			}
+		} else {
+			dispatch(
+				showSnackbar({
+					message:
+						'Please Select Read Permission Before Selecting Other For This Module',
+					type: 'error',
+				})
+			);
+		}
+	};
 	return (
 		<>
 			<h4 className="title-text">Permissions</h4>
@@ -42,47 +62,22 @@ const PermissionForm = ({
 																<CustomInputField
 																	type="checkbox"
 																	value={value}
-																	checked={values?.permission[key]?.includes(
-																		value
-																	)}
+																	checked={
+																		!!values?.permission[key]?.includes(value)
+																	}
+																	// checked={false}
 																	id={`${key}-permission[${value}]`}
 																	name={`permission[${key}]`}
-																	onChange={(e) => {
-																		if (
-																			e.target.value === 'R' ||
-																			values?.permission?.[key]?.includes('R')
-																		) {
-																			if (
-																				e.target.value === 'R' &&
-																				!e.target.checked
-																			) {
-																				// eslint-disable-next-line no-param-reassign
-																				delete values.permission[key];
-																				validation.setFieldValue(
-																					'permission',
-																					values.permission
-																				);
-																			} else {
-																				validation.handleChange(e);
-																			}
-																		} else {
-																			dispatch(
-																				setSnackbar({
-																					message:
-																						'Please Select Read Permission Before Selecting Other For This Module',
-																					type: 'error',
-																				})
-																			);
-																		}
-																	}}
+																	onChange={(e) => handleChangeCheckbox(e, key)}
 																/>
 															) : (
 																<CustomInputField
 																	type="checkbox"
 																	value={value}
-																	checked={values?.permission[key]?.includes(
-																		value
-																	)}
+																	checked={
+																		!!values?.permission[key]?.includes(value)
+																	}
+																	// checked={false}
 																	id={`${key}-permission[${value}]`}
 																	name={`permission[${key}]`}
 																	onChange={validation.handleChange}

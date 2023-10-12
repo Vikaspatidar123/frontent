@@ -7,7 +7,7 @@ const itemsPerPage = 10;
 const useAdmin = () => {
 	const dispatch = useDispatch();
 
-	const { adminDetails, isLoading, error } = useSelector(
+	const { adminDetails, isLoading, error, isAddSuperUserSuccess } = useSelector(
 		(state) => state.AllAdmins
 	);
 	const [page, setPage] = useState(1);
@@ -46,6 +46,10 @@ const useAdmin = () => {
 	useEffect(() => {
 		fetchData();
 	}, [page, orderBy, sort, status]);
+
+	useEffect(() => {
+		if (isAddSuperUserSuccess) fetchData();
+	}, [isAddSuperUserSuccess]);
 
 	return {
 		adminDetails,

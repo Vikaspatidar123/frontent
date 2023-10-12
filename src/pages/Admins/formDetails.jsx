@@ -114,12 +114,12 @@ const validationSchema = Yup.object({
 			'Only Alphabets and Space Allowed and Must Start with Alphabet'
 		)
 		.required('Last Name Required'),
-	role: Yup.string().required('Role Required').nullable(),
-	adminId: Yup.string().when('role', {
-		is: (role) => role === 'Support',
-		then: Yup.string().required('Parent Admin is required').nullable(),
-		otherwise: Yup.string().nullable(),
-	}),
+	role: Yup.string().required('Role Required'),
+	// adminId: Yup.string().when('role', {
+	// 	is: (role) => role === 'Support',
+	// 	then: Yup.string().required('Parent Admin is required').nullable(),
+	// 	otherwise: Yup.string().nullable(),
+	// }),
 	adminUsername: Yup.string()
 		.matches(/^[A-Za-z]+$/, 'Only Alphabets Allowed')
 		.min(8)
