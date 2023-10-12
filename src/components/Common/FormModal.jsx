@@ -124,6 +124,25 @@ const FormModal = ({
 						errorMsg={validation.touched[name] && validation.errors[name]}
 					/>
 				);
+			case 'file':
+				return (
+					<CustomInputField
+						label={label}
+						id="file"
+						name={name}
+						type="file"
+						onChange={(event) => {
+							validation.handleChange(event.currentTarget.files[0]);
+						}}
+						onBlur={validation.handleBlur}
+						placeholder={placeholder}
+						validate={{ required: { value: true } }}
+						value={validation.values?.[name] || ''}
+						invalid={!!(validation.touched[name] && validation.errors[name])}
+						isError
+						errorMsg={validation.touched[name] && validation.errors[name]}
+					/>
+				);
 			default:
 				return <div />;
 		}

@@ -12,6 +12,8 @@ import {
 	getCasinoGamesFailure,
 	getLanguagesSuccess,
 	getLanguagesFailure,
+	createCasinoProvidersSuccess,
+	createCasinoProvidersFailure,
 } from './actions';
 import {
 	GET_CASINO_CATEGORY_DATA,
@@ -19,6 +21,7 @@ import {
 	GET_LANGUAGE_DATA_START,
 	GET_CASINO_PROVIDERS_DATA,
 	GET_CASINO_GAMES,
+	CREATE_CASINO_PROVIDERS,
 } from './actionTypes';
 
 import {
@@ -28,6 +31,8 @@ import {
 	getCasinoSubCategoryListing,
 	getLanguages,
 } from '../../network/getRequests';
+import { showSnackbar } from '../snackbar/actions';
+import { createCasinoProvider } from '../../network/postRequests';
 
 function* getCasinoCategoryWorker(action) {
 	const { limit, pageNo, search = '' } = action && action.payload;
@@ -142,12 +147,39 @@ function* getAllCasinoGamesWorker(action) {
 	}
 }
 
+function* createCasinoProviderWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield createCasinoProvider(data);
+
+		yield put(
+			showSnackbar({
+				message: `${data?.role} Created Successfully`,
+				type: 'success',
+			})
+		);
+
+		yield put(createCasinoProvidersSuccess());
+	} catch (e) {
+		yield put(createCasinoProvidersFailure());
+
+		yield put(
+			showSnackbar({
+				message: e?.response?.data?.errors[0]?.description || e.message,
+				type: 'error',
+			})
+		);
+	}
+}
+
 export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_CATEGORY_DATA, getCasinoCategoryWorker);
 	yield takeLatest(GET_CASINO_SUB_CATEGORY_DATA, getCasinoSubCategoryWorker);
 	yield takeLatest(GET_LANGUAGE_DATA_START, getLanguagesWorker);
 	yield takeLatest(GET_CASINO_PROVIDERS_DATA, getAllCasinoProvidersWorker);
 	yield takeLatest(GET_CASINO_GAMES, getAllCasinoGamesWorker);
+	yield takeLatest(CREATE_CASINO_PROVIDERS, createCasinoProviderWorker);
 }
 
 function* CasinoManagementSaga() {

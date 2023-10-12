@@ -14,6 +14,9 @@ import {
 	GET_LANGUAGE_DATA_SUCCESS,
 	GET_LANGUAGE_DATA_FAIL,
 	GET_LANGUAGE_DATA_START,
+	CREATE_CASINO_PROVIDERS,
+	CREATE_CASINO_PROVIDERS_FAIL,
+	CREATE_CASINO_PROVIDERS_SUCCESS,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -88,5 +91,20 @@ export const getLanguagesFailure = (payload) => ({
 
 export const getLanguagesStart = (payload) => ({
 	type: GET_LANGUAGE_DATA_START,
+	payload,
+});
+
+export const createCasinoProvidersSuccess = (payload) => ({
+	type: CREATE_CASINO_PROVIDERS_SUCCESS,
+	payload,
+});
+
+export const createCasinoProvidersFailure = (payload) => ({
+	type: CREATE_CASINO_PROVIDERS_FAIL,
+	payload,
+});
+
+export const createCasinoProvidersStart = (payload) => ({
+	type: CREATE_CASINO_PROVIDERS,
 	payload,
 });
