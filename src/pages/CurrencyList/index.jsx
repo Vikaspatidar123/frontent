@@ -82,8 +82,15 @@ const CurrencyList = ({ t }) => {
 		itemsPerPage,
 	} = useCurrencyListing();
 
-	const { isOpen, setIsOpen, header, validation, formFields, handleAddClick } =
-		useCreateCurrency();
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		handleAddClick,
+		isCreateCurrencyLoading,
+	} = useCreateCurrency();
 
 	return (
 		<div className="page-content">
@@ -118,6 +125,7 @@ const CurrencyList = ({ t }) => {
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
+					isSubmitLoading={isCreateCurrencyLoading}
 				/>
 			</Container>
 		</div>
