@@ -110,3 +110,6 @@ export * from './sportsMatches/actions';
 
 // Sports Markets
 export * from './sportsMarkets/actions';
+
+// Email Templates
+export * from './emailTemplate/actions';
