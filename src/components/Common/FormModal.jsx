@@ -36,6 +36,7 @@ const FormModal = ({
 	isLoading,
 	customColClasses,
 	customComponent,
+	isSubmitLoading,
 }) => {
 	const getField = ({
 		fieldType,
@@ -78,7 +79,9 @@ const FormModal = ({
 						errorMsg={validation.touched[name] && validation.errors[name]}
 						options={
 							<>
-								<option value={null}>{optionsLabel || placeholder}</option>
+								<option value={null} disabled selected>
+									{optionsLabel || placeholder}
+								</option>
 								{optionList?.map(({ optionLabel, value }) => (
 									<option key={value} value={value}>
 										{optionLabel}
@@ -120,7 +123,6 @@ const FormModal = ({
 				return <div />;
 		}
 	};
-
 	return (
 		<Modal isOpen={isOpen} toggle={toggle}>
 			<ModalHeader toggle={toggle} tag="h4">
@@ -152,8 +154,12 @@ const FormModal = ({
 							<Row>
 								<Col>
 									<div className="text-end">
-										<button type="submit" className="btn btn-success save-user">
-											{submitLabel}
+										<button
+											type="submit"
+											disabled={isSubmitLoading}
+											className="btn btn-success save-user"
+										>
+											{isSubmitLoading ? <Spinner /> : submitLabel}
 										</button>
 									</div>
 								</Col>
@@ -176,6 +182,7 @@ FormModal.defaultProps = {
 	isLoading: false,
 	customColClasses: '',
 	customComponent: <div />,
+	isSubmitLoading: false,
 };
 
 FormModal.propTypes = {
@@ -188,6 +195,7 @@ FormModal.propTypes = {
 	isLoading: PropTypes.bool,
 	customColClasses: PropTypes.string,
 	customComponent: PropTypes.element,
+	isSubmitLoading: PropTypes.bool,
 };
 
 export default FormModal;

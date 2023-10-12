@@ -1,11 +1,20 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { PERMISSIONS_START } from './actionTypes';
-import { getPermissionDetails } from '../../../network/getRequests';
-import { getPermissionsError, getPermissionsSuccess } from './actions';
+import { PERMISSIONS_START, SUPER_ADMIN_START } from './actionTypes';
+import {
+	getAdminDetails,
+	getPermissionDetails,
+} from '../../../network/getRequests';
+import {
+	getPermissionsError,
+	getPermissionsSuccess,
+	getSuperAdminFail,
+	getSuperAdminSuccess,
+} from './actions';
 
-export function* getPermissions() {
+export function* getPermissions({ payload }) {
 	try {
-		let details = yield call(getPermissionDetails);
+		const { adminId } = payload;
+		let details = yield call(getAdminDetails, adminId);
 		details = details.data.data.adminDetails;
 		yield put(getPermissionsSuccess(details));
 	} catch (er) {
@@ -13,6 +22,17 @@ export function* getPermissions() {
 	}
 }
 
+export function* getSuperAdminPermissions() {
+	try {
+		let details = yield call(getPermissionDetails);
+		details = details.data.data.adminDetails;
+		yield put(getSuperAdminSuccess(details));
+	} catch (er) {
+		yield put(getSuperAdminFail(`Unable to get roles ${er?.message || ''}`));
+	}
+}
+
 export default function* PermissionDetails() {
 	yield takeLatest(PERMISSIONS_START, getPermissions);
+	yield takeLatest(SUPER_ADMIN_START, getSuperAdminPermissions);
 }
