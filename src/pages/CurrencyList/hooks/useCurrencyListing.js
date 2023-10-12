@@ -1,12 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCurrenciesStart } from '../../../store/actions';
-import useForm from '../../Admins/hooks/useFormModal';
-import {
-	getInitialValues,
-	staticFormFields,
-	validationSchema,
-} from '../formDetails';
 
 const itemsPerPage = 10;
 
@@ -16,10 +10,6 @@ const useCurrencyListing = () => {
 	const { currencies, loading: isCurrenciesLoading } = useSelector(
 		(state) => state.Currencies
 	);
-
-	const handleCreateCurrency = () => {
-		// dispatch()
-	};
 
 	useEffect(() => {
 		dispatch(
@@ -44,21 +34,6 @@ const useCurrencyListing = () => {
 		return formattedValues;
 	}, [currencies]);
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Currency',
-			initialValues: getInitialValues(),
-			validationSchema,
-			staticFormFields,
-			onSubmitEntry: handleCreateCurrency,
-			isEdit: false,
-		});
-
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		setIsOpen((prev) => !prev);
-	};
-
 	return {
 		currentPage,
 		setCurrentPage,
@@ -66,13 +41,6 @@ const useCurrencyListing = () => {
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,
-		isOpen,
-		setIsOpen,
-		header,
-		validation,
-		formFields,
-		setFormFields,
-		handleAddClick,
 	};
 };
 
