@@ -5,6 +5,9 @@ import {
 	ADD_SUPER_ADMIN_USER,
 	ADD_SUPER_ADMIN_USER_SUCCESS,
 	ADD_SUPER_ADMIN_USER_FAIL,
+	UPDATE_SUPER_ADMIN_USER,
+	UPDATE_SUPER_ADMIN_USER_SUCCESS,
+	UPDATE_SUPER_ADMIN_USER_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -14,6 +17,9 @@ const INIT_STATE = {
 	isAddSuperUserError: false,
 	isAddSuperUserSuccess: false,
 	isAddSuperUserLoading: false,
+	isUpdateSuperUserError: false,
+	isUpdateSuperUserSuccess: false,
+	isUpdateSuperUserLoading: false,
 };
 
 const getAllAdmins = (state = INIT_STATE, { type, payload } = {}) => {
@@ -59,6 +65,28 @@ const getAllAdmins = (state = INIT_STATE, { type, payload } = {}) => {
 				isAddSuperUserError: payload,
 				isAddSuperUserLoading: false,
 				isAddSuperUserSuccess: false,
+			};
+
+		case UPDATE_SUPER_ADMIN_USER:
+			return {
+				...state,
+				isUpdateSuperUserLoading: true,
+				isUpdateSuperUserSuccess: false,
+			};
+
+		case UPDATE_SUPER_ADMIN_USER_SUCCESS:
+			return {
+				...state,
+				isUpdateSuperUserLoading: false,
+				isUpdateSuperUserSuccess: true,
+			};
+
+		case UPDATE_SUPER_ADMIN_USER_FAIL:
+			return {
+				...state,
+				isUpdateSuperUserError: payload,
+				isUpdateSuperUserLoading: false,
+				isUpdateSuperUserSuccess: false,
 			};
 		default:
 			return { ...state };

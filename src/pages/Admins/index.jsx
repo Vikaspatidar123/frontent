@@ -9,15 +9,6 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useAdminListing from './hooks/useAdminListing';
 
-import {
-	AdminUserID,
-	Email,
-	FullName,
-	Status,
-	Role,
-	Group,
-} from './AdminsListCol';
-import ActionButtons from './ActionButtons';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
 import {
@@ -30,54 +21,18 @@ import { getRolesStart } from '../../store/auth/roles/actions';
 import PermissionForm from './permissionForm';
 import { getAllGroupsStart } from '../../store/adminUser/actions';
 import { showSnackbar } from '../../store/snackbar/actions';
-import { addSuperAdminUserStart } from '../../store/actions';
+import {
+	addSuperAdminUserStart,
+	updateSuperAdminUserStart,
+} from '../../store/actions';
 import { getPermissionsStart } from '../../store/auth/permissionDetails/actions';
 import useForm from '../../components/Common/Hooks/useFormModal';
+import {
+	resetLinearProgress,
+	showLinearProgress,
+} from '../../store/progressLoading/actions';
 
-const columns = [
-	{
-		Header: 'ID',
-		accessor: 'adminUserId',
-		filterable: true,
-		Cell: ({ cell }) => <AdminUserID cell={cell} />,
-	},
-	{
-		Header: 'Email',
-		accessor: 'email',
-		filterable: true,
-		Cell: ({ cell }) => <Email cell={cell} />,
-	},
-	{
-		Header: 'Name',
-		accessor: 'fullName',
-		filterable: true,
-		Cell: ({ cell }) => <FullName cell={cell} />,
-	},
-	{
-		Header: 'Role',
-		accessor: 'adminRoleId',
-		filterable: true,
-		Cell: ({ cell }) => <Role cell={cell} />,
-	},
-	{
-		Header: 'Group',
-		accessor: 'group',
-		filterable: true,
-		Cell: ({ cell }) => <Group cell={cell} />,
-	},
-	{
-		Header: 'Status',
-		accessor: 'isActive',
-		disableFilters: true,
-		Cell: ({ cell }) => <Status cell={cell} />,
-	},
-	{
-		Header: 'Action',
-		accessor: 'action',
-		disableFilters: true,
-		Cell: () => <ActionButtons />,
-	},
-];
+// const columns =
 
 const Admins = ({ t }) => {
 	// meta title
@@ -86,22 +41,14 @@ const Admins = ({ t }) => {
 	const dispatch = useDispatch();
 	const roles = useSelector((state) => state.AdminRoles.roles);
 	const groups = useSelector((state) => state.AdminUser.groups);
-	const { adminDetails, superAdminUser } = useSelector(
+	const { adminDetails, superAdminUser, isAdminLoading } = useSelector(
 		(state) => state.PermissionDetails
 	);
 	const { isAddSuperUserLoading, adminDetails: AllAdminList } = useSelector(
 		(state) => state.AllAdmins
 	);
 	const [customComponent, setCustomComponent] = useState();
-
-	const {
-		formattedAdminDetails,
-		isLoading,
-		totalAdminsCount,
-		page,
-		setPage,
-		itemsPerPage,
-	} = useAdminListing();
+	const [isEdit, setIsEdit] = useState(false);
 
 	const handleStaffSubmit = (values) => {
 		if (
@@ -112,6 +59,14 @@ const Admins = ({ t }) => {
 				showSnackbar({
 					message: 'Please select at least one permission',
 					type: 'error',
+				})
+			);
+		} else if (isEdit) {
+			dispatch(
+				updateSuperAdminUserStart({
+					data: {
+						...values,
+					},
 				})
 			);
 		} else {
@@ -129,18 +84,23 @@ const Admins = ({ t }) => {
 		}
 	};
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Staff',
-			initialValues: getInitialValues(),
-			validationSchema,
-			isEdit: false,
-			onSubmitEntry: handleStaffSubmit,
-			staticFormFields,
-		});
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		setFormFields,
+		setHeader,
+	} = useForm({
+		header: isEdit ? 'Add Staff' : 'Edit Staff',
+		initialValues: getInitialValues(isEdit ? adminDetails : null, isEdit),
+		validationSchema: validationSchema(isEdit),
+		onSubmitEntry: handleStaffSubmit,
+		staticFormFields: staticFormFields(isEdit),
+	});
 
-	const handleAddClick = (e) => {
-		e.preventDefault();
+	const toggleModal = () => {
 		setIsOpen((prev) => !prev);
 		if (!roles?.length) {
 			dispatch(getRolesStart());
@@ -148,6 +108,31 @@ const Admins = ({ t }) => {
 		if (!groups?.length) {
 			dispatch(getAllGroupsStart());
 		}
+	};
+	const handleEdit = (e, row) => {
+		e.preventDefault();
+		setHeader('Edit Staff');
+		dispatch(showLinearProgress());
+		setIsEdit(true);
+		dispatch(getPermissionsStart(Number(row.adminUserId)));
+		toggleModal();
+	};
+
+	const {
+		formattedAdminDetails,
+		isLoading,
+		totalAdminsCount,
+		page,
+		setPage,
+		itemsPerPage,
+		columns,
+	} = useAdminListing(handleEdit);
+
+	const handleAddClick = (e) => {
+		e.preventDefault();
+		setHeader('Add Staff');
+		setIsEdit(false);
+		toggleModal();
 	};
 
 	const handleAdminSelect = (e) => {
@@ -182,11 +167,12 @@ const Admins = ({ t }) => {
 					placeholder: 'Select Admin',
 					optionList: formattedAdminDetails,
 					callBack: handleAdminSelect,
+					isDisabled: isEdit,
 				};
 			}
 
 			setFormFields([
-				...staticFormFields,
+				...staticFormFields(isEdit),
 				{
 					name: 'group',
 					fieldType: 'select',
@@ -200,11 +186,12 @@ const Admins = ({ t }) => {
 					label: 'Role',
 					placeholder: 'Select Role',
 					optionList: roleOptions,
+					isDisabled: isEdit,
 				},
 				customField,
 			]);
 		}
-	}, [roles, groups, validation?.values?.role]);
+	}, [roles, groups, validation?.values?.role, isEdit]);
 
 	useEffect(() => {
 		// if(validation?.values?.role === 'Admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
@@ -225,7 +212,15 @@ const Admins = ({ t }) => {
 	]);
 
 	useEffect(() => {
+		if (isEdit && adminDetails && !isAdminLoading) {
+			setIsOpen(true);
+			dispatch(resetLinearProgress());
+		}
+	}, [adminDetails, isAdminLoading]);
+
+	useEffect(() => {
 		setIsOpen(false);
+		setIsEdit(false);
 	}, [AllAdminList?.count]);
 
 	return (

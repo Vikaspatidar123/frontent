@@ -6,12 +6,19 @@ import {
 	getAdminDetailsFail,
 	addSuperAdminUserSuccess,
 	addSuperAdminUserFail,
+	updateSuperAdminUserSuccess,
+	updateSuperAdminUserFail,
 } from './actions';
-import { GET_ADMINS_DATA, ADD_SUPER_ADMIN_USER } from './actionTypes';
+import {
+	GET_ADMINS_DATA,
+	ADD_SUPER_ADMIN_USER,
+	UPDATE_SUPER_ADMIN_USER,
+} from './actionTypes';
 
 import { getAllAdmins } from '../../network/getRequests';
 import { addSuperAdminUser } from '../../network/postRequests';
 import { showSnackbar } from '../snackbar/actions';
+import { updateSuperAdminUser } from '../../network/putRequests';
 
 function* getAdminsDetail(action) {
 	const {
@@ -69,9 +76,38 @@ function* addSuperAdminUserWorker(action) {
 	}
 }
 
+function* updateSuperAdminUserWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield updateSuperAdminUser(data);
+
+		yield put(
+			showSnackbar({
+				message: `${data?.role} Updated Successfully`,
+				type: 'success',
+			})
+		);
+
+		yield put(updateSuperAdminUserSuccess());
+
+		// navigate(AdminsRoutes.Admins)
+	} catch (e) {
+		yield put(updateSuperAdminUserFail());
+
+		yield put(
+			showSnackbar({
+				message: e?.response?.data?.errors[0]?.description || e.message,
+				type: 'error',
+			})
+		);
+	}
+}
+
 export function* watchGetAdminsData() {
 	yield takeLatest(GET_ADMINS_DATA, getAdminsDetail);
 	yield takeLatest(ADD_SUPER_ADMIN_USER, addSuperAdminUserWorker);
+	yield takeLatest(UPDATE_SUPER_ADMIN_USER, updateSuperAdminUserWorker);
 }
 
 function* AdminDetailsSaga() {
