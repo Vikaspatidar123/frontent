@@ -1,10 +1,20 @@
 import { put, takeLatest, all, fork } from 'redux-saga/effects';
 
 // Crypto Redux States
-import { getBetSettingsDataSuccess, getBetSettingsDataFail } from './actions';
-import { GET_BET_SETTINGS_DATA } from './actionTypes';
+import {
+	getBetSettingsDataSuccess,
+	getBetSettingsDataFail,
+	createBetSettingsSuccess,
+	createBetSettingsFail,
+} from './actions';
+import {
+	CREATE_BET_SETTINGS_START,
+	GET_BET_SETTINGS_DATA,
+} from './actionTypes';
 
 import { getBetSettings } from '../../network/getRequests';
+import { showSnackbar } from '../snackbar/actions';
+import { createBetSettings } from '../../network/postRequests';
 
 function* betSettingsWorker() {
 	try {
@@ -17,8 +27,35 @@ function* betSettingsWorker() {
 	}
 }
 
+function* createBetSettingsWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield createBetSettings(data);
+
+		yield put(
+			showSnackbar({
+				message: `BetSettings Created Successfully`,
+				type: 'success',
+			})
+		);
+
+		yield put(createBetSettingsSuccess());
+	} catch (e) {
+		yield put(createBetSettingsFail());
+
+		yield put(
+			showSnackbar({
+				message: e?.response?.data?.errors[0]?.description || e.message,
+				type: 'error',
+			})
+		);
+	}
+}
+
 export function* betSettingsWatcher() {
 	yield takeLatest(GET_BET_SETTINGS_DATA, betSettingsWorker);
+	yield takeLatest(CREATE_BET_SETTINGS_START, createBetSettingsWorker);
 }
 
 function* BetSettingsSaga() {

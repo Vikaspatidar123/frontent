@@ -2,6 +2,9 @@ import {
 	GET_BET_SETTINGS_DATA,
 	GET_BET_SETTINGS_DATA_SUCCESS,
 	GET_BET_SETTINGS_DATA_FAIL,
+	CREATE_BET_SETTINGS_SUCCESS,
+	CREATE_BET_SETTINGS_FAIL,
+	CREATE_BET_SETTINGS_START,
 } from './actionTypes';
 
 export const getBetSettingsDataSuccess = (payload) => ({
@@ -16,4 +19,19 @@ export const getBetSettingsDataFail = (payload) => ({
 
 export const getBetSettingsData = () => ({
 	type: GET_BET_SETTINGS_DATA,
+});
+
+export const createBetSettingsSuccess = (payload) => ({
+	type: CREATE_BET_SETTINGS_SUCCESS,
+	payload,
+});
+
+export const createBetSettingsFail = (payload) => ({
+	type: CREATE_BET_SETTINGS_FAIL,
+	payload,
+});
+
+export const createBetSettingsStart = (payload) => ({
+	type: CREATE_BET_SETTINGS_START,
+	payload,
 });
