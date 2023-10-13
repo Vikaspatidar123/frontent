@@ -30,6 +30,7 @@ import './assets/scss/theme.scss';
 
 import fakeBackend from './helpers/AuthType/fakeBackend';
 import SnackbarComponent from './components/Common/Snackbar';
+import LinearLoading from './components/Common/LinearLoading';
 
 // Activating fake backend
 fakeBackend();
@@ -80,6 +81,7 @@ const App = () => {
 
 	return (
 		<ThemeProvider theme={muiTheme}>
+			<LinearLoading />
 			<Routes>
 				{publicRoutes.map((route) => (
 					<Route

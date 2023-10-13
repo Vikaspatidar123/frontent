@@ -1,0 +1,14 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
+import { useSelector } from 'react-redux';
+
+const LinearLoading = () => {
+	const { showLinearProgress } = useSelector((state) => state.ProgressLoading);
+	return showLinearProgress ? (
+		<Box sx={{ width: '100%', position: 'absolute', top: '70px' }}>
+			<LinearProgress />
+		</Box>
+	) : null;
+};
+export default LinearLoading;

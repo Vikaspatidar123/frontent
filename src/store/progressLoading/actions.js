@@ -5,6 +5,6 @@ export const showLinearProgress = (payload) => ({
 	payload,
 });
 
-export const resetSnackbar = () => ({
+export const resetLinearProgress = () => ({
 	type: RESET_LINEAR_PROGRESS,
 });
