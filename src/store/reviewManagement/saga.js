@@ -1,12 +1,19 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 
 // Login Redux States
-import { FETCH_REVIEW_MANAGEMENT_START } from './actionTypes';
 import {
+	CREATE_REVIEW_START,
+	FETCH_REVIEW_MANAGEMENT_START,
+} from './actionTypes';
+import {
+	createReviewFail,
+	createReviewSuccess,
 	fetchReviewManagementFail,
 	fetchReviewManagementSuccess,
 } from './actions';
 import { getReviewManagement } from '../../network/getRequests';
+import { showSnackbar } from '../snackbar/actions';
+import { createReview } from '../../network/postRequests';
 
 function* fetchReviewManagement({ payload }) {
 	try {
@@ -19,8 +26,35 @@ function* fetchReviewManagement({ payload }) {
 	}
 }
 
+function* createReviewWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield createReview(data);
+
+		yield put(
+			showSnackbar({
+				message: `Review Created Successfully`,
+				type: 'success',
+			})
+		);
+
+		yield put(createReviewSuccess());
+	} catch (e) {
+		yield put(createReviewFail());
+
+		yield put(
+			showSnackbar({
+				message: e?.response?.data?.errors[0]?.description || e.message,
+				type: 'error',
+			})
+		);
+	}
+}
+
 function* reviewManagementSaga() {
 	yield takeEvery(FETCH_REVIEW_MANAGEMENT_START, fetchReviewManagement);
+	yield takeEvery(CREATE_REVIEW_START, createReviewWorker);
 }
 
 export default reviewManagementSaga;

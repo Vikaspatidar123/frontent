@@ -19,10 +19,14 @@ const createCasinoProvider = (data) =>
 		'Content-Type': 'multipart/form-data',
 	});
 
+const createReview = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/review`, data);
+
 export {
 	superAdminLogin,
 	createCurrency,
 	addSuperAdminUser,
 	createAggregator,
 	createCasinoProvider,
+	createReview,
 };

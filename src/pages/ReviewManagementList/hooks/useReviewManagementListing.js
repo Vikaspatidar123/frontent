@@ -8,11 +8,13 @@ const useReviewManagementListing = () => {
 	const dispatch = useDispatch();
 	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
-	const { reviewManagement, loading: isReviewManagementLoading } = useSelector(
-		(state) => state.ReviewManagement
-	);
+	const {
+		reviewManagement,
+		loading: isReviewManagementLoading,
+		isCreateReviewSuccess,
+	} = useSelector((state) => state.ReviewManagement);
 
-	useEffect(() => {
+	const fetchData = () => {
 		dispatch(
 			fetchReviewManagementStart({
 				limit: itemsPerPage,
@@ -20,6 +22,10 @@ const useReviewManagementListing = () => {
 				search: searchText,
 			})
 		);
+	};
+
+	useEffect(() => {
+		fetchData();
 	}, [currentPage, searchText]);
 
 	const formattedReviewManagement = useMemo(() => {
@@ -34,6 +40,10 @@ const useReviewManagementListing = () => {
 		}
 		return formattedValues;
 	}, [reviewManagement]);
+
+	useEffect(() => {
+		if (isCreateReviewSuccess) fetchData();
+	}, [isCreateReviewSuccess]);
 
 	return {
 		searchText,

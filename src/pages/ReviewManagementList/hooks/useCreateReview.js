@@ -1,27 +1,29 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
 	getInitialValues,
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import // createReviewsStart,
-'../../../store/actions';
+import { createReviewStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateReview = () => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const { isCreateReviewLoading, reviewManagement } = useSelector(
 		(state) => state.ReviewManagement
 	);
 
-	const handleCreateReview = () => {
-		// dispatch(
-		//   createReviewsStart({
-		//     data: values,
-		//   })
-		// );
+	const handleCreateReview = (values) => {
+		dispatch(
+			createReviewStart({
+				data: {
+					...values,
+					rating: Number(values.rating),
+				},
+			})
+		);
 	};
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
