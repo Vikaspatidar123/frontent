@@ -14,4 +14,15 @@ const addSuperAdminUser = (data) =>
 const createAggregator = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/casino/aggregator`, data);
 
-export { superAdminLogin, createCurrency, addSuperAdminUser, createAggregator };
+const createCasinoProvider = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/casino/provider`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
+
+export {
+	superAdminLogin,
+	createCurrency,
+	addSuperAdminUser,
+	createAggregator,
+	createCasinoProvider,
+};

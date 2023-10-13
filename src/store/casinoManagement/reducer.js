@@ -14,6 +14,9 @@ import {
 	GET_LANGUAGE_DATA_START,
 	GET_LANGUAGE_DATA_FAIL,
 	GET_LANGUAGE_DATA_SUCCESS,
+	CREATE_CASINO_PROVIDERS,
+	CREATE_CASINO_PROVIDERS_SUCCESS,
+	CREATE_CASINO_PROVIDERS_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -32,6 +35,9 @@ const INIT_STATE = {
 	languageDataLoading: true,
 	languageData: null,
 	languageDataError: null,
+	isCreateProviderError: false,
+	isCreateProviderSuccess: false,
+	isCreateProviderLoading: false,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -141,6 +147,27 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				languageDataLoading: true,
 			};
 
+		case CREATE_CASINO_PROVIDERS:
+			return {
+				...state,
+				isCreateProviderLoading: true,
+				isCreateProviderSuccess: false,
+			};
+
+		case CREATE_CASINO_PROVIDERS_SUCCESS:
+			return {
+				...state,
+				isCreateProviderLoading: false,
+				isCreateProviderSuccess: true,
+			};
+
+		case CREATE_CASINO_PROVIDERS_FAIL:
+			return {
+				...state,
+				isCreateProviderError: payload,
+				isCreateProviderLoading: false,
+				isCreateProviderSuccess: false,
+			};
 		default:
 			return state;
 	}

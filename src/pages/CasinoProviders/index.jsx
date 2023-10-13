@@ -14,6 +14,8 @@ import {
 } from './CasinoProvidersListCol';
 import ActionButtons from './ActionButtons';
 import useCasinoProvidersListing from './hooks/useCasinoProvidersListing';
+import FormModal from '../../components/Common/FormModal';
+import useCreateProvider from './hooks/useCreateProvider';
 
 const columns = [
 	{
@@ -60,6 +62,16 @@ const CasinoProviders = ({ t }) => {
 		itemsPerPage,
 	} = useCasinoProvidersListing();
 
+	const {
+		isOpen,
+		setIsOpen,
+		formFields,
+		header,
+		validation,
+		isCreateProviderLoading,
+		handleAddClick,
+	} = useCreateProvider();
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -81,6 +93,19 @@ const CasinoProviders = ({ t }) => {
 					onChangePagination={setPage}
 					currentPage={page}
 					isLoading={!isCasinoProvidersDataLoading}
+					isAddOptions
+					addOptionLabel="Create"
+					handleAddClick={handleAddClick}
+				/>
+				<FormModal
+					isOpen={isOpen}
+					toggle={() => setIsOpen((prev) => !prev)}
+					header={header}
+					validation={validation}
+					formFields={formFields}
+					submitLabel="Submit"
+					customColClasses="col-md-12"
+					isSubmitLoading={isCreateProviderLoading}
 				/>
 			</Container>
 		</div>

@@ -26,9 +26,10 @@ const METHODS = {
 	delete: 'DELETE',
 };
 
-const makeRequest = async (url, method, data = {}) => {
+const makeRequest = async (url, method, data = {}, config = {}) => {
 	const headers = {
 		'Content-Type': 'application/json',
+		...config,
 	};
 
 	if (getAccessToken()) {
@@ -45,7 +46,8 @@ const makeRequest = async (url, method, data = {}) => {
 
 const getRequest = (url) => makeRequest(url, METHODS.get);
 
-const postRequest = (url, data) => makeRequest(url, METHODS.post, data);
+const postRequest = (url, data, config) =>
+	makeRequest(url, METHODS.post, data, config);
 
 const putRequest = (url, data) => makeRequest(url, METHODS.put, data);
 

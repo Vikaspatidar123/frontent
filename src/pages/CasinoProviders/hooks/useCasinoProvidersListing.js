@@ -5,9 +5,11 @@ import { getCasinoProvidersDataStart } from '../../../store/actions';
 const itemsPerPage = 10;
 
 const useCasinoProvidersListing = () => {
-	const { casinoProvidersData, isCasinoProvidersDataLoading } = useSelector(
-		(state) => state.CasinoManagementData
-	);
+	const {
+		casinoProvidersData,
+		isCasinoProvidersDataLoading,
+		isCreateProviderSuccess,
+	} = useSelector((state) => state.CasinoManagementData);
 	const [limit, setLimit] = useState(10);
 	const [search, setSearch] = useState('');
 	const [page, setPage] = useState(1);
@@ -26,6 +28,10 @@ const useCasinoProvidersListing = () => {
 	useEffect(() => {
 		fetchData();
 	}, [limit, page, search]);
+
+	useEffect(() => {
+		if (isCreateProviderSuccess) fetchData();
+	}, [isCreateProviderSuccess]);
 
 	return {
 		casinoProvidersData,
