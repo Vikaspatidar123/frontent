@@ -46,6 +46,7 @@ const FormModal = ({
 		placeholder,
 		label,
 		callBack,
+		isDisabled,
 	}) => {
 		switch (fieldType) {
 			case 'textField':
@@ -62,6 +63,7 @@ const FormModal = ({
 						invalid={!!(validation.touched[name] && validation.errors[name])}
 						isError
 						errorMsg={validation.touched[name] && validation.errors[name]}
+						disabled={!!isDisabled}
 					/>
 				);
 			case 'select':
@@ -94,6 +96,7 @@ const FormModal = ({
 								))}
 							</>
 						}
+						disabled={!!isDisabled}
 					/>
 				);
 			case 'switch':
@@ -109,6 +112,7 @@ const FormModal = ({
 						inputClassName="form-check-input"
 						onChange={validation.handleChange}
 						onBlur={validation.handleBlur}
+						disabled={!!isDisabled}
 					/>
 				);
 			case 'datePicker':
@@ -122,6 +126,7 @@ const FormModal = ({
 						isError
 						invalid={!!(validation.touched[name] && validation.errors[name])}
 						errorMsg={validation.touched[name] && validation.errors[name]}
+						disabled={!!isDisabled}
 					/>
 				);
 			case 'file':
@@ -168,9 +173,12 @@ const FormModal = ({
 						<>
 							<Row>
 								<Col className={`col-12 ${customColClasses}`}>
-									{formFields?.map((field) => (
-										<div className="mb-3">{getField(field)}</div>
-									))}
+									{formFields?.map(
+										(field) =>
+											!field?.isHide && (
+												<div className="mb-3">{getField(field)}</div>
+											)
+									)}
 								</Col>
 							</Row>
 							<Row>{customComponent}</Row>
