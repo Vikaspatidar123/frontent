@@ -6,9 +6,8 @@ import { getDateTime } from '../../../utils/dateFormatter';
 const itemsPerPage = 10;
 
 const useBetSettings = () => {
-	const { betSettingsList, isLoading, error } = useSelector(
-		(state) => state.BetSettings
-	);
+	const { betSettingsList, isLoading, error, isCreateBetSettingsSuccess } =
+		useSelector((state) => state.BetSettings);
 	const { sportsListInfo } = useSelector((state) => state.SportsList);
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
@@ -48,6 +47,10 @@ const useBetSettings = () => {
 	useEffect(() => {
 		fetchData();
 	}, [page]);
+
+	useEffect(() => {
+		if (isCreateBetSettingsSuccess) fetchData();
+	}, [isCreateBetSettingsSuccess]);
 
 	return {
 		formattedBetSettingsList,

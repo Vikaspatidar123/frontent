@@ -22,6 +22,8 @@ import {
 } from './BetSettingsListCol';
 import ActionButtons from './ActionButtons';
 import Breadcrumb from '../../components/Common/Breadcrumb';
+import useCreateBetSettings from './hooks/useCreateBetSettings';
+import FormModal from '../../components/Common/FormModal';
 
 const columns = [
 	{
@@ -117,6 +119,16 @@ const BetSettings = () => {
 		itemsPerPage,
 	} = useBetSettings();
 
+	const {
+		isOpen,
+		setIsOpen,
+		formFields,
+		header,
+		validation,
+		isCreateBetSettingsLoading,
+		handleAddClick,
+	} = useCreateBetSettings();
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -134,6 +146,19 @@ const BetSettings = () => {
 					onChangePagination={setPage}
 					currentPage={page}
 					isLoading={!isLoading}
+					isAddOptions
+					addOptionLabel="Create"
+					handleAddClick={handleAddClick}
+				/>
+				<FormModal
+					isOpen={isOpen}
+					toggle={() => setIsOpen((prev) => !prev)}
+					header={header}
+					validation={validation}
+					formFields={formFields}
+					submitLabel="Submit"
+					customColClasses="col-md-12"
+					isSubmitLoading={isCreateBetSettingsLoading}
 				/>
 			</Container>
 		</div>
