@@ -22,9 +22,7 @@ const useCreateProvider = () => {
 	const handleCreateProvider = (values) => {
 		dispatch(
 			createCasinoProvidersStart({
-				data: {
-					...values,
-				},
+				data: values,
 			})
 		);
 	};

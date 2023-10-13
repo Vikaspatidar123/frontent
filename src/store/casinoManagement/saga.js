@@ -33,6 +33,7 @@ import {
 } from '../../network/getRequests';
 import { showSnackbar } from '../snackbar/actions';
 import { createCasinoProvider } from '../../network/postRequests';
+import { objectToFormData } from '../../utils/objectToFormdata';
 
 function* getCasinoCategoryWorker(action) {
 	const { limit, pageNo, search = '' } = action && action.payload;
@@ -150,12 +151,11 @@ function* getAllCasinoGamesWorker(action) {
 function* createCasinoProviderWorker(action) {
 	try {
 		const { data } = action && action.payload;
-
-		yield createCasinoProvider(data);
+		yield createCasinoProvider(objectToFormData(data));
 
 		yield put(
 			showSnackbar({
-				message: `${data?.role} Created Successfully`,
+				message: `Provider Created Successfully`,
 				type: 'success',
 			})
 		);

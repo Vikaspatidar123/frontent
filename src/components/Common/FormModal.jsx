@@ -131,13 +131,12 @@ const FormModal = ({
 						id="file"
 						name={name}
 						type="file"
-						onChange={(event) => {
-							validation.handleChange(event.currentTarget.files[0]);
-						}}
+						onChange={(event) =>
+							validation.setFieldValue(name, event.currentTarget.files[0])
+						}
 						onBlur={validation.handleBlur}
 						placeholder={placeholder}
 						validate={{ required: { value: true } }}
-						value={validation.values?.[name] || ''}
 						invalid={!!(validation.touched[name] && validation.errors[name])}
 						isError
 						errorMsg={validation.touched[name] && validation.errors[name]}

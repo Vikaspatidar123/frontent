@@ -47,6 +47,7 @@ const staticFormFields = [
 		name: 'thumbnail',
 		fieldType: 'file',
 		label: 'Thumbnail',
+		placeholder: 'Enter Thumbnail ',
 	},
 ];
 
