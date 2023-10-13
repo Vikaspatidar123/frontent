@@ -113,3 +113,5 @@ export * from './sportsMarkets/actions';
 
 // Email Templates
 export * from './emailTemplate/actions';
+
+export * from './wageringTemplate/actions';

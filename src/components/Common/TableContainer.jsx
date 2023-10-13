@@ -79,6 +79,7 @@ const TableContainer = ({
 	isLoading = false,
 	handleAddClick,
 	addOptionLabel,
+	thCustomClass = '',
 }) => {
 	const {
 		getTableProps,
@@ -225,7 +226,7 @@ const TableContainer = ({
 								{headerGroup.headers.map((column) => (
 									<th
 										key={column.id}
-										className={column.isSort ? 'sorting' : ''}
+										className={column.isSort ? 'sorting' : thCustomClass}
 									>
 										<div {...column.getSortByToggleProps()}>
 											{column.render('Header')}

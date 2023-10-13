@@ -71,6 +71,21 @@ const getAggregators = ({ limit, pageNo }) =>
 		`${VITE_APP_API_URL}/api/admin/casino/aggregators?limit=${limit}&pageNo=${pageNo}`
 	);
 
+const getSuperAdminWageringTemplateDetail = ({
+	wageringTemplateId,
+	limit,
+	pageNo,
+	providerId,
+	search,
+}) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/wagering-template/details?wageringTemplateId=${wageringTemplateId}&pageNo=${pageNo}&limit=${limit}&providerId=${providerId}&search=${search}`
+	);
+
+const getSuperAdminWageringTemplate = ({ search, limit, pageNo }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/wagering-template?adminId=pageNo=${pageNo}&limit=${limit}&search=${search}`
+	);
 const getAllCasinoGames = ({
 	bonusId,
 	limit,
@@ -201,6 +216,9 @@ const getEmailTemplates = () =>
 const getAdminDetails = (adminId) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/details?adminUserId=${adminId}`);
 
+const getDocumentLabel = (userId) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/document-label?userId=${userId}`);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -233,4 +251,7 @@ export {
 	getSportsMarkets,
 	getEmailTemplates,
 	getAdminDetails,
+	getDocumentLabel,
+	getSuperAdminWageringTemplateDetail,
+	getSuperAdminWageringTemplate,
 };
