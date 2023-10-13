@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Container, Input, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
@@ -15,6 +14,46 @@ import {
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useReviewManagementListing from './hooks/useReviewManagementListing';
 import { projectName } from '../../constants/config';
+import useCreateReview from './hooks/useCreateReview';
+import FormModal from '../../components/Common/FormModal';
+
+const columns = [
+	{
+		Header: 'Id',
+		accessor: 'reviewId',
+		filterable: true,
+		Cell: (cellProps) => <Id {...cellProps} />,
+	},
+	{
+		Header: 'Username',
+		accessor: 'userName',
+		filterable: true,
+		Cell: (cellProps) => <UserName {...cellProps} />,
+	},
+	{
+		Header: 'Description',
+		accessor: 'description',
+		filterable: true,
+		Cell: (cellProps) => <Description {...cellProps} />,
+	},
+	{
+		Header: 'Rating',
+		accessor: 'rating',
+		filterable: true,
+		Cell: (cellProps) => <Rating {...cellProps} />,
+	},
+	{
+		Header: 'Status',
+		accessor: 'status',
+		filterable: true,
+		Cell: (cellProps) => <Status {...cellProps} />,
+	},
+	{
+		Header: 'Actions',
+		filterable: true,
+		Cell: (cellProps) => <Actions {...cellProps} />,
+	},
+];
 
 const ReviewManagementList = ({ t }) => {
 	document.title = projectName;
@@ -30,46 +69,15 @@ const ReviewManagementList = ({ t }) => {
 		itemsPerPage,
 	} = useReviewManagementListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Id',
-				accessor: 'reviewId',
-				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
-			},
-			{
-				Header: 'Username',
-				accessor: 'userName',
-				filterable: true,
-				Cell: (cellProps) => <UserName {...cellProps} />,
-			},
-			{
-				Header: 'Description',
-				accessor: 'description',
-				filterable: true,
-				Cell: (cellProps) => <Description {...cellProps} />,
-			},
-			{
-				Header: 'Rating',
-				accessor: 'rating',
-				filterable: true,
-				Cell: (cellProps) => <Rating {...cellProps} />,
-			},
-			{
-				Header: 'Status',
-				accessor: 'status',
-				filterable: true,
-				Cell: (cellProps) => <Status {...cellProps} />,
-			},
-			{
-				Header: 'Actions',
-				filterable: true,
-				Cell: (cellProps) => <Actions {...cellProps} />,
-			},
-		],
-		[]
-	);
+	const {
+		isOpen,
+		setIsOpen,
+		formFields,
+		header,
+		validation,
+		isCreateReviewLoading,
+		handleAddClick,
+	} = useCreateReview();
 
 	return (
 		<div className="page-content">
@@ -105,6 +113,19 @@ const ReviewManagementList = ({ t }) => {
 					isManualPagination
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}
+					isAddOptions
+					addOptionLabel="Create"
+					handleAddClick={handleAddClick}
+				/>
+				<FormModal
+					isOpen={isOpen}
+					toggle={() => setIsOpen((prev) => !prev)}
+					header={header}
+					validation={validation}
+					formFields={formFields}
+					submitLabel="Submit"
+					customColClasses="col-md-12"
+					isSubmitLoading={isCreateReviewLoading}
 				/>
 			</Container>
 		</div>
