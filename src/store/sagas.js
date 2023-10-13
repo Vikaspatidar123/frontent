@@ -45,6 +45,7 @@ import SportsMatchesSaga from './sportsMatches/saga';
 import adminUserWatcher from './adminUser/saga';
 import SportsMarkets from './sportsMarkets/saga';
 import EmailTemplateSaga from './emailTemplate/saga';
+import WageringTemplateDetailsSaga from './wageringTemplate/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -72,6 +73,7 @@ export default function* rootSaga() {
 		fork(adminUserWatcher),
 		fork(SportsMarkets),
 		fork(EmailTemplateSaga),
+		fork(WageringTemplateDetailsSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),

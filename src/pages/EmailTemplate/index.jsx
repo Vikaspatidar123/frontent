@@ -82,6 +82,7 @@ const EmailTemplate = ({ t }) => {
 										paginationDiv="justify-content-center"
 										pagination="pagination justify-content-start pagination-rounded"
 										isLoading={emailTemplateloading}
+										thCustomClass="col-3"
 									/>
 								</Typography>
 							</AccordionDetails>

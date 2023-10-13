@@ -124,6 +124,9 @@ import SportsMarkets from './sportsMarkets/reducer';
 // Crm
 import EmailTemplate from './emailTemplate/reducer';
 
+// wagering Template
+import WageringTemplate from './wageringTemplate/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -137,6 +140,7 @@ const rootReducer = combineReducers({
 	AdminUser,
 	Snackbar,
 	EmailTemplate,
+	WageringTemplate,
 	// public
 	Layout,
 	Login,
