@@ -20,7 +20,7 @@ import useCreateAggregator from './hooks/useCreateAggregator';
 
 const CasinoAggregators = () => {
 	// meta title
-	document.title = `Casino Game | ${projectName}`;
+	document.title = projectName;
 	const dispatch = useDispatch();
 	const fetchData = () => {
 		dispatch(

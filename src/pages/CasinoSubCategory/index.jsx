@@ -102,7 +102,7 @@ const columns = [
 ];
 const GetCasinoSubCategoryDetail = ({ t }) => {
 	// meta title
-	document.title = `Casino Sub Category | ${projectName}`;
+	document.title = projectName;
 
 	const { casinoSubCategoryDetails, iscasinoSubCategoryDetailsLoading } =
 		useSelector((state) => state.CasinoManagementData);

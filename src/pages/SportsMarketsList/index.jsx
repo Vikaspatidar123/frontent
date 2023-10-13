@@ -10,7 +10,7 @@ import useSportsMarketsListing from './hooks/useSportsMarketsListing';
 import { projectName } from '../../constants/config';
 
 const SportsMarketsList = ({ t }) => {
-	document.title = `Sports Markets | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		searchText,

@@ -10,7 +10,7 @@ import { Action, English, Keys } from './LanguageManagementCol';
 import { projectName } from '../../constants/config';
 
 const LanguageManagementList = ({ t }) => {
-	document.title = `Language Management | ${projectName}`;
+	document.title = projectName;
 
 	const { isLanguageManagementLoading, formattedLanguageManagement } =
 		useLanguageManagementListing();

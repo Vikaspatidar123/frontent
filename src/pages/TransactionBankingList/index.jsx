@@ -20,7 +20,7 @@ import useTransactionBankingListing from './hooks/useTransactionBankingListing';
 import { projectName } from '../../constants/config';
 
 const TransactionBankingList = ({ t }) => {
-	document.title = `Transactions Banking | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		searchText,

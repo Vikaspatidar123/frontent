@@ -93,7 +93,7 @@ const Dashboard = ({ t }) => {
 	}, [dispatch]);
 
 	// meta title
-	document.title = `Dashboard | ${projectName}`;
+	document.title = projectName;
 
 	return (
 		<>

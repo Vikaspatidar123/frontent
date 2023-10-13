@@ -19,7 +19,7 @@ import useCasinoTransactionsListing from './hooks/useCasinoTransactionsListing';
 import { projectName } from '../../constants/config';
 
 const CasinoTransactionsList = ({ t }) => {
-	document.title = `Casino Transactions | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		searchText,

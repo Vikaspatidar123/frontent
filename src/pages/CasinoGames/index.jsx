@@ -78,7 +78,7 @@ const columns = [
 
 const CasinoGames = ({ t }) => {
 	// meta title
-	document.title = `Casino Games | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		formattedCasinoGames,

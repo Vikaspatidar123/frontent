@@ -26,7 +26,7 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 
 const GetCasinoCategoryDetails = () => {
-	document.title = `Casino Category | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		formattedCasinoCategoriesData,

@@ -35,7 +35,7 @@ const columns = [
 
 const WageringTemplate = ({ t }) => {
 	// Set meta title
-	document.title = `Wagering Template | ${projectName}`;
+	document.title = projectName;
 
 	// Fetch CMS page data and manage pagination state
 	const {

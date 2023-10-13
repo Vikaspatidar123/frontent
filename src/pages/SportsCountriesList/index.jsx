@@ -45,7 +45,7 @@ const columns = [
 
 const SportsCountriesListing = () => {
 	// meta title
-	document.title = `Sports Countries | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		formattedSportsCountries,

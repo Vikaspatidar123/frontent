@@ -3,11 +3,14 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import {
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
+	Typography,
+} from '../../components/Common/Accordion';
+
 import { projectName } from '../../constants/config';
 import TableContainer from '../../components/Common/TableContainer';
 import ActionButtons from './ActionButtons';
@@ -46,9 +49,14 @@ const columns = [
 
 const EmailTemplate = ({ t }) => {
 	// meta title
-	document.title = `Email Template | ${projectName}`;
+	document.title = projectName;
 
 	const { emailTemplateloading, emailTemplates } = useEmailTemplate();
+	const [expanded, setExpanded] = React.useState('');
+
+	const handleChange = (panel) => (event, newExpanded) => {
+		setExpanded(newExpanded ? panel : false);
+	};
 
 	return (
 		<div className="page-content">
@@ -64,11 +72,14 @@ const EmailTemplate = ({ t }) => {
 					/>
 				) : (
 					Object.keys(emailTemplates).map((key) => (
-						<Accordion key={key}>
+						<Accordion
+							key={key}
+							expanded={expanded === key}
+							onChange={handleChange(key)}
+						>
 							<AccordionSummary
-								expandIcon={<ExpandMoreIcon />}
-								aria-controls="panel1a-content"
-								id="panel1a-header"
+								aria-controls="panel1d-content"
+								id="panel1d-header"
 							>
 								<Typography>{key}</Typography>
 							</AccordionSummary>

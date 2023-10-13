@@ -45,7 +45,7 @@ const columns = [
 
 const SportsListing = () => {
 	// meta title
-	document.title = `Sports | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		formattedSportsList,

@@ -19,7 +19,7 @@ import usePlayersListing from './hooks/usePlayersListing';
 import { projectName } from '../../constants/config';
 
 const PlayersList = ({ t }) => {
-	document.title = `Players | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		searchText,
