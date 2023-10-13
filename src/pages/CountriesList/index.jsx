@@ -17,7 +17,7 @@ import useCountriesListing from './hooks/useCountriesListing';
 import { projectName } from '../../constants/config';
 
 const CountriesList = ({ t }) => {
-	document.title = `Countries | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		name,

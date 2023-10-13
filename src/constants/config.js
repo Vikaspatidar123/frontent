@@ -1,4 +1,4 @@
-const projectName = 'B2C Admin';
+const projectName = 'ARC';
 
 const role = 'Admin';
 

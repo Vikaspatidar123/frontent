@@ -106,7 +106,7 @@ const columns = [
 
 const BetSettings = () => {
 	// meta title
-	document.title = `Bet Settings | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		formattedBetSettingsList,

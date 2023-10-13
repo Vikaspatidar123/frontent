@@ -52,7 +52,7 @@ const columns = [
 
 const Cms = ({ t }) => {
 	// Set meta title
-	document.title = `CMS | ${projectName}`;
+	document.title = projectName;
 
 	// Fetch CMS page data and manage pagination state
 	const {

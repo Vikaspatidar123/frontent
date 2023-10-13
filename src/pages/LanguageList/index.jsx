@@ -10,7 +10,7 @@ import useLanguageListing from './hooks/useLanguageListing';
 import { projectName } from '../../constants/config';
 
 const LanguageList = ({ t }) => {
-	document.title = `Languages | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		searchText,

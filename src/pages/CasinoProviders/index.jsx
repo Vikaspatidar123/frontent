@@ -50,7 +50,7 @@ const columns = [
 
 const CasinoProviders = ({ t }) => {
 	// meta title
-	document.title = `Casino Providers | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		casinoProvidersData,

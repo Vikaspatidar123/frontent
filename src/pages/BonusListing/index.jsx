@@ -72,7 +72,7 @@ const columns = [
 
 const BonusDetail = ({ t }) => {
 	// meta title
-	document.title = `Bonus | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		formattedBonusDetails,

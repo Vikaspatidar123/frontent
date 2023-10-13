@@ -20,7 +20,7 @@ import useWithdrawRequestsListing from './hooks/useWithdrawRequestsListing';
 import { projectName } from '../../constants/config';
 
 const WithdrawRequestsList = ({ t }) => {
-	document.title = `Withdraw Requests | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		searchText,

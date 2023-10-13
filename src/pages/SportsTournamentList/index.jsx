@@ -49,7 +49,7 @@ const columns = [
 
 const SportsTournamentList = () => {
 	// meta title
-	document.title = `Sport Tournaments | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		formattedSportsTournamenList,

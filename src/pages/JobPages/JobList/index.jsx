@@ -66,7 +66,7 @@ import { projectName } from '../../../constants/config';
 
 const JobList = () => {
 	// meta title
-	document.title = `Jobs List | ${projectName}`;
+	document.title = projectName;
 
 	const [modal, setModal] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
@@ -280,49 +280,49 @@ const JobList = () => {
 				accessor: 'action',
 				disableFilters: true,
 				Cell: (cellProps) => (
-						<ul className="list-unstyled hstack gap-1 mb-0">
-							<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-								<Link to="/job-details" className="btn btn-sm btn-soft-primary">
-									<i className="mdi mdi-eye-outline" id="viewtooltip" />
-								</Link>
-							</li>
-							<UncontrolledTooltip placement="top" target="viewtooltip">
-								View
-							</UncontrolledTooltip>
+					<ul className="list-unstyled hstack gap-1 mb-0">
+						<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+							<Link to="/job-details" className="btn btn-sm btn-soft-primary">
+								<i className="mdi mdi-eye-outline" id="viewtooltip" />
+							</Link>
+						</li>
+						<UncontrolledTooltip placement="top" target="viewtooltip">
+							View
+						</UncontrolledTooltip>
 
-							<li>
-								<Link
-									to="#"
-									className="btn btn-sm btn-soft-info"
-									onClick={() => {
-										const jobData = cellProps.row.original;
-										handleJobClick(jobData);
-									}}
-								>
-									<i className="mdi mdi-pencil-outline" id="edittooltip" />
-									<UncontrolledTooltip placement="top" target="edittooltip">
-										Edit
-									</UncontrolledTooltip>
-								</Link>
-							</li>
+						<li>
+							<Link
+								to="#"
+								className="btn btn-sm btn-soft-info"
+								onClick={() => {
+									const jobData = cellProps.row.original;
+									handleJobClick(jobData);
+								}}
+							>
+								<i className="mdi mdi-pencil-outline" id="edittooltip" />
+								<UncontrolledTooltip placement="top" target="edittooltip">
+									Edit
+								</UncontrolledTooltip>
+							</Link>
+						</li>
 
-							<li>
-								<Link
-									to="#"
-									className="btn btn-sm btn-soft-danger"
-									onClick={() => {
-										const jobData = cellProps.row.original;
-										onClickDelete(jobData);
-									}}
-								>
-									<i className="mdi mdi-delete-outline" id="deletetooltip" />
-									<UncontrolledTooltip placement="top" target="deletetooltip">
-										Delete
-									</UncontrolledTooltip>
-								</Link>
-							</li>
-						</ul>
-					),
+						<li>
+							<Link
+								to="#"
+								className="btn btn-sm btn-soft-danger"
+								onClick={() => {
+									const jobData = cellProps.row.original;
+									onClickDelete(jobData);
+								}}
+							>
+								<i className="mdi mdi-delete-outline" id="deletetooltip" />
+								<UncontrolledTooltip placement="top" target="deletetooltip">
+									Delete
+								</UncontrolledTooltip>
+							</Link>
+						</li>
+					</ul>
+				),
 			},
 		],
 		[]
@@ -435,7 +435,9 @@ const JobList = () => {
 												onBlur={validation.handleBlur}
 												value={validation.values.jobId || ''}
 												invalid={
-													!!(validation.touched.jobId && validation.errors.jobId)
+													!!(
+														validation.touched.jobId && validation.errors.jobId
+													)
 												}
 											/>
 											{validation.touched.jobId && validation.errors.jobId ? (
@@ -457,8 +459,10 @@ const JobList = () => {
 												onBlur={validation.handleBlur}
 												value={validation.values.jobTitle || ''}
 												invalid={
-													!!(validation.touched.jobTitle &&
-													validation.errors.jobTitle)
+													!!(
+														validation.touched.jobTitle &&
+														validation.errors.jobTitle
+													)
 												}
 											/>
 											{validation.touched.jobTitle &&
@@ -478,8 +482,10 @@ const JobList = () => {
 												onBlur={validation.handleBlur}
 												value={validation.values.companyName || ''}
 												invalid={
-													!!(validation.touched.companyName &&
-													validation.errors.companyName)
+													!!(
+														validation.touched.companyName &&
+														validation.errors.companyName
+													)
 												}
 											/>
 											{validation.touched.companyName &&
@@ -499,8 +505,10 @@ const JobList = () => {
 												onBlur={validation.handleBlur}
 												value={validation.values.location || ''}
 												invalid={
-													!!(validation.touched.location &&
-													validation.errors.location)
+													!!(
+														validation.touched.location &&
+														validation.errors.location
+													)
 												}
 											/>
 											{validation.touched.location &&
@@ -520,8 +528,10 @@ const JobList = () => {
 												onBlur={validation.handleBlur}
 												value={validation.values.experience || ''}
 												invalid={
-													!!(validation.touched.experience &&
-													validation.errors.experience)
+													!!(
+														validation.touched.experience &&
+														validation.errors.experience
+													)
 												}
 											/>
 											{validation.touched.experience &&
@@ -541,8 +551,10 @@ const JobList = () => {
 												onBlur={validation.handleBlur}
 												value={validation.values.position || ''}
 												invalid={
-													!!(validation.touched.position &&
-													validation.errors.position)
+													!!(
+														validation.touched.position &&
+														validation.errors.position
+													)
 												}
 											/>
 											{validation.touched.position &&
@@ -585,7 +597,10 @@ const JobList = () => {
 												onBlur={validation.handleBlur}
 												value={validation.values.status || ''}
 												invalid={
-													!!(validation.touched.status && validation.errors.status)
+													!!(
+														validation.touched.status &&
+														validation.errors.status
+													)
 												}
 											>
 												<option>Active</option>
@@ -620,6 +635,6 @@ const JobList = () => {
 			<ToastContainer />
 		</>
 	);
-}
+};
 
 export default JobList;

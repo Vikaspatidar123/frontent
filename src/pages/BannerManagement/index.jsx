@@ -33,7 +33,7 @@ const columns = [
 
 const BannerManagement = ({ t }) => {
 	// meta title
-	document.title = `Banner Management | ${projectName}`;
+	document.title = projectName;
 
 	const { formattedSABanners, SABannersloading } = useBannerManagement();
 

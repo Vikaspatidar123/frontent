@@ -19,7 +19,7 @@ import useSportsMatchesListing from './hooks/useSportsMatchesListing';
 import { projectName } from '../../constants/config';
 
 const SportsMatchesList = ({ t }) => {
-	document.title = `Sports Matches | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		currentPage,

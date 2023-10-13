@@ -19,7 +19,7 @@ import useSportsTransactionListing from './hooks/useSportsTransactionListing';
 import { projectName } from '../../constants/config';
 
 const SportsTransactionList = ({ t }) => {
-	document.title = `Sports Transactions | ${projectName}`;
+	document.title = projectName;
 
 	const {
 		searchText,

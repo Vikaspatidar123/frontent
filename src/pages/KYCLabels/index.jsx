@@ -4,12 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 
 import { Container } from 'reactstrap';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Box from '@mui/material/Box';
+import {
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
+	Typography,
+} from '../../components/Common/Accordion';
 
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
@@ -37,9 +38,14 @@ const columns = [
 
 const KYCLabels = ({ t }) => {
 	// meta title
-	document.title = `KYC Labels | ${projectName}`;
+	document.title = projectName;
 
 	const { formattedDocumentLabels, documentLabelsLoading } = useKYCLables();
+	const [expanded, setExpanded] = React.useState('');
+
+	const handleChange = (panel) => (event, newExpanded) => {
+		setExpanded(newExpanded ? panel : false);
+	};
 
 	return (
 		<div className="page-content">
@@ -52,22 +58,22 @@ const KYCLabels = ({ t }) => {
 					/>
 				) : (
 					formattedDocumentLabels?.map((label) => {
-						console.log('label: ', label[0].documentLabelId);
+						const labelId = label[0].documentLabelId;
+						const {isRequired} = label[0];
 						return (
-							<Accordion key={label[0].documentLabelId}>
+							<Accordion
+								key={labelId}
+								expanded={expanded === labelId}
+								onChange={handleChange(labelId)}
+							>
 								<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
 									aria-controls="panel1a-content"
 									id="panel1a-header"
 								>
 									<Typography>
-										<Box
-											display="inline-flex"
-											alignItems="center "
-											gap={1.5}
-										>
-											Label {label[0].documentLabelId}
-											{label[0].isRequired ? (
+										<Box display="inline-flex" alignItems="center " gap={1.5}>
+											Label {labelId}
+											{isRequired ? (
 												<span className="text-success">(Required)</span>
 											) : (
 												<span className="text-danger">(Not Required)</span>
