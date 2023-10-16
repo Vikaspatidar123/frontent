@@ -28,7 +28,7 @@ import {
 import withRouter from '../../components/Common/withRouter';
 
 // actions
-import { loginUser, socialLogin } from '../../store/actions';
+import { loginUser } from '../../store/actions';
 
 // import images
 import profile from '../../assets/images/profile-img.png';
@@ -67,14 +67,14 @@ const Login = (props) => {
 
 	const { error } = useSelector(LoginProperties);
 
-	const signIn = (type) => {
-		dispatch(socialLogin(type, navigate));
-	};
+	// const signIn = (type) => {
+	// 	dispatch(socialLogin(type, navigate));
+	// };
 
 	// for facebook and google authentication
-	const socialResponse = (type) => {
-		signIn(type);
-	};
+	// const socialResponse = (type) => {
+	// 	signIn(type);
+	// };
 
 	return (
 		<>
@@ -198,7 +198,7 @@ const Login = (props) => {
 												</button>
 											</div>
 
-											<div className="mt-4 text-center">
+											{/* <div className="mt-4 text-center">
 												<h5 className="font-size-14 mb-3">Sign in with</h5>
 
 												<ul className="list-inline">
@@ -214,27 +214,6 @@ const Login = (props) => {
 															<i className="mdi mdi-facebook" />
 														</Link>
 													</li>
-													{/* <li className="list-inline-item"> */}
-													{/*  <TwitterLogin */}
-													{/*    loginUrl={ */}
-													{/*      "http://localhost:4000/api/v1/auth/twitter" */}
-													{/*    } */}
-													{/*    onSuccess={this.twitterResponse} */}
-													{/*    onFailure={this.onFailure} */}
-													{/*    requestTokenUrl={ */}
-													{/*      "http://localhost:4000/api/v1/auth/twitter/revers" */}
-													{/*    } */}
-													{/*    showIcon={false} */}
-													{/*    tag={"div"} */}
-													{/*  > */}
-													{/*    <a */}
-													{/*      href="" */}
-													{/*      className="social-list-item bg-info text-white border-info" */}
-													{/*    > */}
-													{/*      <i className="mdi mdi-twitter"/> */}
-													{/*    </a> */}
-													{/*  </TwitterLogin> */}
-													{/* </li> */}
 													<li className="list-inline-item">
 														<Link
 															to="#"
@@ -248,7 +227,7 @@ const Login = (props) => {
 														</Link>
 													</li>
 												</ul>
-											</div>
+											</div> */}
 
 											<div className="mt-4 text-center">
 												<Link to="/forgot-password" className="text-muted">

@@ -2,4 +2,6 @@ const projectName = 'ARC';
 
 const role = 'Admin';
 
-export { projectName, role };
+const footerText = 'Design and powered by GAMMASTACK';
+
+export { projectName, role, footerText };
