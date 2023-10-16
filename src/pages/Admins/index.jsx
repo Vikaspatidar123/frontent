@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
+import { Container, Col, Row, Card, CardBody } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { Buffer } from 'buffer';
+// import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useAdminListing from './hooks/useAdminListing';
@@ -31,6 +32,7 @@ import {
 	resetLinearProgress,
 	showLinearProgress,
 } from '../../store/progressLoading/actions';
+import CrudSection from '../../components/Common/CrudSection';
 
 // const columns =
 
@@ -128,12 +130,12 @@ const Admins = ({ t }) => {
 		columns,
 	} = useAdminListing(handleEdit);
 
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		setHeader('Add Staff');
-		setIsEdit(false);
-		toggleModal();
-	};
+	// const handleAddClick = (e) => {
+	// 	e.preventDefault();
+	// 	setHeader('Add Staff');
+	// 	setIsEdit(false);
+	// 	toggleModal();
+	// };
 
 	const handleAdminSelect = (e) => {
 		dispatch(getPermissionsStart(Number(e.target.value)));
@@ -227,24 +229,33 @@ const Admins = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs title={t('Dashboard')} breadcrumbItem={t('Staff')} />
-				<TableContainer
-					columns={columns}
-					data={formattedAdminDetails}
-					isGlobalFilter
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalAdminsCount}
-					isManualPagination
-					onChangePagination={setPage}
-					currentPage={page}
-					isLoading={!isLoading}
-					isAddOptions
-					addOptionLabel="Create"
-					handleAddClick={handleAddClick}
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection />
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={formattedAdminDetails}
+									isGlobalFilter
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalAdminsCount}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!isLoading}
+									// isAddOptions
+									// addOptionLabel="Create"
+									// handleAddClick={handleAddClick}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 			</Container>
 			<FormModal
 				isOpen={isOpen}
