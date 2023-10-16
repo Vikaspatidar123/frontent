@@ -126,6 +126,7 @@ import EmailTemplate from './emailTemplate/reducer';
 
 // wagering Template
 import WageringTemplate from './wageringTemplate/reducer';
+import ProgressLoading from './progressLoading/reducer';
 
 const rootReducer = combineReducers({
 	// New theme
@@ -141,6 +142,8 @@ const rootReducer = combineReducers({
 	Snackbar,
 	EmailTemplate,
 	WageringTemplate,
+	ProgressLoading,
+
 	// public
 	Layout,
 	Login,

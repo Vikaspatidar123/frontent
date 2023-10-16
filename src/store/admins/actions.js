@@ -5,6 +5,9 @@ import {
 	ADD_SUPER_ADMIN_USER_SUCCESS,
 	ADD_SUPER_ADMIN_USER_FAIL,
 	ADD_SUPER_ADMIN_USER,
+	UPDATE_SUPER_ADMIN_USER_SUCCESS,
+	UPDATE_SUPER_ADMIN_USER_FAIL,
+	UPDATE_SUPER_ADMIN_USER,
 } from './actionTypes';
 
 export const getAdminDetailsSuccess = (payload) => ({
@@ -34,5 +37,20 @@ export const addSuperAdminUserFail = (payload) => ({
 
 export const addSuperAdminUserStart = (payload) => ({
 	type: ADD_SUPER_ADMIN_USER,
+	payload,
+});
+
+export const updateSuperAdminUserSuccess = (payload) => ({
+	type: UPDATE_SUPER_ADMIN_USER_SUCCESS,
+	payload,
+});
+
+export const updateSuperAdminUserFail = (payload) => ({
+	type: UPDATE_SUPER_ADMIN_USER_FAIL,
+	payload,
+});
+
+export const updateSuperAdminUserStart = (payload) => ({
+	type: UPDATE_SUPER_ADMIN_USER,
 	payload,
 });
