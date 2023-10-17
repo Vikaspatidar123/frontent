@@ -17,7 +17,7 @@ import {
 
 import { getAllAdmins } from '../../network/getRequests';
 import { addSuperAdminUser } from '../../network/postRequests';
-import { showSnackbar } from '../snackbar/actions';
+import { showToastr } from '../toastr/actions';
 import { updateSuperAdminUser } from '../../network/putRequests';
 
 function* getAdminsDetail(action) {
@@ -55,7 +55,7 @@ function* addSuperAdminUserWorker(action) {
 		yield addSuperAdminUser(data);
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: `${data?.role} Created Successfully`,
 				type: 'success',
 			})
@@ -68,7 +68,7 @@ function* addSuperAdminUserWorker(action) {
 		yield put(addSuperAdminUserFail());
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: e?.response?.data?.errors[0]?.description || e.message,
 				type: 'error',
 			})
@@ -83,7 +83,7 @@ function* updateSuperAdminUserWorker(action) {
 		yield updateSuperAdminUser(data);
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: `${data?.role} Updated Successfully`,
 				type: 'success',
 			})
@@ -96,7 +96,7 @@ function* updateSuperAdminUserWorker(action) {
 		yield put(updateSuperAdminUserFail());
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: e?.response?.data?.errors[0]?.description || e.message,
 				type: 'error',
 			})

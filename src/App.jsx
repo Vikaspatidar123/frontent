@@ -29,7 +29,6 @@ import './assets/scss/theme.scss';
 // import { initFirebaseBackend } from "./helpers/firebase_helper"
 
 import fakeBackend from './helpers/AuthType/fakeBackend';
-import SnackbarComponent from './components/Common/Snackbar';
 import LinearLoading from './components/Common/LinearLoading';
 
 // Activating fake backend
@@ -105,7 +104,6 @@ const App = () => {
 					/>
 				))}
 			</Routes>
-			<SnackbarComponent />
 		</ThemeProvider>
 	);
 };

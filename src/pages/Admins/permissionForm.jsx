@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { permissionIcons } from './formDetails';
-import { showSnackbar } from '../../store/snackbar/actions';
+import { showToastr } from '../../store/toastr/actions';
 import { CustomInputField } from '../../helpers/custom_forms';
 
 const PermissionForm = ({
@@ -28,7 +28,7 @@ const PermissionForm = ({
 			}
 		} else {
 			dispatch(
-				showSnackbar({
+				showToastr({
 					message:
 						'Please Select Read Permission Before Selecting Other For This Module',
 					type: 'error',
