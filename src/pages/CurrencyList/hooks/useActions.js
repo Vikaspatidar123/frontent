@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import {
 	getInitialValues,
@@ -9,7 +9,7 @@ import {
 import { createCurrencyStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
-const useCreateCurrency = () => {
+const useActions = () => {
 	const dispatch = useDispatch();
 	const { isCreateCurrencyLoading, currencies } = useSelector(
 		(state) => state.Currencies
@@ -46,6 +46,14 @@ const useCreateCurrency = () => {
 		setIsOpen(false);
 	}, [currencies?.count]);
 
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+		},
+	]);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -53,9 +61,9 @@ const useCreateCurrency = () => {
 		validation,
 		formFields,
 		setFormFields,
-		handleAddClick,
 		isCreateCurrencyLoading,
+		buttonList,
 	};
 };
 
-export default useCreateCurrency;
+export default useActions;

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Container } from 'reactstrap';
+import { Card, Col, Container, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
@@ -17,7 +17,8 @@ import ActionButtons from './ActionButtons';
 import useCurrencyListing from './hooks/useCurrencyListing';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
-import useCreateCurrency from './hooks/useCreateCurrency';
+import useCreateCurrency from './hooks/useActions';
+import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
 	{
@@ -88,8 +89,8 @@ const CurrencyList = ({ t }) => {
 		header,
 		validation,
 		formFields,
-		handleAddClick,
 		isCreateCurrencyLoading,
+		buttonList,
 	} = useCreateCurrency();
 
 	return (
@@ -100,23 +101,30 @@ const CurrencyList = ({ t }) => {
 					title={t('Site Configurations')}
 					breadcrumbItem={t('Currencies')}
 				/>
-				<TableContainer
-					isLoading={isCurrenciesLoading}
-					columns={columns}
-					data={formattedCurrencies}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalCurrenciesCount}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					isAddOptions
-					addOptionLabel="Create"
-					handleAddClick={handleAddClick}
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={buttonList} title="Currency Listing" />
+							<TableContainer
+								isLoading={isCurrenciesLoading}
+								columns={columns}
+								data={formattedCurrencies}
+								isPagination
+								customPageSize={itemsPerPage}
+								tableClass="table-bordered align-middle nowrap mt-2"
+								paginationDiv="justify-content-center"
+								pagination="pagination justify-content-start pagination-rounded"
+								totalPageCount={totalCurrenciesCount}
+								isManualPagination
+								onChangePagination={setCurrentPage}
+								currentPage={currentPage}
+								// isAddOptions
+								// addOptionLabel="Create"
+								// handleAddClick={handleAddClick}
+							/>
+						</Card>
+					</Col>
+				</Row>
 				<FormModal
 					isOpen={isOpen}
 					toggle={() => setIsOpen((prev) => !prev)}
