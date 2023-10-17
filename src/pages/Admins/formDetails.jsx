@@ -82,7 +82,7 @@ const getInitialValues = (defaultValue, isEdit) => ({
 	lastName: defaultValue?.lastName || '',
 	role: defaultValue?.AdminRole?.name || null,
 	adminId: defaultValue?.parentId || null,
-	permission: defaultValue?.permission || {},
+	permission: defaultValue?.userPermission?.permission || {},
 	group: defaultValue?.group || null,
 });
 
