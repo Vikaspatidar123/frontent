@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBonusDetails } from '../../../store/actions';
 import { formatDate } from '../../../utils/dateFormatter';
-import safeStringify from '../../../utils/helpers';
+import { safeStringify } from '../../../utils/helpers';
 import types from '../contants';
 
 const itemsPerPage = 10;

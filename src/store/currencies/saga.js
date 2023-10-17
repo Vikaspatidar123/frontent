@@ -9,8 +9,8 @@ import {
 	fetchCurrenciesSuccess,
 } from './actions';
 import { getCurrencies } from '../../network/getRequests';
-import { showToastr } from '../toastr/actions';
 import { createCurrency } from '../../network/postRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* fetchCurrencies({ payload }) {
 	try {
@@ -27,23 +27,19 @@ function* createCurrencyWorker(action) {
 
 		yield createCurrency(data);
 
-		yield put(
-			showToastr({
-				message: `Currency Created Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `Currency Created Successfully`,
+			type: 'success',
+		});
 
 		yield put(createCurrencySuccess());
 	} catch (e) {
 		yield put(createCurrencyFail());
 
-		yield put(
-			showToastr({
-				message: e?.response?.data?.errors[0]?.description || e.message,
-				type: 'error',
-			})
-		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 

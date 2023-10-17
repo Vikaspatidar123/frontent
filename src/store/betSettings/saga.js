@@ -13,8 +13,8 @@ import {
 } from './actionTypes';
 
 import { getBetSettings } from '../../network/getRequests';
-import { showToastr } from '../toastr/actions';
 import { createBetSettings } from '../../network/postRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* betSettingsWorker() {
 	try {
@@ -33,23 +33,19 @@ function* createBetSettingsWorker(action) {
 
 		yield createBetSettings(data);
 
-		yield put(
-			showToastr({
-				message: `BetSettings Created Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `BetSettings Created Successfully`,
+			type: 'success',
+		});
 
 		yield put(createBetSettingsSuccess());
 	} catch (e) {
 		yield put(createBetSettingsFail());
 
-		yield put(
-			showToastr({
-				message: e?.response?.data?.errors[0]?.description || e.message,
-				type: 'error',
-			})
-		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 

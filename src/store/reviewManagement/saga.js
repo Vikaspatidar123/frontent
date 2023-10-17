@@ -12,8 +12,8 @@ import {
 	fetchReviewManagementSuccess,
 } from './actions';
 import { getReviewManagement } from '../../network/getRequests';
-import { showToastr } from '../toastr/actions';
 import { createReview } from '../../network/postRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* fetchReviewManagement({ payload }) {
 	try {
@@ -32,23 +32,19 @@ function* createReviewWorker(action) {
 
 		yield createReview(data);
 
-		yield put(
-			showToastr({
-				message: `Review Created Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `Review Created Successfully`,
+			type: 'success',
+		});
 
 		yield put(createReviewSuccess());
 	} catch (e) {
 		yield put(createReviewFail());
 
-		yield put(
-			showToastr({
-				message: e?.response?.data?.errors[0]?.description || e.message,
-				type: 'error',
-			})
-		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 
