@@ -13,11 +13,13 @@ const useBannerManagement = () => {
 
 	const formattedSABanners = useMemo(() => {
 		if (SABanners) {
-			return SABanners.map((banner) => Object.keys(banner.value).map((key) => {
+			return SABanners.map((banner) =>
+				Object.keys(banner.value).map((key) => {
 					const pages = key.replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase();
 					const bannerPreview = banner?.value[key];
 					return { pages, bannerPreview };
-				})).flat();
+				})
+			).flat();
 		}
 		return [];
 	}, [SABanners]);

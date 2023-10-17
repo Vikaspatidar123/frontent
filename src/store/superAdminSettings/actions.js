@@ -5,6 +5,9 @@ import {
 	GET_DOCUMENT_LABEL,
 	GET_DOCUMENT_LABEL_SUCCESS,
 	GET_DOCUMENT_LABEL_FAIL,
+	CREATE_SA_BANNERS_START,
+	CREATE_SA_BANNERS_SUCCESS,
+	CREATE_SA_BANNERS_FAIL,
 } from './actionTypes';
 
 export const getSABanners = (payload) => ({
@@ -34,5 +37,20 @@ export const getDocumentLabelSuccess = (payload) => ({
 
 export const getDocumentLabelFail = (payload) => ({
 	type: GET_DOCUMENT_LABEL_FAIL,
+	payload,
+});
+
+export const createSABannersStart = (payload) => ({
+	type: CREATE_SA_BANNERS_START,
+	payload,
+});
+
+export const createSABannersSuccess = (payload) => ({
+	type: CREATE_SA_BANNERS_SUCCESS,
+	payload,
+});
+
+export const createSABannersFail = (payload) => ({
+	type: CREATE_SA_BANNERS_FAIL,
 	payload,
 });

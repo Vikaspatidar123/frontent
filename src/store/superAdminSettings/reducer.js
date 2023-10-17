@@ -5,6 +5,9 @@ import {
 	GET_DOCUMENT_LABEL,
 	GET_DOCUMENT_LABEL_SUCCESS,
 	GET_DOCUMENT_LABEL_FAIL,
+	CREATE_SA_BANNERS_START,
+	CREATE_SA_BANNERS_SUCCESS,
+	CREATE_SA_BANNERS_FAIL,
 } from './actionTypes';
 
 const initialState = {
@@ -14,6 +17,9 @@ const initialState = {
 	documentLabels: null,
 	documentLabelsError: null,
 	documentLabelsLoading: false,
+	isCreateSABannersError: false,
+	isCreateSABannersSuccess: false,
+	isCreateSABannersLoading: false,
 };
 
 const SASettings = (state = initialState, { type, payload } = {}) => {
@@ -58,6 +64,27 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				...state,
 				documentLabelsLoading: false,
 				documentLabelsError: true,
+			};
+		case CREATE_SA_BANNERS_START:
+			return {
+				...state,
+				isCreateSABannersLoading: true,
+				isCreateSABannersSuccess: false,
+			};
+
+		case CREATE_SA_BANNERS_SUCCESS:
+			return {
+				...state,
+				isCreateSABannersLoading: false,
+				isCreateSABannersSuccess: true,
+			};
+
+		case CREATE_SA_BANNERS_FAIL:
+			return {
+				...state,
+				isCreateSABannersError: payload,
+				isCreateSABannersLoading: false,
+				isCreateSABannersSuccess: false,
 			};
 
 		default:
