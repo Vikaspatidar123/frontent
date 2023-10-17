@@ -7,10 +7,19 @@ const useForm = ({
 	validationSchema,
 	onSubmitEntry,
 	staticFormFields,
+	leftStaticFormFields,
+	rightStaticFormFields,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [header, setHeader] = useState(initialHeader);
 	const [formFields, setFormFields] = useState(staticFormFields || []);
+	const [leftFormFields, setLeftFormFields] = useState(
+		leftStaticFormFields || []
+	);
+	const [rightFormFields, setRightFormFields] = useState(
+		rightStaticFormFields || []
+	);
+
 	const validation = useFormik({
 		enableReinitialize: true,
 		initialValues,
@@ -25,6 +34,10 @@ const useForm = ({
 		formFields,
 		setFormFields,
 		setHeader,
+		leftFormFields,
+		setLeftFormFields,
+		rightFormFields,
+		setRightFormFields,
 	};
 };
 

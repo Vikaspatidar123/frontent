@@ -3,7 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container, Col, Row, Card, CardBody } from 'reactstrap';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 // import { Buffer } from 'buffer';
 // import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
@@ -11,7 +11,6 @@ import TableContainer from '../../components/Common/TableContainer';
 // import useAdminListing from './hooks/useAdminListing';
 
 import { projectName } from '../../constants/config';
-import FormModal from '../../components/Common/FormModal';
 // import {
 // 	staticFormFields,
 // 	getInitialValues,
@@ -42,15 +41,13 @@ const Admins = ({ t }) => {
 	// meta title
 	document.title = projectName;
 
-	const { isAddSuperUserLoading } = useSelector((state) => state.AllAdmins);
-
 	const {
-		isOpen,
-		setIsOpen,
-		header,
-		validation,
-		formFields,
-		customComponent,
+		// isOpen,
+		// setIsOpen,
+		// header,
+		// validation,
+		// formFields,
+		// customComponent,
 		isLoading,
 		totalAdminsCount,
 		page,
@@ -59,6 +56,8 @@ const Admins = ({ t }) => {
 		columns,
 		formattedAdminDetails,
 		buttonList,
+		// leftFormFields,
+		// rightFormFields
 	} = useActions();
 
 	return (
@@ -93,7 +92,7 @@ const Admins = ({ t }) => {
 					</Col>
 				</Row>
 			</Container>
-			<FormModal
+			{/* <FormModal
 				isOpen={isOpen}
 				toggle={() => setIsOpen((prev) => !prev)}
 				header={header}
@@ -103,7 +102,7 @@ const Admins = ({ t }) => {
 				customColClasses="col-md-12"
 				customComponent={customComponent}
 				isSubmitLoading={isAddSuperUserLoading}
-			/>
+			/> */}
 		</div>
 	);
 };

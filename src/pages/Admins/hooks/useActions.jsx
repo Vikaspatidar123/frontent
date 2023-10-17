@@ -1,7 +1,9 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
-	staticFormFields,
+	leftStaticFormFields,
+	rightStaticFormFields,
 	getInitialValues,
 	validationSchema,
 	permissionLabel,
@@ -24,14 +26,17 @@ import useAdminListing from './useAdminListing';
 
 const useActions = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const roles = useSelector((state) => state.AdminRoles.roles);
 	const groups = useSelector((state) => state.AdminUser.groups);
 	const { adminDetails, superAdminUser, isAdminLoading } = useSelector(
 		(state) => state.PermissionDetails
 	);
-	const { adminDetails: AllAdminList } = useSelector(
-		(state) => state.AllAdmins
-	);
+	const {
+		isAddSuperUserLoading,
+		isUpdateSuperUserLoading,
+		adminDetails: AllAdminList,
+	} = useSelector((state) => state.AllAdmins);
 	const [customComponent, setCustomComponent] = useState();
 	const [isEdit, setIsEdit] = useState(false);
 
@@ -78,15 +83,19 @@ const useActions = () => {
 		setIsOpen,
 		header,
 		validation,
-		formFields,
-		setFormFields,
+		leftFormFields,
+		setLeftFormFields,
+		rightFormFields,
+		setRightFormFields,
 		setHeader,
 	} = useForm({
 		header: isEdit ? 'Add Staff' : 'Edit Staff',
 		initialValues: getInitialValues(isEdit ? adminDetails : null, isEdit),
 		validationSchema: validationSchema(isEdit),
 		onSubmitEntry: handleStaffSubmit,
-		staticFormFields: staticFormFields(isEdit),
+		// staticFormFields: staticFormFields(isEdit),
+		leftStaticFormFields: leftStaticFormFields(isEdit),
+		rightStaticFormFields: rightStaticFormFields(isEdit),
 	});
 
 	const toggleModal = () => {
@@ -120,6 +129,7 @@ const useActions = () => {
 	const handleAddClick = (e) => {
 		e.preventDefault();
 		setHeader('Add Staff');
+		navigate('add');
 		setIsEdit(false);
 		toggleModal();
 	};
@@ -164,8 +174,8 @@ const useActions = () => {
 				};
 			}
 
-			setFormFields([
-				...staticFormFields(isEdit),
+			setRightFormFields([
+				...rightStaticFormFields(isEdit),
 				{
 					name: 'group',
 					fieldType: 'select',
@@ -173,6 +183,11 @@ const useActions = () => {
 					placeholder: 'Select group',
 					optionList: groupOptions,
 				},
+				customField,
+			]);
+
+			setLeftFormFields([
+				...leftStaticFormFields(isEdit),
 				{
 					name: 'role',
 					fieldType: 'select',
@@ -181,7 +196,6 @@ const useActions = () => {
 					optionList: roleOptions,
 					isDisabled: isEdit,
 				},
-				customField,
 			]);
 		}
 	}, [roles, groups, validation?.values?.role, isEdit]);
@@ -221,7 +235,6 @@ const useActions = () => {
 		setIsOpen,
 		header,
 		validation,
-		formFields,
 		customComponent,
 		isLoading,
 		totalAdminsCount,
@@ -231,6 +244,10 @@ const useActions = () => {
 		columns,
 		formattedAdminDetails,
 		buttonList,
+		leftFormFields,
+		rightFormFields,
+		isAddSuperUserLoading,
+		isUpdateSuperUserLoading,
 	};
 };
 
