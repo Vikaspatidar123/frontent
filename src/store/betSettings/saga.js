@@ -13,7 +13,7 @@ import {
 } from './actionTypes';
 
 import { getBetSettings } from '../../network/getRequests';
-import { showSnackbar } from '../snackbar/actions';
+import { showToastr } from '../toastr/actions';
 import { createBetSettings } from '../../network/postRequests';
 
 function* betSettingsWorker() {
@@ -34,7 +34,7 @@ function* createBetSettingsWorker(action) {
 		yield createBetSettings(data);
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: `BetSettings Created Successfully`,
 				type: 'success',
 			})
@@ -45,7 +45,7 @@ function* createBetSettingsWorker(action) {
 		yield put(createBetSettingsFail());
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: e?.response?.data?.errors[0]?.description || e.message,
 				type: 'error',
 			})

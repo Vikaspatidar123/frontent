@@ -9,7 +9,7 @@ import {
 	fetchCurrenciesSuccess,
 } from './actions';
 import { getCurrencies } from '../../network/getRequests';
-import { showSnackbar } from '../snackbar/actions';
+import { showToastr } from '../toastr/actions';
 import { createCurrency } from '../../network/postRequests';
 
 function* fetchCurrencies({ payload }) {
@@ -28,7 +28,7 @@ function* createCurrencyWorker(action) {
 		yield createCurrency(data);
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: `Currency Created Successfully`,
 				type: 'success',
 			})
@@ -39,7 +39,7 @@ function* createCurrencyWorker(action) {
 		yield put(createCurrencyFail());
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: e?.response?.data?.errors[0]?.description || e.message,
 				type: 'error',
 			})

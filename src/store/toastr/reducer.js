@@ -1,4 +1,4 @@
-import { SET_SNACKBAR, RESET_SNACKBAR } from './actionTypes';
+import { SET_TOASTR, RESET_TOASTR } from './actionTypes';
 
 const INIT_STATE = {
 	isOpen: false,
@@ -6,9 +6,9 @@ const INIT_STATE = {
 	type: 'error',
 };
 
-const snackbar = (state = INIT_STATE, { type, payload } = {}) => {
+const Toastr = (state = INIT_STATE, { type, payload } = {}) => {
 	switch (type) {
-		case SET_SNACKBAR:
+		case SET_TOASTR:
 			return {
 				...state,
 				isOpen: true,
@@ -16,7 +16,7 @@ const snackbar = (state = INIT_STATE, { type, payload } = {}) => {
 				type: payload.type,
 			};
 
-		case RESET_SNACKBAR:
+		case RESET_TOASTR:
 			return {
 				...INIT_STATE,
 			};
@@ -26,4 +26,4 @@ const snackbar = (state = INIT_STATE, { type, payload } = {}) => {
 	}
 };
 
-export default snackbar;
+export default Toastr;

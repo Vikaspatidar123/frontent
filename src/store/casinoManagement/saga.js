@@ -31,7 +31,7 @@ import {
 	getCasinoSubCategoryListing,
 	getLanguages,
 } from '../../network/getRequests';
-import { showSnackbar } from '../snackbar/actions';
+import { showToastr } from '../toastr/actions';
 import { createCasinoProvider } from '../../network/postRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 
@@ -154,7 +154,7 @@ function* createCasinoProviderWorker(action) {
 		yield createCasinoProvider(objectToFormData(data));
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: `Provider Created Successfully`,
 				type: 'success',
 			})
@@ -165,7 +165,7 @@ function* createCasinoProviderWorker(action) {
 		yield put(createCasinoProvidersFailure());
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: e?.response?.data?.errors[0]?.description || e.message,
 				type: 'error',
 			})

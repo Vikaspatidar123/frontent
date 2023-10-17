@@ -116,7 +116,7 @@ import SASettings from './superAdminSettings/reducer';
 import SportsMatches from './sportsMatches/reducer';
 import AdminUser from './adminUser/reducer';
 
-import Snackbar from './snackbar/reducer';
+// import Toastr from './Toastr/reducer';
 
 // Sports Markets
 import SportsMarkets from './sportsMarkets/reducer';
@@ -139,7 +139,7 @@ const rootReducer = combineReducers({
 	SportsList,
 	SASettings,
 	AdminUser,
-	Snackbar,
+	// Toastr,
 	EmailTemplate,
 	WageringTemplate,
 	ProgressLoading,

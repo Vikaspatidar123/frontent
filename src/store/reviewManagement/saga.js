@@ -12,7 +12,7 @@ import {
 	fetchReviewManagementSuccess,
 } from './actions';
 import { getReviewManagement } from '../../network/getRequests';
-import { showSnackbar } from '../snackbar/actions';
+import { showToastr } from '../toastr/actions';
 import { createReview } from '../../network/postRequests';
 
 function* fetchReviewManagement({ payload }) {
@@ -33,7 +33,7 @@ function* createReviewWorker(action) {
 		yield createReview(data);
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: `Review Created Successfully`,
 				type: 'success',
 			})
@@ -44,7 +44,7 @@ function* createReviewWorker(action) {
 		yield put(createReviewFail());
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: e?.response?.data?.errors[0]?.description || e.message,
 				type: 'error',
 			})

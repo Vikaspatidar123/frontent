@@ -8,7 +8,7 @@ import {
 	createAggregatorFail,
 } from './actions';
 import { getAggregators } from '../../network/getRequests';
-import { showSnackbar } from '../snackbar/actions';
+import { showToastr } from '../toastr/actions';
 import { createAggregator } from '../../network/postRequests';
 
 function* getAggregatorsWorker(action) {
@@ -35,7 +35,7 @@ function* createAggregatorWorker(action) {
 		yield createAggregator(data);
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: `Aggregator Created Successfully`,
 				type: 'success',
 			})
@@ -46,7 +46,7 @@ function* createAggregatorWorker(action) {
 		yield put(createAggregatorFail());
 
 		yield put(
-			showSnackbar({
+			showToastr({
 				message: e?.response?.data?.errors[0]?.description || e.message,
 				type: 'error',
 			})
