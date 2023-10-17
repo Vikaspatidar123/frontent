@@ -25,7 +25,7 @@ import {
 import useAdminListing from './useAdminListing';
 import { showToastr } from '../../../utils/helpers';
 
-const useActions = () => {
+const useActions = (isEditPage) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const roles = useSelector((state) => state.AdminRoles.roles);
@@ -33,13 +33,11 @@ const useActions = () => {
 	const { adminDetails, superAdminUser, isAdminLoading } = useSelector(
 		(state) => state.PermissionDetails
 	);
-	const {
-		isAddSuperUserLoading,
-		isUpdateSuperUserLoading,
-		adminDetails: AllAdminList,
-	} = useSelector((state) => state.AllAdmins);
+	const { isAddSuperUserLoading, isUpdateSuperUserLoading } = useSelector(
+		(state) => state.AllAdmins
+	);
 	const [customComponent, setCustomComponent] = useState();
-	const [isEdit, setIsEdit] = useState(false);
+	const [isEdit, setIsEdit] = useState(isEditPage || false);
 
 	const handleStaffSubmit = (values) => {
 		if (
@@ -96,27 +94,16 @@ const useActions = () => {
 		initialValues: getInitialValues(isEdit ? adminDetails : null, isEdit),
 		validationSchema: validationSchema(isEdit),
 		onSubmitEntry: handleStaffSubmit,
-		// staticFormFields: staticFormFields(isEdit),
 		leftStaticFormFields: leftStaticFormFields(isEdit),
 		rightStaticFormFields: rightStaticFormFields(isEdit),
 	});
 
-	// const toggleModal = () => {
-	// 	setIsOpen((prev) => !prev);
-	// 	if (!roles?.length) {
-	// 		dispatch(getRolesStart());
-	// 	}
-	// 	if (!groups?.length) {
-	// 		dispatch(getAllGroupsStart());
-	// 	}
-	// };
 	const handleEdit = (e, row) => {
 		e.preventDefault();
-		setHeader('Edit Staff');
-		dispatch(showLinearProgress());
 		setIsEdit(true);
-		dispatch(getPermissionsStart(Number(row.adminUserId)));
-		// toggleModal();
+		navigate(`edit/${row.adminUserId}`);
+		// setHeader('Edit Staff');
+		dispatch(showLinearProgress());
 	};
 
 	const {
@@ -134,7 +121,6 @@ const useActions = () => {
 		setHeader('Add Staff');
 		navigate('add');
 		setIsEdit(false);
-		// toggleModal();
 	};
 
 	const buttonList = useMemo(() => [
@@ -236,15 +222,9 @@ const useActions = () => {
 
 	useEffect(() => {
 		if (isEdit && adminDetails && !isAdminLoading) {
-			setIsOpen(true);
 			dispatch(resetLinearProgress());
 		}
 	}, [adminDetails, isAdminLoading]);
-
-	useEffect(() => {
-		setIsOpen(false);
-		setIsEdit(false);
-	}, [AllAdminList?.count]);
 
 	return {
 		isOpen,
@@ -264,6 +244,8 @@ const useActions = () => {
 		rightFormFields,
 		isAddSuperUserLoading,
 		isUpdateSuperUserLoading,
+		isAdminLoading,
+		adminDetails,
 	};
 };
 

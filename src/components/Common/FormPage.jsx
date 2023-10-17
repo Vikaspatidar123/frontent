@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Col, Row, Form, Spinner, Card } from 'reactstrap';
+import { Col, Row, Form, Card } from 'reactstrap';
 import { getField } from '../../helpers/customForms';
 
 const FormPage = ({
@@ -48,7 +48,7 @@ const FormPage = ({
 								disabled={isSubmitLoading}
 								className="btn btn-success save-user"
 							>
-								{isSubmitLoading ? <Spinner /> : submitLabel}
+								{submitLabel}
 							</button>
 						</div>
 					</Col>

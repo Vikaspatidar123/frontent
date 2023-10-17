@@ -198,6 +198,7 @@ import KYCLabels from '../pages/KYCLabels';
 import WageringTemplate from '../pages/WageringTemplateDetail';
 import ProfilePage from '../pages/Profile';
 import AddAdmin from '../pages/Admins/addAdmin';
+import EditAdmin from '../pages/Admins/editAdmin';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -226,6 +227,7 @@ const authProtectedRoutes = [
 	{ path: '*', component: <Dashboard /> },
 	{ path: '/staff', component: <Admins /> },
 	{ path: '/staff/add', component: <AddAdmin /> },
+	{ path: '/staff/edit/:adminUserId', component: <EditAdmin /> },
 	{ path: '/cms', component: <Cms /> },
 	{ path: '/casino-aggregators', component: <CasinoAggregators /> },
 	{ path: '/bonus', component: <BonusDetail /> },

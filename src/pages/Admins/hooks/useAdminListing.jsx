@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import { getAdminDetails } from '../../../store/actions';
 import {
 	AdminUserID,
@@ -17,14 +18,10 @@ const itemsPerPage = 10;
 
 const useAdmin = (handleEdit) => {
 	const dispatch = useDispatch();
-
-	const {
-		adminDetails,
-		isLoading,
-		error,
-		isAddSuperUserSuccess,
-		isUpdateSuperUserSuccess,
-	} = useSelector((state) => state.AllAdmins);
+	const location = useLocation();
+	const { adminDetails, isLoading, error } = useSelector(
+		(state) => state.AllAdmins
+	);
 	const [page, setPage] = useState(1);
 	const [orderBy, setOrderBy] = useState('adminUserId');
 	const [search, setSearch] = useState('');
@@ -59,12 +56,8 @@ const useAdmin = (handleEdit) => {
 	};
 
 	useEffect(() => {
-		fetchData();
-	}, [page, orderBy, sort, status]);
-
-	useEffect(() => {
-		if (isAddSuperUserSuccess || isUpdateSuperUserSuccess) fetchData();
-	}, [isAddSuperUserSuccess, isUpdateSuperUserSuccess]);
+		if (location.pathname === '/staff') fetchData();
+	}, [page, orderBy, sort, status, location]);
 
 	const columns = useMemo(
 		() => [
