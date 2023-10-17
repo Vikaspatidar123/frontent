@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	ActionType,
@@ -17,6 +17,7 @@ import {
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCasinoTransactionsListing from './hooks/useCasinoTransactionsListing';
 import { projectName } from '../../constants/config';
+import CrudSection from '../../components/Common/CrudSection';
 
 const CasinoTransactionsList = ({ t }) => {
 	document.title = projectName;
@@ -92,32 +93,44 @@ const CasinoTransactionsList = ({ t }) => {
 					breadcrumbItem={t('Casino Transactions')}
 				/>
 				<Row>
-					<Col xs="12" sm="3">
-						<Input
-							className="form-control"
-							placeholder="Search email"
-							onChange={({ target }) =>
-								setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-							}
-							value={searchText}
-						/>
+					<Col lg="12">
+						<Card>
+							<CrudSection
+								buttonList={[]}
+								title="Casino Transactions Listing"
+							/>
+							<CardBody>
+								<Row>
+									<Col xs="12" sm="3">
+										<Input
+											className="form-control"
+											placeholder="Search email"
+											onChange={({ target }) =>
+												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
+											}
+											value={searchText}
+										/>
+									</Col>
+								</Row>
+								<TableContainer
+									isLoading={isCasinoTransactionsLoading}
+									columns={columns}
+									data={formattedCasinoTransactions}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									// paginationDiv="col-sm-12 col-md-7"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalCasinoTransactionsCount}
+									isManualPagination
+									onChangePagination={setCurrentPage}
+									currentPage={currentPage}
+								/>
+							</CardBody>
+						</Card>
 					</Col>
 				</Row>
-				<TableContainer
-					isLoading={isCasinoTransactionsLoading}
-					columns={columns}
-					data={formattedCasinoTransactions}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalCasinoTransactionsCount}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-				/>
 			</Container>
 		</div>
 	);

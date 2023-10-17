@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useBetSettings from './hooks/useBetSettings';
 import { projectName } from '../../constants/config';
@@ -24,6 +24,7 @@ import ActionButtons from './ActionButtons';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCreateBetSettings from './hooks/useCreateBetSettings';
 import FormModal from '../../components/Common/FormModal';
+import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
 	{
@@ -126,30 +127,39 @@ const BetSettings = () => {
 		header,
 		validation,
 		isCreateBetSettingsLoading,
-		handleAddClick,
+		buttonList,
 	} = useCreateBetSettings();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumb title="Sports Book" breadcrumbItem="Bet Settings" />
-				<TableContainer
-					columns={columns}
-					data={formattedBetSettingsList}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalBetCount}
-					isManualPagination
-					onChangePagination={setPage}
-					currentPage={page}
-					isLoading={!isLoading}
-					isAddOptions
-					addOptionLabel="Create"
-					handleAddClick={handleAddClick}
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection
+								buttonList={buttonList}
+								title="Bet Settings Listing"
+							/>
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={formattedBetSettingsList}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalBetCount}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!isLoading}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 				<FormModal
 					isOpen={isOpen}
 					toggle={() => setIsOpen((prev) => !prev)}

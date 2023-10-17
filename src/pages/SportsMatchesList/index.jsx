@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	Id,
@@ -17,6 +17,7 @@ import {
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsMatchesListing from './hooks/useSportsMatchesListing';
 import { projectName } from '../../constants/config';
+import CrudSection from '../../components/Common/CrudSection';
 
 const SportsMatchesList = ({ t }) => {
 	document.title = projectName;
@@ -86,21 +87,30 @@ const SportsMatchesList = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumb title={t('Sports Book')} breadcrumbItem={t('Matches')} />
-				<TableContainer
-					isLoading={isSportsMatchesLoading}
-					columns={columns}
-					data={formattedSportsMatches}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalSportsMatchesCount}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Matches Listing" />
+							<CardBody>
+								<TableContainer
+									isLoading={isSportsMatchesLoading}
+									columns={columns}
+									data={formattedSportsMatches}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									// paginationDiv="col-sm-12 col-md-7"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalSportsMatchesCount}
+									isManualPagination
+									onChangePagination={setCurrentPage}
+									currentPage={currentPage}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 			</Container>
 		</div>
 	);

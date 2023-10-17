@@ -2,7 +2,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
@@ -18,6 +18,7 @@ import {
 } from './BonusListCol';
 import ActionButtons from './ActionButtons';
 import useBonsuListing from './hooks/useBonusListing';
+import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
 	{
@@ -90,21 +91,31 @@ const BonusDetail = ({ t }) => {
 					title={t('Bonus Management')}
 					breadcrumbItem={t('Bonus')}
 				/>
-				<TableContainer
-					columns={columns}
-					data={formattedBonusDetails}
-					isGlobalFilter
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalBonusCount}
-					isManualPagination
-					onChangePagination={setPage}
-					currentPage={page}
-					isLoading={!isLoading}
-				/>
+
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Bonus Listing" />
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={formattedBonusDetails}
+									isGlobalFilter
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalBonusCount}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!isLoading}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 			</Container>
 		</div>
 	);

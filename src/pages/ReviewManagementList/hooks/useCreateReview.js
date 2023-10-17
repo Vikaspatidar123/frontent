@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -45,6 +45,14 @@ const useCreateReview = () => {
 		setIsOpen(false);
 	}, [reviewManagement?.count]);
 
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+		},
+	]);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -52,8 +60,8 @@ const useCreateReview = () => {
 		validation,
 		formFields,
 		setFormFields,
-		handleAddClick,
 		isCreateReviewLoading,
+		buttonList,
 	};
 };
 

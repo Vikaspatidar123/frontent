@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { UncontrolledTooltip } from 'reactstrap';
+import { Card, CardBody, Col, Row, UncontrolledTooltip } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import {
@@ -18,6 +18,7 @@ import { projectName } from '../../constants/config';
 
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import { getCasinoSubCategoryDetailStart } from '../../store/actions';
+import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
 	{
@@ -152,21 +153,30 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 					breadcrumbItem={t('Casino Sub Categories')}
 				/>
 
-				<TableContainer
-					columns={columns}
-					data={formattedgetCasinoSubCategoryDetails}
-					isGlobalFilter
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={casinoSubCategoryDetails?.count}
-					isManualPagination
-					onChangePagination={setPage}
-					currentPage={page}
-					isLoading={!iscasinoSubCategoryDetailsLoading}
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Sub Categories Listing" />
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={formattedgetCasinoSubCategoryDetails}
+									isGlobalFilter
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={casinoSubCategoryDetails?.count}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!iscasinoSubCategoryDetailsLoading}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 			</div>
 		</div>
 	);

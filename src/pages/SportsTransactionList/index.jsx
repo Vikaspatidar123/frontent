@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	ActionTypes,
@@ -17,6 +17,7 @@ import {
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsTransactionListing from './hooks/useSportsTransactionListing';
 import { projectName } from '../../constants/config';
+import CrudSection from '../../components/Common/CrudSection';
 
 const SportsTransactionList = ({ t }) => {
 	document.title = projectName;
@@ -92,32 +93,44 @@ const SportsTransactionList = ({ t }) => {
 					breadcrumbItem={t('Sports Transactions')}
 				/>
 				<Row>
-					<Col xs="12" sm="3">
-						<Input
-							className="form-control"
-							placeholder="Search Email"
-							onChange={({ target }) =>
-								setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-							}
-							value={searchText}
-						/>
+					<Col lg="12">
+						<Card>
+							<CrudSection
+								buttonList={[]}
+								title="Sports Transactions Listing"
+							/>
+							<CardBody>
+								<Row>
+									<Col xs="12" sm="3">
+										<Input
+											className="form-control"
+											placeholder="Search Email"
+											onChange={({ target }) =>
+												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
+											}
+											value={searchText}
+										/>
+									</Col>
+								</Row>
+								<TableContainer
+									isLoading={isSportsTransactionLoading}
+									columns={columns}
+									data={formattedSportsTransaction}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									// paginationDiv="col-sm-12 col-md-7"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalSportsTransactionCount}
+									isManualPagination
+									onChangePagination={setCurrentPage}
+									currentPage={currentPage}
+								/>
+							</CardBody>
+						</Card>
 					</Col>
 				</Row>
-				<TableContainer
-					isLoading={isSportsTransactionLoading}
-					columns={columns}
-					data={formattedSportsTransaction}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalSportsTransactionCount}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-				/>
 			</Container>
 		</div>
 	);

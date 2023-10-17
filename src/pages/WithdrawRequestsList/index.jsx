@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	ActionableType,
@@ -18,6 +18,7 @@ import {
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useWithdrawRequestsListing from './hooks/useWithdrawRequestsListing';
 import { projectName } from '../../constants/config';
+import CrudSection from '../../components/Common/CrudSection';
 
 const WithdrawRequestsList = ({ t }) => {
 	document.title = projectName;
@@ -98,32 +99,41 @@ const WithdrawRequestsList = ({ t }) => {
 					breadcrumbItem={t('Withdraw Requests')}
 				/>
 				<Row>
-					<Col xs="12" sm="3">
-						<Input
-							className="form-control"
-							placeholder="Search Payment Providers"
-							onChange={({ target }) =>
-								setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-							}
-							value={searchText}
-						/>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Withdraw Requests Listing" />
+							<CardBody>
+								<Row>
+									<Col xs="12" sm="3">
+										<Input
+											className="form-control"
+											placeholder="Search Payment Providers"
+											onChange={({ target }) =>
+												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
+											}
+											value={searchText}
+										/>
+									</Col>
+								</Row>
+								<TableContainer
+									isLoading={isWithdrawRequestsLoading}
+									columns={columns}
+									data={formattedWithdrawRequests}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									// paginationDiv="col-sm-12 col-md-7"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalWithdrawRequestsCount}
+									isManualPagination
+									onChangePagination={setCurrentPage}
+									currentPage={currentPage}
+								/>
+							</CardBody>
+						</Card>
 					</Col>
 				</Row>
-				<TableContainer
-					isLoading={isWithdrawRequestsLoading}
-					columns={columns}
-					data={formattedWithdrawRequests}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalWithdrawRequestsCount}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-				/>
 			</Container>
 		</div>
 	);
