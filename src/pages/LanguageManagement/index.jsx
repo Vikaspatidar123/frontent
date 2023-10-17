@@ -2,12 +2,13 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useLanguageManagementListing from './hooks/useLanguageManagementListing';
 import { Action, English, Keys } from './LanguageManagementCol';
 import { projectName } from '../../constants/config';
+import CrudSection from '../../components/Common/CrudSection';
 
 const LanguageManagementList = ({ t }) => {
 	document.title = projectName;
@@ -47,25 +48,22 @@ const LanguageManagementList = ({ t }) => {
 					title={t('Site Configurations')}
 					breadcrumbItem={t('Language Management')}
 				/>
-				{/* <Row>
-					<Col xs="12" sm="3">
-						<Input
-							className="form-control"
-							placeholder="Search Language Management"
-							onChange={({ target }) =>
-								setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-							}
-							value={searchText}
-						/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Languages Management" />
+							<CardBody>
+								<TableContainer
+									isLoading={isLanguageManagementLoading}
+									columns={columns}
+									data={formattedLanguageManagement}
+									isManualPagination
+									isGlobalFilter
+								/>
+							</CardBody>
+						</Card>
 					</Col>
-				</Row> */}
-				<TableContainer
-					isLoading={isLanguageManagementLoading}
-					columns={columns}
-					data={formattedLanguageManagement}
-					isManualPagination
-					isGlobalFilter
-				/>
+				</Row>
 			</Container>
 		</div>
 	);

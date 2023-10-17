@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
-import { Col, Container, Input, Row, Spinner } from 'reactstrap';
+import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
@@ -15,6 +15,7 @@ import {
 } from './CountriesListCol';
 import useCountriesListing from './hooks/useCountriesListing';
 import { projectName } from '../../constants/config';
+import CrudSection from '../../components/Common/CrudSection';
 
 const CountriesList = ({ t }) => {
 	document.title = projectName;
@@ -81,37 +82,40 @@ const CountriesList = ({ t }) => {
 					breadcrumbItem={t('Countries')}
 				/>
 				<Row>
-					<Col xs="12" sm="3">
-						<Input
-							className="form-control"
-							placeholder="Search Countries"
-							onChange={({ target }) =>
-								setName(target.value.replace(/[^\w\s]/gi, ''))
-							}
-							value={name}
-						/>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Countries Listing" />
+							<CardBody>
+								<Row>
+									<Col xs="12" sm="3">
+										<Input
+											className="form-control"
+											placeholder="Search Countries"
+											onChange={({ target }) =>
+												setName(target.value.replace(/[^\w\s]/gi, ''))
+											}
+											value={name}
+										/>
+									</Col>
+								</Row>
+								<TableContainer
+									isLoading={isCountriesLoading}
+									columns={columns}
+									data={formattedCountries}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalCountriesCount}
+									isManualPagination
+									onChangePagination={setCurrentPage}
+									currentPage={currentPage}
+								/>
+							</CardBody>
+						</Card>
 					</Col>
 				</Row>
-				{isCountriesLoading ? (
-					<Spinner
-						color="primary"
-						className="position-absolute top-50 start-50"
-					/>
-				) : (
-					<TableContainer
-						columns={columns}
-						data={formattedCountries}
-						isPagination
-						customPageSize={itemsPerPage}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={totalCountriesCount}
-						isManualPagination
-						onChangePagination={setCurrentPage}
-						currentPage={currentPage}
-					/>
-				)}
 			</Container>
 		</div>
 	);

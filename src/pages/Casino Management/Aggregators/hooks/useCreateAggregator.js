@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import useForm from '../../../../components/Common/Hooks/useFormModal';
 import {
 	getInitialValues,
@@ -44,6 +44,14 @@ const useCreateAggregator = () => {
 		setIsOpen(false);
 	}, [aggregatorsData?.count]);
 
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+		},
+	]);
+
 	return {
 		isOpen,
 		setFormFields,
@@ -51,7 +59,7 @@ const useCreateAggregator = () => {
 		formFields,
 		header,
 		validation,
-		handleAddClick,
+		buttonList,
 		isCreateAggregatorLoading,
 	};
 };

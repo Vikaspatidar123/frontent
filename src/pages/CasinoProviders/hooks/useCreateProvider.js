@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -70,6 +70,14 @@ const useCreateProvider = () => {
 		}
 	}, [aggregatorsData]);
 
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+		},
+	]);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -77,7 +85,7 @@ const useCreateProvider = () => {
 		validation,
 		formFields,
 		setFormFields,
-		handleAddClick,
+		buttonList,
 		isCreateProviderLoading,
 	};
 };

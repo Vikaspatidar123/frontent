@@ -93,19 +93,19 @@ const PlayersList = ({ t }) => {
 					<Col lg="12">
 						<Card>
 							<CrudSection buttonList={[]} title="Player Listing" />
-							<Row>
-								<Col xs="12" sm="3">
-									<Input
-										className="form-control"
-										placeholder="Search Players"
-										onChange={({ target }) =>
-											setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-										}
-										value={searchText}
-									/>
-								</Col>
-							</Row>
 							<CardBody>
+								<Row>
+									<Col xs="12" sm="3">
+										<Input
+											className="form-control"
+											placeholder="Search Players"
+											onChange={({ target }) =>
+												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
+											}
+											value={searchText}
+										/>
+									</Col>
+								</Row>
 								<TableContainer
 									isLoading={isPlayersLoading}
 									columns={columns}

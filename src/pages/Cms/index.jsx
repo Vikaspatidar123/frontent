@@ -2,7 +2,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useCmsListing from './hooks/useCmsListing';
@@ -10,6 +10,7 @@ import { CmsPageId, Title, Slug, Portal, Status } from './CmsListCol';
 
 import ActionButtons from './ActionButtons';
 import { projectName } from '../../constants/config';
+import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
 	{
@@ -71,22 +72,31 @@ const Cms = ({ t }) => {
 					title={t('Content Management')}
 					breadcrumbItem={t('Cms')}
 				/>
-				<TableContainer
-					columns={columns}
-					data={formattedCmsDetails}
-					isAddOptions={false}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalCmsCount}
-					isManualPagination
-					onChangePagination={setPage}
-					currentPage={page}
-					isLoading={!isLoading}
-					isGlobalFilter
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="CMS Listing" />
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={formattedCmsDetails}
+									isAddOptions={false}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalCmsCount}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!isLoading}
+									isGlobalFilter
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 			</Container>
 		</div>
 	);
