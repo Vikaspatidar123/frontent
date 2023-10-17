@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsCountriesListing from './hooks/useSportsCountriesList';
 
@@ -9,6 +9,7 @@ import { CountryId, CountryName, Icon, Status } from './sportsCountriesListCol';
 import ActionButtons from './ActionButtons';
 import { projectName } from '../../constants/config';
 import Breadcrumb from '../../components/Common/Breadcrumb';
+import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
 	{
@@ -60,20 +61,29 @@ const SportsCountriesListing = () => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumb title="Sports Book" breadcrumbItem="Countries" />
-				<TableContainer
-					columns={columns}
-					data={formattedSportsCountries}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalSportsCountriesCount}
-					isManualPagination
-					onChangePagination={setPage}
-					currentPage={page}
-					isLoading={!isSportsCountriesLoading}
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Countries Listing" />
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={formattedSportsCountries}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalSportsCountriesCount}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!isSportsCountriesLoading}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 			</Container>
 		</div>
 	);

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -64,6 +64,14 @@ const useCreateBetSettings = () => {
 		}
 	}, [sportsListInfo]);
 
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+		},
+	]);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -71,7 +79,7 @@ const useCreateBetSettings = () => {
 		validation,
 		formFields,
 		setFormFields,
-		handleAddClick,
+		buttonList,
 		isCreateBetSettingsLoading,
 	};
 };
