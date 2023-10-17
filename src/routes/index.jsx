@@ -196,6 +196,7 @@ import SportsMarketsList from '../pages/SportsMarketsList';
 import EmailTemplate from '../pages/EmailTemplate';
 import KYCLabels from '../pages/KYCLabels';
 import WageringTemplate from '../pages/WageringTemplateDetail';
+import ProfilePage from '../pages/ProfilePage';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -246,6 +247,7 @@ const authProtectedRoutes = [
 	{ path: '/email-templates', component: <EmailTemplate /> },
 	{ path: '/kyc-labels', component: <KYCLabels /> },
 	{ path: '/wagering-template', component: <WageringTemplate /> },
+	{ path: '/profile', component: <ProfilePage /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },
