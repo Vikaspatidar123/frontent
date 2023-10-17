@@ -135,14 +135,7 @@ const validationSchema = (isEdit) =>
 			.required('Group Name Required'),
 	});
 
-const staticFormFields = (isEdit) => [
-	{
-		name: 'email',
-		fieldType: 'textField',
-		label: 'Email',
-		placeholder: 'Enter your email',
-		isDisabled: isEdit,
-	},
+const leftStaticFormFields = (isEdit) => [
 	{
 		name: 'adminUsername',
 		fieldType: 'textField',
@@ -156,18 +149,28 @@ const staticFormFields = (isEdit) => [
 		placeholder: 'Enter first name',
 	},
 	{
-		name: 'lastName',
-		fieldType: 'textField',
-		label: 'Last Name',
-		placeholder: 'Enter last name',
-	},
-	{
 		name: 'password',
 		fieldType: 'textField',
 		label: 'Password',
 		placeholder: 'Enter password',
 		isPassword: true, // for showing visibility (if needed)
 		isHide: isEdit,
+	},
+];
+
+const rightStaticFormFields = (isEdit) => [
+	{
+		name: 'email',
+		fieldType: 'textField',
+		label: 'Email',
+		placeholder: 'Enter your email',
+		isDisabled: isEdit,
+	},
+	{
+		name: 'lastName',
+		fieldType: 'textField',
+		label: 'Last Name',
+		placeholder: 'Enter last name',
 	},
 ];
 
@@ -239,7 +242,8 @@ const permissionLabel = (label) => {
 export {
 	validationSchema,
 	getInitialValues,
-	staticFormFields,
+	leftStaticFormFields,
+	rightStaticFormFields,
 	permissionIcons,
 	permissionLabel,
 };
