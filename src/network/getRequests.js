@@ -219,6 +219,9 @@ const getAdminDetails = (adminId) =>
 const getDocumentLabel = (userId) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/document-label?userId=${userId}`);
 
+const getSiteConfiguration = (data) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -254,4 +257,5 @@ export {
 	getDocumentLabel,
 	getSuperAdminWageringTemplateDetail,
 	getSuperAdminWageringTemplate,
+	getSiteConfiguration,
 };
