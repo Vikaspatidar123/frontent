@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
-import { Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
@@ -18,6 +18,7 @@ import {
 } from './TransactionBankingCol';
 import useTransactionBankingListing from './hooks/useTransactionBankingListing';
 import { projectName } from '../../constants/config';
+import CrudSection from '../../components/Common/CrudSection';
 
 const TransactionBankingList = ({ t }) => {
 	document.title = projectName;
@@ -99,32 +100,44 @@ const TransactionBankingList = ({ t }) => {
 					breadcrumbItem={t('Transactions Banking')}
 				/>
 				<Row>
-					<Col xs="12" sm="3">
-						<Input
-							className="form-control"
-							placeholder="Search Payment Provider"
-							onChange={({ target }) =>
-								setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-							}
-							value={searchText}
-						/>
+					<Col lg="12">
+						<Card>
+							<CrudSection
+								buttonList={[]}
+								title="Transactions Banking Listing"
+							/>
+							<CardBody>
+								<Row>
+									<Col xs="12" sm="3">
+										<Input
+											className="form-control"
+											placeholder="Search Payment Provider"
+											onChange={({ target }) =>
+												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
+											}
+											value={searchText}
+										/>
+									</Col>
+								</Row>
+								<TableContainer
+									isLoading={isTransactionBankingLoading}
+									columns={columns}
+									data={formattedTransactionBanking}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									// paginationDiv="col-sm-12 col-md-7"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalTransactionBankingCount}
+									isManualPagination
+									onChangePagination={setCurrentPage}
+									currentPage={currentPage}
+								/>
+							</CardBody>
+						</Card>
 					</Col>
 				</Row>
-				<TableContainer
-					isLoading={isTransactionBankingLoading}
-					columns={columns}
-					data={formattedTransactionBanking}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalTransactionBankingCount}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-				/>
 			</Container>
 		</div>
 	);

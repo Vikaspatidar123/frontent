@@ -2,7 +2,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
@@ -18,6 +18,7 @@ import {
 } from './CasinoGamesListCol';
 import ActionButtons from './ActionButtons';
 import useCasinoGamesListings from './hooks/useCasinoGamesListing';
+import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
 	{
@@ -96,21 +97,30 @@ const CasinoGames = ({ t }) => {
 					title={t('Casino Management')}
 					breadcrumbItem={t('Casino Games')}
 				/>
-				<TableContainer
-					columns={columns}
-					data={formattedCasinoGames}
-					isGlobalFilter
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={totalCasinoGamesCount}
-					isManualPagination
-					onChangePagination={setPage}
-					currentPage={page}
-					isLoading={!isCasinoGamesLoading}
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Games Listing" />
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={formattedCasinoGames}
+									isGlobalFilter
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalCasinoGamesCount}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!isCasinoGamesLoading}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 			</Container>
 		</div>
 	);

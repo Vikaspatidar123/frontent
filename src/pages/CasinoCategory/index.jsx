@@ -24,6 +24,7 @@ import CasinoCategoryColumn from './CasinoCategoryColumn';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
+import CrudSection from '../../components/Common/CrudSection';
 
 const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
@@ -40,6 +41,7 @@ const GetCasinoCategoryDetails = () => {
 		setModal,
 		isEdit,
 		job,
+		buttonList,
 	} = useCasinoCategoryListing();
 
 	const toggle = () => {
@@ -75,22 +77,7 @@ const GetCasinoCategoryDetails = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CardBody className="border-bottom">
-								<div className="d-flex align-items-center">
-									<h5 className="mb-0 card-title flex-grow-1">
-										Casino Category List
-									</h5>
-									<div className="flex-shrink-0">
-										<Link
-											to="#!"
-											onClick={() => setModal(true)}
-											className="btn btn-primary me-1"
-										>
-											Create
-										</Link>
-									</div>
-								</div>
-							</CardBody>
+							<CrudSection buttonList={buttonList} title="Category Listing" />
 							<CardBody>
 								<TableContainer
 									columns={CasinoCategoryColumn}

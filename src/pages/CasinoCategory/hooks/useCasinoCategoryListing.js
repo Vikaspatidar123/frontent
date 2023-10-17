@@ -48,6 +48,14 @@ const useCasinoCategoryListing = () => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
 	}, []);
 
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: () => null,
+			link: '#!',
+		},
+	]);
+
 	return {
 		formattedCasinoCategoriesData,
 		iscasinoCategoryDetailsLoading,
@@ -66,6 +74,7 @@ const useCasinoCategoryListing = () => {
 		setIsEdit,
 		job,
 		setJob,
+		buttonList,
 	};
 };
 
