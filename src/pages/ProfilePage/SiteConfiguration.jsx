@@ -7,7 +7,7 @@ import {
 	CustomInputField,
 	CustomSelectField,
 	// CustomSwitchButton,
-} from '../../helpers/custom_forms';
+} from '../../helpers/customForms';
 import { adminSiteConfigSchema } from './formDetails';
 
 const SiteConfig = ({ details, languageData }) => {
@@ -172,7 +172,7 @@ const SiteConfig = ({ details, languageData }) => {
 						labelClassName="form-check-label"
 						label="Maintenance"
 						htmlFor="customRadioInline1"
-						type="switch" 
+						type="switch"
 						id="customRadioInline1"
 						name="maintenance"
 						checked={formik.values?.maintenance}

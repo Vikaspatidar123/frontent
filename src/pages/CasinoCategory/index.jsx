@@ -19,7 +19,7 @@ import {
 	CustomInputField,
 	CustomSwitchButton,
 	CustomSelectField,
-} from '../../helpers/custom_forms';
+} from '../../helpers/customForms';
 import CasinoCategoryColumn from './CasinoCategoryColumn';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';

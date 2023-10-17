@@ -2,7 +2,7 @@
 import React from 'react';
 import { Form, Row, Col, Card } from 'reactstrap';
 import { useFormik } from 'formik';
-import { CustomInputField } from '../../helpers/custom_forms';
+import { CustomInputField } from '../../helpers/customForms';
 import { validationSchema } from './formDetails';
 
 const Overview = ({ details, isTenant }) => {

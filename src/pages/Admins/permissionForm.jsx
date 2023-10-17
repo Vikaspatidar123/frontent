@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { permissionIcons } from './formDetails';
 import { showToastr } from '../../store/toastr/actions';
-import { CustomInputField } from '../../helpers/custom_forms';
+import { CustomInputField } from '../../helpers/customForms';
 
 const PermissionForm = ({
 	values,

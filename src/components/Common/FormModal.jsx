@@ -3,28 +3,13 @@ import React from 'react';
 import {
 	Col,
 	Row,
-	// UncontrolledTooltip,
 	Modal,
 	ModalHeader,
 	ModalBody,
 	Form,
 	Spinner,
-	// Input,
-	// FormFeedback,
-	// Label,
-	// Card,
-	// CardBody,
-	// UncontrolledDropdown,
-	// DropdownToggle,
-	// DropdownMenu,
-	// DropdownItem,
 } from 'reactstrap';
-import {
-	CustomInputField,
-	CustomSwitchButton,
-	CustomSelectField,
-	CustomDateField,
-} from '../../helpers/custom_forms';
+import { getField } from '../../helpers/customForms';
 
 const FormModal = ({
 	isOpen,
@@ -37,171 +22,56 @@ const FormModal = ({
 	customColClasses,
 	customComponent,
 	isSubmitLoading,
-}) => {
-	const getField = ({
-		fieldType,
-		optionList,
-		optionsLabel,
-		name,
-		placeholder,
-		label,
-		callBack,
-		isDisabled,
-	}) => {
-		switch (fieldType) {
-			case 'textField':
-				return (
-					<CustomInputField
-						label={label}
-						name={name}
-						type="text"
-						onChange={validation.handleChange}
-						onBlur={validation.handleBlur}
-						placeholder={placeholder}
-						validate={{ required: { value: true } }}
-						value={validation.values?.[name] || ''}
-						invalid={!!(validation.touched[name] && validation.errors[name])}
-						isError
-						errorMsg={validation.touched[name] && validation.errors[name]}
-						disabled={!!isDisabled}
+}) => (
+	<Modal isOpen={isOpen} toggle={toggle}>
+		<ModalHeader toggle={toggle} tag="h4">
+			{header}
+		</ModalHeader>
+		<ModalBody>
+			<Form
+				onSubmit={(e) => {
+					e.preventDefault();
+					validation.handleSubmit();
+					return false;
+				}}
+			>
+				{isLoading ? (
+					<Spinner
+						color="primary"
+						className="position-absolute top-50 start-50"
 					/>
-				);
-			case 'select':
-				return (
-					<CustomSelectField
-						label={label}
-						name={name}
-						type="select"
-						onChange={(e) => {
-							validation.handleChange(e);
-							// eslint-disable-next-line no-unused-expressions
-							callBack ? callBack(e) : null;
-						}}
-						onBlur={validation.handleBlur}
-						placeholder={placeholder}
-						validate={{ required: { value: true } }}
-						value={validation.values[name]}
-						invalid={!!(validation.touched[name] && validation.errors[name])}
-						isError
-						errorMsg={validation.touched[name] && validation.errors[name]}
-						options={
-							<>
-								<option value={null} disabled selected>
-									{optionsLabel || placeholder}
-								</option>
-								{optionList?.map(({ optionLabel, value }) => (
-									<option key={value} value={value}>
-										{optionLabel}
-									</option>
-								))}
-							</>
-						}
-						disabled={!!isDisabled}
-					/>
-				);
-			case 'switch':
-				return (
-					<CustomSwitchButton
-						labelClassName="form-check-label"
-						label={label}
-						htmlFor="customRadioInline1"
-						type="switch"
-						id="customRadioInline1"
-						name={name}
-						checked={validation.values.status}
-						inputClassName="form-check-input"
-						onChange={validation.handleChange}
-						onBlur={validation.handleBlur}
-						disabled={!!isDisabled}
-					/>
-				);
-			case 'datePicker':
-				return (
-					<CustomDateField
-						name={name}
-						placeholder={placeholder}
-						label={label}
-						value={validation.values[name]}
-						onChange={validation.onChange}
-						isError
-						invalid={!!(validation.touched[name] && validation.errors[name])}
-						errorMsg={validation.touched[name] && validation.errors[name]}
-						disabled={!!isDisabled}
-					/>
-				);
-			case 'file':
-				return (
-					<CustomInputField
-						label={label}
-						id="file"
-						name={name}
-						type="file"
-						onChange={(event) =>
-							validation.setFieldValue(name, event.currentTarget.files[0])
-						}
-						onBlur={validation.handleBlur}
-						placeholder={placeholder}
-						validate={{ required: { value: true } }}
-						invalid={!!(validation.touched[name] && validation.errors[name])}
-						isError
-						errorMsg={validation.touched[name] && validation.errors[name]}
-					/>
-				);
-			default:
-				return <div />;
-		}
-	};
-	return (
-		<Modal isOpen={isOpen} toggle={toggle}>
-			<ModalHeader toggle={toggle} tag="h4">
-				{header}
-			</ModalHeader>
-			<ModalBody>
-				<Form
-					onSubmit={(e) => {
-						e.preventDefault();
-						validation.handleSubmit();
-						return false;
-					}}
-				>
-					{isLoading ? (
-						<Spinner
-							color="primary"
-							className="position-absolute top-50 start-50"
-						/>
-					) : (
-						<>
-							<Row>
-								<Col className={`col-12 ${customColClasses}`}>
-									{formFields?.map(
-										(field) =>
-											!field?.isHide && (
-												<div className="mb-3">{getField(field)}</div>
-											)
-									)}
-								</Col>
-							</Row>
-							<Row>{customComponent}</Row>
-							<Row>
-								<Col>
-									<div className="text-end">
-										<button
-											type="submit"
-											disabled={isSubmitLoading}
-											className="btn btn-success save-user"
-										>
-											{isSubmitLoading ? <Spinner /> : submitLabel}
-										</button>
-									</div>
-								</Col>
-							</Row>
-						</>
-					)}
-				</Form>
-			</ModalBody>
-		</Modal>
-	);
-};
+				) : (
+					<>
+						<Row>
+							<Col className={`col-12 ${customColClasses}`}>
+								{formFields?.map(
+									(field) =>
+										!field?.isHide && (
+											<div className="mb-3">{getField(field, validation)}</div>
+										)
+								)}
+							</Col>
+						</Row>
+						<Row>{customComponent}</Row>
+						<Row>
+							<Col>
+								<div className="text-end">
+									<button
+										type="submit"
+										disabled={isSubmitLoading}
+										className="btn btn-success save-user"
+									>
+										{isSubmitLoading ? <Spinner /> : submitLabel}
+									</button>
+								</div>
+							</Col>
+						</Row>
+					</>
+				)}
+			</Form>
+		</ModalBody>
+	</Modal>
+);
 
 FormModal.defaultProps = {
 	isOpen: false,
