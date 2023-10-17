@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Card, Col, Container, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
@@ -17,7 +17,7 @@ import ActionButtons from './ActionButtons';
 import useCurrencyListing from './hooks/useCurrencyListing';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
-import useCreateCurrency from './hooks/useActions';
+import useCreateCurrency from './hooks/useCreateCurrency';
 import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
@@ -105,23 +105,25 @@ const CurrencyList = ({ t }) => {
 					<Col lg="12">
 						<Card>
 							<CrudSection buttonList={buttonList} title="Currency Listing" />
-							<TableContainer
-								isLoading={isCurrenciesLoading}
-								columns={columns}
-								data={formattedCurrencies}
-								isPagination
-								customPageSize={itemsPerPage}
-								tableClass="table-bordered align-middle nowrap mt-2"
-								paginationDiv="justify-content-center"
-								pagination="pagination justify-content-start pagination-rounded"
-								totalPageCount={totalCurrenciesCount}
-								isManualPagination
-								onChangePagination={setCurrentPage}
-								currentPage={currentPage}
-								// isAddOptions
-								// addOptionLabel="Create"
-								// handleAddClick={handleAddClick}
-							/>
+							<CardBody>
+								<TableContainer
+									isLoading={isCurrenciesLoading}
+									columns={columns}
+									data={formattedCurrencies}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalCurrenciesCount}
+									isManualPagination
+									onChangePagination={setCurrentPage}
+									currentPage={currentPage}
+									// isAddOptions
+									// addOptionLabel="Create"
+									// handleAddClick={handleAddClick}
+								/>
+							</CardBody>
 						</Card>
 					</Col>
 				</Row>

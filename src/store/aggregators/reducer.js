@@ -28,12 +28,14 @@ const AggregatorsReducer = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				error: payload,
+				loading: false,
 			};
 
 		case GET_AGGREGATORS_SUCCESS:
 			return {
 				...state,
 				aggregatorsData: payload,
+				loading: false,
 			};
 
 		case CREATE_AGGREGATORS_START:

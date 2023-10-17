@@ -2,7 +2,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
@@ -16,6 +16,7 @@ import ActionButtons from './ActionButtons';
 import useCasinoProvidersListing from './hooks/useCasinoProvidersListing';
 import FormModal from '../../components/Common/FormModal';
 import useCreateProvider from './hooks/useCreateProvider';
+import CrudSection from '../../components/Common/CrudSection';
 
 const columns = [
 	{
@@ -69,7 +70,7 @@ const CasinoProviders = ({ t }) => {
 		header,
 		validation,
 		isCreateProviderLoading,
-		handleAddClick,
+		buttonList,
 	} = useCreateProvider();
 
 	return (
@@ -79,24 +80,30 @@ const CasinoProviders = ({ t }) => {
 					title={t('Casino Management')}
 					breadcrumbItem={t('Casino Providers')}
 				/>
-				<TableContainer
-					columns={columns}
-					data={casinoProvidersData?.rows || []}
-					isGlobalFilter
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={casinoProvidersData?.count}
-					isManualPagination
-					onChangePagination={setPage}
-					currentPage={page}
-					isLoading={!isCasinoProvidersDataLoading}
-					isAddOptions
-					addOptionLabel="Create"
-					handleAddClick={handleAddClick}
-				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={buttonList} title="Providers Listing" />
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={casinoProvidersData?.rows || []}
+									isGlobalFilter
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={casinoProvidersData?.count}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!isCasinoProvidersDataLoading}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
 				<FormModal
 					isOpen={isOpen}
 					toggle={() => setIsOpen((prev) => !prev)}

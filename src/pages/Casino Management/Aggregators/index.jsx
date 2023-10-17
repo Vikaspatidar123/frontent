@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from 'reselect';
-import { CardBody } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 
 // import components
@@ -12,11 +12,11 @@ import Breadcrumbs from '../../../components/Common/Breadcrumb';
 import { getAggregatorsList } from '../../../store/actions';
 
 // redux
-import Spinners from '../../../components/Common/Spinner';
 import { projectName } from '../../../constants/config';
 import useAggregatorList from './hooks/useAggregatorList';
-import FormModal from '../../../components/Common/FormModal';
 import useCreateAggregator from './hooks/useCreateAggregator';
+import CrudSection from '../../../components/Common/CrudSection';
+import FormModal from '../../../components/Common/FormModal';
 
 const CasinoAggregators = () => {
 	// meta title
@@ -41,8 +41,8 @@ const CasinoAggregators = () => {
 		header,
 		validation,
 		formFields,
-		handleAddClick,
 		isCreateAggregatorLoading,
+		buttonList,
 	} = useCreateAggregator();
 
 	const selectAggregatorsState = (state) => state.AggregatorsReducer;
@@ -58,7 +58,6 @@ const CasinoAggregators = () => {
 	const { aggregatorsData, loading, isCreateAggregatorSuccess } = useSelector(
 		AggregatorsProperties
 	);
-	const [isLoading, setLoading] = useState(loading);
 	const [page, setPage] = useState(1);
 	const itemsPerPage = 10;
 
@@ -68,46 +67,51 @@ const CasinoAggregators = () => {
 
 	return (
 		<div className="page-content">
-			<div className="container-fluid">
+			<Container fluid>
 				<Breadcrumbs
 					title="Casino Management"
 					breadcrumbItem="Casino Aggregators"
 				/>
-				{isLoading ? (
-					<Spinners setLoading={setLoading} />
-				) : (
-					<CardBody>
-						<TableContainer
-							columns={columns}
-							data={aggregatorsData?.rows}
-							isGlobalFilter
-							isPagination
-							customPageSize={itemsPerPage}
-							tableClass="table-bordered align-middle nowrap mt-2"
-							paginationDiv="justify-content-center"
-							pagination="pagination justify-content-start pagination-rounded"
-							totalPageCount={aggregatorsData?.count}
-							isManualPagination
-							onChangePagination={setPage}
-							currentPage={page}
-							isLoading={isLoading}
-							isAddOptions
-							addOptionLabel="Create"
-							handleAddClick={handleAddClick}
-						/>
-						<FormModal
-							isOpen={isOpen}
-							toggle={() => setIsOpen((prev) => !prev)}
-							header={header}
-							validation={validation}
-							formFields={formFields}
-							submitLabel="Submit"
-							customColClasses="col-md-12"
-							isSubmitLoading={isCreateAggregatorLoading}
-						/>
-					</CardBody>
-				)}
-			</div>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection
+								buttonList={buttonList}
+								title="Aggregators Listing"
+							/>
+							{!loading && (
+								<CardBody>
+									<TableContainer
+										columns={columns || []}
+										data={aggregatorsData?.rows}
+										isGlobalFilter
+										isPagination
+										customPageSize={itemsPerPage}
+										tableClass="table-bordered align-middle nowrap mt-2"
+										paginationDiv="justify-content-center"
+										pagination="pagination justify-content-start pagination-rounded"
+										totalPageCount={aggregatorsData?.count}
+										isManualPagination
+										onChangePagination={setPage}
+										currentPage={page}
+										isLoading={loading}
+									/>
+								</CardBody>
+							)}
+						</Card>
+					</Col>
+				</Row>
+				<FormModal
+					isOpen={isOpen}
+					toggle={() => setIsOpen((prev) => !prev)}
+					header={header}
+					validation={validation}
+					formFields={formFields}
+					submitLabel="Submit"
+					customColClasses="col-md-12"
+					isSubmitLoading={isCreateAggregatorLoading}
+				/>
+			</Container>
 		</div>
 	);
 };

@@ -9,7 +9,7 @@ import {
 import { createCurrencyStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
-const useActions = () => {
+const useCreateCurrency = () => {
 	const dispatch = useDispatch();
 	const { isCreateCurrencyLoading, currencies } = useSelector(
 		(state) => state.Currencies
@@ -66,4 +66,4 @@ const useActions = () => {
 	};
 };
 
-export default useActions;
+export default useCreateCurrency;
