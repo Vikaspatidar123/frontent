@@ -31,9 +31,9 @@ import {
 	getCasinoSubCategoryListing,
 	getLanguages,
 } from '../../network/getRequests';
-import { showToastr } from '../toastr/actions';
 import { createCasinoProvider } from '../../network/postRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
+import { showToastr } from '../../utils/helpers';
 
 function* getCasinoCategoryWorker(action) {
 	const { limit, pageNo, search = '' } = action && action.payload;
@@ -153,23 +153,19 @@ function* createCasinoProviderWorker(action) {
 		const { data } = action && action.payload;
 		yield createCasinoProvider(objectToFormData(data));
 
-		yield put(
-			showToastr({
-				message: `Provider Created Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `Provider Created Successfully`,
+			type: 'success',
+		});
 
 		yield put(createCasinoProvidersSuccess());
 	} catch (e) {
 		yield put(createCasinoProvidersFailure());
 
-		yield put(
-			showToastr({
-				message: e?.response?.data?.errors[0]?.description || e.message,
-				type: 'error',
-			})
-		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 

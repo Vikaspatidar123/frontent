@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Buffer } from 'buffer';
 import {
 	leftStaticFormFields,
 	rightStaticFormFields,
@@ -21,8 +22,8 @@ import {
 	addSuperAdminUserStart,
 	updateSuperAdminUserStart,
 } from '../../../store/actions';
-import { showToastr } from '../../../store/toastr/actions';
 import useAdminListing from './useAdminListing';
+import { showToastr } from '../../../utils/helpers';
 
 const useActions = () => {
 	const dispatch = useDispatch();
@@ -57,6 +58,7 @@ const useActions = () => {
 					data: {
 						...values,
 					},
+					navigate,
 				})
 			);
 		} else {
@@ -69,6 +71,7 @@ const useActions = () => {
 							? Number(values.adminId)
 							: adminDetails.adminUserId,
 					},
+					navigate,
 				})
 			);
 		}
@@ -98,22 +101,22 @@ const useActions = () => {
 		rightStaticFormFields: rightStaticFormFields(isEdit),
 	});
 
-	const toggleModal = () => {
-		setIsOpen((prev) => !prev);
-		if (!roles?.length) {
-			dispatch(getRolesStart());
-		}
-		if (!groups?.length) {
-			dispatch(getAllGroupsStart());
-		}
-	};
+	// const toggleModal = () => {
+	// 	setIsOpen((prev) => !prev);
+	// 	if (!roles?.length) {
+	// 		dispatch(getRolesStart());
+	// 	}
+	// 	if (!groups?.length) {
+	// 		dispatch(getAllGroupsStart());
+	// 	}
+	// };
 	const handleEdit = (e, row) => {
 		e.preventDefault();
 		setHeader('Edit Staff');
 		dispatch(showLinearProgress());
 		setIsEdit(true);
 		dispatch(getPermissionsStart(Number(row.adminUserId)));
-		toggleModal();
+		// toggleModal();
 	};
 
 	const {
@@ -131,7 +134,7 @@ const useActions = () => {
 		setHeader('Add Staff');
 		navigate('add');
 		setIsEdit(false);
-		toggleModal();
+		// toggleModal();
 	};
 
 	const buttonList = useMemo(() => [
@@ -142,7 +145,7 @@ const useActions = () => {
 		},
 	]);
 
-	useEffect(() => {
+	const setCustomFields = () => {
 		if (roles?.length && groups?.length) {
 			let customField = {};
 
@@ -198,6 +201,19 @@ const useActions = () => {
 				},
 			]);
 		}
+	};
+
+	useEffect(() => {
+		if (!roles?.length) {
+			dispatch(getRolesStart());
+		}
+		if (!groups?.length) {
+			dispatch(getAllGroupsStart());
+		}
+	}, []);
+
+	useEffect(() => {
+		setCustomFields();
 	}, [roles, groups, validation?.values?.role, isEdit]);
 
 	useEffect(() => {

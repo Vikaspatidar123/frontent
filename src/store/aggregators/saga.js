@@ -8,8 +8,8 @@ import {
 	createAggregatorFail,
 } from './actions';
 import { getAggregators } from '../../network/getRequests';
-import { showToastr } from '../toastr/actions';
 import { createAggregator } from '../../network/postRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* getAggregatorsWorker(action) {
 	try {
@@ -34,23 +34,19 @@ function* createAggregatorWorker(action) {
 
 		yield createAggregator(data);
 
-		yield put(
-			showToastr({
-				message: `Aggregator Created Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `Aggregator Created Successfully`,
+			type: 'success',
+		});
 
 		yield put(createAggregatorSuccess());
 	} catch (e) {
 		yield put(createAggregatorFail());
 
-		yield put(
-			showToastr({
-				message: e?.response?.data?.errors[0]?.description || e.message,
-				type: 'error',
-			})
-		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 

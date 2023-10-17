@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { permissionIcons } from './formDetails';
-import { showToastr } from '../../store/toastr/actions';
 import { CustomInputField } from '../../helpers/customForms';
+import { showToastr } from '../../utils/helpers';
 
 const PermissionForm = ({
 	values,
@@ -46,7 +46,7 @@ const PermissionForm = ({
 						<>
 							{Object.keys(permissions || {}).map((key) =>
 								values.role === 'Manager' && key === 'Admins' ? null : (
-									<div className="mb-4 col-lg-12 col-md-6 col-sm-6">
+									<div className="mb-4 col-xl-3 col-lg-4 col-md-6 col-sm-12">
 										<div className="permissions-card card">
 											<div className="fw-bold card-header">
 												<span className="icon">{permissionIcons()?.[key]}</span>

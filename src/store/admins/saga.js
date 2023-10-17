@@ -1,4 +1,4 @@
-import { put, takeLatest, all, fork } from 'redux-saga/effects';
+import { put, takeLatest, all, fork, takeEvery } from 'redux-saga/effects';
 
 // Crypto Redux States
 import {
@@ -17,8 +17,8 @@ import {
 
 import { getAllAdmins } from '../../network/getRequests';
 import { addSuperAdminUser } from '../../network/postRequests';
-import { showToastr } from '../toastr/actions';
 import { updateSuperAdminUser } from '../../network/putRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* getAdminsDetail(action) {
 	const {
@@ -50,64 +50,56 @@ function* getAdminsDetail(action) {
 
 function* addSuperAdminUserWorker(action) {
 	try {
-		const { data } = action && action.payload;
+		const { data, navigate } = action && action.payload;
 
 		yield addSuperAdminUser(data);
 
-		yield put(
-			showToastr({
-				message: `${data?.role} Created Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `${data?.role} Created Successfully`,
+			type: 'success',
+		});
 
 		yield put(addSuperAdminUserSuccess());
 
-		// navigate(AdminsRoutes.Admins)
+		if (navigate) yield put(navigate('/staff'));
 	} catch (e) {
 		yield put(addSuperAdminUserFail());
 
-		yield put(
-			showToastr({
-				message: e?.response?.data?.errors[0]?.description || e.message,
-				type: 'error',
-			})
-		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 
 function* updateSuperAdminUserWorker(action) {
 	try {
-		const { data } = action && action.payload;
+		const { data, navigate } = action && action.payload;
 
 		yield updateSuperAdminUser(data);
 
-		yield put(
-			showToastr({
-				message: `${data?.role} Updated Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `${data?.role} Updated Successfully`,
+			type: 'success',
+		});
 
 		yield put(updateSuperAdminUserSuccess());
 
-		// navigate(AdminsRoutes.Admins)
+		if (navigate) yield put(navigate('/staff'));
 	} catch (e) {
 		yield put(updateSuperAdminUserFail());
 
-		yield put(
-			showToastr({
-				message: e?.response?.data?.errors[0]?.description || e.message,
-				type: 'error',
-			})
-		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 
 export function* watchGetAdminsData() {
 	yield takeLatest(GET_ADMINS_DATA, getAdminsDetail);
-	yield takeLatest(ADD_SUPER_ADMIN_USER, addSuperAdminUserWorker);
-	yield takeLatest(UPDATE_SUPER_ADMIN_USER, updateSuperAdminUserWorker);
+	yield takeEvery(ADD_SUPER_ADMIN_USER, addSuperAdminUserWorker);
+	yield takeEvery(UPDATE_SUPER_ADMIN_USER, updateSuperAdminUserWorker);
 }
 
 function* AdminDetailsSaga() {
