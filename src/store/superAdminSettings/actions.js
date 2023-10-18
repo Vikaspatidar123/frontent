@@ -8,6 +8,9 @@ import {
 	CREATE_SA_BANNERS_START,
 	CREATE_SA_BANNERS_SUCCESS,
 	CREATE_SA_BANNERS_FAIL,
+	CREATE_KYC_LABELS_START,
+	CREATE_KYC_LABELS_SUCCESS,
+	CREATE_KYC_LABELS_FAIL,
 } from './actionTypes';
 
 export const getSABanners = (payload) => ({
@@ -52,5 +55,20 @@ export const createSABannersSuccess = (payload) => ({
 
 export const createSABannersFail = (payload) => ({
 	type: CREATE_SA_BANNERS_FAIL,
+	payload,
+});
+
+export const createKYCLabelsStart = (payload) => ({
+	type: CREATE_KYC_LABELS_START,
+	payload,
+});
+
+export const createKYCLabelsSuccess = (payload) => ({
+	type: CREATE_KYC_LABELS_SUCCESS,
+	payload,
+});
+
+export const createKYCLabelsFail = (payload) => ({
+	type: CREATE_KYC_LABELS_FAIL,
 	payload,
 });

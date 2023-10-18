@@ -5,6 +5,7 @@ import {
 	GET_SA_BANNERS,
 	GET_DOCUMENT_LABEL,
 	CREATE_SA_BANNERS_START,
+	CREATE_KYC_LABELS_START,
 } from './actionTypes';
 import {
 	getSABannersSuccess,
@@ -13,11 +14,13 @@ import {
 	getDocumentLabelFail,
 	createSABannersSuccess,
 	createSABannersFail,
+	createKYCLabelsSuccess,
+	createKYCLabelsFail,
 } from './actions';
 import { getAllSABanners, getDocumentLabel } from '../../network/getRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
-import { createSABanners } from '../../network/postRequests';
+import { createKYCLabels, createSABanners } from '../../network/postRequests';
 
 function* getAllSABannersWorker(action) {
 	try {
@@ -67,6 +70,27 @@ function* createSABannersWorker(action) {
 	}
 }
 
+function* createKYCLabelsWorker(action) {
+	try {
+		const { data } = action && action.payload;
+		yield createKYCLabels(data);
+
+		showToastr({
+			message: `Banner Created Successfully`,
+			type: 'success',
+		});
+
+		yield put(createKYCLabelsSuccess());
+	} catch (e) {
+		yield put(createKYCLabelsFail());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 export function* getAllSABannersWatcher() {
 	yield takeLatest(GET_SA_BANNERS, getAllSABannersWorker);
 }
@@ -79,10 +103,15 @@ export function* getSABannersWatcher() {
 	yield takeLatest(CREATE_SA_BANNERS_START, createSABannersWorker);
 }
 
+export function* createKYCLabelsWatcher() {
+	yield takeLatest(CREATE_KYC_LABELS_START, createKYCLabelsWorker);
+}
+
 function* SASettingsSaga() {
 	yield all([fork(getAllSABannersWatcher)]);
 	yield all([fork(getDocumentLabelWatcher)]);
 	yield all([fork(getSABannersWatcher)]);
+	yield all([fork(createKYCLabelsWatcher)]);
 }
 
 export default SASettingsSaga;
