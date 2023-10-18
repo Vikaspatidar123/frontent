@@ -256,7 +256,7 @@ export const getField = (
 					errorMsg={validation.touched[name] && validation.errors[name]}
 					options={
 						<>
-							<option value={null} disabled selected>
+							<option value={null} selected disabled>
 								{optionsLabel || placeholder}
 							</option>
 							{optionList?.map(({ optionLabel, value }) => (

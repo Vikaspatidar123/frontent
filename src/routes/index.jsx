@@ -199,6 +199,7 @@ import WageringTemplate from '../pages/WageringTemplateDetail';
 import ProfilePage from '../pages/Profile';
 import AddAdmin from '../pages/Admins/addAdmin';
 import EditAdmin from '../pages/Admins/editAdmin';
+import JobGrid from '../pages/JobPages/JobGrid';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -320,7 +321,7 @@ const authProtectedRoutes = [
 	// { path: "/blog-grid", component: <BlogGrid /> },
 	// { path: "/blog-details", component: <BlogDetails /> },
 
-	// { path: "/job-grid", component: <JobGrid /> },
+	{ path: '/job-grid', component: <JobGrid /> },
 	// { path: "/job-details", component: <JobDetails /> },
 	// { path: "/job-categories", component: <JobCategories /> },
 	{ path: '/job-list', component: <JobList /> },

@@ -14,6 +14,8 @@ const theadClass = 'table-light'; // for grey header
 const tbodyClass = '';
 // const tbodyClass = 'table-striped' // for stripped rows (zebra style columns)
 
+const itemsPerPage = 10;
+
 export {
 	projectName,
 	role,
@@ -21,4 +23,5 @@ export {
 	tableCustomClass,
 	theadClass,
 	tbodyClass,
+	itemsPerPage,
 };
