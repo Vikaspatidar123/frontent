@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unsafe-optional-chaining */
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +11,7 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { createSABannersStart } from '../../../store/actions';
+import { bannerType } from '../constants';
 
 const useCreateBanner = () => {
 	const dispatch = useDispatch();
@@ -18,15 +21,14 @@ const useCreateBanner = () => {
 		maxRequiredWidth: '',
 		maxRequiredHeight: '',
 	});
-	const { isCreateBannerLoading, bannerList } = useSelector(
-		(state) => state.SASettings
-	);
+	const { isCreateSABannersLoading: isCreateBannerLoading, SABanners } =
+		useSelector((state) => state.SASettings);
 
 	const handleCreateBanner = (values) => {
 		dispatch(
 			createSABannersStart({
 				data: {
-					tenantId: values?.tenantId,
+					tenantId: '',
 					bannerKey: values?.bannerType,
 					image: values?.thumbnail,
 				},
@@ -57,7 +59,7 @@ const useCreateBanner = () => {
 
 	useEffect(() => {
 		setIsOpen(false);
-	}, [bannerList?.length]);
+	}, [Object.keys(SABanners?.[0]?.value || {}).length]);
 
 	const buttonList = useMemo(() => [
 		{
@@ -66,6 +68,36 @@ const useCreateBanner = () => {
 			link: '#!',
 		},
 	]);
+
+	useEffect(() => {
+		if (SABanners?.length && formFields.length < 2) {
+			const arrayToReturn = [];
+			bannerType?.map(({ label, value }, i) => {
+				let hideData = false;
+				SABanners?.map((item) => {
+					Object.keys(item?.value).map((key) => {
+						if (key === value) {
+							hideData = true;
+						}
+					});
+				});
+				if (!hideData) {
+					arrayToReturn.push({ id: i, optionLabel: label, value });
+				}
+			});
+
+			setFormFields((prev) => [
+				{
+					name: 'bannerType',
+					fieldType: 'select',
+					label: 'Type',
+					optionList: arrayToReturn,
+					placeholder: 'Select Type',
+				},
+				...prev,
+			]);
+		}
+	}, [SABanners?.length]);
 
 	useEffect(() => {
 		if (validation?.values?.bannerType) {

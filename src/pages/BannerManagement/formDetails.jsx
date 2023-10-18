@@ -11,16 +11,6 @@ const getInitialValues = (defaultValue) => ({
 
 const staticFormFields = [
 	{
-		name: 'bannerType',
-		fieldType: 'select',
-		label: 'Type',
-		optionList: bannerType.map((type) => ({
-			id: type.label,
-			optionLabel: type.label,
-		})),
-		placeholder: 'Select Type',
-	},
-	{
 		name: 'thumbnail',
 		fieldType: 'file',
 		label: 'Banner',
@@ -115,7 +105,6 @@ const imageDimensionCheck = Yup.addMethod(
 		maxRequiredWidth,
 		maxRequiredHeight
 	) {
-		console.log('VALUES', minRequiredHeight);
 		return this.test(
 			'image-width-height-check',
 			message,

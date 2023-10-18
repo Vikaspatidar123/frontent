@@ -5,7 +5,7 @@ import { getSABanners } from '../../../store/actions';
 const useBannerManagement = () => {
 	const dispatch = useDispatch();
 
-	const { SABanners, SABannersloading } = useSelector(
+	const { SABanners, SABannersloading, isCreateSABannersSuccess } = useSelector(
 		(state) => state.SASettings
 	);
 	const [selectedClient, setSelectedClient] = useState('');
@@ -38,6 +38,10 @@ const useBannerManagement = () => {
 	useEffect(() => {
 		fetchData();
 	}, [selectedClient, selectedPortal]);
+
+	useEffect(() => {
+		if (isCreateSABannersSuccess) fetchData();
+	}, [isCreateSABannersSuccess]);
 
 	return {
 		formattedSABanners,

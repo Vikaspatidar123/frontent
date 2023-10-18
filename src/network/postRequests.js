@@ -26,7 +26,9 @@ const createBetSettings = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/bet-settings`, data);
 
 const createSABanners = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/banner`, data);
+	postRequest(`${VITE_APP_API_URL}/api/admin/banner`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 export {
 	superAdminLogin,
