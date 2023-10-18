@@ -128,6 +128,9 @@ import EmailTemplate from './emailTemplate/reducer';
 import WageringTemplate from './wageringTemplate/reducer';
 import ProgressLoading from './progressLoading/reducer';
 
+// PROFILE UPDATE
+import ProfileData from './Profile/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -143,6 +146,7 @@ const rootReducer = combineReducers({
 	EmailTemplate,
 	WageringTemplate,
 	ProgressLoading,
+	ProfileData,
 
 	// public
 	Layout,

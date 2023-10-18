@@ -8,4 +8,19 @@ const updateSuperAdminUser = (data) =>
 const updateAdmin = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/`, data); // No use
 
-export { updateSuperAdminUser, updateAdmin };
+const updateProfile = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/profile`, data);
+
+const updateSiteConfiguration = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data);
+
+const resetProfilePassword = ({ data }) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/change-password`, data);
+
+export {
+	updateSuperAdminUser,
+	updateAdmin,
+	updateProfile,
+	updateSiteConfiguration,
+	resetProfilePassword,
+};

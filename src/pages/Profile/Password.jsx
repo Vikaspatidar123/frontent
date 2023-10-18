@@ -1,10 +1,16 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Form, Row, Col, Card } from 'reactstrap';
 import { useFormik } from 'formik';
+import { Buffer } from 'buffer';
 import { CustomInputField } from '../../helpers/customForms';
 import { profilePasswordSchema } from './formDetails';
+import { resetProfilePasswordStart } from '../../store/actions';
+import Spinners from '../../components/Common/Spinner';
 
-const Password = () => {
+const Password = ({ loading, isTenant }) => {
+	const dispatch = useDispatch();
 	const formik = useFormik({
 		initialValues: {
 			password: '',
@@ -12,8 +18,20 @@ const Password = () => {
 			confirmPassword: '',
 		},
 		validationSchema: profilePasswordSchema,
-		onSubmit: () => {
-			// console.log(values);
+		onSubmit: (values) => {
+			dispatch(
+				resetProfilePasswordStart({
+					data: {
+						password: values?.password
+							? Buffer.from(values?.password).toString('base64')
+							: '',
+						newPassword: values?.newPassword
+							? Buffer.from(values?.newPassword).toString('base64')
+							: '',
+					},
+					isTenant,
+				})
+			);
 		},
 	});
 
@@ -79,6 +97,7 @@ const Password = () => {
 								<div className="text-start mt-2">
 									<button type="submit" className="btn btn-success save-user">
 										Submit
+										{loading && <Spinners />}
 									</button>
 								</div>
 							</Col>

@@ -155,6 +155,47 @@ export const CustomSwitchButton = ({
 	</span>
 );
 
+export const CustomToggleButton = ({
+	label,
+	labelClassName,
+	htmlFor,
+	type,
+	id,
+	name,
+	inputClassName,
+	value,
+	onChange,
+	onBlur,
+	style,
+	checked,
+	isError,
+	errorMsg,
+	role,
+}) => (
+	<span className="form-check form-switch">
+		{label && (
+			<Label htmlFor={htmlFor} className={labelClassName}>
+				{label}
+			</Label>
+		)}
+		<Input
+			type={type}
+			id={id}
+			name={name}
+			className={inputClassName}
+			value={value}
+			onChange={onChange}
+			onBlur={onBlur}
+			style={style}
+			checked={checked}
+			role={role}
+		/>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+		) : null}
+	</span>
+);
+
 export const getField = (
 	{
 		fieldType,
@@ -229,6 +270,23 @@ export const getField = (
 					id="customRadioInline1"
 					name={name}
 					checked={validation.values.status}
+					inputClassName="form-check-input"
+					onChange={validation.handleChange}
+					onBlur={validation.handleBlur}
+					disabled={!!isDisabled}
+				/>
+			);
+		case 'toggle':
+			return (
+				<CustomToggleButton
+					labelClassName="form-check-label"
+					label={label}
+					htmlFor="flexSwitchCheckDefault"
+					type="checkbox"
+					role="switch"
+					id="flexSwitchCheckDefault"
+					name={name}
+					// checked={validation.values.status}
 					inputClassName="form-check-input"
 					onChange={validation.handleChange}
 					onBlur={validation.handleBlur}

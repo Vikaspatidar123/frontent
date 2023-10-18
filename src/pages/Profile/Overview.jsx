@@ -1,11 +1,17 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { Form, Row, Col, Card } from 'reactstrap';
+import React, { useEffect } from 'react';
+import { Form, Row, Col, Card, Button } from 'reactstrap';
 import { useFormik } from 'formik';
 import { CustomInputField } from '../../helpers/customForms';
-import { validationSchema } from './formDetails';
+import { adminProfileSchema } from './formDetails';
 
-const Overview = ({ details, isTenant }) => {
+const Overview = ({
+	details,
+	isTenant,
+	isEditable,
+	setIsEditable,
+	updateData,
+}) => {
 	const formik = useFormik({
 		initialValues: {
 			firstName: details?.firstName,
@@ -13,15 +19,43 @@ const Overview = ({ details, isTenant }) => {
 			email: details?.email,
 			adminUsername: details?.adminUsername || '',
 			phone: isTenant ? details?.phone : '',
-			role: details?.SuperadminRole?.name,
+			role:
+				details?.AdminRole?.name === 'Super Admin'
+					? 'Admin'
+					: details?.SuperadminRole?.name,
 			agentName: details?.agentName || '',
 			group: details?.group || '',
 		},
-		validationSchema,
-		onSubmit: () => {
-			// console.log(values);
+		validationSchema: adminProfileSchema,
+		onSubmit: (values) => {
+			updateData({
+				...values,
+				id: details?.adminUserId,
+				// superAdminId: isTenant ? '' : details?.superAdminUserId,
+				// adminUserId: isTenant ? details?.adminUserId : ''
+			});
 		},
 	});
+
+	useEffect(() => {
+		if (details) {
+			formik.resetForm({
+				values: {
+					firstName: details?.firstName,
+					lastName: details?.lastName,
+					email: details?.email,
+					adminUsername: details?.adminUsername || '',
+					phone: isTenant ? details?.phone : '',
+					role:
+						details?.AdminRole?.name === 'Super Admin'
+							? 'Admin'
+							: details?.SuperadminRole?.name,
+					agentName: details?.agentName || '',
+					group: details?.group || '', // to be updated
+				},
+			});
+		}
+	}, [details]);
 
 	return (
 		<Form onSubmit={formik.handleSubmit}>
@@ -34,6 +68,7 @@ const Overview = ({ details, isTenant }) => {
 							name="firstName"
 							type="text"
 							onChange={formik.handleChange}
+							disabled={!isEditable}
 							onBlur={formik.handleBlur}
 							placeholder="Enter First Name"
 							validate={{ required: { value: true } }}
@@ -49,6 +84,7 @@ const Overview = ({ details, isTenant }) => {
 							label="Email"
 							name="email"
 							type="text"
+							disabled
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter Email"
@@ -64,6 +100,7 @@ const Overview = ({ details, isTenant }) => {
 							label="Role"
 							name="role"
 							type="text"
+							disabled
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter Role"
@@ -80,6 +117,7 @@ const Overview = ({ details, isTenant }) => {
 							label="Last Name"
 							name="lastName"
 							type="text"
+							disabled={!isEditable}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter Last Name"
@@ -95,6 +133,7 @@ const Overview = ({ details, isTenant }) => {
 							label="userName"
 							name="adminUsername"
 							type="text"
+							disabled
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter User Name"
@@ -113,12 +152,27 @@ const Overview = ({ details, isTenant }) => {
 					</Col>
 				</Row>
 				<Row>
-					<Col>
-						<div className="text-end">
-							<button type="submit" className="btn btn-success save-user">
-								Edit
-							</button>
-						</div>
+					<Col className="text-end">
+						<Button
+							color="primary"
+							className="btn btn-primary waves-effect waves-light"
+							hidden={isEditable}
+							onClick={() => setIsEditable(true)}
+						>
+							Edit
+						</Button>
+					</Col>
+				</Row>
+				<Row>
+					<Col className="text-end">
+						<Button
+							color="primary"
+							className="btn btn-primary waves-effect waves-light"
+							hidden={!isEditable}
+							type="submit"
+						>
+							Submit
+						</Button>
 					</Col>
 				</Row>
 			</Card>

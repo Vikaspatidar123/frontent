@@ -1,16 +1,28 @@
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
-import React from 'react';
-import { Form, Row, Col, Card } from 'reactstrap';
+import React, { useEffect } from 'react';
+import { Form, Row, Col, Card, Button } from 'reactstrap';
 import { useFormik } from 'formik';
 import {
 	CustomInputField,
 	CustomSelectField,
-	// CustomSwitchButton,
+	CustomToggleButton,
 } from '../../helpers/customForms';
 import { adminSiteConfigSchema } from './formDetails';
 
-const SiteConfig = ({ details, languageData }) => {
+const SiteConfig = ({
+	details,
+	languageData,
+	isEditable,
+	setIsEditable,
+	updateSiteConfiguration,
+}) => {
+	const languageOptions =
+		languageData?.rows?.map(({ code, languageName }) => ({
+			value: code,
+			label: languageName,
+		})) || [];
+
 	const formik = useFormik({
 		initialValues: {
 			name: details[1]?.value.name || '',
@@ -24,9 +36,37 @@ const SiteConfig = ({ details, languageData }) => {
 		},
 		validationSchema: adminSiteConfigSchema,
 		onSubmit: (values) => {
-			console.log(values);
+			const label = {};
+			if (values?.lang) {
+				languageOptions.forEach((language) => {
+					if (values?.lang.includes(language.label)) {
+						label[language.value] = language.label;
+					}
+				});
+			}
+			updateSiteConfiguration({
+				...values,
+				lang: label && JSON.stringify(label),
+			});
 		},
 	});
+
+	useEffect(() => {
+		if (details.length) {
+			formik.resetForm({
+				values: {
+					name: details[1]?.value.name || '',
+					url: details[1]?.value.url || '',
+					supportEmail: details[1]?.value.supportEmail || '',
+					sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
+					sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
+					logo: null,
+					lang: null,
+					maintenance: !!details[1]?.value.maintenance,
+				},
+			});
+		}
+	}, [details]);
 
 	return (
 		<Form onSubmit={formik.handleSubmit}>
@@ -38,6 +78,7 @@ const SiteConfig = ({ details, languageData }) => {
 							label="Site Name"
 							name="name"
 							type="text"
+							disabled={!isEditable}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter Site Name"
@@ -53,6 +94,7 @@ const SiteConfig = ({ details, languageData }) => {
 							label="Support Email Address"
 							name="supportEmail"
 							type="text"
+							disabled={!isEditable}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter Support Email Adress"
@@ -72,6 +114,7 @@ const SiteConfig = ({ details, languageData }) => {
 							label="Send grid Api Key"
 							name="sendgridKey"
 							type="text"
+							disabled={!isEditable}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter Send grid Api Key"
@@ -88,14 +131,17 @@ const SiteConfig = ({ details, languageData }) => {
 
 						<CustomInputField
 							className="mb-2"
+							id="file"
 							label="Site Logo"
 							name="logo"
 							type="file"
-							onChange={formik.handleChange}
+							disabled={!isEditable}
+							onChange={(event) =>
+								formik.setFieldValue('logo', event.currentTarget.files[0])
+							}
 							onBlur={formik.handleBlur}
 							placeholder="upload Site Logo"
 							validate={{ required: { value: true } }}
-							value={formik.values?.logo || ''}
 							invalid={!!(formik.touched?.logo && formik.errors?.logo)}
 							isError
 							errorMsg={formik.touched?.logo && formik.errors?.logo}
@@ -108,6 +154,7 @@ const SiteConfig = ({ details, languageData }) => {
 							label="Site Url"
 							name="url"
 							type="text"
+							disabled={!isEditable}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter Site Url"
@@ -123,6 +170,7 @@ const SiteConfig = ({ details, languageData }) => {
 							label="Send grid Email"
 							name="sendgridEmail"
 							type="text"
+							disabled={!isEditable}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter grid Email"
@@ -144,6 +192,8 @@ const SiteConfig = ({ details, languageData }) => {
 							label="Allowed Languages"
 							name="lang"
 							type="select"
+							multiple
+							disabled={!isEditable}
 							onChange={formik.handleChange}
 							onBlur={formik.handleBlur}
 							placeholder="Enter Allowed Languages"
@@ -157,38 +207,53 @@ const SiteConfig = ({ details, languageData }) => {
 									<option value={null} disabled selected>
 										Select Language
 									</option>
-									{languageData?.rows.map(({ languageId, languageName }) => (
-										<option key={languageId} value={languageName}>
-											{languageName}
+									{languageOptions.map(({ value, label }) => (
+										<option key={value} value={label}>
+											{label}
 										</option>
 									))}
 								</>
 							}
 						/>
-
-						{/* <CustomSwitchButton
-              className="mb-2"
-
-						labelClassName="form-check-label"
-						label="Maintenance"
-						htmlFor="customRadioInline1"
-						type="switch"
-						id="customRadioInline1"
-						name="maintenance"
-						checked={formik.values?.maintenance}
-						inputClassName="form-check-input"
-						onChange={formik.handleChange}
-						onBlur={formik.handleBlur}
-					/> */}
+						<CustomToggleButton
+							className="mb-2"
+							disabled={!isEditable}
+							labelClassName="form-check-label"
+							label="Maintenance"
+							htmlFor="flexSwitchCheckDefault"
+							type="checkbox"
+							role="switch"
+							id="flexSwitchCheckDefault"
+							name="maintenance"
+							checked={formik.values?.maintenance}
+							inputClassName="form-check-input"
+							onChange={formik.handleChange}
+							onBlur={formik.handleBlur}
+						/>
 					</Col>
 				</Row>
 				<Row>
-					<Col>
-						<div className="text-end">
-							<button type="submit" className="btn btn-success save-user">
-								Edit
-							</button>
-						</div>
+					<Col className="text-end">
+						<Button
+							color="primary"
+							className="btn btn-primary waves-effect waves-light"
+							hidden={isEditable}
+							onClick={() => setIsEditable(true)}
+						>
+							Edit
+						</Button>
+					</Col>
+				</Row>
+				<Row>
+					<Col className="text-end">
+						<Button
+							color="primary"
+							className="btn btn-primary waves-effect waves-light"
+							hidden={!isEditable}
+							type="submit"
+						>
+							Submit
+						</Button>
 					</Col>
 				</Row>
 			</Card>
