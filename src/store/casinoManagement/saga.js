@@ -14,6 +14,8 @@ import {
 	getLanguagesFailure,
 	createCasinoProvidersSuccess,
 	createCasinoProvidersFailure,
+	createCasinoCategorySuccess,
+	createCasinoCategoryFailure,
 } from './actions';
 import {
 	GET_CASINO_CATEGORY_DATA,
@@ -22,6 +24,7 @@ import {
 	GET_CASINO_PROVIDERS_DATA,
 	GET_CASINO_GAMES,
 	CREATE_CASINO_PROVIDERS,
+	CREATE_CASINO_CATEGORY_START,
 } from './actionTypes';
 
 import {
@@ -31,7 +34,10 @@ import {
 	getCasinoSubCategoryListing,
 	getLanguages,
 } from '../../network/getRequests';
-import { createCasinoProvider } from '../../network/postRequests';
+import {
+	createCasinoCategory,
+	createCasinoProvider,
+} from '../../network/postRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 
@@ -151,7 +157,6 @@ function* getAllCasinoGamesWorker(action) {
 function* createCasinoProviderWorker(action) {
 	try {
 		const { data } = action && action.payload;
-		console.log('data: ', data);
 		yield createCasinoProvider(objectToFormData(data));
 
 		showToastr({
@@ -170,6 +175,27 @@ function* createCasinoProviderWorker(action) {
 	}
 }
 
+function* createCasinoCategoryWorker(action) {
+	try {
+		const { data } = action && action.payload;
+		yield createCasinoCategory(data);
+
+		showToastr({
+			message: `Category Created Successfully`,
+			type: 'success',
+		});
+
+		yield put(createCasinoCategorySuccess());
+	} catch (e) {
+		yield put(createCasinoCategoryFailure());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_CATEGORY_DATA, getCasinoCategoryWorker);
 	yield takeLatest(GET_CASINO_SUB_CATEGORY_DATA, getCasinoSubCategoryWorker);
@@ -177,6 +203,7 @@ export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_PROVIDERS_DATA, getAllCasinoProvidersWorker);
 	yield takeLatest(GET_CASINO_GAMES, getAllCasinoGamesWorker);
 	yield takeLatest(CREATE_CASINO_PROVIDERS, createCasinoProviderWorker);
+	yield takeLatest(CREATE_CASINO_CATEGORY_START, createCasinoCategoryWorker);
 }
 
 function* CasinoManagementSaga() {

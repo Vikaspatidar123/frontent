@@ -25,6 +25,8 @@ import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 import CrudSection from '../../components/Common/CrudSection';
+import FormModal from '../../components/Common/FormModal';
+import useCreateCategory from './hooks/useCreateCategory';
 
 const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
@@ -41,31 +43,17 @@ const GetCasinoCategoryDetails = () => {
 		setModal,
 		isEdit,
 		job,
-		buttonList,
 	} = useCasinoCategoryListing();
 
-	const toggle = () => {
-		if (modal) {
-			setModal(false);
-		} else {
-			setModal(true);
-		}
-	};
-
-	const validation = useFormik({
-		// enableReinitialize : use this flag when initial values needs to be changed
-		enableReinitialize: true,
-
-		initialValues: {
-			language: (job && job.language) || '',
-			categoryName: (job && job.categoryName) || '',
-			status: (job && job.status) || false,
-		},
-		validationSchema: Yup.object({
-			language: Yup.string().required('Please Select Valid Language'),
-			categoryName: Yup.string().required('Please Enter Category Name'),
-		}),
-	});
+	const {
+		isOpen,
+		setIsOpen,
+		formFields,
+		header,
+		validation,
+		isCreateCategoryLoading,
+		buttonList,
+	} = useCreateCategory();
 
 	return (
 		<div className="page-content">
@@ -94,111 +82,20 @@ const GetCasinoCategoryDetails = () => {
 									onChangePagination={setPage}
 									currentPage={page}
 								/>
+								<FormModal
+									isOpen={isOpen}
+									toggle={() => setIsOpen((prev) => !prev)}
+									header={header}
+									validation={validation}
+									formFields={formFields}
+									submitLabel="Submit"
+									customColClasses="col-md-12"
+									isSubmitLoading={isCreateCategoryLoading}
+								/>
 							</CardBody>
 						</Card>
 					</Col>
 				</Row>
-				<Modal isOpen={modal} toggle={toggle}>
-					<ModalHeader toggle={toggle} tag="h4">
-						{isEdit ? 'Edit Job' : 'Add Job'}
-					</ModalHeader>
-					<ModalBody>
-						<Form
-							onSubmit={(e) => {
-								e.preventDefault();
-								validation.handleSubmit();
-								return false;
-							}}
-						>
-							<Row>
-								<Col className="col-12">
-									<div className="mb-3">
-										<CustomSelectField
-											label="Select Language"
-											name="language"
-											type="select"
-											onChange={validation.handleChange}
-											onBlur={validation.handleBlur}
-											placeholder="Select Language"
-											validate={{ required: { value: true } }}
-											value={validation.values.language || ''}
-											invalid={
-												!!(
-													validation.touched.language &&
-													validation.errors.language
-												)
-											}
-											isError
-											errorMsg={
-												validation.touched.language &&
-												validation.errors.language
-											}
-											options={
-												<>
-													<option value={null}>Select Language</option>
-													{languageData?.count &&
-														languageData?.rows?.map(
-															({ languageName, code, languageId }) => (
-																<option key={code} value={languageId}>
-																	{languageName}
-																</option>
-															)
-														)}
-												</>
-											}
-										/>
-									</div>
-									<div className="mb-3">
-										<CustomInputField
-											label="Category Name"
-											name="categoryName"
-											type="text"
-											onChange={validation.handleChange}
-											onBlur={validation.handleBlur}
-											placeholder="Enter Category Name"
-											validate={{ required: { value: true } }}
-											value={validation.values.categoryName || ''}
-											invalid={
-												!!(
-													validation.touched.categoryName &&
-													validation.errors.categoryName
-												)
-											}
-											isError
-											errorMsg={
-												validation.touched.categoryName &&
-												validation.errors.categoryName
-											}
-										/>
-									</div>
-									<div className="mb-3">
-										<CustomSwitchButton
-											labelClassName="form-check-label"
-											label="Status"
-											htmlFor="customRadioInline1"
-											type="switch"
-											id="customRadioInline1"
-											name="status"
-											checked={validation.values.status}
-											inputClassName="form-check-input"
-											onChange={validation.handleChange}
-											onBlur={validation.handleBlur}
-										/>
-									</div>
-								</Col>
-							</Row>
-							<Row>
-								<Col>
-									<div className="text-end">
-										<button type="submit" className="btn btn-success save-user">
-											Save
-										</button>
-									</div>
-								</Col>
-							</Row>
-						</Form>
-					</ModalBody>
-				</Modal>
 			</div>
 		</div>
 	);

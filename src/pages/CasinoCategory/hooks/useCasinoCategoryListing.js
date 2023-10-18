@@ -13,6 +13,7 @@ const useCasinoCategoryListing = () => {
 		casinoCategoryDetails,
 		iscasinoCategoryDetailsLoading,
 		languageData,
+		isCreateCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const [limit, setLimit] = useState(15);
 	const [page, setPage] = useState(1);
@@ -34,7 +35,7 @@ const useCasinoCategoryListing = () => {
 		return [];
 	}, [casinoCategoryDetails]);
 
-	useEffect(() => {
+	const fetchData = () => {
 		dispatch(
 			getCasinoCategoryDetailStart({
 				limit,
@@ -42,19 +43,19 @@ const useCasinoCategoryListing = () => {
 				search,
 			})
 		);
+	};
+
+	useEffect(() => {
+		fetchData();
 	}, [page, limit, search]);
+
+	useEffect(() => {
+		if (isCreateCategorySuccess) fetchData();
+	}, [isCreateCategorySuccess]);
 
 	useEffect(() => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
 	}, []);
-
-	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: () => null,
-			link: '#!',
-		},
-	]);
 
 	return {
 		formattedCasinoCategoriesData,
@@ -74,7 +75,6 @@ const useCasinoCategoryListing = () => {
 		setIsEdit,
 		job,
 		setJob,
-		buttonList,
 	};
 };
 
