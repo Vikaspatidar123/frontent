@@ -20,7 +20,7 @@ import {
 	resetProfilePassword,
 } from '../../network/putRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
-import { showToastr } from '../toastr/actions';
+import { showToastr } from '../../utils/helpers';
 
 function* updateProfileWorker(action) {
 	try {
