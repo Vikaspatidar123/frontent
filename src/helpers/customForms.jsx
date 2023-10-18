@@ -314,9 +314,9 @@ export const getField = (
 					id="file"
 					name={name}
 					type="file"
-					onChange={(event) =>
-						validation.setFieldValue(name, event.currentTarget.files[0])
-					}
+					onChange={(event) => {
+						validation.setFieldValue(name, event.currentTarget.files[0]);
+					}}
 					onBlur={validation.handleBlur}
 					placeholder={placeholder}
 					validate={{ required: { value: true } }}

@@ -5,7 +5,7 @@ import { getSABanners } from '../../../store/actions';
 const useBannerManagement = () => {
 	const dispatch = useDispatch();
 
-	const { SABanners, SABannersloading } = useSelector(
+	const { SABanners, SABannersloading, isCreateSABannersSuccess } = useSelector(
 		(state) => state.SASettings
 	);
 	const [selectedClient, setSelectedClient] = useState('');
@@ -13,11 +13,13 @@ const useBannerManagement = () => {
 
 	const formattedSABanners = useMemo(() => {
 		if (SABanners) {
-			return SABanners.map((banner) => Object.keys(banner.value).map((key) => {
+			return SABanners.map((banner) =>
+				Object.keys(banner.value).map((key) => {
 					const pages = key.replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase();
 					const bannerPreview = banner?.value[key];
 					return { pages, bannerPreview };
-				})).flat();
+				})
+			).flat();
 		}
 		return [];
 	}, [SABanners]);
@@ -36,6 +38,10 @@ const useBannerManagement = () => {
 	useEffect(() => {
 		fetchData();
 	}, [selectedClient, selectedPortal]);
+
+	useEffect(() => {
+		if (isCreateSABannersSuccess) fetchData();
+	}, [isCreateSABannersSuccess]);
 
 	return {
 		formattedSABanners,

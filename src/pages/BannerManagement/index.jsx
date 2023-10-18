@@ -2,13 +2,16 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useBannerManagement from './hooks/useBannerManagement';
 import { Pages, BannerPreview } from './BannerManagementListCol';
 import { projectName } from '../../constants/config';
 import ActionButtons from './ActionButtons';
+import CrudSection from '../../components/Common/CrudSection';
+import FormModal from '../../components/Common/FormModal';
+import useCreateBanner from './hooks/useCreateBanner';
 
 const columns = [
 	{
@@ -37,6 +40,16 @@ const BannerManagement = ({ t }) => {
 
 	const { formattedSABanners, SABannersloading } = useBannerManagement();
 
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		isCreateBannerLoading,
+		buttonList,
+	} = useCreateBanner();
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -44,14 +57,33 @@ const BannerManagement = ({ t }) => {
 					title={t('Casino Management')}
 					breadcrumbItem={t('Banner Management')}
 				/>
-				<TableContainer
-					columns={columns}
-					data={formattedSABanners}
-					customPageSize={10}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					isLoading={SABannersloading}
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={buttonList} title="Banner Listing" />
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={formattedSABanners}
+									customPageSize={10}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									isLoading={SABannersloading}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
+				<FormModal
+					isOpen={isOpen}
+					toggle={() => setIsOpen((prev) => !prev)}
+					header={header}
+					validation={validation}
+					formFields={formFields}
+					submitLabel="Submit"
+					customColClasses="col-md-12"
+					isSubmitLoading={isCreateBannerLoading}
 				/>
 			</Container>
 		</div>
