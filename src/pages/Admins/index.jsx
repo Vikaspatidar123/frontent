@@ -3,36 +3,18 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container, Col, Row, Card, CardBody } from 'reactstrap';
-// import { useSelector } from 'react-redux';
-// import { Buffer } from 'buffer';
-// import { Link } from 'react-router-dom';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
-// import useAdminListing from './hooks/useAdminListing';
-
-import { projectName } from '../../constants/config';
-// import {
-// 	staticFormFields,
-// 	getInitialValues,
-// 	validationSchema,
-// 	permissionLabel,
-// } from './formDetails';
-// import { getRolesStart } from '../../store/auth/roles/actions';
-// import PermissionForm from './permissionForm';
-// import { getAllGroupsStart } from '../../store/adminUser/actions';
-// import {
-// 	addSuperAdminUserStart,
-// 	updateSuperAdminUserStart,
-// } from '../../store/actions';
-// import { getPermissionsStart } from '../../store/auth/permissionDetails/actions';
-// import useForm from '../../components/Common/Hooks/useFormModal';
-// import {
-// 	resetLinearProgress,
-// 	showLinearProgress,
-// } from '../../store/progressLoading/actions';
+import {
+	projectName,
+	tableCustomClass,
+	tbodyClass,
+	theadClass,
+} from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useActions from './hooks/useActions';
-
+import Filters from '../../components/Common/Filters';
+import useFilters from './hooks/useFilters';
 // const columns =
 
 const Admins = ({ t }) => {
@@ -40,12 +22,14 @@ const Admins = ({ t }) => {
 	document.title = projectName;
 
 	const {
-		// isOpen,
-		// setIsOpen,
-		// header,
-		// validation,
-		// formFields,
-		// customComponent,
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
+
+	const {
 		isLoading,
 		totalAdminsCount,
 		page,
@@ -54,8 +38,6 @@ const Admins = ({ t }) => {
 		columns,
 		formattedAdminDetails,
 		buttonList,
-		// leftFormFields,
-		// rightFormFields
 	} = useActions();
 
 	return (
@@ -67,13 +49,22 @@ const Admins = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={buttonList} title="Staff Listing" />
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									columns={columns || []}
 									data={formattedAdminDetails}
 									isGlobalFilter
 									isPagination
 									customPageSize={itemsPerPage}
-									tableClass="table-bordered align-middle nowrap mt-2"
+									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
+									tbodyClass={tbodyClass}
+									theadClass={theadClass}
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									totalPageCount={totalAdminsCount}
@@ -81,26 +72,12 @@ const Admins = ({ t }) => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isLoading}
-									// isAddOptions
-									// addOptionLabel="Create"
-									// handleAddClick={handleAddClick}
 								/>
 							</CardBody>
 						</Card>
 					</Col>
 				</Row>
 			</Container>
-			{/* <FormModal
-				isOpen={isOpen}
-				toggle={() => setIsOpen((prev) => !prev)}
-				header={header}
-				validation={validation}
-				formFields={formFields}
-				submitLabel="Save"
-				customColClasses="col-md-12"
-				customComponent={customComponent}
-				isSubmitLoading={isAddSuperUserLoading}
-			/> */}
 		</div>
 	);
 };

@@ -7,7 +7,6 @@ import {
 	rightStaticFormFields,
 	getInitialValues,
 	validationSchema,
-	permissionLabel,
 } from '../formDetails';
 import { getRolesStart } from '../../../store/auth/roles/actions';
 import PermissionForm from '../permissionForm';
@@ -209,7 +208,6 @@ const useActions = (isEditPage) => {
 				values={validation.values}
 				adminDetails={adminDetails}
 				superAdminUser={superAdminUser}
-				permissionLabel={permissionLabel}
 				validation={validation}
 			/>
 		);

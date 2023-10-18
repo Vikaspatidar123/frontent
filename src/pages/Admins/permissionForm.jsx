@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { permissionIcons } from './formDetails';
 import { CustomInputField } from '../../helpers/customForms';
 import { showToastr } from '../../utils/helpers';
+import { permissionIcons, permissionLabel } from '../../constants/permissions';
 
 const PermissionForm = ({
 	values,
 	adminDetails,
 	superAdminUser,
-	permissionLabel,
 	validation,
 	isEdit,
 }) => {
@@ -105,7 +104,6 @@ PermissionForm.propTypes = {
 	values: PropTypes.objectOf.isRequired,
 	adminDetails: PropTypes.objectOf.isRequired,
 	superAdminUser: PropTypes.objectOf.isRequired,
-	permissionLabel: PropTypes.func.isRequired,
 	validation: PropTypes.objectOf.isRequired,
 	isEdit: PropTypes.bool,
 };

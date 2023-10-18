@@ -2,7 +2,7 @@
 import React from 'react';
 import { Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
 import Box from '@mui/material/Box';
-import { permissionIcons, permissionLabel } from './formDetails';
+import { permissionIcons, permissionLabel } from '../../constants/permissions';
 
 const Permissions = ({ details }) => (
 	<Row>

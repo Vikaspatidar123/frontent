@@ -1,79 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import React from 'react';
 import * as Yup from 'yup';
-import {
-	TocRounded,
-	CurrencyExchangeRounded,
-	PeopleOutlineRounded,
-	AdminPanelSettingsRounded,
-	AccessibilityTwoTone,
-	PaletteTwoTone,
-	ReviewsTwoTone,
-	FactCheckTwoTone,
-	ReceiptLongTwoTone,
-	MonetizationOnTwoTone,
-	SportsSoccerTwoTone,
-	CommentTwoTone,
-	CollectionsTwoTone,
-	AccountBalanceWalletTwoTone,
-	ContactMailTwoTone,
-	GTranslateTwoTone,
-	ManageAccountsTwoTone,
-	PlaceTwoTone,
-	ViewCarouselTwoTone,
-	CasinoTwoTone,
-	AssessmentTwoTone,
-	LiveTvTwoTone,
-	SynagogueTwoTone,
-	LocalAtmTwoTone,
-	CardMembershipTwoTone,
-	SpeakerNotesTwoTone,
-	LocationOffTwoTone,
-	QrCode2TwoTone,
-	PsychologyTwoTone,
-	ManageHistoryTwoTone,
-} from '@mui/icons-material';
 
-// {
-//   "email": "anil@yopmail.com",
-//   "password": "QW5pbHNnc0AyNg==",
-//   "adminUsername": "anilchawda",
-//   "firstName": "Anil",
-//   "lastName": "chawd",
-//   "role": "Admin",
-//   "adminId": 1,
-//   "permission": {
-//       "CMS": [
-//           "R"
-//       ],
-//       "Bonus": [
-//           "R"
-//       ],
-//       "Users": [
-//           "R"
-//       ],
-//       "Admins": [
-//           "R"
-//       ],
-//       "Reviews": [
-//           "R"
-//       ],
-//       "KycLabel": [
-//           "R"
-//       ],
-//       "KpiReport": [
-//           "R"
-//       ],
-//       "Currencies": [
-//           "R"
-//       ],
-//       "EmailTemplate": [
-//           "R"
-//       ]
-//   },
-//   "group": "Tag"
-// }
-
+// Add staff and edit staff
 const getInitialValues = (defaultValue, isEdit) => ({
 	email: defaultValue?.email || '',
 	...(!isEdit && { password: '' }), // edit does not required password
@@ -174,76 +101,51 @@ const rightStaticFormFields = (isEdit) => [
 	},
 ];
 
-const permissionIcons = () => ({
-	CMS: <TocRounded />,
-	Bonus: <CurrencyExchangeRounded />,
-	Users: <PeopleOutlineRounded />,
-	Admins: <AdminPanelSettingsRounded />,
-	Tenant: <AccessibilityTwoTone />,
-	Themes: <PaletteTwoTone />,
-	Reviews: <ReviewsTwoTone />,
-	KycLabel: <FactCheckTwoTone />,
-	KpiReport: <ReceiptLongTwoTone />,
-	Currencies: <MonetizationOnTwoTone />,
-	GameReport: <SportsSoccerTwoTone />,
-	UserComment: <CommentTwoTone />,
-	ImageGallery: <CollectionsTwoTone />,
-	Transactions: <AccountBalanceWalletTwoTone />,
-	EmailTemplate: <ContactMailTwoTone />,
-	MultiLanguage: <GTranslateTwoTone />,
-	TenantSettings: <ManageAccountsTwoTone />,
-	DemographReport: <PlaceTwoTone />,
-	BannerManagement: <ViewCarouselTwoTone />,
-	CasinoManagement: <CasinoTwoTone />,
-	KpiSummaryReport: <AssessmentTwoTone />,
-	LivePlayerReport: <LiveTvTwoTone />,
-	WageringTemplate: <SynagogueTwoTone />,
-	CashierManagement: <LocalAtmTwoTone />,
-	LoyaltyManagement: <CardMembershipTwoTone />,
-	RegistrationField: <SpeakerNotesTwoTone />,
-	RestrictedCountry: <LocationOffTwoTone />,
-	TenantCredentials: <QrCode2TwoTone />,
-	TenantConfigurations: <PsychologyTwoTone />,
-	PlayerLiabilityReport: <AssessmentTwoTone />,
-	PlayerManagementReport: <ManageHistoryTwoTone />,
+// Staff Filter
+const staticFiltersFields = () => [
+	{
+		name: 'status',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: [
+			{
+				id: 1,
+				optionLabel: 'Active',
+				value: true,
+			},
+			{
+				id: 2,
+				optionLabel: 'In Active',
+				value: false,
+			},
+		],
+	},
+	{
+		name: 'search',
+		fieldType: 'textField',
+		label: '',
+		placeholder: 'Search by email, name or group',
+	},
+];
+
+const filterValues = () => ({
+	status: null,
+	search: '',
 });
 
-const permissionLabel = (label) => {
-	switch (label) {
-		case 'C':
-			return 'Create';
-		case 'R':
-			return 'Read';
-		case 'U':
-			return 'Update';
-		case 'D':
-			return 'Delete';
-		case 'T':
-			return 'Toggle Status';
-		case 'A':
-			return 'Apply';
-		case 'CC':
-			return 'Create Custom';
-		case 'AB':
-			return 'Manage Money';
-		case 'SR':
-			return 'Limit';
-		case 'TE':
-			return 'Test Email';
-		case 'EV':
-			return 'Verify Email';
-		case 'UP':
-			return 'Reset Password';
-		default:
-			return label;
-	}
-};
+const filterValidationSchema = () =>
+	Yup.object({
+		status: Yup.string().nullable(),
+		search: Yup.string().nullable(),
+	});
 
 export {
 	validationSchema,
 	getInitialValues,
 	leftStaticFormFields,
 	rightStaticFormFields,
-	permissionIcons,
-	permissionLabel,
+	staticFiltersFields,
+	filterValues,
+	filterValidationSchema,
 };
