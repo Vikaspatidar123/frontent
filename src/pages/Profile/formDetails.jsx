@@ -169,6 +169,32 @@ const validationSchema = Yup.object({
 		.required('User Name Required'),
 });
 
+const adminProfileSchema = Yup.object().shape({
+	firstName: Yup.string()
+		.min(3, 'First Name must be atleast 3 characters')
+		.max(200)
+		.matches(
+			/^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
+			'Only Alphabets and Space Allowed and Must Start with Alphabet'
+		)
+		.required('First Name Required'),
+	lastName: Yup.string()
+		.min(3, 'Last Name must be atleast 3 characters')
+		.max(200)
+		.matches(
+			/^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
+			'Only Alphabets and Space Allowed and Must Start with Alphabet'
+		)
+		.required('Last Name Required'),
+	phone: Yup.string()
+		.min(10, 'Phone must be at least 10 digits')
+		.max(20, 'Phone must be at most 20 digits')
+		.matches(
+			/^((\\+[1-9]{1,10}[ \\-]*)|(\\([0-9]{1,10}\\)[ \\-]*)|([0-9]{1,10})[ \\-]*)*?[0-9]{1,10}?[ \\-]*[0-9]{1,10}?$/,
+			'Enter a valid Phone Number'
+		),
+});
+
 const profilePasswordSchema = Yup.object().shape({
 	password: Yup.string().required('Old Password Required!'),
 	newPassword: Yup.string()
@@ -179,7 +205,9 @@ const profilePasswordSchema = Yup.object().shape({
 		.test(
 			'match',
 			'Old and New Password Must be Different!',
-			(newPassword) => newPassword !== this.options.parent.password
+			function (newPassword) {
+				return newPassword !== this.options.parent.password;
+			}
 		)
 		.max(50)
 		.required('New Password Required!'),
@@ -191,6 +219,7 @@ const profilePasswordSchema = Yup.object().shape({
 
 export {
 	adminSiteConfigSchema,
+	adminProfileSchema,
 	validationSchema,
 	profilePasswordSchema,
 	permissionIcons,

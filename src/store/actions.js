@@ -115,3 +115,6 @@ export * from './sportsMarkets/actions';
 export * from './emailTemplate/actions';
 
 export * from './wageringTemplate/actions';
+
+// PROFILE UPDATE
+export * from './Profile/actions';

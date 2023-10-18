@@ -22,7 +22,11 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 
 import { projectName } from '../../constants/config';
 import { getSuperAdminStart } from '../../store/auth/permissionDetails/actions';
-import { getLanguagesStart } from '../../store/actions';
+import {
+	getLanguagesStart,
+	updateProfileStart,
+	updateSiteConfigurationStart,
+} from '../../store/actions';
 
 import Overview from './Overview';
 import SiteConfig from './SiteConfiguration';
@@ -34,6 +38,8 @@ const ProfilePage = ({ t }) => {
 	document.title = projectName;
 
 	const [activeTab, setactiveTab] = useState('1');
+	const [editable, setEditable] = useState(false);
+	const [editableSiteConfig, setEditableSiteConfig] = useState(false);
 	const [details, setDetails] = useState([]);
 
 	const toggle = (tab) => {
@@ -43,28 +49,31 @@ const ProfilePage = ({ t }) => {
 	};
 	const { superAdminUser } = useSelector((state) => state.PermissionDetails);
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-
-	const tabData = [
-		{
-			id: '1',
-			title: 'Overview',
-			component: <Overview details={superAdminUser} isTenant={false} />,
-		},
-		{
-			id: '2',
-			title: 'Site Configuration',
-			component: <SiteConfig details={details} languageData={languageData} />,
-		},
-		{ id: '3', title: 'Reset Password', component: <Password /> },
-		{
-			id: '4',
-			title: 'Permissions',
-			component: <Permissions details={superAdminUser} />,
-		},
-		{ id: '5', title: 'Tree', component: <CardText>default2</CardText> },
-	];
+	const { resetProfilePasswordLoading } = useSelector(
+		(state) => state.ProfileData
+	);
 
 	const dispatch = useDispatch();
+
+	const updateData = (data) => {
+		dispatch(
+			updateProfileStart({
+				data,
+				isTenant: false,
+			})
+		);
+		setEditable(false);
+	};
+
+	const updateSiteConfiguration = (data) => {
+		dispatch(
+			updateSiteConfigurationStart({
+				data,
+				isTenant: false,
+			})
+		);
+		setEditableSiteConfig(false);
+	};
 
 	useEffect(() => {
 		dispatch(getSuperAdminStart());
@@ -80,6 +89,47 @@ const ProfilePage = ({ t }) => {
 		fetchData();
 	}, []);
 
+	const tabData = [
+		{
+			id: '1',
+			title: 'Overview',
+			component: (
+				<Overview
+					details={superAdminUser}
+					isTenant={false}
+					isEditable={editable}
+					setIsEditable={setEditable}
+					updateData={updateData}
+				/>
+			),
+		},
+		{
+			id: '2',
+			title: 'Site Configuration',
+			component: (
+				<SiteConfig
+					details={details}
+					languageData={languageData}
+					isEditable={editableSiteConfig}
+					setIsEditable={setEditableSiteConfig}
+					updateSiteConfiguration={updateSiteConfiguration}
+				/>
+			),
+		},
+		{
+			id: '3',
+			title: 'Reset Password',
+			component: (
+				<Password loading={resetProfilePasswordLoading} isTenant={false} />
+			),
+		},
+		{
+			id: '4',
+			title: 'Permissions',
+			component: <Permissions details={superAdminUser} />,
+		},
+		{ id: '5', title: 'Tree', component: <CardText>default2</CardText> },
+	];
 	return (
 		<div className="page-content">
 			<Container fluid>

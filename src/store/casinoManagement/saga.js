@@ -151,6 +151,7 @@ function* getAllCasinoGamesWorker(action) {
 function* createCasinoProviderWorker(action) {
 	try {
 		const { data } = action && action.payload;
+		console.log('data: ', data);
 		yield createCasinoProvider(objectToFormData(data));
 
 		showToastr({
