@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllCmsDetails } from '../../../store/cms/actions';
+import {
+	getAllCmsDetails,
+	updateSaCmsStatus,
+} from '../../../store/cms/actions';
 
 const itemsPerPage = 10;
 
@@ -12,6 +15,7 @@ const useCmsListing = () => {
 	const [selectedClient, setSelectedClient] = useState('');
 	const [selectedPortal, setSelectedPortal] = useState('');
 	const [active, setActive] = useState('');
+	const [show, setShow] = useState(false);
 	const dispatch = useDispatch();
 
 	const formattedCmsDetails = useMemo(() => {
@@ -40,6 +44,27 @@ const useCmsListing = () => {
 		);
 	};
 
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { status, cmsPageId } = props;
+		setShow((prev) => !prev);
+		dispatch(
+			updateSaCmsStatus({
+				data: {
+					code: 'CMS',
+					cmsPageId,
+					status: !status,
+				},
+				limit,
+				pageNo: page,
+				tenantId: selectedPortal,
+				adminId: selectedClient,
+				search,
+				isActive: active,
+			})
+		);
+	};
+
 	useEffect(() => {
 		fetchData();
 	}, [limit, selectedPortal, selectedClient, active, page]);
@@ -57,6 +82,9 @@ const useCmsListing = () => {
 		setSelectedClient,
 		setSelectedPortal,
 		setActive,
+		handleStatus,
+		show,
+		setShow,
 	};
 };
 

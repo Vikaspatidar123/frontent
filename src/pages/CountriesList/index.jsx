@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import {
-	Actions,
 	CountryCode,
 	CountryName,
 	Id,
 	Language,
 	Status,
 } from './CountriesListCol';
+import ActionButtons from './ActionButtons';
 import useCountriesListing from './hooks/useCountriesListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
@@ -29,6 +29,7 @@ const CountriesList = ({ t }) => {
 		isCountriesLoading,
 		formattedCountries,
 		itemsPerPage,
+		handleStatus,
 	} = useCountriesListing();
 
 	const columns = useMemo(
@@ -67,7 +68,9 @@ const CountriesList = ({ t }) => {
 				Header: 'Actions',
 				// accessor: "actions",
 				// filterable: true,
-				Cell: (cellProps) => <Actions {...cellProps} />,
+				Cell: (cellProps) => (
+					<ActionButtons {...cellProps} handleStatus={handleStatus} />
+				),
 			},
 		],
 		[]

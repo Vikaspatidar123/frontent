@@ -5,15 +5,21 @@ import {
 	CREATE_AGGREGATORS_START,
 	CREATE_AGGREGATORS_FAIL,
 	CREATE_AGGREGATORS_SUCCESS,
+	UPDATE_AGGREGATORS_STATUS_START,
+	UPDATE_AGGREGATORS_STATUS_FAIL,
+	UPDATE_AGGREGATORS_STATUS_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
 	aggregatorsData: [],
 	error: {},
 	loading: true,
-	isCreateAggregatorError: false,
+	isCreateAggregatorError: null,
 	isCreateAggregatorSuccess: false,
 	isCreateAggregatorLoading: false,
+	updateAggregatorsStatus: false,
+	updateAggregatorsStatusError: null,
+	updateAggregatorsStatusLoading: false,
 };
 
 const AggregatorsReducer = (state = INIT_STATE, { type, payload } = {}) => {
@@ -58,6 +64,28 @@ const AggregatorsReducer = (state = INIT_STATE, { type, payload } = {}) => {
 				isCreateAggregatorError: payload,
 				isCreateAggregatorLoading: false,
 				isCreateAggregatorSuccess: false,
+			};
+
+		case UPDATE_AGGREGATORS_STATUS_START:
+			return {
+				...state,
+				updateAggregatorsStatusLoading: true,
+			};
+
+		case UPDATE_AGGREGATORS_STATUS_SUCCESS:
+			return {
+				...state,
+				updateAggregatorsStatusLoading: false,
+				updateAggregatorsStatusSuccess: true,
+				updateAggregatorsStatusError: null,
+			};
+
+		case UPDATE_AGGREGATORS_STATUS_FAIL:
+			return {
+				...state,
+				updateAggregatorsStatusLoading: false,
+				updateAggregatorsStatusError: payload,
+				updateAggregatorsStatusSuccess: false,
 			};
 
 		default:

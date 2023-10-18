@@ -10,16 +10,12 @@ const CountryCode = (cell) => (cell.value ? cell.value : '');
 
 const Language = (cell) => (cell.value ? cell.value : '');
 
-const Status = (cell) => {
-	switch (cell.value) {
-		case 'Active':
-			return <Badge className="bg-success">Active</Badge>;
-		case 'Not Active':
-			return <Badge className="bg-danger">In-Active</Badge>;
-		default:
-			return '';
-	}
-};
+const Status = (cell) =>
+	cell.value ?? '' ? (
+		<Badge className="bg-success">Active</Badge>
+	) : (
+		<Badge className="bg-danger">In Active</Badge>
+	);
 
 const Icon = (cell) =>
 	cell.value ? <img alt="sidebar_bg_image" width="20" src={cell.value} /> : '-';

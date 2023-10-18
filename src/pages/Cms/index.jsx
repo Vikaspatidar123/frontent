@@ -1,5 +1,6 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
@@ -11,45 +12,6 @@ import { CmsPageId, Title, Slug, Portal, Status } from './CmsListCol';
 import ActionButtons from './ActionButtons';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
-
-const columns = [
-	{
-		Header: 'ID',
-		accessor: 'cmsPageId',
-		filterable: true,
-		Cell: ({ cell }) => <CmsPageId cell={cell} />,
-	},
-	{
-		Header: 'TITLE',
-		accessor: 'title',
-		filterable: true,
-		Cell: ({ cell }) => <Title cell={cell} />,
-	},
-	{
-		Header: 'SLUG',
-		accessor: 'slug',
-		filterable: true,
-		Cell: ({ cell }) => <Slug cell={cell} />,
-	},
-	{
-		Header: 'PORTAL',
-		accessor: 'portal',
-		filterable: true,
-		Cell: ({ cell }) => <Portal cell={cell} />,
-	},
-	{
-		Header: 'STATUS',
-		accessor: 'isActive',
-		disableFilters: true,
-		Cell: ({ cell }) => <Status cell={cell} />,
-	},
-	{
-		Header: 'ACTION',
-		accessor: 'action',
-		disableFilters: true,
-		Cell: () => <ActionButtons />,
-	},
-];
 
 const Cms = ({ t }) => {
 	// Set meta title
@@ -63,7 +25,52 @@ const Cms = ({ t }) => {
 		setPage,
 		itemsPerPage,
 		totalCmsCount,
+		handleStatus,
 	} = useCmsListing();
+
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'cmsPageId',
+				filterable: true,
+				Cell: ({ cell }) => <CmsPageId cell={cell} />,
+			},
+			{
+				Header: 'TITLE',
+				accessor: 'title',
+				filterable: true,
+				Cell: ({ cell }) => <Title cell={cell} />,
+			},
+			{
+				Header: 'SLUG',
+				accessor: 'slug',
+				filterable: true,
+				Cell: ({ cell }) => <Slug cell={cell} />,
+			},
+			{
+				Header: 'PORTAL',
+				accessor: 'portal',
+				filterable: true,
+				Cell: ({ cell }) => <Portal cell={cell} />,
+			},
+			{
+				Header: 'STATUS',
+				accessor: 'isActive',
+				disableFilters: true,
+				Cell: ({ cell }) => <Status cell={cell} />,
+			},
+			{
+				Header: 'ACTION',
+				accessor: 'action',
+				disableFilters: true,
+				Cell: ({ cell }) => (
+					<ActionButtons cell={cell} handleStatus={handleStatus} />
+				),
+			},
+		],
+		[]
+	);
 
 	return (
 		<div className="page-content">

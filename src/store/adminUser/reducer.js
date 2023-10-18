@@ -2,6 +2,9 @@ import {
 	GET_ALL_GROUP_START,
 	GET_ALL_GROUP_SUCCESS,
 	GET_ALL_GROUP_FAIL,
+	UPDATE_SUPER_ADMIN_STATUS_START,
+	UPDATE_SUPER_ADMIN_STATUS_SUCCESS,
+	UPDATE_SUPER_ADMIN_STATUS_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -10,6 +13,9 @@ const INIT_STATE = {
 	// adminUsers: [],
 	// adminUserDetails: {},
 	groups: [],
+	superAdminStatus: false,
+	superAdminStatusError: null,
+	superAdminStatusLoading: false,
 };
 
 const adminUser = (state = INIT_STATE, { type, payload } = {}) => {
@@ -33,6 +39,28 @@ const adminUser = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				error: payload,
 				isLoading: true,
+			};
+
+		case UPDATE_SUPER_ADMIN_STATUS_START:
+			return {
+				...state,
+				superAdminStatusLoading: false,
+			};
+
+		case UPDATE_SUPER_ADMIN_STATUS_SUCCESS:
+			return {
+				...state,
+				superAdminStatusLoading: true,
+				superAdminStatus: true,
+				superAdminStatusError: null,
+			};
+
+		case UPDATE_SUPER_ADMIN_STATUS_FAIL:
+			return {
+				...state,
+				superAdminStatusLoading: false,
+				superAdminStatusError: payload,
+				superAdminStatus: false,
 			};
 
 		default:
