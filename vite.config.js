@@ -11,4 +11,11 @@ export default defineConfig({
 		jsxFactory: 'h',
 		jsxFragment: 'Fragment',
 	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				quietDeps: true,
+			},
+		},
+	},
 });
