@@ -33,7 +33,7 @@ export const CustomInputField = ({
 }) => (
 	<>
 		{label && <Label className="form-label">{label}</Label>}
-		{isError && <span className="text-danger"> *</span>}
+		{isError && label && <span className="text-danger"> *</span>}
 		<Input
 			name={name}
 			type={type}
@@ -72,7 +72,7 @@ export const CustomSelectField = ({
 }) => (
 	<>
 		{label && <Label for={name}>{label}</Label>}
-		{isError && <span className="text-danger"> *</span>}
+		{isError && label && <span className="text-danger"> *</span>}
 		<Input
 			id={id}
 			type={type}
@@ -256,7 +256,7 @@ export const getField = (
 					errorMsg={validation.touched[name] && validation.errors[name]}
 					options={
 						<>
-							<option value={null} disabled selected>
+							<option value={null} selected disabled>
 								{optionsLabel || placeholder}
 							</option>
 							{optionList?.map(({ optionLabel, value }) => (
