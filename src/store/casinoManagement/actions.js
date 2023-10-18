@@ -17,6 +17,9 @@ import {
 	CREATE_CASINO_PROVIDERS,
 	CREATE_CASINO_PROVIDERS_FAIL,
 	CREATE_CASINO_PROVIDERS_SUCCESS,
+	CREATE_CASINO_CATEGORY_SUCCESS,
+	CREATE_CASINO_CATEGORY_FAIL,
+	CREATE_CASINO_CATEGORY_START,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -106,5 +109,20 @@ export const createCasinoProvidersFailure = (payload) => ({
 
 export const createCasinoProvidersStart = (payload) => ({
 	type: CREATE_CASINO_PROVIDERS,
+	payload,
+});
+
+export const createCasinoCategorySuccess = (payload) => ({
+	type: CREATE_CASINO_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const createCasinoCategoryFailure = (payload) => ({
+	type: CREATE_CASINO_CATEGORY_FAIL,
+	payload,
+});
+
+export const createCasinoCategoryStart = (payload) => ({
+	type: CREATE_CASINO_CATEGORY_START,
 	payload,
 });

@@ -30,6 +30,9 @@ const createSABanners = (data) =>
 		'Content-Type': 'multipart/form-data',
 	});
 
+const createCasinoCategory = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/casino/category`, data);
+
 export {
 	superAdminLogin,
 	createCurrency,
@@ -39,4 +42,5 @@ export {
 	createReview,
 	createBetSettings,
 	createSABanners,
+	createCasinoCategory,
 };

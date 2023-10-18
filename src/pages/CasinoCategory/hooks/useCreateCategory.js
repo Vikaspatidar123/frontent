@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -6,32 +6,28 @@ import {
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import {
-	// createCasinoCategoryStart,
-	getAggregatorsList,
-} from '../../../store/actions';
+import { createCasinoCategoryStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateCategory = () => {
 	const dispatch = useDispatch();
-	const { aggregatorsData } = useSelector((state) => state.AggregatorsReducer);
-	const { isCreateCategoryLoading, casinoCategoryData } = useSelector(
-		(state) => state.CasinoManagementData
-	);
+	const [createName, setCreateName] = useState({ EN: '' });
+	const { casinoCategoryDetails, languageData, isCreateCategoryLoading } =
+		useSelector((state) => state.CasinoManagementData);
 
-	const handleCreateCategory = () => {
-		// dispatch(
-		//   createCasinoCategoryStart({
-		//     data: values,
-		//   })
-		// );
+	const handleCreateCategory = (values) => {
+		dispatch(
+			createCasinoCategoryStart({
+				data: values,
+			})
+		);
 	};
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
 		useForm({
 			header: 'Add Category',
-			initialValues: getInitialValues(),
-			validationSchema,
+			initialValues: getInitialValues({ name: createName }),
+			validationSchema: validationSchema(createName),
 			staticFormFields,
 			onSubmitEntry: handleCreateCategory,
 			isEdit: false,
@@ -40,35 +36,58 @@ const useCreateCategory = () => {
 	const handleAddClick = (e) => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
-		if (!aggregatorsData.length) {
-			dispatch(getAggregatorsList({ pageNo: 1 }));
-		}
 	};
 
 	useEffect(() => {
 		setIsOpen(false);
-	}, [casinoCategoryData?.count]);
+	}, [casinoCategoryDetails?.count]);
+
+	const onChangeLanguage = (e) => {
+		setCreateName((prev) => ({ ...prev, [e.target.value]: '' }));
+	};
+
+	const onRemoveLanguage = (e) => {
+		setCreateName((prev) => {
+			const { [e]: key, ...rest } = prev;
+			return rest;
+		});
+	};
 
 	useEffect(() => {
-		if (aggregatorsData?.rows?.length) {
-			const aggOptions = aggregatorsData.rows.map((r) => ({
-				id: r.gameAggregatorId,
-				optionLabel: r.name,
-				value: r.gameAggregatorId,
+		if (languageData?.rows?.length) {
+			const langOptions = languageData.rows.map((r) => ({
+				id: r.languageId,
+				optionLabel: r.languageName,
+				value: r.code,
 			}));
 
 			setFormFields([
-				...staticFormFields,
 				{
-					name: 'gameAggregatorId',
+					// name: 'language',
 					fieldType: 'select',
-					label: 'Aggregator',
-					placeholder: 'Select Aggregator',
-					optionList: aggOptions,
+					label: 'Language',
+					placeholder: 'Select Language',
+					optionList: langOptions,
+					callBack: onChangeLanguage,
 				},
+				{
+					name: 'name',
+					label: 'Category Name',
+					fieldType: 'inputGroup',
+					onDelete: onRemoveLanguage,
+				},
+				...staticFormFields,
 			]);
 		}
-	}, [aggregatorsData]);
+	}, [languageData]);
+
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+		},
+	]);
 
 	return {
 		isOpen,
@@ -77,7 +96,7 @@ const useCreateCategory = () => {
 		validation,
 		formFields,
 		setFormFields,
-		handleAddClick,
+		buttonList,
 		isCreateCategoryLoading,
 	};
 };

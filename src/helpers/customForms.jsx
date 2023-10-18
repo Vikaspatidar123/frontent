@@ -3,7 +3,15 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-import { Label, Input, FormFeedback } from 'reactstrap';
+import {
+	Label,
+	Input,
+	FormFeedback,
+	Col,
+	InputGroup,
+	Button,
+	InputGroupText,
+} from 'reactstrap';
 import 'flatpickr/dist/themes/material_blue.css';
 import FlatPickr from 'react-flatpickr';
 
@@ -206,6 +214,7 @@ export const getField = (
 		label,
 		callBack,
 		isDisabled,
+		onDelete,
 	},
 	validation
 ) => {
@@ -325,6 +334,45 @@ export const getField = (
 					errorMsg={validation.touched[name] && validation.errors[name]}
 				/>
 			);
+		case 'inputGroup':
+			return Object.keys(validation?.values?.name).map((item) => (
+				<div className="d-flex align-items-center mt-1" key={item}>
+					<Col>
+						<Col className="d-flex">
+							<InputGroup>
+								<InputGroupText>{item}</InputGroupText>
+								<CustomInputField
+									name={`name[${item}]`}
+									placeholder={placeholder}
+									value={validation?.values?.name?.[item]}
+									onChange={validation.handleChange}
+									onBlur={validation.handleBlur}
+									invalid={
+										!!(
+											validation.touched?.name?.[item] &&
+											validation.errors?.name?.[item]
+										)
+									}
+									isError
+									errorMsg={
+										validation.touched?.name?.[item] &&
+										validation.errors?.name?.[item]
+									}
+								/>
+							</InputGroup>
+							<Button
+								className="btn-danger"
+								style={{ Height: '35px', lineHeight: '14px' }}
+								disabled={item === 'EN'}
+								onClick={() => onDelete(item)}
+							>
+								<i className="mdi mdi-trash-can-outline" />
+							</Button>
+						</Col>
+						{/* {validation?.touched?.name?.[item] && validation?.errors?.name?.[item] && <FormFeedback type="invalid">ERROR</FormFeedback>} */}
+					</Col>
+				</div>
+			));
 		default:
 			return <div />;
 	}

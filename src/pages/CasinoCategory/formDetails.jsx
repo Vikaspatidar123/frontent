@@ -1,37 +1,29 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
-	categoryName: defaultValue?.name || '',
 	selectedLang: defaultValue?.selectedLang || '',
 	isActive: defaultValue?.isActive || false,
+	name: defaultValue?.name || {},
 });
 
-// export const casinoCategorySchema = (name) => Yup.object().shape({
-//   categoryName: validateName(name)
-// })
+const validateName = (name) => {
+	const validationObject = {};
+	for (const file in name) {
+		validationObject[file] = Yup.string()
+			.required('Label Name Required!')
+			.nullable();
+	}
+	return Yup.object(validationObject);
+};
 
-// const validateName = (name) => {
-//   const validationObject = {}
-//   for (const file in name) {
-//     validationObject[file] = Yup
-//       .string()
-//       .required('Category Name Required!').nullable()
-//   }
-//   return Yup.object(validationObject)
-// }
-
-const validationSchema = () =>
+const validationSchema = (name) =>
 	Yup.object().shape({
-		categoryName: Yup.string().required('Category Name Required!').nullable(),
+		name: validateName(name),
 	});
 
 const staticFormFields = [
-	{
-		name: 'categoryName',
-		fieldType: 'textField',
-		label: 'Category Name',
-		placeholder: 'Enter Category Name',
-	},
 	{
 		name: 'isActive',
 		fieldType: 'switch',
