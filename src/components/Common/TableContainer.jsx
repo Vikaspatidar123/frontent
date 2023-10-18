@@ -24,6 +24,7 @@ const TableContainer = ({
 	paginationDiv,
 	isPagination,
 	theadClass,
+	tbodyClass,
 	totalPageCount,
 	isManualPagination,
 	onChangePagination,
@@ -60,10 +61,14 @@ const TableContainer = ({
 	return (
 		<>
 			<div className="table-responsive react-table">
-				<Table {...getTableProps()} className={tableClass}>
-					<thead className={theadClass}>
+				<Table {...getTableProps()} className={tableClass} id="generic-table">
+					<thead className={theadClass} id="generic-table-head">
 						{headerGroups.map((headerGroup) => (
-							<tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
+							<tr
+								key={headerGroup.id}
+								{...headerGroup.getHeaderGroupProps()}
+								id="generic-table-tr"
+							>
 								{headerGroup.headers.map((column) => (
 									<th
 										key={column.id}
@@ -84,6 +89,8 @@ const TableContainer = ({
 						{...getTableBodyProps({
 							height: `${isLoading || !page?.length ? '500px' : '0'}`,
 						})}
+						id="generic-table-body"
+						className={tbodyClass}
 					>
 						{isLoading && (
 							<Spinner
