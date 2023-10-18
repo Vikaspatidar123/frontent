@@ -20,6 +20,9 @@ import {
 	CREATE_CASINO_CATEGORY_START,
 	CREATE_CASINO_CATEGORY_SUCCESS,
 	CREATE_CASINO_CATEGORY_FAIL,
+	CREATE_CASINO_SUBCATEGORY_START,
+	CREATE_CASINO_SUBCATEGORY_SUCCESS,
+	CREATE_CASINO_SUBCATEGORY_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -44,6 +47,9 @@ const INIT_STATE = {
 	isCreateCategoryError: false,
 	isCreateCategorySuccess: false,
 	isCreateCategoryLoading: false,
+	isCreateSubCategoryError: false,
+	isCreateSubCategorySuccess: false,
+	isCreateSubCategoryLoading: false,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -195,6 +201,28 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isCreateCategoryError: payload,
 				isCreateCategoryLoading: false,
 				isCreateCategorySuccess: false,
+			};
+
+		case CREATE_CASINO_SUBCATEGORY_START:
+			return {
+				...state,
+				isCreateSubCategoryLoading: true,
+				isCreateSubCategorySuccess: false,
+			};
+
+		case CREATE_CASINO_SUBCATEGORY_SUCCESS:
+			return {
+				...state,
+				isCreateSubCategoryLoading: false,
+				isCreateSubCategorySuccess: true,
+			};
+
+		case CREATE_CASINO_SUBCATEGORY_FAIL:
+			return {
+				...state,
+				isCreateSubCategoryError: payload,
+				isCreateSubCategoryLoading: false,
+				isCreateSubCategorySuccess: false,
 			};
 		default:
 			return state;

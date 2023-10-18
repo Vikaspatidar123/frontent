@@ -19,6 +19,8 @@ import { projectName } from '../../constants/config';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import { getCasinoSubCategoryDetailStart } from '../../store/actions';
 import CrudSection from '../../components/Common/CrudSection';
+import useCreateSubCategory from './hooks/useCreateSubCategory';
+import FormModal from '../../components/Common/FormModal';
 
 const columns = [
 	{
@@ -105,16 +107,16 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 	// meta title
 	document.title = projectName;
 
-	const { casinoSubCategoryDetails, iscasinoSubCategoryDetailsLoading } =
-		useSelector((state) => state.CasinoManagementData);
+	const {
+		casinoSubCategoryDetails,
+		iscasinoSubCategoryDetailsLoading,
+		isCreateSubCategorySuccess,
+	} = useSelector((state) => state.CasinoManagementData);
 	const [limit] = useState(15);
 	const [page, setPage] = useState(1);
 	const [search] = useState('');
 	const dispatch = useDispatch();
-
-	const itemsPerPage = 10;
-
-	useEffect(() => {
+	const fetchData = () => {
 		dispatch(
 			getCasinoSubCategoryDetailStart({
 				limit,
@@ -122,6 +124,14 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 				search,
 			})
 		);
+	};
+	useEffect(() => {
+		if (isCreateSubCategorySuccess) fetchData();
+	}, [isCreateSubCategorySuccess]);
+	const itemsPerPage = 10;
+
+	useEffect(() => {
+		fetchData();
 	}, [limit, page, search]);
 
 	// const getGameName = (id) => {
@@ -132,6 +142,16 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 	// 		)?.name?.EN
 	// 	);
 	// };
+
+	const {
+		isOpen,
+		setIsOpen,
+		formFields,
+		header,
+		validation,
+		isCreateSubCategoryLoading,
+		buttonList,
+	} = useCreateSubCategory();
 
 	const formattedgetCasinoSubCategoryDetails = useMemo(() => {
 		if (casinoSubCategoryDetails) {
@@ -156,7 +176,10 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Sub Categories Listing" />
+							<CrudSection
+								buttonList={buttonList}
+								title="Sub Categories Listing"
+							/>
 							<CardBody>
 								<TableContainer
 									columns={columns}
@@ -174,6 +197,16 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 									isLoading={!iscasinoSubCategoryDetailsLoading}
 								/>
 							</CardBody>
+							<FormModal
+								isOpen={isOpen}
+								toggle={() => setIsOpen((prev) => !prev)}
+								header={header}
+								validation={validation}
+								formFields={formFields}
+								submitLabel="Submit"
+								customColClasses="col-md-12"
+								isSubmitLoading={isCreateSubCategoryLoading}
+							/>
 						</Card>
 					</Col>
 				</Row>
