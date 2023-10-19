@@ -12,8 +12,8 @@ import {
 	useExpanded,
 	usePagination,
 } from 'react-table';
-import { Table, Row, Spinner } from 'reactstrap';
-import { Pagination } from '@mui/material';
+import { Table, Spinner } from 'reactstrap';
+import ReactPaginate from 'react-paginate';
 import { DefaultColumnFilter } from './filters';
 
 const TableContainer = ({
@@ -28,7 +28,7 @@ const TableContainer = ({
 	totalPageCount,
 	isManualPagination,
 	onChangePagination,
-	currentPage,
+	// currentPage,
 	isLoading = false,
 	thCustomClass = '',
 }) => {
@@ -52,9 +52,9 @@ const TableContainer = ({
 			usePagination
 		);
 
-	const handlePagination = (e, item) => {
+	const handlePagination = (newPage) => {
 		if (isManualPagination) {
-			onChangePagination(item);
+			onChangePagination((newPage?.selected || 0) + 1);
 		}
 	};
 
@@ -124,9 +124,9 @@ const TableContainer = ({
 			</div>
 
 			{isPagination && (
-				<Row className="justify-content-between align-items-center">
+				<div className="d-flex justify-content-between align-items-center">
 					{totalPageCount && (
-						<div className="col-sm m-2">
+						<div>
 							<div className="text-muted">
 								Showing <span className="fw-semibold">{page.length}</span> of{' '}
 								<span className="fw-semibold">{totalPageCount}</span> entries
@@ -134,14 +134,27 @@ const TableContainer = ({
 						</div>
 					)}
 					<div className={paginationDiv}>
-						<Pagination
-							color="primary"
-							count={Math.ceil(totalPageCount / customPageSize)}
-							page={currentPage}
-							onChange={handlePagination}
+						<ReactPaginate
+							breakLabel="..."
+							nextLabel=">"
+							onPageChange={handlePagination}
+							pageCount={Math.ceil(totalPageCount / customPageSize)}
+							previousLabel="<"
+							renderOnZeroPageCount={null}
+							pageClassName="page-item"
+							pageLinkClassName="page-link"
+							previousClassName="page-item"
+							previousLinkClassName="page-link"
+							nextClassName="page-item"
+							nextLinkClassName="page-link"
+							breakClassName="page-item"
+							breakLinkClassName="page-link"
+							containerClassName="pagination"
+							activeClassName="active"
+							pageRangeDisplayed={3}
 						/>
 					</div>
-				</Row>
+				</div>
 			)}
 		</>
 	);
