@@ -1,5 +1,5 @@
 ## --------- for development ---------
-FROM node:16.14.0-alpine AS builder
+FROM node:16.13.0-alpine AS builder
 
 # install dependecies
 RUN apk update
@@ -27,7 +27,7 @@ EXPOSE $PORT 9240 9241
 # install dependencies first, in a different location for easier app bind mounting for local development
 
 COPY ./package*.json ./
-RUN yarn
+RUN npm install --legacy-peer-deps
 
 # copy in our source code last, as it changes the most
 COPY . .
