@@ -46,6 +46,7 @@ const WageringTemplate = ({ t }) => {
 		page,
 		setPage,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useWageringTemplate();
 
 	return (
@@ -75,6 +76,7 @@ const WageringTemplate = ({ t }) => {
 									currentPage={page}
 									isLoading={wageringTemplateDetailLoading}
 									isGlobalFilter
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

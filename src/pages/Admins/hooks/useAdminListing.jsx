@@ -15,11 +15,10 @@ import {
 import ActionButtons from '../ActionButtons';
 import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
 
-const itemsPerPage = 10;
-
 const useAdmin = (handleEdit) => {
 	const dispatch = useDispatch();
 	const location = useLocation();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const { adminDetails, isLoading, error } = useSelector(
 		(state) => state.AllAdmins
 	);
@@ -82,7 +81,7 @@ const useAdmin = (handleEdit) => {
 
 	useEffect(() => {
 		if (location.pathname === '/staff') fetchData();
-	}, [page, orderBy, sort, status, location, active]);
+	}, [page, orderBy, sort, status, location, active, itemsPerPage]);
 
 	const columns = useMemo(
 		() => [
@@ -138,6 +137,10 @@ const useAdmin = (handleEdit) => {
 		[]
 	);
 
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
+
 	return {
 		adminDetails,
 		formattedAdminDetails,
@@ -159,6 +162,7 @@ const useAdmin = (handleEdit) => {
 		itemsPerPage,
 		columns,
 		handleStatus,
+		onChangeRowsPerPage,
 	};
 };
 

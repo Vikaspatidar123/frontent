@@ -30,6 +30,7 @@ const CountriesList = ({ t }) => {
 		formattedCountries,
 		itemsPerPage,
 		handleStatus,
+		onChangeRowsPerPage,
 	} = useCountriesListing();
 
 	const columns = useMemo(
@@ -114,6 +115,7 @@ const CountriesList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

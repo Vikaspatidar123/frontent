@@ -6,8 +6,6 @@ import {
 	getLanguagesStart,
 } from '../../../store/casinoManagement/actions';
 
-const itemsPerPage = 10;
-
 const useCasinoCategoryListing = () => {
 	const {
 		casinoCategoryDetails,
@@ -15,13 +13,17 @@ const useCasinoCategoryListing = () => {
 		languageData,
 		isCreateCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
-	const [limit, setLimit] = useState(15);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [search, setSearch] = useState('');
 	const [modal, setModal] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [job, setJob] = useState(null);
 	const dispatch = useDispatch();
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const formattedCasinoCategoriesData = useMemo(() => {
 		if (casinoCategoryDetails) {
@@ -38,7 +40,7 @@ const useCasinoCategoryListing = () => {
 	const fetchData = () => {
 		dispatch(
 			getCasinoCategoryDetailStart({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				search,
 			})
@@ -47,7 +49,7 @@ const useCasinoCategoryListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, limit, search]);
+	}, [page, search, itemsPerPage]);
 
 	useEffect(() => {
 		if (isCreateCategorySuccess) fetchData();
@@ -61,8 +63,6 @@ const useCasinoCategoryListing = () => {
 		formattedCasinoCategoriesData,
 		iscasinoCategoryDetailsLoading,
 		languageData,
-		limit,
-		setLimit,
 		page,
 		setPage,
 		search,
@@ -75,6 +75,7 @@ const useCasinoCategoryListing = () => {
 		setIsEdit,
 		job,
 		setJob,
+		onChangeRowsPerPage,
 	};
 };
 

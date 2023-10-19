@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	useTable,
@@ -14,6 +14,7 @@ import {
 } from 'react-table';
 import { Table, Spinner } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
+import { CustomSelectField } from '../../helpers/customForms';
 
 const TableContainer = ({
 	columns,
@@ -30,7 +31,9 @@ const TableContainer = ({
 	// currentPage,
 	isLoading = false,
 	thCustomClass = '',
+	changeRowsPerPageCallback,
 }) => {
+	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
 	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
 		useTable(
 			{
@@ -55,6 +58,39 @@ const TableContainer = ({
 		if (isManualPagination) {
 			onChangePagination((newPage?.selected || 0) + 1);
 		}
+	};
+
+	const rowsPerPageOptions = [
+		{
+			id: 1,
+			optionLabel: 10,
+			value: 10,
+		},
+		{
+			id: 2,
+			optionLabel: 15,
+			value: 15,
+		},
+		{
+			id: 3,
+			optionLabel: 20,
+			value: 20,
+		},
+		{
+			id: 4,
+			optionLabel: 25,
+			value: 25,
+		},
+		{
+			id: 5,
+			optionLabel: 30,
+			value: 30,
+		},
+	];
+
+	const onChangeRowsPerPage = (e) => {
+		setRowsPerPage(e.target.value);
+		changeRowsPerPageCallback(e.target.value);
 	};
 
 	return (
@@ -133,25 +169,50 @@ const TableContainer = ({
 						</div>
 					)}
 					<div className={paginationDiv}>
-						<ReactPaginate
-							breakLabel="..."
-							nextLabel=">"
-							onPageChange={handlePagination}
-							pageCount={Math.ceil(totalPageCount / customPageSize)}
-							previousLabel="<"
-							renderOnZeroPageCount={null}
-							pageClassName="page-item"
-							pageLinkClassName="page-link"
-							previousClassName="page-item"
-							previousLinkClassName="page-link"
-							nextClassName="page-item"
-							nextLinkClassName="page-link"
-							breakClassName="page-item"
-							breakLinkClassName="page-link"
-							containerClassName="pagination"
-							activeClassName="active"
-							pageRangeDisplayed={3}
-						/>
+						<div className="d-flex justify-content-between">
+							<div className="d-flex align-items-center">
+								<div className="text-muted">Rows per Page</div>
+								<div>
+									<CustomSelectField
+										// label='Rows per page'
+										value={rowsPerPage}
+										type="select"
+										onChange={onChangeRowsPerPage}
+										options={
+											<>
+												<option value={null} selected disabled>
+													Select
+												</option>
+												{rowsPerPageOptions?.map(({ optionLabel, value }) => (
+													<option key={value} value={value}>
+														{optionLabel}
+													</option>
+												))}
+											</>
+										}
+									/>
+								</div>
+							</div>
+							<ReactPaginate
+								breakLabel="..."
+								nextLabel=">"
+								onPageChange={handlePagination}
+								pageCount={Math.ceil(totalPageCount / customPageSize)}
+								previousLabel="<"
+								renderOnZeroPageCount={null}
+								pageClassName="page-item"
+								pageLinkClassName="page-link"
+								previousClassName="page-item"
+								previousLinkClassName="page-link"
+								nextClassName="page-item"
+								nextLinkClassName="page-link"
+								breakClassName="page-item"
+								breakLinkClassName="page-link"
+								containerClassName="pagination"
+								activeClassName="active"
+								pageRangeDisplayed={3}
+							/>
+						</div>
 					</div>
 				</div>
 			)}

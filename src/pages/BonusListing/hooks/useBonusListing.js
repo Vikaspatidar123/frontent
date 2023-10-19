@@ -5,12 +5,11 @@ import { formatDate } from '../../../utils/dateFormatter';
 import { safeStringify } from '../../../utils/helpers';
 import types from '../contants';
 
-const itemsPerPage = 10;
-
 const useBonsuListing = () => {
 	const { bonusDetails, isLoading } = useSelector(
 		(state) => state.AllBonusDetails
 	);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [selectedClient, setSelectedClient] = useState('');
 	const [selectedPortal, setSelectedPortal] = useState('');
 	const [page, setPage] = useState(1);
@@ -18,6 +17,10 @@ const useBonsuListing = () => {
 	const [search, setSearch] = useState('');
 	const [isActive, setIsActive] = useState('');
 	const dispatch = useDispatch();
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const formattedBonusDetails = useMemo(() => {
 		if (bonusDetails) {
@@ -86,7 +89,15 @@ const useBonsuListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [selectedPortal, bonusTyp, isActive, page, search, selectedClient]);
+	}, [
+		selectedPortal,
+		bonusTyp,
+		isActive,
+		page,
+		search,
+		selectedClient,
+		itemsPerPage,
+	]);
 
 	return {
 		bonusDetails,
@@ -106,6 +117,7 @@ const useBonsuListing = () => {
 		setSearch,
 		isActive,
 		setIsActive,
+		onChangeRowsPerPage,
 	};
 };
 

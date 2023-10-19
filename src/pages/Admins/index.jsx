@@ -38,6 +38,7 @@ const Admins = ({ t }) => {
 		columns,
 		formattedAdminDetails,
 		buttonList,
+		onChangeRowsPerPage,
 	} = useActions();
 
 	return (
@@ -72,6 +73,7 @@ const Admins = ({ t }) => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

@@ -1,17 +1,19 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLanguagesStart } from '../../../store/actions';
-// import { fetchLanguagesStart } from '../../../store/actions';
-
-const itemsPerPage = 10;
 
 const useLanguageListing = () => {
 	const dispatch = useDispatch();
 	const [searchText, setSearchText] = useState('');
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { languages, loading: isLanguagesLoading } = useSelector(
 		(state) => state.Languages
 	);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	useEffect(() => {
 		dispatch(
@@ -21,7 +23,7 @@ const useLanguageListing = () => {
 				search: searchText,
 			})
 		);
-	}, [currentPage, searchText]);
+	}, [currentPage, searchText, itemsPerPage]);
 
 	const formattedLanguages = useMemo(() => {
 		const formattedValues = [];
@@ -44,6 +46,7 @@ const useLanguageListing = () => {
 		isLanguagesLoading,
 		formattedLanguages,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

@@ -112,27 +112,31 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		iscasinoSubCategoryDetailsLoading,
 		isCreateSubCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
-	const [limit] = useState(15);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [search] = useState('');
 	const dispatch = useDispatch();
 	const fetchData = () => {
 		dispatch(
 			getCasinoSubCategoryDetailStart({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				search,
 			})
 		);
 	};
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
+
 	useEffect(() => {
 		if (isCreateSubCategorySuccess) fetchData();
 	}, [isCreateSubCategorySuccess]);
-	const itemsPerPage = 10;
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, page, search]);
+	}, [itemsPerPage, page, search]);
 
 	// const getGameName = (id) => {
 	// 	return (
@@ -195,6 +199,7 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!iscasinoSubCategoryDetailsLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 							<FormModal

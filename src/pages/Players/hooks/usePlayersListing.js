@@ -2,10 +2,9 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlayersStart } from '../../../store/actions';
 
-const itemsPerPage = 10;
-
 const usePlayersListing = () => {
 	const dispatch = useDispatch();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const { players, loading: isPlayersLoading } = useSelector(
@@ -20,7 +19,7 @@ const usePlayersListing = () => {
 				search: searchText,
 			})
 		);
-	}, [currentPage, searchText]);
+	}, [currentPage, searchText, itemsPerPage]);
 
 	const formattedPlayers = useMemo(() => {
 		const formattedValues = [];
@@ -37,6 +36,10 @@ const usePlayersListing = () => {
 		return formattedValues;
 	}, [players]);
 
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
+
 	return {
 		searchText,
 		setSearchText,
@@ -46,6 +49,7 @@ const usePlayersListing = () => {
 		isPlayersLoading,
 		formattedPlayers,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

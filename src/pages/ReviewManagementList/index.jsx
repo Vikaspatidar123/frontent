@@ -68,6 +68,7 @@ const ReviewManagementList = ({ t }) => {
 		isReviewManagementLoading,
 		formattedReviewManagement,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useReviewManagementListing();
 
 	const {
@@ -119,6 +120,7 @@ const ReviewManagementList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

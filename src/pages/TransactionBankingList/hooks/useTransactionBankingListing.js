@@ -4,14 +4,17 @@ import { fetchTransactionBankingStart } from '../../../store/actions';
 import { statusType, transactionType, walletType } from '../constants';
 import { getDateTime } from '../../../helpers/dateFormatter';
 
-const itemsPerPage = 10;
-
 const useTransactionBankingListing = () => {
 	const dispatch = useDispatch();
 	const [searchText, setSearchText] = useState('');
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { transactionBanking, loading: isTransactionBankingLoading } =
 		useSelector((state) => state.TransactionBanking);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const handleWalletType = ({ type, amountType }) => {
 		if (
@@ -35,7 +38,7 @@ const useTransactionBankingListing = () => {
 				paymentProvider: searchText,
 			})
 		);
-	}, [currentPage, searchText]);
+	}, [currentPage, searchText, itemsPerPage]);
 
 	const formattedTransactionBanking = useMemo(() => {
 		const formattedValues = [];
@@ -74,6 +77,7 @@ const useTransactionBankingListing = () => {
 		isTransactionBankingLoading,
 		formattedTransactionBanking,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

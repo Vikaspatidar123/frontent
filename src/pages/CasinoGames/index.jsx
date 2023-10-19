@@ -88,6 +88,7 @@ const CasinoGames = ({ t }) => {
 		page,
 		setPage,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useCasinoGamesListings();
 
 	return (
@@ -116,6 +117,7 @@ const CasinoGames = ({ t }) => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isCasinoGamesLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

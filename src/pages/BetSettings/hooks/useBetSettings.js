@@ -3,14 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getBetSettingsData, getSportsList } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 
-const itemsPerPage = 10;
-
 const useBetSettings = () => {
 	const { betSettingsList, isLoading, error, isCreateBetSettingsSuccess } =
 		useSelector((state) => state.BetSettings);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const { sportsListInfo } = useSelector((state) => state.SportsList);
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const getSportsName = (sportId) => {
 		const sportsName = sportsListInfo?.rows?.filter(
@@ -37,8 +40,8 @@ const useBetSettings = () => {
 		dispatch(getBetSettingsData());
 		dispatch(
 			getSportsList({
-				limit: 1,
-				pageNo: 1,
+				limit: itemsPerPage,
+				pageNo: page,
 				isAllListing: true,
 			})
 		);
@@ -46,7 +49,7 @@ const useBetSettings = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page]);
+	}, [page, itemsPerPage]);
 
 	useEffect(() => {
 		if (isCreateBetSettingsSuccess) fetchData();
@@ -60,6 +63,7 @@ const useBetSettings = () => {
 		page,
 		setPage,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

@@ -26,6 +26,7 @@ const Cms = ({ t }) => {
 		itemsPerPage,
 		totalCmsCount,
 		handleStatus,
+		onChangeRowsPerPage,
 	} = useCmsListing();
 
 	const columns = useMemo(
@@ -99,6 +100,7 @@ const Cms = ({ t }) => {
 									currentPage={page}
 									isLoading={!isLoading}
 									isGlobalFilter
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

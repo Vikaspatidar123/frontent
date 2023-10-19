@@ -30,6 +30,7 @@ const CasinoProviders = ({ t }) => {
 		setPage,
 		itemsPerPage,
 		handleStatus,
+		onChangeRowsPerPage,
 	} = useCasinoProvidersListing();
 
 	const {
@@ -102,6 +103,7 @@ const CasinoProviders = ({ t }) => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isCasinoProvidersDataLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>
