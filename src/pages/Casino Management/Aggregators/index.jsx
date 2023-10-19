@@ -31,10 +31,6 @@ const CasinoAggregators = () => {
 		);
 	};
 
-	useEffect(() => {
-		fetchData();
-	}, [dispatch]);
-
 	const {
 		isOpen,
 		setIsOpen,
@@ -43,10 +39,16 @@ const CasinoAggregators = () => {
 		formFields,
 		isCreateAggregatorLoading,
 		buttonList,
+		handleStatus,
+		active,
 	} = useCreateAggregator();
 
+	useEffect(() => {
+		fetchData();
+	}, [active]);
+
 	const selectAggregatorsState = (state) => state.AggregatorsReducer;
-	const columns = useAggregatorList();
+	const columns = useAggregatorList(handleStatus);
 	const AggregatorsProperties = createSelector(
 		selectAggregatorsState,
 		(aggregatorsReducer) => ({

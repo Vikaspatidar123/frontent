@@ -1,15 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useForm from '../../../../components/Common/Hooks/useFormModal';
 import {
 	getInitialValues,
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import { createAggregatorStart } from '../../../../store/actions';
+import {
+	createAggregatorStart,
+	updateAggregatorStatusStart,
+} from '../../../../store/actions';
 
 const useCreateAggregator = () => {
 	const dispatch = useDispatch();
+	const [active, setActive] = useState('');
 
 	const { isCreateAggregatorLoading, aggregatorsData } = useSelector(
 		(state) => state.AggregatorsReducer
@@ -40,6 +44,23 @@ const useCreateAggregator = () => {
 		setIsOpen((prev) => !prev);
 	};
 
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { active: status, gameAggregatorId } = props;
+		setActive((prev) => !prev);
+		dispatch(
+			updateAggregatorStatusStart({
+				data: {
+					code: 'AGGREGATOR',
+					gameAggregatorId,
+					status: !status,
+				},
+				limit: 15,
+				pageNo: 1,
+			})
+		);
+	};
+
 	useEffect(() => {
 		setIsOpen(false);
 	}, [aggregatorsData?.count]);
@@ -61,6 +82,9 @@ const useCreateAggregator = () => {
 		validation,
 		buttonList,
 		isCreateAggregatorLoading,
+		handleStatus,
+		active,
+		setActive,
 	};
 };
 

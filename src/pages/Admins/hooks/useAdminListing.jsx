@@ -13,6 +13,7 @@ import {
 	Group,
 } from '../AdminsListCol';
 import ActionButtons from '../ActionButtons';
+import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
 
 const itemsPerPage = 10;
 
@@ -28,6 +29,7 @@ const useAdmin = (handleEdit) => {
 	const [sort, setSort] = useState('desc');
 	const [status, setStatus] = useState('');
 	const [name, setName] = useState();
+	const [active, setActive] = useState(false);
 
 	const formattedAdminDetails = useMemo(() => {
 		if (adminDetails) {
@@ -40,6 +42,29 @@ const useAdmin = (handleEdit) => {
 		}
 		return [];
 	}, [adminDetails]);
+
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { active: isActive, adminUserId } = props;
+		setActive((prev) => !prev);
+		dispatch(
+			updateSuperAdminStatusStart({
+				data: {
+					code: 'ADMIN',
+					status: !isActive,
+					adminId: adminUserId,
+				},
+				limit: itemsPerPage,
+				pageNo: page,
+				orderBy,
+				sort,
+				search,
+				superAdminId: '',
+				superRoleId: '',
+				status,
+			})
+		);
+	};
 
 	const fetchData = () => {
 		dispatch(
@@ -57,7 +82,7 @@ const useAdmin = (handleEdit) => {
 
 	useEffect(() => {
 		if (location.pathname === '/staff') fetchData();
-	}, [page, orderBy, sort, status, location]);
+	}, [page, orderBy, sort, status, location, active]);
 
 	const columns = useMemo(
 		() => [
@@ -101,7 +126,13 @@ const useAdmin = (handleEdit) => {
 				Header: 'Action',
 				accessor: 'action',
 				disableFilters: true,
-				Cell: (cell) => <ActionButtons handleEdit={handleEdit} cell={cell} />,
+				Cell: (cell) => (
+					<ActionButtons
+						handleEdit={handleEdit}
+						cell={cell}
+						handleStatus={handleStatus}
+					/>
+				),
 			},
 		],
 		[]
@@ -127,6 +158,7 @@ const useAdmin = (handleEdit) => {
 		setName,
 		itemsPerPage,
 		columns,
+		handleStatus,
 	};
 };
 

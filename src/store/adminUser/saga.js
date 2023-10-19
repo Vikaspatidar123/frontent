@@ -8,7 +8,11 @@ import {
 	// updateSuperAdminUser,
 	// updateTenantAdminUser,
 	getAllGroups,
+	getAllAdmins,
 } from '../../network/getRequests';
+
+import { superAdminViewToggleStatus } from '../../network/putRequests';
+import { showToastr } from '../../utils/helpers';
 
 import {
 	// getAdminUsersStart,
@@ -23,10 +27,16 @@ import {
 	// createSuperAdminUserComplete,
 	// updateSuperAdminStatusStart,
 	// updateSuperAdminStatusComplete,
+	updateSuperAdminStatusSuccess,
+	updateSuperAdminStatusFailure,
 	getAllGroupsSuccess,
 	getAllGroupsFailure,
 } from './actions';
-import { GET_ALL_GROUP_START } from './actionTypes';
+
+import {
+	GET_ALL_GROUP_START,
+	UPDATE_SUPER_ADMIN_STATUS_START,
+} from './actionTypes';
 // // import { AdminsRoutes, TenantRoutes } from '../../routes'
 // // import { getAllAdminsStart } from '../redux-slices/admins'
 
@@ -97,44 +107,48 @@ import { GET_ALL_GROUP_START } from './actionTypes';
 //   }
 // }
 
-// function * updateSuperAdminStatusWorker (action) {
-//   try {
-//     const {
-//       data,
-//       limit,
-//       pageNo,
-//       orderBy,
-//       sort,
-//       search,
-//       superAdminId,
-//       superRoleId,
-//       status
-//     } = action && action.payload
+function* updateSuperAdminStatusWorker(action) {
+	try {
+		const {
+			data,
+			limit,
+			pageNo,
+			orderBy,
+			sort,
+			search,
+			superAdminId,
+			superRoleId,
+			status,
+		} = action && action.payload;
 
-//     yield superAdminViewToggleStatus(data)
+		yield superAdminViewToggleStatus(data);
 
-//     yield put(updateSuperAdminStatusComplete())
+		yield put(updateSuperAdminStatusSuccess());
 
-//     yield put(
-//       getAllAdminsStart({
-//         limit,
-//         pageNo,
-//         orderBy,
-//         sort,
-//         search,
-//         superAdminId,
-//         superRoleId,
-//         status
-//       })
-//     )
+		yield getAllAdmins({
+			limit,
+			pageNo,
+			orderBy,
+			sort,
+			search,
+			superAdminId,
+			superRoleId,
+			status,
+		});
 
-//     yield toast('Status Updated Successfully', 'success')
-//   } catch (e) {
-//     yield put(updateSuperAdminStatusComplete())
+		showToastr({
+			message: 'Status updated Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(updateSuperAdminStatusFailure());
 
-//     yield toast(e?.response?.data?.errors[0]?.description, 'error')
-//   }
-// }
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
 
 function* getAllGroupsWorker() {
 	try {
@@ -147,4 +161,8 @@ function* getAllGroupsWorker() {
 
 export default function* adminUserWatcher() {
 	yield takeLatest(GET_ALL_GROUP_START, getAllGroupsWorker);
+	yield takeLatest(
+		UPDATE_SUPER_ADMIN_STATUS_START,
+		updateSuperAdminStatusWorker
+	);
 }

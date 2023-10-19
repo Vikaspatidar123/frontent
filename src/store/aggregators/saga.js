@@ -1,14 +1,21 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
-import { CREATE_AGGREGATORS_START, GET_AGGREGATORS_START } from './actionTypes';
+import {
+	CREATE_AGGREGATORS_START,
+	GET_AGGREGATORS_START,
+	UPDATE_AGGREGATORS_STATUS_START,
+} from './actionTypes';
 import {
 	getAggregatorsListSuccess,
 	getAggregatorsListFailure,
 	createAggregatorSuccess,
 	createAggregatorFail,
+	updateAggregatorStatusSuccess,
+	updateAggregatorStatusFail,
 } from './actions';
 import { getAggregators } from '../../network/getRequests';
 import { createAggregator } from '../../network/postRequests';
+import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { showToastr } from '../../utils/helpers';
 
 function* getAggregatorsWorker(action) {
@@ -50,9 +57,37 @@ function* createAggregatorWorker(action) {
 	}
 }
 
+function* updateSuperAdminAggregatorStatusWorker(action) {
+	try {
+		const { data, limit, pageNo } = action && action.payload;
+
+		yield superAdminViewToggleStatus(data);
+
+		yield put(updateAggregatorStatusSuccess());
+
+		showToastr({
+			message: 'Status updated Successfully',
+			type: 'success',
+		});
+
+		yield getAggregators({ limit, pageNo });
+	} catch (e) {
+		yield put(updateAggregatorStatusFail());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* aggregatorsSaga() {
 	yield takeEvery(GET_AGGREGATORS_START, getAggregatorsWorker);
 	yield takeEvery(CREATE_AGGREGATORS_START, createAggregatorWorker);
+	yield takeEvery(
+		UPDATE_AGGREGATORS_STATUS_START,
+		updateSuperAdminAggregatorStatusWorker
+	);
 }
 
 export default aggregatorsSaga;

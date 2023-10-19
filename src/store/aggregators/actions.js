@@ -5,6 +5,9 @@ import {
 	CREATE_AGGREGATORS_START,
 	CREATE_AGGREGATORS_FAIL,
 	CREATE_AGGREGATORS_SUCCESS,
+	UPDATE_AGGREGATORS_STATUS_START,
+	UPDATE_AGGREGATORS_STATUS_FAIL,
+	UPDATE_AGGREGATORS_STATUS_SUCCESS,
 } from './actionTypes';
 
 export const getAggregatorsList = (data) => ({
@@ -34,5 +37,20 @@ export const createAggregatorFail = (payload) => ({
 
 export const createAggregatorStart = (payload) => ({
 	type: CREATE_AGGREGATORS_START,
+	payload,
+});
+
+export const updateAggregatorStatusSuccess = (payload) => ({
+	type: UPDATE_AGGREGATORS_STATUS_SUCCESS,
+	payload,
+});
+
+export const updateAggregatorStatusFail = (payload) => ({
+	type: UPDATE_AGGREGATORS_STATUS_FAIL,
+	payload,
+});
+
+export const updateAggregatorStatusStart = (payload) => ({
+	type: UPDATE_AGGREGATORS_STATUS_START,
 	payload,
 });
