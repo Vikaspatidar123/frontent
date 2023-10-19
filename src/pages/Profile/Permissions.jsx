@@ -13,7 +13,9 @@ const Permissions = ({ details }) => (
 						<Col md={6} xl={3} key={key}>
 							<Card className="p-3">
 								<Box display="inline-flex" justifyContent="start" p={2} gap={2}>
-									<span>{permissionIcons()?.[key]}</span>
+									<span className="icon font-size-20">
+										{permissionIcons()?.[key]}
+									</span>
 									<CardTitle>{key}</CardTitle>
 								</Box>
 								<CardBody>

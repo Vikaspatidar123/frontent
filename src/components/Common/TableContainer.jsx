@@ -14,7 +14,6 @@ import {
 } from 'react-table';
 import { Table, Spinner } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
-import { DefaultColumnFilter } from './filters';
 
 const TableContainer = ({
 	columns,
@@ -37,7 +36,7 @@ const TableContainer = ({
 			{
 				columns,
 				data,
-				defaultColumn: { Filter: DefaultColumnFilter },
+				// defaultColumn: { Filter: DefaultColumnFilter },
 				initialState: {
 					pageIndex: 0,
 					pageSize: customPageSize,
