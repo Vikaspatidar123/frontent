@@ -1,17 +1,11 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import Box from '@mui/material/Box';
-import {
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
-	Typography,
-} from '../../components/Common/Accordion';
+import { Card, CardBody, Col, Container, Row, Collapse } from 'reactstrap';
 
+import classnames from 'classnames';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
@@ -44,10 +38,14 @@ const KYCLabels = ({ t }) => {
 	document.title = projectName;
 
 	const { formattedDocumentLabels, documentLabelsLoading } = useKYCLables();
-	const [expanded, setExpanded] = React.useState('');
+	const [expanded, setExpanded] = useState('');
 
-	const handleChange = (panel) => (event, newExpanded) => {
-		setExpanded(newExpanded ? panel : false);
+	const handleChange = (panel) => () => {
+		if (expanded === panel) {
+			setExpanded('');
+		} else {
+			setExpanded(panel);
+		}
 	};
 
 	const {
@@ -79,49 +77,58 @@ const KYCLabels = ({ t }) => {
 										const labelId = label[0].documentLabelId;
 										const { isRequired } = label[0];
 										return (
-											<Accordion
-												key={labelId}
-												expanded={expanded === labelId}
-												onChange={handleChange(labelId)}
-											>
-												<AccordionSummary
-													aria-controls="panel1a-content"
-													id="panel1a-header"
-												>
-													<Typography>
-														<Box
-															display="inline-flex"
-															alignItems="center "
-															gap={1.5}
+											<div className="accordion" id="accordion" key={labelId}>
+												<div className="accordion-item">
+													<h2
+														className="accordion-header"
+														id={`heading${labelId}`}
+													>
+														<button
+															className={classnames(
+																'accordion-button',
+																'fw-medium',
+																{ collapsed: expanded !== labelId }
+															)}
+															type="button"
+															onClick={handleChange(labelId)}
+															style={{ cursor: 'pointer' }}
 														>
-															Label {labelId}
-															{isRequired ? (
-																<span className="text-success">(Required)</span>
-															) : (
-																<span className="text-danger">
-																	(Not Required)
-																</span>
-															)}{' '}
-															<EditButton />
-														</Box>
-													</Typography>
-												</AccordionSummary>
-												<AccordionDetails>
-													<Typography>
-														<TableContainer
-															columns={columns}
-															data={label}
-															customPageSize={1}
-															tableClass="table-bordered align-middle nowrap mt-2"
-															theadClass="col-6"
-															paginationDiv="justify-content-center"
-															pagination="pagination justify-content-start pagination-rounded"
-															isLoading={documentLabelsLoading}
-															thCustomClass="col-6"
-														/>
-													</Typography>
-												</AccordionDetails>
-											</Accordion>
+															<h5 className="font-size-14 d-inline-flex align-items-center gap-2">
+																Label {labelId}
+																{isRequired ? (
+																	<span className="text-success">
+																		(Required)
+																	</span>
+																) : (
+																	<span className="text-danger">
+																		(Not Required)
+																	</span>
+																)}{' '}
+																<EditButton />
+															</h5>
+														</button>
+													</h2>
+
+													<Collapse
+														isOpen={expanded === labelId}
+														className="accordion-collapse"
+													>
+														<div className="accordion-body">
+															<TableContainer
+																columns={columns}
+																data={label}
+																customPageSize={1}
+																tableClass="table-bordered align-middle nowrap mt-2"
+																theadClass="col-6"
+																paginationDiv="justify-content-center"
+																pagination="pagination justify-content-start pagination-rounded"
+																isLoading={documentLabelsLoading}
+																thCustomClass="col-6"
+															/>
+														</div>
+													</Collapse>
+												</div>
+											</div>
 										);
 									})
 								)}
