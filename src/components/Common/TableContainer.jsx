@@ -12,7 +12,7 @@ import {
 	useExpanded,
 	usePagination,
 } from 'react-table';
-import { Table, Spinner } from 'reactstrap';
+import { Table, Spinner, Col, Row } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
 import { CustomSelectField } from '../../helpers/customForms';
 
@@ -159,40 +159,45 @@ const TableContainer = ({
 			</div>
 
 			{isPagination && (
-				<div className="d-flex justify-content-between align-items-center">
-					{totalPageCount && (
-						<div>
+				<Row className="d-flex justify-content-between align-items-center">
+					<Col lg={4}>
+						{totalPageCount && (
 							<div className="text-muted">
 								Showing <span className="fw-semibold">{page.length}</span> of{' '}
 								<span className="fw-semibold">{totalPageCount}</span> entries
 							</div>
-						</div>
-					)}
-					<div className={paginationDiv}>
-						<div className="d-flex justify-content-between">
-							<div className="d-flex align-items-center">
-								<div className="text-muted">Rows per Page</div>
-								<div>
-									<CustomSelectField
-										// label='Rows per page'
-										value={rowsPerPage}
-										type="select"
-										onChange={onChangeRowsPerPage}
-										options={
-											<>
-												<option value={null} selected disabled>
-													Select
-												</option>
-												{rowsPerPageOptions?.map(({ optionLabel, value }) => (
-													<option key={value} value={value}>
-														{optionLabel}
-													</option>
-												))}
-											</>
-										}
-									/>
-								</div>
+						)}
+						{/* need to remove inline styles here */}
+						<div
+							className="d-flex align-items-center mt-10"
+							style={{ marginTop: 10 }}
+						>
+							<div className="text-muted" style={{ marginRight: 10 }}>
+								Rows per Page
 							</div>
+							<div>
+								<CustomSelectField
+									value={rowsPerPage}
+									type="select"
+									onChange={onChangeRowsPerPage}
+									options={
+										<>
+											<option value={null} selected disabled>
+												Select
+											</option>
+											{rowsPerPageOptions?.map(({ optionLabel, value }) => (
+												<option key={value} value={value}>
+													{optionLabel}
+												</option>
+											))}
+										</>
+									}
+								/>
+							</div>
+						</div>
+					</Col>
+					<Col lg={4} className={paginationDiv}>
+						<div className="d-flex justify-content-end">
 							<ReactPaginate
 								breakLabel="..."
 								nextLabel=">"
@@ -213,8 +218,8 @@ const TableContainer = ({
 								pageRangeDisplayed={3}
 							/>
 						</div>
-					</div>
-				</div>
+					</Col>
+				</Row>
 			)}
 		</>
 	);
