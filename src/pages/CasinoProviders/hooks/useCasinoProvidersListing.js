@@ -43,7 +43,6 @@ const useCasinoProvidersListing = () => {
 	const handleStatus = (e, props) => {
 		e.preventDefault();
 		const { status, casinoProviderId } = props;
-		setActive((prev) => !prev);
 		dispatch(
 			updateCasinoStatusStart({
 				data: {
@@ -53,6 +52,7 @@ const useCasinoProvidersListing = () => {
 				},
 			})
 		);
+		setActive((prev) => !prev);
 	};
 
 	return {

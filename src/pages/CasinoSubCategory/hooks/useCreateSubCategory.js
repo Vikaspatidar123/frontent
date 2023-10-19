@@ -10,12 +10,15 @@ import {
 	createCasinoSubCategoryStart,
 	getCasinoCategoryDetailStart,
 	getLanguagesStart,
+	updateCasinoStatusStart,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateSubCategory = () => {
 	const dispatch = useDispatch();
 	const [createName, setCreateName] = useState({ EN: '' });
+	const [active, setActive] = useState(false);
+
 	const { casinoSubCategoryDetails, isCreateSubCategoryLoading } = useSelector(
 		(state) => state.CasinoManagementData
 	);
@@ -44,6 +47,21 @@ const useCreateSubCategory = () => {
 	const handleAddClick = (e) => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
+	};
+
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { status, gameSubCategoryId } = props;
+		dispatch(
+			updateCasinoStatusStart({
+				data: {
+					code: 'CASINO_SUB_CATEGORY',
+					gameSubCategoryId,
+					status: !status,
+				},
+			})
+		);
+		setActive((prev) => !prev);
 	};
 
 	useEffect(() => {
@@ -121,6 +139,9 @@ const useCreateSubCategory = () => {
 		setFormFields,
 		buttonList,
 		isCreateSubCategoryLoading,
+		active,
+		setActive,
+		handleStatus,
 	};
 };
 

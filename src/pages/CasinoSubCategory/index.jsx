@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,87 +24,6 @@ import CrudSection from '../../components/Common/CrudSection';
 import useCreateSubCategory from './hooks/useCreateSubCategory';
 import FormModal from '../../components/Common/FormModal';
 
-const columns = [
-	{
-		Header: 'ID',
-		accessor: 'gameSubCategoryId',
-		filterable: true,
-		Cell: (cellProps) => <GameSubCategoryId {...cellProps} />,
-	},
-	{
-		Header: 'NAME',
-		accessor: 'name',
-		filterable: true,
-		Cell: (cellProps) => <Name {...cellProps} />,
-	},
-	{
-		Header: 'GAME CATEGORY',
-		accessor: 'gameCategory',
-		filterable: true,
-		Cell: (cellProps) => <GameCategory {...cellProps} />,
-	},
-	{
-		Header: 'IMAGE URL',
-		accessor: 'imageUrl',
-		filterable: true,
-		Cell: (cellProps) => <ImageUrl {...cellProps} />,
-	},
-	{
-		Header: 'STATUS',
-		accessor: 'isActive',
-		filterable: true,
-		Cell: (cellProps) => <Status {...cellProps} />,
-	},
-	{
-		Header: 'Action',
-		accessor: 'action',
-		disableFilters: true,
-		Cell: () => (
-			<ul className="list-unstyled hstack gap-1 mb-0">
-				<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-					<Link to="/#" className="btn btn-sm btn-soft-primary">
-						<i className="mdi mdi-eye-outline" id="viewtooltip" />
-					</Link>
-				</li>
-				<UncontrolledTooltip placement="top" target="viewtooltip">
-					View
-				</UncontrolledTooltip>
-
-				<li>
-					<Link
-						to="/#"
-						className="btn btn-sm btn-soft-info"
-						onClick={() => {
-							// const jobData = cellProps.row.original;
-							// handleJobClick(jobData);
-						}}
-					>
-						<i className="mdi mdi-pencil-outline" id="edittooltip" />
-						<UncontrolledTooltip placement="top" target="edittooltip">
-							Edit
-						</UncontrolledTooltip>
-					</Link>
-				</li>
-
-				<li>
-					<Link
-						to="/#"
-						className="btn btn-sm btn-soft-danger"
-						onClick={() => {
-							// const jobData = cellProps.row.original;
-							// onClickDelete(jobData);
-						}}
-					>
-						<i className="mdi mdi-delete-outline" id="deletetooltip" />
-						<UncontrolledTooltip placement="top" target="deletetooltip">
-							Delete
-						</UncontrolledTooltip>
-					</Link>
-				</li>
-			</ul>
-		),
-	},
-];
 const GetCasinoSubCategoryDetail = ({ t }) => {
 	// meta title
 	document.title = projectName;
@@ -112,9 +33,9 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		iscasinoSubCategoryDetailsLoading,
 		isCreateSubCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
-	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [search] = useState('');
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 	const dispatch = useDispatch();
 	const fetchData = () => {
 		dispatch(
@@ -126,26 +47,9 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		);
 	};
 
-	const onChangeRowsPerPage = (value) => {
+  const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
-
-	useEffect(() => {
-		if (isCreateSubCategorySuccess) fetchData();
-	}, [isCreateSubCategorySuccess]);
-
-	useEffect(() => {
-		fetchData();
-	}, [itemsPerPage, page, search]);
-
-	// const getGameName = (id) => {
-	// 	return (
-	// 		getCasinoSubCategoryDetails &&
-	// 		getCasinoSubCategoryDetails?.rows?.find(
-	// 			(obj) => obj.gameCategoryId === id
-	// 		)?.name?.EN
-	// 	);
-	// };
 
 	const {
 		isOpen,
@@ -155,7 +59,26 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		validation,
 		isCreateSubCategoryLoading,
 		buttonList,
+		handleStatus,
+		active,
 	} = useCreateSubCategory();
+
+	useEffect(() => {
+		if (isCreateSubCategorySuccess) fetchData();
+	}, [isCreateSubCategorySuccess]);
+
+	useEffect(() => {
+		fetchData();
+	}, [itemsPerPage, page, search, active]);
+
+	// const getGameName = (id) => {
+	// 	return (
+	// 		getCasinoSubCategoryDetails &&
+	// 		getCasinoSubCategoryDetails?.rows?.find(
+	// 			(obj) => obj.gameCategoryId === id
+	// 		)?.name?.EN
+	// 	);
+	// };
 
 	const formattedgetCasinoSubCategoryDetails = useMemo(() => {
 		if (casinoSubCategoryDetails) {
@@ -167,6 +90,118 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		}
 		return [];
 	}, [casinoSubCategoryDetails]);
+
+	const columns = [
+		{
+			Header: 'ID',
+			accessor: 'gameSubCategoryId',
+			filterable: true,
+			Cell: (cellProps) => <GameSubCategoryId {...cellProps} />,
+		},
+		{
+			Header: 'NAME',
+			accessor: 'name',
+			filterable: true,
+			Cell: (cellProps) => <Name {...cellProps} />,
+		},
+		{
+			Header: 'GAME CATEGORY',
+			accessor: 'gameCategory',
+			filterable: true,
+			Cell: (cellProps) => <GameCategory {...cellProps} />,
+		},
+		{
+			Header: 'IMAGE URL',
+			accessor: 'imageUrl',
+			filterable: true,
+			Cell: (cellProps) => <ImageUrl {...cellProps} />,
+		},
+		{
+			Header: 'STATUS',
+			accessor: 'isActive',
+			filterable: true,
+			Cell: (cellProps) => <Status {...cellProps} />,
+		},
+		{
+			Header: 'Action',
+			accessor: 'action',
+			disableFilters: true,
+			Cell: ({ cell }) => {
+				const status = cell?.row?.original?.isActive;
+				const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
+				return (
+					<ul className="list-unstyled hstack gap-1 mb-0">
+						<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+							<Link to="#'" className="btn btn-sm btn-soft-primary">
+								<i className="mdi mdi-eye-outline" id="viewtooltip" />
+							</Link>
+						</li>
+						<UncontrolledTooltip placement="top" target="viewtooltip">
+							View
+						</UncontrolledTooltip>
+
+						<li>
+							{status ? (
+								<Link
+									to="#"
+									className="btn btn-sm btn-soft-danger"
+									onClick={(e) =>
+										handleStatus(e, {
+											status,
+											gameSubCategoryId,
+										})
+									}
+								>
+									<i className="mdi mdi-close-thick" id="inactivetooltip" />
+									<UncontrolledTooltip placement="top" target="inactivetooltip">
+										Set Inactive
+									</UncontrolledTooltip>
+								</Link>
+							) : (
+								<Link
+									to="#"
+									className="btn btn-sm btn-soft-success"
+									onClick={(e) =>
+										handleStatus(e, {
+											status,
+											gameSubCategoryId,
+										})
+									}
+								>
+									<i className="mdi mdi-check-circle" id="activetooltip" />
+									<UncontrolledTooltip placement="top" target="activetooltip">
+										Set Active
+									</UncontrolledTooltip>
+								</Link>
+							)}
+						</li>
+
+						<li>
+							<Link
+								to="#"
+								className="btn btn-sm btn-soft-info"
+								// onClick={(e) => handleEdit(e, cell?.row?.original)}
+							>
+								<i className="mdi mdi-pencil-outline" id="edittooltip" />
+								<UncontrolledTooltip placement="top" target="edittooltip">
+									Edit
+								</UncontrolledTooltip>
+							</Link>
+						</li>
+
+						<li>
+							<Link to="/" className="btn btn-sm btn-soft-danger">
+								<i className="mdi mdi-delete-outline" id="deletetooltip" />
+								<UncontrolledTooltip placement="top" target="deletetooltip">
+									Delete
+								</UncontrolledTooltip>
+							</Link>
+						</li>
+					</ul>
+				);
+			},
+		},
+	];
 
 	return (
 		<div className="page-content">

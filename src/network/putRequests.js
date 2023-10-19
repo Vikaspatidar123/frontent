@@ -20,6 +20,9 @@ const resetProfilePassword = ({ data }) =>
 const superAdminViewToggleStatus = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
 
+const updateStatus = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -27,4 +30,5 @@ export {
 	updateSiteConfiguration,
 	resetProfilePassword,
 	superAdminViewToggleStatus,
+	updateStatus,
 };

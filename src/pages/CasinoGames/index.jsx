@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
@@ -20,63 +21,6 @@ import ActionButtons from './ActionButtons';
 import useCasinoGamesListings from './hooks/useCasinoGamesListing';
 import CrudSection from '../../components/Common/CrudSection';
 
-const columns = [
-	{
-		Header: 'GAME ID',
-		accessor: 'casinoGameId',
-		filterable: true,
-		Cell: ({ cell }) => <CasinoGameId cell={cell} />,
-	},
-	{
-		Header: 'NAME',
-		accessor: 'name',
-		filterable: true,
-		Cell: ({ cell }) => <Name cell={cell} />,
-	},
-	{
-		Header: 'PROVIDER',
-		accessor: 'providerName',
-		filterable: true,
-		Cell: ({ cell }) => <Provider cell={cell} />,
-	},
-	{
-		Header: 'RTP',
-		accessor: 'returnToPlayer',
-		filterable: true,
-		Cell: ({ cell }) => <RTP cell={cell} />,
-	},
-	{
-		Header: 'SUB CATEGORY',
-		accessor: 'subCategoryType',
-		filterable: true,
-		Cell: ({ cell }) => <SubCategory cell={cell} />,
-	},
-	{
-		Header: 'THUMBNAIL',
-		accessor: 'thumbnailUrl',
-		filterable: true,
-		Cell: ({ cell }) => <ThumbnailUrl cell={cell} />,
-	},
-	{
-		Header: 'DEVICE TYPE',
-		accessor: 'devices',
-		filterable: true,
-		Cell: ({ cell }) => <DeviceType cell={cell} />,
-	},
-	{
-		Header: 'STATUS',
-		accessor: 'isActive',
-		disableFilters: true,
-		Cell: (cell) => <Status cell={cell} />,
-	},
-	{
-		Header: 'ACTION',
-		accessor: 'action',
-		disableFilters: true,
-		Cell: () => <ActionButtons />,
-	},
-];
-
 const CasinoGames = ({ t }) => {
 	// meta title
 	document.title = projectName;
@@ -88,8 +32,68 @@ const CasinoGames = ({ t }) => {
 		page,
 		setPage,
 		itemsPerPage,
+		handleStatus,
 		onChangeRowsPerPage,
 	} = useCasinoGamesListings();
+
+	const columns = [
+		{
+			Header: 'GAME ID',
+			accessor: 'casinoGameId',
+			filterable: true,
+			Cell: ({ cell }) => <CasinoGameId cell={cell} />,
+		},
+		{
+			Header: 'NAME',
+			accessor: 'name',
+			filterable: true,
+			Cell: ({ cell }) => <Name cell={cell} />,
+		},
+		{
+			Header: 'PROVIDER',
+			accessor: 'providerName',
+			filterable: true,
+			Cell: ({ cell }) => <Provider cell={cell} />,
+		},
+		{
+			Header: 'RTP',
+			accessor: 'returnToPlayer',
+			filterable: true,
+			Cell: ({ cell }) => <RTP cell={cell} />,
+		},
+		{
+			Header: 'SUB CATEGORY',
+			accessor: 'subCategoryType',
+			filterable: true,
+			Cell: ({ cell }) => <SubCategory cell={cell} />,
+		},
+		{
+			Header: 'THUMBNAIL',
+			accessor: 'thumbnailUrl',
+			filterable: true,
+			Cell: ({ cell }) => <ThumbnailUrl cell={cell} />,
+		},
+		{
+			Header: 'DEVICE TYPE',
+			accessor: 'devices',
+			filterable: true,
+			Cell: ({ cell }) => <DeviceType cell={cell} />,
+		},
+		{
+			Header: 'STATUS',
+			accessor: 'isActive',
+			disableFilters: true,
+			Cell: (cell) => <Status cell={cell} />,
+		},
+		{
+			Header: 'ACTION',
+			accessor: 'action',
+			disableFilters: true,
+			Cell: ({ cell }) => (
+				<ActionButtons cell={cell} handleStatus={handleStatus} />
+			),
+		},
+	];
 
 	return (
 		<div className="page-content">

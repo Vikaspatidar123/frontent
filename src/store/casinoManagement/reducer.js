@@ -26,6 +26,9 @@ import {
 	UPDATE_CASINO_STATUS_START,
 	UPDATE_CASINO_STATUS_SUCCESS,
 	UPDATE_CASINO_STATUS_FAIL,
+	UPDATE_SA_CASINO_GAMES_STATUS_START,
+	UPDATE_SA_CASINO_GAMES_STATUS_SUCCESS,
+	UPDATE_SA_CASINO_GAMES_STATUS_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -56,6 +59,9 @@ const INIT_STATE = {
 	isUpdateCasinoStatus: false,
 	isUpdateCasinoStatusError: null,
 	isUpdateCasinoStatusLoading: false,
+	isUpdateSACasinoGamesStatus: false,
+	isUpdateSACasinoGamesStatusError: null,
+	isUpdateSACasinoGamesStatusLoading: false,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -251,6 +257,28 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isUpdateCasinoStatusLoading: false,
 				isUpdateCasinoStatusError: payload,
 				isUpdateCasinoStatus: false,
+			};
+
+		case UPDATE_SA_CASINO_GAMES_STATUS_START:
+			return {
+				...state,
+				isUpdateSACasinoGamesStatusLoading: true,
+			};
+
+		case UPDATE_SA_CASINO_GAMES_STATUS_SUCCESS:
+			return {
+				...state,
+				isUpdateSACasinoGamesStatusLoading: false,
+				isUpdateSACasinoGamesStatus: true,
+				isUpdateSACasinoGamesStatusError: null,
+			};
+
+		case UPDATE_SA_CASINO_GAMES_STATUS_FAIL:
+			return {
+				...state,
+				isUpdateSACasinoGamesStatusLoading: false,
+				isUpdateSACasinoGamesStatusError: payload,
+				isUpdateSACasinoGamesStatus: false,
 			};
 
 		default:

@@ -4,6 +4,7 @@ import { formatDate } from '../../../utils/dateFormatter';
 import {
 	getCasinoCategoryDetailStart,
 	getLanguagesStart,
+	updateSACasinoGamesStatusStart,
 } from '../../../store/casinoManagement/actions';
 
 const useCasinoCategoryListing = () => {
@@ -19,6 +20,7 @@ const useCasinoCategoryListing = () => {
 	const [modal, setModal] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [job, setJob] = useState(null);
+	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -49,7 +51,7 @@ const useCasinoCategoryListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, search, itemsPerPage]);
+	}, [page, search, itemsPerPage, active]);
 
 	useEffect(() => {
 		if (isCreateCategorySuccess) fetchData();
@@ -58,6 +60,28 @@ const useCasinoCategoryListing = () => {
 	useEffect(() => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
 	}, []);
+
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { active: status, gameCategoryId } = props;
+		dispatch(
+			updateSACasinoGamesStatusStart({
+				data: {
+					code: 'CASINO_CATEGORY',
+					gameCategoryId,
+					status: !status,
+				},
+				// limit,
+				// pageNo: page,
+				// casinoCategoryId: selectedSubCategoryId,
+				// search,
+				// isActive: active,
+				// tenantId: '',
+				// selectedProvider,
+			})
+		);
+		setActive((prev) => !prev);
+	};
 
 	return {
 		formattedCasinoCategoriesData,
@@ -75,6 +99,9 @@ const useCasinoCategoryListing = () => {
 		setIsEdit,
 		job,
 		setJob,
+		handleStatus,
+		active,
+		setActive,
 		onChangeRowsPerPage,
 	};
 };
