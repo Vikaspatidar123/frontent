@@ -20,6 +20,8 @@ import {
 	createCasinoSubCategoryFailure,
 	updateCasinoStatusSuccess,
 	updateCasinoStatusFail,
+	updateSACasinoGamesStatusSuccess,
+	updateSACasinoGamesStatusFail,
 } from './actions';
 
 import {
@@ -32,6 +34,7 @@ import {
 	CREATE_CASINO_CATEGORY_START,
 	CREATE_CASINO_SUBCATEGORY_START,
 	UPDATE_CASINO_STATUS_START,
+	UPDATE_SA_CASINO_GAMES_STATUS_START,
 } from './actionTypes';
 
 import {
@@ -250,6 +253,36 @@ function* updateCasinoStatusWorker(action) {
 	}
 }
 
+function* updateSACasinoGamesStatusWorker(action) {
+	try {
+		const {
+			data,
+			// limit,
+			// pageNo,
+			// casinoCategoryId,
+			// search,
+			// isActive,
+			// tenantId,
+			// selectedProvider
+		} = action && action.payload;
+
+		yield superAdminViewToggleStatus(data);
+		showToastr({
+			message: `Status Updated Successfully`,
+			type: 'success',
+		});
+
+		yield put(updateSACasinoGamesStatusSuccess());
+	} catch (e) {
+		yield put(updateSACasinoGamesStatusFail());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_CATEGORY_DATA, getCasinoCategoryWorker);
 	yield takeLatest(GET_CASINO_SUB_CATEGORY_DATA, getCasinoSubCategoryWorker);
@@ -263,6 +296,10 @@ export function* casinoManagementWatcher() {
 		createCasinoSubCategoryWorker
 	);
 	yield takeLatest(UPDATE_CASINO_STATUS_START, updateCasinoStatusWorker);
+	yield takeLatest(
+		UPDATE_SA_CASINO_GAMES_STATUS_START,
+		updateSACasinoGamesStatusWorker
+	);
 }
 
 function* CasinoManagementSaga() {

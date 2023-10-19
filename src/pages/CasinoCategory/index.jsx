@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Row, Card, CardBody } from 'reactstrap';
 import { projectName } from '../../constants/config';
-import CasinoCategoryColumn from './CasinoCategoryColumn';
+import useCasinoCategoryColumn from './CasinoCategoryColumn';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
@@ -21,7 +21,10 @@ const GetCasinoCategoryDetails = () => {
 		itemsPerPage,
 		totalCasinoCategriesCount,
 		onChangeRowsPerPage,
+		handleStatus,
 	} = useCasinoCategoryListing();
+
+	const columns = useCasinoCategoryColumn(handleStatus);
 
 	const {
 		isOpen,
@@ -46,7 +49,7 @@ const GetCasinoCategoryDetails = () => {
 							<CrudSection buttonList={buttonList} title="Category Listing" />
 							<CardBody>
 								<TableContainer
-									columns={CasinoCategoryColumn}
+									columns={columns}
 									data={formattedCasinoCategoriesData}
 									isLoading={!iscasinoCategoryDetailsLoading}
 									isGlobalFilter

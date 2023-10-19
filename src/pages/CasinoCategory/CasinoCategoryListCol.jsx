@@ -22,7 +22,7 @@ const Status = ({ cell }) =>
 	cell.value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
-		<Badge className="bg-danger">Close</Badge>
+		<Badge className="bg-danger">In Active</Badge>
 	);
 
 GameCategoryId.propTypes = {

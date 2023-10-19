@@ -5,22 +5,22 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const GameSubCategoryId = (cell) => (
-		<Link to="/#" className="text-body fw-bold">
-			{cell.value ? cell.value : ''}
-		</Link>
-	);
+	<Link to="/#" className="text-body fw-bold">
+		{cell.value ? cell.value : ''}
+	</Link>
+);
 
-const Name = (cell) => cell.value ? cell.value : '';
+const Name = (cell) => (cell.value ? cell.value : '');
 
-const GameCategory = (cell) => cell.value ? cell.value : '';
+const GameCategory = (cell) => (cell.value ? cell.value : '');
 
-const ImageUrl = (cell) => cell.value ? cell.value : '';
+const ImageUrl = (cell) => (cell.value ? cell.value : '');
 
 const Status = ({ cell }) =>
 	cell.value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
-		<Badge className="bg-danger">Close</Badge>
+		<Badge className="bg-danger">In Active</Badge>
 	);
 
 GameSubCategoryId.propTypes = {

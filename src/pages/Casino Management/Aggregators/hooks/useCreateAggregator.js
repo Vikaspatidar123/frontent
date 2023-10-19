@@ -47,7 +47,6 @@ const useCreateAggregator = () => {
 	const handleStatus = (e, props) => {
 		e.preventDefault();
 		const { active: status, gameAggregatorId } = props;
-		setActive((prev) => !prev);
 		dispatch(
 			updateAggregatorStatusStart({
 				data: {
@@ -59,6 +58,7 @@ const useCreateAggregator = () => {
 				pageNo: 1,
 			})
 		);
+		setActive((prev) => !prev);
 	};
 
 	useEffect(() => {

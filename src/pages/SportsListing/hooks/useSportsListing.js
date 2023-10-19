@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSportsList } from '../../../store/actions';
+import { getSportsList, updateStatusStart } from '../../../store/actions';
 
 const useSportsListing = () => {
 	const { sportsListInfo, isSportsListLoading } = useSelector(
@@ -10,6 +10,7 @@ const useSportsListing = () => {
 	const [page, setPage] = useState(1);
 	const [searchByName, setSearchByName] = useState('');
 	const [searchByStatus, setSearchByStatus] = useState('');
+	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -46,7 +47,23 @@ const useSportsListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, itemsPerPage, searchByName, searchByStatus]);
+	}, [page, itemsPerPage, searchByName, searchByStatus, active]);
+
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { active: status, sportId } = props;
+		dispatch(
+			updateStatusStart({
+				code: 'SPORTS',
+				status: !status,
+				sportId,
+				limit: itemsPerPage,
+				pageNo: page,
+				search: searchByName,
+			})
+		);
+		setActive((prev) => !prev);
+	};
 
 	return {
 		formattedSportsList,
@@ -59,6 +76,9 @@ const useSportsListing = () => {
 		setSearchByName,
 		searchByStatus,
 		setSearchByStatus,
+		handleStatus,
+		active,
+		setActive,
 		onChangeRowsPerPage,
 	};
 };

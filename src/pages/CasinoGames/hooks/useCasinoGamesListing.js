@@ -4,6 +4,7 @@ import {
 	getCasinoGamesStart,
 	getCasinoProvidersDataStart,
 	getCasinoSubCategoryDetailStart,
+	updateSACasinoGamesStatusStart,
 } from '../../../store/actions';
 
 const useCasinoGamesListings = () => {
@@ -19,6 +20,7 @@ const useCasinoGamesListings = () => {
 	const [search, setSearch] = useState('');
 	const [casinoGameId, setCasinoGameId] = useState();
 	const [active, setActive] = useState('');
+	const [show, setShow] = useState(false);
 	const [status, setStatus] = useState();
 	const [selectedProvider, setSelectedProvider] = useState('');
 	const dispatch = useDispatch();
@@ -84,7 +86,30 @@ const useCasinoGamesListings = () => {
 		search,
 		active,
 		selectedProvider,
+		show,
 	]);
+
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { active: state, casinoGameId: id } = props;
+		dispatch(
+			updateSACasinoGamesStatusStart({
+				data: {
+					code: 'CASINO_GAME',
+					casinoGameId: id,
+					status: !state,
+				},
+				// limit,
+				// pageNo: page,
+				// casinoCategoryId: selectedSubCategoryId,
+				// search,
+				// isActive: active,
+				// tenantId: '',
+				// selectedProvider,
+			})
+		);
+		setShow((prev) => !prev);
+	};
 
 	return {
 		formattedCasinoGames,
@@ -106,6 +131,9 @@ const useCasinoGamesListings = () => {
 		setActive,
 		status,
 		setStatus,
+		handleStatus,
+		show,
+		setShow,
 	};
 };
 
