@@ -1,25 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {
-	Col,
-	Row,
-	Card,
-	CardBody,
-	Modal,
-	ModalHeader,
-	ModalBody,
-	Form,
-} from 'reactstrap';
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
+import { Col, Row, Card, CardBody } from 'reactstrap';
 import { projectName } from '../../constants/config';
-import {
-	CustomInputField,
-	CustomSwitchButton,
-	CustomSelectField,
-} from '../../helpers/customForms';
 import CasinoCategoryColumn from './CasinoCategoryColumn';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
@@ -34,15 +16,11 @@ const GetCasinoCategoryDetails = () => {
 	const {
 		formattedCasinoCategoriesData,
 		iscasinoCategoryDetailsLoading,
-		languageData,
 		page,
 		setPage,
 		itemsPerPage,
 		totalCasinoCategriesCount,
-		modal,
-		setModal,
-		isEdit,
-		job,
+		onChangeRowsPerPage,
 	} = useCasinoCategoryListing();
 
 	const {
@@ -81,6 +59,7 @@ const GetCasinoCategoryDetails = () => {
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 								<FormModal
 									isOpen={isOpen}

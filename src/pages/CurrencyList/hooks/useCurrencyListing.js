@@ -2,10 +2,9 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCurrenciesStart } from '../../../store/actions';
 
-const itemsPerPage = 10;
-
 const useCurrencyListing = () => {
 	const dispatch = useDispatch();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const {
 		currencies,
@@ -24,7 +23,7 @@ const useCurrencyListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [currentPage]);
+	}, [currentPage, itemsPerPage]);
 
 	const formattedCurrencies = useMemo(() => {
 		const formattedValues = [];
@@ -44,6 +43,10 @@ const useCurrencyListing = () => {
 		if (isCreateCurrencySuccess) fetchData();
 	}, [isCreateCurrencySuccess]);
 
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -51,6 +54,7 @@ const useCurrencyListing = () => {
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

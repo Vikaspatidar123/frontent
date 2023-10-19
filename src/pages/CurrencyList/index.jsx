@@ -81,6 +81,7 @@ const CurrencyList = ({ t }) => {
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useCurrencyListing();
 
 	const {
@@ -119,9 +120,7 @@ const CurrencyList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
-									// isAddOptions
-									// addOptionLabel="Create"
-									// handleAddClick={handleAddClick}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

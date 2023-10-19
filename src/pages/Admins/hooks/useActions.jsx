@@ -113,6 +113,7 @@ const useActions = (isEditPage) => {
 		setPage,
 		itemsPerPage,
 		columns,
+		onChangeRowsPerPage,
 	} = useAdminListing(handleEdit);
 
 	const handleAddClick = (e) => {
@@ -244,6 +245,7 @@ const useActions = (isEditPage) => {
 		isUpdateSuperUserLoading,
 		isAdminLoading,
 		adminDetails,
+		onChangeRowsPerPage,
 	};
 };
 

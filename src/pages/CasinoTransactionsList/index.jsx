@@ -31,6 +31,7 @@ const CasinoTransactionsList = ({ t }) => {
 		isCasinoTransactionsLoading,
 		formattedCasinoTransactions,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useCasinoTransactionsListing();
 
 	const columns = useMemo(
@@ -126,6 +127,7 @@ const CasinoTransactionsList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

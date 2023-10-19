@@ -2,14 +2,14 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSportsTournamentList } from '../../../store/actions';
 
-const itemsPerPage = 10;
-
 const useSportsTounamentListing = () => {
 	const { sportsTournamentList, isSportsTournamentListLoading } = useSelector(
 		(state) => state.SportsList
 	);
-
-	const [limit, setLimit] = useState(10);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 	const [page, setPage] = useState(1);
 	const [searchByName, setSearchByName] = useState('');
 	const [searchByCountry, setSearchByCountry] = useState('');
@@ -31,14 +31,14 @@ const useSportsTounamentListing = () => {
 	useEffect(() => {
 		dispatch(
 			getSportsTournamentList({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				providerCountryId: searchByCountry,
 				providerSportId: searchBySports,
 				search: searchByName,
 			})
 		);
-	}, [page, limit, searchByName, searchByCountry, searchBySports]);
+	}, [page, itemsPerPage, searchByName, searchByCountry, searchBySports]);
 
 	return {
 		formattedSportsTournamenList,
@@ -47,14 +47,13 @@ const useSportsTounamentListing = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		limit,
-		setLimit,
 		searchByName,
 		setSearchByName,
 		searchByCountry,
 		setSearchByCountry,
 		searchBySports,
 		setSearchBySports,
+		onChangeRowsPerPage,
 	};
 };
 

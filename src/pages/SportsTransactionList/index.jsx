@@ -31,6 +31,7 @@ const SportsTransactionList = ({ t }) => {
 		isSportsTransactionLoading,
 		formattedSportsTransaction,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useSportsTransactionListing();
 
 	const columns = useMemo(
@@ -126,6 +127,7 @@ const SportsTransactionList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

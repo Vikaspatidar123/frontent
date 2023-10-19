@@ -3,15 +3,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchSportsMatchesStart } from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
 
-const itemsPerPage = 10;
-
 const useSportsMatchesListing = () => {
 	const dispatch = useDispatch();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const { sportsMatches, loading: isSportsMatchesLoading } = useSelector(
 		(state) => state.SportsMatches
 	);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	useEffect(() => {
 		dispatch(
@@ -21,7 +24,7 @@ const useSportsMatchesListing = () => {
 				search: searchText,
 			})
 		);
-	}, [currentPage, searchText]);
+	}, [currentPage, searchText, itemsPerPage]);
 
 	const formattedSportsMatches = useMemo(() => {
 		const formattedValues = [];
@@ -29,7 +32,7 @@ const useSportsMatchesListing = () => {
 			sportsMatches.rows.map((match) =>
 				formattedValues.push({
 					...match,
-					title: `${match.teams[0].team.teamName[0].name} vs ${match.teams[1].team.teamName[0].name}`,
+					title: `${match?.teams?.[0]?.team?.teamName?.[0]?.name} vs ${match?.teams?.[1]?.team?.teamName?.[0]?.name}`,
 					tournamentName: match.tournaments.tournamentName[0].name,
 					sportName: match.sportCountry.sport.sportName[0].name,
 					startDate: getDateTime(match.matchDate),
@@ -48,6 +51,7 @@ const useSportsMatchesListing = () => {
 		isSportsMatchesLoading,
 		formattedSportsMatches,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

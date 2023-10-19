@@ -4,11 +4,10 @@ import { fetchCasinoTransactionsStart } from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
 import { statusType } from '../constants';
 
-const itemsPerPage = 10;
-
 const useCasinoTransactionsListing = () => {
 	const dispatch = useDispatch();
 	const [searchText, setSearchText] = useState('');
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { casinoTransactions, loading: isCasinoTransactionsLoading } =
 		useSelector((state) => state.CasinoTransactions);
@@ -21,7 +20,11 @@ const useCasinoTransactionsListing = () => {
 				email: searchText,
 			})
 		);
-	}, [currentPage, searchText]);
+	}, [currentPage, searchText, itemsPerPage]);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const formattedCasinoTransactions = useMemo(() => {
 		const formattedValues = [];
@@ -49,6 +52,7 @@ const useCasinoTransactionsListing = () => {
 		isCasinoTransactionsLoading,
 		formattedCasinoTransactions,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

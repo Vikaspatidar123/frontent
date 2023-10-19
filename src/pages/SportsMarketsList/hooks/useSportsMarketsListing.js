@@ -2,15 +2,18 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSportsMarketsStart } from '../../../store/actions';
 
-const itemsPerPage = 10;
-
 const useSportsMarketsListing = () => {
 	const dispatch = useDispatch();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const { sportsMarkets, loading: isSportsMarketsLoading } = useSelector(
 		(state) => state.SportsMarkets
 	);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	useEffect(() => {
 		dispatch(
@@ -20,7 +23,7 @@ const useSportsMarketsListing = () => {
 				search: searchText,
 			})
 		);
-	}, [currentPage, searchText]);
+	}, [currentPage, searchText, itemsPerPage]);
 
 	const formattedSportsMarkets = useMemo(() => {
 		const formattedValues = [];
@@ -44,6 +47,7 @@ const useSportsMarketsListing = () => {
 		isSportsMarketsLoading,
 		formattedSportsMarkets,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

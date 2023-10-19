@@ -5,10 +5,9 @@ import {
 	updateCountryStatusStart,
 } from '../../../store/actions';
 
-const itemsPerPage = 10;
-
 const useCountriesListing = () => {
 	const dispatch = useDispatch();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [name, setName] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [active, setActive] = useState(false);
@@ -24,7 +23,11 @@ const useCountriesListing = () => {
 				name,
 			})
 		);
-	}, [currentPage, name, active]);
+	}, [currentPage, name, active, itemsPerPage]);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const formattedCountries = useMemo(() => {
 		const formattedValues = [];
@@ -71,6 +74,7 @@ const useCountriesListing = () => {
 		formattedCountries,
 		itemsPerPage,
 		handleStatus,
+		onChangeRowsPerPage,
 	};
 };
 

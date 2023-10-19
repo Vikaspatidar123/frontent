@@ -2,17 +2,20 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSportsCountries } from '../../../store/actions';
 
-const itemsPerPage = 10;
-
 const useSportsCountriesListing = () => {
 	const { sportsCountries, isSportsCountriesLoading } = useSelector(
 		(state) => state.SportsList
 	);
-	const [limit, setLimit] = useState(10);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+
 	const [page, setPage] = useState(1);
 	const [searchByName, setSearchByName] = useState('');
 	const [searchByStatus, setSearchByStatus] = useState('');
 	const dispatch = useDispatch();
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const formattedSportsCountries = useMemo(() => {
 		if (sportsCountries) {
@@ -34,7 +37,7 @@ const useSportsCountriesListing = () => {
 		}
 		dispatch(
 			getSportsCountries({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				searchByName,
 				isActive,
@@ -44,7 +47,7 @@ const useSportsCountriesListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, page, searchByName, searchByStatus]);
+	}, [itemsPerPage, page, searchByName, searchByStatus]);
 
 	return {
 		formattedSportsCountries,
@@ -53,12 +56,11 @@ const useSportsCountriesListing = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		limit,
-		setLimit,
 		searchByName,
 		setSearchByName,
 		searchByStatus,
 		setSearchByStatus,
+		onChangeRowsPerPage,
 	};
 };
 

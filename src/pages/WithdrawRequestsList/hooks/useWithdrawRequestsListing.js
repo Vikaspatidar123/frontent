@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchWithdrawRequestsStart } from '../../../store/actions';
 import { formatDateYMD } from '../../../helpers/dateFormatter';
 
-const itemsPerPage = 10;
-
 const getStatus = (status) => {
 	switch (status) {
 		case 0:
@@ -24,10 +22,15 @@ const getStatus = (status) => {
 const useWithdrawRequestsListing = () => {
 	const dispatch = useDispatch();
 	const [searchText, setSearchText] = useState('');
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { withdrawRequests, loading: isWithdrawRequestsLoading } = useSelector(
 		(state) => state.WithdrawRequests
 	);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	useEffect(() => {
 		dispatch(
@@ -37,7 +40,7 @@ const useWithdrawRequestsListing = () => {
 				search: searchText,
 			})
 		);
-	}, [currentPage, searchText]);
+	}, [currentPage, searchText, itemsPerPage]);
 
 	const formattedWithdrawRequests = useMemo(() => {
 		const formattedValues = [];
@@ -63,6 +66,7 @@ const useWithdrawRequestsListing = () => {
 		isWithdrawRequestsLoading,
 		formattedWithdrawRequests,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

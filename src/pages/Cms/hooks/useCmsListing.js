@@ -5,11 +5,10 @@ import {
 	updateSaCmsStatus,
 } from '../../../store/cms/actions';
 
-const itemsPerPage = 10;
-
 const useCmsListing = () => {
 	const { cmsDetails, isLoading, error } = useSelector((state) => state.AllCms);
 	const [limit, setLimit] = useState(15);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [search, setSearch] = useState('');
 	const [selectedClient, setSelectedClient] = useState('');
@@ -30,6 +29,10 @@ const useCmsListing = () => {
 		}
 		return [];
 	}, [cmsDetails]);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const fetchData = () => {
 		dispatch(
@@ -67,7 +70,7 @@ const useCmsListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, selectedPortal, selectedClient, active, page]);
+	}, [limit, selectedPortal, selectedClient, active, page, itemsPerPage]);
 
 	return {
 		cmsDetails,
@@ -85,6 +88,7 @@ const useCmsListing = () => {
 		handleStatus,
 		show,
 		setShow,
+		onChangeRowsPerPage,
 	};
 };
 

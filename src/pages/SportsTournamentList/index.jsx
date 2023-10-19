@@ -59,6 +59,7 @@ const SportsTournamentList = () => {
 		page,
 		setPage,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useSportsTounamentListing();
 
 	return (
@@ -84,6 +85,7 @@ const SportsTournamentList = () => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isSportsTournamentListLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

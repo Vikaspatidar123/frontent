@@ -118,6 +118,7 @@ const BetSettings = () => {
 		page,
 		setPage,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useBetSettings();
 
 	const {
@@ -155,6 +156,7 @@ const BetSettings = () => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

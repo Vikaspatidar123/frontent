@@ -55,6 +55,7 @@ const SportsCountriesListing = () => {
 		page,
 		setPage,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useSportsCountriesListing();
 
 	return (
@@ -79,6 +80,7 @@ const SportsCountriesListing = () => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isSportsCountriesLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

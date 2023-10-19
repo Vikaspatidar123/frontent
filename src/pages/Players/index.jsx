@@ -31,6 +31,7 @@ const PlayersList = ({ t }) => {
 		isPlayersLoading,
 		formattedPlayers,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = usePlayersListing();
 
 	const columns = useMemo(
@@ -120,6 +121,7 @@ const PlayersList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

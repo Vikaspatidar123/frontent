@@ -82,6 +82,7 @@ const BonusDetail = ({ t }) => {
 		setPage,
 		totalBonusCount,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useBonsuListing();
 
 	return (
@@ -111,6 +112,7 @@ const BonusDetail = ({ t }) => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

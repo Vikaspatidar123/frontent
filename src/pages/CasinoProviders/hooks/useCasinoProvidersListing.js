@@ -5,8 +5,6 @@ import {
 	updateCasinoStatusStart,
 } from '../../../store/actions';
 
-const itemsPerPage = 10;
-
 const useCasinoProvidersListing = () => {
 	const {
 		casinoProvidersData,
@@ -18,11 +16,16 @@ const useCasinoProvidersListing = () => {
 	const [page, setPage] = useState(1);
 	const [active, setActive] = useState('');
 	const dispatch = useDispatch();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const fetchData = () => {
 		dispatch(
 			getCasinoProvidersDataStart({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				search,
 			})
@@ -31,7 +34,7 @@ const useCasinoProvidersListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, page, search, active]);
+	}, [limit, page, search, active, itemsPerPage]);
 
 	useEffect(() => {
 		if (isCreateProviderSuccess) fetchData();
@@ -65,6 +68,7 @@ const useCasinoProvidersListing = () => {
 		handleStatus,
 		active,
 		setActive,
+		onChangeRowsPerPage,
 	};
 };
 
