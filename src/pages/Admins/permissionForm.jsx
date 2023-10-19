@@ -49,8 +49,10 @@ const PermissionForm = ({
 									<div className="mb-4 col-xl-3 col-lg-4 col-md-6 col-sm-12">
 										<div className="permissions-card card">
 											<div className="fw-bold card-header">
-												<span className="icon">{permissionIcons()?.[key]}</span>
-												<span className="text">{key}</span>
+												<span className="icon font-size-20">
+													{permissionIcons()?.[key]}
+												</span>
+												<span className="text">{`  ${key}`}</span>
 											</div>
 											<div className="list-group list-group-flush">
 												{permissions[key].map((value) => (
