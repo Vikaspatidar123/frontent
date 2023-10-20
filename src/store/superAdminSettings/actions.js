@@ -11,6 +11,9 @@ import {
 	CREATE_KYC_LABELS_START,
 	CREATE_KYC_LABELS_SUCCESS,
 	CREATE_KYC_LABELS_FAIL,
+	EDIT_KYC_LABELS_START,
+	EDIT_KYC_LABELS_SUCCESS,
+	EDIT_KYC_LABELS_FAIL,
 } from './actionTypes';
 
 export const getSABanners = (payload) => ({
@@ -70,5 +73,20 @@ export const createKYCLabelsSuccess = (payload) => ({
 
 export const createKYCLabelsFail = (payload) => ({
 	type: CREATE_KYC_LABELS_FAIL,
+	payload,
+});
+
+export const editKYCLabelsStart = (payload) => ({
+	type: EDIT_KYC_LABELS_START,
+	payload,
+});
+
+export const editKYCLabelsSuccess = (payload) => ({
+	type: EDIT_KYC_LABELS_SUCCESS,
+	payload,
+});
+
+export const editKYCLabelsFail = (payload) => ({
+	type: EDIT_KYC_LABELS_FAIL,
 	payload,
 });

@@ -23,6 +23,9 @@ const superAdminViewToggleStatus = (data) =>
 const updateStatus = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
 
+const updateKYCLabels = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/document-label`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -31,4 +34,5 @@ export {
 	resetProfilePassword,
 	superAdminViewToggleStatus,
 	updateStatus,
+	updateKYCLabels,
 };

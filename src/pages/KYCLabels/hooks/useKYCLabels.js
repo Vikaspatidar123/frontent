@@ -4,8 +4,12 @@ import { getDocumentLabel } from '../../../store/actions';
 import languageCode from '../constants';
 
 const useKYCLables = () => {
-	const { documentLabels, documentLabelsLoading, isCreateKYCLabelsSuccess } =
-		useSelector((state) => state.SASettings);
+	const {
+		documentLabels,
+		documentLabelsLoading,
+		isCreateKYCLabelsSuccess,
+		isEditKYCLabelsSuccess,
+	} = useSelector((state) => state.SASettings);
 	const dispatch = useDispatch();
 
 	const fetchData = () => {
@@ -33,8 +37,8 @@ const useKYCLables = () => {
 	}, []);
 
 	useEffect(() => {
-		if (isCreateKYCLabelsSuccess) fetchData();
-	}, [isCreateKYCLabelsSuccess]);
+		if (isCreateKYCLabelsSuccess || isEditKYCLabelsSuccess) fetchData();
+	}, [isCreateKYCLabelsSuccess, isEditKYCLabelsSuccess]);
 
 	return {
 		documentLabels,
