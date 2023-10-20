@@ -2,15 +2,15 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCurrenciesStart } from '../../../store/actions';
 
-const itemsPerPage = 10;
-
 const useCurrencyListing = () => {
 	const dispatch = useDispatch();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const {
 		currencies,
 		loading: isCurrenciesLoading,
 		isCreateCurrencySuccess,
+		isEditCurrencySuccess,
 	} = useSelector((state) => state.Currencies);
 
 	const fetchData = () => {
@@ -24,7 +24,11 @@ const useCurrencyListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [currentPage]);
+	}, [currentPage, itemsPerPage]);
+
+	useEffect(() => {
+		if (isEditCurrencySuccess) fetchData();
+	}, [isEditCurrencySuccess]);
 
 	const formattedCurrencies = useMemo(() => {
 		const formattedValues = [];
@@ -32,7 +36,6 @@ const useCurrencyListing = () => {
 			currencies.rows.map((currency) =>
 				formattedValues.push({
 					...currency,
-					type: currency.type === 1 ? 'Fiat' : 'Crypto',
 					primary: currency.isPrimary ? 'YES' : 'NO',
 				})
 			);
@@ -44,6 +47,10 @@ const useCurrencyListing = () => {
 		if (isCreateCurrencySuccess) fetchData();
 	}, [isCreateCurrencySuccess]);
 
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -51,6 +58,7 @@ const useCurrencyListing = () => {
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

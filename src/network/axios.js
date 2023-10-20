@@ -26,7 +26,13 @@ const METHODS = {
 	delete: 'DELETE',
 };
 
-const makeRequest = async (url, method, data = {}, config = {}) => {
+const makeRequest = async (
+	url,
+	method,
+	data = {},
+	config = {},
+	params = {}
+) => {
 	const headers = {
 		'Content-Type': 'application/json',
 		...config,
@@ -41,10 +47,13 @@ const makeRequest = async (url, method, data = {}, config = {}) => {
 		method,
 		data,
 		headers,
+		params,
+		withCredentials: true,
 	});
 };
 
-const getRequest = (url) => makeRequest(url, METHODS.get);
+const getRequest = (url, params) =>
+	makeRequest(url, METHODS.get, {}, {}, params);
 
 const postRequest = (url, data, config) =>
 	makeRequest(url, METHODS.post, data, config);

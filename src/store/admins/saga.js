@@ -61,7 +61,7 @@ function* addSuperAdminUserWorker(action) {
 
 		yield put(addSuperAdminUserSuccess());
 
-		if (navigate) yield put(navigate('/staff'));
+		if (navigate) yield navigate('/staff');
 	} catch (e) {
 		yield put(addSuperAdminUserFail());
 
@@ -85,7 +85,7 @@ function* updateSuperAdminUserWorker(action) {
 
 		yield put(updateSuperAdminUserSuccess());
 
-		if (navigate) yield put(navigate('/staff'));
+		if (navigate) yield navigate('/staff');
 	} catch (e) {
 		yield put(updateSuperAdminUserFail());
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge } from 'reactstrap';
+import Proptypes from 'prop-types';
 // import { Link } from 'react-router-dom';
 
 const ID = (cell) => (cell.value ? cell.value : '');
@@ -8,14 +9,15 @@ const Name = (cell) => (cell.value ? cell.value : '');
 
 const Status = (cell) => {
 	const { value } = cell;
-	switch (value) {
-		case true:
-			return <Badge className="bg-success">Active</Badge>;
-		case false:
-			return <Badge className="bg-danger">Close</Badge>;
-		default:
-			return '';
-	}
+	return value ? (
+		<Badge className="bg-success">Active</Badge>
+	) : (
+		<Badge className="bg-danger">In Active</Badge>
+	);
+};
+
+Status.prototype = {
+	cell: Proptypes.objectOf.isRequired,
 };
 
 export { ID, Name, Status };

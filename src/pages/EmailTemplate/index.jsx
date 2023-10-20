@@ -1,15 +1,9 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container } from 'reactstrap';
-
-import {
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
-	Typography,
-} from '../../components/Common/Accordion';
+import { Container, Collapse } from 'reactstrap';
+import classnames from 'classnames';
 
 import { projectName } from '../../constants/config';
 import TableContainer from '../../components/Common/TableContainer';
@@ -52,10 +46,14 @@ const EmailTemplate = ({ t }) => {
 	document.title = projectName;
 
 	const { emailTemplateloading, emailTemplates } = useEmailTemplate();
-	const [expanded, setExpanded] = React.useState('');
+	const [expanded, setExpanded] = useState('');
 
-	const handleChange = (panel) => (event, newExpanded) => {
-		setExpanded(newExpanded ? panel : false);
+	const handleChange = (panel) => () => {
+		if (expanded === panel) {
+			setExpanded('');
+		} else {
+			setExpanded(panel);
+		}
 	};
 
 	return (
@@ -72,32 +70,40 @@ const EmailTemplate = ({ t }) => {
 					/>
 				) : (
 					Object.keys(emailTemplates).map((key) => (
-						<Accordion
-							key={key}
-							expanded={expanded === key}
-							onChange={handleChange(key)}
-						>
-							<AccordionSummary
-								aria-controls="panel1d-content"
-								id="panel1d-header"
-							>
-								<Typography>{key}</Typography>
-							</AccordionSummary>
-							<AccordionDetails>
-								<Typography>
-									<TableContainer
-										columns={columns}
-										data={emailTemplates[key]}
-										customPageSize={1}
-										tableClass="table-bordered align-middle nowrap mt-2"
-										paginationDiv="justify-content-center"
-										pagination="pagination justify-content-start pagination-rounded"
-										isLoading={emailTemplateloading}
-										thCustomClass="col-3"
-									/>
-								</Typography>
-							</AccordionDetails>
-						</Accordion>
+						<div className="accordion" id="accordion" key={key}>
+							<div className="accordion-item">
+								<h2 className="accordion-header" id={`heading${key}`}>
+									<button
+										className={classnames('accordion-button', 'fw-medium', {
+											collapsed: expanded !== key,
+										})}
+										type="button"
+										onClick={handleChange(key)}
+										style={{ cursor: 'pointer' }}
+									>
+										<h5 className="font-size-14">{key}</h5>
+									</button>
+								</h2>
+
+								<Collapse
+									isOpen={expanded === key}
+									className="accordion-collapse"
+								>
+									<div className="accordion-body">
+										<TableContainer
+											columns={columns}
+											data={emailTemplates[key]}
+											customPageSize={1}
+											tableClass="table-bordered align-middle nowrap mt-2"
+											paginationDiv="justify-content-center"
+											pagination="pagination justify-content-start pagination-rounded"
+											isLoading={emailTemplateloading}
+											thCustomClass="col-3"
+										/>
+									</div>
+								</Collapse>
+							</div>
+						</div>
 					))
 				)}
 			</Container>

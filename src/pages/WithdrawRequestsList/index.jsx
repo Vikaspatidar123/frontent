@@ -32,6 +32,7 @@ const WithdrawRequestsList = ({ t }) => {
 		isWithdrawRequestsLoading,
 		formattedWithdrawRequests,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useWithdrawRequestsListing();
 
 	const columns = useMemo(
@@ -129,6 +130,7 @@ const WithdrawRequestsList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

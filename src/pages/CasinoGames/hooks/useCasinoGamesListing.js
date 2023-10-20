@@ -4,9 +4,8 @@ import {
 	getCasinoGamesStart,
 	getCasinoProvidersDataStart,
 	getCasinoSubCategoryDetailStart,
+	updateSACasinoGamesStatusStart,
 } from '../../../store/actions';
-
-const itemsPerPage = 10;
 
 const useCasinoGamesListings = () => {
 	const {
@@ -15,12 +14,13 @@ const useCasinoGamesListings = () => {
 		casinoProvidersData,
 		casinoSubCategoryDetails,
 	} = useSelector((state) => state.CasinoManagementData);
-	const [limit, setLimit] = useState(10);
 	const [page, setPage] = useState(1);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [selectedSubCategoryId, setSelectedSubCategoryId] = useState('');
 	const [search, setSearch] = useState('');
 	const [casinoGameId, setCasinoGameId] = useState();
 	const [active, setActive] = useState('');
+	const [show, setShow] = useState(false);
 	const [status, setStatus] = useState();
 	const [selectedProvider, setSelectedProvider] = useState('');
 	const dispatch = useDispatch();
@@ -41,12 +41,16 @@ const useCasinoGamesListings = () => {
 		);
 	}, []);
 
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
+
 	const getCategoryName = (id) =>
 		casinoSubCategoryDetails?.rows.find((val) => val.gameSubCategoryId === id)
 			?.name?.EN;
 
-	const getProviderName = (id) => casinoProvidersData?.rows.find((val) => val.casinoProviderId === id)
-			?.name;
+	const getProviderName = (id) =>
+		casinoProvidersData?.rows.find((val) => val.casinoProviderId === id)?.name;
 
 	const formattedCasinoGames = useMemo(() => {
 		if (casinoGames) {
@@ -62,7 +66,7 @@ const useCasinoGamesListings = () => {
 	const fetchData = () => {
 		dispatch(
 			getCasinoGamesStart({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				casinoCategoryId: selectedSubCategoryId,
 				search,
@@ -75,15 +79,44 @@ const useCasinoGamesListings = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, page, selectedSubCategoryId, search, active, selectedProvider]);
+	}, [
+		itemsPerPage,
+		page,
+		selectedSubCategoryId,
+		search,
+		active,
+		selectedProvider,
+		show,
+	]);
+
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { active: state, casinoGameId: id } = props;
+		dispatch(
+			updateSACasinoGamesStatusStart({
+				data: {
+					code: 'CASINO_GAME',
+					casinoGameId: id,
+					status: !state,
+				},
+				// limit,
+				// pageNo: page,
+				// casinoCategoryId: selectedSubCategoryId,
+				// search,
+				// isActive: active,
+				// tenantId: '',
+				// selectedProvider,
+			})
+		);
+		setShow((prev) => !prev);
+	};
 
 	return {
 		formattedCasinoGames,
 		isCasinoGamesLoading,
 		itemsPerPage,
 		totalCasinoGamesCount: casinoGames?.count,
-		limit,
-		setLimit,
+		onChangeRowsPerPage,
 		search,
 		setSearch,
 		page,
@@ -98,6 +131,9 @@ const useCasinoGamesListings = () => {
 		setActive,
 		status,
 		setStatus,
+		handleStatus,
+		show,
+		setShow,
 	};
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,39 +19,6 @@ import FormModal from '../../components/Common/FormModal';
 import useCreateProvider from './hooks/useCreateProvider';
 import CrudSection from '../../components/Common/CrudSection';
 
-const columns = [
-	{
-		Header: 'ID',
-		accessor: 'casinoProviderId',
-		filterable: true,
-		Cell: ({ cell }) => <CasinoProviderId cell={cell} />,
-	},
-	{
-		Header: 'NAME',
-		accessor: 'name',
-		filterable: true,
-		Cell: ({ cell }) => <Name cell={cell} />,
-	},
-	{
-		Header: 'THUMBNAIL',
-		accessor: 'thumbnailUrl',
-		filterable: true,
-		Cell: ({ cell }) => <ThumbnailUrl cell={cell} />,
-	},
-	{
-		Header: 'STATUS',
-		accessor: 'isActive',
-		disableFilters: true,
-		Cell: (cell) => <Status cell={cell} />,
-	},
-	{
-		Header: 'ACTION',
-		accessor: 'action',
-		disableFilters: true,
-		Cell: () => <ActionButtons />,
-	},
-];
-
 const CasinoProviders = ({ t }) => {
 	// meta title
 	document.title = projectName;
@@ -61,6 +29,8 @@ const CasinoProviders = ({ t }) => {
 		page,
 		setPage,
 		itemsPerPage,
+		handleStatus,
+		onChangeRowsPerPage,
 	} = useCasinoProvidersListing();
 
 	const {
@@ -73,6 +43,40 @@ const CasinoProviders = ({ t }) => {
 		buttonList,
 	} = useCreateProvider();
 
+	const columns = [
+		{
+			Header: 'ID',
+			accessor: 'casinoProviderId',
+			filterable: true,
+			Cell: ({ cell }) => <CasinoProviderId cell={cell} />,
+		},
+		{
+			Header: 'NAME',
+			accessor: 'name',
+			filterable: true,
+			Cell: ({ cell }) => <Name cell={cell} />,
+		},
+		{
+			Header: 'THUMBNAIL',
+			accessor: 'thumbnailUrl',
+			filterable: true,
+			Cell: ({ cell }) => <ThumbnailUrl cell={cell} />,
+		},
+		{
+			Header: 'STATUS',
+			accessor: 'isActive',
+			disableFilters: true,
+			Cell: (cell) => <Status cell={cell} />,
+		},
+		{
+			Header: 'ACTION',
+			accessor: 'action',
+			disableFilters: true,
+			Cell: ({ cell }) => (
+				<ActionButtons cell={cell} handleStatus={handleStatus} />
+			),
+		},
+	];
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -99,6 +103,7 @@ const CasinoProviders = ({ t }) => {
 									onChangePagination={setPage}
 									currentPage={page}
 									isLoading={!isCasinoProvidersDataLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

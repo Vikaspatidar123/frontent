@@ -1,5 +1,5 @@
 ## --------- for development ---------
-FROM node:16.13.1-alpine AS builder
+FROM node:16.14.0-alpine AS builder
 
 # install dependecies
 RUN apk update

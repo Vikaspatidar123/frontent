@@ -22,6 +22,7 @@ const LanguageList = ({ t }) => {
 		isLanguagesLoading,
 		formattedLanguages,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useLanguageListing();
 
 	const columns = useMemo(
@@ -87,6 +88,7 @@ const LanguageList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

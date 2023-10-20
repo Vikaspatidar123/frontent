@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getWageringTemplateDetails } from '../../../store/wageringTemplate/actions';
 
-const itemsPerPage = 10;
-
 const useWageringTemplate = () => {
 	const { wageringTemplateDetail, wageringTemplateDetailLoading } = useSelector(
 		(state) => state.WageringTemplate
 	);
-	const [limit, setLimit] = useState(10);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [wagerSearch, setWagerSearch] = useState('');
 	const dispatch = useDispatch();
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	// const formattedCmsDetails = useMemo(() => {
 	// 	if (cmsDetails) {
@@ -29,7 +31,7 @@ const useWageringTemplate = () => {
 	const fetchData = () => {
 		dispatch(
 			getWageringTemplateDetails({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				search: wagerSearch,
 			})
@@ -38,19 +40,18 @@ const useWageringTemplate = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, page, wagerSearch]);
+	}, [itemsPerPage, page, wagerSearch]);
 
 	return {
 		wageringTemplateDetail,
 		wageringTemplateDetailLoading,
 		itemsPerPage,
 		totalwageringTemplateDetailCount: wageringTemplateDetail?.count,
-		limit,
-		setLimit,
 		page,
 		setPage,
 		wagerSearch,
 		setWagerSearch,
+		onChangeRowsPerPage,
 	};
 };
 

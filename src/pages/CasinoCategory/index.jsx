@@ -1,26 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {
-	Col,
-	Row,
-	Card,
-	CardBody,
-	Modal,
-	ModalHeader,
-	ModalBody,
-	Form,
-} from 'reactstrap';
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
+import { Col, Row, Card, CardBody } from 'reactstrap';
 import { projectName } from '../../constants/config';
-import {
-	CustomInputField,
-	CustomSwitchButton,
-	CustomSelectField,
-} from '../../helpers/customForms';
-import CasinoCategoryColumn from './CasinoCategoryColumn';
+import useCasinoCategoryColumn from './CasinoCategoryColumn';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
@@ -34,16 +16,15 @@ const GetCasinoCategoryDetails = () => {
 	const {
 		formattedCasinoCategoriesData,
 		iscasinoCategoryDetailsLoading,
-		languageData,
 		page,
 		setPage,
 		itemsPerPage,
 		totalCasinoCategriesCount,
-		modal,
-		setModal,
-		isEdit,
-		job,
+		onChangeRowsPerPage,
+		handleStatus,
 	} = useCasinoCategoryListing();
+
+	const columns = useCasinoCategoryColumn(handleStatus);
 
 	const {
 		isOpen,
@@ -68,7 +49,7 @@ const GetCasinoCategoryDetails = () => {
 							<CrudSection buttonList={buttonList} title="Category Listing" />
 							<CardBody>
 								<TableContainer
-									columns={CasinoCategoryColumn}
+									columns={columns}
 									data={formattedCasinoCategoriesData}
 									isLoading={!iscasinoCategoryDetailsLoading}
 									isGlobalFilter
@@ -81,6 +62,7 @@ const GetCasinoCategoryDetails = () => {
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 								<FormModal
 									isOpen={isOpen}

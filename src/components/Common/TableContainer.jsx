@@ -2,7 +2,7 @@
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	useTable,
@@ -12,9 +12,9 @@ import {
 	useExpanded,
 	usePagination,
 } from 'react-table';
-import { Table, Row, Spinner } from 'reactstrap';
-import { Pagination } from '@mui/material';
-import { DefaultColumnFilter } from './filters';
+import { Table, Spinner, Col, Row } from 'reactstrap';
+import ReactPaginate from 'react-paginate';
+import { CustomSelectField } from '../../helpers/customForms';
 
 const TableContainer = ({
 	columns,
@@ -28,16 +28,18 @@ const TableContainer = ({
 	totalPageCount,
 	isManualPagination,
 	onChangePagination,
-	currentPage,
+	// currentPage,
 	isLoading = false,
 	thCustomClass = '',
+	changeRowsPerPageCallback,
 }) => {
+	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
 	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
 		useTable(
 			{
 				columns,
 				data,
-				defaultColumn: { Filter: DefaultColumnFilter },
+				// defaultColumn: { Filter: DefaultColumnFilter },
 				initialState: {
 					pageIndex: 0,
 					pageSize: customPageSize,
@@ -52,10 +54,43 @@ const TableContainer = ({
 			usePagination
 		);
 
-	const handlePagination = (e, item) => {
+	const handlePagination = (newPage) => {
 		if (isManualPagination) {
-			onChangePagination(item);
+			onChangePagination((newPage?.selected || 0) + 1);
 		}
+	};
+
+	const rowsPerPageOptions = [
+		{
+			id: 1,
+			optionLabel: 10,
+			value: 10,
+		},
+		{
+			id: 2,
+			optionLabel: 15,
+			value: 15,
+		},
+		{
+			id: 3,
+			optionLabel: 20,
+			value: 20,
+		},
+		{
+			id: 4,
+			optionLabel: 25,
+			value: 25,
+		},
+		{
+			id: 5,
+			optionLabel: 30,
+			value: 30,
+		},
+	];
+
+	const onChangeRowsPerPage = (e) => {
+		setRowsPerPage(e.target.value);
+		changeRowsPerPageCallback(e.target.value);
 	};
 
 	return (
@@ -124,23 +159,66 @@ const TableContainer = ({
 			</div>
 
 			{isPagination && (
-				<Row className="justify-content-between align-items-center">
-					{totalPageCount && (
-						<div className="col-sm m-2">
+				<Row className="d-flex justify-content-between align-items-center">
+					<Col lg={4}>
+						{totalPageCount && (
 							<div className="text-muted">
 								Showing <span className="fw-semibold">{page.length}</span> of{' '}
 								<span className="fw-semibold">{totalPageCount}</span> entries
 							</div>
+						)}
+						{/* need to remove inline styles here */}
+						<div
+							className="d-flex align-items-center mt-10"
+							style={{ marginTop: 10 }}
+						>
+							<div className="text-muted" style={{ marginRight: 10 }}>
+								Rows per Page
+							</div>
+							<div>
+								<CustomSelectField
+									value={rowsPerPage}
+									type="select"
+									onChange={onChangeRowsPerPage}
+									options={
+										<>
+											<option value={null} selected disabled>
+												Select
+											</option>
+											{rowsPerPageOptions?.map(({ optionLabel, value }) => (
+												<option key={value} value={value}>
+													{optionLabel}
+												</option>
+											))}
+										</>
+									}
+								/>
+							</div>
 						</div>
-					)}
-					<div className={paginationDiv}>
-						<Pagination
-							color="primary"
-							count={Math.ceil(totalPageCount / customPageSize)}
-							page={currentPage}
-							onChange={handlePagination}
-						/>
-					</div>
+					</Col>
+					<Col lg={4} className={paginationDiv}>
+						<div className="d-flex justify-content-end">
+							<ReactPaginate
+								breakLabel="..."
+								nextLabel=">"
+								onPageChange={handlePagination}
+								pageCount={Math.ceil(totalPageCount / customPageSize)}
+								previousLabel="<"
+								renderOnZeroPageCount={null}
+								pageClassName="page-item"
+								pageLinkClassName="page-link"
+								previousClassName="page-item"
+								previousLinkClassName="page-link"
+								nextClassName="page-item"
+								nextLinkClassName="page-link"
+								breakClassName="page-item"
+								breakLinkClassName="page-link"
+								containerClassName="pagination"
+								activeClassName="active"
+								pageRangeDisplayed={3}
+							/>
+						</div>
+					</Col>
 				</Row>
 			)}
 		</>

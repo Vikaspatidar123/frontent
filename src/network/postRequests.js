@@ -33,6 +33,14 @@ const createSABanners = (data) =>
 const createCasinoCategory = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/casino/category`, data);
 
+const createKYCLabels = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/document-label`, data);
+
+const createCasinoSubCategory = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/casino/sub-category`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
+
 export {
 	superAdminLogin,
 	createCurrency,
@@ -43,4 +51,6 @@ export {
 	createBetSettings,
 	createSABanners,
 	createCasinoCategory,
+	createKYCLabels,
+	createCasinoSubCategory,
 };

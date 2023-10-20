@@ -1,6 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import { Badge } from 'reactstrap';
 
 const Id = (cell) => (cell.value ? cell.value : '');
 
@@ -10,11 +9,11 @@ const PaymentProvider = (cell) => (cell.value ? cell.value : 'NA');
 
 const Amount = (cell) =>
 	cell.value ? (
-		<Badge className={cell.value.includes('-') ? 'bg-danger' : 'bg-success'}>
+		<div className={cell.value.includes('-') ? 'text-danger' : 'text-success'}>
 			{cell.value}
-		</Badge>
+		</div>
 	) : (
-		''
+		'-'
 	);
 
 const Actionee = (cell) => (cell.value ? cell.value : '-');

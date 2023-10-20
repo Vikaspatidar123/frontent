@@ -4,72 +4,11 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
-import {
-	Code,
-	ExchangeRate,
-	Id,
-	LoyaltyPoints,
-	Name,
-	Primary,
-	Type,
-} from './CurrencyListCol';
-import ActionButtons from './ActionButtons';
 import useCurrencyListing from './hooks/useCurrencyListing';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
 import useCreateCurrency from './hooks/useCreateCurrency';
 import CrudSection from '../../components/Common/CrudSection';
-
-const columns = [
-	{
-		Header: 'ID',
-		accessor: 'currencyId',
-		// filterable: true,
-		Cell: (cellProps) => <Id {...cellProps} />,
-	},
-	{
-		Header: 'NAME',
-		accessor: 'name',
-		// filterable: true,
-		Cell: (cellProps) => <Name {...cellProps} />,
-	},
-	{
-		Header: 'CODE',
-		accessor: 'code',
-		// filterable: true,
-		Cell: (cellProps) => <Code {...cellProps} />,
-	},
-	{
-		Header: 'EXCHANGE RATES',
-		accessor: 'exchangeRate',
-		// filterable: true,
-		Cell: (cellProps) => <ExchangeRate {...cellProps} />,
-	},
-	{
-		Header: 'LOYALTY POINTS',
-		accessor: 'loyaltyPoint',
-		// filterable: true,
-		Cell: (cellProps) => <LoyaltyPoints {...cellProps} />,
-	},
-	{
-		Header: 'TYPE',
-		accessor: 'type',
-		// filterable: true,
-		Cell: (cellProps) => <Type {...cellProps} />,
-	},
-	{
-		Header: 'PRIMARY',
-		accessor: 'primary',
-		// filterable: true,
-		Cell: (cellProps) => <Primary {...cellProps} />,
-	},
-	{
-		Header: 'ACTION',
-		accessor: 'actions',
-		disableFilters: true,
-		Cell: (cellProps) => <ActionButtons {...cellProps} />,
-	},
-];
 
 const CurrencyList = ({ t }) => {
 	document.title = projectName;
@@ -81,6 +20,7 @@ const CurrencyList = ({ t }) => {
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useCurrencyListing();
 
 	const {
@@ -91,6 +31,8 @@ const CurrencyList = ({ t }) => {
 		formFields,
 		isCreateCurrencyLoading,
 		buttonList,
+		columns,
+		isEditCurrencyLoading,
 	} = useCreateCurrency();
 
 	return (
@@ -119,9 +61,7 @@ const CurrencyList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
-									// isAddOptions
-									// addOptionLabel="Create"
-									// handleAddClick={handleAddClick}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>
@@ -135,7 +75,7 @@ const CurrencyList = ({ t }) => {
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
-					isSubmitLoading={isCreateCurrencyLoading}
+					isSubmitLoading={isCreateCurrencyLoading || isEditCurrencyLoading}
 				/>
 			</Container>
 		</div>

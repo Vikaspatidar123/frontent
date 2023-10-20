@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import {
 	GET_SPORTS_LIST,
 	GET_SPORTS_LIST_SUCCESS,
@@ -8,6 +9,9 @@ import {
 	GET_SPORTS_TOURNAMENT_LIST,
 	GET_SPORTS_TOURNAMENT_LIST_SUCCESS,
 	GET_SPORTS_TOURNAMENT_LIST_FAIL,
+	UPDATE_STATUS_START,
+	UPDATE_STATUS_SUCCESS,
+	UPDATE_STATUS_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -20,6 +24,9 @@ const INIT_STATE = {
 	sportsTournamentList: null,
 	sportsTournamentListError: null,
 	isSportsTournamentListLoading: true,
+	updateStatus: false,
+	updateStatusError: null,
+	isUpdateStatusLoading: false,
 };
 
 const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
@@ -85,6 +92,62 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				sportsTournamentListError: payload,
 				SportsTournamentListLoading: true,
+			};
+
+		case UPDATE_STATUS_START:
+			return {
+				...state,
+				isUpdateStatusLoading: true,
+			};
+
+		case UPDATE_STATUS_SUCCESS:
+			const data = {
+				...state,
+				isUpdateStatusLoading: false,
+				updateStatus: true,
+			};
+			if (payload.code === 'SPORTS') {
+				const temp = { ...state.sportsListInfo };
+				const newObject = temp?.sportsList?.rows?.map((obj) =>
+					obj.sportId === payload.sportId
+						? { ...obj, isActive: !!payload.status }
+						: obj
+				);
+				const newData = {
+					...state.sportsListInfo,
+					sportsList: {
+						...state.sportsListInfo.sportsList,
+						rows: newObject,
+					},
+				};
+				data.sportsListInfo = newData;
+			} else if (payload.code === 'SPORTCONTRY') {
+				const temp = { ...state.sportsCountries };
+				const newObject = temp?.countryList?.rows?.map((obj) =>
+					obj.countryId === payload.sportCountryId
+						? { ...obj, isActive: !!payload.status }
+						: obj
+				);
+				const newData = {
+					...state.sportsCountries,
+					countryList: {
+						...state.sportsCountries.countryList,
+						rows: newObject,
+					},
+				};
+				data.sportsCountries = newData;
+			}
+			return {
+				...state,
+				...data,
+			};
+
+		case UPDATE_STATUS_FAIL:
+			return {
+				...state,
+				updateStatusError: payload,
+				isUpdateStatusLoading: false,
+				updateStatus: false,
 			};
 
 		default:

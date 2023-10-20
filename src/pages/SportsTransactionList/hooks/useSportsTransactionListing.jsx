@@ -3,15 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchSportsTransactionStart } from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
 
-const itemsPerPage = 10;
-
 const useSportsTransactionListing = () => {
 	const dispatch = useDispatch();
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const { sportsTransaction, loading: isSportsTransactionLoading } =
 		useSelector((state) => state.SportsTransaction);
 
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 	useEffect(() => {
 		dispatch(
 			fetchSportsTransactionStart({
@@ -20,7 +22,7 @@ const useSportsTransactionListing = () => {
 				email: searchText,
 			})
 		);
-	}, [currentPage, searchText]);
+	}, [currentPage, searchText, itemsPerPage]);
 
 	const formattedSportsTransaction = useMemo(() => {
 		const formattedValues = [];
@@ -46,6 +48,7 @@ const useSportsTransactionListing = () => {
 		isSportsTransactionLoading,
 		formattedSportsTransaction,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	};
 };
 

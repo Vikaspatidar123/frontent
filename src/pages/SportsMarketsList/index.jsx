@@ -22,6 +22,7 @@ const SportsMarketsList = ({ t }) => {
 		isSportsMarketsLoading,
 		formattedSportsMarkets,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useSportsMarketsListing();
 
 	const columns = useMemo(
@@ -78,6 +79,7 @@ const SportsMarketsList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

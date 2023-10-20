@@ -16,7 +16,14 @@ import {
 	createCasinoProvidersFailure,
 	createCasinoCategorySuccess,
 	createCasinoCategoryFailure,
+	createCasinoSubCategorySuccess,
+	createCasinoSubCategoryFailure,
+	updateCasinoStatusSuccess,
+	updateCasinoStatusFail,
+	updateSACasinoGamesStatusSuccess,
+	updateSACasinoGamesStatusFail,
 } from './actions';
+
 import {
 	GET_CASINO_CATEGORY_DATA,
 	GET_CASINO_SUB_CATEGORY_DATA,
@@ -25,6 +32,9 @@ import {
 	GET_CASINO_GAMES,
 	CREATE_CASINO_PROVIDERS,
 	CREATE_CASINO_CATEGORY_START,
+	CREATE_CASINO_SUBCATEGORY_START,
+	UPDATE_CASINO_STATUS_START,
+	UPDATE_SA_CASINO_GAMES_STATUS_START,
 } from './actionTypes';
 
 import {
@@ -34,10 +44,14 @@ import {
 	getCasinoSubCategoryListing,
 	getLanguages,
 } from '../../network/getRequests';
+
 import {
 	createCasinoCategory,
 	createCasinoProvider,
+	createCasinoSubCategory,
 } from '../../network/postRequests';
+
+import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 
@@ -196,6 +210,79 @@ function* createCasinoCategoryWorker(action) {
 	}
 }
 
+function* createCasinoSubCategoryWorker(action) {
+	try {
+		const { data } = action && action.payload;
+		yield createCasinoSubCategory(objectToFormData(data));
+
+		showToastr({
+			message: `Sub Category Created Successfully`,
+			type: 'success',
+		});
+
+		yield put(createCasinoSubCategorySuccess());
+	} catch (e) {
+		yield put(createCasinoSubCategoryFailure());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* updateCasinoStatusWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield superAdminViewToggleStatus(data);
+
+		showToastr({
+			message: `Status Updated Successfully`,
+			type: 'success',
+		});
+
+		yield put(updateCasinoStatusSuccess());
+	} catch (e) {
+		yield put(updateCasinoStatusFail());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* updateSACasinoGamesStatusWorker(action) {
+	try {
+		const {
+			data,
+			// limit,
+			// pageNo,
+			// casinoCategoryId,
+			// search,
+			// isActive,
+			// tenantId,
+			// selectedProvider
+		} = action && action.payload;
+
+		yield superAdminViewToggleStatus(data);
+		showToastr({
+			message: `Status Updated Successfully`,
+			type: 'success',
+		});
+
+		yield put(updateSACasinoGamesStatusSuccess());
+	} catch (e) {
+		yield put(updateSACasinoGamesStatusFail());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_CATEGORY_DATA, getCasinoCategoryWorker);
 	yield takeLatest(GET_CASINO_SUB_CATEGORY_DATA, getCasinoSubCategoryWorker);
@@ -204,6 +291,15 @@ export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_GAMES, getAllCasinoGamesWorker);
 	yield takeLatest(CREATE_CASINO_PROVIDERS, createCasinoProviderWorker);
 	yield takeLatest(CREATE_CASINO_CATEGORY_START, createCasinoCategoryWorker);
+	yield takeLatest(
+		CREATE_CASINO_SUBCATEGORY_START,
+		createCasinoSubCategoryWorker
+	);
+	yield takeLatest(UPDATE_CASINO_STATUS_START, updateCasinoStatusWorker);
+	yield takeLatest(
+		UPDATE_SA_CASINO_GAMES_STATUS_START,
+		updateSACasinoGamesStatusWorker
+	);
 }
 
 function* CasinoManagementSaga() {

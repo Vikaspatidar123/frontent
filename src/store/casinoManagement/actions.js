@@ -20,6 +20,15 @@ import {
 	CREATE_CASINO_CATEGORY_SUCCESS,
 	CREATE_CASINO_CATEGORY_FAIL,
 	CREATE_CASINO_CATEGORY_START,
+	CREATE_CASINO_SUBCATEGORY_FAIL,
+	CREATE_CASINO_SUBCATEGORY_SUCCESS,
+	CREATE_CASINO_SUBCATEGORY_START,
+	UPDATE_CASINO_STATUS_START,
+	UPDATE_CASINO_STATUS_SUCCESS,
+	UPDATE_CASINO_STATUS_FAIL,
+	UPDATE_SA_CASINO_GAMES_STATUS_FAIL,
+	UPDATE_SA_CASINO_GAMES_STATUS_START,
+	UPDATE_SA_CASINO_GAMES_STATUS_SUCCESS,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -124,5 +133,50 @@ export const createCasinoCategoryFailure = (payload) => ({
 
 export const createCasinoCategoryStart = (payload) => ({
 	type: CREATE_CASINO_CATEGORY_START,
+	payload,
+});
+
+export const createCasinoSubCategorySuccess = (payload) => ({
+	type: CREATE_CASINO_SUBCATEGORY_SUCCESS,
+	payload,
+});
+
+export const createCasinoSubCategoryFailure = (payload) => ({
+	type: CREATE_CASINO_SUBCATEGORY_FAIL,
+	payload,
+});
+
+export const createCasinoSubCategoryStart = (payload) => ({
+	type: CREATE_CASINO_SUBCATEGORY_START,
+	payload,
+});
+
+export const updateCasinoStatusSuccess = (payload) => ({
+	type: UPDATE_CASINO_STATUS_SUCCESS,
+	payload,
+});
+
+export const updateCasinoStatusFail = (payload) => ({
+	type: UPDATE_CASINO_STATUS_FAIL,
+	payload,
+});
+
+export const updateCasinoStatusStart = (payload) => ({
+	type: UPDATE_CASINO_STATUS_START,
+	payload,
+});
+
+export const updateSACasinoGamesStatusSuccess = (payload) => ({
+	type: UPDATE_SA_CASINO_GAMES_STATUS_SUCCESS,
+	payload,
+});
+
+export const updateSACasinoGamesStatusFail = (payload) => ({
+	type: UPDATE_SA_CASINO_GAMES_STATUS_FAIL,
+	payload,
+});
+
+export const updateSACasinoGamesStatusStart = (payload) => ({
+	type: UPDATE_SA_CASINO_GAMES_STATUS_START,
 	payload,
 });

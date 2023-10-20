@@ -8,6 +8,12 @@ import {
 	CREATE_SA_BANNERS_START,
 	CREATE_SA_BANNERS_SUCCESS,
 	CREATE_SA_BANNERS_FAIL,
+	CREATE_KYC_LABELS_START,
+	CREATE_KYC_LABELS_SUCCESS,
+	CREATE_KYC_LABELS_FAIL,
+	EDIT_KYC_LABELS_START,
+	EDIT_KYC_LABELS_SUCCESS,
+	EDIT_KYC_LABELS_FAIL,
 } from './actionTypes';
 
 const initialState = {
@@ -20,6 +26,12 @@ const initialState = {
 	isCreateSABannersError: false,
 	isCreateSABannersSuccess: false,
 	isCreateSABannersLoading: false,
+	isCreateKYCLabelsError: false,
+	isCreateKYCLabelsSuccess: false,
+	isCreateKYCLabelsLoading: false,
+	isEditKYCLabelsError: false,
+	isEditKYCLabelsSuccess: false,
+	isEditKYCLabelsLoading: false,
 };
 
 const SASettings = (state = initialState, { type, payload } = {}) => {
@@ -85,6 +97,50 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				isCreateSABannersError: payload,
 				isCreateSABannersLoading: false,
 				isCreateSABannersSuccess: false,
+			};
+
+		case CREATE_KYC_LABELS_START:
+			return {
+				...state,
+				isCreateKYCLabelsLoading: true,
+				isCreateKYCLabelsSuccess: false,
+			};
+
+		case CREATE_KYC_LABELS_SUCCESS:
+			return {
+				...state,
+				isCreateKYCLabelsLoading: false,
+				isCreateKYCLabelsSuccess: true,
+			};
+
+		case CREATE_KYC_LABELS_FAIL:
+			return {
+				...state,
+				isCreateKYCLabelsError: payload,
+				isCreateKYCLabelsLoading: false,
+				isCreateKYCLabelsSuccess: false,
+			};
+
+		case EDIT_KYC_LABELS_START:
+			return {
+				...state,
+				isEditKYCLabelsLoading: true,
+				isEditKYCLabelsSuccess: false,
+			};
+
+		case EDIT_KYC_LABELS_SUCCESS:
+			return {
+				...state,
+				isEditKYCLabelsLoading: false,
+				isEditKYCLabelsSuccess: true,
+			};
+
+		case EDIT_KYC_LABELS_FAIL:
+			return {
+				...state,
+				isEditKYCLabelsError: payload,
+				isEditKYCLabelsLoading: false,
+				isEditKYCLabelsSuccess: false,
 			};
 
 		default:

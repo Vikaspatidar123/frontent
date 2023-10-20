@@ -2,6 +2,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 import React from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {
 	Label,
@@ -14,6 +16,8 @@ import {
 } from 'reactstrap';
 import 'flatpickr/dist/themes/material_blue.css';
 import FlatPickr from 'react-flatpickr';
+import ReactDatePicker from 'react-datepicker';
+import moment from 'moment';
 
 export const CustomInputField = ({
 	type,
@@ -124,6 +128,42 @@ export const CustomDateField = ({
 	</div>
 );
 
+export const CustomRangeSelector = ({
+	name,
+	label,
+	placeholder,
+	value = ['', ''],
+	// eslint-disable-next-line no-unused-vars
+	onChange = () => {}, // need for preventing code break
+	onBlur,
+	isError,
+	errorMsg,
+	maxDate = moment().utc().startOf('day').toDate(),
+	minDate = moment().subtract(100, 'years').utc().toDate(),
+	validation,
+	...props
+}) => (
+	<div id="datepicker1">
+		{label && <Label for={name}>{label}</Label>}
+		<ReactDatePicker
+			selectsRange
+			// dateFormat="MMMM dd, yyyy O"
+			placeholderText={placeholder}
+			startDate={value[0]}
+			endDate={value[1]}
+			onChange={(date) => {
+				validation.setFieldValue('startDate', date[0]);
+				validation.setFieldValue('endDate', date[1]);
+			}}
+			monthsShown={2}
+			maxDate={maxDate}
+			minDate={minDate}
+			className="form-control"
+			{...props}
+		/>
+	</div>
+);
+
 export const CustomSwitchButton = ({
 	label,
 	labelClassName,
@@ -215,6 +255,9 @@ export const getField = (
 		callBack,
 		isDisabled,
 		onDelete,
+		type = 'text',
+		minDate,
+		maxDate,
 	},
 	validation
 ) => {
@@ -224,7 +267,7 @@ export const getField = (
 				<CustomInputField
 					label={label}
 					name={name}
-					type="text"
+					type={type}
 					onChange={validation.handleChange}
 					onBlur={validation.handleBlur}
 					placeholder={placeholder}
@@ -278,7 +321,7 @@ export const getField = (
 					type="switch"
 					id="customRadioInline1"
 					name={name}
-					checked={validation.values.status}
+					checked={validation.values[name]}
 					inputClassName="form-check-input"
 					onChange={validation.handleChange}
 					onBlur={validation.handleBlur}
@@ -314,6 +357,24 @@ export const getField = (
 					invalid={!!(validation.touched[name] && validation.errors[name])}
 					errorMsg={validation.touched[name] && validation.errors[name]}
 					disabled={!!isDisabled}
+				/>
+			);
+
+		case 'dateRangeSelector':
+			return (
+				<CustomRangeSelector
+					name={name}
+					label={label}
+					placeholder={placeholder}
+					value={[validation.values.startDate, validation.values.endDate]}
+					onChange={validation.onChange}
+					isError
+					invalid={!!(validation.touched[name] && validation.errors[name])}
+					errorMsg={validation.touched[name] && validation.errors[name]}
+					disabled={!!isDisabled}
+					maxDate={maxDate}
+					minDate={minDate}
+					validation={validation}
 				/>
 			);
 		case 'file':

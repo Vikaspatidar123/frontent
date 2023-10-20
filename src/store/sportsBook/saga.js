@@ -8,11 +8,14 @@ import {
 	getSportsCountriesFail,
 	getSportsTournamentListSuccess,
 	getSportsTournamentListFail,
+	updateStatusSuccess,
+	updateStatusFail,
 } from './actions';
 import {
 	GET_SPORTS_LIST,
 	GET_SPORTS_COUNTRIES,
 	GET_SPORTS_TOURNAMENT_LIST,
+	UPDATE_STATUS_START,
 } from './actionTypes';
 
 import {
@@ -20,6 +23,9 @@ import {
 	getCountriesList,
 	getTournamentsList,
 } from '../../network/getRequests';
+
+import { updateStatus } from '../../network/putRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* sportsListingWorker(action) {
 	try {
@@ -51,6 +57,25 @@ function* sportsTournamentListWorker(action) {
 		);
 	}
 }
+
+function* updateStatusWorker(action) {
+	try {
+		yield updateStatus(action.payload);
+		yield put(updateStatusSuccess(action.payload));
+
+		showToastr({
+			message: 'Status updated Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+		yield put(updateStatusFail(e?.response?.data?.errors[0]?.description));
+	}
+}
+
 export function* sportsListingWatcher() {
 	yield takeLatest(GET_SPORTS_LIST, sportsListingWorker);
 }
@@ -62,10 +87,16 @@ export function* sportsCountriesWatcher() {
 export function* sportsTournamentListWatcher() {
 	yield takeLatest(GET_SPORTS_TOURNAMENT_LIST, sportsTournamentListWorker);
 }
+
+export function* updateStatusWatcher() {
+	yield takeLatest(UPDATE_STATUS_START, updateStatusWorker);
+}
+
 function* sportsBookSaga() {
 	yield all([fork(sportsListingWatcher)]);
 	yield all([fork(sportsCountriesWatcher)]);
 	yield all([fork(sportsTournamentListWatcher)]);
+	yield all([fork(updateStatusWatcher)]);
 }
 
 export default sportsBookSaga;

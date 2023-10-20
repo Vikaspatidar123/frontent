@@ -1,18 +1,22 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSportsCountries } from '../../../store/actions';
-
-const itemsPerPage = 10;
+import { getSportsCountries, updateStatusStart } from '../../../store/actions';
 
 const useSportsCountriesListing = () => {
 	const { sportsCountries, isSportsCountriesLoading } = useSelector(
 		(state) => state.SportsList
 	);
-	const [limit, setLimit] = useState(10);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+
 	const [page, setPage] = useState(1);
 	const [searchByName, setSearchByName] = useState('');
 	const [searchByStatus, setSearchByStatus] = useState('');
+	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const formattedSportsCountries = useMemo(() => {
 		if (sportsCountries) {
@@ -34,7 +38,7 @@ const useSportsCountriesListing = () => {
 		}
 		dispatch(
 			getSportsCountries({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				searchByName,
 				isActive,
@@ -42,9 +46,25 @@ const useSportsCountriesListing = () => {
 		);
 	};
 
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { active: status, countryId: sportCountryId } = props;
+		dispatch(
+			updateStatusStart({
+				code: 'SPORTCONTRY',
+				status: !status,
+				sportCountryId,
+				limit: itemsPerPage,
+				pageNo: page,
+				search: searchByName,
+			})
+		);
+		setActive((prev) => !prev);
+	};
+
 	useEffect(() => {
 		fetchData();
-	}, [limit, page, searchByName, searchByStatus]);
+	}, [itemsPerPage, page, searchByName, searchByStatus, active]);
 
 	return {
 		formattedSportsCountries,
@@ -53,12 +73,14 @@ const useSportsCountriesListing = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		limit,
-		setLimit,
 		searchByName,
 		setSearchByName,
 		searchByStatus,
 		setSearchByStatus,
+		handleStatus,
+		active,
+		setActive,
+		onChangeRowsPerPage,
 	};
 };
 

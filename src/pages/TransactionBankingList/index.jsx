@@ -32,6 +32,7 @@ const TransactionBankingList = ({ t }) => {
 		isTransactionBankingLoading,
 		formattedTransactionBanking,
 		itemsPerPage,
+		onChangeRowsPerPage,
 	} = useTransactionBankingListing();
 
 	const columns = useMemo(
@@ -133,6 +134,7 @@ const TransactionBankingList = ({ t }) => {
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
 						</Card>

@@ -8,6 +8,9 @@ import {
 	GET_SPORTS_TOURNAMENT_LIST,
 	GET_SPORTS_TOURNAMENT_LIST_SUCCESS,
 	GET_SPORTS_TOURNAMENT_LIST_FAIL,
+	UPDATE_STATUS_START,
+	UPDATE_STATUS_SUCCESS,
+	UPDATE_STATUS_FAIL,
 } from './actionTypes';
 
 export const getSportsListSuccess = (payload) => ({
@@ -52,5 +55,20 @@ export const getSportsTournamentListFail = (payload) => ({
 
 export const getSportsTournamentList = (payload) => ({
 	type: GET_SPORTS_TOURNAMENT_LIST,
+	payload,
+});
+
+export const updateStatusStart = (payload) => ({
+	type: UPDATE_STATUS_START,
+	payload,
+});
+
+export const updateStatusSuccess = (payload) => ({
+	type: UPDATE_STATUS_SUCCESS,
+	payload,
+});
+
+export const updateStatusFail = (payload) => ({
+	type: UPDATE_STATUS_FAIL,
 	payload,
 });

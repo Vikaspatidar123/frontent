@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllCmsDetails } from '../../../store/cms/actions';
-
-const itemsPerPage = 10;
+import {
+	getAllCmsDetails,
+	updateSaCmsStatus,
+} from '../../../store/cms/actions';
 
 const useCmsListing = () => {
 	const { cmsDetails, isLoading, error } = useSelector((state) => state.AllCms);
 	const [limit, setLimit] = useState(15);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [search, setSearch] = useState('');
 	const [selectedClient, setSelectedClient] = useState('');
 	const [selectedPortal, setSelectedPortal] = useState('');
 	const [active, setActive] = useState('');
+	const [show, setShow] = useState(false);
 	const dispatch = useDispatch();
 
 	const formattedCmsDetails = useMemo(() => {
@@ -27,6 +30,10 @@ const useCmsListing = () => {
 		return [];
 	}, [cmsDetails]);
 
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
+
 	const fetchData = () => {
 		dispatch(
 			getAllCmsDetails({
@@ -40,9 +47,30 @@ const useCmsListing = () => {
 		);
 	};
 
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { status, cmsPageId } = props;
+		setShow((prev) => !prev);
+		dispatch(
+			updateSaCmsStatus({
+				data: {
+					code: 'CMS',
+					cmsPageId,
+					status: !status,
+				},
+				limit,
+				pageNo: page,
+				tenantId: selectedPortal,
+				adminId: selectedClient,
+				search,
+				isActive: active,
+			})
+		);
+	};
+
 	useEffect(() => {
 		fetchData();
-	}, [limit, selectedPortal, selectedClient, active, page]);
+	}, [limit, selectedPortal, selectedClient, active, page, itemsPerPage]);
 
 	return {
 		cmsDetails,
@@ -57,6 +85,10 @@ const useCmsListing = () => {
 		setSelectedClient,
 		setSelectedPortal,
 		setActive,
+		handleStatus,
+		show,
+		setShow,
+		onChangeRowsPerPage,
 	};
 };
 

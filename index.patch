@@ -1,0 +1,1749 @@
+diff --git a/src/network/putRequests.js b/src/network/putRequests.js
+index c05f72a..6c7c828 100644
+--- a/src/network/putRequests.js
++++ b/src/network/putRequests.js
+@@ -17,10 +17,14 @@ const updateSiteConfiguration = (data) =>
+ const resetProfilePassword = ({ data }) =>
+ 	putRequest(`${VITE_APP_API_URL}/api/admin/change-password`, data);
+ 
++  const superAdminViewToggleStatus = (data) =>
++  putRequest(`${VITE_APP_API_URL}/api/admin/status`, data)
++
+ export {
+ 	updateSuperAdminUser,
+ 	updateAdmin,
+ 	updateProfile,
+ 	updateSiteConfiguration,
+ 	resetProfilePassword,
++  superAdminViewToggleStatus
+ };
+diff --git a/src/pages/Admins/ActionButtons.jsx b/src/pages/Admins/ActionButtons.jsx
+index a67a45d..8883f73 100644
+--- a/src/pages/Admins/ActionButtons.jsx
++++ b/src/pages/Admins/ActionButtons.jsx
+@@ -4,40 +4,81 @@ import { UncontrolledTooltip } from 'reactstrap';
+ import { Link } from 'react-router-dom';
+ import PropTypes from 'prop-types';
+ 
+-const ActionButtons = ({ handleEdit, cell }) => (
+-	<ul className="list-unstyled hstack gap-1 mb-0">
+-		<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+-			<Link to="/" className="btn btn-sm btn-soft-primary">
+-				<i className="mdi mdi-eye-outline" id="viewtooltip" />
+-			</Link>
+-		</li>
+-		<UncontrolledTooltip placement="top" target="viewtooltip">
+-			View
+-		</UncontrolledTooltip>
++const ActionButtons = ({ handleEdit, cell, handleStatus }) => {
++	const active = cell?.row?.original?.isActive;
++	const adminUserId = cell?.row?.original?.adminUserId;
+ 
+-		<li>
+-			<Link
+-				to="#"
+-				className="btn btn-sm btn-soft-info"
+-				onClick={(e) => handleEdit(e, cell?.row?.original)}
+-			>
+-				<i className="mdi mdi-pencil-outline" id="edittooltip" />
+-				<UncontrolledTooltip placement="top" target="edittooltip">
+-					Edit
+-				</UncontrolledTooltip>
+-			</Link>
+-		</li>
++	return (
++		<ul className="list-unstyled hstack gap-1 mb-0">
++			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
++				<Link to="#'" className="btn btn-sm btn-soft-primary">
++					<i className="mdi mdi-eye-outline" id="viewtooltip" />
++				</Link>
++			</li>
++			<UncontrolledTooltip placement="top" target="viewtooltip">
++				View
++			</UncontrolledTooltip>
+ 
+-		<li>
+-			<Link to="/" className="btn btn-sm btn-soft-danger">
+-				<i className="mdi mdi-delete-outline" id="deletetooltip" />
+-				<UncontrolledTooltip placement="top" target="deletetooltip">
+-					Delete
+-				</UncontrolledTooltip>
+-			</Link>
+-		</li>
+-	</ul>
+-);
++			<li>
++				{active ? (
++					<Link
++						to="#"
++						className="btn btn-sm btn-soft-danger"
++						onClick={(e) =>
++							handleStatus(e, {
++								active,
++								adminUserId,
++							})
++						}
++					>
++						<i className="mdi mdi-close-thick" id="inactivetooltip" />
++						<UncontrolledTooltip placement="top" target="inactivetooltip">
++							Set Inactive
++						</UncontrolledTooltip>
++					</Link>
++				) : (
++					<Link
++						to="#"
++						className="btn btn-sm btn-soft-success"
++						onClick={(e) =>
++							handleStatus(e, {
++								active,
++								adminUserId,
++							})
++						}
++					>
++						<i className="mdi mdi-check-circle" id="activetooltip" />
++						<UncontrolledTooltip placement="top" target="activetooltip">
++							Set Active
++						</UncontrolledTooltip>
++					</Link>
++				)}
++			</li>
++
++			<li>
++				<Link
++					to="#"
++					className="btn btn-sm btn-soft-info"
++					onClick={(e) => handleEdit(e, cell?.row?.original)}
++				>
++					<i className="mdi mdi-pencil-outline" id="edittooltip" />
++					<UncontrolledTooltip placement="top" target="edittooltip">
++						Edit
++					</UncontrolledTooltip>
++				</Link>
++			</li>
++
++			<li>
++				<Link to="/" className="btn btn-sm btn-soft-danger">
++					<i className="mdi mdi-delete-outline" id="deletetooltip" />
++					<UncontrolledTooltip placement="top" target="deletetooltip">
++						Delete
++					</UncontrolledTooltip>
++				</Link>
++			</li>
++		</ul>
++	);
++};
+ 
+ ActionButtons.propTypes = {
+ 	handleEdit: PropTypes.func.isRequired,
+diff --git a/src/pages/Admins/AdminsListCol.jsx b/src/pages/Admins/AdminsListCol.jsx
+index 878b998..4bf1094 100644
+--- a/src/pages/Admins/AdminsListCol.jsx
++++ b/src/pages/Admins/AdminsListCol.jsx
+@@ -21,7 +21,7 @@ const Status = ({ cell }) =>
+ 	cell.value ?? '' ? (
+ 		<Badge className="bg-success">Active</Badge>
+ 	) : (
+-		<Badge className="bg-danger">Close</Badge>
++		<Badge className="bg-danger">In Active</Badge>
+ 	);
+ 
+ AdminUserID.propTypes = {
+diff --git a/src/pages/Admins/hooks/useAdminListing.jsx b/src/pages/Admins/hooks/useAdminListing.jsx
+index 4badf4e..f34acbc 100644
+--- a/src/pages/Admins/hooks/useAdminListing.jsx
++++ b/src/pages/Admins/hooks/useAdminListing.jsx
+@@ -13,6 +13,7 @@ import {
+ 	Group,
+ } from '../AdminsListCol';
+ import ActionButtons from '../ActionButtons';
++import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
+ 
+ const itemsPerPage = 10;
+ 
+@@ -28,6 +29,7 @@ const useAdmin = (handleEdit) => {
+ 	const [sort, setSort] = useState('desc');
+ 	const [status, setStatus] = useState('');
+ 	const [name, setName] = useState();
++  const [active, setActive] = useState(false);
+ 
+ 	const formattedAdminDetails = useMemo(() => {
+ 		if (adminDetails) {
+@@ -41,6 +43,29 @@ const useAdmin = (handleEdit) => {
+ 		return [];
+ 	}, [adminDetails]);
+ 
++  const handleStatus = (e, props) => {
++    e.preventDefault()
++    const { active, adminUserId } = props
++    setActive(prev => !prev)
++    dispatch(
++      updateSuperAdminStatusStart({
++        data: {
++          code: 'ADMIN',
++          status: !active,
++          adminId: adminUserId
++        },
++        limit: itemsPerPage,
++        pageNo: page,
++        orderBy,
++        sort,
++        search,
++        superAdminId: '',
++        superRoleId: '',
++        status
++      })
++    )
++  }
++
+ 	const fetchData = () => {
+ 		dispatch(
+ 			getAdminDetails({
+@@ -57,7 +82,7 @@ const useAdmin = (handleEdit) => {
+ 
+ 	useEffect(() => {
+ 		if (location.pathname === '/staff') fetchData();
+-	}, [page, orderBy, sort, status, location]);
++	}, [page, orderBy, sort, status, location, active]);
+ 
+ 	const columns = useMemo(
+ 		() => [
+@@ -101,7 +126,7 @@ const useAdmin = (handleEdit) => {
+ 				Header: 'Action',
+ 				accessor: 'action',
+ 				disableFilters: true,
+-				Cell: (cell) => <ActionButtons handleEdit={handleEdit} cell={cell} />,
++				Cell: (cell) => <ActionButtons handleEdit={handleEdit} cell={cell} handleStatus={handleStatus}/>,
+ 			},
+ 		],
+ 		[]
+@@ -127,6 +152,7 @@ const useAdmin = (handleEdit) => {
+ 		setName,
+ 		itemsPerPage,
+ 		columns,
++    handleStatus
+ 	};
+ };
+ 
+diff --git a/src/pages/Casino Management/Aggregators/hooks/useAggregatorList.jsx b/src/pages/Casino Management/Aggregators/hooks/useAggregatorList.jsx
+index 7357fc6..98efd9f 100644
+--- a/src/pages/Casino Management/Aggregators/hooks/useAggregatorList.jsx	
++++ b/src/pages/Casino Management/Aggregators/hooks/useAggregatorList.jsx	
+@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
+ import { UncontrolledTooltip } from 'reactstrap';
+ import { ID, Name, Status } from '../AggregatorListCol';
+ 
+-const useAggregatorList = () => {
++const useAggregatorList = (handleStatus) => {
+ 	const columns = useMemo(
+ 		() => [
+ 			{
+@@ -29,49 +29,80 @@ const useAggregatorList = () => {
+ 				Header: 'Action',
+ 				accessor: 'action',
+ 				disableFilters: true,
+-				Cell: () => (
+-					<ul className="list-unstyled hstack gap-1 mb-0">
+-						<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+-							<Link to="/job-details" className="btn btn-sm btn-soft-primary">
+-								<i className="mdi mdi-eye-outline" id="viewtooltip" />
+-							</Link>
+-						</li>
+-						<UncontrolledTooltip placement="top" target="viewtooltip">
+-							View
+-						</UncontrolledTooltip>
++				Cell: ({ cell }) => {
++          const active = cell?.row?.original?.isActive;
++          const gameAggregatorId = cell?.row?.original?.gameAggregatorId;
++          return (
++            <ul className="list-unstyled hstack gap-1 mb-0">
++              <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
++                <Link to="#'" className="btn btn-sm btn-soft-primary">
++                  <i className="mdi mdi-eye-outline" id="viewtooltip" />
++                </Link>
++              </li>
++              <UncontrolledTooltip placement="top" target="viewtooltip">
++                View
++              </UncontrolledTooltip>
+ 
+-						<li>
+-							<Link
+-								to="/#"
+-								className="btn btn-sm btn-soft-info"
+-								onClick={() => {
+-									// FIXME: Add logic
+-								}}
+-							>
+-								<i className="mdi mdi-pencil-outline" id="edittooltip" />
+-								<UncontrolledTooltip placement="top" target="edittooltip">
+-									Edit
+-								</UncontrolledTooltip>
+-							</Link>
+-						</li>
++              <li>
++                {active ? (
++                  <Link
++                    to="#"
++                    className="btn btn-sm btn-soft-danger"
++                    onClick={(e) =>
++                      handleStatus(e, {
++                        active,
++                        gameAggregatorId,
++                      })
++                    }
++                  >
++                    <i className="mdi mdi-close-thick" id="inactivetooltip" />
++                    <UncontrolledTooltip placement="top" target="inactivetooltip">
++                      Set Inactive
++                    </UncontrolledTooltip>
++                  </Link>
++                ) : (
++                  <Link
++                    to="#"
++                    className="btn btn-sm btn-soft-success"
++                    onClick={(e) =>
++                      handleStatus(e, {
++                        active,
++                        gameAggregatorId,
++                      })
++                    }
++                  >
++                    <i className="mdi mdi-check-circle" id="activetooltip" />
++                    <UncontrolledTooltip placement="top" target="activetooltip">
++                      Set Active
++                    </UncontrolledTooltip>
++                  </Link>
++                )}
++              </li>
+ 
+-						<li>
+-							<Link
+-								to="/#"
+-								className="btn btn-sm btn-soft-danger"
+-								onClick={() => {
+-									// FIXME: Add logic
+-									//
+-								}}
+-							>
+-								<i className="mdi mdi-delete-outline" id="deletetooltip" />
+-								<UncontrolledTooltip placement="top" target="deletetooltip">
+-									Delete
+-								</UncontrolledTooltip>
+-							</Link>
+-						</li>
+-					</ul>
+-				),
++              <li>
++                <Link
++                  to="#"
++                  className="btn btn-sm btn-soft-info"
++                  // onClick={(e) => handleEdit(e, cell?.row?.original)}
++                >
++                  <i className="mdi mdi-pencil-outline" id="edittooltip" />
++                  <UncontrolledTooltip placement="top" target="edittooltip">
++                    Edit
++                  </UncontrolledTooltip>
++                </Link>
++              </li>
++
++              <li>
++                <Link to="/" className="btn btn-sm btn-soft-danger">
++                  <i className="mdi mdi-delete-outline" id="deletetooltip" />
++                  <UncontrolledTooltip placement="top" target="deletetooltip">
++                    Delete
++                  </UncontrolledTooltip>
++                </Link>
++              </li>
++            </ul>
++          )
++        },
+ 			},
+ 		],
+ 		[]
+diff --git a/src/pages/Casino Management/Aggregators/hooks/useCreateAggregator.js b/src/pages/Casino Management/Aggregators/hooks/useCreateAggregator.js
+index eba3ca9..3278432 100644
+--- a/src/pages/Casino Management/Aggregators/hooks/useCreateAggregator.js	
++++ b/src/pages/Casino Management/Aggregators/hooks/useCreateAggregator.js	
+@@ -1,15 +1,16 @@
+ import { useDispatch, useSelector } from 'react-redux';
+-import { useEffect, useMemo } from 'react';
++import { useEffect, useMemo, useState } from 'react';
+ import useForm from '../../../../components/Common/Hooks/useFormModal';
+ import {
+ 	getInitialValues,
+ 	staticFormFields,
+ 	validationSchema,
+ } from '../formDetails';
+-import { createAggregatorStart } from '../../../../store/actions';
++import { createAggregatorStart, updateAggregatorStatusStart } from '../../../../store/actions';
+ 
+ const useCreateAggregator = () => {
+ 	const dispatch = useDispatch();
++	const [active, setActive] = useState('');
+ 
+ 	const { isCreateAggregatorLoading, aggregatorsData } = useSelector(
+ 		(state) => state.AggregatorsReducer
+@@ -40,6 +41,23 @@ const useCreateAggregator = () => {
+ 		setIsOpen((prev) => !prev);
+ 	};
+ 
++	const handleStatus = (e, props) => {
++		e.preventDefault();
++		const { active, gameAggregatorId} = props;
++		setActive((prev) => !prev);
++		dispatch(
++			updateAggregatorStatusStart({
++				data: {
++					code: 'AGGREGATOR',
++					gameAggregatorId: gameAggregatorId,
++					status: !active,
++				},
++				limit: 15,
++				pageNo: 1,
++			})
++		);
++	};
++
+ 	useEffect(() => {
+ 		setIsOpen(false);
+ 	}, [aggregatorsData?.count]);
+@@ -61,6 +79,9 @@ const useCreateAggregator = () => {
+ 		validation,
+ 		buttonList,
+ 		isCreateAggregatorLoading,
++		handleStatus,
++		active,
++		setActive,
+ 	};
+ };
+ 
+diff --git a/src/pages/Casino Management/Aggregators/index.jsx b/src/pages/Casino Management/Aggregators/index.jsx
+index 7b6b77a..266e071 100644
+--- a/src/pages/Casino Management/Aggregators/index.jsx	
++++ b/src/pages/Casino Management/Aggregators/index.jsx	
+@@ -31,22 +31,25 @@ const CasinoAggregators = () => {
+ 		);
+ 	};
+ 
+-	useEffect(() => {
+-		fetchData();
+-	}, [dispatch]);
+-
+ 	const {
+-		isOpen,
++    isOpen,
+ 		setIsOpen,
+ 		header,
+ 		validation,
+ 		formFields,
+ 		isCreateAggregatorLoading,
+ 		buttonList,
++    handleStatus,
++    active,
++		setActive,
+ 	} = useCreateAggregator();
+ 
++  useEffect(() => {
++    fetchData();
++  }, [active]);
++
+ 	const selectAggregatorsState = (state) => state.AggregatorsReducer;
+-	const columns = useAggregatorList();
++	const columns = useAggregatorList(handleStatus);
+ 	const AggregatorsProperties = createSelector(
+ 		selectAggregatorsState,
+ 		(aggregatorsReducer) => ({
+diff --git a/src/pages/Cms/ActionButtons.jsx b/src/pages/Cms/ActionButtons.jsx
+index c90a757..97108f8 100644
+--- a/src/pages/Cms/ActionButtons.jsx
++++ b/src/pages/Cms/ActionButtons.jsx
+@@ -1,36 +1,87 @@
++/* eslint-disable jsx-a11y/anchor-is-valid */
+ import React from 'react';
+ import { UncontrolledTooltip } from 'reactstrap';
+ import { Link } from 'react-router-dom';
++import PropTypes from 'prop-types';
+ 
+-const ActionButtons = () => (
+-	<ul className="list-unstyled hstack gap-1 mb-0">
+-		<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+-			<Link to="/" className="btn btn-sm btn-soft-primary">
+-				<i className="mdi mdi-eye-outline" id="viewtooltip" />
+-			</Link>
+-		</li>
+-		<UncontrolledTooltip placement="top" target="viewtooltip">
+-			View
+-		</UncontrolledTooltip>
++const ActionButtons = ({ cell, handleStatus }) => {
++	const active = cell?.row?.original?.isActive;
++  const cmsPageId = cell?.row?.original?.cmsPageId;
++	return (
++		<ul className="list-unstyled hstack gap-1 mb-0">
++			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
++				<Link to="#" className="btn btn-sm btn-soft-primary">
++					<i className="mdi mdi-eye-outline" id="viewtooltip" />
++				</Link>
++			</li>
++			<UncontrolledTooltip placement="top" target="viewtooltip">
++				View
++			</UncontrolledTooltip>
+ 
+-		<li>
+-			<Link to="/" className="btn btn-sm btn-soft-info">
+-				<i className="mdi mdi-pencil-outline" id="edittooltip" />
+-				<UncontrolledTooltip placement="top" target="edittooltip">
+-					Edit
+-				</UncontrolledTooltip>
+-			</Link>
+-		</li>
++			<li>
++				{active ? (
++					<Link
++						to="#"
++						className="btn btn-sm btn-soft-danger"
++						onClick={(e) =>
++							handleStatus(e, {
++								active,
++                cmsPageId,
++							})
++						}
++					>
++						<i className="mdi mdi-close-thick" id="inactivetooltip" />
++						<UncontrolledTooltip placement="top" target="inactivetooltip">
++							Set Inactive
++						</UncontrolledTooltip>
++					</Link>
++				) : (
++					<Link
++						to="#"
++						className="btn btn-sm btn-soft-success"
++						onClick={(e) =>
++							handleStatus(e, {
++								active,
++                cmsPageId,
++							})
++						}
++					>
++						<i className="mdi mdi-check-circle" id="activetooltip" />
++						<UncontrolledTooltip placement="top" target="activetooltip">
++							Set Active
++						</UncontrolledTooltip>
++					</Link>
++				)}
++			</li>
+ 
+-		<li>
+-			<Link to="/" className="btn btn-sm btn-soft-danger">
+-				<i className="mdi mdi-delete-outline" id="deletetooltip" />
+-				<UncontrolledTooltip placement="top" target="deletetooltip">
+-					Delete
+-				</UncontrolledTooltip>
+-			</Link>
+-		</li>
+-	</ul>
+-);
++			<li>
++				<Link
++					to="#"
++					className="btn btn-sm btn-soft-info"
++					// onClick={(e) => handleEdit(e, cell?.row?.original)}
++				>
++					<i className="mdi mdi-pencil-outline" id="edittooltip" />
++					<UncontrolledTooltip placement="top" target="edittooltip">
++						Edit
++					</UncontrolledTooltip>
++				</Link>
++			</li>
++
++			<li>
++				<Link to="/" className="btn btn-sm btn-soft-danger">
++					<i className="mdi mdi-delete-outline" id="deletetooltip" />
++					<UncontrolledTooltip placement="top" target="deletetooltip">
++						Delete
++					</UncontrolledTooltip>
++				</Link>
++			</li>
++		</ul>
++	);
++};
++
++ActionButtons.propTypes = {
++	handleEdit: PropTypes.func.isRequired,
++	cell: PropTypes.objectOf.isRequired,
++};
+ 
+ export default ActionButtons;
+diff --git a/src/pages/Cms/hooks/useCmsListing.js b/src/pages/Cms/hooks/useCmsListing.js
+index c2a9bbb..acb8449 100644
+--- a/src/pages/Cms/hooks/useCmsListing.js
++++ b/src/pages/Cms/hooks/useCmsListing.js
+@@ -12,6 +12,7 @@ const useCmsListing = () => {
+ 	const [selectedClient, setSelectedClient] = useState('');
+ 	const [selectedPortal, setSelectedPortal] = useState('');
+ 	const [active, setActive] = useState('');
++	const [show, setShow] = useState(false);
+ 	const dispatch = useDispatch();
+ 
+ 	const formattedCmsDetails = useMemo(() => {
+@@ -40,6 +41,27 @@ const useCmsListing = () => {
+ 		);
+ 	};
+ 
++	const handleStatus = (e, props) => {
++		e.preventDefault();
++		console.log('props: ', props);
++		const { active, cmsPageId } = props;
++		setShow((prev) => !prev);
++		updateSACMSStatusStart({
++			data: {
++				code: 'CMS',
++				cmsPageId: cmsPageId,
++				status: !active,
++				tenantId: '',
++			},
++			limit,
++			pageNo: page,
++			tenantId: selectedPortal,
++			adminId: selectedClient,
++			search,
++			isActive: active,
++		});
++	};
++
+ 	useEffect(() => {
+ 		fetchData();
+ 	}, [limit, selectedPortal, selectedClient, active, page]);
+@@ -57,6 +79,9 @@ const useCmsListing = () => {
+ 		setSelectedClient,
+ 		setSelectedPortal,
+ 		setActive,
++		handleStatus,
++    show,
++    setShow
+ 	};
+ };
+ 
+diff --git a/src/pages/Cms/index.jsx b/src/pages/Cms/index.jsx
+index 34484aa..d057010 100644
+--- a/src/pages/Cms/index.jsx
++++ b/src/pages/Cms/index.jsx
+@@ -1,5 +1,5 @@
+ /* eslint-disable react/prop-types */
+-import React from 'react';
++import React, { useMemo } from 'react';
+ import 'bootstrap/dist/css/bootstrap.min.css';
+ import PropTypes from 'prop-types';
+ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+@@ -12,45 +12,6 @@ import ActionButtons from './ActionButtons';
+ import { projectName } from '../../constants/config';
+ import CrudSection from '../../components/Common/CrudSection';
+ 
+-const columns = [
+-	{
+-		Header: 'ID',
+-		accessor: 'cmsPageId',
+-		filterable: true,
+-		Cell: ({ cell }) => <CmsPageId cell={cell} />,
+-	},
+-	{
+-		Header: 'TITLE',
+-		accessor: 'title',
+-		filterable: true,
+-		Cell: ({ cell }) => <Title cell={cell} />,
+-	},
+-	{
+-		Header: 'SLUG',
+-		accessor: 'slug',
+-		filterable: true,
+-		Cell: ({ cell }) => <Slug cell={cell} />,
+-	},
+-	{
+-		Header: 'PORTAL',
+-		accessor: 'portal',
+-		filterable: true,
+-		Cell: ({ cell }) => <Portal cell={cell} />,
+-	},
+-	{
+-		Header: 'STATUS',
+-		accessor: 'isActive',
+-		disableFilters: true,
+-		Cell: ({ cell }) => <Status cell={cell} />,
+-	},
+-	{
+-		Header: 'ACTION',
+-		accessor: 'action',
+-		disableFilters: true,
+-		Cell: () => <ActionButtons />,
+-	},
+-];
+-
+ const Cms = ({ t }) => {
+ 	// Set meta title
+ 	document.title = projectName;
+@@ -63,8 +24,53 @@ const Cms = ({ t }) => {
+ 		setPage,
+ 		itemsPerPage,
+ 		totalCmsCount,
++		handleStatus,
+ 	} = useCmsListing();
+ 
++	const columns = useMemo(
++		() => [
++			{
++				Header: 'ID',
++				accessor: 'cmsPageId',
++				filterable: true,
++				Cell: ({ cell }) => <CmsPageId cell={cell} />,
++			},
++			{
++				Header: 'TITLE',
++				accessor: 'title',
++				filterable: true,
++				Cell: ({ cell }) => <Title cell={cell} />,
++			},
++			{
++				Header: 'SLUG',
++				accessor: 'slug',
++				filterable: true,
++				Cell: ({ cell }) => <Slug cell={cell} />,
++			},
++			{
++				Header: 'PORTAL',
++				accessor: 'portal',
++				filterable: true,
++				Cell: ({ cell }) => <Portal cell={cell} />,
++			},
++			{
++				Header: 'STATUS',
++				accessor: 'isActive',
++				disableFilters: true,
++				Cell: ({ cell }) => <Status cell={cell} />,
++			},
++			{
++				Header: 'ACTION',
++				accessor: 'action',
++				disableFilters: true,
++				Cell: ({ cell }) => (
++					<ActionButtons cell={cell} handleStatus={handleStatus} />
++				),
++			},
++		],
++		[]
++	);
++
+ 	return (
+ 		<div className="page-content">
+ 			<Container fluid>
+diff --git a/src/pages/CountriesList/ActionButtons.jsx b/src/pages/CountriesList/ActionButtons.jsx
+new file mode 100644
+index 0000000..d211b06
+--- /dev/null
++++ b/src/pages/CountriesList/ActionButtons.jsx
+@@ -0,0 +1,87 @@
++/* eslint-disable jsx-a11y/anchor-is-valid */
++import React from 'react';
++import { UncontrolledTooltip } from 'reactstrap';
++import { Link } from 'react-router-dom';
++import PropTypes from 'prop-types';
++
++const ActionButtons = ({ row, handleStatus }) => {
++	const active = row?.original?.status;
++	const countryId = row?.original?.countryId;
++	return (
++		<ul className="list-unstyled hstack gap-1 mb-0">
++			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
++				<Link to="#'" className="btn btn-sm btn-soft-primary">
++					<i className="mdi mdi-eye-outline" id="viewtooltip" />
++				</Link>
++			</li>
++			<UncontrolledTooltip placement="top" target="viewtooltip">
++				View
++			</UncontrolledTooltip>
++
++			<li>
++				{active ? (
++					<Link
++						to="#"
++						className="btn btn-sm btn-soft-danger"
++						onClick={(e) =>
++							handleStatus(e, {
++								status: active,
++                countryId,
++							})
++						}
++					>
++						<i className="mdi mdi-close-thick" id="inactivetooltip" />
++						<UncontrolledTooltip placement="top" target="inactivetooltip">
++							Set Inactive
++						</UncontrolledTooltip>
++					</Link>
++				) : (
++					<Link
++						to="#"
++						className="btn btn-sm btn-soft-success"
++						onClick={(e) =>
++							handleStatus(e, {
++								status: active,
++								countryId,
++							})
++						}
++					>
++						<i className="mdi mdi-check-circle" id="activetooltip" />
++						<UncontrolledTooltip placement="top" target="activetooltip">
++							Set Active
++						</UncontrolledTooltip>
++					</Link>
++				)}
++			</li>
++
++			<li>
++				<Link
++					to="#"
++					className="btn btn-sm btn-soft-info"
++					// onClick={(e) => handleEdit(e, cell?.row?.original)}
++				>
++					<i className="mdi mdi-pencil-outline" id="edittooltip" />
++					<UncontrolledTooltip placement="top" target="edittooltip">
++						Edit
++					</UncontrolledTooltip>
++				</Link>
++			</li>
++
++			<li>
++				<Link to="/" className="btn btn-sm btn-soft-danger">
++					<i className="mdi mdi-delete-outline" id="deletetooltip" />
++					<UncontrolledTooltip placement="top" target="deletetooltip">
++						Delete
++					</UncontrolledTooltip>
++				</Link>
++			</li>
++		</ul>
++	);
++};
++
++ActionButtons.propTypes = {
++	handleEdit: PropTypes.func.isRequired,
++	cell: PropTypes.objectOf.isRequired,
++};
++
++export default ActionButtons;
+diff --git a/src/pages/CountriesList/CountriesListCol.jsx b/src/pages/CountriesList/CountriesListCol.jsx
+index d2f8c44..626dafb 100644
+--- a/src/pages/CountriesList/CountriesListCol.jsx
++++ b/src/pages/CountriesList/CountriesListCol.jsx
+@@ -10,16 +10,12 @@ const CountryCode = (cell) => (cell.value ? cell.value : '');
+ 
+ const Language = (cell) => (cell.value ? cell.value : '');
+ 
+-const Status = (cell) => {
+-	switch (cell.value) {
+-		case 'Active':
+-			return <Badge className="bg-success">Active</Badge>;
+-		case 'Not Active':
+-			return <Badge className="bg-danger">In-Active</Badge>;
+-		default:
+-			return '';
+-	}
+-};
++const Status = (cell) =>
++	cell.value ?? '' ? (
++		<Badge className="bg-success">Active</Badge>
++	) : (
++		<Badge className="bg-danger">In Active</Badge>
++	);
+ 
+ const Icon = (cell) =>
+ 	cell.value ? <img alt="sidebar_bg_image" width="20" src={cell.value} /> : '-';
+diff --git a/src/pages/CountriesList/hooks/useCountriesListing.js b/src/pages/CountriesList/hooks/useCountriesListing.js
+index 6f8ed2b..f1dd0a1 100644
+--- a/src/pages/CountriesList/hooks/useCountriesListing.js
++++ b/src/pages/CountriesList/hooks/useCountriesListing.js
+@@ -1,13 +1,16 @@
+ import { useEffect, useState, useMemo } from 'react';
+ import { useSelector, useDispatch } from 'react-redux';
+-import { fetchCountriesStart } from '../../../store/actions';
+-
++import {
++	fetchCountriesStart,
++	updateCountryStatusStart,
++} from '../../../store/actions';
+ const itemsPerPage = 10;
+ 
+ const useCountriesListing = () => {
+ 	const dispatch = useDispatch();
+ 	const [name, setName] = useState('');
+ 	const [currentPage, setCurrentPage] = useState(1);
++	const [active, setActive] = useState(false);
+ 	const { countries, loading: isCountriesLoading } = useSelector(
+ 		(state) => state.Countries
+ 	);
+@@ -20,7 +23,7 @@ const useCountriesListing = () => {
+ 				name,
+ 			})
+ 		);
+-	}, [currentPage, name]);
++	}, [currentPage, name, active]);
+ 
+ 	const formattedCountries = useMemo(() => {
+ 		const formattedValues = [];
+@@ -31,13 +34,32 @@ const useCountriesListing = () => {
+ 					countryName: country.name,
+ 					language: country.language.languageName,
+ 					countryCode: country.code,
+-					status: country.status ? 'Active' : 'Not Active',
+ 				})
+ 			);
+ 		}
+ 		return formattedValues;
+ 	}, [countries]);
+ 
++	const handleStatus = (e, props) => {
++		e.preventDefault();
++		const { status, countryId } = props;
++		setActive((prev) => !prev);
++		dispatch(
++			updateCountryStatusStart({
++				data: {
++					code: 'COUNTRY',
++					countryId,
++					status: !status,
++				},
++				limit: itemsPerPage,
++				pageNo: currentPage,
++				isActive: status,
++				name,
++				kycMethod: '',
++			})
++		);
++	};
++
+ 	return {
+ 		name,
+ 		setName,
+@@ -47,6 +69,7 @@ const useCountriesListing = () => {
+ 		isCountriesLoading,
+ 		formattedCountries,
+ 		itemsPerPage,
++		handleStatus,
+ 	};
+ };
+ 
+diff --git a/src/pages/CountriesList/index.jsx b/src/pages/CountriesList/index.jsx
+index b0eaec8..a9a516f 100644
+--- a/src/pages/CountriesList/index.jsx
++++ b/src/pages/CountriesList/index.jsx
+@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
+ import Breadcrumb from '../../components/Common/Breadcrumb';
+ import TableContainer from '../../components/Common/TableContainer';
+ import {
+-	Actions,
+ 	CountryCode,
+ 	CountryName,
+ 	Id,
+ 	Language,
+ 	Status,
+ } from './CountriesListCol';
++import ActionButtons from './ActionButtons';
+ import useCountriesListing from './hooks/useCountriesListing';
+ import { projectName } from '../../constants/config';
+ import CrudSection from '../../components/Common/CrudSection';
+@@ -29,6 +29,7 @@ const CountriesList = ({ t }) => {
+ 		isCountriesLoading,
+ 		formattedCountries,
+ 		itemsPerPage,
++    handleStatus
+ 	} = useCountriesListing();
+ 
+ 	const columns = useMemo(
+@@ -67,7 +68,7 @@ const CountriesList = ({ t }) => {
+ 				Header: 'Actions',
+ 				// accessor: "actions",
+ 				// filterable: true,
+-				Cell: (cellProps) => <Actions {...cellProps} />,
++				Cell: (cellProps) => <ActionButtons {...cellProps} handleStatus={handleStatus}/>,
+ 			},
+ 		],
+ 		[]
+diff --git a/src/pages/CurrencyList/ActionButtons.jsx b/src/pages/CurrencyList/ActionButtons.jsx
+index c90a757..386bc96 100644
+--- a/src/pages/CurrencyList/ActionButtons.jsx
++++ b/src/pages/CurrencyList/ActionButtons.jsx
+@@ -1,36 +1,29 @@
++/* eslint-disable jsx-a11y/anchor-is-valid */
+ import React from 'react';
+ import { UncontrolledTooltip } from 'reactstrap';
+ import { Link } from 'react-router-dom';
++import PropTypes from 'prop-types';
+ 
+-const ActionButtons = () => (
++const ActionButtons = ({ handleEdit, cell, handleStatus }) => (
+ 	<ul className="list-unstyled hstack gap-1 mb-0">
+-		<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+-			<Link to="/" className="btn btn-sm btn-soft-primary">
+-				<i className="mdi mdi-eye-outline" id="viewtooltip" />
+-			</Link>
+-		</li>
+-		<UncontrolledTooltip placement="top" target="viewtooltip">
+-			View
+-		</UncontrolledTooltip>
+-
+ 		<li>
+-			<Link to="/" className="btn btn-sm btn-soft-info">
++			<Link
++				to="#"
++				className="btn btn-sm btn-soft-info"
++				// onClick={(e) => handleEdit(e, cell?.row?.original)}
++			>
+ 				<i className="mdi mdi-pencil-outline" id="edittooltip" />
+ 				<UncontrolledTooltip placement="top" target="edittooltip">
+ 					Edit
+ 				</UncontrolledTooltip>
+ 			</Link>
+ 		</li>
+-
+-		<li>
+-			<Link to="/" className="btn btn-sm btn-soft-danger">
+-				<i className="mdi mdi-delete-outline" id="deletetooltip" />
+-				<UncontrolledTooltip placement="top" target="deletetooltip">
+-					Delete
+-				</UncontrolledTooltip>
+-			</Link>
+-		</li>
+ 	</ul>
+ );
+ 
++ActionButtons.propTypes = {
++	handleEdit: PropTypes.func.isRequired,
++	cell: PropTypes.objectOf.isRequired,
++};
++
+ export default ActionButtons;
+diff --git a/src/store/adminUser/actionTypes.js b/src/store/adminUser/actionTypes.js
+index eb9ec02..cc14c88 100644
+--- a/src/store/adminUser/actionTypes.js
++++ b/src/store/adminUser/actionTypes.js
+@@ -1,4 +1,8 @@
+ /** Get Admins */
+-export const GET_ALL_GROUP_START = 'GET_ALL_GROUP_START,';
+-export const GET_ALL_GROUP_SUCCESS = 'GET_ALL_GROUP_SUCCESS,';
+-export const GET_ALL_GROUP_FAIL = 'GET_ALL_GROUP_FAIL,';
++export const GET_ALL_GROUP_START = 'GET_ALL_GROUP_START';
++export const GET_ALL_GROUP_SUCCESS = 'GET_ALL_GROUP_SUCCESS';
++export const GET_ALL_GROUP_FAIL = 'GET_ALL_GROUP_FAIL';
++
++export const UPDATE_SUPER_ADMIN_STATUS_START = 'UPDATE_SUPER_ADMIN_STATUS_START';
++export const UPDATE_SUPER_ADMIN_STATUS_SUCCESS = 'UPDATE_SUPER_ADMIN_STATUS_SUCCESS';
++export const UPDATE_SUPER_ADMIN_STATUS_FAIL = 'UPDATE_SUPER_ADMIN_STATUS_FAIL';
+diff --git a/src/store/adminUser/actions.js b/src/store/adminUser/actions.js
+index 3e2d1c9..3954719 100644
+--- a/src/store/adminUser/actions.js
++++ b/src/store/adminUser/actions.js
+@@ -2,6 +2,9 @@ import {
+ 	GET_ALL_GROUP_START,
+ 	GET_ALL_GROUP_SUCCESS,
+ 	GET_ALL_GROUP_FAIL,
++  UPDATE_SUPER_ADMIN_STATUS_START,
++  UPDATE_SUPER_ADMIN_STATUS_SUCCESS,
++  UPDATE_SUPER_ADMIN_STATUS_FAIL,
+ } from './actionTypes';
+ 
+ export const getAllGroupsSuccess = (payload) => ({
+@@ -18,3 +21,18 @@ export const getAllGroupsStart = (payload) => ({
+ 	type: GET_ALL_GROUP_START,
+ 	payload,
+ });
++
++export const updateSuperAdminStatusSuccess = (payload) => ({
++	type: UPDATE_SUPER_ADMIN_STATUS_SUCCESS,
++	payload,
++});
++
++export const updateSuperAdminStatusFailure = (payload) => ({
++	type: UPDATE_SUPER_ADMIN_STATUS_FAIL,
++	payload,
++});
++
++export const updateSuperAdminStatusStart = (payload) => ({
++	type: UPDATE_SUPER_ADMIN_STATUS_START,
++	payload,
++});
+diff --git a/src/store/adminUser/reducer.js b/src/store/adminUser/reducer.js
+index e3d1b41..da15ef3 100644
+--- a/src/store/adminUser/reducer.js
++++ b/src/store/adminUser/reducer.js
+@@ -2,6 +2,9 @@ import {
+ 	GET_ALL_GROUP_START,
+ 	GET_ALL_GROUP_SUCCESS,
+ 	GET_ALL_GROUP_FAIL,
++	UPDATE_SUPER_ADMIN_STATUS_START,
++	UPDATE_SUPER_ADMIN_STATUS_SUCCESS,
++	UPDATE_SUPER_ADMIN_STATUS_FAIL,
+ } from './actionTypes';
+ 
+ const INIT_STATE = {
+@@ -10,6 +13,9 @@ const INIT_STATE = {
+ 	// adminUsers: [],
+ 	// adminUserDetails: {},
+ 	groups: [],
++	superAdminStatus: false,
++	superAdminStatusError: null,
++	superAdminStatusLoading: false,
+ };
+ 
+ const adminUser = (state = INIT_STATE, { type, payload } = {}) => {
+@@ -35,6 +41,28 @@ const adminUser = (state = INIT_STATE, { type, payload } = {}) => {
+ 				isLoading: true,
+ 			};
+ 
++		case UPDATE_SUPER_ADMIN_STATUS_START:
++			return {
++				...state,
++				superAdminStatusLoading: false,
++			};
++
++		case UPDATE_SUPER_ADMIN_STATUS_SUCCESS:
++			return {
++				...state,
++				superAdminStatusLoading: true,
++				superAdminStatus: true,
++				superAdminStatusError: null,
++			};
++
++		case UPDATE_SUPER_ADMIN_STATUS_FAIL:
++			return {
++				...state,
++				superAdminStatusLoading: false,
++				superAdminStatusError: payload,
++				superAdminStatus: false,
++			};
++
+ 		default:
+ 			return { ...state };
+ 	}
+diff --git a/src/store/adminUser/saga.js b/src/store/adminUser/saga.js
+index b75888c..228c521 100644
+--- a/src/store/adminUser/saga.js
++++ b/src/store/adminUser/saga.js
+@@ -8,8 +8,12 @@ import {
+ 	// updateSuperAdminUser,
+ 	// updateTenantAdminUser,
+ 	getAllGroups,
++	getAllAdmins,
+ } from '../../network/getRequests';
+ 
++import { superAdminViewToggleStatus } from '../../network/putRequests';
++import { showToastr } from '../../utils/helpers';
++
+ import {
+ 	// getAdminUsersStart,
+ 	// getAdminUsersSuccess,
+@@ -23,10 +27,16 @@ import {
+ 	// createSuperAdminUserComplete,
+ 	// updateSuperAdminStatusStart,
+ 	// updateSuperAdminStatusComplete,
++	updateSuperAdminStatusSuccess,
++	updateSuperAdminStatusFailure,
+ 	getAllGroupsSuccess,
+ 	getAllGroupsFailure,
+ } from './actions';
+-import { GET_ALL_GROUP_START } from './actionTypes';
++
++import {
++	GET_ALL_GROUP_START,
++	UPDATE_SUPER_ADMIN_STATUS_START,
++} from './actionTypes';
+ // // import { AdminsRoutes, TenantRoutes } from '../../routes'
+ // // import { getAllAdminsStart } from '../redux-slices/admins'
+ 
+@@ -97,44 +107,49 @@ import { GET_ALL_GROUP_START } from './actionTypes';
+ //   }
+ // }
+ 
+-// function * updateSuperAdminStatusWorker (action) {
+-//   try {
+-//     const {
+-//       data,
+-//       limit,
+-//       pageNo,
+-//       orderBy,
+-//       sort,
+-//       search,
+-//       superAdminId,
+-//       superRoleId,
+-//       status
+-//     } = action && action.payload
+-
+-//     yield superAdminViewToggleStatus(data)
+-
+-//     yield put(updateSuperAdminStatusComplete())
+-
+-//     yield put(
+-//       getAllAdminsStart({
+-//         limit,
+-//         pageNo,
+-//         orderBy,
+-//         sort,
+-//         search,
+-//         superAdminId,
+-//         superRoleId,
+-//         status
+-//       })
+-//     )
+-
+-//     yield toast('Status Updated Successfully', 'success')
+-//   } catch (e) {
+-//     yield put(updateSuperAdminStatusComplete())
++function* updateSuperAdminStatusWorker(action) {
++	try {
++		const {
++			data,
++			limit,
++			pageNo,
++			orderBy,
++			sort,
++			search,
++			superAdminId,
++			superRoleId,
++			status,
++		} = action && action.payload;
++
++		console.log('data: ', data);
++		yield superAdminViewToggleStatus(data);
++
++		yield put(updateSuperAdminStatusSuccess());
++
++		yield getAllAdmins({
++			limit,
++			pageNo,
++			orderBy,
++			sort,
++			search,
++			superAdminId,
++			superRoleId,
++			status,
++		});
++
++		showToastr({
++			message: 'Status updated Successfully',
++			type: 'success',
++		});
++	} catch (e) {
++		yield put(updateSuperAdminStatusFailure());
+ 
+-//     yield toast(e?.response?.data?.errors[0]?.description, 'error')
+-//   }
+-// }
++		showToastr({
++			message: e?.response?.data?.errors[0]?.description || e.message,
++			type: 'error',
++		});
++	}
++}
+ 
+ function* getAllGroupsWorker() {
+ 	try {
+@@ -147,4 +162,8 @@ function* getAllGroupsWorker() {
+ 
+ export default function* adminUserWatcher() {
+ 	yield takeLatest(GET_ALL_GROUP_START, getAllGroupsWorker);
++	yield takeLatest(
++		UPDATE_SUPER_ADMIN_STATUS_START,
++		updateSuperAdminStatusWorker
++	);
+ }
+diff --git a/src/store/aggregators/actionTypes.js b/src/store/aggregators/actionTypes.js
+index f2dc438..e9e03fc 100644
+--- a/src/store/aggregators/actionTypes.js
++++ b/src/store/aggregators/actionTypes.js
+@@ -1,6 +1,11 @@
+ export const GET_AGGREGATORS_START = 'GET_AGGREGATORS_START';
+ export const GET_AGGREGATORS_FAILURE = 'GET_AGGREGATORS_FAILURE';
+ export const GET_AGGREGATORS_SUCCESS = 'GET_AGGREGATORS_SUCCESS';
++
+ export const CREATE_AGGREGATORS_START = 'CREATE_AGGREGATORS_START';
+ export const CREATE_AGGREGATORS_FAIL = 'CREATE_AGGREGATORS_FAIL';
+ export const CREATE_AGGREGATORS_SUCCESS = 'CREATE_AGGREGATORS_SUCCESS';
++
++export const UPDATE_AGGREGATORS_STATUS_START = 'UPDATE_AGGREGATORS_STATUS_START';
++export const UPDATE_AGGREGATORS_STATUS_FAIL = 'UPDATE_AGGREGATORS_STATUS_FAIL';
++export const UPDATE_AGGREGATORS_STATUS_SUCCESS = 'UPDATE_AGGREGATORS_STATUS_SUCCESS';
+diff --git a/src/store/aggregators/actions.js b/src/store/aggregators/actions.js
+index c73d191..9850967 100644
+--- a/src/store/aggregators/actions.js
++++ b/src/store/aggregators/actions.js
+@@ -5,6 +5,9 @@ import {
+ 	CREATE_AGGREGATORS_START,
+ 	CREATE_AGGREGATORS_FAIL,
+ 	CREATE_AGGREGATORS_SUCCESS,
++  UPDATE_AGGREGATORS_STATUS_START,
++  UPDATE_AGGREGATORS_STATUS_FAIL,
++  UPDATE_AGGREGATORS_STATUS_SUCCESS,
+ } from './actionTypes';
+ 
+ export const getAggregatorsList = (data) => ({
+@@ -36,3 +39,18 @@ export const createAggregatorStart = (payload) => ({
+ 	type: CREATE_AGGREGATORS_START,
+ 	payload,
+ });
++
++export const updateAggregatorStatusSuccess = (payload) => ({
++  type: UPDATE_AGGREGATORS_STATUS_SUCCESS,
++  payload,
++});
++
++export const updateAggregatorStatusFail = (payload) => ({
++  type: UPDATE_AGGREGATORS_STATUS_FAIL,
++  payload,
++});
++
++export const updateAggregatorStatusStart = (payload) => ({
++  type: UPDATE_AGGREGATORS_STATUS_START,
++  payload,
++});
+diff --git a/src/store/aggregators/reducer.js b/src/store/aggregators/reducer.js
+index c98319d..3fc5377 100644
+--- a/src/store/aggregators/reducer.js
++++ b/src/store/aggregators/reducer.js
+@@ -5,15 +5,21 @@ import {
+ 	CREATE_AGGREGATORS_START,
+ 	CREATE_AGGREGATORS_FAIL,
+ 	CREATE_AGGREGATORS_SUCCESS,
++  UPDATE_AGGREGATORS_STATUS_START,
++  UPDATE_AGGREGATORS_STATUS_FAIL,
++  UPDATE_AGGREGATORS_STATUS_SUCCESS,
+ } from './actionTypes';
+ 
+ const INIT_STATE = {
+ 	aggregatorsData: [],
+ 	error: {},
+ 	loading: true,
+-	isCreateAggregatorError: false,
++	isCreateAggregatorError: null,
+ 	isCreateAggregatorSuccess: false,
+ 	isCreateAggregatorLoading: false,
++  updateAggregatorsStatus: false,
++  updateAggregatorsStatusError: null,
++  updateAggregatorsStatusLoading: false,
+ };
+ 
+ const AggregatorsReducer = (state = INIT_STATE, { type, payload } = {}) => {
+@@ -60,6 +66,28 @@ const AggregatorsReducer = (state = INIT_STATE, { type, payload } = {}) => {
+ 				isCreateAggregatorSuccess: false,
+ 			};
+ 
++    case UPDATE_AGGREGATORS_STATUS_START:
++      return {
++        ...state,
++        updateAggregatorsStatusLoading: true,
++      };
++
++    case UPDATE_AGGREGATORS_STATUS_SUCCESS:
++      return {
++        ...state,
++        updateAggregatorsStatusLoading: false,
++        updateAggregatorsStatusSuccess: true,
++        updateAggregatorsStatusError: null,
++      };
++
++    case UPDATE_AGGREGATORS_STATUS_FAIL:
++      return {
++        ...state,
++        updateAggregatorsStatusLoading: false,
++        updateAggregatorsStatusError: payload,
++        updateAggregatorsStatusSuccess: false,
++      };
++
+ 		default:
+ 			return state;
+ 	}
+diff --git a/src/store/aggregators/saga.js b/src/store/aggregators/saga.js
+index 85336d3..ef5bdc5 100644
+--- a/src/store/aggregators/saga.js
++++ b/src/store/aggregators/saga.js
+@@ -1,14 +1,21 @@
+ import { put, takeEvery } from 'redux-saga/effects';
+ import { toast } from 'react-toastify';
+-import { CREATE_AGGREGATORS_START, GET_AGGREGATORS_START } from './actionTypes';
++import {
++	CREATE_AGGREGATORS_START,
++	GET_AGGREGATORS_START,
++	UPDATE_AGGREGATORS_STATUS_START,
++} from './actionTypes';
+ import {
+ 	getAggregatorsListSuccess,
+ 	getAggregatorsListFailure,
+ 	createAggregatorSuccess,
+ 	createAggregatorFail,
++	updateAggregatorStatusSuccess,
++	updateAggregatorStatusFail,
+ } from './actions';
+ import { getAggregators } from '../../network/getRequests';
+ import { createAggregator } from '../../network/postRequests';
++import { superAdminViewToggleStatus } from '../../network/putRequests';
+ import { showToastr } from '../../utils/helpers';
+ 
+ function* getAggregatorsWorker(action) {
+@@ -50,9 +57,37 @@ function* createAggregatorWorker(action) {
+ 	}
+ }
+ 
++function* updateSuperAdminAggregatorStatusWorker(action) {
++	try {
++		const { data, limit, pageNo } = action && action.payload;
++
++		yield superAdminViewToggleStatus(data);
++
++		yield put(updateAggregatorStatusSuccess());
++
++		showToastr({
++			message: 'Status updated Successfully',
++			type: 'success',
++		});
++
++		yield getAggregators({ limit, pageNo });
++	} catch (e) {
++		yield put(updateAggregatorStatusFail());
++
++		showToastr({
++			message: e?.response?.data?.errors[0]?.description || e.message,
++			type: 'error',
++		});
++	}
++}
++
+ function* aggregatorsSaga() {
+ 	yield takeEvery(GET_AGGREGATORS_START, getAggregatorsWorker);
+ 	yield takeEvery(CREATE_AGGREGATORS_START, createAggregatorWorker);
++	yield takeEvery(
++		UPDATE_AGGREGATORS_STATUS_START,
++		updateSuperAdminAggregatorStatusWorker
++	);
+ }
+ 
+ export default aggregatorsSaga;
+diff --git a/src/store/cms/actionTypes.js b/src/store/cms/actionTypes.js
+index 9df91eb..fa79be6 100644
+--- a/src/store/cms/actionTypes.js
++++ b/src/store/cms/actionTypes.js
+@@ -2,3 +2,7 @@
+ export const GET_ALL_CMS_DATA_SUCCESS = 'GET_ALL_CMS_DATA_SUCCESS';
+ export const GET_ALL_CMS_DATA_FAIL = 'GET_ALL_CMS_DATA_FAIL';
+ export const GET_ALL_CMS_DATA = 'GET_ALL_CMS_DATA';
++
++export const UPDATE_SA_CMS_STATUS_SUCCESS = 'UPDATE_SA_CMS_STATUS_SUCCESS';
++export const UPDATE_SA_CMS_STATUS_FAIL = 'UPDATE_SA_CMS_STATUS_FAIL';
++export const UPDATE_SA_CMS_STATUS = 'UPDATE_SA_CMS_STATUS';
+diff --git a/src/store/cms/actions.js b/src/store/cms/actions.js
+index e25a91b..ed1822b 100644
+--- a/src/store/cms/actions.js
++++ b/src/store/cms/actions.js
+@@ -2,6 +2,9 @@ import {
+ 	GET_ALL_CMS_DATA,
+ 	GET_ALL_CMS_DATA_SUCCESS,
+ 	GET_ALL_CMS_DATA_FAIL,
++  UPDATE_SA_CMS_STATUS,
++  UPDATE_SA_CMS_STATUS_SUCCESS,
++  UPDATE_SA_CMS_STATUS_FAIL,
+ } from './actionTypes';
+ 
+ export const getAllCmsDetailsSuccess = (payload) => ({
+@@ -18,3 +21,18 @@ export const getAllCmsDetails = (payload) => ({
+ 	type: GET_ALL_CMS_DATA,
+ 	payload,
+ });
++
++export const updateSaCmsStatusSuccess = (payload) => ({
++  type: UPDATE_SA_CMS_STATUS_SUCCESS,
++  payload,
++});
++
++export const updateSaCmsStatusFail = (payload) => ({
++  type: UPDATE_SA_CMS_STATUS_FAIL,
++  payload,
++});
++
++export const updateSaCmsStatus = (payload) => ({
++  type: UPDATE_SA_CMS_STATUS,
++  payload,
++});
+diff --git a/src/store/cms/reducer.js b/src/store/cms/reducer.js
+index dc5acd0..22429aa 100644
+--- a/src/store/cms/reducer.js
++++ b/src/store/cms/reducer.js
+@@ -2,12 +2,18 @@ import {
+ 	GET_ALL_CMS_DATA,
+ 	GET_ALL_CMS_DATA_SUCCESS,
+ 	GET_ALL_CMS_DATA_FAIL,
++  UPDATE_SA_CMS_STATUS,
++  UPDATE_SA_CMS_STATUS_SUCCESS,
++  UPDATE_SA_CMS_STATUS_FAIL,
+ } from './actionTypes';
+ 
+ const INIT_STATE = {
+ 	cmsDetails: null,
+ 	error: null,
+ 	isLoading: true,
++  updateSACmsStatus: false,
++  updateSACmsStatusError: null,
++  updateSACmsStatusLoading: false,
+ };
+ 
+ const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
+@@ -33,6 +39,28 @@ const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
+ 				isLoading: true,
+ 			};
+ 
++    case UPDATE_SA_CMS_STATUS:
++      return {
++        ...state,
++        updateSACmsStatusLoading: true,
++      };
++
++    case UPDATE_SA_CMS_STATUS_FAIL:
++      return {
++        ...state,
++        updateSACmsStatusLoading: false,
++        updateSACmsStatusError: payload,
++        updateSACmsStatus: false,
++      };
++
++    case UPDATE_SA_CMS_STATUS_SUCCESS:
++      return {
++        ...state,
++        updateSACmsStatusLoading: false,
++        updateSACmsStatus: true,
++        updateSACmsStatusError: false,
++      };
++
+ 		default:
+ 			return { ...state };
+ 	}
+diff --git a/src/store/cms/saga.js b/src/store/cms/saga.js
+index 647dbce..c3fed4a 100644
+--- a/src/store/cms/saga.js
++++ b/src/store/cms/saga.js
+@@ -1,10 +1,18 @@
+ import { put, takeLatest, all, fork } from 'redux-saga/effects';
+ 
+ // Crypto Redux States
+-import { getAllCmsDetailsSuccess, getAllCmsDetailsFail } from './actions';
+-import { GET_ALL_CMS_DATA } from './actionTypes';
++import {
++	getAllCmsDetailsSuccess,
++	getAllCmsDetailsFail,
++	getAllCmsDetails,
++	updateSaCmsStatusSuccess,
++	updateSaCmsStatusFail,
++} from './actions';
++import { GET_ALL_CMS_DATA, UPDATE_SA_CMS_STATUS } from './actionTypes';
+ 
+ import { getAllCms } from '../../network/getRequests';
++import { superAdminViewToggleStatus } from '../../network/putRequests';
++import { showToastr } from '../../utils/helpers';
+ 
+ function* getCmsDetails(action) {
+ 	const { pageNo, limit, search, isActive } = action && action.payload;
+@@ -24,8 +32,42 @@ function* getCmsDetails(action) {
+ 	}
+ }
+ 
++function* updateSACMSStatusWorker(action) {
++	try {
++		const { data, limit, pageNo, tenantId, adminId, search, isActive } =
++			action && action.payload;
++
++		yield superAdminViewToggleStatus(data);
++
++		showToastr({
++			message: 'CMS Status Updated Successfully',
++			type: 'success',
++		});
++
++		yield put(updateSaCmsStatusSuccess());
++		yield put(
++			getAllCmsDetails({
++				limit,
++				pageNo,
++				tenantId,
++				adminId,
++				search,
++				isActive,
++			})
++		);
++	} catch (e) {
++		showToastr({
++			message: e?.response?.data?.errors[0]?.description || e.message,
++			type: 'error',
++		});
++
++		yield put(updateSaCmsStatusFail());
++	}
++}
++
+ export function* watchGetAllCmsData() {
+ 	yield takeLatest(GET_ALL_CMS_DATA, getCmsDetails);
++	yield takeLatest(UPDATE_SA_CMS_STATUS, updateSACMSStatusWorker);
+ }
+ 
+ function* CmsDetailsSaga() {
+diff --git a/src/store/countries/actionTypes.js b/src/store/countries/actionTypes.js
+index 2932f47..1ce7bbb 100644
+--- a/src/store/countries/actionTypes.js
++++ b/src/store/countries/actionTypes.js
+@@ -1,3 +1,7 @@
+ export const FETCH_COUNTRIES_START = 'FETCH_COUNTRIES_START';
+ export const FETCH_COUNTRIES_FAIL = 'FETCH_COUNTRIES_FAIL';
+ export const FETCH_COUNTRIES_SUCCESS = 'FETCH_COUNTRIES_SUCCESS';
++
++export const UPDATE_COUNTRIES_STATUS_START = 'UPDATE_COUNTRIES_STATUS_START';
++export const UPDATE_COUNTRIES_STATUS_FAIL = 'UPDATE_COUNTRIES_STATUS_FAIL';
++export const UPDATE_COUNTRIES_STATUS_SUCCESS = 'UPDATE_COUNTRIES_STATUS_SUCCESS';
+diff --git a/src/store/countries/actions.js b/src/store/countries/actions.js
+index d240341..2fb2c80 100644
+--- a/src/store/countries/actions.js
++++ b/src/store/countries/actions.js
+@@ -2,6 +2,9 @@ import {
+ 	FETCH_COUNTRIES_FAIL,
+ 	FETCH_COUNTRIES_START,
+ 	FETCH_COUNTRIES_SUCCESS,
++  UPDATE_COUNTRIES_STATUS_START,
++  UPDATE_COUNTRIES_STATUS_SUCCESS,
++  UPDATE_COUNTRIES_STATUS_FAIL,
+ } from './actionTypes';
+ 
+ export const fetchCountriesStart = (payload) => ({
+@@ -18,3 +21,18 @@ export const fetchCountriesFail = (history) => ({
+ 	type: FETCH_COUNTRIES_FAIL,
+ 	payload: { history },
+ });
++
++export const updateCountryStatusStart = (payload) => ({
++	type: UPDATE_COUNTRIES_STATUS_START,
++	payload,
++});
++
++export const updateCountryStatusSuccess = (payload) => ({
++	type: UPDATE_COUNTRIES_STATUS_SUCCESS,
++	payload,
++});
++
++export const updateCountryStatusFail = (payload) => ({
++	type: UPDATE_COUNTRIES_STATUS_FAIL,
++	payload,
++});
+diff --git a/src/store/countries/reducer.js b/src/store/countries/reducer.js
+index 0bca91a..586902c 100644
+--- a/src/store/countries/reducer.js
++++ b/src/store/countries/reducer.js
+@@ -2,12 +2,18 @@ import {
+ 	FETCH_COUNTRIES_FAIL,
+ 	FETCH_COUNTRIES_START,
+ 	FETCH_COUNTRIES_SUCCESS,
++	UPDATE_COUNTRIES_STATUS_START,
++	UPDATE_COUNTRIES_STATUS_SUCCESS,
++	UPDATE_COUNTRIES_STATUS_FAIL,
+ } from './actionTypes';
+ 
+ const initialState = {
+ 	countries: null,
+ 	error: '',
+ 	loading: false,
++	updateCountriesStatus: false,
++	updateCountriesStatusError: null,
++	updateCountriesStatusLoading: false,
+ };
+ 
+ const countriesReducer = (state = initialState, { type, payload } = {}) => {
+@@ -29,6 +35,25 @@ const countriesReducer = (state = initialState, { type, payload } = {}) => {
+ 				loading: false,
+ 				countries: payload,
+ 			};
++		case UPDATE_COUNTRIES_STATUS_START:
++			return {
++				...state,
++				updateCountriesStatusLoading: true,
++			};
++		case UPDATE_COUNTRIES_STATUS_FAIL:
++			return {
++				...state,
++				updateCountriesStatusLoading: false,
++				updateCountriesStatusError: payload,
++				updateCountriesStatus: false,
++			};
++		case UPDATE_COUNTRIES_STATUS_SUCCESS:
++			return {
++				...state,
++				updateCountriesStatusLoading: false,
++				updateCountriesStatus: true,
++				updateCountriesStatusError: false,
++			};
+ 		default:
+ 			return { ...state };
+ 	}
+diff --git a/src/store/countries/saga.js b/src/store/countries/saga.js
+index ad6fb72..32659f0 100644
+--- a/src/store/countries/saga.js
++++ b/src/store/countries/saga.js
+@@ -1,9 +1,20 @@
+ import { call, put, takeEvery } from 'redux-saga/effects';
+ 
+ // Login Redux States
+-import { FETCH_COUNTRIES_START } from './actionTypes';
+-import { fetchCountriesFail, fetchCountriesSuccess } from './actions';
++import {
++	FETCH_COUNTRIES_START,
++	UPDATE_COUNTRIES_STATUS_START,
++} from './actionTypes';
++import {
++	fetchCountriesFail,
++	fetchCountriesSuccess,
++  fetchCountriesStart,
++	updateCountryStatusSuccess,
++	updateCountryStatusFail,
++} from './actions';
+ import { getCountries } from '../../network/getRequests';
++import { superAdminViewToggleStatus } from '../../network/putRequests';
++import { showToastr } from '../../utils/helpers';
+ 
+ function* fetchCountries({ payload }) {
+ 	try {
+@@ -14,8 +25,40 @@ function* fetchCountries({ payload }) {
+ 	}
+ }
+ 
++function* updateCountryStatusWorker(action) {
++	try {
++		const { data, limit, pageNo, isActive, name, kycMethod } =
++			action && action.payload;
++
++		yield superAdminViewToggleStatus(data);
++
++		showToastr({
++			message: 'Status updated Successfully',
++			type: 'success',
++		});
++
++		yield fetchCountriesStart({
++			limit,
++			pageNo,
++			isActive,
++			name,
++			kycMethod,
++		});
++
++		yield put(updateCountryStatusSuccess());
++	} catch (e) {
++		showToastr({
++			message: e?.response?.data?.errors[0]?.description || e.message,
++			type: 'error',
++		});
++
++		yield put(updateCountryStatusFail());
++	}
++}
++
+ function* countriesSaga() {
+ 	yield takeEvery(FETCH_COUNTRIES_START, fetchCountries);
++	yield takeEvery(UPDATE_COUNTRIES_STATUS_START, updateCountryStatusWorker);
+ }
+ 
+ export default countriesSaga;

@@ -21,19 +21,22 @@ import FormModal from '../../../components/Common/FormModal';
 const CasinoAggregators = () => {
 	// meta title
 	document.title = projectName;
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const [currentPage, setCurrentPage] = useState(1);
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
+
 	const dispatch = useDispatch();
 	const fetchData = () => {
 		dispatch(
 			getAggregatorsList({
-				limit: 15,
-				pageNo: 1,
+				limit: itemsPerPage,
+				pageNo: currentPage,
 			})
 		);
 	};
-
-	useEffect(() => {
-		fetchData();
-	}, [dispatch]);
 
 	const {
 		isOpen,
@@ -43,10 +46,16 @@ const CasinoAggregators = () => {
 		formFields,
 		isCreateAggregatorLoading,
 		buttonList,
+		handleStatus,
+		active,
 	} = useCreateAggregator();
 
+	useEffect(() => {
+		fetchData();
+	}, [active, currentPage, itemsPerPage]);
+
 	const selectAggregatorsState = (state) => state.AggregatorsReducer;
-	const columns = useAggregatorList();
+	const columns = useAggregatorList(handleStatus);
 	const AggregatorsProperties = createSelector(
 		selectAggregatorsState,
 		(aggregatorsReducer) => ({
@@ -58,8 +67,6 @@ const CasinoAggregators = () => {
 	const { aggregatorsData, loading, isCreateAggregatorSuccess } = useSelector(
 		AggregatorsProperties
 	);
-	const [page, setPage] = useState(1);
-	const itemsPerPage = 10;
 
 	useEffect(() => {
 		if (isCreateAggregatorSuccess) fetchData();
@@ -92,9 +99,10 @@ const CasinoAggregators = () => {
 										pagination="pagination justify-content-start pagination-rounded"
 										totalPageCount={aggregatorsData?.count}
 										isManualPagination
-										onChangePagination={setPage}
-										currentPage={page}
+										onChangePagination={setCurrentPage}
+										currentPage={currentPage}
 										isLoading={loading}
+										changeRowsPerPageCallback={onChangeRowsPerPage}
 									/>
 								</CardBody>
 							)}

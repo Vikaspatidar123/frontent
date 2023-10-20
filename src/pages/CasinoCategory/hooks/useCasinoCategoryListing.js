@@ -4,9 +4,8 @@ import { formatDate } from '../../../utils/dateFormatter';
 import {
 	getCasinoCategoryDetailStart,
 	getLanguagesStart,
+	updateSACasinoGamesStatusStart,
 } from '../../../store/casinoManagement/actions';
-
-const itemsPerPage = 10;
 
 const useCasinoCategoryListing = () => {
 	const {
@@ -15,13 +14,18 @@ const useCasinoCategoryListing = () => {
 		languageData,
 		isCreateCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
-	const [limit, setLimit] = useState(15);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [search, setSearch] = useState('');
 	const [modal, setModal] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [job, setJob] = useState(null);
+	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	const formattedCasinoCategoriesData = useMemo(() => {
 		if (casinoCategoryDetails) {
@@ -38,7 +42,7 @@ const useCasinoCategoryListing = () => {
 	const fetchData = () => {
 		dispatch(
 			getCasinoCategoryDetailStart({
-				limit,
+				limit: itemsPerPage,
 				pageNo: page,
 				search,
 			})
@@ -47,7 +51,7 @@ const useCasinoCategoryListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, limit, search]);
+	}, [page, search, itemsPerPage, active]);
 
 	useEffect(() => {
 		if (isCreateCategorySuccess) fetchData();
@@ -57,12 +61,32 @@ const useCasinoCategoryListing = () => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
 	}, []);
 
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { active: status, gameCategoryId } = props;
+		dispatch(
+			updateSACasinoGamesStatusStart({
+				data: {
+					code: 'CASINO_CATEGORY',
+					gameCategoryId,
+					status: !status,
+				},
+				// limit,
+				// pageNo: page,
+				// casinoCategoryId: selectedSubCategoryId,
+				// search,
+				// isActive: active,
+				// tenantId: '',
+				// selectedProvider,
+			})
+		);
+		setActive((prev) => !prev);
+	};
+
 	return {
 		formattedCasinoCategoriesData,
 		iscasinoCategoryDetailsLoading,
 		languageData,
-		limit,
-		setLimit,
 		page,
 		setPage,
 		search,
@@ -75,6 +99,10 @@ const useCasinoCategoryListing = () => {
 		setIsEdit,
 		job,
 		setJob,
+		handleStatus,
+		active,
+		setActive,
+		onChangeRowsPerPage,
 	};
 };
 

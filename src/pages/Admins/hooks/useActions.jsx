@@ -54,6 +54,7 @@ const useActions = (isEditPage) => {
 				updateSuperAdminUserStart({
 					data: {
 						...values,
+						adminUserId: adminDetails?.adminUserId,
 					},
 					navigate,
 				})
@@ -113,6 +114,7 @@ const useActions = (isEditPage) => {
 		setPage,
 		itemsPerPage,
 		columns,
+		onChangeRowsPerPage,
 	} = useAdminListing(handleEdit);
 
 	const handleAddClick = (e) => {
@@ -209,6 +211,7 @@ const useActions = (isEditPage) => {
 				adminDetails={adminDetails}
 				superAdminUser={superAdminUser}
 				validation={validation}
+				isEdit={isEdit}
 			/>
 		);
 	}, [
@@ -244,6 +247,7 @@ const useActions = (isEditPage) => {
 		isUpdateSuperUserLoading,
 		isAdminLoading,
 		adminDetails,
+		onChangeRowsPerPage,
 	};
 };
 
