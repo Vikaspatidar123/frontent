@@ -26,9 +26,9 @@ const Sidebar = () => {
 					</span>
 					<span className="logo-lg">
 						{/* <img src={logoDark} alt="" height="17" /> */}
-						<h2 className="text-wrap my-2 text-light">
+						<h4 className="text-wrap my-2 text-light">
 							{superAdminUser?.firstName}
-						</h2>
+						</h4>
 						<h6 className="text-wrap my-2 text-light">
 							{superAdminUser?.email}
 						</h6>
@@ -41,9 +41,9 @@ const Sidebar = () => {
 					</span>
 					<span className="logo-lg">
 						{/* <img src={logoLightPng} alt="" height="19" /> */}
-						<h2 className="text-wrap my-2 text-light">
+						<h4 className="text-wrap my-2 text-light">
 							{superAdminUser?.firstName}
-						</h2>
+						</h4>
 						<h6 className="text-wrap my-2 text-light">
 							{superAdminUser?.email}
 						</h6>
