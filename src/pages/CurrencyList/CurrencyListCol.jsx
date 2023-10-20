@@ -11,7 +11,7 @@ const ExchangeRate = (cell) => (cell.value ? cell.value : '');
 
 const LoyaltyPoints = (cell) => (cell.value ? cell.value : '');
 
-const Type = (cell) => (cell.value ? cell.value : '');
+const Type = (cell) => (cell.value === 1 ? 'Fiat' : 'Crypto');
 
 const Primary = (cell) => (cell.value ? cell.value : '');
 

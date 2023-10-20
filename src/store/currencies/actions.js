@@ -5,6 +5,9 @@ import {
 	CREATE_CURRENCIES_FAIL,
 	CREATE_CURRENCIES_START,
 	CREATE_CURRENCIES_SUCCESS,
+	EDIT_CURRENCIES_SUCCESS,
+	EDIT_CURRENCIES_FAIL,
+	EDIT_CURRENCIES_START,
 } from './actionTypes';
 
 export const fetchCurrenciesStart = (payload) => ({
@@ -34,5 +37,20 @@ export const createCurrencyFail = (payload) => ({
 
 export const createCurrencyStart = (payload) => ({
 	type: CREATE_CURRENCIES_START,
+	payload,
+});
+
+export const editCurrencySuccess = (payload) => ({
+	type: EDIT_CURRENCIES_SUCCESS,
+	payload,
+});
+
+export const editCurrencyFail = (payload) => ({
+	type: EDIT_CURRENCIES_FAIL,
+	payload,
+});
+
+export const editCurrencyStart = (payload) => ({
+	type: EDIT_CURRENCIES_START,
 	payload,
 });

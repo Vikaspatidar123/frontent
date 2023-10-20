@@ -26,6 +26,9 @@ const updateStatus = (data) =>
 const updateKYCLabels = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/document-label`, data);
 
+const updateCurrency = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/currency`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -35,4 +38,5 @@ export {
 	superAdminViewToggleStatus,
 	updateStatus,
 	updateKYCLabels,
+	updateCurrency,
 };
