@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
 
 // Add staff and edit staff
-const getInitialValues = (defaultValue, isEdit) => ({
+const getInitialValues = (defaultValue) => ({
 	email: defaultValue?.email || '',
-	...(!isEdit && { password: '' }), // edit does not required password
+	password: '',
 	adminUsername: defaultValue?.adminUsername || '',
 	firstName: defaultValue?.firstName || '',
 	lastName: defaultValue?.lastName || '',

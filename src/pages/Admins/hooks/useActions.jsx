@@ -54,6 +54,7 @@ const useActions = (isEditPage) => {
 				updateSuperAdminUserStart({
 					data: {
 						...values,
+						adminUserId: adminDetails?.adminUserId,
 					},
 					navigate,
 				})
@@ -210,6 +211,7 @@ const useActions = (isEditPage) => {
 				adminDetails={adminDetails}
 				superAdminUser={superAdminUser}
 				validation={validation}
+				isEdit={isEdit}
 			/>
 		);
 	}, [
