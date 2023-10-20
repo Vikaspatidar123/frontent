@@ -15,7 +15,6 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateKYCLabels = () => {
 	const dispatch = useDispatch();
-	const [createName, setCreateName] = useState({ EN: '' });
 	const [isEditPage, setIsEditPage] = useState({
 		open: false,
 		selectedRow: '',
@@ -56,8 +55,8 @@ const useCreateKYCLabels = () => {
 		setFormFields,
 	} = useForm({
 		header: 'Add KYC Labels',
-		initialValues: getInitialValues({ name: createName }),
-		validationSchema: validationSchema(createName),
+		initialValues: getInitialValues({ name: { EN: '' } }),
+		validationSchema: validationSchema(),
 		staticFormFields,
 		onSubmitEntry: isEditPage.open
 			? handleEditKYCLabels
@@ -69,8 +68,7 @@ const useCreateKYCLabels = () => {
 		e.stopPropagation();
 		setIsEditPage({ open: true, selectedRow });
 		setHeader(`Edit KYC Labels : Label ${selectedRow.documentLabelId}`);
-		setCreateName(selectedRow.name);
-		validation.resetForm(getInitialValues(selectedRow));
+		validation.setValues(getInitialValues(selectedRow));
 		setIsOpen((prev) => !prev);
 	};
 
@@ -79,7 +77,6 @@ const useCreateKYCLabels = () => {
 		setIsOpen((prev) => !prev);
 		validation.resetForm(getInitialValues());
 		setHeader('Add KYC Labels');
-		setCreateName({ EN: '' });
 		setIsEditPage({ open: false, selectedRow: '' });
 	};
 
@@ -92,13 +89,17 @@ const useCreateKYCLabels = () => {
 	}, [isEditKYCLabelsSuccess]);
 
 	const onChangeLanguage = (e) => {
-		setCreateName((prev) => ({ ...prev, [e.target.value]: '' }));
+		validation.setValues((prev) => ({
+			...prev,
+			name: { ...prev.name, [e.target.value]: '' },
+		}));
 	};
 
 	const onRemoveLanguage = (e) => {
-		setCreateName((prev) => {
-			const { [e]: key, ...rest } = prev;
-			return rest;
+		validation.setValues((prev) => {
+			const { name } = prev;
+			const { [e]: key, ...rest } = name;
+			return { ...prev, name: rest };
 		});
 	};
 
