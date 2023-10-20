@@ -10,6 +10,7 @@ const useCurrencyListing = () => {
 		currencies,
 		loading: isCurrenciesLoading,
 		isCreateCurrencySuccess,
+		isEditCurrencySuccess,
 	} = useSelector((state) => state.Currencies);
 
 	const fetchData = () => {
@@ -25,13 +26,16 @@ const useCurrencyListing = () => {
 		fetchData();
 	}, [currentPage, itemsPerPage]);
 
+	useEffect(() => {
+		if (isEditCurrencySuccess) fetchData();
+	}, [isEditCurrencySuccess]);
+
 	const formattedCurrencies = useMemo(() => {
 		const formattedValues = [];
 		if (currencies) {
 			currencies.rows.map((currency) =>
 				formattedValues.push({
 					...currency,
-					type: currency.type === 1 ? 'Fiat' : 'Crypto',
 					primary: currency.isPrimary ? 'YES' : 'NO',
 				})
 			);
