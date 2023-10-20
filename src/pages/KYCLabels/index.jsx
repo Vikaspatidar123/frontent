@@ -56,6 +56,8 @@ const KYCLabels = ({ t }) => {
 		validation,
 		isCreateKYCLabelsLoading,
 		buttonList,
+		onClickEditButton,
+		isEditKYCLabelsLoading,
 	} = useCreateKYCLabels();
 
 	return (
@@ -104,7 +106,10 @@ const KYCLabels = ({ t }) => {
 																		(Not Required)
 																	</span>
 																)}{' '}
-																<EditButton />
+																<EditButton
+																	handleClick={onClickEditButton}
+																	label={label?.[0]}
+																/>
 															</h5>
 														</button>
 													</h2>
@@ -140,7 +145,9 @@ const KYCLabels = ({ t }) => {
 									formFields={formFields}
 									submitLabel="Submit"
 									customColClasses="col-md-12"
-									isSubmitLoading={isCreateKYCLabelsLoading}
+									isSubmitLoading={
+										isCreateKYCLabelsLoading || isEditKYCLabelsLoading
+									}
 								/>
 							</CardBody>
 						</Card>

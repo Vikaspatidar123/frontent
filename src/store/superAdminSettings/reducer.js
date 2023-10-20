@@ -11,6 +11,9 @@ import {
 	CREATE_KYC_LABELS_START,
 	CREATE_KYC_LABELS_SUCCESS,
 	CREATE_KYC_LABELS_FAIL,
+	EDIT_KYC_LABELS_START,
+	EDIT_KYC_LABELS_SUCCESS,
+	EDIT_KYC_LABELS_FAIL,
 } from './actionTypes';
 
 const initialState = {
@@ -26,6 +29,9 @@ const initialState = {
 	isCreateKYCLabelsError: false,
 	isCreateKYCLabelsSuccess: false,
 	isCreateKYCLabelsLoading: false,
+	isEditKYCLabelsError: false,
+	isEditKYCLabelsSuccess: false,
+	isEditKYCLabelsLoading: false,
 };
 
 const SASettings = (state = initialState, { type, payload } = {}) => {
@@ -113,6 +119,28 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				isCreateKYCLabelsError: payload,
 				isCreateKYCLabelsLoading: false,
 				isCreateKYCLabelsSuccess: false,
+			};
+
+		case EDIT_KYC_LABELS_START:
+			return {
+				...state,
+				isEditKYCLabelsLoading: true,
+				isEditKYCLabelsSuccess: false,
+			};
+
+		case EDIT_KYC_LABELS_SUCCESS:
+			return {
+				...state,
+				isEditKYCLabelsLoading: false,
+				isEditKYCLabelsSuccess: true,
+			};
+
+		case EDIT_KYC_LABELS_FAIL:
+			return {
+				...state,
+				isEditKYCLabelsError: payload,
+				isEditKYCLabelsLoading: false,
+				isEditKYCLabelsSuccess: false,
 			};
 
 		default:
