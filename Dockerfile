@@ -27,7 +27,7 @@ EXPOSE $PORT 9240 9241
 # install dependencies first, in a different location for easier app bind mounting for local development
 
 COPY ./package*.json ./
-RUN yarn
+RUN npm install --legacy-peer-deps
 
 # copy in our source code last, as it changes the most
 COPY . .
