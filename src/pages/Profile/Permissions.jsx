@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
-import Box from '@mui/material/Box';
 import { permissionIcons, permissionLabel } from '../../constants/permissions';
 
 const Permissions = ({ details }) => (
@@ -12,18 +11,21 @@ const Permissions = ({ details }) => (
 					details?.userPermission?.permission[key]?.length > 0 && (
 						<Col md={6} xl={3} key={key}>
 							<Card className="p-3">
-								<Box display="inline-flex" justifyContent="start" p={2} gap={2}>
+								<div
+									display="inline-flex"
+									className="justify-content-start p-2 m-2 d-flex"
+								>
 									<span className="icon font-size-20">
 										{permissionIcons()?.[key]}
 									</span>
-									<CardTitle>{key}</CardTitle>
-								</Box>
+									<CardTitle>{`  ${key}`}</CardTitle>
+								</div>
 								<CardBody>
 									{details?.userPermission?.permission[key].map(
 										(permissionKey) => (
-											<Box
-												display="flex"
-												justifyContent="space-between"
+											<div
+												// justifyContent="space-between"
+												className="d-flex justify-content-between"
 												key={permissionKey}
 											>
 												<span>{permissionLabel(permissionKey)}</span>
@@ -33,7 +35,7 @@ const Permissions = ({ details }) => (
 													className="check-img"
 													alt="Check"
 												/>
-											</Box>
+											</div>
 										)
 									)}
 								</CardBody>

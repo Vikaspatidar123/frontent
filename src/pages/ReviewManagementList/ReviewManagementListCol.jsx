@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Badge } from 'reactstrap';
-import { Tooltip } from '@mui/material';
+import { Tooltip } from 'recharts';
 import { Colors } from '../../helpers/common';
 
 const Id = (cell) => (cell.value ? cell.value : '');

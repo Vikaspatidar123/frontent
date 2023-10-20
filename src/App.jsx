@@ -11,7 +11,6 @@ import { connect, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 
 // Import Routes all
-import { ThemeProvider, createTheme } from '@mui/material';
 import { authProtectedRoutes, publicRoutes } from './routes';
 
 // Import all middleware
@@ -71,15 +70,8 @@ const App = () => {
 
 	const Layout = getLayout(layoutType);
 
-	const muiTheme = createTheme({
-		typography: {
-			fontFamily: `"Helvetica Neue" "Helvetica" "Arial" "sans-serif"`,
-			fontSize: 12,
-		},
-	});
-
 	return (
-		<ThemeProvider theme={muiTheme}>
+		<>
 			<LinearLoading />
 			<Routes>
 				{publicRoutes.map((route) => (
@@ -104,7 +96,7 @@ const App = () => {
 					/>
 				))}
 			</Routes>
-		</ThemeProvider>
+		</>
 	);
 };
 
