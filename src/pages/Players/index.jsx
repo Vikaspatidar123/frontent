@@ -1,30 +1,19 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import {
-	Action,
-	Email,
-	IsInternal,
-	KycStatus,
-	PhoneNumber,
-	PlayerId,
-	Status,
-	UserName,
-} from './PlayersListCol';
+
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import usePlayersListing from './hooks/usePlayersListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const PlayersList = ({ t }) => {
 	document.title = projectName;
 
 	const {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalPlayersCount,
@@ -32,59 +21,18 @@ const PlayersList = ({ t }) => {
 		formattedPlayers,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	} = usePlayersListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Player Id',
-				accessor: 'userId',
-				filterable: true,
-				Cell: (cellProps) => <PlayerId {...cellProps} />,
-			},
-			{
-				Header: 'Username',
-				accessor: 'username',
-				filterable: true,
-				Cell: (cellProps) => <UserName {...cellProps} />,
-			},
-			{
-				Header: 'Email',
-				accessor: 'email',
-				filterable: true,
-				Cell: (cellProps) => <Email {...cellProps} />,
-			},
-			{
-				Header: 'Phone Number',
-				accessor: 'phone',
-				filterable: true,
-				Cell: (cellProps) => <PhoneNumber {...cellProps} />,
-			},
-			{
-				Header: 'Status',
-				accessor: 'status',
-				filterable: true,
-				Cell: (cellProps) => <Status {...cellProps} />,
-			},
-			{
-				Header: 'Kyc Status',
-				accessor: 'kycStatus',
-				Cell: (cellProps) => <KycStatus {...cellProps} />,
-			},
-			{
-				Header: 'Is Internal',
-				accessor: 'isInternal',
-				Cell: (cellProps) => <IsInternal {...cellProps} />,
-			},
-			{
-				Header: 'Action',
-				accessor: '',
-				Cell: (cellProps) => <Action {...cellProps} />,
-			},
-		],
-		[]
-	);
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
+	console.log('Validations = ', filterValidation.values);
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -95,18 +43,13 @@ const PlayersList = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={[]} title="Player Listing" />
 							<CardBody>
-								<Row>
-									<Col xs="12" sm="3">
-										<Input
-											className="form-control"
-											placeholder="Search Players"
-											onChange={({ target }) =>
-												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-											}
-											value={searchText}
-										/>
-									</Col>
-								</Row>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									isLoading={isPlayersLoading}
 									columns={columns}

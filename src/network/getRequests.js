@@ -56,15 +56,11 @@ const getAllAdmins = ({
 const getPermissionDetails = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/details`);
 
-const getPlayers = ({ limit, pageNo, search }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/user/all?limit=${limit}&pageNo=${pageNo}&search=${search}`
-	);
+const getPlayers = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/user/all`, payload);
 
-const getAllCms = ({ pageNo, limit, search, isActive }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/cms?pageNo=${pageNo}&limit=${limit}&search=${search}&isActive=${isActive}`
-	);
+const getAllCms = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/cms`, payload);
 
 const getAggregators = ({ limit, pageNo }) =>
 	getRequest(
