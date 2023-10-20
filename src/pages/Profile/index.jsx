@@ -157,7 +157,7 @@ const ProfilePage = ({ t }) => {
 						</Card>
 					</Col>
 				</Row>
-				<TabContent activeTab={activeTab} className="p-3 text-muted">
+				<TabContent activeTab={activeTab} className="text-muted">
 					{tabData.map((tab) => (
 						<TabPane key={tab.id} tabId={tab.id}>
 							<Row>
