@@ -179,29 +179,31 @@ export const CustomSwitchButton = ({
 	checked,
 	isError,
 	errorMsg,
+	disabled,
 }) => (
-	<span className="form-check form-check-inline">
-		{label && (
-			<Label htmlFor={htmlFor} className={labelClassName}>
-				{label}
-			</Label>
-		)}
-		<Input
-			type={type}
-			id={id}
-			name={name}
-			className={inputClassName}
-			value={value}
-			onChange={onChange}
-			onBlur={onBlur}
-			style={style}
-			checked={checked}
-		/>
-		{isError && errorMsg ? (
-			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
-		) : null}
-	</span>
-);
+		<span className="form-check form-check-inline">
+			{label && (
+				<Label htmlFor={htmlFor} className={labelClassName}>
+					{label}
+				</Label>
+			)}
+			<Input
+				type={type}
+				id={id}
+				name={name}
+				className={inputClassName}
+				value={value}
+				onChange={onChange}
+				onBlur={onBlur}
+				style={style}
+				checked={checked}
+				disabled={disabled}
+			/>
+			{isError && errorMsg ? (
+				<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+			) : null}
+		</span>
+	);
 
 export const CustomToggleButton = ({
 	label,
@@ -218,7 +220,7 @@ export const CustomToggleButton = ({
 	checked,
 	isError,
 	errorMsg,
-	role,
+	disabled,
 }) => (
 	<span className="form-check form-switch">
 		{label && (
@@ -232,11 +234,11 @@ export const CustomToggleButton = ({
 			name={name}
 			className={inputClassName}
 			value={value}
-			onChange={onChange}
+			onClick={onChange}
 			onBlur={onBlur}
 			style={style}
 			checked={checked}
-			role={role}
+			disabled={disabled}
 		/>
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
@@ -320,6 +322,7 @@ export const getField = (
 					htmlFor="customRadioInline1"
 					type="switch"
 					id="customRadioInline1"
+					value={validation.values[name]}
 					name={name}
 					checked={validation.values[name]}
 					inputClassName="form-check-input"
@@ -333,14 +336,16 @@ export const getField = (
 				<CustomToggleButton
 					labelClassName="form-check-label"
 					label={label}
-					htmlFor="flexSwitchCheckDefault"
+					htmlFor="customSwitch1"
 					type="checkbox"
-					role="switch"
-					id="flexSwitchCheckDefault"
+					id="customSwitch1"
 					name={name}
-					// checked={validation.values.status}
+					checked={validation.values[name]}
 					inputClassName="form-check-input"
-					onChange={validation.handleChange}
+					value={validation.values[name]}
+					onChange={(e) => {
+						validation.setFieldValue(name, !e.target.checked ? 2 : 0);
+					}}
 					onBlur={validation.handleBlur}
 					disabled={!!isDisabled}
 				/>
@@ -389,6 +394,7 @@ export const getField = (
 					}}
 					onBlur={validation.handleBlur}
 					placeholder={placeholder}
+					callBack
 					validate={{ required: { value: true } }}
 					invalid={!!(validation.touched[name] && validation.errors[name])}
 					isError

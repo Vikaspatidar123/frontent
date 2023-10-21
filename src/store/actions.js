@@ -118,3 +118,6 @@ export * from './wageringTemplate/actions';
 
 // PROFILE UPDATE
 export * from './Profile/actions';
+
+// Global Registration
+export * from './registrationformFiels/actions';

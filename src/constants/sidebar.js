@@ -134,7 +134,7 @@ const sideBarElements = [
 				ulTagClass: '',
 			},
 			{
-				link: '/registration-fields',
+				link: '/form-fields',
 				label: 'Registration Fields',
 				iconName: '',
 				linkClass: '',

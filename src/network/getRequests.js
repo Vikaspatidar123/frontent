@@ -218,6 +218,9 @@ const getDocumentLabel = (userId) =>
 const getSiteConfiguration = (data) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data);
 
+const getGlobalRegistration = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/global-registration`);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -254,4 +257,5 @@ export {
 	getSuperAdminWageringTemplateDetail,
 	getSuperAdminWageringTemplate,
 	getSiteConfiguration,
+	getGlobalRegistration,
 };

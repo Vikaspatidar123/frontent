@@ -26,6 +26,9 @@ const updateStatus = (data) =>
 const updateKYCLabels = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/document-label`, data);
 
+const updateGlobalRegistration = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/global-registration`, data);
+
 const updateCurrency = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/currency`, data);
 
@@ -41,6 +44,7 @@ export {
 	superAdminViewToggleStatus,
 	updateStatus,
 	updateKYCLabels,
+	updateGlobalRegistration,
 	updateCurrency,
 	editCountryDetails,
 };
