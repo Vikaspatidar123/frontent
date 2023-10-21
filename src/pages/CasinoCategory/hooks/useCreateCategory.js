@@ -69,7 +69,7 @@ const useCreateCategory = () => {
 
 	const onClickEdit = (selectedRow) => {
 		setIsEdit({ open: true, selectedRow });
-		setHeader('Edit Provider');
+		setHeader('Edit Category');
 		validation.setValues(getInitialValues(selectedRow));
 		setIsOpen((prev) => !prev);
 	};

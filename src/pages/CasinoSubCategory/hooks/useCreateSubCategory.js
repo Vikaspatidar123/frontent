@@ -8,6 +8,7 @@ import {
 } from '../formDetails';
 import {
 	createCasinoSubCategoryStart,
+	editCasinoSubCategoryStart,
 	getCasinoCategoryDetailStart,
 	getLanguagesStart,
 	updateCasinoStatusStart,
@@ -16,12 +17,15 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateSubCategory = () => {
 	const dispatch = useDispatch();
-	const [createName, setCreateName] = useState({ EN: '' });
+	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const [active, setActive] = useState(false);
 
-	const { casinoSubCategoryDetails, isCreateSubCategoryLoading } = useSelector(
-		(state) => state.CasinoManagementData
-	);
+	const {
+		casinoSubCategoryDetails,
+		isCreateSubCategoryLoading,
+		isEditSubCategorySuccess,
+		isEditSubCategoryLoading,
+	} = useSelector((state) => state.CasinoManagementData);
 	const { casinoCategoryDetails, languageData } = useSelector(
 		(state) => state.CasinoManagementData
 	);
@@ -34,20 +38,38 @@ const useCreateSubCategory = () => {
 		);
 	};
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Sub Category',
-			initialValues: getInitialValues({ name: createName }),
-			validationSchema: validationSchema(createName),
-			staticFormFields,
-			onSubmitEntry: handleCreateSubCategory,
-			isEdit: false,
-		});
-
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		setIsOpen((prev) => !prev);
+	const handleEditSubCategory = (values) => {
+		dispatch(
+			editCasinoSubCategoryStart({
+				data: {
+					...values,
+					subcategoryImage:
+						typeof values.subcategoryImage === 'string'
+							? ''
+							: values.subcategoryImage,
+					casinoSubCategoryId: isEdit.selectedRow.gameSubCategoryId,
+				},
+			})
+		);
 	};
+
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		setFormFields,
+		setHeader,
+	} = useForm({
+		header: 'Add Sub Category',
+		initialValues: getInitialValues(),
+		validationSchema,
+		staticFormFields,
+		onSubmitEntry: isEdit.open
+			? handleEditSubCategory
+			: handleCreateSubCategory,
+	});
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
@@ -64,20 +86,43 @@ const useCreateSubCategory = () => {
 		setActive((prev) => !prev);
 	};
 
+	const handleAddClick = (e) => {
+		e.preventDefault();
+		setIsOpen((prev) => !prev);
+		validation.resetForm(getInitialValues());
+		setHeader('Add Sub Category');
+		setIsEdit({ open: false, selectedRow: '' });
+	};
+
+	const onClickEdit = (selectedRow) => {
+		setIsEdit({ open: true, selectedRow });
+		setHeader('Edit Sub Category');
+		validation.setValues(getInitialValues(selectedRow));
+		setIsOpen((prev) => !prev);
+	};
+
+	const onChangeLanguage = (e) => {
+		validation.setValues((prev) => ({
+			...prev,
+			name: { ...prev.name, [e.target.value]: '' },
+		}));
+	};
+
+	const onRemoveLanguage = (e) => {
+		validation.setValues((prev) => {
+			const { name } = prev;
+			const { [e]: key, ...rest } = name;
+			return { ...prev, name: rest };
+		});
+	};
+
 	useEffect(() => {
 		setIsOpen(false);
 	}, [casinoSubCategoryDetails?.count]);
 
-	const onChangeLanguage = (e) => {
-		setCreateName((prev) => ({ ...prev, [e.target.value]: '' }));
-	};
-
-	const onRemoveLanguage = (e) => {
-		setCreateName((prev) => {
-			const { [e]: key, ...rest } = prev;
-			return rest;
-		});
-	};
+	useEffect(() => {
+		if (isEditSubCategorySuccess) setIsOpen(false);
+	}, [isEditSubCategorySuccess]);
 
 	useEffect(() => {
 		if (languageData?.rows?.length && casinoCategoryDetails?.rows?.length) {
@@ -111,11 +156,12 @@ const useCreateSubCategory = () => {
 					label: 'Game Category',
 					fieldType: 'select',
 					optionList: categoryOptions,
+					isDisabled: isEdit.open,
 				},
 				...staticFormFields,
 			]);
 		}
-	}, [languageData, casinoCategoryDetails]);
+	}, [languageData, casinoCategoryDetails, isEdit]);
 
 	useEffect(() => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
@@ -142,6 +188,8 @@ const useCreateSubCategory = () => {
 		active,
 		setActive,
 		handleStatus,
+		onClickEdit,
+		isEditSubCategoryLoading,
 	};
 };
 

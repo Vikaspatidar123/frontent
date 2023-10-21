@@ -32,6 +32,7 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		casinoSubCategoryDetails,
 		iscasinoSubCategoryDetailsLoading,
 		isCreateSubCategorySuccess,
+		isEditSubCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const [page, setPage] = useState(1);
 	const [search] = useState('');
@@ -61,11 +62,13 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		buttonList,
 		handleStatus,
 		active,
+		onClickEdit,
+		isEditSubCategoryLoading,
 	} = useCreateSubCategory();
 
 	useEffect(() => {
-		if (isCreateSubCategorySuccess) fetchData();
-	}, [isCreateSubCategorySuccess]);
+		if (isCreateSubCategorySuccess || isEditSubCategorySuccess) fetchData();
+	}, [isCreateSubCategorySuccess, isEditSubCategorySuccess]);
 
 	useEffect(() => {
 		fetchData();
@@ -84,8 +87,9 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		if (casinoSubCategoryDetails) {
 			return casinoSubCategoryDetails?.rows.map((category) => ({
 				...category,
-				name: category?.name?.EN,
+				nameEN: category?.name?.EN,
 				gameCategory: 'default',
+				subcategoryImage: category?.imageUrl,
 			}));
 		}
 		return [];
@@ -100,7 +104,7 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		},
 		{
 			Header: 'NAME',
-			accessor: 'name',
+			accessor: 'nameEN',
 			filterable: true,
 			Cell: (cellProps) => <Name {...cellProps} />,
 		},
@@ -180,7 +184,10 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 							<Link
 								to="#"
 								className="btn btn-sm btn-soft-info"
-								// onClick={(e) => handleEdit(e, cell?.row?.original)}
+								onClick={(e) => {
+									e.preventDefault();
+									onClickEdit(cell?.row?.original);
+								}}
 							>
 								<i className="mdi mdi-pencil-outline" id="edittooltip" />
 								<UncontrolledTooltip placement="top" target="edittooltip">
@@ -245,7 +252,9 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 								formFields={formFields}
 								submitLabel="Submit"
 								customColClasses="col-md-12"
-								isSubmitLoading={isCreateSubCategoryLoading}
+								isSubmitLoading={
+									isCreateSubCategoryLoading || isEditSubCategoryLoading
+								}
 							/>
 						</Card>
 					</Col>
