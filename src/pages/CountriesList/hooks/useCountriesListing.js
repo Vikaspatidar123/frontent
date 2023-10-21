@@ -11,11 +11,13 @@ const useCountriesListing = () => {
 	const [name, setName] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [active, setActive] = useState(false);
-	const { countries, loading: isCountriesLoading } = useSelector(
-		(state) => state.Countries
-	);
+	const {
+		countries,
+		loading: isCountriesLoading,
+		editCountriesSuccess: isEditCurrencySuccess,
+	} = useSelector((state) => state.Countries);
 
-	useEffect(() => {
+	const fetchData = () =>
 		dispatch(
 			fetchCountriesStart({
 				limit: itemsPerPage,
@@ -23,6 +25,9 @@ const useCountriesListing = () => {
 				name,
 			})
 		);
+
+	useEffect(() => {
+		fetchData();
 	}, [currentPage, name, active, itemsPerPage]);
 
 	const onChangeRowsPerPage = (value) => {
@@ -63,6 +68,10 @@ const useCountriesListing = () => {
 			})
 		);
 	};
+
+	useEffect(() => {
+		if (isEditCurrencySuccess) fetchData();
+	}, [isEditCurrencySuccess]);
 
 	return {
 		name,

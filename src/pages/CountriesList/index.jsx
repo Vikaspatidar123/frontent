@@ -16,6 +16,8 @@ import ActionButtons from './ActionButtons';
 import useCountriesListing from './hooks/useCountriesListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
+import FormModal from '../../components/Common/FormModal';
+import useEditCountry from './hooks/useEditCountry';
 
 const CountriesList = ({ t }) => {
 	document.title = projectName;
@@ -32,6 +34,16 @@ const CountriesList = ({ t }) => {
 		handleStatus,
 		onChangeRowsPerPage,
 	} = useCountriesListing();
+
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		isEditCountryLoading,
+		handleEditClick,
+	} = useEditCountry();
 
 	const columns = useMemo(
 		() => [
@@ -70,7 +82,11 @@ const CountriesList = ({ t }) => {
 				// accessor: "actions",
 				// filterable: true,
 				Cell: (cellProps) => (
-					<ActionButtons {...cellProps} handleStatus={handleStatus} />
+					<ActionButtons
+						{...cellProps}
+						handleEditClick={handleEditClick}
+						handleStatus={handleStatus}
+					/>
 				),
 			},
 		],
@@ -121,6 +137,16 @@ const CountriesList = ({ t }) => {
 						</Card>
 					</Col>
 				</Row>
+				<FormModal
+					isOpen={isOpen}
+					toggle={() => setIsOpen((prev) => !prev)}
+					header={header}
+					validation={validation}
+					formFields={formFields}
+					submitLabel="Submit"
+					customColClasses="col-md-12"
+					isSubmitLoading={isEditCountryLoading}
+				/>
 			</Container>
 		</div>
 	);

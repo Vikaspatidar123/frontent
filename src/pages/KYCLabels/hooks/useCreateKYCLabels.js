@@ -26,6 +26,7 @@ const useCreateKYCLabels = () => {
 		isEditKYCLabelsLoading,
 		isEditKYCLabelsSuccess,
 	} = useSelector((state) => state.SASettings);
+
 	const handleCreateKYCLabels = (values) => {
 		dispatch(
 			createKYCLabelsStart({
