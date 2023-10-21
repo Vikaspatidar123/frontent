@@ -32,6 +32,9 @@ const updateCurrency = (data) =>
 const editCountryDetails = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/country/kyc-method`, data);
 
+const editCasinoCategory = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/category`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -43,4 +46,5 @@ export {
 	updateKYCLabels,
 	updateCurrency,
 	editCountryDetails,
+	editCasinoCategory,
 };

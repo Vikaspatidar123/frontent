@@ -6,14 +6,14 @@ import React, { useMemo } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {
-	Email,
 	GameCategoryId,
 	CreatedAt,
 	UpdatedAt,
 	Status,
+	Name,
 } from './CasinoCategoryListCol';
 
-const useCasinoCategoryColumn = (handleStatus) => {
+const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 	const columns = useMemo(
 		() => [
 			{
@@ -24,9 +24,9 @@ const useCasinoCategoryColumn = (handleStatus) => {
 			},
 			{
 				Header: 'NAME',
-				accessor: 'name',
+				accessor: 'nameEN',
 				filterable: true,
-				Cell: (cellProps) => <Email {...cellProps} />,
+				Cell: (cellProps) => <Name {...cellProps} />,
 			},
 			{
 				Header: 'CREATED AT',
@@ -107,7 +107,10 @@ const useCasinoCategoryColumn = (handleStatus) => {
 								<Link
 									to="#"
 									className="btn btn-sm btn-soft-info"
-									// onClick={(e) => handleEdit(e, cell?.row?.original)}
+									onClick={(e) => {
+										e.preventDefault();
+										onClickEdit(cell?.row?.original);
+									}}
 								>
 									<i className="mdi mdi-pencil-outline" id="edittooltip" />
 									<UncontrolledTooltip placement="top" target="edittooltip">

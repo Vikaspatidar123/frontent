@@ -13,6 +13,7 @@ const useCasinoCategoryListing = () => {
 		iscasinoCategoryDetailsLoading,
 		languageData,
 		isCreateCategorySuccess,
+		isEditCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
@@ -31,7 +32,7 @@ const useCasinoCategoryListing = () => {
 		if (casinoCategoryDetails) {
 			return casinoCategoryDetails?.rows.map((category) => ({
 				...category,
-				name: category?.name?.EN,
+				nameEN: category?.name?.EN,
 				createdAt: formatDate(category?.createdAt),
 				updatedAt: formatDate(category?.updatedAt),
 			}));
@@ -54,8 +55,8 @@ const useCasinoCategoryListing = () => {
 	}, [page, search, itemsPerPage, active]);
 
 	useEffect(() => {
-		if (isCreateCategorySuccess) fetchData();
-	}, [isCreateCategorySuccess]);
+		if (isCreateCategorySuccess || isEditCategorySuccess) fetchData();
+	}, [isCreateCategorySuccess, isEditCategorySuccess]);
 
 	useEffect(() => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));

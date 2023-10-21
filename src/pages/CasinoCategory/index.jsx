@@ -24,8 +24,6 @@ const GetCasinoCategoryDetails = () => {
 		handleStatus,
 	} = useCasinoCategoryListing();
 
-	const columns = useCasinoCategoryColumn(handleStatus);
-
 	const {
 		isOpen,
 		setIsOpen,
@@ -34,7 +32,11 @@ const GetCasinoCategoryDetails = () => {
 		validation,
 		isCreateCategoryLoading,
 		buttonList,
+		onClickEdit,
+		isEditCategoryLoading,
 	} = useCreateCategory();
+
+	const columns = useCasinoCategoryColumn({ handleStatus, onClickEdit });
 
 	return (
 		<div className="page-content">
@@ -72,7 +74,9 @@ const GetCasinoCategoryDetails = () => {
 									formFields={formFields}
 									submitLabel="Submit"
 									customColClasses="col-md-12"
-									isSubmitLoading={isCreateCategoryLoading}
+									isSubmitLoading={
+										isCreateCategoryLoading || isEditCategoryLoading
+									}
 								/>
 							</CardBody>
 						</Card>
