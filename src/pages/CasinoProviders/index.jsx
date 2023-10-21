@@ -41,6 +41,8 @@ const CasinoProviders = ({ t }) => {
 		validation,
 		isCreateProviderLoading,
 		buttonList,
+		onClickEdit,
+		isEditProviderLoading,
 	} = useCreateProvider();
 
 	const columns = [
@@ -73,10 +75,15 @@ const CasinoProviders = ({ t }) => {
 			accessor: 'action',
 			disableFilters: true,
 			Cell: ({ cell }) => (
-				<ActionButtons cell={cell} handleStatus={handleStatus} />
+				<ActionButtons
+					cell={cell}
+					handleStatus={handleStatus}
+					onClickEdit={onClickEdit}
+				/>
 			),
 		},
 	];
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -117,7 +124,7 @@ const CasinoProviders = ({ t }) => {
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
-					isSubmitLoading={isCreateProviderLoading}
+					isSubmitLoading={isCreateProviderLoading || isEditProviderLoading}
 				/>
 			</Container>
 		</div>
