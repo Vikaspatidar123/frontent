@@ -5,6 +5,9 @@ import {
 	UPDATE_COUNTRIES_STATUS_START,
 	UPDATE_COUNTRIES_STATUS_SUCCESS,
 	UPDATE_COUNTRIES_STATUS_FAIL,
+	EDIT_COUNTRIES_START,
+	EDIT_COUNTRIES_SUCCESS,
+	EDIT_COUNTRIES_FAIL,
 } from './actionTypes';
 
 export const fetchCountriesStart = (payload) => ({
@@ -34,5 +37,20 @@ export const updateCountryStatusSuccess = (payload) => ({
 
 export const updateCountryStatusFail = (payload) => ({
 	type: UPDATE_COUNTRIES_STATUS_FAIL,
+	payload,
+});
+
+export const editCountryStart = (payload) => ({
+	type: EDIT_COUNTRIES_START,
+	payload,
+});
+
+export const editCountrySuccess = (payload) => ({
+	type: EDIT_COUNTRIES_SUCCESS,
+	payload,
+});
+
+export const editCountryFail = (payload) => ({
+	type: EDIT_COUNTRIES_FAIL,
 	payload,
 });

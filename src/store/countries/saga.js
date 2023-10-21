@@ -2,6 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 // Login Redux States
 import {
+	EDIT_COUNTRIES_START,
 	FETCH_COUNTRIES_START,
 	UPDATE_COUNTRIES_STATUS_START,
 } from './actionTypes';
@@ -11,9 +12,14 @@ import {
 	fetchCountriesStart,
 	updateCountryStatusSuccess,
 	updateCountryStatusFail,
+	editCountryFail,
+	editCountrySuccess,
 } from './actions';
 import { getCountries } from '../../network/getRequests';
-import { superAdminViewToggleStatus } from '../../network/putRequests';
+import {
+	editCountryDetails,
+	superAdminViewToggleStatus,
+} from '../../network/putRequests';
 import { showToastr } from '../../utils/helpers';
 
 function* fetchCountries({ payload }) {
@@ -56,9 +62,32 @@ function* updateCountryStatusWorker(action) {
 	}
 }
 
+function* editCountryWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield editCountryDetails(data);
+
+		showToastr({
+			message: 'Country updated Successfully',
+			type: 'success',
+		});
+
+		yield put(editCountrySuccess());
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(editCountryFail());
+	}
+}
+
 function* countriesSaga() {
 	yield takeEvery(FETCH_COUNTRIES_START, fetchCountries);
 	yield takeEvery(UPDATE_COUNTRIES_STATUS_START, updateCountryStatusWorker);
+	yield takeEvery(EDIT_COUNTRIES_START, editCountryWorker);
 }
 
 export default countriesSaga;

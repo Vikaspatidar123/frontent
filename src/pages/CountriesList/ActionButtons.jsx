@@ -4,7 +4,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const ActionButtons = ({ row, handleStatus }) => {
+const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 	const active = row?.original?.status;
 	const countryId = row?.original?.countryId;
 	return (
@@ -58,7 +58,10 @@ const ActionButtons = ({ row, handleStatus }) => {
 				<Link
 					to="#"
 					className="btn btn-sm btn-soft-info"
-					// onClick={(e) => handleEdit(e, cell?.row?.original)}
+					onClick={(e) => {
+						e.preventDefault();
+						handleEditClick(row?.original);
+					}}
 				>
 					<i className="mdi mdi-pencil-outline" id="edittooltip" />
 					<UncontrolledTooltip placement="top" target="edittooltip">
@@ -82,6 +85,7 @@ const ActionButtons = ({ row, handleStatus }) => {
 ActionButtons.propTypes = {
 	handleStatus: PropTypes.func.isRequired,
 	row: PropTypes.objectOf.isRequired,
+	handleEditClick: PropTypes.func.isRequired,
 };
 
 export default ActionButtons;
