@@ -22,6 +22,8 @@ import {
 	updateCasinoStatusFail,
 	updateSACasinoGamesStatusSuccess,
 	updateSACasinoGamesStatusFail,
+	editCasinoCategorySuccess,
+	editCasinoCategoryFailure,
 } from './actions';
 
 import {
@@ -35,6 +37,7 @@ import {
 	CREATE_CASINO_SUBCATEGORY_START,
 	UPDATE_CASINO_STATUS_START,
 	UPDATE_SA_CASINO_GAMES_STATUS_START,
+	EDIT_CASINO_CATEGORY,
 } from './actionTypes';
 
 import {
@@ -51,7 +54,10 @@ import {
 	createCasinoSubCategory,
 } from '../../network/postRequests';
 
-import { superAdminViewToggleStatus } from '../../network/putRequests';
+import {
+	editCasinoCategory,
+	superAdminViewToggleStatus,
+} from '../../network/putRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 
@@ -210,6 +216,27 @@ function* createCasinoCategoryWorker(action) {
 	}
 }
 
+function* editCasinoCategoryWorker(action) {
+	try {
+		const { data } = action && action.payload;
+		yield editCasinoCategory(data);
+
+		showToastr({
+			message: `Category Updated Successfully`,
+			type: 'success',
+		});
+
+		yield put(editCasinoCategorySuccess());
+	} catch (e) {
+		yield put(editCasinoCategoryFailure());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* createCasinoSubCategoryWorker(action) {
 	try {
 		const { data } = action && action.payload;
@@ -290,6 +317,7 @@ export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_PROVIDERS_DATA, getAllCasinoProvidersWorker);
 	yield takeLatest(GET_CASINO_GAMES, getAllCasinoGamesWorker);
 	yield takeLatest(CREATE_CASINO_PROVIDERS, createCasinoProviderWorker);
+	yield takeLatest(EDIT_CASINO_CATEGORY, editCasinoCategoryWorker);
 	yield takeLatest(CREATE_CASINO_CATEGORY_START, createCasinoCategoryWorker);
 	yield takeLatest(
 		CREATE_CASINO_SUBCATEGORY_START,

@@ -12,7 +12,7 @@ const GameCategoryId = (cell) => {
 		</Link>
 	);
 };
-const Email = (cell) => (cell.value ? cell.value : '');
+const Name = (cell) => (cell.value ? cell.value : '');
 
 const CreatedAt = (cell) => (cell.value ? cell.value : '');
 
@@ -37,4 +37,4 @@ Status.propTypes = {
 	}).isRequired,
 };
 
-export { GameCategoryId, Email, CreatedAt, UpdatedAt, Status };
+export { GameCategoryId, Name, CreatedAt, UpdatedAt, Status };

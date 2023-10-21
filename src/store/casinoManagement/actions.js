@@ -29,6 +29,9 @@ import {
 	UPDATE_SA_CASINO_GAMES_STATUS_FAIL,
 	UPDATE_SA_CASINO_GAMES_STATUS_START,
 	UPDATE_SA_CASINO_GAMES_STATUS_SUCCESS,
+	EDIT_CASINO_CATEGORY_SUCCESS,
+	EDIT_CASINO_CATEGORY_FAIL,
+	EDIT_CASINO_CATEGORY,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -133,6 +136,21 @@ export const createCasinoCategoryFailure = (payload) => ({
 
 export const createCasinoCategoryStart = (payload) => ({
 	type: CREATE_CASINO_CATEGORY_START,
+	payload,
+});
+
+export const editCasinoCategorySuccess = (payload) => ({
+	type: EDIT_CASINO_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const editCasinoCategoryFailure = (payload) => ({
+	type: EDIT_CASINO_CATEGORY_FAIL,
+	payload,
+});
+
+export const editCasinoCategoryStart = (payload) => ({
+	type: EDIT_CASINO_CATEGORY,
 	payload,
 });
 

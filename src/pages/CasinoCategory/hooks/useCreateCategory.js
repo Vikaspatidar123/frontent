@@ -6,14 +6,22 @@ import {
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import { createCasinoCategoryStart } from '../../../store/actions';
+import {
+	createCasinoCategoryStart,
+	editCasinoCategoryStart,
+} from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateCategory = () => {
 	const dispatch = useDispatch();
-	const [createName, setCreateName] = useState({ EN: '' });
-	const { casinoCategoryDetails, languageData, isCreateCategoryLoading } =
-		useSelector((state) => state.CasinoManagementData);
+	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
+	const {
+		casinoCategoryDetails,
+		languageData,
+		isCreateCategoryLoading,
+		isEditCategoryLoading,
+		isEditCategorySuccess,
+	} = useSelector((state) => state.CasinoManagementData);
 
 	const handleCreateCategory = (values) => {
 		dispatch(
@@ -23,18 +31,46 @@ const useCreateCategory = () => {
 		);
 	};
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Category',
-			initialValues: getInitialValues({ name: createName }),
-			validationSchema: validationSchema(createName),
-			staticFormFields,
-			onSubmitEntry: handleCreateCategory,
-			isEdit: false,
-		});
+	const handleEditCategory = (values) => {
+		dispatch(
+			editCasinoCategoryStart({
+				data: { ...values, gameCategoryId: isEdit.selectedRow.gameCategoryId },
+			})
+		);
+	};
+
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		setFormFields,
+		setHeader,
+	} = useForm({
+		header: 'Add Category',
+		initialValues: getInitialValues({ name: { EN: '' } }),
+		validationSchema,
+		staticFormFields,
+		onSubmitEntry: isEdit.open ? handleEditCategory : handleCreateCategory,
+	});
+
+	useEffect(() => {
+		if (isEditCategorySuccess) setIsOpen(false);
+	}, [isEditCategorySuccess]);
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
+		setIsOpen((prev) => !prev);
+		validation.resetForm(getInitialValues());
+		setHeader('Add Category');
+		setIsEdit({ open: false, selectedRow: '' });
+	};
+
+	const onClickEdit = (selectedRow) => {
+		setIsEdit({ open: true, selectedRow });
+		setHeader('Edit Provider');
+		validation.setValues(getInitialValues(selectedRow));
 		setIsOpen((prev) => !prev);
 	};
 
@@ -43,13 +79,17 @@ const useCreateCategory = () => {
 	}, [casinoCategoryDetails?.count]);
 
 	const onChangeLanguage = (e) => {
-		setCreateName((prev) => ({ ...prev, [e.target.value]: '' }));
+		validation.setValues((prev) => ({
+			...prev,
+			name: { ...prev.name, [e.target.value]: '' },
+		}));
 	};
 
 	const onRemoveLanguage = (e) => {
-		setCreateName((prev) => {
-			const { [e]: key, ...rest } = prev;
-			return rest;
+		validation.setValues((prev) => {
+			const { name } = prev;
+			const { [e]: key, ...rest } = name;
+			return { ...prev, name: rest };
 		});
 	};
 
@@ -98,6 +138,8 @@ const useCreateCategory = () => {
 		setFormFields,
 		buttonList,
 		isCreateCategoryLoading,
+		isEditCategoryLoading,
+		onClickEdit,
 	};
 };
 
