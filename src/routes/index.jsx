@@ -200,6 +200,7 @@ import ProfilePage from '../pages/Profile';
 import AddAdmin from '../pages/Admins/addAdmin';
 import EditAdmin from '../pages/Admins/editAdmin';
 import JobGrid from '../pages/JobPages/JobGrid';
+import RegistrationFields from '../pages/RegistrationFormFields';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -253,6 +254,7 @@ const authProtectedRoutes = [
 	{ path: '/kyc-labels', component: <KYCLabels /> },
 	{ path: '/wagering-template', component: <WageringTemplate /> },
 	{ path: '/profile', component: <ProfilePage /> },
+	{ path: '/form-fields', component: <RegistrationFields /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },

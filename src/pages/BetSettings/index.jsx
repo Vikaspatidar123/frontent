@@ -157,6 +157,7 @@ const BetSettings = () => {
 									currentPage={page}
 									isLoading={!isLoading}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
+									thCustomClass="table-light"
 								/>
 							</CardBody>
 						</Card>

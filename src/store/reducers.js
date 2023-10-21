@@ -131,6 +131,9 @@ import ProgressLoading from './progressLoading/reducer';
 // PROFILE UPDATE
 import ProfileData from './Profile/reducer';
 
+// global registration
+import FormFields from './registrationformFiels/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -147,7 +150,7 @@ const rootReducer = combineReducers({
 	WageringTemplate,
 	ProgressLoading,
 	ProfileData,
-
+	FormFields,
 	// public
 	Layout,
 	Login,
