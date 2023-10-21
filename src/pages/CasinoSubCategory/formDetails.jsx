@@ -49,6 +49,7 @@ const staticFormFields = [
 		name: 'subcategoryImage',
 		fieldType: 'file',
 		label: 'Thumbnail',
+		showThumbnail: true,
 	},
 ];
 
