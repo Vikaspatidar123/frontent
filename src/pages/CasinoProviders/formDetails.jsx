@@ -16,18 +16,17 @@ const validationSchema = () =>
 		gameAggregatorId: Yup.string().required('Aggregator Required'),
 		thumbnail: Yup.mixed()
 			.required('A file is required')
-			.test(
-				'File Size',
-				'File Size Should be Less Than 1MB',
-				(value) => !value || (value && value.size <= 1024 * 1024)
+			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
+				typeof value === 'string'
+					? true
+					: !value || (value && value.size <= 1024 * 1024)
 			)
-			.test(
-				'FILE_FORMAT',
-				'Uploaded file has unsupported format.',
-				(value) =>
-					!value ||
-					(value &&
-						['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+				typeof value === 'string'
+					? true
+					: !value ||
+					  (value &&
+							['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
 			),
 	});
 
@@ -48,6 +47,7 @@ const staticFormFields = [
 		fieldType: 'file',
 		label: 'Thumbnail',
 		placeholder: 'Enter Thumbnail ',
+		showThumbnail: true,
 	},
 ];
 

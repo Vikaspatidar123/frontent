@@ -58,7 +58,8 @@ const getRequest = (url, params) =>
 const postRequest = (url, data, config) =>
 	makeRequest(url, METHODS.post, data, config);
 
-const putRequest = (url, data) => makeRequest(url, METHODS.put, data);
+const putRequest = (url, data, config) =>
+	makeRequest(url, METHODS.put, data, config);
 
 const deleteRequest = (url, data) => makeRequest(url, METHODS.delete, data);
 

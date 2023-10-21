@@ -10,6 +10,7 @@ const useCasinoProvidersListing = () => {
 		casinoProvidersData,
 		isCasinoProvidersDataLoading,
 		isCreateProviderSuccess,
+		isEditProviderSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const [limit, setLimit] = useState(10);
 	const [search, setSearch] = useState('');
@@ -37,8 +38,8 @@ const useCasinoProvidersListing = () => {
 	}, [limit, page, search, active, itemsPerPage]);
 
 	useEffect(() => {
-		if (isCreateProviderSuccess) fetchData();
-	}, [isCreateProviderSuccess]);
+		if (isCreateProviderSuccess || isEditProviderSuccess) fetchData();
+	}, [isCreateProviderSuccess, isEditProviderSuccess]);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();

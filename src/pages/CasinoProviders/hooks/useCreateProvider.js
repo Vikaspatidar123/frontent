@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -8,16 +8,20 @@ import {
 } from '../formDetails';
 import {
 	createCasinoProvidersStart,
+	editCasinoProvidersStart,
 	getAggregatorsList,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
+	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const { aggregatorsData } = useSelector((state) => state.AggregatorsReducer);
-	const { isCreateProviderLoading, casinoProvidersData } = useSelector(
-		(state) => state.CasinoManagementData
-	);
+	const {
+		isCreateProviderLoading,
+		casinoProvidersData,
+		isEditProviderLoading,
+	} = useSelector((state) => state.CasinoManagementData);
 
 	const handleCreateProvider = (values) => {
 		dispatch(
@@ -27,27 +31,63 @@ const useCreateProvider = () => {
 		);
 	};
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Provider',
-			initialValues: getInitialValues(),
-			validationSchema,
-			staticFormFields,
-			onSubmitEntry: handleCreateProvider,
-			isEdit: false,
-		});
+	const handleEditProvider = (values) => {
+		dispatch(
+			editCasinoProvidersStart({
+				data: {
+					...values,
+					thumbnail:
+						typeof values.thumbnail === 'string' ? '' : values.thumbnail,
+					casinoProviderId: isEdit.selectedRow.casinoProviderId,
+				},
+			})
+		);
+	};
+
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		setFormFields,
+		setHeader,
+	} = useForm({
+		header: 'Add Provider',
+		initialValues: getInitialValues(),
+		validationSchema,
+		staticFormFields,
+		onSubmitEntry: isEdit.open ? handleEditProvider : handleCreateProvider,
+	});
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
-		if (!aggregatorsData.length) {
-			dispatch(getAggregatorsList({ pageNo: 1 }));
-		}
+		validation.resetForm(getInitialValues());
+		setHeader('Add Currency');
+		setIsEdit({ open: false, selectedRow: '' });
+	};
+
+	useEffect(() => {
+		dispatch(getAggregatorsList({ pageNo: 1 }));
+	}, []);
+
+	const onClickEdit = (selectedRow) => {
+		setIsEdit({ open: true, selectedRow });
+		setHeader('Edit Provider');
+		validation.setValues(
+			getInitialValues({ ...selectedRow, thumbnail: selectedRow.thumbnailUrl })
+		);
+		setIsOpen((prev) => !prev);
 	};
 
 	useEffect(() => {
 		setIsOpen(false);
 	}, [casinoProvidersData?.count]);
+
+	useEffect(() => {
+		if (isEditProviderLoading) setIsOpen(false);
+	}, [isEditProviderLoading]);
 
 	useEffect(() => {
 		if (aggregatorsData?.rows?.length) {
@@ -65,6 +105,7 @@ const useCreateProvider = () => {
 					label: 'Aggregator',
 					placeholder: 'Select Aggregator',
 					optionList: aggOptions,
+					isDisabled: isEdit.open,
 				},
 			]);
 		}
@@ -87,6 +128,8 @@ const useCreateProvider = () => {
 		setFormFields,
 		buttonList,
 		isCreateProviderLoading,
+		onClickEdit,
+		isEditProviderLoading,
 	};
 };
 
