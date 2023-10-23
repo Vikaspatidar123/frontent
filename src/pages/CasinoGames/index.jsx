@@ -20,6 +20,8 @@ import {
 import ActionButtons from './ActionButtons';
 import useCasinoGamesListings from './hooks/useCasinoGamesListing';
 import CrudSection from '../../components/Common/CrudSection';
+import useEditCasinoGames from './hooks/useEditCasinoGames';
+import FormModal from '../../components/Common/FormModal';
 
 const CasinoGames = ({ t }) => {
 	// meta title
@@ -35,6 +37,16 @@ const CasinoGames = ({ t }) => {
 		handleStatus,
 		onChangeRowsPerPage,
 	} = useCasinoGamesListings();
+
+	const {
+		onClickEdit,
+		isEditCasinoGamesLoading,
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+	} = useEditCasinoGames();
 
 	const columns = [
 		{
@@ -90,7 +102,11 @@ const CasinoGames = ({ t }) => {
 			accessor: 'action',
 			disableFilters: true,
 			Cell: ({ cell }) => (
-				<ActionButtons cell={cell} handleStatus={handleStatus} />
+				<ActionButtons
+					cell={cell}
+					handleStatus={handleStatus}
+					onClickEdit={onClickEdit}
+				/>
 			),
 		},
 	];
@@ -122,6 +138,16 @@ const CasinoGames = ({ t }) => {
 									currentPage={page}
 									isLoading={!isCasinoGamesLoading}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
+								/>
+								<FormModal
+									isOpen={isOpen}
+									toggle={() => setIsOpen((prev) => !prev)}
+									header={header}
+									validation={validation}
+									formFields={formFields}
+									submitLabel="Submit"
+									customColClasses="col-md-12"
+									isSubmitLoading={isEditCasinoGamesLoading}
 								/>
 							</CardBody>
 						</Card>

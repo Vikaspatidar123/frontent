@@ -4,7 +4,7 @@ import React from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-const ActionButtons = ({ cell, handleStatus }) => {
+const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 	const active = cell?.row?.original?.isActive;
 	const casinoGameId = cell?.row?.original?.casinoGameId;
 	return (
@@ -58,7 +58,10 @@ const ActionButtons = ({ cell, handleStatus }) => {
 				<Link
 					to="#"
 					className="btn btn-sm btn-soft-info"
-					// onClick={(e) => handleEdit(e, cell?.row?.original)}
+					onClick={(e) => {
+						e.preventDefault();
+						onClickEdit(cell?.row?.original);
+					}}
 				>
 					<i className="mdi mdi-pencil-outline" id="edittooltip" />
 					<UncontrolledTooltip placement="top" target="edittooltip">
