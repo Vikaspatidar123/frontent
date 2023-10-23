@@ -8,7 +8,6 @@ import {
 const useCountriesListing = () => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [name, setName] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [active, setActive] = useState(false);
 	const {
@@ -22,13 +21,12 @@ const useCountriesListing = () => {
 			fetchCountriesStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				name,
 			})
 		);
 
 	useEffect(() => {
 		fetchData();
-	}, [currentPage, name, active, itemsPerPage]);
+	}, [currentPage, active, itemsPerPage]);
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
@@ -63,7 +61,6 @@ const useCountriesListing = () => {
 				limit: itemsPerPage,
 				pageNo: currentPage,
 				isActive: status,
-				name,
 				kycMethod: '',
 			})
 		);
@@ -74,8 +71,6 @@ const useCountriesListing = () => {
 	}, [isEditCurrencySuccess]);
 
 	return {
-		name,
-		setName,
 		currentPage,
 		setCurrentPage,
 		totalCountriesCount: countries?.count,

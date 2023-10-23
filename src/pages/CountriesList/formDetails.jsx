@@ -18,4 +18,31 @@ const staticFormFields = [
 	},
 ];
 
-export { validationSchema, getInitialValues, staticFormFields };
+// Country filter
+const staticFiltersFields = () => [
+	{
+		name: 'name',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by email, name or group',
+	},
+];
+
+const filterValues = () => ({
+	name: '',
+});
+
+const filterValidationSchema = () =>
+	Yup.object({
+		name: Yup.string().nullable(),
+	});
+
+export {
+	validationSchema,
+	getInitialValues,
+	staticFormFields,
+	staticFiltersFields,
+	filterValues,
+	filterValidationSchema,
+};

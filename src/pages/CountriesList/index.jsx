@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
-import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
@@ -18,13 +18,13 @@ import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
 import useEditCountry from './hooks/useEditCountry';
+import Filters from '../../components/Common/Filters';
+import useFilters from './hooks/useFilters';
 
 const CountriesList = ({ t }) => {
 	document.title = projectName;
 
 	const {
-		name,
-		setName,
 		currentPage,
 		setCurrentPage,
 		totalCountriesCount,
@@ -44,6 +44,14 @@ const CountriesList = ({ t }) => {
 		isEditCountryLoading,
 		handleEditClick,
 	} = useEditCountry();
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	const columns = useMemo(
 		() => [
@@ -106,18 +114,13 @@ const CountriesList = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={[]} title="Countries Listing" />
 							<CardBody>
-								<Row>
-									<Col xs="12" sm="3">
-										<Input
-											className="form-control"
-											placeholder="Search Countries"
-											onChange={({ target }) =>
-												setName(target.value.replace(/[^\w\s]/gi, ''))
-											}
-											value={name}
-										/>
-									</Col>
-								</Row>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									isLoading={isCountriesLoading}
 									columns={columns}
