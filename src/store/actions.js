@@ -48,6 +48,9 @@ export * from './mails/actions';
 // dashboard
 export * from './dashboard/actions';
 
+// Main dashboard
+export * from './dashboardView/actions';
+
 // dashboard-crypto
 export * from './dashboard-crypto/actions';
 

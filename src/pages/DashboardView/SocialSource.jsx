@@ -1,5 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-use-before-define */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
 import { Link } from 'react-router-dom';

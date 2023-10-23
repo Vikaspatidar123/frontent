@@ -1,0 +1,4 @@
+/** Get Dashboard Chart data */
+export const GET_LIVE_PLAYER_START = 'GET_LIVE_PLAYER_START';
+export const GET_LIVE_PLAYER_SUCCESS = 'GET_LIVE_PLAYER_SUCCESS';
+export const GET_LIVE_PLAYER_FAIL = 'GET_LIVE_PLAYER_FAIL';
