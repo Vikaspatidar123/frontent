@@ -4,8 +4,13 @@ import { getBetSettingsData, getSportsList } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 
 const useBetSettings = () => {
-	const { betSettingsList, isLoading, error, isCreateBetSettingsSuccess } =
-		useSelector((state) => state.BetSettings);
+	const {
+		betSettingsList,
+		isLoading,
+		error,
+		isCreateBetSettingsSuccess,
+		isEditBetSettingsSuccess,
+	} = useSelector((state) => state.BetSettings);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const { sportsListInfo } = useSelector((state) => state.SportsList);
 	const [page, setPage] = useState(1);
@@ -52,8 +57,8 @@ const useBetSettings = () => {
 	}, [page, itemsPerPage]);
 
 	useEffect(() => {
-		if (isCreateBetSettingsSuccess) fetchData();
-	}, [isCreateBetSettingsSuccess]);
+		if (isCreateBetSettingsSuccess || isEditBetSettingsSuccess) fetchData();
+	}, [isCreateBetSettingsSuccess, isEditBetSettingsSuccess]);
 
 	return {
 		formattedBetSettingsList,

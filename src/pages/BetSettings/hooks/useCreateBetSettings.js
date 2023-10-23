@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -6,14 +6,20 @@ import {
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import { createBetSettingsStart } from '../../../store/actions';
+import {
+	createBetSettingsStart,
+	editBetSettingsStart,
+} from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateBetSettings = () => {
 	const dispatch = useDispatch();
-	const { isCreateBetSettingsLoading, betSettingsList } = useSelector(
-		(state) => state.BetSettings
-	);
+	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
+	const {
+		isCreateBetSettingsLoading,
+		betSettingsList,
+		isEditBetSettingsSuccess,
+	} = useSelector((state) => state.BetSettings);
 	const { sportsListInfo } = useSelector((state) => state.SportsList);
 
 	const handleCreateBetSettings = (values) => {
@@ -24,24 +30,52 @@ const useCreateBetSettings = () => {
 		);
 	};
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Bet Settings',
-			initialValues: getInitialValues(),
-			validationSchema,
-			staticFormFields,
-			onSubmitEntry: handleCreateBetSettings,
-			isEdit: false,
-		});
+	const handleEditBetSettings = (values) => {
+		dispatch(
+			editBetSettingsStart({
+				data: { ...values, betSettingId: isEdit.selectedRow.betSettingId },
+			})
+		);
+	};
+
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		setFormFields,
+		setHeader,
+	} = useForm({
+		header: 'Add Bet Settings',
+		initialValues: getInitialValues(),
+		validationSchema,
+		staticFormFields,
+		onSubmitEntry: isEdit ? handleEditBetSettings : handleCreateBetSettings,
+	});
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
+		setIsOpen((prev) => !prev);
+		validation.resetForm(getInitialValues());
+		setHeader('Edit Bet Settings');
+		setIsEdit({ open: false, selectedRow: '' });
+	};
+
+	const onClickEdit = (selectedRow) => {
+		setIsEdit({ open: true, selectedRow });
+		setHeader('Add Bet Settings');
+		validation.setValues(getInitialValues(selectedRow));
 		setIsOpen((prev) => !prev);
 	};
 
 	useEffect(() => {
 		setIsOpen(false);
 	}, [betSettingsList?.length]);
+
+	useEffect(() => {
+		if (isEditBetSettingsSuccess) setIsOpen(false);
+	}, [isEditBetSettingsSuccess]);
 
 	useEffect(() => {
 		if (sportsListInfo?.rows?.length) {
@@ -81,6 +115,7 @@ const useCreateBetSettings = () => {
 		setFormFields,
 		buttonList,
 		isCreateBetSettingsLoading,
+		onClickEdit,
 	};
 };
 

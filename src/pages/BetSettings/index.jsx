@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
@@ -26,7 +26,7 @@ import useCreateBetSettings from './hooks/useCreateBetSettings';
 import FormModal from '../../components/Common/FormModal';
 import CrudSection from '../../components/Common/CrudSection';
 
-const columns = [
+const computeColumns = ({ onClickEdit }) => [
 	{
 		Header: 'ID',
 		accessor: 'betSettingId',
@@ -103,7 +103,7 @@ const columns = [
 		Header: 'Action',
 		accessor: 'action',
 		disableFilters: true,
-		Cell: () => <ActionButtons />,
+		Cell: ({ cell }) => <ActionButtons cell={cell} onClickEdit={onClickEdit} />,
 	},
 ];
 
@@ -129,7 +129,10 @@ const BetSettings = () => {
 		validation,
 		isCreateBetSettingsLoading,
 		buttonList,
+		onClickEdit,
 	} = useCreateBetSettings();
+
+	const columns = useMemo(() => computeColumns({ onClickEdit }), []);
 
 	return (
 		<div className="page-content">

@@ -6,15 +6,19 @@ import {
 	getBetSettingsDataFail,
 	createBetSettingsSuccess,
 	createBetSettingsFail,
+	editBetSettingsSuccess,
+	editBetSettingsFail,
 } from './actions';
 import {
 	CREATE_BET_SETTINGS_START,
+	EDIT_BET_SETTINGS_START,
 	GET_BET_SETTINGS_DATA,
 } from './actionTypes';
 
 import { getBetSettings } from '../../network/getRequests';
 import { createBetSettings } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
+import { editBetSettings } from '../../network/putRequests';
 
 function* betSettingsWorker() {
 	try {
@@ -49,9 +53,32 @@ function* createBetSettingsWorker(action) {
 	}
 }
 
+function* editBetSettingsWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield editBetSettings(data);
+
+		showToastr({
+			message: `Bet settings updated Successfully`,
+			type: 'success',
+		});
+
+		yield put(editBetSettingsSuccess());
+	} catch (e) {
+		yield put(editBetSettingsFail());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 export function* betSettingsWatcher() {
 	yield takeLatest(GET_BET_SETTINGS_DATA, betSettingsWorker);
 	yield takeLatest(CREATE_BET_SETTINGS_START, createBetSettingsWorker);
+	yield takeLatest(EDIT_BET_SETTINGS_START, editBetSettingsWorker);
 }
 
 function* BetSettingsSaga() {
