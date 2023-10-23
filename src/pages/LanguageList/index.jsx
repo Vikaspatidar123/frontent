@@ -1,21 +1,18 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import { Id, LanguageCode, LanguageName } from './LanguageListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useLanguageListing from './hooks/useLanguageListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const LanguageList = ({ t }) => {
 	document.title = projectName;
 
 	const {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalLanguagesCount,
@@ -23,31 +20,16 @@ const LanguageList = ({ t }) => {
 		formattedLanguages,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	} = useLanguageListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Id',
-				accessor: 'languageId',
-				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
-			},
-			{
-				Header: 'Language Code',
-				accessor: 'code',
-				filterable: true,
-				Cell: (cellProps) => <LanguageCode {...cellProps} />,
-			},
-			{
-				Header: 'Language Name',
-				accessor: 'languageName',
-				filterable: true,
-				Cell: (cellProps) => <LanguageName {...cellProps} />,
-			},
-		],
-		[]
-	);
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	return (
 		<div className="page-content">
@@ -62,18 +44,13 @@ const LanguageList = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={[]} title="Languages Listing" />
 							<CardBody>
-								<Row>
-									<Col xs="12" sm="3">
-										<Input
-											className="form-control"
-											placeholder="Search Languages"
-											onChange={({ target }) =>
-												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-											}
-											value={searchText}
-										/>
-									</Col>
-								</Row>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									isLoading={isLanguagesLoading}
 									columns={columns}

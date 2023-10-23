@@ -23,10 +23,8 @@ const getAllCurrencies = ({ limit, pageNo }) =>
 		`${VITE_APP_API_URL}/api/admin/currency?limit=${limit}&pageNo=${pageNo}`
 	);
 
-const getLanguages = ({ limit = '', pageNo = '', name = '' }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/language?limit=${limit}&pageNo=${pageNo}&name=${name}`
-	);
+const getLanguages = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/language`, payload);
 
 const getCountries = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/country/list`, payload);
