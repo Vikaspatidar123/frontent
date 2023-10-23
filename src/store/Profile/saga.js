@@ -68,16 +68,19 @@ function* resetProfilePasswordWorker(action) {
 
 		window.localStorage.clear();
 
-		yield put(
-			showToastr({
-				message: `Profile Password Reset Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `Profile Password Reset Successfully`,
+			type: 'success',
+		});
 	} catch (e) {
 		yield put(
 			resetProfilePasswordFail(e?.response?.data?.errors[0]?.description)
 		);
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 

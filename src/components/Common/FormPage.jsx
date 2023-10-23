@@ -7,10 +7,14 @@ const FormPage = ({
 	validation,
 	leftFormFields,
 	rightFormFields,
+	staticFormFields,
 	submitLabel,
 	customColClasses,
 	customComponent,
 	isSubmitLoading,
+	isSubmit = true,
+	isEdit = false,
+	enableEdit,
 }) => (
 	<Card className="p-3">
 		<Row>
@@ -21,6 +25,16 @@ const FormPage = ({
 					return false;
 				}}
 			>
+				<Row className="justify-content-center">
+					<Col lg={6}>
+						{staticFormFields?.map(
+							(field) =>
+								!field?.isHide && (
+									<div className="mb-3">{getField(field, validation)}</div>
+								)
+						)}
+					</Col>
+				</Row>
 				<Row>
 					<Col className={`lg-6 ${customColClasses}`}>
 						{leftFormFields?.map(
@@ -43,13 +57,31 @@ const FormPage = ({
 				<Row>
 					<Col>
 						<div className="text-end">
-							<button
-								type="submit"
-								disabled={isSubmitLoading}
-								className="btn btn-success save-user"
-							>
-								{submitLabel}
-							</button>
+							{isSubmit && (
+								<button
+									type="submit"
+									className="btn btn-primary waves-effect waves-light"
+									disabled={isSubmitLoading}
+								>
+									{submitLabel}
+								</button>
+							)}
+						</div>
+					</Col>
+				</Row>
+				<Row>
+					<Col>
+						<div className="text-end">
+							{isEdit && (
+								<button
+									className="btn btn-primary waves-effect waves-light"
+									disabled={isSubmitLoading}
+									type="button"
+									onClick={() => enableEdit(false)}
+								>
+									Edit
+								</button>
+							)}
 						</div>
 					</Col>
 				</Row>
@@ -64,13 +96,21 @@ FormPage.defaultProps = {
 	customColClasses: '',
 	customComponent: <div />,
 	isSubmitLoading: false,
+	staticFormFields: [],
+	isSubmit: true,
+	isEdit: false,
+	enableEdit: () => {},
 };
 
 FormPage.propTypes = {
 	validation: PropTypes.objectOf,
 	leftFormFields: PropTypes.arrayOf.isRequired,
 	rightFormFields: PropTypes.arrayOf.isRequired,
+	staticFormFields: PropTypes.arrayOf,
 	submitLabel: PropTypes.string,
+	isSubmit: PropTypes.bool,
+	isEdit: PropTypes.bool,
+	enableEdit: PropTypes.func,
 	customColClasses: PropTypes.string,
 	customComponent: PropTypes.element,
 	isSubmitLoading: PropTypes.bool,
