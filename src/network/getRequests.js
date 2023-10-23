@@ -23,15 +23,11 @@ const getAllCurrencies = ({ limit, pageNo }) =>
 		`${VITE_APP_API_URL}/api/admin/currency?limit=${limit}&pageNo=${pageNo}`
 	);
 
-const getLanguages = ({ limit = '', pageNo = '', name = '' }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/language?limit=${limit}&pageNo=${pageNo}&name=${name}`
-	);
+const getLanguages = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/language`, payload);
 
-const getCountries = ({ limit, pageNo, name }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/country/list?limit=${limit}&pageNo=${pageNo}&name=${name}`
-	);
+const getCountries = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/country/list`, payload);
 
 const getAllCasinoProviders = ({ limit, pageNo, search }) =>
 	getRequest(

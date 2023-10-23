@@ -1,10 +1,11 @@
-import { useEffect, useState, useMemo } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLanguagesStart } from '../../../store/actions';
+import { Id, LanguageCode, LanguageName } from '../LanguageListCol';
 
 const useLanguageListing = () => {
 	const dispatch = useDispatch();
-	const [searchText, setSearchText] = useState('');
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { languages, loading: isLanguagesLoading } = useSelector(
@@ -20,10 +21,9 @@ const useLanguageListing = () => {
 			fetchLanguagesStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				search: searchText,
 			})
 		);
-	}, [currentPage, searchText, itemsPerPage]);
+	}, [currentPage, itemsPerPage]);
 
 	const formattedLanguages = useMemo(() => {
 		const formattedValues = [];
@@ -37,9 +37,31 @@ const useLanguageListing = () => {
 		return formattedValues;
 	}, [languages]);
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'Id',
+				accessor: 'languageId',
+				filterable: true,
+				Cell: (cellProps) => <Id {...cellProps} />,
+			},
+			{
+				Header: 'Language Code',
+				accessor: 'code',
+				filterable: true,
+				Cell: (cellProps) => <LanguageCode {...cellProps} />,
+			},
+			{
+				Header: 'Language Name',
+				accessor: 'languageName',
+				filterable: true,
+				Cell: (cellProps) => <LanguageName {...cellProps} />,
+			},
+		],
+		[]
+	);
+
 	return {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalLanguagesCount: languages?.count,
@@ -47,6 +69,7 @@ const useLanguageListing = () => {
 		formattedLanguages,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	};
 };
 
