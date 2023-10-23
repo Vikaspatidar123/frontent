@@ -5,6 +5,9 @@ import {
 	CREATE_BET_SETTINGS_START,
 	CREATE_BET_SETTINGS_SUCCESS,
 	CREATE_BET_SETTINGS_FAIL,
+	EDIT_BET_SETTINGS_START,
+	EDIT_BET_SETTINGS_SUCCESS,
+	EDIT_BET_SETTINGS_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -14,6 +17,9 @@ const INIT_STATE = {
 	isCreateBetSettingsError: false,
 	isCreateBetSettingsSuccess: false,
 	isCreateBetSettingsLoading: false,
+	isEditBetSettingsError: false,
+	isEditBetSettingsSuccess: false,
+	isEditBetSettingsLoading: false,
 };
 
 const BetSettings = (state = INIT_STATE, { type, payload } = {}) => {
@@ -59,6 +65,28 @@ const BetSettings = (state = INIT_STATE, { type, payload } = {}) => {
 				isCreateBetSettingsError: payload,
 				isCreateBetSettingsLoading: false,
 				isCreateBetSettingsSuccess: false,
+			};
+
+		case EDIT_BET_SETTINGS_START:
+			return {
+				...state,
+				isEditBetSettingsLoading: true,
+				isEditBetSettingsSuccess: false,
+			};
+
+		case EDIT_BET_SETTINGS_SUCCESS:
+			return {
+				...state,
+				isEditBetSettingsLoading: false,
+				isEditBetSettingsSuccess: true,
+			};
+
+		case EDIT_BET_SETTINGS_FAIL:
+			return {
+				...state,
+				isEditBetSettingsError: payload,
+				isEditBetSettingsLoading: false,
+				isEditBetSettingsSuccess: false,
 			};
 
 		default:
