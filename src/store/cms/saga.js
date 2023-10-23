@@ -15,15 +15,10 @@ import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { showToastr } from '../../utils/helpers';
 
 function* getCmsDetails(action) {
-	const { pageNo, limit, search, isActive } = action && action.payload;
+	const payload = action && action.payload;
 
 	try {
-		const { data } = yield getAllCms({
-			limit,
-			pageNo,
-			search,
-			isActive,
-		});
+		const { data } = yield getAllCms(payload);
 		yield put(getAllCmsDetailsSuccess(data?.data?.cmsPages));
 	} catch (error) {
 		yield put(
