@@ -70,13 +70,9 @@ import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 
 function* getCasinoCategoryWorker(action) {
-	const { limit, pageNo, search = '' } = action && action.payload;
+	const payload = action && action.payload;
 	try {
-		const { data } = yield getCasinoCategoryListing({
-			limit,
-			pageNo,
-			search,
-		});
+		const { data } = yield getCasinoCategoryListing(payload);
 		yield put(getCasinoCategoryDetailSuccess(data?.data?.casinoCategories));
 	} catch (error) {
 		toast.error('Something Went wrong', { autoClose: 2000 });

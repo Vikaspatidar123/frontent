@@ -31,4 +31,31 @@ const staticFormFields = [
 	},
 ];
 
-export { validationSchema, getInitialValues, staticFormFields };
+// Category filters
+const staticFiltersFields = () => [
+	{
+		name: 'search',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by category',
+	},
+];
+
+const filterValues = () => ({
+	search: '',
+});
+
+const filterValidationSchema = () =>
+	Yup.object({
+		search: Yup.string().nullable(),
+	});
+
+export {
+	validationSchema,
+	getInitialValues,
+	staticFormFields,
+	staticFiltersFields,
+	filterValues,
+	filterValidationSchema,
+};

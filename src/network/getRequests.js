@@ -2,10 +2,8 @@ import { getRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
-const getCasinoCategoryListing = ({ limit = 15, pageNo = 1, search = '' }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/casino/categories?&pageNo=${pageNo}&limit=${limit}&search=${search}`
-	);
+const getCasinoCategoryListing = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/casino/categories`, payload);
 
 const getCasinoSubCategoryListing = ({
 	limit = 15,
