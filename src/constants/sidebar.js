@@ -2,6 +2,7 @@ const sideBarElements = [
 	{
 		link: '/#',
 		label: 'Dashboards',
+		searchString: 'dashboards home',
 		iconName: 'bx bx-home-circle',
 		linkClass: 'has-arrow',
 		anchorClass: '',
@@ -12,6 +13,7 @@ const sideBarElements = [
 			{
 				link: '/dashboard',
 				label: 'Default',
+				searchString: 'default dashboard',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -22,6 +24,7 @@ const sideBarElements = [
 			{
 				link: '/profile',
 				label: 'Profile',
+				searchString: 'profile account my account',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -32,6 +35,7 @@ const sideBarElements = [
 			{
 				link: '/staff',
 				label: 'Staff',
+				searchString: 'staff admin superadmin listing',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -42,6 +46,7 @@ const sideBarElements = [
 			{
 				link: '/listing',
 				label: 'Listing',
+				searchString: 'listing',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -54,6 +59,7 @@ const sideBarElements = [
 	{
 		link: '/#',
 		label: 'Player',
+		searchString: 'players',
 		iconName: 'bx bx-group',
 		linkClass: 'has-arrow',
 		anchorClass: '',
@@ -64,6 +70,7 @@ const sideBarElements = [
 			{
 				link: '/users',
 				label: 'All',
+				searchString: 'all users',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -74,6 +81,7 @@ const sideBarElements = [
 			{
 				link: '/kyc-labels',
 				label: 'KYC Labels',
+				searchString: 'kyc labels',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -86,6 +94,7 @@ const sideBarElements = [
 	{
 		link: '/#',
 		label: 'Site Configuration',
+		searchString: 'site configuration',
 		iconName: 'bx bx-cog',
 		linkClass: 'has-arrow',
 		anchorClass: '',
@@ -96,6 +105,7 @@ const sideBarElements = [
 			{
 				link: '/currencies',
 				label: 'Currencies',
+				searchString: 'currencies',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -106,6 +116,7 @@ const sideBarElements = [
 			{
 				link: '/countries',
 				label: 'Countries',
+				searchString: 'countries',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -116,6 +127,7 @@ const sideBarElements = [
 			{
 				link: '/languages',
 				label: 'Languages',
+				searchString: 'languages',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -126,6 +138,7 @@ const sideBarElements = [
 			{
 				link: '/languages-management',
 				label: 'Languages Management',
+				searchString: 'languages management',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -136,6 +149,7 @@ const sideBarElements = [
 			{
 				link: '/form-fields',
 				label: 'Registration Fields',
+				searchString: 'registration fields',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -148,6 +162,7 @@ const sideBarElements = [
 	{
 		link: '/#',
 		label: 'Content Management',
+		searchString: 'content management',
 		iconName: 'bx bx-customize',
 		linkClass: 'has-arrow',
 		anchorClass: '',
@@ -158,6 +173,7 @@ const sideBarElements = [
 			{
 				link: '/cms',
 				label: 'CMS',
+				searchString: 'cms',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -168,6 +184,7 @@ const sideBarElements = [
 			{
 				link: '/email-templates',
 				label: 'CRM',
+				searchString: 'email crm',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -178,6 +195,7 @@ const sideBarElements = [
 			{
 				link: '/gallery',
 				label: 'Image Gallery',
+				searchString: 'image gallery',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -190,6 +208,7 @@ const sideBarElements = [
 	{
 		link: '/#',
 		label: 'Casino Management',
+		searchString: 'casino management slot',
 		iconName: 'bx bx-list-ul',
 		linkClass: 'has-arrow',
 		anchorClass: '',
@@ -200,6 +219,7 @@ const sideBarElements = [
 			{
 				link: '/casino-aggregators',
 				label: 'Aggregators',
+				searchString: 'casino aggregators',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -210,6 +230,7 @@ const sideBarElements = [
 			{
 				link: '/casino-providers',
 				label: 'Providers',
+				searchString: 'casino providers',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -220,6 +241,7 @@ const sideBarElements = [
 			{
 				link: '/categories',
 				label: 'Categories',
+				searchString: 'casino categories',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -230,6 +252,7 @@ const sideBarElements = [
 			{
 				link: '/sub-categories',
 				label: 'Sub Categories',
+				searchString: 'casino sub categories',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -240,6 +263,7 @@ const sideBarElements = [
 			{
 				link: '/casino-games',
 				label: 'Games',
+				searchString: 'casino games',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -250,6 +274,7 @@ const sideBarElements = [
 			{
 				link: '/banner-management',
 				label: 'Banner Management',
+				searchString: 'banner management home banner',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -262,6 +287,7 @@ const sideBarElements = [
 	{
 		link: '/#',
 		label: 'Bonus Management',
+		searchString: 'bonus management',
 		iconName: 'bx bx-money',
 		linkClass: 'has-arrow',
 		anchorClass: '',
@@ -272,6 +298,7 @@ const sideBarElements = [
 			{
 				link: '/loyalty-management',
 				label: 'Loyalty Management',
+				searchString: 'loyalty management',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -282,6 +309,7 @@ const sideBarElements = [
 			{
 				link: '/wagering-template',
 				label: 'Wagering Template',
+				searchString: 'wagering template',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -292,6 +320,7 @@ const sideBarElements = [
 			{
 				link: '/bonus',
 				label: 'Bonus',
+				searchString: 'bonus',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -304,6 +333,7 @@ const sideBarElements = [
 	{
 		link: '/#',
 		label: 'Reports',
+		searchString: 'reports',
 		iconName: 'bx bxs-report',
 		linkClass: 'has-arrow',
 		anchorClass: '',
@@ -314,6 +344,7 @@ const sideBarElements = [
 			{
 				link: '/transaction-banking',
 				label: 'Transactions Banking',
+				searchString: 'transaction banking',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -324,6 +355,7 @@ const sideBarElements = [
 			{
 				link: '/casino-transactions',
 				label: 'Casino Transactions',
+				searchString: 'casino transactions',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -334,6 +366,7 @@ const sideBarElements = [
 			{
 				link: '/sports-transactions',
 				label: 'Sports Transactions',
+				searchString: 'sports transactions',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -344,6 +377,7 @@ const sideBarElements = [
 			{
 				link: '/withdraw-request',
 				label: 'Withdraw Request',
+				searchString: 'withdraw requests',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -354,6 +388,7 @@ const sideBarElements = [
 			{
 				link: '/review-management',
 				label: 'Review Management',
+				searchString: 'review management',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -366,6 +401,7 @@ const sideBarElements = [
 	{
 		link: '/#',
 		label: 'Sports Book',
+		searchString: 'sportsbook sports book',
 		iconName: 'bx bx-football',
 		linkClass: 'has-arrow',
 		anchorClass: '',
@@ -376,6 +412,7 @@ const sideBarElements = [
 			{
 				link: '/bet-settings',
 				label: 'Bet Settings',
+				searchString: 'bet settings',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -386,6 +423,7 @@ const sideBarElements = [
 			{
 				link: '/sports',
 				label: 'Sports',
+				searchString: 'all sports',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -396,6 +434,7 @@ const sideBarElements = [
 			{
 				link: '/sports/countries',
 				label: 'Countries',
+				searchString: 'sports countries',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -406,6 +445,7 @@ const sideBarElements = [
 			{
 				link: '/sports/tournaments',
 				label: 'Tournaments',
+				searchString: 'sports tournaments',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -416,6 +456,7 @@ const sideBarElements = [
 			{
 				link: '/matches',
 				label: 'Matches',
+				searchString: 'sports matches',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -426,6 +467,7 @@ const sideBarElements = [
 			{
 				link: '/markets',
 				label: 'Markets',
+				searchString: 'sport match markets',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
