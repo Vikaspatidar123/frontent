@@ -14,6 +14,9 @@ import {
 	EDIT_KYC_LABELS_START,
 	EDIT_KYC_LABELS_SUCCESS,
 	EDIT_KYC_LABELS_FAIL,
+	EDIT_SA_BANNERS_START,
+	EDIT_SA_BANNERS_SUCCESS,
+	EDIT_SA_BANNERS_FAIL,
 } from './actionTypes';
 
 const initialState = {
@@ -32,6 +35,9 @@ const initialState = {
 	isEditKYCLabelsError: false,
 	isEditKYCLabelsSuccess: false,
 	isEditKYCLabelsLoading: false,
+	isEditSABannersError: false,
+	isEditSABannersSuccess: false,
+	isEditSABannersLoading: false,
 };
 
 const SASettings = (state = initialState, { type, payload } = {}) => {
@@ -141,6 +147,28 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				isEditKYCLabelsError: payload,
 				isEditKYCLabelsLoading: false,
 				isEditKYCLabelsSuccess: false,
+			};
+
+		case EDIT_SA_BANNERS_START:
+			return {
+				...state,
+				isEditSABannersLoading: true,
+				isEditSABannersSuccess: false,
+			};
+
+		case EDIT_SA_BANNERS_SUCCESS:
+			return {
+				...state,
+				isEditSABannersLoading: false,
+				isEditSABannersSuccess: true,
+			};
+
+		case EDIT_SA_BANNERS_FAIL:
+			return {
+				...state,
+				isEditSABannersError: payload,
+				isEditSABannersLoading: false,
+				isEditSABannersSuccess: false,
 			};
 
 		default:

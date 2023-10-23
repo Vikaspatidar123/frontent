@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { bannerType } from './constants';
 
 const getInitialValues = (defaultValue) => ({
-	bannerType: defaultValue?.type || '',
+	bannerType: defaultValue?.bannerType || '',
 	thumbnail: defaultValue?.thumbnail || '',
 });
 
@@ -14,11 +14,11 @@ const staticFormFields = [
 		name: 'thumbnail',
 		fieldType: 'file',
 		label: 'Banner',
+		showThumbnail: true,
 	},
 ];
 
 const validationSchema = ({
-	type,
 	minRequiredWidth,
 	minRequiredHeight,
 	maxRequiredWidth,
@@ -26,51 +26,27 @@ const validationSchema = ({
 }) =>
 	Yup.object().shape({
 		bannerType: Yup.string().required('Banner Type Required'),
-		thumbnail:
-			type === 'Create'
-				? Yup.mixed()
-						.required('Banner Required')
-						.imageDimensionCheck(
-							'Banner Required',
-							minRequiredWidth,
-							minRequiredHeight,
-							maxRequiredWidth,
-							maxRequiredHeight
-						)
-						.test(
-							'FILE_FORMAT',
-							'Uploaded file has unsupported format.',
-							(value) =>
-								!value ||
-								(value &&
-									[
-										'image/png',
-										'image/jpeg',
-										'image/jpg',
-										'image/svg+xml',
-									].includes(value.type))
-						)
-				: Yup.mixed()
-						.imageDimensionCheck(
-							'Banner Required',
-							minRequiredWidth,
-							minRequiredHeight,
-							maxRequiredWidth,
-							maxRequiredHeight
-						)
-						.test(
-							'FILE_FORMAT',
-							'Uploaded file has unsupported format.',
-							(value) =>
-								!value ||
-								(value &&
-									[
-										'image/png',
-										'image/jpeg',
-										'image/jpg',
-										'image/svg+xml',
-									].includes(value.type))
-						),
+		thumbnail: Yup.mixed()
+			.required('Banner Required')
+			.imageDimensionCheck(
+				'Banner Required',
+				minRequiredWidth,
+				minRequiredHeight,
+				maxRequiredWidth,
+				maxRequiredHeight
+			)
+			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+				typeof value === 'string'
+					? true
+					: !value ||
+					  (value &&
+							[
+								'image/png',
+								'image/jpeg',
+								'image/jpg',
+								'image/svg+xml',
+							].includes(value.type))
+			),
 	});
 
 const imageWidthAndHeight = (provideFile) => {
@@ -113,6 +89,10 @@ const imageDimensionCheck = Yup.addMethod(
 
 				if (!value) {
 					return;
+				}
+
+				if (typeof value === 'string') {
+					return true;
 				}
 
 				const imgDimensions = await imageWidthAndHeight(value);

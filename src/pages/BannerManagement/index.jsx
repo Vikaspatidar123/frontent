@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
@@ -13,7 +13,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
 import useCreateBanner from './hooks/useCreateBanner';
 
-const columns = [
+const computeColumns = ({ onClickEdit }) => [
 	{
 		Header: 'PAGES',
 		accessor: 'pages',
@@ -30,7 +30,7 @@ const columns = [
 		Header: 'Action',
 		accessor: 'action',
 		disableFilters: true,
-		Cell: () => <ActionButtons />,
+		Cell: ({ cell }) => <ActionButtons cell={cell} onClickEdit={onClickEdit} />,
 	},
 ];
 
@@ -48,7 +48,11 @@ const BannerManagement = ({ t }) => {
 		formFields,
 		isCreateBannerLoading,
 		buttonList,
+		isEditBannerLoading,
+		onClickEdit,
 	} = useCreateBanner();
+
+	const columns = useMemo(() => computeColumns({ onClickEdit }), []);
 
 	return (
 		<div className="page-content">
@@ -83,7 +87,7 @@ const BannerManagement = ({ t }) => {
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
-					isSubmitLoading={isCreateBannerLoading}
+					isSubmitLoading={isCreateBannerLoading || isEditBannerLoading}
 				/>
 			</Container>
 		</div>
