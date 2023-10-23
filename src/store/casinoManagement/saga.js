@@ -112,9 +112,9 @@ function* getCasinoSubCategoryWorker(action) {
 
 function* getLanguagesWorker(action) {
 	try {
-		const { limit = '', pageNo = '', name = '' } = action && action.payload;
+		const payload = action && action.payload;
 
-		const { data } = yield getLanguages({ limit, pageNo, name });
+		const { data } = yield getLanguages(payload);
 
 		yield put(getLanguagesSuccess(data?.data?.languages));
 	} catch (error) {
