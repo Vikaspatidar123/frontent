@@ -10,19 +10,27 @@ import {
 	validationSchema,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { createSABannersStart } from '../../../store/actions';
+import {
+	createSABannersStart,
+	editSABannersStart,
+} from '../../../store/actions';
 import { bannerType } from '../constants';
 
 const useCreateBanner = () => {
 	const dispatch = useDispatch();
+	const [isEdit, setIsEdit] = useState({ open: false, selectdRow: '' });
 	const [validationConditions, setValidationConditions] = useState({
 		minRequiredWidth: '',
 		minRequiredHeight: '',
 		maxRequiredWidth: '',
 		maxRequiredHeight: '',
 	});
-	const { isCreateSABannersLoading: isCreateBannerLoading, SABanners } =
-		useSelector((state) => state.SASettings);
+	const {
+		isCreateSABannersLoading: isCreateBannerLoading,
+		SABanners,
+		isEditSABannersLoading: isEditBannerLoading,
+		isEditSABannersSuccess,
+	} = useSelector((state) => state.SASettings);
 
 	const handleCreateBanner = (values) => {
 		dispatch(
@@ -36,30 +44,66 @@ const useCreateBanner = () => {
 		);
 	};
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Banner',
-			initialValues: getInitialValues(),
-			validationSchema: validationSchema({
-				type: 'Create',
-				minRequiredWidth: validationConditions?.minRequiredWidth,
-				minRequiredHeight: validationConditions?.minRequiredHeight,
-				maxRequiredWidth: validationConditions?.maxRequiredWidth,
-				maxRequiredHeight: validationConditions?.maxRequiredHeight,
-			}),
-			staticFormFields,
-			onSubmitEntry: handleCreateBanner,
-			isEdit: false,
-		});
+	const handleEditBanner = (values) => {
+		dispatch(
+			editSABannersStart({
+				data: {
+					tenantId: '',
+					bannerKey: values?.bannerType,
+					image: typeof values.thumbnail === 'string' ? '' : values?.thumbnail,
+				},
+			})
+		);
+	};
+
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		setFormFields,
+		setHeader,
+	} = useForm({
+		header: 'Add Banner',
+		initialValues: getInitialValues(),
+		validationSchema: validationSchema({
+			minRequiredWidth: validationConditions?.minRequiredWidth,
+			minRequiredHeight: validationConditions?.minRequiredHeight,
+			maxRequiredWidth: validationConditions?.maxRequiredWidth,
+			maxRequiredHeight: validationConditions?.maxRequiredHeight,
+		}),
+		staticFormFields,
+		onSubmitEntry: isEdit.open ? handleEditBanner : handleCreateBanner,
+	});
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
+		setIsOpen((prev) => !prev);
+		validation.resetForm(getInitialValues());
+		setHeader('Add Banner');
+		setIsEdit({ open: false, selectedRow: '' });
+	};
+
+	const onClickEdit = (selectedRow) => {
+		setIsEdit({ open: true, selectedRow });
+		setHeader('Edit Banner');
+		validation.setValues(
+			getInitialValues({
+				bannerType: selectedRow.key,
+				thumbnail: selectedRow.bannerPreview,
+			})
+		);
 		setIsOpen((prev) => !prev);
 	};
 
 	useEffect(() => {
 		setIsOpen(false);
 	}, [Object.keys(SABanners?.[0]?.value || {}).length]);
+
+	useEffect(() => {
+		if (isEditSABannersSuccess) setIsOpen();
+	}, [isEditSABannersSuccess]);
 
 	const buttonList = useMemo(() => [
 		{
@@ -70,9 +114,9 @@ const useCreateBanner = () => {
 	]);
 
 	useEffect(() => {
-		if (SABanners?.length && formFields.length < 2) {
+		if (SABanners?.length && formFields.length <= 2) {
 			const arrayToReturn = [];
-			bannerType?.map(({ label, value }, i) => {
+			bannerType?.map(({ label, value }) => {
 				let hideData = false;
 				SABanners?.map((item) => {
 					Object.keys(item?.value).map((key) => {
@@ -82,22 +126,24 @@ const useCreateBanner = () => {
 					});
 				});
 				if (!hideData) {
-					arrayToReturn.push({ id: i, optionLabel: label, value });
+					arrayToReturn.push({ optionLabel: label, value });
 				}
 			});
-
-			setFormFields((prev) => [
+			setFormFields([
 				{
 					name: 'bannerType',
 					fieldType: 'select',
 					label: 'Type',
-					optionList: arrayToReturn,
+					optionList: isEdit.open
+						? bannerType.map((type) => ({ ...type, optionLabel: type.label }))
+						: arrayToReturn,
 					placeholder: 'Select Type',
+					isDisabled: isEdit.open,
 				},
-				...prev,
+				...staticFormFields,
 			]);
 		}
-	}, [SABanners?.length]);
+	}, [SABanners?.length, isEdit]);
 
 	useEffect(() => {
 		if (validation?.values?.bannerType) {
@@ -133,6 +179,8 @@ const useCreateBanner = () => {
 		buttonList,
 		validationConditions,
 		isCreateBannerLoading,
+		onClickEdit,
+		isEditBannerLoading,
 	};
 };
 
