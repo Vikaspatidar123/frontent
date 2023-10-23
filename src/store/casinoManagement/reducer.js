@@ -38,6 +38,9 @@ import {
 	EDIT_CASINO_SUBCATEGORY_START,
 	EDIT_CASINO_SUBCATEGORY_SUCCESS,
 	EDIT_CASINO_SUBCATEGORY_FAIL,
+	EDIT_CASINO_GAMES_START,
+	EDIT_CASINO_GAMES_SUCCESS,
+	EDIT_CASINO_GAMES_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -80,6 +83,9 @@ const INIT_STATE = {
 	isUpdateSACasinoGamesStatus: false,
 	isUpdateSACasinoGamesStatusError: null,
 	isUpdateSACasinoGamesStatusLoading: false,
+	isEditCasinoGamesError: false,
+	isEditCasinoGamesSuccess: false,
+	isEditCasinoGamesLoading: false,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -320,6 +326,29 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isEditSubCategoryLoading: false,
 				isEditSubCategorySuccess: false,
 			};
+
+		case EDIT_CASINO_GAMES_START:
+			return {
+				...state,
+				isEditCasinoGamesLoading: true,
+				isEditCasinoGamesSuccess: false,
+			};
+
+		case EDIT_CASINO_GAMES_SUCCESS:
+			return {
+				...state,
+				isEditCasinoGamesLoading: false,
+				isEditCasinoGamesSuccess: true,
+			};
+
+		case EDIT_CASINO_GAMES_FAIL:
+			return {
+				...state,
+				isEditCasinoGamesError: payload,
+				isEditCasinoGamesLoading: false,
+				isEditCasinoGamesSuccess: false,
+			};
+
 		case UPDATE_CASINO_STATUS_START:
 			return {
 				...state,

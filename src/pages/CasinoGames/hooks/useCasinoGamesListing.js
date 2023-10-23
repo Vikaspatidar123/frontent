@@ -13,6 +13,7 @@ const useCasinoGamesListings = () => {
 		isCasinoGamesLoading,
 		casinoProvidersData,
 		casinoSubCategoryDetails,
+		isEditCasinoGamesSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -58,6 +59,7 @@ const useCasinoGamesListings = () => {
 				...item,
 				providerName: getProviderName(item?.casinoProviderId),
 				subCategoryType: getCategoryName(item?.gameSubCategoryId),
+				thumbnail: item?.thumbnailUrl,
 			}));
 		}
 		return [];
@@ -88,6 +90,10 @@ const useCasinoGamesListings = () => {
 		selectedProvider,
 		show,
 	]);
+
+	useEffect(() => {
+		if (isEditCasinoGamesSuccess) fetchData();
+	}, [isEditCasinoGamesSuccess]);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();

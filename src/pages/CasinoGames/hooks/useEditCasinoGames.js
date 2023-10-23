@@ -1,32 +1,33 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { editCasinoGamesStart } from '../../../store/actions';
+import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getInitialValues,
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import // editCasinoGamesStart,
-'../../../store/actions';
-import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useEditCasinoGames = () => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const {
 		casinoCategoryDetails,
-		languageData,
 		isEditCasinoGamesLoading,
 		isEditCasinoGamesSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 
+	const { casinoProvidersData, casinoSubCategoryDetails } = useSelector(
+		(state) => state.CasinoManagementData
+	);
+
 	const handleEditCasinoGames = (values) => {
-		console.log(values, isEdit);
-		// dispatch(
-		//   editCasinoGamesStart({
-		//     data: values,
-		//   })
-		// );
+		dispatch(
+			editCasinoGamesStart({
+				data: values,
+			})
+		);
 	};
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
@@ -43,7 +44,7 @@ const useEditCasinoGames = () => {
 	}, [isEditCasinoGamesSuccess]);
 
 	const onClickEdit = (selectedRow) => {
-		setIsEdit({ open: true, selectedRow });
+		setIsEdit({ open: !isEdit, selectedRow });
 		validation.setValues(getInitialValues(selectedRow));
 		setIsOpen((prev) => !prev);
 	};
@@ -53,30 +54,41 @@ const useEditCasinoGames = () => {
 	}, [casinoCategoryDetails?.count]);
 
 	useEffect(() => {
-		if (languageData?.rows?.length) {
-			const langOptions = languageData.rows.map((r) => ({
-				id: r.languageId,
-				optionLabel: r.languageName,
-				value: r.code,
+		if (
+			casinoSubCategoryDetails?.rows?.length &&
+			casinoProvidersData?.rows?.length
+		) {
+			const provOptions = casinoProvidersData.rows.map((r) => ({
+				id: r.casinoProviderId,
+				optionLabel: r.name,
+				value: r.casinoProviderId,
+			}));
+
+			const subOptions = casinoSubCategoryDetails.rows.map((r) => ({
+				id: r.gameSubCategoryId,
+				optionLabel: r.name?.EN,
+				value: r.gameSubCategoryId,
 			}));
 
 			setFormFields([
-				{
-					// name: 'language',
-					fieldType: 'select',
-					label: 'Language',
-					placeholder: 'Select Language',
-					optionList: langOptions,
-				},
-				{
-					name: 'name',
-					label: 'Category Name',
-					fieldType: 'inputGroup',
-				},
 				...staticFormFields,
+				{
+					name: 'gameSubCategoryId',
+					fieldType: 'select',
+					label: 'Casino Sub Category',
+					placeholder: 'Select sub category',
+					optionList: subOptions,
+				},
+				{
+					name: 'casinoProviderId',
+					label: 'Provider Name',
+					fieldType: 'select',
+					optionList: provOptions,
+					isDisabled: true,
+				},
 			]);
 		}
-	}, [languageData]);
+	}, [casinoSubCategoryDetails, casinoProvidersData]);
 
 	return {
 		isOpen,

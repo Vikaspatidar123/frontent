@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 const getInitialValues = (defaultValue) => ({
 	casinoGameId: defaultValue?.casinoGameId || '',
 	name: defaultValue?.name || '',
-	gameSubCategoryId: defaultValue?.ganeSubCategoryId || '',
+	gameSubCategoryId: defaultValue?.gameSubCategoryId || '',
 	casinoProviderId: defaultValue?.casinoProviderId || '',
 	isActive: defaultValue?.isActive || false,
 	thumbnail: defaultValue?.thumbnail || null,

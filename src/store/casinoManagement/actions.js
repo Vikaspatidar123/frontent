@@ -38,6 +38,9 @@ import {
 	EDIT_CASINO_SUBCATEGORY_SUCCESS,
 	EDIT_CASINO_SUBCATEGORY_FAIL,
 	EDIT_CASINO_SUBCATEGORY_START,
+	EDIT_CASINO_GAMES_SUCCESS,
+	EDIT_CASINO_GAMES_FAIL,
+	EDIT_CASINO_GAMES_START,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -232,5 +235,20 @@ export const editCasinoSubCategoryFailure = (payload) => ({
 
 export const editCasinoSubCategoryStart = (payload) => ({
 	type: EDIT_CASINO_SUBCATEGORY_START,
+	payload,
+});
+
+export const editCasinoGamesSuccess = (payload) => ({
+	type: EDIT_CASINO_GAMES_SUCCESS,
+	payload,
+});
+
+export const editCasinoGamesFailure = (payload) => ({
+	type: EDIT_CASINO_GAMES_FAIL,
+	payload,
+});
+
+export const editCasinoGamesStart = (payload) => ({
+	type: EDIT_CASINO_GAMES_START,
 	payload,
 });
