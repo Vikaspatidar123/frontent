@@ -15,6 +15,7 @@ const FormPage = ({
 	isSubmit = true,
 	isEdit = false,
 	enableEdit,
+	formTitle,
 }) => (
 	<Card className="p-3">
 		<Row>
@@ -25,6 +26,7 @@ const FormPage = ({
 					return false;
 				}}
 			>
+				{formTitle && <div className="mb-4 card-title">{formTitle}</div>}
 				<Row className="justify-content-center">
 					<Col lg={6}>
 						{staticFormFields?.map(
@@ -100,6 +102,7 @@ FormPage.defaultProps = {
 	isSubmit: true,
 	isEdit: false,
 	enableEdit: () => {},
+	formTitle: '',
 };
 
 FormPage.propTypes = {
@@ -114,6 +117,7 @@ FormPage.propTypes = {
 	customColClasses: PropTypes.string,
 	customComponent: PropTypes.element,
 	isSubmitLoading: PropTypes.bool,
+	formTitle: PropTypes.string,
 };
 
 export default FormPage;

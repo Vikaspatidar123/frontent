@@ -52,10 +52,15 @@ const EditAdmin = () => {
 				title="Staff"
 				breadcrumbItem="Edit"
 				titleLink="/staff"
-				leftTitle={<i className="fas fa-angle-left" />}
+				leftTitle={
+					<>
+						<i className="fas fa-angle-left" /> Back
+					</>
+				}
 			/>
 			<Container fluid>
 				<FormPage
+					formTitle="Edit staff"
 					validation={validation}
 					leftFormFields={leftFormFields}
 					rightFormFields={rightFormFields}
