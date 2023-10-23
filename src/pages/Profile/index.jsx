@@ -38,8 +38,8 @@ const ProfilePage = ({ t }) => {
 	document.title = projectName;
 
 	const [activeTab, setactiveTab] = useState('1');
-	const [editable, setEditable] = useState(false);
-	const [editableSiteConfig, setEditableSiteConfig] = useState(false);
+	const [editable, setEditable] = useState(true);
+	const [editableSiteConfig, setEditableSiteConfig] = useState(true);
 	const [details, setDetails] = useState([]);
 
 	const toggle = (tab) => {
@@ -47,8 +47,12 @@ const ProfilePage = ({ t }) => {
 			setactiveTab(tab);
 		}
 	};
-	const { superAdminUser } = useSelector((state) => state.PermissionDetails);
-	const { languageData } = useSelector((state) => state.CasinoManagementData);
+	const { superAdminUser, isSuperAdminLoading } = useSelector(
+		(state) => state.PermissionDetails
+	);
+	const { languageData, languageDataLoading } = useSelector(
+		(state) => state.CasinoManagementData
+	);
 	const { resetProfilePasswordLoading } = useSelector(
 		(state) => state.ProfileData
 	);
@@ -62,7 +66,6 @@ const ProfilePage = ({ t }) => {
 				isTenant: false,
 			})
 		);
-		setEditable(false);
 	};
 
 	const updateSiteConfiguration = (data) => {
@@ -100,6 +103,7 @@ const ProfilePage = ({ t }) => {
 					isEditable={editable}
 					setIsEditable={setEditable}
 					updateData={updateData}
+					isLoading={isSuperAdminLoading}
 				/>
 			),
 		},
@@ -110,9 +114,10 @@ const ProfilePage = ({ t }) => {
 				<SiteConfig
 					details={details}
 					languageData={languageData}
-					isEditable={editableSiteConfig}
-					setIsEditable={setEditableSiteConfig}
+					editableSiteConfig={editableSiteConfig}
+					setEditableSiteConfig={setEditableSiteConfig}
 					updateSiteConfiguration={updateSiteConfiguration}
+					isLanguageDataLoading={!languageDataLoading}
 				/>
 			),
 		},
