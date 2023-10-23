@@ -48,6 +48,7 @@ import EmailTemplateSaga from './emailTemplate/saga';
 import WageringTemplateDetailsSaga from './wageringTemplate/saga';
 import ProfileDataSaga from './Profile/saga';
 import GlobalRegistrationSaga from './registrationformFiels/saga';
+import DashboardViewSaga from './dashboardView/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -101,5 +102,6 @@ export default function* rootSaga() {
 		fork(AdminDetailsSaga),
 		fork(AccountSaga),
 		fork(aggregatorsSaga),
+		fork(DashboardViewSaga),
 	]);
 }

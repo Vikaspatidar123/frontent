@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Card, CardBody, CardTitle } from 'reactstrap';
@@ -10,8 +9,11 @@ const ActivityComp = () => (
 		<CardBody>
 			<CardTitle className="mb-5">Activity</CardTitle>
 			<ul className="verti-timeline list-unstyled">
-				{(activityData || []).map((item, index) => (
-					<li className={`event-list ${item.active && 'active'}`} key={index}>
+				{(activityData || []).map((item) => (
+					<li
+						className={`event-list ${item.active && 'active'}`}
+						key={`${item.id}`}
+					>
 						<div className="event-timeline-dot">
 							<i
 								className={`bx bx-right-arrow-circle font-size-18 ${

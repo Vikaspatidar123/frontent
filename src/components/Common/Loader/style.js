@@ -35,4 +35,9 @@ export const DivSpinnerLoaderConainer = styled.div`
 	.spinner-border {
 		z-index: 9;
 	}
+	.spinner-grow-sm {
+		width: 10px;
+		height: 10px;
+		margin-right: 5px;
+	}
 `;

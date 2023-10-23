@@ -134,6 +134,9 @@ import ProfileData from './Profile/reducer';
 // global registration
 import FormFields from './registrationformFiels/reducer';
 
+// Dashboard view
+import DashboardViewInfo from './dashboardView/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -186,6 +189,7 @@ const rootReducer = combineReducers({
 	WithdrawRequests,
 	SportsMatches,
 	SportsMarkets,
+	DashboardViewInfo,
 });
 
 export default rootReducer;

@@ -213,6 +213,9 @@ const getSiteConfiguration = (data) =>
 const getGlobalRegistration = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/global-registration`);
 
+const getDashboardLiveInfoService = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/report/live-player`);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -250,4 +253,5 @@ export {
 	getSuperAdminWageringTemplate,
 	getSiteConfiguration,
 	getGlobalRegistration,
+	getDashboardLiveInfoService,
 };

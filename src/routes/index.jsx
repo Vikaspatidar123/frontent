@@ -201,6 +201,7 @@ import AddAdmin from '../pages/Admins/addAdmin';
 import EditAdmin from '../pages/Admins/editAdmin';
 import JobGrid from '../pages/JobPages/JobGrid';
 import RegistrationFields from '../pages/RegistrationFormFields';
+import DashboardView from '../pages/DashboardView';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
@@ -210,7 +211,8 @@ import RegistrationFields from '../pages/RegistrationFormFields';
 // import UiProgressbar from "../../src/pages/Ui/UiProgressbar"
 
 const authProtectedRoutes = [
-	{ path: '/dashboard', component: <Dashboard /> },
+	{ path: '/dashboard-view', component: <Dashboard /> },
+	{ path: '/dashboard', component: <DashboardView /> },
 	{ path: '/categories', component: <CasinoCategory /> },
 	{ path: '/sub-categories', component: <CasinoSubCategory /> },
 	{ path: '/listing', component: <JobList /> },
