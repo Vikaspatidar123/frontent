@@ -63,7 +63,6 @@ const useCreateBetSettings = () => {
 	};
 
 	const onClickEdit = (selectedRow) => {
-		console.log('selected', selectedRow);
 		setIsEdit({ open: true, selectedRow });
 		setHeader('Add Bet Settings');
 		validation.setValues(getInitialValues(selectedRow));
