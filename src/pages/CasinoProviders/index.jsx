@@ -18,6 +18,8 @@ import useCasinoProvidersListing from './hooks/useCasinoProvidersListing';
 import FormModal from '../../components/Common/FormModal';
 import useCreateProvider from './hooks/useCreateProvider';
 import CrudSection from '../../components/Common/CrudSection';
+import Filters from '../../components/Common/Filters';
+import useFilters from './hooks/useFilters';
 
 const CasinoProviders = ({ t }) => {
 	// meta title
@@ -44,6 +46,14 @@ const CasinoProviders = ({ t }) => {
 		onClickEdit,
 		isEditProviderLoading,
 	} = useCreateProvider();
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	const columns = [
 		{
@@ -96,6 +106,13 @@ const CasinoProviders = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={buttonList} title="Providers Listing" />
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									columns={columns}
 									data={casinoProvidersData?.rows || []}

@@ -29,10 +29,8 @@ const getLanguages = (payload) =>
 const getCountries = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/country/list`, payload);
 
-const getAllCasinoProviders = ({ limit, pageNo, search }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/casino/providers?limit=${limit}&pageNo=${pageNo}&search=${search}`
-	);
+const getAllCasinoProviders = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/casino/providers`, payload);
 
 const getAdminRole = () => getRequest(`${VITE_APP_API_URL}/api/admin/roles`);
 

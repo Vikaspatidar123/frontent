@@ -127,12 +127,8 @@ function* getLanguagesWorker(action) {
 
 function* getAllCasinoProvidersWorker(action) {
 	try {
-		const { limit, pageNo, search = '' } = action && action.payload;
-		const { data } = yield getAllCasinoProviders({
-			limit,
-			pageNo,
-			search,
-		});
+		const payload = action && action.payload;
+		const { data } = yield getAllCasinoProviders(payload);
 		yield put(getCasinoProvidersDataSuccess(data?.data?.providerList));
 	} catch (e) {
 		yield toast(e?.response?.data?.errors[0].description, 'error');

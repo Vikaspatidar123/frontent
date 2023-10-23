@@ -51,4 +51,31 @@ const staticFormFields = [
 	},
 ];
 
-export { validationSchema, getInitialValues, staticFormFields };
+// Provider filter
+const staticFiltersFields = () => [
+	{
+		name: 'search',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by provider',
+	},
+];
+
+const filterValues = () => ({
+	search: '',
+});
+
+const filterValidationSchema = () =>
+	Yup.object({
+		search: Yup.string().nullable(),
+	});
+
+export {
+	validationSchema,
+	getInitialValues,
+	staticFormFields,
+	staticFiltersFields,
+	filterValues,
+	filterValidationSchema,
+};
