@@ -28,6 +28,8 @@ import {
 	editCasinoProvidersFailure,
 	editCasinoSubCategorySuccess,
 	editCasinoSubCategoryFailure,
+	editCasinoGamesSuccess,
+	editCasinoGamesFailure,
 } from './actions';
 
 import {
@@ -44,6 +46,7 @@ import {
 	EDIT_CASINO_CATEGORY,
 	EDIT_CASINO_PROVIDERS,
 	EDIT_CASINO_SUBCATEGORY_START,
+	EDIT_CASINO_GAMES_START,
 } from './actionTypes';
 
 import {
@@ -62,6 +65,7 @@ import {
 
 import {
 	editCasinoCategory,
+	editCasinoGames,
 	editCasinoProvider,
 	editCasinoSubCategory,
 	superAdminViewToggleStatus,
@@ -330,6 +334,28 @@ function* updateCasinoStatusWorker(action) {
 	}
 }
 
+function* editCasinoGamesWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield editCasinoGames(objectToFormData(data));
+
+		showToastr({
+			message: `Game Updated Successfully`,
+			type: 'success',
+		});
+
+		yield put(editCasinoGamesSuccess());
+	} catch (e) {
+		yield put(editCasinoGamesFailure());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* updateSACasinoGamesStatusWorker(action) {
 	try {
 		const {
@@ -380,6 +406,7 @@ export function* casinoManagementWatcher() {
 	);
 	yield takeLatest(EDIT_CASINO_PROVIDERS, editCasinoProviderWorker);
 	yield takeLatest(EDIT_CASINO_SUBCATEGORY_START, editCasinoSubCategoryWorker);
+	yield takeLatest(EDIT_CASINO_GAMES_START, editCasinoGamesWorker);
 }
 
 function* CasinoManagementSaga() {

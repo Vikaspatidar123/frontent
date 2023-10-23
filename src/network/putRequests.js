@@ -48,6 +48,11 @@ const editCasinoSubCategory = (data) =>
 		'Content-Type': 'multipart/form-data',
 	});
 
+const editCasinoGames = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/game`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -63,4 +68,5 @@ export {
 	editCasinoCategory,
 	editCasinoProvider,
 	editCasinoSubCategory,
+	editCasinoGames,
 };
