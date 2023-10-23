@@ -9,6 +9,8 @@ import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
 import useCreateCategory from './hooks/useCreateCategory';
+import Filters from '../../components/Common/Filters';
+import useFilters from './hooks/useFilters';
 
 const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
@@ -36,6 +38,14 @@ const GetCasinoCategoryDetails = () => {
 		isEditCategoryLoading,
 	} = useCreateCategory();
 
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
+
 	const columns = useCasinoCategoryColumn({ handleStatus, onClickEdit });
 
 	return (
@@ -50,6 +60,13 @@ const GetCasinoCategoryDetails = () => {
 						<Card>
 							<CrudSection buttonList={buttonList} title="Category Listing" />
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									columns={columns}
 									data={formattedCasinoCategoriesData}
