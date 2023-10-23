@@ -36,10 +36,15 @@ const AddAdmin = () => {
 				title="Staff"
 				breadcrumbItem="Add"
 				titleLink="/staff"
-				leftTitle={<i className="fas fa-angle-left" />}
+				leftTitle={
+					<>
+						<i className="fas fa-angle-left" /> Back
+					</>
+				}
 			/>
 			<Container fluid>
 				<FormPage
+					formTitle="Add new staff"
 					validation={validation}
 					leftFormFields={leftFormFields}
 					rightFormFields={rightFormFields}
