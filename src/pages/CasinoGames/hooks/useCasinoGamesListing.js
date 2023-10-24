@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { isEmpty } from 'lodash';
 import {
 	getCasinoGamesStart,
 	getCasinoProvidersDataStart,
@@ -27,19 +28,21 @@ const useCasinoGamesListings = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(
-			getCasinoSubCategoryDetailStart({
-				limit: '',
-				pageNo: '',
-				gameCategoryId: '',
-				search: '',
-				isActive: '',
-				tenantId: '',
-			})
-		);
-		dispatch(
-			getCasinoProvidersDataStart({ limit: '', pageNo: '', search: '' })
-		);
+		if (isEmpty(casinoSubCategoryDetails)) {
+			dispatch(
+				getCasinoSubCategoryDetailStart({
+					limit: itemsPerPage,
+				})
+			);
+		}
+
+		if (isEmpty(casinoProvidersData)) {
+			dispatch(
+				getCasinoProvidersDataStart({
+					limit: itemsPerPage,
+				})
+			);
+		}
 	}, []);
 
 	const onChangeRowsPerPage = (value) => {

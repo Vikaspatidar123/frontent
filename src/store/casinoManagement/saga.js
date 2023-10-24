@@ -134,35 +134,40 @@ function* getAllCasinoProvidersWorker(action) {
 
 function* getAllCasinoGamesWorker(action) {
 	try {
-		const {
-			bonusId,
-			limit,
-			pageNo,
-			casinoCategoryId,
-			search,
-			isActive,
-			tenantId,
-			selectedProvider,
-			freespins,
-			addGame,
-			gameSubCategoryId,
-			reorder,
-		} = action && action.payload;
+		// const {
+		// 	bonusId,
+		// 	limit,
+		// 	pageNo,
+		// 	casinoCategoryId,
+		// 	search,
+		// 	isActive,
+		// 	tenantId,
+		// 	selectedProvider,
+		// 	freespins,
+		// 	addGame,
+		// 	gameSubCategoryId,
+		// 	reorder,
+		// } = action && action.payload;
 
-		const { data } = yield getAllCasinoGames({
-			limit,
-			pageNo,
-			casinoCategoryId,
-			search,
-			isActive,
-			tenantId,
-			selectedProvider,
-			freespins: freespins || '',
-			bonusId: bonusId || '',
-			addGame: addGame || false,
-			gameSubCategoryId: gameSubCategoryId || '',
-			reorder: reorder || 'false',
-		});
+		// const { data } = yield getAllCasinoGames({
+		// 	limit,
+		// 	pageNo,
+		// 	casinoCategoryId,
+		// 	search,
+		// 	isActive,
+		// 	tenantId,
+		// 	selectedProvider,
+		// 	freespins: freespins || '',
+		// 	bonusId: bonusId || '',
+		// 	addGame: addGame || false,
+		// 	gameSubCategoryId: gameSubCategoryId || '',
+		// 	reorder: reorder || 'false',
+		// });
+
+		let payload = action && action.payload;
+		payload = clearEmptyProperty(payload);
+
+		const { data } = yield getAllCasinoGames(payload);
 
 		yield put(getCasinoGamesSuccess(data?.data?.casinoGames));
 	} catch (e) {

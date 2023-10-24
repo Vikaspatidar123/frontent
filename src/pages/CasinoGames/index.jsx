@@ -22,6 +22,8 @@ import useCasinoGamesListings from './hooks/useCasinoGamesListing';
 import CrudSection from '../../components/Common/CrudSection';
 import useEditCasinoGames from './hooks/useEditCasinoGames';
 import FormModal from '../../components/Common/FormModal';
+import Filters from '../../components/Common/Filters';
+import useFilters from './hooks/useFilters';
 
 const CasinoGames = ({ t }) => {
 	// meta title
@@ -47,6 +49,14 @@ const CasinoGames = ({ t }) => {
 		validation,
 		formFields,
 	} = useEditCasinoGames();
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	const columns = [
 		{
@@ -123,6 +133,13 @@ const CasinoGames = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={[]} title="Games Listing" />
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									columns={columns}
 									data={formattedCasinoGames}
