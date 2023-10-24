@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { useParams } from 'react-router-dom';
-import { formatDate } from '../../../../../utils/dateFormatter';
+import { formatDate } from '../../../utils/dateFormatter';
 
 const useUserOverview = ({ user }) => {
 	const { userId } = useParams();

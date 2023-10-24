@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
-import TabsPage from '../../../../components/Common/TabsPage';
-import Breadcrumb from '../../../../components/Common/Breadcrumb';
+import { useParams } from 'react-router-dom';
+import TabsPage from '../../components/Common/TabsPage';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import Overview from './Overview';
 import PlayerWallet from './PlayerWallet';
+import useUserDetails from './hooks/useUserDetails';
 
 const PlayerDetailsPage = ({ t }) => {
 	const [activeTab, setActiveTab] = useState(1);
+	const { playerId } = useParams();
 
 	const toggle = (tab) => {
 		if (activeTab !== tab) {
 			setActiveTab(tab);
 		}
 	};
+
+	const { userDetails } = useUserDetails({ userId: playerId });
 
 	const tabData = [
 		{
@@ -29,7 +34,7 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 4,
 			title: 'Wallet',
-			component: <PlayerWallet />,
+			component: <PlayerWallet userDetails={userDetails} />,
 		},
 		{
 			id: 5,

@@ -124,3 +124,6 @@ export * from './Profile/actions';
 
 // Global Registration
 export * from './registrationformFiels/actions';
+
+// User Details
+export * from './userDetails/actions';

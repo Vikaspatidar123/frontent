@@ -192,6 +192,9 @@ const getGlobalRegistration = () =>
 const getDashboardLiveInfoService = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/report/live-player`);
 
+const getUserDetails = (params) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/user`, params);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -230,4 +233,5 @@ export {
 	getSiteConfiguration,
 	getGlobalRegistration,
 	getDashboardLiveInfoService,
+	getUserDetails,
 };
