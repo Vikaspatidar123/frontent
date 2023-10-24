@@ -137,6 +137,9 @@ import FormFields from './registrationformFiels/reducer';
 // Dashboard view
 import DashboardViewInfo from './dashboardView/reducer';
 
+// User Details
+import UserDetails from './userDetails/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -190,6 +193,7 @@ const rootReducer = combineReducers({
 	SportsMatches,
 	SportsMarkets,
 	DashboardViewInfo,
+	UserDetails,
 });
 
 export default rootReducer;

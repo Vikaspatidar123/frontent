@@ -32,6 +32,7 @@ const TableContainer = ({
 	isLoading = false,
 	thCustomClass = '',
 	changeRowsPerPageCallback,
+	hideHeader,
 }) => {
 	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
 	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
@@ -97,28 +98,30 @@ const TableContainer = ({
 		<>
 			<div className="table-responsive react-table">
 				<Table {...getTableProps()} className={tableClass} id="generic-table">
-					<thead className={theadClass} id="generic-table-head">
-						{headerGroups.map((headerGroup) => (
-							<tr
-								key={headerGroup.id}
-								{...headerGroup.getHeaderGroupProps()}
-								id="generic-table-tr"
-							>
-								{headerGroup.headers.map((column) => (
-									<th
-										key={column.id}
-										className={column.isSort ? 'sorting' : thCustomClass}
-									>
-										<div {...column.getSortByToggleProps()}>
-											{column.render('Header')}
-											{/* {generateSortingIndicator(column)} */}
-										</div>
-										{/* <Filter column={column} /> */}
-									</th>
-								))}
-							</tr>
-						))}
-					</thead>
+					{!hideHeader && (
+						<thead className={theadClass} id="generic-table-head">
+							{headerGroups.map((headerGroup) => (
+								<tr
+									key={headerGroup.id}
+									{...headerGroup.getHeaderGroupProps()}
+									id="generic-table-tr"
+								>
+									{headerGroup.headers.map((column) => (
+										<th
+											key={column.id}
+											className={column.isSort ? 'sorting' : thCustomClass}
+										>
+											<div {...column.getSortByToggleProps()}>
+												{column.render('Header')}
+												{/* {generateSortingIndicator(column)} */}
+											</div>
+											{/* <Filter column={column} /> */}
+										</th>
+									))}
+								</tr>
+							))}
+						</thead>
+					)}
 
 					<tbody
 						{...getTableBodyProps({
@@ -227,11 +230,13 @@ const TableContainer = ({
 
 TableContainer.defaultProps = {
 	preGlobalFilteredRows: [],
+	hideHeader: false,
 };
 
 TableContainer.propTypes = {
 	// eslint-disable-next-line react/require-default-props
 	preGlobalFilteredRows: PropTypes.arrayOf,
+	hideHeader: PropTypes.bool,
 	// columns: PropTypes.arrayOf,
 	// data: PropTypes.arrayOf,
 	// isGlobalFilter: PropTypes.bool,

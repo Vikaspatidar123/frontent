@@ -49,6 +49,7 @@ import WageringTemplateDetailsSaga from './wageringTemplate/saga';
 import ProfileDataSaga from './Profile/saga';
 import GlobalRegistrationSaga from './registrationformFiels/saga';
 import DashboardViewSaga from './dashboardView/saga';
+import UserDetailsSaga from './userDetails/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -79,6 +80,7 @@ export default function* rootSaga() {
 		fork(WageringTemplateDetailsSaga),
 		fork(ProfileDataSaga),
 		fork(GlobalRegistrationSaga),
+		fork(UserDetailsSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),

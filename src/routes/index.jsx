@@ -202,7 +202,7 @@ import EditAdmin from '../pages/Admins/editAdmin';
 import JobGrid from '../pages/JobPages/JobGrid';
 import RegistrationFields from '../pages/RegistrationFormFields';
 import DashboardView from '../pages/DashboardView';
-import PlayerDetailsPage from '../pages/Players/components/PlayerDetails';
+import PlayerDetailsPage from '../pages/PlayerDetails';
 
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
