@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Badge } from 'reactstrap';
@@ -5,9 +8,14 @@ import { Colors } from '../../helpers/common';
 
 const PlayerId = (cell) => (cell.value ? cell.value : '');
 
-const UserName = (cell) =>
+const UserName = ({ cell, onClickPlayer }) =>
 	cell.value ? (
-		<div style={{ color: Colors.primaryBlue }}>{cell.value}</div>
+		<div
+			onClick={() => onClickPlayer(cell?.row?.original?.userId)}
+			style={{ color: Colors.primaryBlue, cursor: 'pointer' }}
+		>
+			{cell.value}
+		</div>
 	) : (
 		''
 	);
