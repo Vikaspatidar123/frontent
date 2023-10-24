@@ -71,7 +71,7 @@ import {
 	superAdminViewToggleStatus,
 } from '../../network/putRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
-import { showToastr } from '../../utils/helpers';
+import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 
 function* getCasinoCategoryWorker(action) {
 	const payload = action && action.payload;
@@ -89,16 +89,10 @@ function* getCasinoCategoryWorker(action) {
 }
 
 function* getCasinoSubCategoryWorker(action) {
-	const { limit, pageNo, gameCategoryId, search, isActive } =
-		action && action.payload;
 	try {
-		const { data } = yield getCasinoSubCategoryListing({
-			limit,
-			pageNo,
-			search,
-			gameCategoryId,
-			isActive,
-		});
+		let payload = action && action.payload;
+		payload = clearEmptyProperty(payload);
+		const { data } = yield getCasinoSubCategoryListing(payload);
 		yield put(getCasinoSubCategoryDetailSuccess(data?.data?.casinoSubCategory));
 	} catch (error) {
 		toast.error('Something Went wrong', { autoClose: 2000 });
