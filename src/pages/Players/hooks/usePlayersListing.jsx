@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { fetchPlayersStart } from '../../../store/actions';
 import {
 	Action,
@@ -15,11 +17,16 @@ import {
 
 const usePlayersListing = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { players, loading: isPlayersLoading } = useSelector(
 		(state) => state.Players
 	);
+
+	const onClickPlayer = (playerId) => {
+		navigate(`/player-details/${playerId}`);
+	};
 
 	const columns = useMemo(
 		() => [
@@ -33,7 +40,9 @@ const usePlayersListing = () => {
 				Header: 'Username',
 				accessor: 'username',
 				filterable: true,
-				Cell: (cellProps) => <UserName {...cellProps} />,
+				Cell: ({ cell }) => (
+					<UserName onClickPlayer={onClickPlayer} cell={cell} />
+				),
 			},
 			{
 				Header: 'Email',

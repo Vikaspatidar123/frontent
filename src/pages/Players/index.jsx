@@ -32,7 +32,6 @@ const PlayersList = ({ t }) => {
 		filterValidation,
 	} = useFilters();
 
-	console.log('Validations = ', filterValidation.values);
 	return (
 		<div className="page-content">
 			<Container fluid>

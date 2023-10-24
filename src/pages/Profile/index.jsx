@@ -3,20 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import {
-	Card,
-	CardBody,
-	CardText,
-	Col,
-	Container,
-	Nav,
-	NavItem,
-	NavLink,
-	Row,
-	TabContent,
-	TabPane,
-} from 'reactstrap';
-import classnames from 'classnames';
+import { CardText, Container } from 'reactstrap';
 import { getSiteConfiguration } from '../../network/getRequests';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 
@@ -32,6 +19,7 @@ import Overview from './Overview';
 import SiteConfig from './SiteConfiguration';
 import Password from './Password';
 import Permissions from './Permissions';
+import TabsPage from '../../components/Common/TabsPage';
 
 const ProfilePage = ({ t }) => {
 	// meta title
@@ -139,38 +127,7 @@ const ProfilePage = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs title={t('Dashboard')} breadcrumbItem={t('Profile')} />
-				<Row>
-					<Col lg={12}>
-						<Card>
-							<CardBody>
-								<Nav pills className="navtab-bg nav-justified">
-									{tabData.map((tab) => (
-										<NavItem key={tab.id}>
-											<NavLink
-												style={{ cursor: 'pointer' }}
-												className={classnames({ active: activeTab === tab.id })}
-												onClick={() => {
-													toggle(tab.id);
-												}}
-											>
-												{tab.title}
-											</NavLink>
-										</NavItem>
-									))}
-								</Nav>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
-				<TabContent activeTab={activeTab} className="text-muted">
-					{tabData.map((tab) => (
-						<TabPane key={tab.id} tabId={tab.id}>
-							<Row>
-								<Col sm="12">{tab.component}</Col>
-							</Row>
-						</TabPane>
-					))}
-				</TabContent>
+				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
 			</Container>
 		</div>
 	);
