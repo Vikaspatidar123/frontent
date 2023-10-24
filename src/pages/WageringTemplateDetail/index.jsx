@@ -12,6 +12,8 @@ import { WageringTemplateId, TemplateName } from './WageringTemplateListCol';
 import ActionButtons from './ActionButtons';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const columns = [
 	{
@@ -49,6 +51,14 @@ const WageringTemplate = ({ t }) => {
 		onChangeRowsPerPage,
 	} = useWageringTemplate();
 
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -61,6 +71,13 @@ const WageringTemplate = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={[]} title="Templates Listing" />
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									columns={columns}
 									data={wageringTemplateDetail?.rows || []}
