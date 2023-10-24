@@ -62,10 +62,8 @@ const getSuperAdminWageringTemplateDetail = ({
 		`${VITE_APP_API_URL}/api/admin/wagering-template/details?wageringTemplateId=${wageringTemplateId}&pageNo=${pageNo}&limit=${limit}&providerId=${providerId}&search=${search}`
 	);
 
-const getSuperAdminWageringTemplate = ({ search, limit, pageNo }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/wagering-template?adminId=pageNo=${pageNo}&limit=${limit}&search=${search}`
-	);
+const getSuperAdminWageringTemplate = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, payload);
 const getAllCasinoGames = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/casino/games`, payload);
 
