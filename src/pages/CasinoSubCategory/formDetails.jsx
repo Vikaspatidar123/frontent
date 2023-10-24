@@ -53,4 +53,54 @@ const staticFormFields = [
 	},
 ];
 
-export { validationSchema, getInitialValues, staticFormFields };
+// Filters
+
+const staticFiltersFields = () => [
+	{
+		name: 'search',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by title or Slug',
+	},
+	{
+		name: 'isActive',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: [
+			{
+				id: 1,
+				optionLabel: 'Active',
+				value: true,
+			},
+			{
+				id: 2,
+				optionLabel: 'In Active',
+				value: false,
+			},
+		],
+	},
+];
+
+const filterValues = () => ({
+	isActive: null,
+	search: '',
+	gameCategoryId: null,
+});
+
+const filterValidationSchema = () =>
+	Yup.object({
+		isActive: Yup.string().nullable(),
+		search: Yup.string().nullable(),
+		gameCategoryId: Yup.string().nullable(),
+	});
+
+export {
+	validationSchema,
+	getInitialValues,
+	staticFormFields,
+	staticFiltersFields,
+	filterValues,
+	filterValidationSchema,
+};

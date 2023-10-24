@@ -23,6 +23,8 @@ import { getCasinoSubCategoryDetailStart } from '../../store/actions';
 import CrudSection from '../../components/Common/CrudSection';
 import useCreateSubCategory from './hooks/useCreateSubCategory';
 import FormModal from '../../components/Common/FormModal';
+import Filters from '../../components/Common/Filters';
+import useFilters from './hooks/useFilters';
 
 const GetCasinoSubCategoryDetail = ({ t }) => {
 	// meta title
@@ -35,7 +37,6 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		isEditSubCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const [page, setPage] = useState(1);
-	const [search] = useState('');
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const dispatch = useDispatch();
 	const fetchData = () => {
@@ -43,7 +44,6 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 			getCasinoSubCategoryDetailStart({
 				limit: itemsPerPage,
 				pageNo: page,
-				search,
 			})
 		);
 	};
@@ -66,13 +66,21 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		isEditSubCategoryLoading,
 	} = useCreateSubCategory();
 
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
+
 	useEffect(() => {
 		if (isCreateSubCategorySuccess || isEditSubCategorySuccess) fetchData();
 	}, [isCreateSubCategorySuccess, isEditSubCategorySuccess]);
 
 	useEffect(() => {
 		fetchData();
-	}, [itemsPerPage, page, search, active]);
+	}, [itemsPerPage, page, active]);
 
 	// const getGameName = (id) => {
 	// 	return (
@@ -227,6 +235,13 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 								title="Sub Categories Listing"
 							/>
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									columns={columns}
 									data={formattedgetCasinoSubCategoryDetails}

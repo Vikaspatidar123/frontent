@@ -30,4 +30,11 @@ const showToastr = ({ type, message, title }) => {
 	else toastr.success(message, title);
 };
 
-export { safeStringify, showToastr };
+const clearEmptyProperty = (payload) =>
+	Object.fromEntries(
+		Object.entries(payload).filter(
+			([, v]) => v != null || v !== undefined || v !== ''
+		)
+	);
+
+export { safeStringify, showToastr, clearEmptyProperty };

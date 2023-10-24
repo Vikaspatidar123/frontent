@@ -5,16 +5,8 @@ const { VITE_APP_API_URL } = import.meta.env;
 const getCasinoCategoryListing = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/casino/categories`, payload);
 
-const getCasinoSubCategoryListing = ({
-	limit = 15,
-	pageNo = 1,
-	search = '',
-	gameCategoryId = '',
-	isActive = '',
-}) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/casino/sub-category?pageNo=${pageNo}&gameCategoryId=${gameCategoryId}&search=${search}&limit=${limit}&isActive=${isActive}`
-	);
+const getCasinoSubCategoryListing = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/casino/sub-category`, payload);
 
 const getAllCurrencies = ({ limit, pageNo }) =>
 	getRequest(
