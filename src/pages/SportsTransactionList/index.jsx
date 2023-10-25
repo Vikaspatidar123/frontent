@@ -1,30 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import {
-	ActionTypes,
-	Amount,
-	CreatedAt,
-	CurrencyCode,
-	Email,
-	Id,
-	NonCashAmount,
-	Status,
-} from './SportsTransactionListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsTransactionListing from './hooks/useSportsTransactionListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const SportsTransactionList = ({ t }) => {
 	document.title = projectName;
 
 	const {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalSportsTransactionCount,
@@ -32,58 +22,16 @@ const SportsTransactionList = ({ t }) => {
 		formattedSportsTransaction,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	} = useSportsTransactionListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Id',
-				accessor: 'transactionId',
-				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
-			},
-			{
-				Header: 'Email',
-				accessor: 'email',
-				filterable: true,
-				Cell: (cellProps) => <Email {...cellProps} />,
-			},
-			{
-				Header: 'Amount',
-				accessor: 'amount',
-				filterable: true,
-				Cell: (cellProps) => <Amount {...cellProps} />,
-			},
-			{
-				Header: 'Non Cash Amount',
-				accessor: 'nonCashAmount',
-				filterable: true,
-				Cell: (cellProps) => <NonCashAmount {...cellProps} />,
-			},
-			{
-				Header: 'Currency Code',
-				accessor: 'currencyCode',
-				filterable: true,
-				Cell: (cellProps) => <CurrencyCode {...cellProps} />,
-			},
-			{
-				Header: 'Action Types',
-				accessor: 'actionType',
-				Cell: (cellProps) => <ActionTypes {...cellProps} />,
-			},
-			{
-				Header: 'Status',
-				accessor: 'status',
-				Cell: (cellProps) => <Status {...cellProps} />,
-			},
-			{
-				Header: 'Created At',
-				accessor: 'createdAt',
-				Cell: (cellProps) => <CreatedAt {...cellProps} />,
-			},
-		],
-		[]
-	);
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	return (
 		<div className="page-content">
@@ -101,18 +49,13 @@ const SportsTransactionList = ({ t }) => {
 								title="Sports Transactions Listing"
 							/>
 							<CardBody>
-								<Row>
-									<Col xs="12" sm="3">
-										<Input
-											className="form-control"
-											placeholder="Search Email"
-											onChange={({ target }) =>
-												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-											}
-											value={searchText}
-										/>
-									</Col>
-								</Row>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									isLoading={isSportsTransactionLoading}
 									columns={columns}
