@@ -7,9 +7,11 @@ import {
 	fetchTransactionBankingSuccess,
 } from './actions';
 import { getTransactionBanking } from '../../network/getRequests';
+import { clearEmptyProperty } from '../../utils/helpers';
 
-function* fetchTransactionBanking({ payload }) {
+function* fetchTransactionBanking(action) {
 	try {
+		const payload = clearEmptyProperty(action.payload);
 		const response = yield call(getTransactionBanking, payload);
 		yield put(
 			fetchTransactionBankingSuccess(response?.data?.data?.transactionDetail)
