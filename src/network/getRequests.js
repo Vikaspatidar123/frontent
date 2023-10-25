@@ -187,6 +187,9 @@ const getSiteConfiguration = (data) =>
 const getGlobalRegistration = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/global-registration`);
 
+const getloyaltyLevel = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/bonus/loyalty-level`);
+
 const getDashboardLiveInfoService = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/report/live-player`);
 
@@ -230,6 +233,7 @@ export {
 	getSuperAdminWageringTemplate,
 	getSiteConfiguration,
 	getGlobalRegistration,
+	getloyaltyLevel,
 	getDashboardLiveInfoService,
 	getUserDetails,
 };

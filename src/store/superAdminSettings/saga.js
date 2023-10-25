@@ -8,6 +8,8 @@ import {
 	CREATE_KYC_LABELS_START,
 	EDIT_KYC_LABELS_START,
 	EDIT_SA_BANNERS_START,
+	GET_LOYALTY_LEVEL,
+	UPDATE_LOYALTY_LEVEL,
 } from './actionTypes';
 import {
 	getSABannersSuccess,
@@ -22,12 +24,21 @@ import {
 	editKYCLabelsFail,
 	editSABannersSuccess,
 	editSABannersFail,
+	getLoyaltyLevelSuccess,
+	getLoyaltyLevelFail,
+	updateLoyaltyLevelSuccess,
+	updateLoyaltyLevelFail,
+	getLoyaltyLevel,
 } from './actions';
-import { getAllSABanners, getDocumentLabel } from '../../network/getRequests';
+import {
+	getAllSABanners,
+	getDocumentLabel,
+	getloyaltyLevel,
+} from '../../network/getRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 import { createKYCLabels, createSABanners } from '../../network/postRequests';
-import { editBanners, updateKYCLabels } from '../../network/putRequests';
+import { editBanners, updateKYCLabels, updateloyaltyLevel } from '../../network/putRequests';
 
 function* getAllSABannersWorker(action) {
 	try {
@@ -140,6 +151,47 @@ function* editSABannersWorker(action) {
 	}
 }
 
+function* getloyaltyLevelWorker() {
+	try {
+		const { data } = yield getloyaltyLevel();
+
+		yield put(getLoyaltyLevelSuccess(data?.data?.loyaltyLevel));
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(getLoyaltyLevelFail(e?.response?.data?.errors[0]?.description));
+	}
+}
+
+function* updateloyaltyLevelWorker(action) {
+	try {
+		const { loyaltyLevel, isTenant, tenantId = '' } = action && action.payload;
+
+		yield updateloyaltyLevel({
+			isTenant,
+			data: { loyaltyLevel: loyaltyLevel?.loyaltyLevel, tenantId },
+		});
+
+		yield put(updateLoyaltyLevelSuccess());
+
+		showToastr({
+			message: `Data Updated Successfully`,
+			type: 'success',
+		});
+		yield put(getLoyaltyLevel({ isTenant }));
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(updateLoyaltyLevelFail());
+	}
+}
+
 export function* getAllSABannersWatcher() {
 	yield takeLatest(GET_SA_BANNERS, getAllSABannersWorker);
 }
@@ -164,6 +216,14 @@ export function* editSABannersWatcher() {
 	yield takeLatest(EDIT_SA_BANNERS_START, editSABannersWorker);
 }
 
+export function* getLoyaltyLevelWatcher() {
+	yield takeLatest(GET_LOYALTY_LEVEL, getloyaltyLevelWorker);
+}
+
+export function* updateLoyaltyLevelWatcher() {
+	yield takeLatest(UPDATE_LOYALTY_LEVEL, updateloyaltyLevelWorker);
+}
+
 function* SASettingsSaga() {
 	yield all([fork(getAllSABannersWatcher)]);
 	yield all([fork(getDocumentLabelWatcher)]);
@@ -171,6 +231,8 @@ function* SASettingsSaga() {
 	yield all([fork(createKYCLabelsWatcher)]);
 	yield all([fork(editKYCLabelsWatcher)]);
 	yield all([fork(editSABannersWatcher)]);
+	yield all([fork(getLoyaltyLevelWatcher)]);
+	yield all([fork(updateLoyaltyLevelWatcher)]);
 }
 
 export default SASettingsSaga;

@@ -17,6 +17,12 @@ import {
 	EDIT_SA_BANNERS_START,
 	EDIT_SA_BANNERS_SUCCESS,
 	EDIT_SA_BANNERS_FAIL,
+	GET_LOYALTY_LEVEL,
+	GET_LOYALTY_LEVEL_SUCCESS,
+	GET_LOYALTY_LEVEL_FAIL,
+	UPDATE_LOYALTY_LEVEL,
+	UPDATE_LOYALTY_LEVEL_SUCCESS,
+	UPDATE_LOYALTY_LEVEL_FAIL,
 } from './actionTypes';
 
 const initialState = {
@@ -38,6 +44,12 @@ const initialState = {
 	isEditSABannersError: false,
 	isEditSABannersSuccess: false,
 	isEditSABannersLoading: false,
+	loyaltyLevel: null,
+	loyaltyLevelError: null,
+	loyaltyLevelLoading: false,
+	isUpdateLoyaltyLevelLoading: false,
+	isUpdateLoyaltyLevelSuccess: false,
+	isUpdateLoyaltyLevelError: null,
 };
 
 const SASettings = (state = initialState, { type, payload } = {}) => {
@@ -169,6 +181,49 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				isEditSABannersError: payload,
 				isEditSABannersLoading: false,
 				isEditSABannersSuccess: false,
+			};
+
+		case GET_LOYALTY_LEVEL:
+			return {
+				...state,
+				loyaltyLevelLoading: true,
+			};
+
+		case GET_LOYALTY_LEVEL_SUCCESS:
+			return {
+				...state,
+				loyaltyLevelLoading: false,
+				loyaltyLevel: payload,
+				loyaltyLevelError: null,
+			};
+
+		case GET_LOYALTY_LEVEL_FAIL:
+			return {
+				...state,
+				loyaltyLevelLoading: false,
+				loyaltyLevelError: true,
+			};
+
+		case UPDATE_LOYALTY_LEVEL:
+			return {
+				...state,
+				isUpdateLoyaltyLevelLoading: true,
+			};
+
+		case UPDATE_LOYALTY_LEVEL_SUCCESS:
+			return {
+				...state,
+				isUpdateLoyaltyLevelLoading: false,
+				isUpdateLoyaltyLevelSuccess: true,
+				isUpdateLoyaltyLevelError: null,
+			};
+
+		case UPDATE_LOYALTY_LEVEL_FAIL:
+			return {
+				...state,
+				isUpdateLoyaltyLevelLoading: false,
+				isUpdateLoyaltyLevelError: payload,
+				isUpdateLoyaltyLevelSuccess: false,
 			};
 
 		default:

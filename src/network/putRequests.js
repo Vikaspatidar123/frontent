@@ -61,6 +61,9 @@ const editBanners = (data) =>
 const editBetSettings = (data) =>
   putRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/bet-settings`, data);
 
+const updateloyaltyLevel = ({ data }) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/bonus/loyalty-level`, data);
+
 export {
   updateSuperAdminUser,
   updateAdmin,
@@ -79,4 +82,5 @@ export {
   editCasinoGames,
   editBanners,
   editBetSettings,
+	updateloyaltyLevel,
 };
