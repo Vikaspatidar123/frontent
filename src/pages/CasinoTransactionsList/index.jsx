@@ -1,30 +1,18 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import {
-	ActionType,
-	Amount,
-	BonusMoney,
-	CreatedAt,
-	GameName,
-	Id,
-	Status,
-	UserEmail,
-} from './CasinoTransactionsListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCasinoTransactionsListing from './hooks/useCasinoTransactionsListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const CasinoTransactionsList = ({ t }) => {
 	document.title = projectName;
 
 	const {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalCasinoTransactionsCount,
@@ -32,58 +20,16 @@ const CasinoTransactionsList = ({ t }) => {
 		formattedCasinoTransactions,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	} = useCasinoTransactionsListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Id',
-				accessor: 'casinoTransactionId',
-				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
-			},
-			{
-				Header: 'User Email',
-				accessor: 'userEmail',
-				filterable: true,
-				Cell: (cellProps) => <UserEmail {...cellProps} />,
-			},
-			{
-				Header: 'Game Name',
-				accessor: 'gameIdentifier',
-				filterable: true,
-				Cell: (cellProps) => <GameName {...cellProps} />,
-			},
-			{
-				Header: 'Action Type',
-				accessor: 'actionType',
-				filterable: true,
-				Cell: (cellProps) => <ActionType {...cellProps} />,
-			},
-			{
-				Header: 'Amount',
-				accessor: 'amountWithCurr',
-				filterable: true,
-				Cell: (cellProps) => <Amount {...cellProps} />,
-			},
-			{
-				Header: 'Bonus Money',
-				accessor: 'bonusAmt',
-				Cell: (cellProps) => <BonusMoney {...cellProps} />,
-			},
-			{
-				Header: 'Status',
-				accessor: 'statusText',
-				Cell: (cellProps) => <Status {...cellProps} />,
-			},
-			{
-				Header: 'Created At',
-				accessor: 'createdAt',
-				Cell: (cellProps) => <CreatedAt {...cellProps} />,
-			},
-		],
-		[]
-	);
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	return (
 		<div className="page-content">
@@ -101,18 +47,13 @@ const CasinoTransactionsList = ({ t }) => {
 								title="Casino Transactions Listing"
 							/>
 							<CardBody>
-								<Row>
-									<Col xs="12" sm="3">
-										<Input
-											className="form-control"
-											placeholder="Search email"
-											onChange={({ target }) =>
-												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-											}
-											value={searchText}
-										/>
-									</Col>
-								</Row>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									isLoading={isCasinoTransactionsLoading}
 									columns={columns}
