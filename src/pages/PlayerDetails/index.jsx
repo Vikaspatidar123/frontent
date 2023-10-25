@@ -12,6 +12,7 @@ import SportsBettingHistory from './SportsBettingHistory';
 import Transactions from './Transactions';
 import KYCSettings from './KYCSettings';
 import YourBonuses from './YourBonuses';
+import Comments from './Comments';
 
 const PlayerDetailsPage = ({ t }) => {
 	const [activeTab, setActiveTab] = useState(1);
@@ -66,7 +67,11 @@ const PlayerDetailsPage = ({ t }) => {
 			title: 'Your Bonuses',
 			component: <YourBonuses userId={playerId} />,
 		},
-		{ id: 10, title: 'Comments', component: <div>In Progress</div> },
+		{
+			id: 10,
+			title: 'Comments',
+			component: <Comments userId={playerId} />,
+		},
 	];
 
 	return (

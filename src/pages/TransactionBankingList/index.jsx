@@ -22,7 +22,7 @@ const TransactionBankingList = ({ t }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useTransactionBankingListing();
+	} = useTransactionBankingListing({});
 
 	const {
 		toggleAdvance,

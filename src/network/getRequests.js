@@ -197,6 +197,9 @@ const getDashboardLiveInfoService = () =>
 const getUserDetails = (params) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user`, params);
 
+const getCommentsList = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/user/comments`, payload);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -239,4 +242,5 @@ export {
 	getUserDetails,
 	getUserDocument,
 	getUserBonuses,
+	getCommentsList,
 };

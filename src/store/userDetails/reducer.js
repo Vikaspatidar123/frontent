@@ -1,7 +1,13 @@
 import {
+	CREATE_USER_COMMENT,
+	CREATE_USER_COMMENT_FAIL,
+	CREATE_USER_COMMENT_SUCCESS,
 	GET_USER_BONUS,
 	GET_USER_BONUS_FAIL,
 	GET_USER_BONUS_SUCCESS,
+	GET_USER_COMMENTS,
+	GET_USER_COMMENTS_FAIL,
+	GET_USER_COMMENTS_SUCCESS,
 	GET_USER_DETAILS,
 	GET_USER_DETAILS_FAIL,
 	GET_USER_DETAILS_SUCCESS,
@@ -20,6 +26,12 @@ const INIT_STATE = {
 	userBonus: null,
 	userBonusLoading: false,
 	userBonusError: false,
+	userComments: null,
+	userCommentsLoading: false,
+	userCommentsError: false,
+	createUserCommentsSuccess: false,
+	createUserCommentsLoading: false,
+	createUserCommentsError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -85,6 +97,49 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				userBonusError: payload,
 				userBonusLoading: true,
+			};
+
+		case GET_USER_COMMENTS:
+			return {
+				...state,
+				userCommentsLoading: true,
+			};
+
+		case GET_USER_COMMENTS_SUCCESS:
+			return {
+				...state,
+				userCommentsLoading: false,
+				userComments: payload,
+				userCommentsError: null,
+			};
+
+		case GET_USER_COMMENTS_FAIL:
+			return {
+				...state,
+				userCommentsError: payload,
+				userCommentsLoading: true,
+			};
+
+		case CREATE_USER_COMMENT:
+			return {
+				...state,
+				createUserCommentsLoading: true,
+			};
+
+		case CREATE_USER_COMMENT_SUCCESS:
+			return {
+				...state,
+				createUserCommentsLoading: false,
+				createUserCommentsSuccess: true,
+				createUserCommentsError: null,
+			};
+
+		case CREATE_USER_COMMENT_FAIL:
+			return {
+				...state,
+				createUserCommentsError: payload,
+				createUserCommentsLoading: true,
+				createUserCommentsSuccess: false,
 			};
 		default:
 			return { ...state };

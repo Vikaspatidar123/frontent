@@ -41,6 +41,9 @@ const createCasinoSubCategory = (data) =>
 		'Content-Type': 'multipart/form-data',
 	});
 
+const createUserCommentEntry = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/user/comment`, data);
+
 export {
 	superAdminLogin,
 	createCurrency,
@@ -53,4 +56,5 @@ export {
 	createCasinoCategory,
 	createKYCLabels,
 	createCasinoSubCategory,
+	createUserCommentEntry,
 };

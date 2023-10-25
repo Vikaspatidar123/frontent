@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/react-in-jsx-scope */
 const KeyValueCell = (cell) => (cell.value ? cell.value : '');
+const KeyValueCellNA = (cell) => (cell.value ? cell.value : 'NA');
 const Id = (cell) => (cell.value ? cell.value : '');
 const Email = (cell) => (cell.value ? cell.value : '');
 const ActionTypes = (cell) => (cell.value ? cell.value : '');
@@ -44,6 +45,9 @@ const PromotionTitle = (cell) => (cell.value ? cell.value : '');
 
 const Action = (cell) => (cell.value ? cell.value : '');
 
+const Comment = (cell) =>
+	cell.value ? <div className="comment-term-text">{cell.value}</div> : '';
+
 export {
 	KeyValueCell,
 	Id,
@@ -58,4 +62,6 @@ export {
 	CurrencyCode,
 	PromotionTitle,
 	Action,
+	Comment,
+	KeyValueCellNA,
 };
