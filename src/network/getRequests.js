@@ -113,10 +113,8 @@ const getSportsList = ({
 				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
 		  );
 
-const getReviewManagement = ({ limit, pageNo, search, status = '' }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/review?limit=${limit}&pageNo=${pageNo}&search=${search}&status=${status}`
-	);
+const getReviewManagement = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/review`, payload);
 
 const getCountriesList = ({ limit, pageNo, search = '', isActive = '' }) =>
 	getRequest(
@@ -141,9 +139,10 @@ const getTournamentsList = ({
 const getCasinoTransactions = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/casino/transactions`, payload);
 
-const getWithdrawRequests = ({ limit, pageNo, search }) =>
+const getWithdrawRequests = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}/api/admin/user/all-withdraw-request?limit=${limit}&pageNo=${pageNo}&search=${search}`
+		`${VITE_APP_API_URL}/api/admin/user/all-withdraw-request`,
+		payload
 	);
 
 const getAllSABanners = ({ limit, pageNo }) =>

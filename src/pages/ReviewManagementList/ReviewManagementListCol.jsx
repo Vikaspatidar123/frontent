@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Badge } from 'reactstrap';
-import { Tooltip } from 'recharts';
+// import { Tooltip } from 'recharts';
 import { Colors } from '../../helpers/common';
 
 const Id = (cell) => (cell.value ? cell.value : '');
@@ -15,10 +15,10 @@ const UserName = (cell) =>
 
 const Description = (cell) =>
 	cell.value ? (
-		<Tooltip title={cell.value}>
-			<div className="english-text">{cell.value}</div>
-		</Tooltip>
+		// <Tooltip title={cell.value}>
+		<div className="english-text">{cell.value}</div>
 	) : (
+		// </Tooltip>
 		''
 	);
 
