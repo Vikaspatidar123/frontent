@@ -1,4 +1,7 @@
 import {
+	GET_USER_BONUS,
+	GET_USER_BONUS_FAIL,
+	GET_USER_BONUS_SUCCESS,
 	GET_USER_DETAILS,
 	GET_USER_DETAILS_FAIL,
 	GET_USER_DETAILS_SUCCESS,
@@ -14,6 +17,9 @@ const INIT_STATE = {
 	userDocuments: null,
 	userDocumentsLoading: false,
 	userDocumentsError: false,
+	userBonus: null,
+	userBonusLoading: false,
+	userBonusError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -58,6 +64,27 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				userDocumentsError: payload,
 				userDocumentsLoading: true,
+			};
+
+		case GET_USER_BONUS:
+			return {
+				...state,
+				userBonusLoading: true,
+			};
+
+		case GET_USER_BONUS_SUCCESS:
+			return {
+				...state,
+				userBonusLoading: false,
+				userBonus: payload,
+				userBonusError: null,
+			};
+
+		case GET_USER_BONUS_FAIL:
+			return {
+				...state,
+				userBonusError: payload,
+				userBonusLoading: true,
 			};
 		default:
 			return { ...state };

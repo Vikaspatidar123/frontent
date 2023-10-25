@@ -40,6 +40,10 @@ const NonCashAmount = (cell) =>
 
 const CurrencyCode = (cell) => (cell.value ? cell.value : '');
 
+const PromotionTitle = (cell) => (cell.value ? cell.value : '');
+
+const Action = (cell) => (cell.value ? cell.value : '');
+
 export {
 	KeyValueCell,
 	Id,
@@ -52,4 +56,6 @@ export {
 	CreatedAt,
 	NonCashAmount,
 	CurrencyCode,
+	PromotionTitle,
+	Action,
 };

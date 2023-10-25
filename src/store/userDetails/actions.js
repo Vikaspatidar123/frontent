@@ -1,4 +1,7 @@
 import {
+	GET_USER_BONUS,
+	GET_USER_BONUS_FAIL,
+	GET_USER_BONUS_SUCCESS,
 	GET_USER_DETAILS,
 	GET_USER_DETAILS_FAIL,
 	GET_USER_DETAILS_SUCCESS,
@@ -34,5 +37,20 @@ export const getUserDocumentsFail = (payload) => ({
 
 export const getUserDocuments = (payload) => ({
 	type: GET_USER_DOCUMENTS,
+	payload,
+});
+
+export const getUserBonusSuccess = (payload) => ({
+	type: GET_USER_BONUS_SUCCESS,
+	payload,
+});
+
+export const getUserBonusFail = (payload) => ({
+	type: GET_USER_BONUS_FAIL,
+	payload,
+});
+
+export const getUserBonus = (payload) => ({
+	type: GET_USER_BONUS,
 	payload,
 });

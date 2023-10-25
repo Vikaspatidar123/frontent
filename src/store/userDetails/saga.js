@@ -6,9 +6,19 @@ import {
 	getUserDetailsFail,
 	getUserDocumentsSuccess,
 	getUserDocumentsFail,
+	getUserBonusSuccess,
+	getUserBonusFail,
 } from './actions';
-import { GET_USER_DETAILS, GET_USER_DOCUMENTS } from './actionTypes';
-import { getUserDetails, getUserDocument } from '../../network/getRequests';
+import {
+	GET_USER_BONUS,
+	GET_USER_DETAILS,
+	GET_USER_DOCUMENTS,
+} from './actionTypes';
+import {
+	getUserBonuses,
+	getUserDetails,
+	getUserDocument,
+} from '../../network/getRequests';
 
 function* getUserDetailsWorker(action) {
 	try {
@@ -32,9 +42,21 @@ function* getUserDocumentsWorker(action) {
 	}
 }
 
+function* getUserBonusWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getUserBonuses(payload);
+
+		yield put(getUserBonusSuccess(data?.data?.userBonus));
+	} catch (e) {
+		yield put(getUserBonusFail(e.message));
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
+	yield takeLatest(GET_USER_BONUS, getUserBonusWorker);
 }
 
 function* UserDetailsSaga() {
