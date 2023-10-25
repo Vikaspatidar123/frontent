@@ -1,12 +1,23 @@
-import { useEffect, useState, useMemo } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchTransactionBankingStart } from '../../../store/actions';
 import { statusType, transactionType, walletType } from '../constants';
 import { getDateTime } from '../../../helpers/dateFormatter';
+import {
+	ActionType,
+	Actionee,
+	ActioneeType,
+	Amount,
+	CreatedAt,
+	Id,
+	PaymentProvider,
+	Status,
+	TransactionId,
+} from '../TransactionBankingCol';
 
 const useTransactionBankingListing = () => {
 	const dispatch = useDispatch();
-	const [searchText, setSearchText] = useState('');
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { transactionBanking, loading: isTransactionBankingLoading } =
@@ -35,10 +46,9 @@ const useTransactionBankingListing = () => {
 			fetchTransactionBankingStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				paymentProvider: searchText,
 			})
 		);
-	}, [currentPage, searchText, itemsPerPage]);
+	}, [currentPage, itemsPerPage]);
 
 	const formattedTransactionBanking = useMemo(() => {
 		const formattedValues = [];
@@ -68,9 +78,64 @@ const useTransactionBankingListing = () => {
 		return formattedValues;
 	}, [transactionBanking]);
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'Id',
+				accessor: 'transactionBankingId',
+				filterable: true,
+				Cell: (cellProps) => <Id {...cellProps} />,
+			},
+			{
+				Header: 'Transaction Id',
+				accessor: 'paymentTransactionId',
+				filterable: true,
+				Cell: (cellProps) => <TransactionId {...cellProps} />,
+			},
+			{
+				Header: 'Actionee',
+				accessor: 'actioneeEmail',
+				filterable: true,
+				Cell: (cellProps) => <Actionee {...cellProps} />,
+			},
+			{
+				Header: 'Payment Provider',
+				accessor: 'paymentProvider',
+				filterable: true,
+				Cell: (cellProps) => <PaymentProvider {...cellProps} />,
+			},
+			{
+				Header: 'Amount',
+				accessor: 'amountWithCurr',
+				filterable: true,
+				Cell: (cellProps) => <Amount {...cellProps} />,
+			},
+			{
+				Header: 'Action Type',
+				accessor: 'actionType',
+				filterable: true,
+				Cell: (cellProps) => <ActionType {...cellProps} />,
+			},
+			{
+				Header: 'Actionee Type',
+				accessor: 'actioneeType',
+				Cell: (cellProps) => <ActioneeType {...cellProps} />,
+			},
+			{
+				Header: 'Status',
+				accessor: 'status',
+				Cell: (cellProps) => <Status {...cellProps} />,
+			},
+			{
+				Header: 'Created At',
+				accessor: 'createdAt',
+				Cell: (cellProps) => <CreatedAt {...cellProps} />,
+			},
+		],
+		[]
+	);
+
 	return {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalTransactionBankingCount: transactionBanking?.count,
@@ -78,6 +143,7 @@ const useTransactionBankingListing = () => {
 		formattedTransactionBanking,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	};
 };
 
