@@ -9,6 +9,7 @@ import PlayerWallet from './PlayerWallet';
 import useUserDetails from './hooks/useUserDetails';
 import BetHistory from './BetHistory';
 import SportsBettingHistory from './SportsBettingHistory';
+import Transactions from './Transactions';
 
 const PlayerDetailsPage = ({ t }) => {
 	const [activeTab, setActiveTab] = useState(1);
@@ -48,7 +49,11 @@ const PlayerDetailsPage = ({ t }) => {
 			title: 'Sports Betting History',
 			component: <SportsBettingHistory userId={playerId} />,
 		},
-		{ id: 7, title: 'Transactions', component: <div>In Progress</div> },
+		{
+			id: 7,
+			title: 'Transactions',
+			component: <Transactions userId={playerId} />,
+		},
 		{ id: 8, title: 'KYC Settings', component: <div>In Progress</div> },
 		{ id: 9, title: 'Your Bonuses', component: <div>In Progress</div> },
 		{ id: 10, title: 'Comments', component: <div>In Progress</div> },
