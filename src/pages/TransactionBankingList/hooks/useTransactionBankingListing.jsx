@@ -16,7 +16,7 @@ import {
 	TransactionId,
 } from '../TransactionBankingCol';
 
-const useTransactionBankingListing = () => {
+const useTransactionBankingListing = ({ userId }) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -46,6 +46,7 @@ const useTransactionBankingListing = () => {
 			fetchTransactionBankingStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
+				userId: userId || '',
 			})
 		);
 	}, [currentPage, itemsPerPage]);

@@ -177,6 +177,9 @@ const getAdminDetails = (adminId) =>
 const getDocumentLabel = (userId) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/document-label?userId=${userId}`);
 
+const getUserDocument = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/user/document`, payload);
+
 const getSiteConfiguration = (data) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data);
 
@@ -232,4 +235,5 @@ export {
 	getloyaltyLevel,
 	getDashboardLiveInfoService,
 	getUserDetails,
+	getUserDocument,
 };
