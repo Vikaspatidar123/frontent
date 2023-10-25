@@ -34,6 +34,8 @@ export const CustomInputField = ({
 	validation,
 	errorMsg,
 	validate,
+	min,
+	max,
 	...props
 }) => (
 	<>
@@ -50,6 +52,8 @@ export const CustomInputField = ({
 			onBlur={onBlur}
 			invalid={invalid}
 			placeholder={placeholder}
+			min={min}
+			max={max}
 			{...props}
 		/>
 		{isError && errorMsg ? (
@@ -281,6 +285,8 @@ export const getField = (
 		multiple = false,
 		levelIndex,
 		levelFieldName,
+		minimum,
+		maximum,
 	},
 	validation
 ) => {
@@ -450,10 +456,20 @@ export const getField = (
 					placeholder={placeholder}
 					validate={{ required: { value: true } }}
 					value={validation.values?.loyaltyLevel[levelIndex][levelFieldName]}
-					// invalid={!!(validation.touched?.loyaltyLevel && validation.errors?.loyaltyLevel)}
-					// isError
-					// errorMsg={validation.touched?.loyaltyLevel && validation.errors?.loyaltyLevel}
+					invalid={
+						!!(
+							validation.touched?.loyaltyLevel &&
+							validation.errors?.loyaltyLevel?.[levelIndex]?.[levelFieldName]
+						)
+					}
+					isError
+					errorMsg={
+						validation.touched?.loyaltyLevel &&
+						validation.errors?.loyaltyLevel?.[levelIndex]?.[levelFieldName]
+					}
 					disabled={!!isDisabled}
+					min={minimum}
+					max={maximum}
 				/>
 			);
 		case 'inputGroup':

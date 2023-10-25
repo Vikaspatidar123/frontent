@@ -19,21 +19,45 @@ const LoyaltyFormPage = ({
 					return false;
 				}}
 			>
+				<Row lg={12} sm={12}>
+					{[
+						'Levels *',
+						'Loyalty Point Start *',
+						'Loyalty Point End *',
+						'Percentage *',
+					].map((item, idx) => (
+						<Col
+							lg={idx === 0 ? 2 : 3}
+							sm={idx === 0 ? 2 : 3}
+							key={item}
+							className="mb-2 fw-bold"
+						>
+							{item}
+						</Col>
+					))}
+				</Row>
 				<Row>
 					<Col lg={12} sm={12}>
 						{formFields?.map((fields, index) => (
 							<Row>
 								{fields?.map(
-									(field) =>
+									(field, idx) =>
 										!field?.isHide && (
-											<Col lg={2} sm={2}>
-												<div className="mb-3 pr-2">
-													{getField(field, validation)}
+											<Col lg={idx === 0 ? 2 : 3} sm={idx === 0 ? 2 : 3}>
+												<div className="d-flex mb-3 pr-2">
+													{idx === 1 && (
+														<div className="form-control w-auto h-25 font-monospace bg-dark-subtle">
+															{'>'}
+														</div>
+													)}
+													<div className="w-100">
+														{getField(field, validation)}
+													</div>
 												</div>
 											</Col>
 										)
 								)}
-								<Col lg={2} sm={2}>
+								<Col lg={1} sm={1}>
 									{formFields.length - 1 === index ? (
 										<button
 											type="button"
