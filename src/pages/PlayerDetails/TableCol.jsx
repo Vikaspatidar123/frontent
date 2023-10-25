@@ -29,6 +29,17 @@ const Status = (cell) => (cell.value ? cell.value : '');
 
 const CreatedAt = (cell) => (cell.value ? cell.value : '');
 
+const NonCashAmount = (cell) =>
+	cell.value ? (
+		<div className={cell.value >= 0 ? 'text-success' : 'text-danger'}>
+			{cell.value}
+		</div>
+	) : (
+		'-'
+	);
+
+const CurrencyCode = (cell) => (cell.value ? cell.value : '');
+
 export {
 	KeyValueCell,
 	Id,
@@ -39,4 +50,6 @@ export {
 	BonusMoney,
 	Status,
 	CreatedAt,
+	NonCashAmount,
+	CurrencyCode,
 };
