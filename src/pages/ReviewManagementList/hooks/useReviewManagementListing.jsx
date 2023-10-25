@@ -1,11 +1,19 @@
-import { useEffect, useState, useMemo } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchReviewManagementStart } from '../../../store/actions';
+import {
+	Actions,
+	Description,
+	Id,
+	Rating,
+	Status,
+	UserName,
+} from '../ReviewManagementListCol';
 
 const useReviewManagementListing = () => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const {
 		reviewManagement,
@@ -22,14 +30,13 @@ const useReviewManagementListing = () => {
 			fetchReviewManagementStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				search: searchText,
 			})
 		);
 	};
 
 	useEffect(() => {
 		fetchData();
-	}, [currentPage, searchText, itemsPerPage]);
+	}, [currentPage, itemsPerPage]);
 
 	const formattedReviewManagement = useMemo(() => {
 		const formattedValues = [];
@@ -48,9 +55,45 @@ const useReviewManagementListing = () => {
 		if (isCreateReviewSuccess) fetchData();
 	}, [isCreateReviewSuccess]);
 
+	const columns = useMemo(() => [
+		{
+			Header: 'Id',
+			accessor: 'reviewId',
+			filterable: true,
+			Cell: (cellProps) => <Id {...cellProps} />,
+		},
+		{
+			Header: 'Username',
+			accessor: 'userName',
+			filterable: true,
+			Cell: (cellProps) => <UserName {...cellProps} />,
+		},
+		{
+			Header: 'Description',
+			accessor: 'description',
+			filterable: true,
+			Cell: (cellProps) => <Description {...cellProps} />,
+		},
+		{
+			Header: 'Rating',
+			accessor: 'rating',
+			filterable: true,
+			Cell: (cellProps) => <Rating {...cellProps} />,
+		},
+		{
+			Header: 'Status',
+			accessor: 'status',
+			filterable: true,
+			Cell: (cellProps) => <Status {...cellProps} />,
+		},
+		{
+			Header: 'Actions',
+			filterable: true,
+			Cell: (cellProps) => <Actions {...cellProps} />,
+		},
+	]);
+
 	return {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalReviewManagementCount: reviewManagement?.count,
@@ -58,6 +101,7 @@ const useReviewManagementListing = () => {
 		formattedReviewManagement,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	};
 };
 

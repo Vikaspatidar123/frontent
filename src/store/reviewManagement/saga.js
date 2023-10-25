@@ -13,10 +13,11 @@ import {
 } from './actions';
 import { getReviewManagement } from '../../network/getRequests';
 import { createReview } from '../../network/postRequests';
-import { showToastr } from '../../utils/helpers';
+import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 
-function* fetchReviewManagement({ payload }) {
+function* fetchReviewManagement(action) {
 	try {
+		const payload = clearEmptyProperty(action.payload);
 		const response = yield call(getReviewManagement, payload);
 		yield put(
 			fetchReviewManagementSuccess(response?.data?.data?.reviewDetails)
