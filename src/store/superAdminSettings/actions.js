@@ -17,6 +17,12 @@ import {
 	EDIT_SA_BANNERS_START,
 	EDIT_SA_BANNERS_SUCCESS,
 	EDIT_SA_BANNERS_FAIL,
+	GET_LOYALTY_LEVEL,
+	GET_LOYALTY_LEVEL_SUCCESS,
+	GET_LOYALTY_LEVEL_FAIL,
+	UPDATE_LOYALTY_LEVEL,
+	UPDATE_LOYALTY_LEVEL_SUCCESS,
+	UPDATE_LOYALTY_LEVEL_FAIL,
 } from './actionTypes';
 
 export const getSABanners = (payload) => ({
@@ -106,5 +112,35 @@ export const editSABannersSuccess = (payload) => ({
 
 export const editSABannersFail = (payload) => ({
 	type: EDIT_SA_BANNERS_FAIL,
+	payload,
+});
+
+export const getLoyaltyLevel = (payload) => ({
+	type: GET_LOYALTY_LEVEL,
+	payload,
+});
+
+export const getLoyaltyLevelSuccess = (payload) => ({
+	type: GET_LOYALTY_LEVEL_SUCCESS,
+	payload,
+});
+
+export const getLoyaltyLevelFail = (payload) => ({
+	type: GET_LOYALTY_LEVEL_FAIL,
+	payload,
+});
+
+export const updateLoyaltyLevel = (payload) => ({
+	type: UPDATE_LOYALTY_LEVEL,
+	payload,
+});
+
+export const updateLoyaltyLevelSuccess = (payload) => ({
+	type: UPDATE_LOYALTY_LEVEL_SUCCESS,
+	payload,
+});
+
+export const updateLoyaltyLevelFail = (payload) => ({
+	type: UPDATE_LOYALTY_LEVEL_FAIL,
 	payload,
 });

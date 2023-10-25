@@ -279,6 +279,8 @@ export const getField = (
 		maxDate,
 		showThumbnail,
 		multiple = false,
+		levelIndex,
+		levelFieldName,
 	},
 	validation
 ) => {
@@ -293,7 +295,7 @@ export const getField = (
 					onBlur={validation.handleBlur}
 					placeholder={placeholder}
 					validate={{ required: { value: true } }}
-					value={validation.values?.[name] || ''}
+					value={validation.values[name]}
 					invalid={!!(validation.touched[name] && validation.errors[name])}
 					isError
 					errorMsg={validation.touched[name] && validation.errors[name]}
@@ -436,6 +438,23 @@ export const getField = (
 						/>
 					)}
 				</>
+			);
+		case 'loyaltyRangeField':
+			return (
+				<CustomInputField
+					label={label}
+					name={name}
+					type={type}
+					onChange={validation.handleChange}
+					onBlur={validation.handleBlur}
+					placeholder={placeholder}
+					validate={{ required: { value: true } }}
+					value={validation.values?.loyaltyLevel[levelIndex][levelFieldName]}
+					// invalid={!!(validation.touched?.loyaltyLevel && validation.errors?.loyaltyLevel)}
+					// isError
+					// errorMsg={validation.touched?.loyaltyLevel && validation.errors?.loyaltyLevel}
+					disabled={!!isDisabled}
+				/>
 			);
 		case 'inputGroup':
 			return Object.keys(validation?.values?.name).map((item) => (
