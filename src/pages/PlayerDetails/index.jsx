@@ -7,6 +7,7 @@ import Breadcrumb from '../../components/Common/Breadcrumb';
 import Overview from './Overview';
 import PlayerWallet from './PlayerWallet';
 import useUserDetails from './hooks/useUserDetails';
+import BetHistory from './BetHistory';
 
 const PlayerDetailsPage = ({ t }) => {
 	const [activeTab, setActiveTab] = useState(1);
@@ -39,7 +40,7 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 5,
 			title: 'Bet History',
-			component: <div>In Progress</div>,
+			component: <BetHistory userId={playerId} />,
 		},
 		{
 			id: 6,
