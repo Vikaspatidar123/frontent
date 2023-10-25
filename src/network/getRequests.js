@@ -123,10 +123,8 @@ const getCountriesList = ({ limit, pageNo, search = '', isActive = '' }) =>
 		`${VITE_APP_API_URL}/api/admin/sportsbook/countries?search=${search}&limit=${limit}&pageNo=${pageNo}&isActive=${isActive}`
 	);
 
-const getSportsTransaction = ({ limit, pageNo, email }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/sportsbook/transactions?limit=${limit}&pageNo=${pageNo}&email=${email}`
-	);
+const getSportsTransaction = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/transactions`, payload);
 
 const getTournamentsList = ({
 	limit,
