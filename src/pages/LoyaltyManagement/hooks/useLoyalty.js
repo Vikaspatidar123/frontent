@@ -114,6 +114,8 @@ const useLoyalty = (isTenant, tenant) => {
 					type: 'number',
 					levelIndex: index,
 					levelFieldName: 'startPoint',
+					minimum: 0,
+					maximum: 9999999,
 				},
 				{
 					name: `loyaltyLevel[${index}].endPoint`,
@@ -122,6 +124,8 @@ const useLoyalty = (isTenant, tenant) => {
 					type: 'number',
 					levelIndex: index,
 					levelFieldName: 'endPoint',
+					minimum: 0,
+					maximum: 9999999,
 				},
 				{
 					name: `loyaltyLevel[${index}].cashback_multiplier`,
@@ -130,6 +134,8 @@ const useLoyalty = (isTenant, tenant) => {
 					type: 'number',
 					levelIndex: index,
 					levelFieldName: 'cashback_multiplier',
+					minimum: 0,
+					maximum: 9999999,
 				},
 			]);
 			setFormFields(fields);
