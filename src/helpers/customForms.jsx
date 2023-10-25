@@ -89,6 +89,7 @@ export const CustomSelectField = ({
 				options={options}
 				placeholder={placeholder}
 				isDisabled={disabled}
+				{...props}
 			/>
 		) : (
 			<Input
@@ -308,6 +309,7 @@ export const getField = (
 					label={label}
 					name={name}
 					isMulti={multiple}
+					isClearable
 					type="select"
 					onChange={(e) => {
 						// eslint-disable-next-line no-unused-expressions
