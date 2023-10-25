@@ -140,10 +140,8 @@ const getTournamentsList = ({
 		`${VITE_APP_API_URL}/api/admin/sportsbook/tournaments?limit=${limit}&pageNo=${pageNo}&providerCountryId=${providerCountryId}&providerSportId=${providerSportId}&search=${search}&isActive=${isActive}`
 	);
 
-const getCasinoTransactions = ({ limit, pageNo, email }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/casino/transactions?limit=${limit}&pageNo=${pageNo}&email=${email}`
-	);
+const getCasinoTransactions = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/casino/transactions`, payload);
 
 const getWithdrawRequests = ({ limit, pageNo, search }) =>
 	getRequest(
