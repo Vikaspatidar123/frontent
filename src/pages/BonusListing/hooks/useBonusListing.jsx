@@ -1,9 +1,20 @@
-import { useMemo, useState, useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBonusDetails, updateSABonusStatus } from '../../../store/actions';
 import { formatDate } from '../../../utils/dateFormatter';
 import { safeStringify } from '../../../utils/helpers';
 import types from '../contants';
+import {
+	BonusId,
+	Title,
+	BonusType,
+	ValidTill,
+	IsExpired,
+	IsClaimed,
+	Status,
+} from '../BonusListCol';
+import ActionButtons from '../ActionButtons';
 
 const useBonusListing = () => {
 	const { bonusDetails, isLoading } = useSelector(
@@ -123,6 +134,62 @@ const useBonusListing = () => {
 		setStatus((prev) => !prev);
 	};
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'bonusId',
+				filterable: true,
+				Cell: ({ cell }) => <BonusId cell={cell} />,
+			},
+			{
+				Header: 'TITLE',
+				accessor: 'title',
+				filterable: true,
+				Cell: ({ cell }) => <Title cell={cell} />,
+			},
+			{
+				Header: 'BONUS TYPE',
+				accessor: 'bonusType',
+				filterable: true,
+				Cell: ({ cell }) => <BonusType cell={cell} />,
+			},
+			{
+				Header: 'VALID TILL',
+				accessor: 'validTill',
+				filterable: true,
+				Cell: ({ cell }) => <ValidTill cell={cell} />,
+			},
+			{
+				Header: 'IS EXPIRED',
+				accessor: 'isExpired',
+				filterable: true,
+				Cell: ({ cell }) => <IsExpired cell={cell} />,
+			},
+			{
+				Header: 'IS CLAIMED',
+				accessor: 'isClaimed',
+				filterable: true,
+				Cell: (cell) => <IsClaimed cell={cell} />,
+			},
+			{
+				Header: 'STATUS',
+				accessor: 'isActive',
+				disableFilters: true,
+				Cell: (cell) => <Status cell={cell} />,
+			},
+			{
+				Header: 'ACTION',
+				accessor: 'action',
+				disableFilters: true,
+				Cell: (cell) => (
+					<ActionButtons cell={cell} handleStatus={handleStatus} />
+				),
+			},
+		],
+		[]
+	);
+
 	return {
 		bonusDetails,
 		formattedBonusDetails,
@@ -141,10 +208,10 @@ const useBonusListing = () => {
 		setSearch,
 		isActive,
 		setIsActive,
-		handleStatus,
 		status,
 		setStatus,
 		onChangeRowsPerPage,
+		columns,
 	};
 };
 

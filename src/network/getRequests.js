@@ -67,20 +67,8 @@ const getSuperAdminWageringTemplate = (payload) =>
 const getAllCasinoGames = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/casino/games`, payload);
 
-const getAllBonus = ({
-	adminId,
-	tenantId,
-	limit,
-	pageNo,
-	bonusType,
-	isActive,
-	search,
-	userId,
-	reorder,
-}) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/bonus?adminId=${adminId}&tenantId=${tenantId}&limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&bonusType=${bonusType}&userId=${userId}&reorder=${reorder}`
-	);
+const getAllBonus = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/bonus`, payload);
 
 const getCurrencies = ({ pageNo, limit }) =>
 	getRequest(
