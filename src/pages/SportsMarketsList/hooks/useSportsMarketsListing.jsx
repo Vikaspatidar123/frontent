@@ -1,11 +1,12 @@
-import { useEffect, useState, useMemo } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSportsMarketsStart } from '../../../store/actions';
+import { Id, Name } from '../SportsMarketsListCol';
 
 const useSportsMarketsListing = () => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const { sportsMarkets, loading: isSportsMarketsLoading } = useSelector(
 		(state) => state.SportsMarkets
@@ -20,10 +21,9 @@ const useSportsMarketsListing = () => {
 			fetchSportsMarketsStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				search: searchText,
 			})
 		);
-	}, [currentPage, searchText, itemsPerPage]);
+	}, [currentPage, itemsPerPage]);
 
 	const formattedSportsMarkets = useMemo(() => {
 		const formattedValues = [];
@@ -38,9 +38,25 @@ const useSportsMarketsListing = () => {
 		return formattedValues;
 	}, [sportsMarkets]);
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'Id',
+				accessor: 'marketId',
+				filterable: true,
+				Cell: (cellProps) => <Id {...cellProps} />,
+			},
+			{
+				Header: 'Name',
+				accessor: 'name',
+				filterable: true,
+				Cell: (cellProps) => <Name {...cellProps} />,
+			},
+		],
+		[]
+	);
+
 	return {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalSportsMarketsCount: sportsMarkets?.totalPage,
@@ -48,6 +64,7 @@ const useSportsMarketsListing = () => {
 		formattedSportsMarkets,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	};
 };
 

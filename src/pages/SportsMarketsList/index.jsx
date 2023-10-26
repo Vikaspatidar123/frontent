@@ -1,21 +1,18 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Col, Container, Input, Row } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import { Id, Name } from './SportsMarketsListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsMarketsListing from './hooks/useSportsMarketsListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const SportsMarketsList = ({ t }) => {
 	document.title = projectName;
 
 	const {
-		searchText,
-		setSearchText,
 		currentPage,
 		setCurrentPage,
 		totalSportsMarketsCount,
@@ -23,25 +20,16 @@ const SportsMarketsList = ({ t }) => {
 		formattedSportsMarkets,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	} = useSportsMarketsListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Id',
-				accessor: 'marketId',
-				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
-			},
-			{
-				Header: 'Name',
-				accessor: 'name',
-				filterable: true,
-				Cell: (cellProps) => <Name {...cellProps} />,
-			},
-		],
-		[]
-	);
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	return (
 		<div className="page-content">
@@ -53,18 +41,13 @@ const SportsMarketsList = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={[]} title="Markets Listing" />
 							<CardBody>
-								<Row>
-									<Col xs="12" sm="3">
-										<Input
-											className="form-control"
-											placeholder="Search by Name"
-											onChange={({ target }) =>
-												setSearchText(target.value.replace(/[^\w\s]/gi, ''))
-											}
-											value={searchText}
-										/>
-									</Col>
-								</Row>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									isLoading={isSportsMarketsLoading}
 									columns={columns}
