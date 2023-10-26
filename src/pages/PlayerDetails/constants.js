@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 export const keyArray = [
 	{ id: 1, label: 'Currency', accessor: 'currencyCode' },
 	{ id: 2, accessor: 'totalAmount', label: 'Total Balance' },
@@ -17,4 +15,26 @@ export const keyArray = [
 	{ id: 14, accessor: 'averageWithdrawal', label: 'Average Withdrawal' },
 	{ id: 14, accessor: 'averageBonus', label: 'Average Bonus' },
 	{ id: 15, accessor: 'createdAt', label: 'Enrolled since' },
+];
+
+export const portalValues = [
+	{
+		optionLabel: 'Current',
+		value: 'current',
+	},
+	{
+		optionLabel: 'All',
+		value: 'all',
+	},
+];
+
+export const timePeriodValues = [
+	{
+		optionLabel: 'Permanent',
+		value: 'permanent',
+	},
+	{
+		optionLabel: 'Custom Value',
+		value: 'custom',
+	},
 ];

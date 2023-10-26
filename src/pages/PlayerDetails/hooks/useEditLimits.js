@@ -1,6 +1,5 @@
 const useEditLimits = ({ userDetails }) => {
 	const { userLimit: userLimits } = userDetails || {};
-	// console.log('limits', userDetails)
 
 	const limitLabels = [
 		{
@@ -51,6 +50,7 @@ const useEditLimits = ({ userDetails }) => {
 	];
 
 	return {
+		userLimits,
 		limitLabels,
 	};
 };

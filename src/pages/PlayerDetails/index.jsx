@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Spinner } from 'reactstrap';
+import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -49,7 +49,13 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 2,
 			title: 'Limits',
-			component: <Limits userDetails={userDetails} userId={playerId} />,
+			component: (
+				<Limits
+					userDetails={userDetails}
+					userId={playerId}
+					userDetailsLoading={userDetailsLoading}
+				/>
+			),
 		},
 		{
 			id: 4,
@@ -92,14 +98,7 @@ const PlayerDetailsPage = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumb title={t('Player')} breadcrumbItem={t('Player Details')} />
-				{userDetailsLoading ? (
-					<Spinner
-						color="primary"
-						className="position-absolute top-50 start-50"
-					/>
-				) : (
-					<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
-				)}
+				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
 			</Container>
 		</div>
 	);

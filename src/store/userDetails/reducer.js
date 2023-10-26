@@ -2,6 +2,9 @@ import {
 	CREATE_USER_COMMENT,
 	CREATE_USER_COMMENT_FAIL,
 	CREATE_USER_COMMENT_SUCCESS,
+	DISABLE_USER,
+	DISABLE_USER_FAIL,
+	DISABLE_USER_SUCCESS,
 	GET_USER_BONUS,
 	GET_USER_BONUS_FAIL,
 	GET_USER_BONUS_SUCCESS,
@@ -39,6 +42,9 @@ const INIT_STATE = {
 	resetUserLimitSuccess: false,
 	resetUserLimitLoading: false,
 	resetUserLimitError: false,
+	disableUserSuccess: false,
+	disableUserLoading: false,
+	disableUserError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -177,6 +183,31 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				resetUserLimitSuccess: false,
 				resetUserLimitLoading: false,
 				resetUserLimitError: false,
+				disableUserError: false,
+				disableUserLoading: false,
+				disableUserSuccess: false,
+			};
+
+		case DISABLE_USER:
+			return {
+				...state,
+				disableUserLoading: true,
+			};
+
+		case DISABLE_USER_SUCCESS:
+			return {
+				...state,
+				disableUserLoading: false,
+				disableUserSuccess: true,
+				disableUserError: null,
+			};
+
+		case DISABLE_USER_FAIL:
+			return {
+				...state,
+				disableUserError: payload,
+				disableUserLoading: true,
+				disableUserSuccess: false,
 			};
 		default:
 			return { ...state };
