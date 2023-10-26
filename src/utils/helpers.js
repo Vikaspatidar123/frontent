@@ -37,4 +37,21 @@ const clearEmptyProperty = (payload = {}) =>
 		)
 	);
 
-export { safeStringify, showToastr, clearEmptyProperty };
+
+const getDateDaysAgo = (days) => {
+	const now = new Date();
+	now.setDate(now.getDate() - days);
+	return now;
+};
+const formatDateYMD = (date) => {
+	const d = new Date(date);
+	let month = `${d.getMonth() + 1}`;
+	let day = `${d.getDate()}`;
+	const year = d.getFullYear();
+
+	if (month.length < 2) month = `0${month}`;
+	if (day.length < 2) day = `0${day}`;
+
+	return [year, month, day].join('-');
+};
+export { safeStringify, showToastr, getDateDaysAgo, formatDateYMD, clearEmptyProperty };

@@ -19,7 +19,7 @@ import { CustomSelectField } from '../../helpers/customForms';
 const TableContainer = ({
 	columns,
 	data,
-	customPageSize,
+	customPageSize = 10,
 	tableClass,
 	paginationDiv,
 	isPagination,
@@ -33,6 +33,7 @@ const TableContainer = ({
 	thCustomClass = '',
 	changeRowsPerPageCallback,
 	hideHeader,
+	tbodyHeight,
 }) => {
 	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
 	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
@@ -128,7 +129,9 @@ const TableContainer = ({
 
 					<tbody
 						{...getTableBodyProps({
-							height: `${isLoading || !page?.length ? '500px' : '0'}`,
+							height: `${
+								tbodyHeight || (isLoading || !page?.length ? '500px' : '0')
+							}`,
 						})}
 						id="generic-table-body"
 						className={tbodyClass}
