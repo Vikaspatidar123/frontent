@@ -1,23 +1,13 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import {
-	Id,
-	IsFeatured,
-	Live,
-	Sport,
-	StartDate,
-	Status,
-	Title,
-	Tournament,
-} from './SportsMatchesListCol';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsMatchesListing from './hooks/useSportsMatchesListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const SportsMatchesList = ({ t }) => {
 	document.title = projectName;
@@ -30,58 +20,16 @@ const SportsMatchesList = ({ t }) => {
 		formattedSportsMatches,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	} = useSportsMatchesListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Id',
-				accessor: 'matchId',
-				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
-			},
-			{
-				Header: 'Title',
-				accessor: 'title',
-				filterable: true,
-				Cell: (cellProps) => <Title {...cellProps} />,
-			},
-			{
-				Header: 'Tournament',
-				accessor: 'tournamentName',
-				filterable: true,
-				Cell: (cellProps) => <Tournament {...cellProps} />,
-			},
-			{
-				Header: 'Sport',
-				accessor: 'sportName',
-				filterable: true,
-				Cell: (cellProps) => <Sport {...cellProps} />,
-			},
-			{
-				Header: 'Is Featured',
-				accessor: 'isFeatured',
-				filterable: true,
-				Cell: (cellProps) => <IsFeatured {...cellProps} />,
-			},
-			{
-				Header: 'Start Date',
-				accessor: 'startDate',
-				Cell: (cellProps) => <StartDate {...cellProps} />,
-			},
-			{
-				Header: 'Status',
-				accessor: 'status',
-				Cell: (cellProps) => <Status {...cellProps} />,
-			},
-			{
-				Header: 'Live',
-				accessor: 'isLive',
-				Cell: (cellProps) => <Live {...cellProps} />,
-			},
-		],
-		[]
-	);
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	return (
 		<div className="page-content">
@@ -93,6 +41,13 @@ const SportsMatchesList = ({ t }) => {
 						<Card>
 							<CrudSection buttonList={[]} title="Matches Listing" />
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									isLoading={isSportsMatchesLoading}
 									columns={columns}

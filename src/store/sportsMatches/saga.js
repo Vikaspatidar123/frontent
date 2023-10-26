@@ -4,9 +4,11 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { FETCH_SPORTS_MATCHES_START } from './actionTypes';
 import { fetchSportsMatchesFail, fetchSportsMatchesSuccess } from './actions';
 import { getSportsMatches } from '../../network/getRequests';
+import { clearEmptyProperty } from '../../utils/helpers';
 
-function* fetchSportsMatches({ payload }) {
+function* fetchSportsMatches(action) {
 	try {
+		const payload = clearEmptyProperty(action.payload);
 		const response = yield call(getSportsMatches, payload);
 		yield put(fetchSportsMatchesSuccess(response?.data?.data));
 	} catch (error) {
