@@ -44,7 +44,7 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 1,
 			title: 'Overview',
-			component: <Overview />,
+			component: <Overview userDetails={userDetails} />,
 		},
 		{
 			id: 2,

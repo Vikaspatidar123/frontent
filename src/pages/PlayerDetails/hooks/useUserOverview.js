@@ -1,22 +1,60 @@
 /* eslint-disable no-nested-ternary */
 import { useParams } from 'react-router-dom';
 import { formatDate } from '../../../utils/dateFormatter';
+import { formatDateYMD } from '../../../helpers/dateFormatter';
 
 const useUserOverview = ({ user }) => {
-	const { userId } = useParams();
+	const { playerId } = useParams();
 	const showStyle = (data) => (data ? 'text-success' : 'text-danger');
 	const printData = (data) => (data ? 'Yes' : 'No');
-
 	const basicInfo = [
-		{ label: 'ID', value: userId },
-		{ label: 'User Name', value: user?.username },
-		{ label: 'Full Name', value: `${user?.firstName} ${user?.lastName}` },
+		{ label: 'ID', value: playerId },
 		{ label: 'Email', value: user?.email },
 		{
 			label: 'Email Verified',
 			value: printData(user?.isEmailVerified),
 			subValue: showStyle(user?.isEmailVerified),
 		},
+		{ label: 'Full Name', value: `${user?.firstName} ${user?.lastName}` },
+		{ label: 'User Name', value: user?.username },
+		{ label: 'Gender', value: user?.gender },
+		{ label: 'Date Of Birth', value: formatDateYMD(user?.dateOfBirth) },
+
+		{
+			label: 'Status',
+			value: user?.isActive ? 'Active' : 'In -Active',
+			subValue: showStyle(user?.isActive),
+		},
+		{ label: 'In-Active Reason', value: user?.defaultDisableReason || '-' },
+		// { label: 'Portal', value: `${user?.tenant?.name} (${user?.tenant?.domain})` },
+		{ label: 'Reason', value: !user?.isActive ? user?.reason : '' },
+		{
+			label: 'Tags',
+			value: user?.tags
+				? user?.tags?.length < 1
+					? 'N/A'
+					: user?.tags?.join(', ')
+				: 'N/A',
+		},
+		{ label: 'SumSub Applicant Id', value: user?.applicantId },
+	];
+
+	const moreInfo = [
+		{ label: 'IP Address', value: user?.signInIp, subValue: 'text-success' },
+		{ label: 'Date Of Birth', value: formatDate(user?.dateOfBirth) },
+		{ label: 'Phone Number', value: user?.phone },
+		{ label: 'City', value: user?.city },
+		{ label: 'ZipCode', value: user?.zipCode },
+		{ label: 'Country Code', value: user?.countryCode },
+	];
+
+	const contactInfo = [
+		{ label: 'Phone Number', value: user?.phone },
+		{
+			label: 'Address',
+			value: `${user?.address}, ${user?.city}, ${user?.zipCode}`,
+		},
+		{ label: 'Country Code', value: user?.countryCode },
 		{
 			label: 'NewsLetter',
 			value: user?.newsLetter ? 'True' : 'False',
@@ -27,26 +65,9 @@ const useUserOverview = ({ user }) => {
 			value: user?.sms ? 'True' : 'False',
 			subValue: showStyle(user?.sms),
 		},
-		{
-			label: 'Status',
-			value: user?.isActive ? 'Active' : 'In -Active',
-			subValue: showStyle(user?.isActive),
-		},
-		{ label: 'In-Active Reason', value: user?.defaultDisableReason || '-' },
-		{
-			label: 'Portal',
-			value: `${user?.tenant?.name} (${user?.tenant?.domain})`,
-		},
-		{ label: 'Reason', value: !user?.isActive ? user?.reason : '' },
-		{
-			label: 'Tags',
-			value: user?.tags
-				? user?.tags?.length < 1
-					? 'N/A'
-					: user?.tags?.join(', ')
-				: 'N/A',
-		},
-		{ label: 'Sumsub Applicant Id', value: user?.applicantId },
+	];
+
+	const kycInfo = [
 		{
 			label: 'KYC Method',
 			value: user?.kycMethod === 1 ? 'Sumsub' : 'System KYC',
@@ -60,21 +81,13 @@ const useUserOverview = ({ user }) => {
 		},
 	];
 
-	const moreInfo = [
-		{ label: 'IP Address', value: user?.signInIp, subValue: 'text-success' },
-		{ label: 'Date Of Birth', value: formatDate(user?.dateOfBirth) },
-		{ label: 'Phone Number', value: user?.phone },
-		{ label: 'City', value: user?.city },
-		{ label: 'ZipCode', value: user?.zipCode },
-		{ label: 'Country Code', value: user?.countryCode },
-	];
-
 	return {
-		userId,
 		showStyle,
 		printData,
 		basicInfo,
 		moreInfo,
+		contactInfo,
+		kycInfo,
 	};
 };
 
