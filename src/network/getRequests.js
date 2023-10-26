@@ -178,6 +178,9 @@ const getDashboardLiveInfoService = () =>
 const getUserDetails = (params) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user`, params);
 
+const getImageGalleryData = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/gallery`);
+
 const getCommentsList = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user/comments`, payload);
 
@@ -222,6 +225,7 @@ export {
 	getDashboardLiveInfoService,
 	getUserDetails,
 	getUserDocument,
+	getImageGalleryData,
 	getUserBonuses,
 	getCommentsList,
 };

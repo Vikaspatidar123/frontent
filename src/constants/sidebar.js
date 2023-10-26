@@ -193,7 +193,7 @@ const sideBarElements = [
 				ulTagClass: '',
 			},
 			{
-				link: '/gallery',
+				link: '/image-gallery',
 				label: 'Image Gallery',
 				searchString: 'image gallery',
 				iconName: '',
