@@ -17,6 +17,7 @@ import {
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
+	DISABLE_USER,
 	GET_USER_BONUS,
 	GET_USER_COMMENTS,
 	GET_USER_DETAILS,
@@ -31,8 +32,11 @@ import {
 } from '../../network/getRequests';
 import {
 	createUserCommentEntry,
+	disableUserCall,
+	disableUserSession,
 	resetUserLimitCall,
 } from '../../network/postRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* getUserDetailsWorker(action) {
 	try {
@@ -93,9 +97,36 @@ function* resetUserLimitWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield resetUserLimitCall(payload);
+		showToastr({
+			message: `Limit ${payload.reset ? 'Reset' : 'Set'} Successfully`,
+			type: 'success',
+		});
 		yield put(resetUserLimitSuccess(data?.data));
 	} catch (e) {
 		yield put(resetUserLimitFail(e.message));
+	}
+}
+
+function* disableUserWorker(action) {
+	try {
+		const payload = action && action.payload;
+		if (payload?.timeLimit) {
+			const { data } = yield disableUserSession(payload);
+			yield put(resetUserLimitSuccess(data?.data));
+		} else {
+			const { data } = yield disableUserCall(payload);
+			yield put(resetUserLimitSuccess(data?.data));
+		}
+		showToastr({
+			message: `User ${payload.reset ? 'Enabled' : 'Disabled'} Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(resetUserLimitFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 
@@ -106,6 +137,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_COMMENTS, getUserCommentsWorker);
 	yield takeLatest(CREATE_USER_COMMENT, createUserCommentWorker);
 	yield takeLatest(RESET_USER_LIMIT, resetUserLimitWorker);
+	yield takeLatest(DISABLE_USER, disableUserWorker);
 }
 
 function* UserDetailsSaga() {

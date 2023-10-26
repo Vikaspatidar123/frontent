@@ -2,6 +2,9 @@ import {
 	CREATE_USER_COMMENT,
 	CREATE_USER_COMMENT_FAIL,
 	CREATE_USER_COMMENT_SUCCESS,
+	DISABLE_USER,
+	DISABLE_USER_FAIL,
+	DISABLE_USER_SUCCESS,
 	GET_USER_BONUS,
 	GET_USER_BONUS_FAIL,
 	GET_USER_BONUS_SUCCESS,
@@ -112,5 +115,20 @@ export const resetUserLimit = (payload) => ({
 
 export const resetUserLimitData = (payload) => ({
 	type: RESET_USER_LIMIT_DATA,
+	payload,
+});
+
+export const disabledUserSuccess = (payload) => ({
+	type: DISABLE_USER_SUCCESS,
+	payload,
+});
+
+export const disableUserFail = (payload) => ({
+	type: DISABLE_USER_FAIL,
+	payload,
+});
+
+export const disableUser = (payload) => ({
+	type: DISABLE_USER,
 	payload,
 });

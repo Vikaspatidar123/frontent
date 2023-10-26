@@ -1,15 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import {
-	Button,
-	Card,
-	Form,
-	InputGroup,
-	InputGroupText,
-	Modal,
-	ModalBody,
-	ModalHeader,
-} from 'reactstrap';
+import { Button, Card, Form, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import { CustomInputField } from '../../../helpers/customForms';
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -18,9 +9,9 @@ import {
 	limitsSchema,
 	setDisableUserlimitsSchema,
 } from '../formDetails';
-import { resetUserLimit } from '../../../store/actions';
+import { disableUser } from '../../../store/actions';
 
-const SingleLimitCard = ({ limit, currencyCode, userId }) => {
+const LimitCard = ({ limit, userId }) => {
 	const dispatch = useDispatch();
 	const labelArray = limit?.label?.split(' ');
 	const label = `${labelArray?.[0] === 'Weekly' ? 'Daily ' : 'Weekly '}${
@@ -28,53 +19,24 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 	} ${labelArray?.[2]}`;
 	const [isResetLimit, setIsResetLimit] = useState({ open: false, data: '' });
 
-	const getData = ({ limitString, reset, labelString }) => {
-		const timePeriod = labelString?.split(' ')?.[0]?.toLowerCase();
-		const type = labelString?.split(' ')?.[1]?.toLowerCase();
+	const setDisableUser = ({ formValues, type }) => {
 		let data = {};
-		if (type === 'wager') {
+		if (type === 'TAKE_A_BREAK') {
 			data = {
+				type: 'TAKE_A_BREAK',
 				userId,
-				dailyLimit: limitString,
-				timePeriod,
-				reset,
-				type,
-			};
-		} else if (type === 'deposit') {
-			data = {
-				userId,
-				depositLimit: limitString,
-				timePeriod,
-				reset,
-				type,
+				reset: false,
+				days: Number(formValues?.limit),
+				portal: 'all',
 			};
 		} else {
 			data = {
 				userId,
-				lossLimit: limitString,
-				timePeriod,
-				reset,
-				type,
+				timeLimit: Number(formValues?.limit),
+				reset: false,
 			};
 		}
-		return data;
-	};
-
-	const updateLimit = ({ formValues, labelString }) => {
-		const data = getData({
-			limitString: formValues?.limit,
-			reset: false,
-			labelString,
-		});
-		dispatch(
-			resetUserLimit({
-				...data,
-			})
-		);
-	};
-
-	const onSubmitLimit = (values) => {
-		updateLimit({ formValues: values, labelString: limit.label });
+		dispatch(disableUser(data));
 	};
 
 	const onResetLimit = () => {
@@ -91,8 +53,41 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 						label,
 				  }),
 		initialValues: getLimitInitialValues(),
-		onSubmitEntry: onSubmitLimit,
+		onSubmitEntry: (values) =>
+			setDisableUser({
+				formValues: values,
+				reset: false,
+				type: limit?.label === 'Take A Break' ? 'TAKE_A_BREAK' : null,
+			}),
 	});
+
+	const resetDisableUser = (type) => {
+		let data = {};
+		if (type === 'Self Exclusion') {
+			data = {
+				userId,
+				type: 'SELF_EXCLUSION',
+				portal: 'all',
+				days: 0,
+				reset: true,
+			};
+		} else if (type === 'Take A Break') {
+			data = {
+				userId,
+				type: 'TAKE_A_BREAK',
+				portal: 'all',
+				days: 0,
+				reset: true,
+			};
+		} else {
+			data = {
+				userId,
+				timeLimit: 1,
+				reset: true,
+			};
+		}
+		dispatch(disableUser(data));
+	};
 
 	useEffect(() => {
 		if (limit.value) {
@@ -103,21 +98,8 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 	const toggle = () =>
 		setIsResetLimit((prev) => ({ open: !prev.open, data: prev.data }));
 
-	const resetLimit = (labelString) => {
-		const data = getData({
-			limitString: validation.values?.limit,
-			reset: true,
-			labelString,
-		});
-		dispatch(
-			resetUserLimit({
-				...data,
-			})
-		);
-	};
-
 	const handleYes = () => {
-		resetLimit(limit.label);
+		resetDisableUser(limit.label);
 	};
 
 	return (
@@ -131,21 +113,17 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 					}}
 				>
 					<h5 className="text-center">{limit.label}</h5>
-					<InputGroup>
-						<InputGroupText>{currencyCode}</InputGroupText>
-						<CustomInputField
-							name="limit"
-							placeholder="Enter Limit"
-							value={validation?.values?.limit}
-							onChange={validation.handleChange}
-							onBlur={validation.handleBlur}
-							invalid={
-								!!(validation.touched?.limit && validation.errors?.limit)
-							}
-							isError
-							errorMsg={validation.touched?.limit && validation.errors?.limit}
-						/>
-					</InputGroup>
+					<CustomInputField
+						label="Time Period"
+						name="limit"
+						placeholder={limit.placeholder}
+						value={validation?.values?.limit}
+						onChange={validation.handleChange}
+						onBlur={validation.handleBlur}
+						invalid={!!(validation.touched?.limit && validation.errors?.limit)}
+						isError
+						errorMsg={validation.touched?.limit && validation.errors?.limit}
+					/>
 					<div className="mt-3 text-center">
 						<Button type="submit">Set</Button>
 						{limit.value && (
@@ -171,4 +149,4 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 	);
 };
 
-export default SingleLimitCard;
+export default LimitCard;

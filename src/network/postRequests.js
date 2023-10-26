@@ -47,6 +47,12 @@ const createUserCommentEntry = (data) =>
 const resetUserLimitCall = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/user/daily-limit`, data);
 
+const disableUserCall = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/user/disable-until`, data);
+
+const disableUserSession = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/user/session-time`, data);
+
 export {
 	superAdminLogin,
 	createCurrency,
@@ -61,4 +67,6 @@ export {
 	createCasinoSubCategory,
 	createUserCommentEntry,
 	resetUserLimitCall,
+	disableUserCall,
+	disableUserSession,
 };
