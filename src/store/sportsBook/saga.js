@@ -51,7 +51,8 @@ function* sportsCountriesWorker(action) {
 
 function* sportsTournamentListWorker(action) {
 	try {
-		const { data } = yield getTournamentsList(action.payload);
+		const payload = clearEmptyProperty(action.payload);
+		const { data } = yield getTournamentsList(payload);
 		yield put(getSportsTournamentListSuccess(data?.data));
 	} catch (error) {
 		yield put(

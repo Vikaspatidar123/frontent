@@ -1,6 +1,14 @@
-import { useEffect, useState, useMemo } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSportsTournamentList } from '../../../store/actions';
+import {
+	TournamentId,
+	TournamentName,
+	CountryName,
+	SportName,
+} from '../sportsTournamentListCol';
+import ActionButtons from '../ActionButtons';
 
 const useSportsTounamentListing = () => {
 	const { sportsTournamentList, isSportsTournamentListLoading } = useSelector(
@@ -40,6 +48,39 @@ const useSportsTounamentListing = () => {
 		);
 	}, [page, itemsPerPage, searchByName, searchByCountry, searchBySports]);
 
+	const columns = useMemo(() => [
+		{
+			Header: 'ID',
+			accessor: 'tournamentId',
+			filterable: true,
+			Cell: ({ cell }) => <TournamentId cell={cell} />,
+		},
+		{
+			Header: 'NAME',
+			accessor: 'tournamentName',
+			filterable: true,
+			Cell: ({ cell }) => <TournamentName cell={cell} />,
+		},
+		{
+			Header: ' COUNTRY',
+			accessor: 'countryName',
+			disableFilters: true,
+			Cell: ({ cell }) => <CountryName cell={cell} />,
+		},
+		{
+			Header: 'SPORT',
+			accessor: 'sportName',
+			disableFilters: true,
+			Cell: ({ cell }) => <SportName cell={cell} />,
+		},
+		{
+			Header: 'Action',
+			accessor: 'action',
+			disableFilters: true,
+			Cell: () => <ActionButtons />,
+		},
+	]);
+
 	return {
 		formattedSportsTournamenList,
 		isSportsTournamentListLoading,
@@ -54,6 +95,7 @@ const useSportsTounamentListing = () => {
 		searchBySports,
 		setSearchBySports,
 		onChangeRowsPerPage,
+		columns,
 	};
 };
 

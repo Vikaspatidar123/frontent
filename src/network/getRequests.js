@@ -103,17 +103,8 @@ const getCountriesList = (payload) =>
 const getSportsTransaction = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/transactions`, payload);
 
-const getTournamentsList = ({
-	limit,
-	pageNo,
-	providerCountryId,
-	providerSportId,
-	search,
-	isActive,
-}) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/sportsbook/tournaments?limit=${limit}&pageNo=${pageNo}&providerCountryId=${providerCountryId}&providerSportId=${providerSportId}&search=${search}&isActive=${isActive}`
-	);
+const getTournamentsList = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/tournaments`, payload);
 
 const getCasinoTransactions = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/casino/transactions`, payload);
