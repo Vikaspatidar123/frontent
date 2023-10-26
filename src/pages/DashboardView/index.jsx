@@ -25,7 +25,6 @@ import { projectName } from '../../constants/config';
 import WelcomeComp from './WelcomeComp';
 // import MonthlyEarning from './MonthlyEarning'
 // import SocialSource from './SocialSource'
-// import ActivityComp from './ActivityComp'
 // import TopCities from './TopCities'
 // import LatestTranaction from './LatestTranaction'
 
@@ -39,9 +38,7 @@ import KpiReport from './KpiReport';
 import GameReport from './GameReport';
 import LoggedInPlayer from './LoggedInPlayer';
 
-// i18n
-
-// redux
+import './dashboard.scss';
 
 const DashboardView = ({ t }) => {
 	//   const dispatch = useDispatch()
