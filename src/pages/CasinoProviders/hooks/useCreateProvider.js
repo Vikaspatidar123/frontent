@@ -64,7 +64,7 @@ const useCreateProvider = () => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
 		validation.resetForm(getInitialValues());
-		setHeader('Add Currency');
+		setHeader('Add Provider');
 		setIsEdit({ open: false, selectedRow: '' });
 	};
 

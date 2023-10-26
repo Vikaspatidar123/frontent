@@ -204,7 +204,7 @@ import RegistrationFields from '../pages/RegistrationFormFields';
 import LoyaltyManagement from '../pages/LoyaltyManagement';
 import DashboardView from '../pages/DashboardView';
 import PlayerDetailsPage from '../pages/PlayerDetails';
-
+import ImageGallery from '../pages/ImageGallery';
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
 // import ContactsList from "../pages/Contacts/ContactList/contacts-list";
@@ -262,6 +262,7 @@ const authProtectedRoutes = [
 	{ path: '/loyalty-management', component: <LoyaltyManagement /> },
 	{ path: '/player-details/:playerId', component: <PlayerDetailsPage /> },
 	{ path: '/loyalty-management', component: <LoyaltyManagement /> },
+	{ path: '/image-gallery', component: <ImageGallery /> },
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },
