@@ -99,7 +99,10 @@ const TableContainer = ({
 			<div className="table-responsive react-table">
 				<Table {...getTableProps()} className={tableClass} id="generic-table">
 					{!hideHeader && (
-						<thead className={theadClass} id="generic-table-head">
+						<thead
+							className={`table-light ${theadClass}`}
+							id="generic-table-head"
+						>
 							{headerGroups.map((headerGroup) => (
 								<tr
 									key={headerGroup.id}
