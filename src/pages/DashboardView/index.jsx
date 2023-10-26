@@ -22,7 +22,7 @@ import { projectName } from '../../constants/config';
 // import { getChartsData as onGetChartsData } from '../../store/actions'
 
 // Pages Components
-// import WelcomeComp from './WelcomeComp'
+import WelcomeComp from './WelcomeComp';
 // import MonthlyEarning from './MonthlyEarning'
 // import SocialSource from './SocialSource'
 // import ActivityComp from './ActivityComp'
@@ -32,7 +32,12 @@ import { projectName } from '../../constants/config';
 // Import Breadcrumb
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useDashboardView from './hooks/useDashboardView';
-import Reports from './Reports';
+import LivePlayerReports from './LivePlayerReports';
+import DemographicReport from './DemographicReport';
+import KpiSummary from './KpiSummary';
+import KpiReport from './KpiReport';
+import GameReport from './GameReport';
+import LoggedInPlayer from './LoggedInPlayer';
 
 // i18n
 
@@ -70,7 +75,30 @@ const DashboardView = ({ t }) => {
 	// meta title
 	document.title = projectName;
 
-	const { isLivePlayerLoading, livePlayerData } = useDashboardView();
+	const {
+		isLivePlayerLoading,
+		livePlayerData,
+		demoGrapFormatedData,
+		demoGraphOptions,
+		activeKpiSummTab,
+		setActiveKpiSummTab,
+		kPISummaryColumn,
+		kPISummary,
+		activeKpiReportTab,
+		setActiveKpiReportTab,
+		kPIReport,
+		kPIReportColumn,
+		activeGameReportTab,
+		setActiveGameReportTab,
+		gameReportColumn,
+		gameReport,
+		demoGraphicData,
+		demoGraphColumn,
+		demoDateOptions,
+		setDemoDateOptions,
+		isDemographicLoading,
+		loggedInOptions,
+	} = useDashboardView();
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -78,78 +106,81 @@ const DashboardView = ({ t }) => {
 				<Breadcrumbs title={t('Dashboards')} breadcrumbItem={t('Dashboard')} />
 
 				<Row>
-					{/* <Col xl='3'>
-              <WelcomeComp /> 
-             <MonthlyEarning />
-             </Col> */}
-					<Col xl="12">
+					<Col xl="3">
+						<WelcomeComp />
+						{/* <MonthlyEarning /> */}
+						<LoggedInPlayer
+							loggedInOptions={loggedInOptions}
+							isLivePlayerLoading={isLivePlayerLoading}
+						/>
+					</Col>
+					<Col xl="9">
 						<Row>
-							<Reports
+							<LivePlayerReports
 								isLivePlayerLoading={isLivePlayerLoading}
 								livePlayerData={livePlayerData}
 							/>
 						</Row>
-
-						{/* <Card>
-                <CardBody>
-                  <div className='d-sm-flex flex-wrap'>
-                    <h4 className='card-title mb-4'>Email Sent</h4>
-                    <div className='ms-auto'>
-                      <ul className='nav nav-pills'>
-                        <li className='nav-item'>
-                          <Button
-														// to="#"
-                          className={classNames(
-														  { active: periodType === 'weekly' },
-														  'nav-link'
-                          )}
-                          onClick={() => {
-														  onChangeChartPeriod('weekly')
-                          }}
-                          id='one_month'
-                        >
-                          Week
-                        </Button>{' '}
-                        </li>
-                        <li className='nav-item'>
-                          <Button
-														// to="#"
-                          className={classNames(
-														  { active: periodType === 'monthly' },
-														  'nav-link'
-                          )}
-                          onClick={() => {
-														  onChangeChartPeriod('monthly')
-                          }}
-                          id='one_month'
-                        >
-                          Month
-                        </Button>
-                        </li>
-                        <li className='nav-item'>
-                          <Button
-														// to="#"
-                          className={classNames(
-														  { active: periodType === 'yearly' },
-														  'nav-link'
-                          )}
-                          onClick={() => {
-														  onChangeChartPeriod('yearly')
-                          }}
-                          id='one_month'
-                        >
-                          Year
-                        </Button>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <StackedColumnChart
-                    periodData={periodData}
-                    dataColors='["--bs-primary", "--bs-warning", "--bs-success"]'
-                  />
-                </CardBody>
-              </Card> */}
+						<Row>
+							<DemographicReport
+								demoGrapFormatedData={demoGrapFormatedData}
+								demoGraphOptions={demoGraphOptions}
+								demoGraphicData={demoGraphicData}
+								demoGraphColumn={demoGraphColumn}
+								demoDateOptions={demoDateOptions}
+								setDemoDateOptions={setDemoDateOptions}
+								isDemographicLoading={isDemographicLoading}
+							/>
+						</Row>
+					</Col>
+				</Row>
+				<Row>
+					{/* <Col xl="12">
+						<Row>
+							<LivePlayerReports
+								isLivePlayerLoading={isLivePlayerLoading}
+								livePlayerData={livePlayerData}
+							/>
+						</Row>
+					</Col> */}
+					{/* <Col xl="12">
+						<Row>
+              <DemographicReport
+                demoGrapFormatedData={demoGrapFormatedData}
+                demoGraphOptions={demoGraphOptions}
+                demoGraphicData={demoGraphicData}
+                demoGraphColumn={demoGraphColumn} />
+            </Row>
+          </Col> */}
+					<Col xl="12">
+						<Row>
+							<KpiSummary
+								activeKpiSummTab={activeKpiSummTab}
+								setActiveKpiSummTab={setActiveKpiSummTab}
+								kPISummaryColumn={kPISummaryColumn}
+								kPISummary={kPISummary}
+							/>
+						</Row>
+					</Col>
+					<Col xl="12">
+						<Row>
+							<KpiReport
+								activeKpiReportTab={activeKpiReportTab}
+								setActiveKpiReportTab={setActiveKpiReportTab}
+								kPIReportColumn={kPIReportColumn}
+								kPIReport={kPIReport}
+							/>
+						</Row>
+					</Col>
+					<Col xl="12">
+						<Row>
+							<GameReport
+								activeGameReportTab={activeGameReportTab}
+								setActiveGameReportTab={setActiveGameReportTab}
+								gameReportColumn={gameReportColumn}
+								gameReport={gameReport}
+							/>
+						</Row>
 					</Col>
 				</Row>
 			</Container>

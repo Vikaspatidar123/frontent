@@ -1,44 +1,38 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Row, Col, Card, CardBody } from 'reactstrap';
+import { Col, Card, CardBody } from 'reactstrap';
 import ReactApexChart from 'react-apexcharts';
-import getChartColorsArray from '../../components/Common/ChartsDynamicColor';
+import DivLoader from '../../../components/Common/Loader/divLoader';
+import { NoDataLoggedInContainer } from '../style';
 
-const SalesAnalytics = ({ dataColors }) => {
-	const apexsaleschartColors = getChartColorsArray(dataColors);
-	const series = [56, 38, 26];
-	const options = {
-		labels: ['Series A', 'Series B', 'Series C'],
-		colors: apexsaleschartColors,
-		legend: { show: !1 },
-		plotOptions: {
-			pie: {
-				donut: {
-					size: '50%',
-				},
-			},
-		},
-	};
-
+const LoggedInPlayer = (props) => {
+	const { loggedInOptions, isLivePlayerLoading } = props;
 	return (
 		<Col xl="12">
 			<Card>
 				<CardBody>
-					<h4 className="card-title mb-4">Sales Analytics</h4>
+					<h4 className="card-title mb-4">Logged In Players</h4>
 
 					<div>
 						<div id="donut-chart">
-							<ReactApexChart
-								options={options}
-								series={series}
-								type="donut"
-								height={160}
-								className="apex-charts"
-							/>
+							{!isLivePlayerLoading && loggedInOptions?.series?.length > 0 && (
+								<ReactApexChart
+									options={loggedInOptions}
+									series={loggedInOptions.series}
+									type="donut"
+									height={260}
+									className="apex-charts"
+								/>
+							)}
+							{isLivePlayerLoading && (
+								<NoDataLoggedInContainer>
+									<DivLoader isSmall loaderVarient="text-secondary" />
+								</NoDataLoggedInContainer>
+							)}
 						</div>
 					</div>
 
-					<div className="text-center text-muted">
+					{/* <div className="text-center text-muted">
 						<Row>
 							<Col xs="4">
 								<div className="mt-4">
@@ -65,11 +59,11 @@ const SalesAnalytics = ({ dataColors }) => {
 								</div>
 							</Col>
 						</Row>
-					</div>
+					</div> */}
 				</CardBody>
 			</Card>
 		</Col>
 	);
 };
 
-export default SalesAnalytics;
+export default LoggedInPlayer;

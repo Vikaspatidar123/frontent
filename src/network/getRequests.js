@@ -163,6 +163,8 @@ const getloyaltyLevel = () =>
 
 const getDashboardLiveInfoService = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/report/live-player`);
+const getDashboardDemoGraphicService = (data) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/report/demographic`, data);
 
 const getUserDetails = (params) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user`, params);
@@ -217,4 +219,5 @@ export {
 	getImageGalleryData,
 	getUserBonuses,
 	getCommentsList,
+	getDashboardDemoGraphicService,
 };
