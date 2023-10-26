@@ -179,6 +179,9 @@ const getDocumentLabel = (userId) =>
 const getUserDocument = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user/document`, payload);
 
+const getUserBonuses = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/bonus/user`, payload);
+
 const getSiteConfiguration = (data) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data);
 
@@ -193,6 +196,9 @@ const getDashboardLiveInfoService = () =>
 
 const getUserDetails = (params) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user`, params);
+
+const getCommentsList = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/user/comments`, payload);
 
 export {
 	getAllCurrencies,
@@ -235,4 +241,6 @@ export {
 	getDashboardLiveInfoService,
 	getUserDetails,
 	getUserDocument,
+	getUserBonuses,
+	getCommentsList,
 };

@@ -6,9 +6,27 @@ import {
 	getUserDetailsFail,
 	getUserDocumentsSuccess,
 	getUserDocumentsFail,
+	getUserBonusSuccess,
+	getUserBonusFail,
+	getUserCommentsSuccess,
+	getUserCommentsFail,
+	createUserCommentSuccess,
+	createUserCommentFail,
 } from './actions';
-import { GET_USER_DETAILS, GET_USER_DOCUMENTS } from './actionTypes';
-import { getUserDetails, getUserDocument } from '../../network/getRequests';
+import {
+	CREATE_USER_COMMENT,
+	GET_USER_BONUS,
+	GET_USER_COMMENTS,
+	GET_USER_DETAILS,
+	GET_USER_DOCUMENTS,
+} from './actionTypes';
+import {
+	getCommentsList,
+	getUserBonuses,
+	getUserDetails,
+	getUserDocument,
+} from '../../network/getRequests';
+import { createUserCommentEntry } from '../../network/postRequests';
 
 function* getUserDetailsWorker(action) {
 	try {
@@ -32,9 +50,45 @@ function* getUserDocumentsWorker(action) {
 	}
 }
 
+function* getUserBonusWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getUserBonuses(payload);
+
+		yield put(getUserBonusSuccess(data?.data?.userBonus));
+	} catch (e) {
+		yield put(getUserBonusFail(e.message));
+	}
+}
+
+function* getUserCommentsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getCommentsList(payload);
+
+		yield put(getUserCommentsSuccess(data?.data?.comment));
+	} catch (e) {
+		yield put(getUserCommentsFail(e.message));
+	}
+}
+
+function* createUserCommentWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield createUserCommentEntry(payload);
+
+		yield put(createUserCommentSuccess(data?.data?.comment));
+	} catch (e) {
+		yield put(createUserCommentFail(e.message));
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
+	yield takeLatest(GET_USER_BONUS, getUserBonusWorker);
+	yield takeLatest(GET_USER_COMMENTS, getUserCommentsWorker);
+	yield takeLatest(CREATE_USER_COMMENT, createUserCommentWorker);
 }
 
 function* UserDetailsSaga() {
