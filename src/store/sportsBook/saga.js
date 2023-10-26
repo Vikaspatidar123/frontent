@@ -25,11 +25,12 @@ import {
 } from '../../network/getRequests';
 
 import { updateStatus } from '../../network/putRequests';
-import { showToastr } from '../../utils/helpers';
+import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 
 function* sportsListingWorker(action) {
 	try {
-		const { data } = yield getSportsList(action.payload);
+		const payload = clearEmptyProperty(action.payload);
+		const { data } = yield getSportsList(payload);
 		yield put(getSportsListSuccess(data?.data?.sportsList));
 	} catch (error) {
 		yield put(getSportsListFail(error?.response?.data?.errors[0]?.description));

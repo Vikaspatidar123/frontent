@@ -6,22 +6,24 @@ import {
 	staticFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getBonusDetails } from '../../../store/actions';
+import { getSportsList } from '../../../store/actions';
 import { itemsPerPage } from '../../../constants/config';
-import { safeStringify } from '../../../utils/helpers';
 
 const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 
-	const fetchData = ({ bonusType, ...rest }) => {
+	const fetchData = (values) => {
 		dispatch(
-			getBonusDetails({
+			getSportsList({
 				limit: itemsPerPage,
 				pageNo: 1,
-				bonusType: bonusType ? safeStringify([bonusType]) : null,
-				...rest,
+				// tenantId: selectedPortal,
+				// adminId: selectedClient,
+				// search,
+				// isActive: active,
+				...values,
 			})
 		);
 	};

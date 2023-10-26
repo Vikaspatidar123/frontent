@@ -1,6 +1,10 @@
-import { useEffect, useState, useMemo } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSportsList, updateStatusStart } from '../../../store/actions';
+
+import { SportId, SportName, Status, Icon } from '../sportsListCol';
+import ActionButtons from '../ActionButtons';
 
 const useSportsListing = () => {
 	const { sportsListInfo, isSportsListLoading } = useSelector(
@@ -8,8 +12,6 @@ const useSportsListing = () => {
 	);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
-	const [searchByName, setSearchByName] = useState('');
-	const [searchByStatus, setSearchByStatus] = useState('');
 	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
 
@@ -29,25 +31,17 @@ const useSportsListing = () => {
 	}, [sportsListInfo]);
 
 	const fetchData = () => {
-		let isActive = '';
-		if (searchByStatus === '1') {
-			isActive = 'true';
-		} else if (searchByStatus === '0') {
-			isActive = 'false';
-		}
 		dispatch(
 			getSportsList({
 				limit: itemsPerPage,
 				pageNo: page,
-				search: searchByName,
-				isActive,
 			})
 		);
 	};
 
 	useEffect(() => {
 		fetchData();
-	}, [page, itemsPerPage, searchByName, searchByStatus, active]);
+	}, [page, itemsPerPage, active]);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
@@ -59,11 +53,49 @@ const useSportsListing = () => {
 				sportId,
 				limit: itemsPerPage,
 				pageNo: page,
-				search: searchByName,
+				// search: searchByName,
 			})
 		);
 		setActive((prev) => !prev);
 	};
+
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'sportId',
+				filterable: true,
+				Cell: ({ cell }) => <SportId cell={cell} />,
+			},
+			{
+				Header: 'NAME',
+				accessor: 'sportName',
+				filterable: true,
+				Cell: ({ cell }) => <SportName cell={cell} />,
+			},
+			{
+				Header: 'STATUS',
+				accessor: 'isActive',
+				disableFilters: true,
+				Cell: ({ cell }) => <Status cell={cell} />,
+			},
+			{
+				Header: 'ICON',
+				accessor: 'icons',
+				disableFilters: true,
+				Cell: ({ cell }) => <Icon cell={cell} />,
+			},
+			{
+				Header: 'Action',
+				accessor: 'action',
+				disableFilters: true,
+				Cell: ({ cell }) => (
+					<ActionButtons cell={cell} handleStatus={handleStatus} />
+				),
+			},
+		],
+		[]
+	);
 
 	return {
 		formattedSportsList,
@@ -72,14 +104,11 @@ const useSportsListing = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		searchByName,
-		setSearchByName,
-		searchByStatus,
-		setSearchByStatus,
 		handleStatus,
 		active,
 		setActive,
 		onChangeRowsPerPage,
+		columns,
 	};
 };
 
