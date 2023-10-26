@@ -14,6 +14,10 @@ import {
 	GET_USER_DOCUMENTS,
 	GET_USER_DOCUMENTS_FAIL,
 	GET_USER_DOCUMENTS_SUCCESS,
+	RESET_USER_LIMIT,
+	RESET_USER_LIMIT_DATA,
+	RESET_USER_LIMIT_FAIL,
+	RESET_USER_LIMIT_SUCCESS,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -88,5 +92,25 @@ export const createUserCommentFail = (payload) => ({
 
 export const createUserComment = (payload) => ({
 	type: CREATE_USER_COMMENT,
+	payload,
+});
+
+export const resetUserLimitSuccess = (payload) => ({
+	type: RESET_USER_LIMIT_SUCCESS,
+	payload,
+});
+
+export const resetUserLimitFail = (payload) => ({
+	type: RESET_USER_LIMIT_FAIL,
+	payload,
+});
+
+export const resetUserLimit = (payload) => ({
+	type: RESET_USER_LIMIT,
+	payload,
+});
+
+export const resetUserLimitData = (payload) => ({
+	type: RESET_USER_LIMIT_DATA,
 	payload,
 });

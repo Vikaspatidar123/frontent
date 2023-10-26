@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Container } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Container, Spinner } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import TabsPage from '../../components/Common/TabsPage';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import Overview from './Overview';
@@ -14,10 +15,13 @@ import KYCSettings from './KYCSettings';
 import YourBonuses from './YourBonuses';
 import Comments from './Comments';
 import Limits from './Limits';
+import { getUserDetails, resetUserLimitData } from '../../store/actions';
 
 const PlayerDetailsPage = ({ t }) => {
+	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState(1);
 	const { playerId } = useParams();
+	const { resetUserLimitSuccess } = useSelector((state) => state.UserDetails);
 
 	const toggle = (tab) => {
 		if (activeTab !== tab) {
@@ -25,7 +29,16 @@ const PlayerDetailsPage = ({ t }) => {
 		}
 	};
 
-	const { userDetails } = useUserDetails({ userId: playerId });
+	useEffect(() => {
+		if (resetUserLimitSuccess) {
+			dispatch(getUserDetails({ userId: playerId }));
+			dispatch(resetUserLimitData());
+		}
+	}, [resetUserLimitSuccess]);
+
+	const { userDetails, userDetailsLoading } = useUserDetails({
+		userId: playerId,
+	});
 
 	const tabData = [
 		{
@@ -79,7 +92,14 @@ const PlayerDetailsPage = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumb title={t('Player')} breadcrumbItem={t('Player Details')} />
-				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
+				{userDetailsLoading ? (
+					<Spinner
+						color="primary"
+						className="position-absolute top-50 start-50"
+					/>
+				) : (
+					<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
+				)}
 			</Container>
 		</div>
 	);

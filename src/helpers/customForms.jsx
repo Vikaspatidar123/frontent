@@ -475,7 +475,7 @@ export const getField = (
 				/>
 			);
 		case 'inputGroup':
-			return Object.keys(validation?.values?.name).map((item) => (
+			return Object.keys(validation?.values?.name || {}).map((item) => (
 				<div className="d-flex align-items-center mt-1" key={item}>
 					<Col>
 						<Col className="d-flex">

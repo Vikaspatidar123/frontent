@@ -5,7 +5,9 @@ import { getUserDetails } from '../../../store/actions';
 const useUserDetails = ({ userId }) => {
 	const dispatch = useDispatch();
 
-	const { userDetails } = useSelector((state) => state.UserDetails);
+	const { userDetails, userDetailsLoading } = useSelector(
+		(state) => state.UserDetails
+	);
 
 	useEffect(() => {
 		dispatch(getUserDetails({ userId }));
@@ -13,6 +15,7 @@ const useUserDetails = ({ userId }) => {
 
 	return {
 		userDetails,
+		userDetailsLoading,
 	};
 };
 
