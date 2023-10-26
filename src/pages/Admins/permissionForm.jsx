@@ -46,9 +46,9 @@ const PermissionForm = ({
 					{Object.keys(permissions || {}).map((key) =>
 						values.role === 'Manager' && key === 'Admins' ? null : (
 							<div className="mb-4 col-xl-3 col-lg-4 col-md-6 col-sm-12">
-								<div className="permissions-card card">
-									<div className="fw-bold card-header">
-										<span className="icon font-size-20">
+								<div className="permissions-card card card-bg">
+									<div className="fw-bold card-header d-flex  align-items-center gap-3 p-0">
+										<span className="icon font-size-20 px-3 py-2 icon-bg">
 											{permissionIcons()?.[key]}
 										</span>
 										<span className="text">{`  ${key}`}</span>
