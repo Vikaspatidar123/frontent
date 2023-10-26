@@ -28,4 +28,44 @@ const staticFormFields = [
 	},
 ];
 
-export { validationSchema, getInitialValues, staticFormFields };
+const limitsSchema = ({ minimum, currLabel, label }) =>
+	Yup.object().shape({
+		limit: Yup.number()
+			.positive('Limit must be positive number')
+			.integer('Limit must be an integer')
+			.min(
+				minimum + 1,
+				`${currLabel} Must Be Greater Than ${label} (${minimum})`
+			)
+			.required('Limit Required'),
+	});
+
+const setDisableUserlimitsSchema = () =>
+	Yup.object().shape({
+		limit: Yup.number()
+			.positive('Time Period must be positive number')
+			.integer('Time Period must be an integer')
+			.required('Time Period Required'),
+	});
+
+const selfExclusionSchema = () =>
+	Yup.object().shape({
+		days: Yup.number()
+			.positive('Month must be positive number')
+			.integer('Month must be an integer')
+			.required('Month Required'),
+	});
+
+const getLimitInitialValues = (defaultValue) => ({
+	limit: defaultValue?.limit || '',
+});
+
+export {
+	validationSchema,
+	getInitialValues,
+	staticFormFields,
+	limitsSchema,
+	selfExclusionSchema,
+	getLimitInitialValues,
+	setDisableUserlimitsSchema,
+};

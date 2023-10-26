@@ -13,6 +13,7 @@ import Transactions from './Transactions';
 import KYCSettings from './KYCSettings';
 import YourBonuses from './YourBonuses';
 import Comments from './Comments';
+import Limits from './Limits';
 
 const PlayerDetailsPage = ({ t }) => {
 	const [activeTab, setActiveTab] = useState(1);
@@ -35,7 +36,7 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 2,
 			title: 'Limits',
-			component: <div>In Progress</div>,
+			component: <Limits userDetails={userDetails} userId={playerId} />,
 		},
 		{
 			id: 4,
