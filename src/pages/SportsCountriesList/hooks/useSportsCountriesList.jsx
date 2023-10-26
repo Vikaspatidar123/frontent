@@ -1,6 +1,14 @@
-import { useEffect, useState, useMemo } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSportsCountries, updateStatusStart } from '../../../store/actions';
+import {
+	CountryId,
+	CountryName,
+	Icon,
+	Status,
+} from '../sportsCountriesListCol';
+import ActionButtons from '../ActionButtons';
 
 const useSportsCountriesListing = () => {
 	const { sportsCountries, isSportsCountriesLoading } = useSelector(
@@ -9,8 +17,6 @@ const useSportsCountriesListing = () => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 
 	const [page, setPage] = useState(1);
-	const [searchByName, setSearchByName] = useState('');
-	const [searchByStatus, setSearchByStatus] = useState('');
 	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
 
@@ -30,18 +36,10 @@ const useSportsCountriesListing = () => {
 	}, [sportsCountries]);
 
 	const fetchData = () => {
-		let isActive = '';
-		if (searchByStatus === '1') {
-			isActive = 'true';
-		} else if (searchByStatus === '0') {
-			isActive = 'false';
-		}
 		dispatch(
 			getSportsCountries({
 				limit: itemsPerPage,
 				pageNo: page,
-				searchByName,
-				isActive,
 			})
 		);
 	};
@@ -56,7 +54,6 @@ const useSportsCountriesListing = () => {
 				sportCountryId,
 				limit: itemsPerPage,
 				pageNo: page,
-				search: searchByName,
 			})
 		);
 		setActive((prev) => !prev);
@@ -64,7 +61,45 @@ const useSportsCountriesListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [itemsPerPage, page, searchByName, searchByStatus, active]);
+	}, [itemsPerPage, page, active]);
+
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'countryId',
+				filterable: true,
+				Cell: ({ cell }) => <CountryId cell={cell} />,
+			},
+			{
+				Header: 'NAME',
+				accessor: 'countryName',
+				filterable: true,
+				Cell: ({ cell }) => <CountryName cell={cell} />,
+			},
+			{
+				Header: 'ICON',
+				accessor: 'icons',
+				disableFilters: true,
+				Cell: ({ cell }) => <Icon cell={cell} />,
+			},
+			{
+				Header: 'STATUS',
+				accessor: 'isActive',
+				disableFilters: true,
+				Cell: ({ cell }) => <Status cell={cell} />,
+			},
+			{
+				Header: 'Action',
+				accessor: 'action',
+				disableFilters: true,
+				Cell: ({ cell }) => (
+					<ActionButtons cell={cell} handleStatus={handleStatus} />
+				),
+			},
+		],
+		[]
+	);
 
 	return {
 		formattedSportsCountries,
@@ -73,14 +108,11 @@ const useSportsCountriesListing = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		searchByName,
-		setSearchByName,
-		searchByStatus,
-		setSearchByStatus,
 		handleStatus,
 		active,
 		setActive,
 		onChangeRowsPerPage,
+		columns,
 	};
 };
 

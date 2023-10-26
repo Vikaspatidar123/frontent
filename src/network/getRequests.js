@@ -97,10 +97,8 @@ const getSportsList = (payload) =>
 const getReviewManagement = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/review`, payload);
 
-const getCountriesList = ({ limit, pageNo, search = '', isActive = '' }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/sportsbook/countries?search=${search}&limit=${limit}&pageNo=${pageNo}&isActive=${isActive}`
-	);
+const getCountriesList = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/countries`, payload);
 
 const getSportsTransaction = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/transactions`, payload);

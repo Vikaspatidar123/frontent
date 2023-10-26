@@ -20,31 +20,16 @@ const Sidebar = () => {
 	return (
 		<div className="vertical-menu">
 			<div className="navbar-brand-box">
-				<Link to="/" className="logo logo-dark">
-					<span className="logo-sm">
-						{/* <img src={logo} alt="" height="22" /> */}
-					</span>
-					<span className="logo-lg">
-						{/* <img src={logoDark} alt="" height="17" /> */}
-						<h4 className="text-wrap my-2 text-light">
-							{superAdminUser?.firstName}
-						</h4>
-						<h6 className="text-wrap my-2 text-light">
-							{superAdminUser?.email}
-						</h6>
-					</span>
-				</Link>
-
 				<Link to="/" className="logo logo-light">
 					<span className="logo-sm">
 						{/* <img src={logoLightSvg} alt="" height="22" /> */}
 					</span>
 					<span className="logo-lg">
 						{/* <img src={logoLightPng} alt="" height="19" /> */}
-						<h4 className="text-wrap my-2 text-light">
+						<h4 className="text-wrap my-2 text-muted">
 							{superAdminUser?.firstName}
 						</h4>
-						<h6 className="text-wrap my-2 text-light">
+						<h6 className="text-wrap my-2 text-muted">
 							{superAdminUser?.email}
 						</h6>
 					</span>
