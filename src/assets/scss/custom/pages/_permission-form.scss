@@ -1,0 +1,21 @@
+body[data-bs-theme='light'] {
+	.card-bg {
+		background-color: $topbar-search-bg;
+	}
+}
+
+.card-bg {
+	background-color: $body-bg-dark;
+	height: 100%;
+	padding: 10px;
+}
+
+.icon-bg {
+	background-color: $primary;
+	color: $sidebar-bg;
+	border-radius: 10px 0;
+}
+
+.card-header {
+	border-radius: 10px 5px 0 !important;
+}
