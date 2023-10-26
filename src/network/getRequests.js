@@ -120,10 +120,8 @@ const getAllSABanners = ({ limit, pageNo }) =>
 		`${VITE_APP_API_URL}/api/admin/banner?limit=${limit}&pageNo=${pageNo}`
 	);
 
-const getSportsMatches = ({ limit, pageNo }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/sportsbook/matches?limit=${limit}&pageNo=${pageNo}`
-	);
+const getSportsMatches = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/matches`, payload);
 
 const getSportsMarkets = ({
 	limit,
