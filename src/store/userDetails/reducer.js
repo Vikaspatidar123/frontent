@@ -14,6 +14,10 @@ import {
 	GET_USER_DOCUMENTS,
 	GET_USER_DOCUMENTS_FAIL,
 	GET_USER_DOCUMENTS_SUCCESS,
+	RESET_USER_LIMIT,
+	RESET_USER_LIMIT_DATA,
+	RESET_USER_LIMIT_FAIL,
+	RESET_USER_LIMIT_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -32,6 +36,9 @@ const INIT_STATE = {
 	createUserCommentsSuccess: false,
 	createUserCommentsLoading: false,
 	createUserCommentsError: false,
+	resetUserLimitSuccess: false,
+	resetUserLimitLoading: false,
+	resetUserLimitError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -140,6 +147,36 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				createUserCommentsError: payload,
 				createUserCommentsLoading: true,
 				createUserCommentsSuccess: false,
+			};
+
+		case RESET_USER_LIMIT:
+			return {
+				...state,
+				resetUserLimitLoading: true,
+			};
+
+		case RESET_USER_LIMIT_SUCCESS:
+			return {
+				...state,
+				resetUserLimitLoading: false,
+				resetUserLimitSuccess: true,
+				resetUserLimitError: null,
+			};
+
+		case RESET_USER_LIMIT_FAIL:
+			return {
+				...state,
+				resetUserLimitError: payload,
+				resetUserLimitLoading: true,
+				resetUserLimitSuccess: false,
+			};
+
+		case RESET_USER_LIMIT_DATA:
+			return {
+				...state,
+				resetUserLimitSuccess: false,
+				resetUserLimitLoading: false,
+				resetUserLimitError: false,
 			};
 		default:
 			return { ...state };

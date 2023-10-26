@@ -44,6 +44,9 @@ const createCasinoSubCategory = (data) =>
 const createUserCommentEntry = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/user/comment`, data);
 
+const resetUserLimitCall = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/user/daily-limit`, data);
+
 export {
 	superAdminLogin,
 	createCurrency,
@@ -57,4 +60,5 @@ export {
 	createKYCLabels,
 	createCasinoSubCategory,
 	createUserCommentEntry,
+	resetUserLimitCall,
 };

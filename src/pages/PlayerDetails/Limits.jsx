@@ -4,10 +4,9 @@ import { Card, Col, Container, Row } from 'reactstrap';
 import useEditLimits from './hooks/useEditLimits';
 import SingleLimitCard from './components/SingleLimitCard';
 
-const Limits = ({ userId, userDetails }) => {
-	console.log(userId);
+const Limits = ({ userDetails, userId }) => {
 	const { limitLabels } = useEditLimits({ userDetails });
-	console.log('limits', limitLabels);
+
 	return (
 		<Container fluid className="bg-white">
 			<Card className="p-2">
@@ -15,7 +14,11 @@ const Limits = ({ userId, userDetails }) => {
 				<Row>
 					{limitLabels.map((limit) => (
 						<Col md={4}>
-							<SingleLimitCard limit={limit} />
+							<SingleLimitCard
+								limit={limit}
+								currencyCode={userDetails?.currencyCode}
+								userId={userId}
+							/>
 						</Col>
 					))}
 				</Row>

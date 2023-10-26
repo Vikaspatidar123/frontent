@@ -12,6 +12,8 @@ import {
 	getUserCommentsFail,
 	createUserCommentSuccess,
 	createUserCommentFail,
+	resetUserLimitFail,
+	resetUserLimitSuccess,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
@@ -19,6 +21,7 @@ import {
 	GET_USER_COMMENTS,
 	GET_USER_DETAILS,
 	GET_USER_DOCUMENTS,
+	RESET_USER_LIMIT,
 } from './actionTypes';
 import {
 	getCommentsList,
@@ -26,7 +29,10 @@ import {
 	getUserDetails,
 	getUserDocument,
 } from '../../network/getRequests';
-import { createUserCommentEntry } from '../../network/postRequests';
+import {
+	createUserCommentEntry,
+	resetUserLimitCall,
+} from '../../network/postRequests';
 
 function* getUserDetailsWorker(action) {
 	try {
@@ -83,12 +89,23 @@ function* createUserCommentWorker(action) {
 	}
 }
 
+function* resetUserLimitWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield resetUserLimitCall(payload);
+		yield put(resetUserLimitSuccess(data?.data));
+	} catch (e) {
+		yield put(resetUserLimitFail(e.message));
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
 	yield takeLatest(GET_USER_BONUS, getUserBonusWorker);
 	yield takeLatest(GET_USER_COMMENTS, getUserCommentsWorker);
 	yield takeLatest(CREATE_USER_COMMENT, createUserCommentWorker);
+	yield takeLatest(RESET_USER_LIMIT, resetUserLimitWorker);
 }
 
 function* UserDetailsSaga() {
