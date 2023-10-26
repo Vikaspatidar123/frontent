@@ -39,7 +39,8 @@ function* sportsListingWorker(action) {
 
 function* sportsCountriesWorker(action) {
 	try {
-		const { data } = yield getCountriesList(action.payload);
+		const payload = clearEmptyProperty(action.payload);
+		const { data } = yield getCountriesList(payload);
 		yield put(getSportsCountriesSuccess(data?.data?.countryList));
 	} catch (error) {
 		yield put(
@@ -50,7 +51,8 @@ function* sportsCountriesWorker(action) {
 
 function* sportsTournamentListWorker(action) {
 	try {
-		const { data } = yield getTournamentsList(action.payload);
+		const payload = clearEmptyProperty(action.payload);
+		const { data } = yield getTournamentsList(payload);
 		yield put(getSportsTournamentListSuccess(data?.data));
 	} catch (error) {
 		yield put(

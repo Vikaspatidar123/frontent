@@ -5,48 +5,10 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsTounamentListing from './hooks/useSportsTournamentListing';
 import { projectName } from '../../constants/config';
-import {
-	TournamentId,
-	TournamentName,
-	CountryName,
-	SportName,
-} from './sportsTournamentListCol';
-import ActionButtons from './ActionButtons';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
-
-const columns = [
-	{
-		Header: 'ID',
-		accessor: 'tournamentId',
-		filterable: true,
-		Cell: ({ cell }) => <TournamentId cell={cell} />,
-	},
-	{
-		Header: 'NAME',
-		accessor: 'tournamentName',
-		filterable: true,
-		Cell: ({ cell }) => <TournamentName cell={cell} />,
-	},
-	{
-		Header: ' COUNTRY',
-		accessor: 'countryName',
-		disableFilters: true,
-		Cell: ({ cell }) => <CountryName cell={cell} />,
-	},
-	{
-		Header: 'SPORT',
-		accessor: 'sportName',
-		disableFilters: true,
-		Cell: ({ cell }) => <SportName cell={cell} />,
-	},
-	{
-		Header: 'Action',
-		accessor: 'action',
-		disableFilters: true,
-		Cell: () => <ActionButtons />,
-	},
-];
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const SportsTournamentList = () => {
 	// meta title
@@ -60,7 +22,16 @@ const SportsTournamentList = () => {
 		setPage,
 		itemsPerPage,
 		onChangeRowsPerPage,
+		columns,
 	} = useSportsTounamentListing();
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	return (
 		<div className="page-content">
@@ -71,6 +42,13 @@ const SportsTournamentList = () => {
 						<Card>
 							<CrudSection buttonList={[]} title="Tournaments Listing" />
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									columns={columns}
 									data={formattedSportsTournamenList}

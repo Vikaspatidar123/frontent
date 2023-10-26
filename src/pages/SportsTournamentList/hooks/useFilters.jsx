@@ -8,9 +8,9 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
-	getCasinoGamesStart,
-	getCasinoProvidersDataStart,
-	getCasinoSubCategoryDetailStart,
+	getSportsCountries,
+	getSportsList,
+	getSportsTournamentList,
 } from '../../../store/actions';
 import { itemsPerPage } from '../../../constants/config';
 
@@ -19,19 +19,15 @@ const useFilters = () => {
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 
-	const { casinoSubCategoryDetails, casinoProvidersData } = useSelector(
-		(state) => state.CasinoManagementData
+	const { sportsCountries, sportsListInfo } = useSelector(
+		(state) => state.SportsList
 	);
+
 	const fetchData = (values) => {
 		dispatch(
-			getCasinoGamesStart({
+			getSportsTournamentList({
 				limit: itemsPerPage,
 				pageNo: 1,
-				// casinoCategoryId: selectedSubCategoryId,
-				// search,
-				// isActive: active,
-				// tenantId: '',
-				// selectedProvider,
 				...values,
 			})
 		);
@@ -59,54 +55,55 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(casinoSubCategoryDetails)) {
+		if (isEmpty(sportsCountries)) {
 			dispatch(
-				getCasinoSubCategoryDetailStart({
+				getSportsCountries({
 					limit: itemsPerPage,
+					pageNo: 1,
 				})
 			);
 		}
-
-		if (isEmpty(casinoProvidersData)) {
+		if (isEmpty(sportsListInfo)) {
 			dispatch(
-				getCasinoProvidersDataStart({
+				getSportsList({
 					limit: itemsPerPage,
+					pageNo: 1,
 				})
 			);
 		}
 	}, []);
 
 	useEffect(() => {
-		if (!isEmpty(casinoProvidersData) && !isEmpty(casinoSubCategoryDetails)) {
-			const subCategoryField = casinoSubCategoryDetails?.rows?.map((row) => ({
-				optionLabel: row.name?.EN,
-				value: row.gameSubCategoryId,
+		if (!isEmpty(sportsCountries) && !isEmpty(sportsListInfo)) {
+			const countryList = sportsCountries?.rows?.map((row) => ({
+				optionLabel: row.countryName[0].name,
+				value: row.providerCountryId,
 			}));
 
-			const providerField = casinoProvidersData?.rows?.map((row) => ({
-				optionLabel: row.name,
-				value: row.casinoProviderId,
+			const sportList = sportsListInfo?.rows?.map((row) => ({
+				optionLabel: row.sportName[0].name,
+				value: row.providerSportId,
 			}));
 
 			setFormFields([
 				...staticFiltersFields(),
 				{
-					name: 'gameSubCategoryId',
+					name: 'providerCountryId',
 					fieldType: 'select',
 					label: '',
-					placeholder: 'Sub Category',
-					optionList: subCategoryField,
+					placeholder: 'Country',
+					optionList: countryList,
 				},
 				{
-					name: 'providerId',
+					name: 'providerSportId',
 					fieldType: 'select',
 					label: '',
-					placeholder: 'Provider',
-					optionList: providerField,
+					placeholder: 'Sports',
+					optionList: sportList,
 				},
 			]);
 		}
-	}, [casinoProvidersData, casinoSubCategoryDetails]);
+	}, [sportsCountries, sportsListInfo]);
 
 	const actionButtons = useMemo(() => [
 		{
