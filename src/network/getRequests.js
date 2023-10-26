@@ -86,20 +86,13 @@ const getBetSettings = () =>
 const getTransactionBanking = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/transactions`, payload);
 
-const getSportsList = ({
-	search = '',
-	limit,
-	pageNo,
-	isAllListing = false,
-	isActive = '',
-}) =>
-	isAllListing
+const getSportsList = (payload) =>
+	payload?.isAllListing
 		? getRequest(
-				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}&listing=all`
+				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?listing=all`,
+				payload
 		  )
-		: getRequest(
-				`${VITE_APP_API_URL}/api/admin/sportsbook/sport?limit=${limit}&pageNo=${pageNo}&search=${search}&isActive=${isActive}`
-		  );
+		: getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/sport`, payload);
 
 const getReviewManagement = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/review`, payload);

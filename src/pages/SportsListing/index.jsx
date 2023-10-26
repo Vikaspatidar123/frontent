@@ -1,16 +1,13 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsListing from './hooks/useSportsListing';
 import { projectName } from '../../constants/config';
-
-import { SportId, SportName, Status, Icon } from './sportsListCol';
-import ActionButtons from './ActionButtons';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
+import useFilters from './hooks/useFilters';
+import Filters from '../../components/Common/Filters';
 
 const SportsListing = () => {
 	// meta title
@@ -23,47 +20,17 @@ const SportsListing = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		handleStatus,
 		onChangeRowsPerPage,
+		columns,
 	} = useSportsListing();
 
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'ID',
-				accessor: 'sportId',
-				filterable: true,
-				Cell: ({ cell }) => <SportId cell={cell} />,
-			},
-			{
-				Header: 'NAME',
-				accessor: 'sportName',
-				filterable: true,
-				Cell: ({ cell }) => <SportName cell={cell} />,
-			},
-			{
-				Header: 'STATUS',
-				accessor: 'isActive',
-				disableFilters: true,
-				Cell: ({ cell }) => <Status cell={cell} />,
-			},
-			{
-				Header: 'ICON',
-				accessor: 'icons',
-				disableFilters: true,
-				Cell: ({ cell }) => <Icon cell={cell} />,
-			},
-			{
-				Header: 'Action',
-				accessor: 'action',
-				disableFilters: true,
-				Cell: ({ cell }) => (
-					<ActionButtons cell={cell} handleStatus={handleStatus} />
-				),
-			},
-		],
-		[]
-	);
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+	} = useFilters();
 
 	return (
 		<div className="page-content">
@@ -74,6 +41,13 @@ const SportsListing = () => {
 						<Card>
 							<CrudSection buttonList={[]} title="Sports Listing" />
 							<CardBody>
+								<Filters
+									validation={filterValidation}
+									filterFields={filterFields}
+									actionButtons={actionButtons}
+									isAdvanceOpen={isAdvanceOpen}
+									toggleAdvance={toggleAdvance}
+								/>
 								<TableContainer
 									columns={columns}
 									data={formattedSportsList}
