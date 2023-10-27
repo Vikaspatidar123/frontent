@@ -69,6 +69,12 @@ const uploadGallery = (data) =>
 		'Content-Type': 'multipart/form-data',
 	});
 
+const updateSAUserStatusCall = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
+
+const markUserAsInternal = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/internal`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -89,4 +95,6 @@ export {
 	editBetSettings,
 	updateloyaltyLevel,
 	uploadGallery,
+	updateSAUserStatusCall,
+	markUserAsInternal,
 };

@@ -21,7 +21,11 @@ const PlayerDetailsPage = ({ t }) => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState(1);
 	const { playerId } = useParams();
-	const { resetUserLimitSuccess } = useSelector((state) => state.UserDetails);
+	const {
+		resetUserLimitSuccess,
+		markUserAsInternalSuccess,
+		updateSAUserStatusSuccess,
+	} = useSelector((state) => state.UserDetails);
 
 	const toggle = (tab) => {
 		if (activeTab !== tab) {
@@ -30,11 +34,19 @@ const PlayerDetailsPage = ({ t }) => {
 	};
 
 	useEffect(() => {
-		if (resetUserLimitSuccess) {
+		if (
+			resetUserLimitSuccess ||
+			markUserAsInternalSuccess ||
+			updateSAUserStatusSuccess
+		) {
 			dispatch(getUserDetails({ userId: playerId }));
 			dispatch(resetUserLimitData());
 		}
-	}, [resetUserLimitSuccess]);
+	}, [
+		resetUserLimitSuccess,
+		markUserAsInternalSuccess,
+		updateSAUserStatusSuccess,
+	]);
 
 	const { userDetails, userDetailsLoading } = useUserDetails({
 		userId: playerId,
