@@ -18,11 +18,13 @@ const PermissionForm = ({
 	)?.userPermission?.permission;
 
 	const handleChangeCheckbox = (e, key) => {
+		e.preventDefault();
 		if (e.target.value === 'R' || values?.permission?.[key]?.includes('R')) {
 			if (e.target.value === 'R' && !e.target.checked) {
 				// eslint-disable-next-line no-param-reassign
 				delete values.permission[key];
 				validation.setFieldValue('permission', values.permission);
+				validation.handleChange(e);
 			} else {
 				validation.handleChange(e);
 			}
@@ -58,7 +60,6 @@ const PermissionForm = ({
 											<div className="d-flex justify-content-between align-items-center py-1 px-3 list-group-item">
 												<small>{permissionLabel(value)}</small>
 												<div className="form-check">
-													{/* <label className='form-check-label' /> */}
 													{permissions[key].includes('R') ? (
 														<CustomInputField
 															type="checkbox"
@@ -68,7 +69,9 @@ const PermissionForm = ({
 															}
 															id={`${key}-permission[${value}]`}
 															name={`permission[${key}]`}
-															onChange={(e) => handleChangeCheckbox(e, key)}
+															onChange={(e) => {
+																handleChangeCheckbox(e, key);
+															}}
 														/>
 													) : (
 														<CustomInputField
