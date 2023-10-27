@@ -196,6 +196,7 @@ import SportsMarketsList from '../pages/SportsMarketsList';
 import EmailTemplate from '../pages/EmailTemplate';
 import KYCLabels from '../pages/KYCLabels';
 import WageringTemplate from '../pages/WageringTemplateDetail';
+import CreateWageringTemplate from '../pages/WageringTemplateDetail/createWageringTemplate';
 import ProfilePage from '../pages/Profile';
 import AddAdmin from '../pages/Admins/addAdmin';
 import EditAdmin from '../pages/Admins/editAdmin';
@@ -256,6 +257,7 @@ const authProtectedRoutes = [
 	{ path: '/email-templates', component: <EmailTemplate /> },
 	{ path: '/kyc-labels', component: <KYCLabels /> },
 	{ path: '/wagering-template', component: <WageringTemplate /> },
+	{ path: '/wagering-template/create', component: <CreateWageringTemplate /> },
 	{ path: '/profile', component: <ProfilePage /> },
 	{ path: '/form-fields', component: <RegistrationFields /> },
 	{ path: '/loyalty-management', component: <LoyaltyManagement /> },

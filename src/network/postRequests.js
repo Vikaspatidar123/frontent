@@ -44,6 +44,9 @@ const createCasinoSubCategory = (data) =>
 const createUserCommentEntry = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/user/comment`, data);
 
+const createWageringTemplate = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, data);
+
 const resetUserLimitCall = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/user/daily-limit`, data);
 
@@ -66,6 +69,7 @@ export {
 	createKYCLabels,
 	createCasinoSubCategory,
 	createUserCommentEntry,
+	createWageringTemplate,
 	resetUserLimitCall,
 	disableUserCall,
 	disableUserSession,
