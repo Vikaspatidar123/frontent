@@ -24,18 +24,8 @@ const getAllCasinoProviders = (payload) =>
 
 const getAdminRole = () => getRequest(`${VITE_APP_API_URL}/api/admin/roles`);
 
-const getAllAdmins = ({
-	limit,
-	pageNo,
-	orderBy,
-	sort,
-	search,
-	adminRoleId,
-	status,
-}) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin?orderBy=${orderBy}&pageNo=${pageNo}&limit=${limit}&sort=${sort}&search=${search}&status=${status}&adminRoleId=${adminRoleId}`
-	);
+const getAllAdmins = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin`, payload);
 
 const getPermissionDetails = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/details`);

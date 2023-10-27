@@ -35,8 +35,6 @@ const useAdmin = (handleEdit) => {
 			return adminDetails?.rows.map((admin) => ({
 				...admin,
 				fullName: `${admin.firstName} ${admin.lastName}`,
-				optionLabel: `${admin.firstName} ${admin.lastName}`,
-				value: admin.adminUserId,
 			}));
 		}
 		return [];
