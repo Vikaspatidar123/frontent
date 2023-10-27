@@ -194,13 +194,14 @@ export const CustomSwitchButton = ({
 	name,
 	inputClassName,
 	value,
-	onChange,
+	onClick,
 	onBlur,
 	style,
 	checked,
 	isError,
 	errorMsg,
 	disabled,
+	...rest
 }) => (
 	<span className="form-check form-check-inline">
 		{label && (
@@ -214,11 +215,12 @@ export const CustomSwitchButton = ({
 			name={name}
 			className={inputClassName}
 			value={value}
-			onChange={onChange}
+			onClick={onClick}
 			onBlur={onBlur}
 			style={style}
 			checked={checked}
 			disabled={disabled}
+			{...rest}
 		/>
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
@@ -235,13 +237,14 @@ export const CustomToggleButton = ({
 	name,
 	inputClassName,
 	value,
-	onChange,
+	onClick,
 	onBlur,
 	style,
 	checked,
 	isError,
 	errorMsg,
 	disabled,
+	...rest
 }) => (
 	<span className="form-check form-switch form-switch-md mb-3 mt-5">
 		{label && (
@@ -255,11 +258,12 @@ export const CustomToggleButton = ({
 			name={name}
 			className={inputClassName}
 			value={value}
-			onClick={onChange}
+			onClick={onClick}
 			onBlur={onBlur}
 			style={style}
 			checked={checked}
 			disabled={disabled}
+			{...rest}
 		/>
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
@@ -353,11 +357,13 @@ export const getField = (
 					htmlFor="customRadioInline1"
 					type="switch"
 					id="customRadioInline1"
-					value={validation.values[name]}
+					value={!!validation.values[name]}
 					name={name}
-					checked={validation.values[name]}
+					checked={!!validation.values[name]}
 					inputClassName="form-check-input"
-					onChange={validation.handleChange}
+					onClick={() =>
+						validation.setFieldValue(name, !validation.values[name])
+					}
 					onBlur={validation.handleBlur}
 					disabled={!!isDisabled}
 				/>
@@ -371,10 +377,10 @@ export const getField = (
 					type="checkbox"
 					id="customSwitch1"
 					name={name}
-					checked={validation.values[name]}
+					checked={!!validation.values[name]}
 					inputClassName="form-check-input"
-					value={validation.values[name]}
-					onChange={(e) => {
+					value={!!validation.values[name]}
+					onClick={(e) => {
 						validation.setFieldValue(name, !e.target.checked ? 2 : 0);
 					}}
 					onBlur={validation.handleBlur}
