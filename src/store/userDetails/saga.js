@@ -14,6 +14,10 @@ import {
 	createUserCommentFail,
 	resetUserLimitFail,
 	resetUserLimitSuccess,
+	updateSAUserStatusFail,
+	updateSAUserStatusSuccess,
+	markUserAsInternalSuccess,
+	markUserAsInternalFail,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
@@ -22,7 +26,9 @@ import {
 	GET_USER_COMMENTS,
 	GET_USER_DETAILS,
 	GET_USER_DOCUMENTS,
+	MARK_USER_AS_INTERNAL,
 	RESET_USER_LIMIT,
+	UPDATE_SA_USER_STATUS,
 } from './actionTypes';
 import {
 	getCommentsList,
@@ -37,6 +43,10 @@ import {
 	resetUserLimitCall,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
+import {
+	markUserAsInternal,
+	updateSAUserStatusCall,
+} from '../../network/putRequests';
 
 function* getUserDetailsWorker(action) {
 	try {
@@ -130,6 +140,44 @@ function* disableUserWorker(action) {
 	}
 }
 
+function* updateSAUserStatusWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield updateSAUserStatusCall(payload);
+		yield put(updateSAUserStatusSuccess(data?.data));
+
+		showToastr({
+			message: `Preferences Saved Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(updateSAUserStatusFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* markUserAsInternalWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield markUserAsInternal(payload);
+		yield put(markUserAsInternalSuccess(data?.data));
+
+		showToastr({
+			message: `User Marked as Internal`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(markUserAsInternalFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -138,6 +186,8 @@ function* userDetailsWatcher() {
 	yield takeLatest(CREATE_USER_COMMENT, createUserCommentWorker);
 	yield takeLatest(RESET_USER_LIMIT, resetUserLimitWorker);
 	yield takeLatest(DISABLE_USER, disableUserWorker);
+	yield takeLatest(UPDATE_SA_USER_STATUS, updateSAUserStatusWorker);
+	yield takeLatest(MARK_USER_AS_INTERNAL, markUserAsInternalWorker);
 }
 
 function* UserDetailsSaga() {

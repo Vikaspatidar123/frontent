@@ -17,10 +17,16 @@ import {
 	GET_USER_DOCUMENTS,
 	GET_USER_DOCUMENTS_FAIL,
 	GET_USER_DOCUMENTS_SUCCESS,
+	MARK_USER_AS_INTERNAL,
+	MARK_USER_AS_INTERNAL_FAIL,
+	MARK_USER_AS_INTERNAL_SUCCESS,
 	RESET_USER_LIMIT,
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
+	UPDATE_SA_USER_STATUS,
+	UPDATE_SA_USER_STATUS_FAIL,
+	UPDATE_SA_USER_STATUS_SUCCESS,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -130,5 +136,35 @@ export const disableUserFail = (payload) => ({
 
 export const disableUser = (payload) => ({
 	type: DISABLE_USER,
+	payload,
+});
+
+export const updateSAUserStatusSuccess = (payload) => ({
+	type: UPDATE_SA_USER_STATUS_SUCCESS,
+	payload,
+});
+
+export const updateSAUserStatusFail = (payload) => ({
+	type: UPDATE_SA_USER_STATUS_FAIL,
+	payload,
+});
+
+export const updateSAUserStatus = (payload) => ({
+	type: UPDATE_SA_USER_STATUS,
+	payload,
+});
+
+export const markUserAsInternalSuccess = (payload) => ({
+	type: MARK_USER_AS_INTERNAL_SUCCESS,
+	payload,
+});
+
+export const markUserAsInternalFail = (payload) => ({
+	type: MARK_USER_AS_INTERNAL_FAIL,
+	payload,
+});
+
+export const markUserAsInternal = (payload) => ({
+	type: MARK_USER_AS_INTERNAL,
 	payload,
 });

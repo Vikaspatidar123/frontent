@@ -17,10 +17,16 @@ import {
 	GET_USER_DOCUMENTS,
 	GET_USER_DOCUMENTS_FAIL,
 	GET_USER_DOCUMENTS_SUCCESS,
+	MARK_USER_AS_INTERNAL,
+	MARK_USER_AS_INTERNAL_FAIL,
+	MARK_USER_AS_INTERNAL_SUCCESS,
 	RESET_USER_LIMIT,
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
+	UPDATE_SA_USER_STATUS,
+	UPDATE_SA_USER_STATUS_FAIL,
+	UPDATE_SA_USER_STATUS_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -45,6 +51,12 @@ const INIT_STATE = {
 	disableUserSuccess: false,
 	disableUserLoading: false,
 	disableUserError: false,
+	updateSAUserStatusSuccess: false,
+	updateSAUserStatusLoading: false,
+	updateSAUserStatusError: false,
+	markUserAsInternalLoading: false,
+	markUserAsInternalSuccess: false,
+	markUserAsInternalError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -208,6 +220,50 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				disableUserError: payload,
 				disableUserLoading: true,
 				disableUserSuccess: false,
+			};
+
+		case UPDATE_SA_USER_STATUS:
+			return {
+				...state,
+				updateSAUserStatusLoading: true,
+			};
+
+		case UPDATE_SA_USER_STATUS_SUCCESS:
+			return {
+				...state,
+				updateSAUserStatusLoading: false,
+				updateSAUserStatusSuccess: true,
+				updateSAUserStatusError: null,
+			};
+
+		case UPDATE_SA_USER_STATUS_FAIL:
+			return {
+				...state,
+				updateSAUserStatusError: payload,
+				updateSAUserStatusLoading: false,
+				updateSAUserStatusSuccess: false,
+			};
+
+		case MARK_USER_AS_INTERNAL:
+			return {
+				...state,
+				markUserAsInternalLoading: true,
+			};
+
+		case MARK_USER_AS_INTERNAL_SUCCESS:
+			return {
+				...state,
+				markUserAsInternalLoading: false,
+				markUserAsInternalSuccess: true,
+				markUserAsInternalError: null,
+			};
+
+		case MARK_USER_AS_INTERNAL_FAIL:
+			return {
+				...state,
+				markUserAsInternalError: payload,
+				markUserAsInternalLoading: false,
+				markUserAsInternalSuccess: false,
 			};
 		default:
 			return { ...state };
