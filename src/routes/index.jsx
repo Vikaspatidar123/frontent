@@ -70,7 +70,7 @@ import TwostepVerification from '../pages/AuthenticationInner/auth-two-step-veri
 import TwostepVerification2 from '../pages/AuthenticationInner/auth-two-step-verification-2';
 
 // // Dashboard
-import Dashboard from '../pages/Dashboard/index';
+// import Dashboard from '../pages/Dashboard/index';
 // import DashboardSaas from "../pages/Dashboard-saas/index";
 // import DashboardCrypto from "../pages/Dashboard-crypto/index";
 // import Blog from "../pages/Dashboard-Blog/index";
@@ -213,7 +213,8 @@ import ImageGallery from '../pages/ImageGallery';
 // import UiProgressbar from "../../src/pages/Ui/UiProgressbar"
 
 const authProtectedRoutes = [
-	{ path: '/dashboard-view', component: <Dashboard /> },
+	// { path: '/dashboard-view', component: <Dashboard /> },
+	{ path: '/', component: <DashboardView /> },
 	{ path: '/dashboard', component: <DashboardView /> },
 	{ path: '/categories', component: <CasinoCategory /> },
 	{ path: '/sub-categories', component: <CasinoSubCategory /> },
@@ -229,8 +230,6 @@ const authProtectedRoutes = [
 	{ path: '/forms7', component: <FormRepeater /> },
 	{ path: '/forms8', component: <FormUpload /> },
 	{ path: '/forms9', component: <FormWizard /> },
-
-	{ path: '*', component: <Dashboard /> },
 	{ path: '/staff', component: <Admins /> },
 	{ path: '/staff/add', component: <AddAdmin /> },
 	{ path: '/staff/edit/:adminUserId', component: <EditAdmin /> },
@@ -411,6 +410,7 @@ const authProtectedRoutes = [
 	// //   // this route should be at the end of all other routes
 	// //   // eslint-disable-next-line react/display-name
 	// { path: "/", exact: true, component: <Navigate to="/dashboard" /> },
+	{ path: '*', component: <DashboardView /> },
 ];
 
 const publicRoutes = [

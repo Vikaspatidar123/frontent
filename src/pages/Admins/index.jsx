@@ -9,7 +9,6 @@ import {
 	projectName,
 	tableCustomClass,
 	tbodyClass,
-	theadClass,
 } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useActions from './hooks/useActions';
@@ -65,7 +64,6 @@ const Admins = ({ t }) => {
 									customPageSize={itemsPerPage}
 									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
 									tbodyClass={tbodyClass}
-									theadClass={theadClass}
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									totalPageCount={totalAdminsCount}

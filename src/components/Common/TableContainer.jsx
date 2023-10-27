@@ -14,12 +14,14 @@ import {
 } from 'react-table';
 import { Table, Spinner, Col, Row } from 'reactstrap';
 import ReactPaginate from 'react-paginate';
+import { useSelector } from 'react-redux';
 import { CustomSelectField } from '../../helpers/customForms';
+import { defaultPageSize, rowsPerPageOptions } from './constants';
 
 const TableContainer = ({
 	columns,
 	data,
-	customPageSize = 10,
+	customPageSize = defaultPageSize,
 	tableClass,
 	paginationDiv,
 	isPagination,
@@ -28,7 +30,6 @@ const TableContainer = ({
 	totalPageCount,
 	isManualPagination,
 	onChangePagination,
-	// currentPage,
 	isLoading = false,
 	thCustomClass = '',
 	changeRowsPerPageCallback,
@@ -36,6 +37,9 @@ const TableContainer = ({
 	tbodyHeight,
 }) => {
 	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
+	const tableHeaderClass = useSelector(
+		(state) => state.Layout.tableHeaderClass
+	);
 	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
 		useTable(
 			{
@@ -62,34 +66,6 @@ const TableContainer = ({
 		}
 	};
 
-	const rowsPerPageOptions = [
-		{
-			id: 1,
-			optionLabel: 10,
-			value: 10,
-		},
-		{
-			id: 2,
-			optionLabel: 15,
-			value: 15,
-		},
-		{
-			id: 3,
-			optionLabel: 20,
-			value: 20,
-		},
-		{
-			id: 4,
-			optionLabel: 25,
-			value: 25,
-		},
-		{
-			id: 5,
-			optionLabel: 30,
-			value: 30,
-		},
-	];
-
 	const onChangeRowsPerPage = (e) => {
 		setRowsPerPage(e.target.value);
 		changeRowsPerPageCallback(e.target.value);
@@ -101,7 +77,7 @@ const TableContainer = ({
 				<Table {...getTableProps()} className={tableClass} id="generic-table">
 					{!hideHeader && (
 						<thead
-							className={`table-light ${theadClass}`}
+							className={`${tableHeaderClass} ${theadClass}`}
 							id="generic-table-head"
 						>
 							{headerGroups.map((headerGroup) => (
