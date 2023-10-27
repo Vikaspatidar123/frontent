@@ -18,28 +18,12 @@ import {
 import { getAllAdmins } from '../../network/getRequests';
 import { addSuperAdminUser } from '../../network/postRequests';
 import { updateSuperAdminUser } from '../../network/putRequests';
-import { showToastr } from '../../utils/helpers';
+import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 
 function* getAdminsDetail(action) {
-	const {
-		limit,
-		pageNo,
-		orderBy,
-		search,
-		sort,
-		adminRoleId,
-		status = '',
-	} = action && action.payload;
 	try {
-		const { data } = yield getAllAdmins({
-			limit,
-			pageNo,
-			orderBy,
-			search,
-			sort,
-			adminRoleId,
-			status,
-		});
+		const payload = clearEmptyProperty(action.payload);
+		const { data } = yield getAllAdmins(payload);
 		yield put(getAdminDetailsSuccess(data?.data?.adminDetails));
 	} catch (error) {
 		yield put(

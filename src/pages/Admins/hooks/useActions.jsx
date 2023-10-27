@@ -2,6 +2,7 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer';
+import { isEmpty } from 'lodash';
 import {
 	leftStaticFormFields,
 	rightStaticFormFields,
@@ -19,6 +20,7 @@ import {
 import { getPermissionsStart } from '../../../store/auth/permissionDetails/actions';
 import {
 	addSuperAdminUserStart,
+	getAdminDetails,
 	updateSuperAdminUserStart,
 } from '../../../store/actions';
 import useAdminListing from './useAdminListing';
@@ -32,9 +34,11 @@ const useActions = (isEditPage) => {
 	const { adminDetails, superAdminUser, isAdminLoading } = useSelector(
 		(state) => state.PermissionDetails
 	);
-	const { isAddSuperUserLoading, isUpdateSuperUserLoading } = useSelector(
-		(state) => state.AllAdmins
-	);
+	const {
+		isAddSuperUserLoading,
+		isUpdateSuperUserLoading,
+		adminDetails: allAdminList,
+	} = useSelector((state) => state.AllAdmins);
 	const [customComponent, setCustomComponent] = useState();
 	const [isEdit, setIsEdit] = useState(isEditPage || false);
 
@@ -133,7 +137,7 @@ const useActions = (isEditPage) => {
 	]);
 
 	const setCustomFields = () => {
-		if (roles?.length && groups?.length) {
+		if (roles?.length && groups?.length && allAdminList.rows?.length) {
 			let customField = {};
 
 			const roleOptions = roles
@@ -152,13 +156,18 @@ const useActions = (isEditPage) => {
 					value: g,
 				}));
 
+			const adminOptions = allAdminList?.rows?.map((ad) => ({
+				optionLabel: `${ad.firstName} ${ad.lastName}`,
+				value: ad.adminUserId,
+			}));
+
 			if (validation?.values?.role === 'Manager') {
 				customField = {
 					name: 'adminId',
 					fieldType: 'select',
 					label: 'Admin',
 					placeholder: 'Select Admin',
-					optionList: formattedAdminDetails,
+					optionList: adminOptions,
 					callBack: handleAdminSelect,
 					isDisabled: isEdit,
 				};
@@ -191,17 +200,28 @@ const useActions = (isEditPage) => {
 	};
 
 	useEffect(() => {
-		if (!roles?.length) {
+		if (isEmpty(roles)) {
 			dispatch(getRolesStart());
 		}
-		if (!groups?.length) {
+		if (isEmpty(groups)) {
 			dispatch(getAllGroupsStart());
+		}
+		if (isEmpty(allAdminList)) {
+			dispatch(
+				getAdminDetails({
+					limit: itemsPerPage,
+					pageNo: page,
+					orderBy: 'adminUserId',
+					sort: 'desc',
+				})
+			);
 		}
 	}, []);
 
 	useEffect(() => {
-		setCustomFields();
-	}, [roles, groups, validation?.values?.role, isEdit]);
+		if (!isEmpty(roles) && !isEmpty(groups) && !isEmpty(allAdminList))
+			setCustomFields();
+	}, [roles, groups, validation?.values?.role, isEdit, allAdminList]);
 
 	useEffect(() => {
 		// if(validation?.values?.role === 'Admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
