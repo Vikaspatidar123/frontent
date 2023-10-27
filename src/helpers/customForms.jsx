@@ -246,7 +246,7 @@ export const CustomToggleButton = ({
 	disabled,
 	...rest
 }) => (
-	<span className="form-check form-switch form-switch-md mb-3 mt-5">
+	<span className="form-check form-switch form-switch-md mb-3 mt-3">
 		{label && (
 			<Label htmlFor={htmlFor} className={labelClassName}>
 				{label}
