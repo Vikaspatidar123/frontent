@@ -1,7 +1,7 @@
 const sideBarElements = [
 	{
 		link: '/#',
-		label: 'Dashboards',
+		label: 'General',
 		searchString: 'dashboards home',
 		iconName: 'bx bx-home-circle',
 		linkClass: 'has-arrow',
@@ -12,8 +12,8 @@ const sideBarElements = [
 		subMenu: [
 			{
 				link: '/dashboard',
-				label: 'Default',
-				searchString: 'default dashboard',
+				label: 'Dashboard',
+				searchString: 'default dashboard home',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',
@@ -36,17 +36,6 @@ const sideBarElements = [
 				link: '/staff',
 				label: 'Staff',
 				searchString: 'staff admin superadmin listing',
-				iconName: '',
-				linkClass: '',
-				anchorClass: '',
-				spanClass: '',
-				liTagClass: '',
-				ulTagClass: '',
-			},
-			{
-				link: '/listing',
-				label: 'Listing',
-				searchString: 'listing',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',

@@ -28,7 +28,7 @@ import {
 	changeSidebarType,
 } from '../../store/actions';
 import { socialHandles } from '../../constants/generalConfig';
-import NavigationSearch from './NavigationSearch';
+// import NavigationSearch from './NavigationSearch';
 
 const Header = (props) => {
 	const [search, setsearch] = useState(false);
@@ -99,7 +99,7 @@ const Header = (props) => {
 						<i className="fa fa-fw fa-bars" />
 					</button>
 
-					<NavigationSearch />
+					{/* <NavigationSearch /> */}
 
 					<Dropdown
 						className="dropdown-mega d-none d-lg-block ms-2"
@@ -227,7 +227,10 @@ const Header = (props) => {
 					</div>
 
 					<NotificationDropdown />
-					<ProfileMenu />
+					<ProfileMenu
+						showRightSidebarAction={props.showRightSidebarAction}
+						showRightSidebar={props.showRightSidebar}
+					/>
 
 					<div
 						onClick={() => {
