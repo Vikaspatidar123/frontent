@@ -11,6 +11,7 @@ import {
 	TOGGLE_LEFTMENU,
 	SHOW_SIDEBAR,
 	CHANGE_LAYOUT_MODE,
+	SET_TABLE_HEADER_THEME,
 } from './actionTypes';
 
 // constants
@@ -22,6 +23,7 @@ import {
 	leftBarThemeImageTypes,
 	leftSidebarTypes,
 	leftSideBarThemeTypes,
+	tableHeaderClass,
 } from '../../constants/layout';
 
 const INIT_STATE = {
@@ -37,6 +39,7 @@ const INIT_STATE = {
 	isMobile: false,
 	showSidebar: true,
 	leftMenu: false,
+	tableHeaderClass: tableHeaderClass.GREY,
 };
 
 const Layout = (state = INIT_STATE, { type, payload } = {}) => {
@@ -96,7 +99,11 @@ const Layout = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				leftMenu: payload,
 			};
-
+		case SET_TABLE_HEADER_THEME:
+			return {
+				...state,
+				tableHeaderClass: payload,
+			};
 		default:
 			return state;
 	}
