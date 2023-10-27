@@ -322,8 +322,9 @@ export const getField = (
 					isClearable
 					type="select"
 					onChange={(e) => {
+						validation.handleChange(e);
 						// eslint-disable-next-line no-unused-expressions
-						callBack ? callBack(e) : validation.handleChange(e);
+						callBack ? callBack(e) : null;
 					}}
 					onBlur={validation.handleBlur}
 					placeholder={placeholder}
