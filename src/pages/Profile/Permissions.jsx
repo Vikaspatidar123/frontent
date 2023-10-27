@@ -4,46 +4,49 @@ import { Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
 import { permissionIcons, permissionLabel } from '../../constants/permissions';
 
 const Permissions = ({ details }) => (
-	<Row>
-		{details &&
-			Object.keys(details?.userPermission?.permission).map(
-				(key) =>
-					details?.userPermission?.permission[key]?.length > 0 && (
-						<Col md={6} xl={3} key={key}>
-							<Card className="p-3">
-								<div
-									display="inline-flex"
-									className="justify-content-start p-2 m-2 d-flex"
-								>
-									<span className="icon font-size-20">
-										{permissionIcons()?.[key]}
-									</span>
-									<CardTitle>{`  ${key}`}</CardTitle>
-								</div>
-								<CardBody>
-									{details?.userPermission?.permission[key].map(
-										(permissionKey) => (
-											<div
-												// justifyContent="space-between"
-												className="d-flex justify-content-between"
-												key={permissionKey}
-											>
-												<span>{permissionLabel(permissionKey)}</span>
-												<img
-													width={16}
-													src="src/assets/images/small/check.svg"
-													className="check-img"
-													alt="Check"
-												/>
-											</div>
-										)
-									)}
-								</CardBody>
-							</Card>
-						</Col>
-					)
-			)}
-	</Row>
+  <Row>
+    <div className='p-3 card'>
+      <div className='row'>
+        {details &&
+          Object.keys(details?.userPermission?.permission).map(
+            (key) =>
+              details?.userPermission?.permission[key]?.length > 0 && (
+
+                <div className="mb-4 col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                  <div className="permissions-card card card-bg">
+                    <div className="fw-bold card-header d-flex  align-items-center gap-3 p-0">
+                      <span className="icon font-size-20 px-3 py-2 icon-bg">
+                        {permissionIcons()?.[key]}
+                      </span>
+                      <span className='text'>{`  ${key}`}</span>
+                    </div>
+                    <div className='list-group list-group-flush'>
+                      {details?.userPermission?.permission[key].map(
+                        (permissionKey) => (
+                          <div
+                            // justifyContent="space-between"
+                            className="d-flex justify-content-between align-items-center py-1 px-3 list-group-item"
+                            key={permissionKey}
+                          >
+                            <small>{permissionLabel(permissionKey)}</small>
+                            <img
+                              width={16}
+                              src="src/assets/images/small/check.svg"
+                              className="check-img"
+                              alt="Check"
+                            />
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+              )
+          )}
+      </div>
+    </div>
+  </Row>
 );
 
 Permissions.defaultProps = {};
