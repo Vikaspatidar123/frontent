@@ -311,6 +311,7 @@ export const getField = (
 					isError
 					errorMsg={validation.touched[name] && validation.errors[name]}
 					disabled={!!isDisabled}
+					min={minimum}
 				/>
 			);
 		case 'select':

@@ -14,6 +14,7 @@ import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
+import useCreateWageringTemplate from './hooks/useCreateWagringTemplate';
 
 const columns = [
 	{
@@ -51,6 +52,8 @@ const WageringTemplate = ({ t }) => {
 		onChangeRowsPerPage,
 	} = useWageringTemplate();
 
+	const { buttonList } = useCreateWageringTemplate();
+
 	const {
 		toggleAdvance,
 		isAdvanceOpen,
@@ -69,7 +72,7 @@ const WageringTemplate = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Templates Listing" />
+							<CrudSection buttonList={buttonList} title="Templates Listing" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}
