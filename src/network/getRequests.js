@@ -123,15 +123,8 @@ const getAllSABanners = ({ limit, pageNo }) =>
 const getSportsMatches = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/matches`, payload);
 
-const getSportsMarkets = ({
-	limit,
-	pageNo,
-	isLive = true,
-	providerSportId = '1',
-}) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/sportsbook/markets?limit=${limit}&pageNo=${pageNo}&isLive=${isLive}&providerSportId=${providerSportId}`
-	);
+const getSportsMarkets = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/markets`, payload);
 const getAllGroups = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/all-group`);
 
