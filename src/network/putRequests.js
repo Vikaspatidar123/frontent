@@ -12,7 +12,9 @@ const updateProfile = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/profile`, data);
 
 const updateSiteConfiguration = (data) =>
-	putRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 const resetProfilePassword = ({ data }) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/change-password`, data);
