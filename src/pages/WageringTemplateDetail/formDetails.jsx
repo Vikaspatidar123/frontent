@@ -20,8 +20,8 @@ const filterValidationSchema = () =>
 		search: Yup.string().nullable(),
 	});
 
-const getInitialValues = () => ({
-	name: '',
+const getInitialValues = (defaultValue) => ({
+	name: defaultValue?.name || '',
 	customValue: '',
 	search: '',
 });

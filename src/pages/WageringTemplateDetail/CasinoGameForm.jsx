@@ -1,7 +1,6 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/prop-types */
-import React, { useMemo, useState } from 'react';
-// import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 
 import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
@@ -50,8 +49,9 @@ const CasinoGamesForm = ({
 	onChangeRowsPerPage,
 	itemsPerPage,
 	isCasinoGamesLoading,
+	page,
+	setPage,
 }) => {
-	const [page, setPage] = useState(1);
 	const formattedCasinoGames = useMemo(() => {
 		if (casinoGames) {
 			return casinoGames?.rows?.map((game) => {

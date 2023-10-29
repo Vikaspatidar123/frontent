@@ -77,6 +77,9 @@ const updateSAUserStatusCall = (data) =>
 const markUserAsInternal = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/user/internal`, data);
 
+const updateWageringTemplate = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -99,4 +102,5 @@ export {
 	uploadGallery,
 	updateSAUserStatusCall,
 	markUserAsInternal,
+	updateWageringTemplate,
 };
