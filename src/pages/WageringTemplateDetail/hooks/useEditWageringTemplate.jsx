@@ -1,15 +1,18 @@
-import React, { useMemo, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import useWageringTemplate from './useWageringTemplate';
 import CasinoGameForm from '../CasinoGameForm';
+
+import { showLinearProgress } from '../../../store/progressLoading/actions';
+
 import {
 	getCasinoProvidersDataStart,
 	getCasinoGamesStart,
-	createWageringTemplateDetails,
+	editWageringTemplateDetails,
 } from '../../../store/actions';
 
 import {
@@ -19,23 +22,22 @@ import {
 	rightStaticFormFields,
 } from '../formDetails';
 
-const useCreateWageringTemplate = () => {
+const useEditWageringTemplate = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { wageringTemplateId } = useParams();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [customComponent, setCustomComponent] = useState();
 	const { wageringTemplateDetail } = useWageringTemplate();
 	const [selectedId, setSelectedId] = useState([]);
 
-	// const [isEdit, setIsEdit] = useState(isEditPage || false);
+	const { casinoProvidersData, casinoGames, isCasinoGamesLoading } =
+		useSelector((state) => state.CasinoManagementData);
 
-	const {
-		casinoProvidersData,
-		casinoGames,
-		isCasinoGamesLoading,
-		createWageringTemplateDetailLoading,
-	} = useSelector((state) => state.CasinoManagementData);
+	const { SAWageringTemplate, SAWageringTemplateLoading } = useSelector(
+		(state) => state.WageringTemplate
+	);
 
 	const formSubmitHandler = (values) => {
 		const templateData = {
@@ -43,6 +45,7 @@ const useCreateWageringTemplate = () => {
 			gameContribution: Object.fromEntries(
 				selectedId?.map((id) => [id.casinoGameId, values.customValue])
 			),
+			wageringTemplateId: Number(wageringTemplateId),
 		};
 		if (Object.keys(templateData.gameContribution).length < 1) {
 			showToastr({
@@ -50,9 +53,8 @@ const useCreateWageringTemplate = () => {
 				type: 'error',
 			});
 		} else {
-			dispatch(createWageringTemplateDetails({ templateData, navigate }));
+			dispatch(editWageringTemplateDetails({ templateData, navigate }));
 		}
-
 		setSelectedId([]);
 	};
 
@@ -69,7 +71,7 @@ const useCreateWageringTemplate = () => {
 		setRightFormFields,
 		setHeader,
 	} = useForm({
-		header: 'Create',
+		header: 'Edit Wagering Template',
 		initialValues: getInitialValues(),
 		validationSchema: createWageringTemplate,
 		onSubmitEntry: formSubmitHandler,
@@ -141,19 +143,15 @@ const useCreateWageringTemplate = () => {
 		page,
 	]);
 
-	const handleCreateClick = (e) => {
-		e.preventDefault();
-		setHeader('Create');
-		navigate('create');
+	const handleEditClick = (row) => {
+		navigate(`edit/${row.wageringTemplateId}`);
+		dispatch(showLinearProgress());
 	};
 
-	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleCreateClick,
-			link: '#!',
-		},
-	]);
+	const handleViewClick = (row) => {
+		navigate(`details/${row.wageringTemplateId}`);
+		dispatch(showLinearProgress);
+	};
 
 	return {
 		header,
@@ -163,14 +161,21 @@ const useCreateWageringTemplate = () => {
 		setLeftFormFields,
 		setRightFormFields,
 		setHeader,
-		buttonList,
+		handleEditClick,
+		handleViewClick,
 		customComponent,
 		setCustomComponent,
 		selectedId,
 		setSelectedId,
 		isCasinoGamesLoading,
-		createWageringTemplateDetailLoading,
+		SAWageringTemplate,
+		itemsPerPage,
+		SAWageringTemplateLoading,
+		onChangeRowsPerPage,
+		page,
+		setPage,
+		wageringTemplateDetail,
 	};
 };
 
-export default useCreateWageringTemplate;
+export default useEditWageringTemplate;

@@ -41,15 +41,10 @@ const getAggregators = ({ limit, pageNo }) =>
 		`${VITE_APP_API_URL}/api/admin/casino/aggregators?limit=${limit}&pageNo=${pageNo}`
 	);
 
-const getSuperAdminWageringTemplateDetail = ({
-	wageringTemplateId,
-	limit,
-	pageNo,
-	providerId,
-	search,
-}) =>
+const getSuperAdminWageringTemplateDetail = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}/api/admin/wagering-template/details?wageringTemplateId=${wageringTemplateId}&pageNo=${pageNo}&limit=${limit}&providerId=${providerId}&search=${search}`
+		`${VITE_APP_API_URL}/api/admin/wagering-template/details`,
+		payload
 	);
 
 const getSuperAdminWageringTemplate = (payload) =>

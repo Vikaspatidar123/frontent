@@ -1,5 +1,6 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 
@@ -15,33 +16,12 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useCreateWageringTemplate from './hooks/useCreateWagringTemplate';
-
-const columns = [
-	{
-		Header: 'TEMPLATE ID',
-		accessor: 'wageringTemplateId',
-		filterable: true,
-		Cell: ({ cell }) => <WageringTemplateId cell={cell} />,
-	},
-	{
-		Header: 'TEMPLATE NAME',
-		accessor: 'name',
-		filterable: true,
-		Cell: ({ cell }) => <TemplateName cell={cell} />,
-	},
-	{
-		Header: 'ACTION',
-		accessor: 'action',
-		disableFilters: true,
-		Cell: () => <ActionButtons />,
-	},
-];
+import useEditWageringTemplate from './hooks/useEditWageringTemplate';
 
 const WageringTemplate = ({ t }) => {
 	// Set meta title
 	document.title = projectName;
 
-	// Fetch CMS page data and manage pagination state
 	const {
 		wageringTemplateDetail,
 		wageringTemplateDetailLoading,
@@ -52,7 +32,39 @@ const WageringTemplate = ({ t }) => {
 		onChangeRowsPerPage,
 	} = useWageringTemplate();
 
+	const { handleEditClick, handleViewClick } = useEditWageringTemplate();
+
 	const { buttonList } = useCreateWageringTemplate();
+
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'TEMPLATE ID',
+				accessor: 'wageringTemplateId',
+				filterable: true,
+				Cell: ({ cell }) => <WageringTemplateId cell={cell} />,
+			},
+			{
+				Header: 'TEMPLATE NAME',
+				accessor: 'name',
+				filterable: true,
+				Cell: ({ cell }) => <TemplateName cell={cell} />,
+			},
+			{
+				Header: 'ACTION',
+				accessor: 'action',
+				disableFilters: true,
+				Cell: ({ cell }) => (
+					<ActionButtons
+						cell={cell}
+						handleEdit={handleEditClick}
+						handleView={handleViewClick}
+					/>
+				),
+			},
+		],
+		[]
+	);
 
 	const {
 		toggleAdvance,
@@ -67,7 +79,7 @@ const WageringTemplate = ({ t }) => {
 			<Container fluid>
 				<Breadcrumbs
 					title={t('Wagering Template List')}
-					breadcrumbItem={t('wagering Template')}
+					breadcrumbItem={t('Wagering Template')}
 				/>
 				<Row>
 					<Col lg="12">
