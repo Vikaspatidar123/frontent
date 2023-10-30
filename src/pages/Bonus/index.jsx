@@ -9,6 +9,7 @@ import useBonusListing from './hooks/useBonusListing';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
+import useCreateBonus from './hooks/useCreateBonus';
 
 const BonusDetail = ({ t }) => {
 	// meta title
@@ -33,6 +34,8 @@ const BonusDetail = ({ t }) => {
 		filterValidation,
 	} = useFilters();
 
+	const { buttonList } = useCreateBonus();
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -44,7 +47,7 @@ const BonusDetail = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Bonus Listing" />
+							<CrudSection buttonList={buttonList} title="Bonus Listing" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

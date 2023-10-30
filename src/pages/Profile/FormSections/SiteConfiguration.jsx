@@ -8,12 +8,12 @@ import {
 	getSiteConfigInitialValues,
 	leftStaticSiteConfigFormFields,
 	rightStaticSiteConfigFormFields,
-} from './formDetails';
+} from '../formDetails';
 
-import useForm from '../../components/Common/Hooks/useFormModal';
+import useForm from '../../../components/Common/Hooks/useFormModal';
 
-import Spinners from '../../components/Common/Spinner';
-import FormPage from '../../components/Common/FormPage';
+import Spinners from '../../../components/Common/Spinner';
+import FormPage from '../../../components/Common/FormPage';
 
 const SiteConfig = ({
 	details,

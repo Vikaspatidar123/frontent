@@ -175,7 +175,7 @@ import Cms from '../pages/Cms';
 import CasinoCategory from '../pages/CasinoCategory';
 import CasinoSubCategory from '../pages/CasinoSubCategory';
 import CasinoAggregators from '../pages/Casino Management/Aggregators';
-import BonusDetail from '../pages/BonusListing';
+import BonusDetail from '../pages/Bonus';
 import LanguageList from '../pages/LanguageList';
 import CurrencyList from '../pages/CurrencyList';
 import LanguageManagementList from '../pages/LanguageManagement';
@@ -208,6 +208,7 @@ import LoyaltyManagement from '../pages/LoyaltyManagement';
 import DashboardView from '../pages/DashboardView';
 import PlayerDetailsPage from '../pages/PlayerDetails';
 import ImageGallery from '../pages/ImageGallery';
+import CreateBonus from '../pages/Bonus/CreateBonus';
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
 // import ContactsList from "../pages/Contacts/ContactList/contacts-list";
@@ -239,6 +240,7 @@ const authProtectedRoutes = [
 	{ path: '/cms', component: <Cms /> },
 	{ path: '/casino-aggregators', component: <CasinoAggregators /> },
 	{ path: '/bonus', component: <BonusDetail /> },
+	{ path: '/bonus/create', component: <CreateBonus /> },
 	{ path: '/languages', component: <LanguageList /> },
 	{ path: '/currencies', component: <CurrencyList /> },
 	{ path: '/languages-management', component: <LanguageManagementList /> },

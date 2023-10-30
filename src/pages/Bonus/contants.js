@@ -9,4 +9,10 @@ const types = [
 	{ label: 'JOINING', value: 'joining', id: 7 },
 ];
 
-export default types;
+const bonusTypes = [
+	{ label: 'DEPOSIT', value: 'deposit', id: 1 },
+	{ label: 'FREESPINS', value: 'freespins', id: 2 },
+	{ label: 'PROMOTION', value: 'promotion', id: 3 },
+];
+
+export { types, bonusTypes };

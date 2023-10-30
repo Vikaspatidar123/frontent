@@ -5,16 +5,16 @@ import { useDispatch } from 'react-redux';
 import { Row, Col } from 'reactstrap';
 import { Buffer } from 'buffer';
 
-import Spinners from '../../components/Common/Spinner';
-import useForm from '../../components/Common/Hooks/useFormModal';
-import FormPage from '../../components/Common/FormPage';
+import Spinners from '../../../components/Common/Spinner';
+import useForm from '../../../components/Common/Hooks/useFormModal';
+import FormPage from '../../../components/Common/FormPage';
 
-import { resetProfilePasswordStart } from '../../store/actions';
+import { resetProfilePasswordStart } from '../../../store/actions';
 import {
 	profilePasswordSchema,
 	getPasswordInitialValues,
 	staticPasswordFormFields,
-} from './formDetails';
+} from '../formDetails';
 
 const Password = ({ loading, isTenant }) => {
 	const dispatch = useDispatch();
