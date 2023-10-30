@@ -60,6 +60,18 @@ const CasinoGames = ({ t }) => {
 
 	const columns = [
 		{
+			Header: 'IS FEATURED',
+			Cell: () => (
+				<div className="form-check form-switch form-switch-md form-check-success d-flex justify-content-center">
+					<input
+						type="checkbox"
+						className="form-check-input"
+						id="customSwitchsizemd"
+					/>
+				</div>
+			),
+		},
+		{
 			Header: 'GAME ID',
 			accessor: 'casinoGameId',
 			filterable: true,
