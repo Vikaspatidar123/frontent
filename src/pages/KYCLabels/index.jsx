@@ -77,7 +77,7 @@ const KYCLabels = ({ t }) => {
 								) : (
 									formattedDocumentLabels?.map((label) => {
 										const labelId = label[0].documentLabelId;
-										const { isRequired } = label[0];
+										const { isRequired, languageData } = label[0];
 										return (
 											<div className="accordion" id="accordion" key={labelId}>
 												<div className="accordion-item">
@@ -121,8 +121,8 @@ const KYCLabels = ({ t }) => {
 														<div className="accordion-body">
 															<TableContainer
 																columns={columns}
-																data={label}
-																customPageSize={1}
+																data={languageData}
+																customPageSize={10}
 																tableClass="table-bordered align-middle nowrap mt-2"
 																theadClass="col-6"
 																paginationDiv="justify-content-center"

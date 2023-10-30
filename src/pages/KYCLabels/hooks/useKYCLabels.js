@@ -19,12 +19,14 @@ const useKYCLables = () => {
 	const formattedDocumentLabels = useMemo(() => {
 		if (documentLabels) {
 			return documentLabels.map((label) => {
-				const language = Object.keys(label.name)[0];
+				const language = Object.keys(label.name);
 				return [
 					{
 						...label,
-						language: `${languageCode[language]} ${language}`,
-						labelName: label.name[language],
+						languageData: language?.map((lan) => ({
+							language: `${languageCode[lan]} ${lan}`,
+							labelName: label.name[lan],
+						})),
 					},
 				];
 			});
