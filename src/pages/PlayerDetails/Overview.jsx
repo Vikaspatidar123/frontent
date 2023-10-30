@@ -12,6 +12,7 @@ import {
 	verifyUserEmail,
 } from '../../store/actions';
 import ManageTagModal from './modals/ManageTagModal';
+import Duplicates from './modals/Duplicates';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -19,7 +20,7 @@ const ColumnContainer = ({ hidden, children }) => (
 	</Col>
 );
 
-const Overview = ({ userDetails, userDetailsLoading }) => {
+const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 	const dispatch = useDispatch();
 	const { playerId } = useParams();
 	const [modalStates, setModalStates] = useState({
@@ -27,6 +28,7 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 		activeInactiveModal: false,
 		verifyEmailModal: false,
 		manageTagModal: false,
+		duplicatesModal: false,
 	});
 
 	const openModal = (modalName) => {
@@ -164,13 +166,10 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 									<ColumnContainer>
 										<Button
 											variant="outline-secondary"
-											onClick={() => {
-												// getDuplicateUsers()
-											}}
+											onClick={() => openModal('duplicatesModal')}
 											className="actionButton w-100"
 										>
-											Duplicates
-											{/* ({duplicateUsers?.count}) */}
+											Duplicates ({duplicateUsers?.count})
 										</Button>
 									</ColumnContainer>
 									<ColumnContainer>
@@ -374,6 +373,11 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 						show={modalStates.manageTagModal}
 						userDetails={userDetails}
 						handleClose={() => closeModal('manageTagModal')}
+					/>
+					<Duplicates
+						show={modalStates.duplicatesModal}
+						toggle={() => closeModal('duplicatesModal')}
+						header="Duplicates"
 					/>
 				</Row>
 			)}

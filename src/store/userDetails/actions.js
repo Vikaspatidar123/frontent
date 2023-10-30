@@ -5,6 +5,9 @@ import {
 	DISABLE_USER,
 	DISABLE_USER_FAIL,
 	DISABLE_USER_SUCCESS,
+	GET_DUPLICATE_USERS,
+	GET_DUPLICATE_USERS_FAIL,
+	GET_DUPLICATE_USERS_SUCCESS,
 	GET_USER_BONUS,
 	GET_USER_BONUS_FAIL,
 	GET_USER_BONUS_SUCCESS,
@@ -202,5 +205,20 @@ export const updateUserTagsFail = (payload) => ({
 
 export const updateUserTags = (payload) => ({
 	type: UPDATE_USER_TAGS,
+	payload,
+});
+
+export const getDuplicateUsersSuccess = (payload) => ({
+	type: GET_DUPLICATE_USERS_SUCCESS,
+	payload,
+});
+
+export const getDuplicateUsersFail = (payload) => ({
+	type: GET_DUPLICATE_USERS_FAIL,
+	payload,
+});
+
+export const getDuplicateUsers = (payload) => ({
+	type: GET_DUPLICATE_USERS,
 	payload,
 });

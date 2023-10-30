@@ -5,6 +5,9 @@ import {
 	DISABLE_USER,
 	DISABLE_USER_FAIL,
 	DISABLE_USER_SUCCESS,
+	GET_DUPLICATE_USERS,
+	GET_DUPLICATE_USERS_FAIL,
+	GET_DUPLICATE_USERS_SUCCESS,
 	GET_USER_BONUS,
 	GET_USER_BONUS_FAIL,
 	GET_USER_BONUS_SUCCESS,
@@ -69,6 +72,9 @@ const INIT_STATE = {
 	updateUserTagsLoading: false,
 	updateUserTagsSuccess: false,
 	updateUserTagsError: false,
+	getDuplicateUsersLoading: false,
+	duplicateUsers: false,
+	getDuplicateUsersError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -320,6 +326,28 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				updateUserTagsError: payload,
 				updateUserTagsLoading: false,
 				updateUserTagsSuccess: false,
+			};
+
+		case GET_DUPLICATE_USERS:
+			return {
+				...state,
+				getDuplicateUsersLoading: true,
+			};
+
+		case GET_DUPLICATE_USERS_SUCCESS:
+			return {
+				...state,
+				getDuplicateUsersLoading: false,
+				duplicateUsers: payload,
+				getDuplicateUsersError: null,
+			};
+
+		case GET_DUPLICATE_USERS_FAIL:
+			return {
+				...state,
+				getDuplicateUsersError: payload,
+				getDuplicateUsersLoading: false,
+				duplicateUsers: false,
 			};
 		default:
 			return { ...state };

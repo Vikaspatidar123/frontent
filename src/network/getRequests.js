@@ -151,6 +151,9 @@ const getImageGalleryData = () =>
 const getCommentsList = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user/comments`, payload);
 
+const getDuplicateUsers = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/user/duplicate`, payload);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -196,4 +199,5 @@ export {
 	getUserBonuses,
 	getCommentsList,
 	getDashboardDemoGraphicService,
+	getDuplicateUsers,
 };
