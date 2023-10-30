@@ -22,10 +22,13 @@ import {
 	verifyUserEmailFail,
 	updateUserTagsSuccess,
 	updateUserTagsFail,
+	getDuplicateUsersSuccess,
+	getDuplicateUsersFail,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
 	DISABLE_USER,
+	GET_DUPLICATE_USERS,
 	GET_USER_BONUS,
 	GET_USER_COMMENTS,
 	GET_USER_DETAILS,
@@ -38,6 +41,7 @@ import {
 } from './actionTypes';
 import {
 	getCommentsList,
+	getDuplicateUsers,
 	getUserBonuses,
 	getUserDetails,
 	getUserDocument,
@@ -224,6 +228,20 @@ function* updateUserTagsWorker(action) {
 	}
 }
 
+function* getDuplicateUsersWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getDuplicateUsers(payload);
+		yield put(getDuplicateUsersSuccess(data?.data?.users));
+	} catch (e) {
+		yield put(getDuplicateUsersFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -236,6 +254,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(MARK_USER_AS_INTERNAL, markUserAsInternalWorker);
 	yield takeLatest(VERIFY_USER_EMAIL, verifyUserEmailWorker);
 	yield takeLatest(UPDATE_USER_TAGS, updateUserTagsWorker);
+	yield takeLatest(GET_DUPLICATE_USERS, getDuplicateUsersWorker);
 }
 
 function* UserDetailsSaga() {

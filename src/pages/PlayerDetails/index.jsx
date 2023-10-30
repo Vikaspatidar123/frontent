@@ -54,7 +54,7 @@ const PlayerDetailsPage = ({ t }) => {
 		updateUserTagsSuccess,
 	]);
 
-	const { userDetails, userDetailsLoading } = useUserDetails({
+	const { userDetails, userDetailsLoading, duplicateUsers } = useUserDetails({
 		userId: playerId,
 	});
 
@@ -66,6 +66,7 @@ const PlayerDetailsPage = ({ t }) => {
 				<Overview
 					userDetails={userDetails}
 					userDetailsLoading={userDetailsLoading}
+					duplicateUsers={duplicateUsers}
 				/>
 			),
 		},

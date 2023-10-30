@@ -93,6 +93,11 @@ const TableContainer = ({
 										>
 											<div {...column.getSortByToggleProps()}>
 												{column.render('Header')}
+												{column.subLabel && (
+													<div style={{ fontSize: 12 }}>
+														({column.subLabel})
+													</div>
+												)}
 												{/* {generateSortingIndicator(column)} */}
 											</div>
 											{/* <Filter column={column} /> */}
