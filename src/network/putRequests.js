@@ -3,115 +3,112 @@ import { putRequest } from './axios';
 const { VITE_APP_API_URL } = import.meta.env;
 
 const updateSuperAdminUser = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/`, data);
 
 const updateAdmin = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/`, data); // No use
+	putRequest(`${VITE_APP_API_URL}/api/admin/`, data); // No use
 
 const updateProfile = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/profile`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/profile`, data);
 
 const updateSiteConfiguration = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data, {
-    'Content-Type': 'multipart/form-data',
-  });
+	putRequest(`${VITE_APP_API_URL}/api/admin/site-information`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 const resetProfilePassword = ({ data }) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/change-password`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/change-password`, data);
 
 const superAdminViewToggleStatus = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
 
 const updateStatus = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
 
 const updateKYCLabels = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/document-label`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/document-label`, data);
 
 const updateGlobalRegistration = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/global-registration`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/global-registration`, data);
 
 const updateCurrency = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/currency`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/currency`, data);
 
 const editCountryDetails = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/country/kyc-method`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/country/kyc-method`, data);
 
 const editCasinoCategory = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/casino/category`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/category`, data);
 
 const editCasinoProvider = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/casino/provider`, data, {
-    'Content-Type': 'multipart/form-data',
-  });
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/provider`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 const editCasinoSubCategory = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/casino/sub-category`, data, {
-    'Content-Type': 'multipart/form-data',
-  });
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/sub-category`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 const editCasinoGames = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/casino/game`, data, {
-    'Content-Type': 'multipart/form-data',
-  });
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/game`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 const editBanners = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/banner`, data, {
-    'Content-Type': 'multipart/form-data',
-  });
+	putRequest(`${VITE_APP_API_URL}/api/admin/banner`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 const editBetSettings = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/bet-settings`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/bet-settings`, data);
 
 const updateloyaltyLevel = ({ data }) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/bonus/loyalty-level`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/bonus/loyalty-level`, data);
 
 const uploadGallery = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/gallery`, data, {
-    'Content-Type': 'multipart/form-data',
-  });
+	putRequest(`${VITE_APP_API_URL}/api/admin/gallery`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 const updateSAUserStatusCall = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/status`, data);
 
 const markUserAsInternal = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/user/internal`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/internal`, data);
 
 const updateWageringTemplate = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, data);
 
 const verifyPlayerEmail = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/user/verify-email`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/verify-email`, data);
 
 const updateUserTags = (data) =>
-  putRequest(`${VITE_APP_API_URL}/api/admin/user/tags`, data);
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/tags`, data);
 
 export {
-  updateSuperAdminUser,
-  updateAdmin,
-  updateProfile,
-  updateSiteConfiguration,
-  resetProfilePassword,
-  superAdminViewToggleStatus,
-  updateStatus,
-  updateKYCLabels,
-  updateGlobalRegistration,
-  updateCurrency,
-  editCountryDetails,
-  editCasinoCategory,
-  editCasinoProvider,
-  editCasinoSubCategory,
-  editCasinoGames,
-  editBanners,
-  editBetSettings,
-  updateloyaltyLevel,
-  uploadGallery,
-  updateSAUserStatusCall,
-  markUserAsInternal,
-<<<<<<< HEAD
-  updateWageringTemplate,
-=======
+	updateSuperAdminUser,
+	updateAdmin,
+	updateProfile,
+	updateSiteConfiguration,
+	resetProfilePassword,
+	superAdminViewToggleStatus,
+	updateStatus,
+	updateKYCLabels,
+	updateGlobalRegistration,
+	updateCurrency,
+	editCountryDetails,
+	editCasinoCategory,
+	editCasinoProvider,
+	editCasinoSubCategory,
+	editCasinoGames,
+	editBanners,
+	editBetSettings,
+	updateloyaltyLevel,
+	uploadGallery,
+	updateSAUserStatusCall,
+	markUserAsInternal,
+	updateWageringTemplate,
 	verifyPlayerEmail,
 	updateUserTags,
->>>>>>> 8d3c3d1 (feat: manage tags modal)
 };
