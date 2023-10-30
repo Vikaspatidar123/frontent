@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
 	filterValidationSchema,
@@ -33,7 +33,7 @@ const useFilters = () => {
 	const { validation, formFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
-		onSubmitEntry: handleFilter,
+		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields,
 	});
 
@@ -47,22 +47,23 @@ const useFilters = () => {
 		fetchData(initialValues);
 	};
 
+	useEffect(() => {
+		const debounce = setTimeout(() => {
+			handleFilter(validation.values);
+		}, 600);
+		return () => clearTimeout(debounce);
+	}, [JSON.stringify(validation.values)]);
+
 	const actionButtons = useMemo(() => [
 		{
-			// type: 'button', // if you pass type button handle the click event
-			label: 'Filter',
-			icon: 'bx bx-filter-alt',
-			// handleClick: handleFilter,
-		},
-		{
 			type: 'button', // if you pass type button handle the click event
-			label: 'Clear',
-			icon: 'mdi mdi-close-thick',
+			label: '',
+			icon: 'mdi mdi-refresh',
 			handleClick: handleClear,
 		},
 		{
 			type: 'button',
-			label: 'Advance',
+			label: '',
 			icon: 'bx bx-add-to-queue',
 			handleClick: handleAdvance,
 			color: 'btn-secondary',

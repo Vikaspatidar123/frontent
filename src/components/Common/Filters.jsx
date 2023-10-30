@@ -34,7 +34,7 @@ const Filters = ({
 						{actionButtons?.map(
 							({ label, icon, handleClick, isHide, color, type }) =>
 								!isHide && (
-									<Col xxl={2} xl={2} lg={3} md={4} sm={5}>
+									<Col xxl={1} xl={1} lg={1} md={2} sm={2}>
 										<div className="position-relative h-100 hstack gap-3">
 											<button
 												type={type === 'button' ? 'button' : 'submit'}
