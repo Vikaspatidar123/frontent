@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Col, Row, Form, Card } from 'reactstrap';
@@ -16,6 +17,8 @@ const FormPage = ({
 	isEdit = false,
 	enableEdit,
 	formTitle,
+	colOptions,
+	responsiveFormFields,
 }) => (
 	<Card className="p-3">
 		<Row>
@@ -27,6 +30,7 @@ const FormPage = ({
 				}}
 			>
 				{formTitle && <div className="mb-4 card-title">{formTitle}</div>}
+				{/* Single column forms */}
 				<Row className="justify-content-center">
 					<Col lg={6}>
 						{staticFormFields?.map(
@@ -37,6 +41,7 @@ const FormPage = ({
 						)}
 					</Col>
 				</Row>
+				{/* Two column forms */}
 				<Row>
 					<Col className={`lg-6 ${customColClasses}`}>
 						{leftFormFields?.map(
@@ -54,6 +59,23 @@ const FormPage = ({
 								)
 						)}
 					</Col>
+				</Row>
+				{/* Responsive/customizable column forms */}
+				<Row className="justify-content-start">
+					{responsiveFormFields?.map(
+						(field) =>
+							!field?.isHide && (
+								<>
+									{field?.isNewRow && <div className="row" />}
+									<Col
+										{...(field?.fieldColOptions || colOptions)}
+										className="mb-3"
+									>
+										{getField(field, validation)}
+									</Col>
+								</>
+							)
+					)}
 				</Row>
 				<Row>{customComponent}</Row>
 				<Row>
@@ -103,6 +125,8 @@ FormPage.defaultProps = {
 	isEdit: false,
 	enableEdit: () => {},
 	formTitle: '',
+	colOptions: { xs: 12, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 },
+	responsiveFormFields: [],
 };
 
 FormPage.propTypes = {
@@ -118,6 +142,8 @@ FormPage.propTypes = {
 	customComponent: PropTypes.element,
 	isSubmitLoading: PropTypes.bool,
 	formTitle: PropTypes.string,
+	colOptions: PropTypes.objectOf,
+	responsiveFormFields: PropTypes.arrayOf,
 };
 
 export default FormPage;

@@ -4,6 +4,9 @@
 import React from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// Form Editor
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import {
 	Label,
@@ -279,6 +282,27 @@ export const CustomToggleButton = ({
 	</span>
 );
 
+export const CustomTextEditor = ({
+	label,
+	// value,
+	isError,
+	onChange,
+	// ...rest
+}) => (
+	<>
+		{label && <Label className="form-label">{label}</Label>}
+		{isError && label && <span className="text-danger"> *</span>}
+		<Editor
+			// {...rest}
+			toolbarClassName="toolbarClassName"
+			wrapperClassName="wrapperClassName"
+			editorClassName="editorClassName"
+			// editorState={value} // Controlled will create issue after conversion
+			onEditorStateChange={onChange}
+		/>
+	</>
+);
+
 export const getField = (
 	{
 		fieldType,
@@ -462,6 +486,25 @@ export const getField = (
 						/>
 					)}
 				</>
+			);
+		case 'textEditor':
+			return (
+				<CustomTextEditor
+					label={label}
+					name={name}
+					type={type}
+					onChange={(text) => validation.setFieldValue(name, text)}
+					onBlur={validation.handleBlur}
+					placeholder={placeholder}
+					validate={{ required: { value: true } }}
+					value={validation.values[name]}
+					isError
+					// invalid={!!(validation.touched[name] && validation.errors[name])}
+					// isError
+					// errorMsg={validation.touched[name] && validation.errors[name]}
+					// disabled={!!isDisabled}
+					validation={validation}
+				/>
 			);
 		case 'loyaltyRangeField':
 			return (

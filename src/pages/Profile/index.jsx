@@ -15,10 +15,10 @@ import {
 	updateSiteConfigurationStart,
 } from '../../store/actions';
 
-import Overview from './Overview';
-import SiteConfig from './SiteConfiguration';
-import Password from './Password';
-import Permissions from './Permissions';
+import Overview from './FormSections/Overview';
+import SiteConfig from './FormSections/SiteConfiguration';
+import Password from './FormSections/Password';
+import Permissions from './FormSections/Permissions';
 import TabsPage from '../../components/Common/TabsPage';
 
 const ProfilePage = ({ t }) => {
