@@ -17,6 +17,19 @@ export const keyArray = [
 	{ id: 15, accessor: 'createdAt', label: 'Enrolled since' },
 ];
 
+export const bonusKeyArray = [
+	{ id: 1, label: 'Promotion Title', accessor: 'title' },
+	{ id: 2, accessor: 'bonusType', label: 'Bonus Type' },
+	{ id: 3, accessor: 'bonusPercentage', label: 'Bonus Percentage' },
+	{ id: 4, accessor: 'isSticky', label: 'Sticky' },
+	{ id: 5, accessor: 'bonusBetOnly', label: 'Bonus Bet Only' },
+	{ id: 6, accessor: 'validFrom', label: 'Valid From' },
+	{ id: 7, accessor: 'validTo', label: 'Valid To' },
+	{ id: 8, accessor: 'daysToClear', label: 'Days To Clear' },
+	{ id: 9, accessor: 'wageringRequirementType', label: 'Wagering Type' },
+	{ id: 10, accessor: 'wageringMultiplier', label: 'Wagering Multiplier' },
+];
+
 export const portalValues = [
 	{
 		optionLabel: 'Current',
