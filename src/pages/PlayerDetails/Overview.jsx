@@ -13,6 +13,7 @@ import {
 } from '../../store/actions';
 import ManageTagModal from './modals/ManageTagModal';
 import Duplicates from './modals/Duplicates';
+import GiveBonusModal from './modals/GiveBonus';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -29,6 +30,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		verifyEmailModal: false,
 		manageTagModal: false,
 		duplicatesModal: false,
+		giveBonusModal: false,
 	});
 
 	const openModal = (modalName) => {
@@ -177,7 +179,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											className="actionButton w-100"
 											variant="outline-secondary"
 											// hidden={isHidden({ module: { key: 'Bonus', value: 'Issue' } })}
-											// onClick={() => setShowModal(true)}
+											onClick={() => openModal('giveBonusModal')}
 										>
 											Give Bonus
 										</Button>
@@ -378,6 +380,11 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 						show={modalStates.duplicatesModal}
 						toggle={() => closeModal('duplicatesModal')}
 						header="Duplicates"
+					/>
+					<GiveBonusModal
+						show={modalStates.giveBonusModal}
+						toggle={() => closeModal('giveBonusModal')}
+						header={`Give Bonus To ${userDetails?.firstName} ${userDetails?.lastName}`}
 					/>
 				</Row>
 			)}

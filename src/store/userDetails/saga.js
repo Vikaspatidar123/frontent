@@ -24,15 +24,22 @@ import {
 	updateUserTagsFail,
 	getDuplicateUsersSuccess,
 	getDuplicateUsersFail,
+	getAllBonusSuccess,
+	getAllBonusFail,
+	getUserBonusDetailsSuccess,
+	getUserBonusDetailsFail,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
 	DISABLE_USER,
+	GET_ALL_BONUS,
+	GET_BONUS_DETAILS,
 	GET_DUPLICATE_USERS,
 	GET_USER_BONUS,
 	GET_USER_COMMENTS,
 	GET_USER_DETAILS,
 	GET_USER_DOCUMENTS,
+	ISSUE_BONUS,
 	MARK_USER_AS_INTERNAL,
 	RESET_USER_LIMIT,
 	UPDATE_SA_USER_STATUS,
@@ -40,6 +47,8 @@ import {
 	VERIFY_USER_EMAIL,
 } from './actionTypes';
 import {
+	getAllBonus,
+	getBonusDetails,
 	getCommentsList,
 	getDuplicateUsers,
 	getUserBonuses,
@@ -50,6 +59,7 @@ import {
 	createUserCommentEntry,
 	disableUserCall,
 	disableUserSession,
+	issueBonus,
 	resetUserLimitCall,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
@@ -242,6 +252,52 @@ function* getDuplicateUsersWorker(action) {
 	}
 }
 
+function* getBonusDetailsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getBonusDetails(payload);
+		yield put(getUserBonusDetailsSuccess(data?.data?.bonusDetails));
+	} catch (e) {
+		yield put(getUserBonusDetailsFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* getAllBonusWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getAllBonus(payload);
+		yield put(getAllBonusSuccess(data?.data?.bonus));
+	} catch (e) {
+		yield put(getAllBonusFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* issueBonusWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield issueBonus(payload);
+		yield put(getAllBonusSuccess(data?.data?.bonus));
+		showToastr({
+			message: `Bonus Issued Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(getAllBonusFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -255,6 +311,9 @@ function* userDetailsWatcher() {
 	yield takeLatest(VERIFY_USER_EMAIL, verifyUserEmailWorker);
 	yield takeLatest(UPDATE_USER_TAGS, updateUserTagsWorker);
 	yield takeLatest(GET_DUPLICATE_USERS, getDuplicateUsersWorker);
+	yield takeLatest(GET_BONUS_DETAILS, getBonusDetailsWorker);
+	yield takeLatest(GET_ALL_BONUS, getAllBonusWorker);
+	yield takeLatest(ISSUE_BONUS, issueBonusWorker);
 }
 
 function* UserDetailsSaga() {

@@ -55,6 +55,9 @@ const getAllCasinoGames = (payload) =>
 const getAllBonus = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/bonus`, payload);
 
+const getBonusDetails = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/bonus/detail`, payload);
+
 const getCurrencies = ({ pageNo, limit }) =>
 	getRequest(
 		`${VITE_APP_API_URL}/api/admin/currency?pageNo=${pageNo}&limit=${limit}`
@@ -200,4 +203,5 @@ export {
 	getCommentsList,
 	getDashboardDemoGraphicService,
 	getDuplicateUsers,
+	getBonusDetails,
 };

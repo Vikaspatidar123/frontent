@@ -5,6 +5,12 @@ import {
 	DISABLE_USER,
 	DISABLE_USER_FAIL,
 	DISABLE_USER_SUCCESS,
+	GET_ALL_BONUS,
+	GET_ALL_BONUS_FAIL,
+	GET_ALL_BONUS_SUCCESS,
+	GET_BONUS_DETAILS,
+	GET_BONUS_DETAILS_FAIL,
+	GET_BONUS_DETAILS_SUCCESS,
 	GET_DUPLICATE_USERS,
 	GET_DUPLICATE_USERS_FAIL,
 	GET_DUPLICATE_USERS_SUCCESS,
@@ -20,6 +26,9 @@ import {
 	GET_USER_DOCUMENTS,
 	GET_USER_DOCUMENTS_FAIL,
 	GET_USER_DOCUMENTS_SUCCESS,
+	ISSUE_BONUS,
+	ISSUE_BONUS_FAIL,
+	ISSUE_BONUS_SUCCESS,
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
@@ -220,5 +229,50 @@ export const getDuplicateUsersFail = (payload) => ({
 
 export const getDuplicateUsers = (payload) => ({
 	type: GET_DUPLICATE_USERS,
+	payload,
+});
+
+export const getAllBonusSuccess = (payload) => ({
+	type: GET_ALL_BONUS_SUCCESS,
+	payload,
+});
+
+export const getAllBonusFail = (payload) => ({
+	type: GET_ALL_BONUS_FAIL,
+	payload,
+});
+
+export const getAllBonus = (payload) => ({
+	type: GET_ALL_BONUS,
+	payload,
+});
+
+export const getUserBonusDetailsSuccess = (payload) => ({
+	type: GET_BONUS_DETAILS_SUCCESS,
+	payload,
+});
+
+export const getUserBonusDetailsFail = (payload) => ({
+	type: GET_BONUS_DETAILS_FAIL,
+	payload,
+});
+
+export const getUserBonusDetails = (payload) => ({
+	type: GET_BONUS_DETAILS,
+	payload,
+});
+
+export const issueBonusSuccess = (payload) => ({
+	type: ISSUE_BONUS_SUCCESS,
+	payload,
+});
+
+export const issueBonusFail = (payload) => ({
+	type: ISSUE_BONUS_FAIL,
+	payload,
+});
+
+export const issueBonus = (payload) => ({
+	type: ISSUE_BONUS,
 	payload,
 });

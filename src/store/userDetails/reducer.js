@@ -5,6 +5,12 @@ import {
 	DISABLE_USER,
 	DISABLE_USER_FAIL,
 	DISABLE_USER_SUCCESS,
+	GET_ALL_BONUS,
+	GET_ALL_BONUS_FAIL,
+	GET_ALL_BONUS_SUCCESS,
+	GET_BONUS_DETAILS,
+	GET_BONUS_DETAILS_FAIL,
+	GET_BONUS_DETAILS_SUCCESS,
 	GET_DUPLICATE_USERS,
 	GET_DUPLICATE_USERS_FAIL,
 	GET_DUPLICATE_USERS_SUCCESS,
@@ -20,6 +26,9 @@ import {
 	GET_USER_DOCUMENTS,
 	GET_USER_DOCUMENTS_FAIL,
 	GET_USER_DOCUMENTS_SUCCESS,
+	ISSUE_BONUS,
+	ISSUE_BONUS_FAIL,
+	ISSUE_BONUS_SUCCESS,
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
@@ -75,6 +84,15 @@ const INIT_STATE = {
 	getDuplicateUsersLoading: false,
 	duplicateUsers: false,
 	getDuplicateUsersError: false,
+	getAllBonusLoading: false,
+	bonusList: [],
+	getAllBonusError: false,
+	getBonusDetailsLoading: false,
+	bonusDetails: [],
+	getBonusDetailsError: false,
+	issueBonusLoading: false,
+	issueBonusSuccess: false,
+	issueBonusError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -349,6 +367,73 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				getDuplicateUsersLoading: false,
 				duplicateUsers: false,
 			};
+
+		case GET_ALL_BONUS:
+			return {
+				...state,
+				getAllBonusLoading: true,
+			};
+
+		case GET_ALL_BONUS_SUCCESS:
+			return {
+				...state,
+				getAllBonusLoading: false,
+				bonusList: payload,
+				getAllBonusError: null,
+			};
+
+		case GET_ALL_BONUS_FAIL:
+			return {
+				...state,
+				getAllBonusError: payload,
+				getAllBonusLoading: false,
+				bonusList: false,
+			};
+
+		case GET_BONUS_DETAILS:
+			return {
+				...state,
+				getBonusDetailsLoading: true,
+			};
+
+		case GET_BONUS_DETAILS_SUCCESS:
+			return {
+				...state,
+				getBonusDetailsLoading: false,
+				bonusDetails: payload,
+				getBonusDetailsError: null,
+			};
+
+		case GET_BONUS_DETAILS_FAIL:
+			return {
+				...state,
+				getBonusDetailsError: payload,
+				getBonusDetailsLoading: false,
+				bonusDetails: false,
+			};
+
+		case ISSUE_BONUS:
+			return {
+				...state,
+				issueBonusLoading: true,
+			};
+
+		case ISSUE_BONUS_SUCCESS:
+			return {
+				...state,
+				issueBonusLoading: false,
+				issueBonusSuccess: payload,
+				issueBonusError: null,
+			};
+
+		case ISSUE_BONUS_FAIL:
+			return {
+				...state,
+				issueBonusError: payload,
+				issueBonusLoading: false,
+				issueBonusSuccess: false,
+			};
+
 		default:
 			return { ...state };
 	}
