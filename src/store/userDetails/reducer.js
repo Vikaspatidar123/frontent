@@ -27,6 +27,12 @@ import {
 	UPDATE_SA_USER_STATUS,
 	UPDATE_SA_USER_STATUS_FAIL,
 	UPDATE_SA_USER_STATUS_SUCCESS,
+	UPDATE_USER_TAGS,
+	UPDATE_USER_TAGS_FAIL,
+	UPDATE_USER_TAGS_SUCCESS,
+	VERIFY_USER_EMAIL,
+	VERIFY_USER_EMAIL_FAIL,
+	VERIFY_USER_EMAIL_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -57,6 +63,12 @@ const INIT_STATE = {
 	markUserAsInternalLoading: false,
 	markUserAsInternalSuccess: false,
 	markUserAsInternalError: false,
+	verifyUserEmailLoading: false,
+	verifyUserEmailSuccess: false,
+	verifyUserEmailError: false,
+	updateUserTagsLoading: false,
+	updateUserTagsSuccess: false,
+	updateUserTagsError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -264,6 +276,50 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				markUserAsInternalError: payload,
 				markUserAsInternalLoading: false,
 				markUserAsInternalSuccess: false,
+			};
+
+		case VERIFY_USER_EMAIL:
+			return {
+				...state,
+				verifyUserEmailLoading: true,
+			};
+
+		case VERIFY_USER_EMAIL_SUCCESS:
+			return {
+				...state,
+				verifyUserEmailLoading: false,
+				verifyUserEmailSuccess: true,
+				verifyUserEmailError: null,
+			};
+
+		case VERIFY_USER_EMAIL_FAIL:
+			return {
+				...state,
+				verifyUserEmailError: payload,
+				verifyUserEmailLoading: false,
+				verifyUserEmailSuccess: false,
+			};
+
+		case UPDATE_USER_TAGS:
+			return {
+				...state,
+				updateUserTagsLoading: true,
+			};
+
+		case UPDATE_USER_TAGS_SUCCESS:
+			return {
+				...state,
+				updateUserTagsLoading: false,
+				updateUserTagsSuccess: true,
+				updateUserTagsError: null,
+			};
+
+		case UPDATE_USER_TAGS_FAIL:
+			return {
+				...state,
+				updateUserTagsError: payload,
+				updateUserTagsLoading: false,
+				updateUserTagsSuccess: false,
 			};
 		default:
 			return { ...state };

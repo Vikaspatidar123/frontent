@@ -80,6 +80,12 @@ const markUserAsInternal = (data) =>
 const updateWageringTemplate = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, data);
 
+const verifyPlayerEmail = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/verify-email`, data);
+
+const updateUserTags = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/tags`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -103,4 +109,6 @@ export {
 	updateSAUserStatusCall,
 	markUserAsInternal,
 	updateWageringTemplate,
+	verifyPlayerEmail,
+	updateUserTags,
 };

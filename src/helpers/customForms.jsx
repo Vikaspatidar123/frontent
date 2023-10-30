@@ -19,6 +19,8 @@ import Select from 'react-select';
 import FlatPickr from 'react-flatpickr';
 import ReactDatePicker from 'react-datepicker';
 import moment from 'moment';
+import CreatableSelect from 'react-select/creatable';
+import { showToastr } from '../utils/helpers';
 
 export const CustomInputField = ({
 	type,
@@ -521,6 +523,41 @@ export const getField = (
 					</Col>
 				</div>
 			));
+		case 'creatableSelect':
+			return (
+				<>
+					{label && <Label for={name}>{label}</Label>}
+					<CreatableSelect
+						isClearable={false}
+						isMulti
+						name={name}
+						onCreateOption={(option) => {
+							// only number and alphabets accepted
+							if (option && option.match(/^[A-Za-z0-9_-]*$/)) {
+								if (optionList) {
+									validation.setFieldValue(name, [
+										...validation.values[name],
+										{ label: option, value: option, isNew: true },
+									]);
+								} else {
+									validation.setFieldValue(name, [
+										{ label: option, value: option, isNew: true },
+									]);
+								}
+							} else {
+								showToastr({
+									message: 'Only Alphabets and Numbers Allowed',
+									type: 'error',
+								});
+							}
+						}}
+						classNamePrefix="select"
+						options={optionList}
+						value={validation.values[name]}
+						onChange={callBack}
+					/>
+				</>
+			);
 		default:
 			return <div />;
 	}

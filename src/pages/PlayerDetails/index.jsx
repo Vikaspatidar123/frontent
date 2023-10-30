@@ -25,6 +25,8 @@ const PlayerDetailsPage = ({ t }) => {
 		resetUserLimitSuccess,
 		markUserAsInternalSuccess,
 		updateSAUserStatusSuccess,
+		verifyUserEmailSuccess,
+		updateUserTagsSuccess,
 	} = useSelector((state) => state.UserDetails);
 
 	const toggle = (tab) => {
@@ -37,7 +39,9 @@ const PlayerDetailsPage = ({ t }) => {
 		if (
 			resetUserLimitSuccess ||
 			markUserAsInternalSuccess ||
-			updateSAUserStatusSuccess
+			updateSAUserStatusSuccess ||
+			verifyUserEmailSuccess ||
+			updateUserTagsSuccess
 		) {
 			dispatch(getUserDetails({ userId: playerId }));
 			dispatch(resetUserLimitData());
@@ -46,6 +50,8 @@ const PlayerDetailsPage = ({ t }) => {
 		resetUserLimitSuccess,
 		markUserAsInternalSuccess,
 		updateSAUserStatusSuccess,
+		verifyUserEmailSuccess,
+		updateUserTagsSuccess,
 	]);
 
 	const { userDetails, userDetailsLoading } = useUserDetails({
