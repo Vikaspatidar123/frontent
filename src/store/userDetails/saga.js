@@ -18,6 +18,10 @@ import {
 	updateSAUserStatusSuccess,
 	markUserAsInternalSuccess,
 	markUserAsInternalFail,
+	verifyUserEmailSuccess,
+	verifyUserEmailFail,
+	updateUserTagsSuccess,
+	updateUserTagsFail,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
@@ -29,6 +33,8 @@ import {
 	MARK_USER_AS_INTERNAL,
 	RESET_USER_LIMIT,
 	UPDATE_SA_USER_STATUS,
+	UPDATE_USER_TAGS,
+	VERIFY_USER_EMAIL,
 } from './actionTypes';
 import {
 	getCommentsList,
@@ -46,6 +52,8 @@ import { showToastr } from '../../utils/helpers';
 import {
 	markUserAsInternal,
 	updateSAUserStatusCall,
+	updateUserTags,
+	verifyPlayerEmail,
 } from '../../network/putRequests';
 
 function* getUserDetailsWorker(action) {
@@ -178,6 +186,44 @@ function* markUserAsInternalWorker(action) {
 	}
 }
 
+function* verifyUserEmailWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield verifyPlayerEmail(payload);
+		yield put(verifyUserEmailSuccess(data?.data));
+
+		showToastr({
+			message: `User Email Verified Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(verifyUserEmailFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* updateUserTagsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield updateUserTags(payload);
+		yield put(updateUserTagsSuccess(data?.data));
+
+		showToastr({
+			message: `Tags Updated Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(updateUserTagsFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -188,6 +234,8 @@ function* userDetailsWatcher() {
 	yield takeLatest(DISABLE_USER, disableUserWorker);
 	yield takeLatest(UPDATE_SA_USER_STATUS, updateSAUserStatusWorker);
 	yield takeLatest(MARK_USER_AS_INTERNAL, markUserAsInternalWorker);
+	yield takeLatest(VERIFY_USER_EMAIL, verifyUserEmailWorker);
+	yield takeLatest(UPDATE_USER_TAGS, updateUserTagsWorker);
 }
 
 function* UserDetailsSaga() {

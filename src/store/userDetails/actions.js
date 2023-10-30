@@ -27,6 +27,12 @@ import {
 	UPDATE_SA_USER_STATUS,
 	UPDATE_SA_USER_STATUS_FAIL,
 	UPDATE_SA_USER_STATUS_SUCCESS,
+	UPDATE_USER_TAGS,
+	UPDATE_USER_TAGS_FAIL,
+	UPDATE_USER_TAGS_SUCCESS,
+	VERIFY_USER_EMAIL,
+	VERIFY_USER_EMAIL_FAIL,
+	VERIFY_USER_EMAIL_SUCCESS,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -166,5 +172,35 @@ export const markUserAsInternalFail = (payload) => ({
 
 export const markUserAsInternal = (payload) => ({
 	type: MARK_USER_AS_INTERNAL,
+	payload,
+});
+
+export const verifyUserEmailSuccess = (payload) => ({
+	type: VERIFY_USER_EMAIL_SUCCESS,
+	payload,
+});
+
+export const verifyUserEmailFail = (payload) => ({
+	type: VERIFY_USER_EMAIL_FAIL,
+	payload,
+});
+
+export const verifyUserEmail = (payload) => ({
+	type: VERIFY_USER_EMAIL,
+	payload,
+});
+
+export const updateUserTagsSuccess = (payload) => ({
+	type: UPDATE_USER_TAGS_SUCCESS,
+	payload,
+});
+
+export const updateUserTagsFail = (payload) => ({
+	type: UPDATE_USER_TAGS_FAIL,
+	payload,
+});
+
+export const updateUserTags = (payload) => ({
+	type: UPDATE_USER_TAGS,
 	payload,
 });

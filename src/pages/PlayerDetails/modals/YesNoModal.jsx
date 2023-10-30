@@ -2,9 +2,8 @@
 import React from 'react';
 import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
 
-const YesNoModal = ({ show, setShow, content, handleYes, handleClose }) => {
+const YesNoModal = ({ show, content, handleYes, handleClose }) => {
 	const toggle = () => {
-		setShow((prev) => !prev);
 		handleClose();
 	};
 
@@ -14,7 +13,14 @@ const YesNoModal = ({ show, setShow, content, handleYes, handleClose }) => {
 				{content}
 			</ModalHeader>
 			<ModalBody>
-				<Button onClick={handleYes}>Yes</Button>
+				<Button
+					onClick={() => {
+						handleYes();
+						handleClose();
+					}}
+				>
+					Yes
+				</Button>
 				<Button className="mx-2" onClick={toggle}>
 					No
 				</Button>

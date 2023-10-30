@@ -4,15 +4,39 @@ import { Button, Card, Col, Row, Spinner } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useUserOverview from './hooks/useUserOverview';
-import DisableReason from './components/DisableReason';
-import YesNoModal from './components/YesNoModal';
-import { markUserAsInternal, updateSAUserStatus } from '../../store/actions';
+import DisableReason from './modals/DisableReason';
+import YesNoModal from './modals/YesNoModal';
+import {
+	markUserAsInternal,
+	updateSAUserStatus,
+	verifyUserEmail,
+} from '../../store/actions';
+import ManageTagModal from './modals/ManageTagModal';
+
+const ColumnContainer = ({ hidden, children }) => (
+	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
+		{children}
+	</Col>
+);
 
 const Overview = ({ userDetails, userDetailsLoading }) => {
 	const dispatch = useDispatch();
 	const { playerId } = useParams();
-	const [internalModalOpen, setInternalModalOpen] = useState(false);
-	const [activeInactiveModal, setActiveInactiveModal] = useState(false);
+	const [modalStates, setModalStates] = useState({
+		internalModal: false,
+		activeInactiveModal: false,
+		verifyEmailModal: false,
+		manageTagModal: false,
+	});
+
+	const openModal = (modalName) => {
+		setModalStates((prev) => ({ ...prev, [modalName]: true }));
+	};
+
+	const closeModal = (modalName) => {
+		setModalStates((prev) => ({ ...prev, [modalName]: false }));
+	};
+
 	const { basicInfo, contactInfo, kycInfo } = useUserOverview({
 		user: userDetails,
 	});
@@ -32,6 +56,15 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 		dispatch(
 			markUserAsInternal({
 				userId: playerId,
+			})
+		);
+	};
+
+	const handleVerifyEmail = () => {
+		dispatch(
+			verifyUserEmail({
+				isTenant: false,
+				userId: parseInt(playerId, 10),
 			})
 		);
 	};
@@ -78,7 +111,7 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 							</h4>
 							<div className="div-overview">
 								<Row>
-									<Col className="text-center mb-2" xs={12} md={6}>
+									<ColumnContainer>
 										<Button
 											className="actionButton w-100"
 											variant={
@@ -87,48 +120,48 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 													: 'outline-success'
 											}
 											// hidden={isHidden({ module: { key: 'Users', value: 'T' } })}
-											onClick={() => setActiveInactiveModal(true)}
+											onClick={() => openModal('activeInactiveModal')}
 										>
 											{userDetails && userDetails?.isActive
 												? 'In-Active'
 												: 'Active'}
 										</Button>
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer
+										hidden={userDetails?.tags?.includes('Internal')}
+									>
 										<Button
 											className="actionButton w-100"
 											variant="outline-warning"
-											hidden={
-												// isHidden({ module: { key: 'Users', value: 'U' } }) ||
-												userDetails?.tags?.includes('Internal')
-											}
-											onClick={() => setInternalModalOpen(true)}
+											// hidden={
+											// isHidden({ module: { key: 'Users', value: 'U' } }) ||
+											// userDetails?.tags?.includes('Internal')
+											// }
+											onClick={() => openModal('internalModal')}
 										>
 											Internal
 										</Button>
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer hidden={userDetails?.isEmailVerified}>
 										<Button
 											className="actionButton w-100"
 											variant="outline-success"
 											// hidden={isHidden({ module: { key: 'Users', value: 'EV' } }) || userDetails?.isEmailVerified}
-											// onClick={() => setVerifyEmailModal(true)}
+											onClick={() => openModal('verifyEmailModal')}
 										>
 											Verify Email
 										</Button>
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer>
 										<Button
 											variant="outline-warning"
-											onClick={() => {
-												// addTag()
-											}}
+											onClick={() => openModal('manageTagModal')}
 											className="actionButton w-100"
 										>
 											Manage Tag
 										</Button>
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer>
 										<Button
 											variant="outline-secondary"
 											onClick={() => {
@@ -139,8 +172,8 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 											Duplicates
 											{/* ({duplicateUsers?.count}) */}
 										</Button>
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer>
 										<Button
 											className="actionButton w-100"
 											variant="outline-secondary"
@@ -149,8 +182,8 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 										>
 											Give Bonus
 										</Button>
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer>
 										<Button
 											className="actionButton w-100"
 											variant="outline-success"
@@ -159,8 +192,8 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 										>
 											Manage Money
 										</Button>
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer>
 										{userDetails?.trackingToken &&
 											userDetails?.isAffiliateUpdated === false && (
 												<Button
@@ -179,8 +212,8 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 													{/* )} */}
 												</Button>
 											)}
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer>
 										{userDetails?.trackingToken &&
 											userDetails?.isAffiliateUpdated &&
 											userDetails?.affiliateStatus && (
@@ -200,8 +233,8 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 													{/* )} */}
 												</Button>
 											)}
-									</Col>
-									<Col xs={12} md={6} className="text-center mb-2">
+									</ColumnContainer>
+									<ColumnContainer>
 										<Button
 											className="actionButton w-100"
 											variant="outline-warning"
@@ -210,7 +243,7 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 										>
 											Edit User Info
 										</Button>
-									</Col>
+									</ColumnContainer>
 									{/* {!isHidden({ module: { key: 'Users', value: 'UP' } }) &&
                   <Dropdown className='d-inline'>
                     <Dropdown.Toggle
@@ -308,17 +341,16 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 					{userDetails?.isActive ? (
 						<DisableReason
 							userData={userDetails}
-							show={activeInactiveModal}
+							show={modalStates.activeInactiveModal}
 							markUserStatusInactive={updateUserStatus}
-							handleClose={() => setActiveInactiveModal(false)}
+							handleClose={() => closeModal('activeInactiveModal')}
 							name={`${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
 						/>
 					) : (
 						<YesNoModal
-							show={activeInactiveModal}
-							setShow={setActiveInactiveModal}
+							show={modalStates.activeInactiveModal}
 							handleYes={updateUserStatus}
-							handleClose={() => setActiveInactiveModal(false)}
+							handleClose={() => closeModal('activeInactiveModal')}
 							content={`Are you sure you want to mark ${
 								userDetails?.firstName
 							} ${userDetails?.lastName} (${userDetails?.email}) ${
@@ -327,11 +359,21 @@ const Overview = ({ userDetails, userDetailsLoading }) => {
 						/>
 					)}
 					<YesNoModal
-						show={internalModalOpen}
-						handleClose={() => setInternalModalOpen(false)}
-						setShow={setInternalModalOpen}
+						show={modalStates.internalModal}
+						handleClose={() => closeModal('internalModal')}
 						handleYes={handleInternalChange}
 						content={`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} as Internal?`}
+					/>
+					<YesNoModal
+						show={modalStates.verifyEmailModal}
+						handleClose={() => closeModal('verifyEmailModal')}
+						handleYes={handleVerifyEmail}
+						content={`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) as Verified?`}
+					/>
+					<ManageTagModal
+						show={modalStates.manageTagModal}
+						userDetails={userDetails}
+						handleClose={() => closeModal('manageTagModal')}
 					/>
 				</Row>
 			)}
