@@ -56,6 +56,11 @@ const disableUserCall = (data) =>
 const disableUserSession = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/user/session-time`, data);
 
+const updateMatchFeaturedTemplate = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}/api/admin/sportsbook/featured-matches`,
+		data
+	);
 export {
 	superAdminLogin,
 	createCurrency,
@@ -73,4 +78,5 @@ export {
 	resetUserLimitCall,
 	disableUserCall,
 	disableUserSession,
+	updateMatchFeaturedTemplate,
 };

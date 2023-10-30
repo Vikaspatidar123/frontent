@@ -244,9 +244,15 @@ export const CustomToggleButton = ({
 	isError,
 	errorMsg,
 	disabled,
+	containerClass,
+	switchSizeClass,
 	...rest
 }) => (
-	<span className="form-check form-switch form-switch-md mb-3 mt-3">
+	<span
+		className={`form-check form-switch ${switchSizeClass || 'form-switch-md'} ${
+			containerClass || 'mb-3 mt-3'
+		}`}
+	>
 		{label && (
 			<Label htmlFor={htmlFor} className={labelClassName}>
 				{label}

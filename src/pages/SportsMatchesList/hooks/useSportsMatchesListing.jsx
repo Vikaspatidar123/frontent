@@ -1,7 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSportsMatchesStart } from '../../../store/actions';
+import {
+	fetchSportsMatchesStart,
+	updateFeaturedMatchStart,
+} from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
 import {
 	Id,
@@ -18,9 +21,12 @@ const useSportsMatchesListing = () => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
-	const { sportsMatches, loading: isSportsMatchesLoading } = useSelector(
-		(state) => state.SportsMatches
-	);
+	const {
+		sportsMatches,
+		loading: isSportsMatchesLoading,
+		isFeaturedUpdateLoading,
+		featuredFabData,
+	} = useSelector((state) => state.SportsMatches);
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
@@ -50,9 +56,28 @@ const useSportsMatchesListing = () => {
 		}
 		return formattedValues;
 	}, [sportsMatches]);
-
+	const toggleIsFeatured = (event, cell) => {
+		const data = {
+			isFeatured: (!event.target.checked).toString(),
+			providerMatchId: cell.row.original.providerMatchId,
+			matchId: cell.row.original.matchId,
+		};
+		dispatch(updateFeaturedMatchStart(data));
+	};
 	const columns = useMemo(
 		() => [
+			{
+				Header: 'IS FEATURED',
+				accessor: 'isFeatured',
+				Cell: (cellProps) => (
+					<IsFeatured
+						toggleIsFeatured={toggleIsFeatured}
+						isFeaturedUpdateLoading={isFeaturedUpdateLoading}
+						featuredFabData={featuredFabData}
+						{...cellProps}
+					/>
+				),
+			},
 			{
 				Header: 'Id',
 				accessor: 'matchId',
@@ -77,12 +102,12 @@ const useSportsMatchesListing = () => {
 				filterable: true,
 				Cell: (cellProps) => <Sport {...cellProps} />,
 			},
-			{
-				Header: 'Is Featured',
-				accessor: 'isFeatured',
-				filterable: true,
-				Cell: (cellProps) => <IsFeatured {...cellProps} />,
-			},
+			// {
+			// 	Header: 'Is Featured',
+			// 	accessor: 'isFeatured',
+			// 	filterable: true,
+			// 	Cell: (cellProps) => <IsFeatured {...cellProps} />,
+			// },
 			{
 				Header: 'Start Date',
 				accessor: 'startDate',
