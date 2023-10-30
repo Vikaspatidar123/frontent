@@ -31,11 +31,6 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 				customTag,
 			})
 		);
-		// dispatch(
-		//   addTagToUser({
-
-		// })
-		// )
 	};
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =

@@ -27,6 +27,7 @@ const PlayerDetailsPage = ({ t }) => {
 		updateSAUserStatusSuccess,
 		verifyUserEmailSuccess,
 		updateUserTagsSuccess,
+		depositToOtherSuccess,
 	} = useSelector((state) => state.UserDetails);
 
 	const toggle = (tab) => {
@@ -41,7 +42,8 @@ const PlayerDetailsPage = ({ t }) => {
 			markUserAsInternalSuccess ||
 			updateSAUserStatusSuccess ||
 			verifyUserEmailSuccess ||
-			updateUserTagsSuccess
+			updateUserTagsSuccess ||
+			depositToOtherSuccess
 		) {
 			dispatch(getUserDetails({ userId: playerId }));
 			dispatch(resetUserLimitData());
@@ -52,6 +54,7 @@ const PlayerDetailsPage = ({ t }) => {
 		updateSAUserStatusSuccess,
 		verifyUserEmailSuccess,
 		updateUserTagsSuccess,
+		depositToOtherSuccess,
 	]);
 
 	const { userDetails, userDetailsLoading, duplicateUsers } = useUserDetails({

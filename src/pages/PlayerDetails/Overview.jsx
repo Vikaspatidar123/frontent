@@ -14,6 +14,7 @@ import {
 import ManageTagModal from './modals/ManageTagModal';
 import Duplicates from './modals/Duplicates';
 import GiveBonusModal from './modals/GiveBonus';
+import ManageMoney from './modals/ManageMoney';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -189,7 +190,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											className="actionButton w-100"
 											variant="outline-success"
 											// hidden={isHidden({ module: { key: 'Users', value: 'AB' } })}
-											// onClick={() => setShowManageMoneyModal(true)}
+											onClick={() => openModal('manageMoneyModal')}
 										>
 											Manage Money
 										</Button>
@@ -385,6 +386,11 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 						show={modalStates.giveBonusModal}
 						toggle={() => closeModal('giveBonusModal')}
 						header={`Give Bonus To ${userDetails?.firstName} ${userDetails?.lastName}`}
+					/>
+					<ManageMoney
+						show={modalStates.manageMoneyModal}
+						toggle={() => closeModal('manageMoneyModal')}
+						header={`Manage Money for '${userDetails?.firstName} ${userDetails?.lastName}'`}
 					/>
 				</Row>
 			)}
