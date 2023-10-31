@@ -15,6 +15,7 @@ import ManageTagModal from './modals/ManageTagModal';
 import Duplicates from './modals/Duplicates';
 import GiveBonusModal from './modals/GiveBonus';
 import ManageMoney from './modals/ManageMoney';
+import UpdateUserInfo from './modals/UpdateUserInfo';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -32,6 +33,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		manageTagModal: false,
 		duplicatesModal: false,
 		giveBonusModal: false,
+		editUserModal: false,
 	});
 
 	const openModal = (modalName) => {
@@ -241,7 +243,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											className="actionButton w-100"
 											variant="outline-warning"
 											// hidden={isHidden({ module: { key: 'Users', value: 'U' } })}
-											// onClick={() => setEditModal(true)}
+											onClick={() => openModal('editUserModal')}
 										>
 											Edit User Info
 										</Button>
@@ -391,6 +393,11 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 						show={modalStates.manageMoneyModal}
 						toggle={() => closeModal('manageMoneyModal')}
 						header={`Manage Money for '${userDetails?.firstName} ${userDetails?.lastName}'`}
+					/>
+					<UpdateUserInfo
+						show={modalStates.editUserModal}
+						toggle={() => closeModal('editUserModal')}
+						header={`Update ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) Info`}
 					/>
 				</Row>
 			)}

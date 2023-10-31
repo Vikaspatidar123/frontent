@@ -23,7 +23,9 @@ import FlatPickr from 'react-flatpickr';
 import ReactDatePicker from 'react-datepicker';
 import moment from 'moment';
 import CreatableSelect from 'react-select/creatable';
+import PhoneInput from 'react-phone-input-2';
 import { showToastr } from '../utils/helpers';
+import { countryMasks } from '../pages/PlayerDetails/constants';
 
 export const CustomInputField = ({
 	type,
@@ -325,6 +327,7 @@ export const getField = (
 		minimum,
 		maximum,
 		adornmentText,
+		namesArray,
 	},
 	validation
 ) => {
@@ -424,12 +427,12 @@ export const getField = (
 			);
 		case 'datePicker':
 			return (
-				<CustomDateField
+				<CustomInputField
 					name={name}
-					placeholder={placeholder}
 					label={label}
+					type="date"
 					value={validation.values[name]}
-					onChange={validation.onChange}
+					onChange={validation.handleChange}
 					isError
 					invalid={!!(validation.touched[name] && validation.errors[name])}
 					errorMsg={validation.touched[name] && validation.errors[name]}
@@ -653,6 +656,51 @@ export const getField = (
 							errorMsg={validation.touched?.[name] && validation.errors?.[name]}
 						/>
 					</InputGroup>
+				</>
+			);
+		case 'phone':
+			return (
+				<>
+					<PhoneInput
+						masks={countryMasks}
+						name={namesArray?.[0]}
+						type="text"
+						alwaysDefaultMask={false}
+						enableSearch
+						placeholder={placeholder}
+						enableLongNumbers
+						value={`${validation?.values?.[namesArray?.[1]]?.substring(1)}${
+							validation?.values?.[namesArray?.[0]]
+						}`}
+						country="us"
+						isValid={(value, country) => {
+							if (
+								validation?.touched?.[namesArray?.[0]] &&
+								(value?.charAt(country?.dialCode.length) === '0' ||
+									country?.format?.replace(/[+ ()-]/g, '').length !==
+										value?.length)
+							) {
+								return 'Invalid Number';
+								// validation?.setFieldError(namesArray?.[0], 'Invalid Phone')
+							}
+							return true;
+						}}
+						onChange={(phone, code) => {
+							const codeString = String(code?.dialCode);
+							const newPhone = phone.substring(codeString.length);
+							const newCode = `+${codeString}`;
+							validation?.setFieldValue(namesArray?.[0], newPhone);
+							validation?.setFieldValue(namesArray?.[1], newCode);
+						}}
+						onBlur={() => validation?.setFieldTouched(namesArray?.[0], true)}
+						buttonStyle={{ backgroundColor: '#22214b' }}
+						inputStyle={{ width: '100%' }}
+					/>
+					{/* <ErrorMessage
+            component='div'
+            name='phone'
+            className='error-message'
+          /> */}
 				</>
 			);
 		default:

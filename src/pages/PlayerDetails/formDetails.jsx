@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { formatDateYMD } from '../../utils/helpers';
 
 const getInitialValues = (defaultValue) => ({
 	title: defaultValue?.title || '',
@@ -70,6 +71,76 @@ const depositSchema = () =>
 		walletType: Yup.string().required('Wallet type required'),
 	});
 
+const userSchema = () =>
+	Yup.object().shape({
+		email: Yup.string()
+			.email('Invalid Email')
+			.max(50)
+			.required('Email Required'),
+		firstName: Yup.string()
+			.min(3, 'Minimum 3 Characters Required')
+			.max(50, 'Maximum 50 Characters Allowed')
+			.required('First Name Required'),
+		lastName: Yup.string()
+			.min(3, 'Minimum 3 Characters Required')
+			.max(50, 'Maximum 50 Characters Allowed')
+			.required('Last Name Required'),
+		phone: Yup.string().required(),
+		// .test('Invalid', 'Invalid Phone', (value, context) => {
+		//   if (value && (value?.charAt(
+		//     context.phoneCode?.length
+		//   ) === '0' || context.phoneCode?.format?.replace(/[+ ()-]/g, '').length !== value?.length)) {
+		//     return 'Invalid Number'
+		//   }
+		//   return true
+		// }
+		// ),
+		dateOfBirth: Yup.date()
+			.max(
+				new Date(
+					new Date().getFullYear() - 18,
+					new Date().getMonth(),
+					new Date().getDate() - 1
+				),
+				'Must Be 18 Years Old'
+			)
+			.required('DOB Required'),
+		gender: Yup.string().required('Gender Required'),
+		username: Yup.string()
+			.max(20, 'Maximum 20 Characters Allowed')
+			.min(3, 'Minimum 3 Characters Required')
+			.required('User Name Required'),
+		address: Yup.string()
+			.max(100, 'Maximum 100 Characters Allowed')
+			.required('Address Required'),
+		city: Yup.string()
+			.max(50, 'Maximum 50 Characters Allowed')
+			.required('City Required'),
+		zipCode: Yup.string().required('ZipCode Required'),
+		currencyCode: Yup.string(),
+		countryCode: Yup.string().nullable(),
+	});
+
+const getInitialValuesUpdateUser = (defaultValue) => ({
+	userId: defaultValue?.userId,
+	firstName: defaultValue?.firstName,
+	lastName: defaultValue?.lastName,
+	username: defaultValue?.username,
+	email: defaultValue?.email,
+	countryCode: defaultValue?.countryCode,
+	address: defaultValue?.address,
+	city: defaultValue?.city,
+	zipCode: defaultValue?.zipCode,
+	dateOfBirth: formatDateYMD(defaultValue?.dateOfBirth),
+	gender: defaultValue?.gender,
+	currencyCode: defaultValue?.currencyCode,
+	phoneCode: defaultValue?.phoneCode || '',
+	phone: defaultValue?.phone || '',
+	preferredLanguage: defaultValue?.preferredLanguage || '',
+	newsLetter: defaultValue?.newsLetter || false,
+	sms: defaultValue?.sms || false,
+});
+
 export {
 	validationSchema,
 	getInitialValues,
@@ -79,4 +150,6 @@ export {
 	getLimitInitialValues,
 	setDisableUserlimitsSchema,
 	depositSchema,
+	userSchema,
+	getInitialValuesUpdateUser,
 };

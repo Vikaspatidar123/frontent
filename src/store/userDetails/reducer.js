@@ -42,6 +42,9 @@ import {
 	UPDATE_SA_USER_STATUS,
 	UPDATE_SA_USER_STATUS_FAIL,
 	UPDATE_SA_USER_STATUS_SUCCESS,
+	UPDATE_USER_INFO,
+	UPDATE_USER_INFO_FAIL,
+	UPDATE_USER_INFO_SUCCESS,
 	UPDATE_USER_TAGS,
 	UPDATE_USER_TAGS_FAIL,
 	UPDATE_USER_TAGS_SUCCESS,
@@ -99,6 +102,9 @@ const INIT_STATE = {
 	depositToOtherLoading: false,
 	depositToOtherSuccess: false,
 	depositToOtherError: false,
+	updateUserInfoLoading: false,
+	updateUserInfoSuccess: false,
+	updateUserInfoError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -460,6 +466,28 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				depositToOtherError: payload,
 				depositToOtherLoading: false,
 				depositToOtherSuccess: false,
+			};
+
+		case UPDATE_USER_INFO:
+			return {
+				...state,
+				updateUserInfoLoading: true,
+			};
+
+		case UPDATE_USER_INFO_SUCCESS:
+			return {
+				...state,
+				updateUserInfoLoading: false,
+				updateUserInfoSuccess: payload,
+				updateUserInfoError: null,
+			};
+
+		case UPDATE_USER_INFO_FAIL:
+			return {
+				...state,
+				updateUserInfoError: payload,
+				updateUserInfoLoading: false,
+				updateUserInfoSuccess: false,
 			};
 
 		default:

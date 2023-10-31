@@ -42,6 +42,9 @@ import {
 	UPDATE_SA_USER_STATUS,
 	UPDATE_SA_USER_STATUS_FAIL,
 	UPDATE_SA_USER_STATUS_SUCCESS,
+	UPDATE_USER_INFO,
+	UPDATE_USER_INFO_FAIL,
+	UPDATE_USER_INFO_SUCCESS,
 	UPDATE_USER_TAGS,
 	UPDATE_USER_TAGS_FAIL,
 	UPDATE_USER_TAGS_SUCCESS,
@@ -292,5 +295,20 @@ export const depositToOtherFail = (payload) => ({
 
 export const depositToOther = (payload) => ({
 	type: DEPOSIT_TO_OTHER,
+	payload,
+});
+
+export const updateUserInfoSuccess = (payload) => ({
+	type: UPDATE_USER_INFO_SUCCESS,
+	payload,
+});
+
+export const updateUserInfoFail = (payload) => ({
+	type: UPDATE_USER_INFO_FAIL,
+	payload,
+});
+
+export const updateUserInfo = (payload) => ({
+	type: UPDATE_USER_INFO,
 	payload,
 });

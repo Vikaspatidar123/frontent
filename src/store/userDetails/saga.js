@@ -32,6 +32,8 @@ import {
 	issueBonusFail,
 	depositToOtherSuccess,
 	depositToOtherFail,
+	updateUserInfoSuccess,
+	updateUserInfoFail,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
@@ -48,6 +50,7 @@ import {
 	MARK_USER_AS_INTERNAL,
 	RESET_USER_LIMIT,
 	UPDATE_SA_USER_STATUS,
+	UPDATE_USER_INFO,
 	UPDATE_USER_TAGS,
 	VERIFY_USER_EMAIL,
 } from './actionTypes';
@@ -72,6 +75,7 @@ import {
 	addDepositToOtherCall,
 	markUserAsInternal,
 	updateSAUserStatusCall,
+	updateUserInfoCall,
 	updateUserTags,
 	verifyPlayerEmail,
 } from '../../network/putRequests';
@@ -325,6 +329,24 @@ function* depositToOtherWorker(action) {
 	}
 }
 
+function* updateUserInfoWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield updateUserInfoCall(payload);
+		yield put(updateUserInfoSuccess(data?.data));
+		showToastr({
+			message: 'User Info Updated Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(updateUserInfoFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -342,6 +364,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(GET_ALL_BONUS, getAllBonusWorker);
 	yield takeLatest(ISSUE_BONUS, issueBonusWorker);
 	yield takeLatest(DEPOSIT_TO_OTHER, depositToOtherWorker);
+	yield takeLatest(UPDATE_USER_INFO, updateUserInfoWorker);
 }
 
 function* UserDetailsSaga() {
