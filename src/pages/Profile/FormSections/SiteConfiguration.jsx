@@ -111,7 +111,6 @@ const SiteConfig = ({
 					label: 'Allowed Languages',
 					isDisabled: editableSiteConfig,
 					callBack: (option) => {
-						console.log('option: ', option);
 						const isExist = option.find((op) => op.value === 'EN');
 						if (!isExist) {
 							option.unshift({ label: 'English', value: 'EN' });

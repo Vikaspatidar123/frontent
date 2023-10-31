@@ -87,7 +87,6 @@ const useLoyalty = (isTenant, tenant) => {
 		setMyLevels(loyaltyLevel.slice(0, loyaltyLevel?.length - 1));
 	};
 
-	console.log('validation: ', validation);
 	const buttonList = useMemo(() => [
 		{
 			label: 'Add Levels',

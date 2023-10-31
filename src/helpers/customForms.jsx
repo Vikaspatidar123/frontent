@@ -328,6 +328,7 @@ export const getField = (
 		maximum,
 		adornmentText,
 		namesArray,
+		...rest
 	},
 	validation
 ) => {
@@ -423,6 +424,7 @@ export const getField = (
 					}}
 					onBlur={validation.handleBlur}
 					disabled={!!isDisabled}
+					{...rest}
 				/>
 			);
 		case 'datePicker':
