@@ -140,6 +140,9 @@ import DashboardViewInfo from './dashboardView/reducer';
 // User Details
 import UserDetails from './userDetails/reducer';
 
+// Restricted Countries
+import RestrictedCountries from './restrictedCountries/reducer';
+
 const rootReducer = combineReducers({
 	// New theme
 	AdminRoles,
@@ -194,6 +197,7 @@ const rootReducer = combineReducers({
 	SportsMarkets,
 	DashboardViewInfo,
 	UserDetails,
+	RestrictedCountries,
 });
 
 export default rootReducer;

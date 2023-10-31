@@ -157,6 +157,12 @@ const getCommentsList = (payload) =>
 const getDuplicateUsers = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user/duplicate`, payload);
 
+const fetchRestrictedCountries = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/country/restricted`, payload);
+
+const fetchUnrestrictedCountries = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/country/unrestricted`, payload);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -204,4 +210,6 @@ export {
 	getDashboardDemoGraphicService,
 	getDuplicateUsers,
 	getBonusDetails,
+	fetchRestrictedCountries,
+	fetchUnrestrictedCountries,
 };
