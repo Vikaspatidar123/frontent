@@ -9,6 +9,7 @@ const Breadcrumb = ({
 	title,
 	breadcrumbItem,
 	leftTitle,
+	showRightInfo = true,
 }) => {
 	const navigate = useNavigate();
 	return (
@@ -23,16 +24,18 @@ const Breadcrumb = ({
 					>
 						{leftTitle || breadcrumbItem}
 					</h4>
-					<div className="page-title-right">
-						<ol className="breadcrumb m-0">
-							<BreadcrumbItem>
-								<Link to={titleLink || '#'}>{title}</Link>
-							</BreadcrumbItem>
-							<BreadcrumbItem active>
-								<Link to={itemLink || '#'}>{breadcrumbItem}</Link>
-							</BreadcrumbItem>
-						</ol>
-					</div>
+					{showRightInfo && (
+						<div className="page-title-right">
+							<ol className="breadcrumb m-0">
+								<BreadcrumbItem>
+									<Link to={titleLink || '#'}>{title}</Link>
+								</BreadcrumbItem>
+								<BreadcrumbItem active>
+									<Link to={itemLink || '#'}>{breadcrumbItem}</Link>
+								</BreadcrumbItem>
+							</ol>
+						</div>
+					)}
 				</div>
 			</Col>
 		</Row>
@@ -43,6 +46,7 @@ Breadcrumb.defaultProps = {
 	titleLink: '',
 	itemLink: '',
 	leftTitle: '',
+	showRightInfo: true,
 };
 
 Breadcrumb.propTypes = {
@@ -51,6 +55,7 @@ Breadcrumb.propTypes = {
 	titleLink: PropTypes.string,
 	itemLink: PropTypes.string,
 	leftTitle: PropTypes.string,
+	showRightInfo: PropTypes.bool,
 };
 
 export default Breadcrumb;

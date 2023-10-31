@@ -1,15 +1,19 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const AdminUserID = ({ cell }) => (
-	<Link to="/" className="text-body fw-bold">
+const Email = ({ cell }) => (
+	<Link
+		to={`/staff/details/${cell?.row?.original?.adminUserId}`}
+		className="text-body fw-bold"
+	>
 		{cell.value ?? ''}
 	</Link>
 );
 
-const Email = ({ cell }) => cell.value ?? '';
+const AdminUserID = ({ cell }) => cell.value ?? '';
 
 const FullName = ({ cell }) => cell.value ?? '';
 
