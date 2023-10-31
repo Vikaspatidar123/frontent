@@ -228,6 +228,7 @@ const typeFreeSpinAdditionalFields = () => [
 		label: 'Bet Level',
 		placeholder: 'Bet Level',
 	},
+	...commonFields(),
 ];
 
 // Filters

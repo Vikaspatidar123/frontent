@@ -7,6 +7,7 @@ import {
 	generalStaticFormFields,
 	typeDepositAdditionalFields,
 	typeFreeSpinAdditionalFields,
+	commonFields,
 } from '../formDetails';
 
 import FormPage from '../../../components/Common/FormPage';
@@ -14,20 +15,25 @@ import Spinners from '../../../components/Common/Spinner';
 
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { bonusTypes } from '../contants';
+import { bonusSchema } from '../Validation/schema';
 
 const General = ({ isLoading }) => {
-	const handleSubmit = () => {};
-
 	// const handleEdit = () => {
 	// 	setIsEditable((prev) => !prev);
 	// };
 
+	const handleSubmit = () => {};
+
 	const { formFields, setFormFields, validation } = useForm({
 		initialValues: getCreateBonusInitialValues(),
-		// validationSchema: createBonusValidationSchema(),
+		validationSchema: bonusSchema('en', { bonusDetail: null })[1],
 		// staticFormFields: generalStaticFormFields(),
 		onSubmitEntry: handleSubmit,
 	});
+
+	useEffect(() => {
+		validation.validateForm(validation.values);
+	}, []);
 
 	const handleBonusTypeChange = (e, type) => {
 		e?.preventDefault();
@@ -84,6 +90,7 @@ const General = ({ isLoading }) => {
 							id,
 						})),
 					},
+					...commonFields(),
 				]);
 				break;
 			default:
