@@ -1,6 +1,16 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import { Button, Card, Col, Row, Spinner } from 'reactstrap';
+import {
+	Button,
+	Card,
+	Col,
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownToggle,
+	Row,
+	Spinner,
+} from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useUserOverview from './hooks/useUserOverview';
@@ -8,6 +18,7 @@ import DisableReason from './modals/DisableReason';
 import YesNoModal from './modals/YesNoModal';
 import {
 	markUserAsInternal,
+	sendPasswordReset,
 	updateSAUserStatus,
 	verifyUserEmail,
 } from '../../store/actions';
@@ -16,6 +27,7 @@ import Duplicates from './modals/Duplicates';
 import GiveBonusModal from './modals/GiveBonus';
 import ManageMoney from './modals/ManageMoney';
 import UpdateUserInfo from './modals/UpdateUserInfo';
+import ResetUserPassword from './modals/ResetUserPassword';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -26,6 +38,7 @@ const ColumnContainer = ({ hidden, children }) => (
 const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 	const dispatch = useDispatch();
 	const { playerId } = useParams();
+	const [openResetMenu, setOpenResetMenu] = useState(false);
 	const [modalStates, setModalStates] = useState({
 		internalModal: false,
 		activeInactiveModal: false,
@@ -34,6 +47,8 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		duplicatesModal: false,
 		giveBonusModal: false,
 		editUserModal: false,
+		resetPasswordEmail: false,
+		resetUserPassword: false,
 	});
 
 	const openModal = (modalName) => {
@@ -71,6 +86,14 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		dispatch(
 			verifyUserEmail({
 				isTenant: false,
+				userId: parseInt(playerId, 10),
+			})
+		);
+	};
+
+	const handleSendResetPasswordEmail = () => {
+		dispatch(
+			sendPasswordReset({
 				userId: parseInt(playerId, 10),
 			})
 		);
@@ -197,7 +220,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											Manage Money
 										</Button>
 									</ColumnContainer>
-									<ColumnContainer>
+									<ColumnContainer hidden>
 										{userDetails?.trackingToken &&
 											userDetails?.isAffiliateUpdated === false && (
 												<Button
@@ -217,7 +240,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 												</Button>
 											)}
 									</ColumnContainer>
-									<ColumnContainer>
+									<ColumnContainer hidden>
 										{userDetails?.trackingToken &&
 											userDetails?.isAffiliateUpdated &&
 											userDetails?.affiliateStatus && (
@@ -248,28 +271,33 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											Edit User Info
 										</Button>
 									</ColumnContainer>
-									{/* {!isHidden({ module: { key: 'Users', value: 'UP' } }) &&
-                  <Dropdown className='d-inline'>
-                    <Dropdown.Toggle
-                      id='dropdown-autoclose-outside'
-                      className='actionButton w-100'
-                      variant='outline-success'
-                    >
-                      Reset Password
-                    </Dropdown.Toggle>
+									<ColumnContainer>
+										<Dropdown
+											isOpen={openResetMenu}
+											toggle={() => setOpenResetMenu((prev) => !prev)}
+										>
+											<DropdownToggle
+												id="dropdown-autoclose-outside"
+												className="actionButton w-100"
+												variant="outline-success"
+											>
+												Reset Password
+											</DropdownToggle>
 
-                    <Dropdown.Menu className='userDetails-dropdown userDetails'>
-                      <Dropdown.Item
-                        onClick={() => setPasswordEmail(true)}
-                      >Send Email
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => setUserPassword(true)}
-                      >Reset Password
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                } */}
+											<DropdownMenu className="dropdown-menu-end">
+												<DropdownItem
+													onClick={() => openModal('resetPasswordEmail')}
+												>
+													Send Email
+												</DropdownItem>
+												<DropdownItem
+													onClick={() => openModal('resetUserPassword')}
+												>
+													Reset Password
+												</DropdownItem>
+											</DropdownMenu>
+										</Dropdown>
+									</ColumnContainer>
 								</Row>
 							</div>
 						</Card>
@@ -398,6 +426,17 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 						show={modalStates.editUserModal}
 						toggle={() => closeModal('editUserModal')}
 						header={`Update ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) Info`}
+					/>
+					<YesNoModal
+						show={modalStates.resetPasswordEmail}
+						handleClose={() => closeModal('resetPasswordEmail')}
+						handleYes={handleSendResetPasswordEmail}
+						content={`Send Password Reset Email to ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
+					/>
+					<ResetUserPassword
+						show={modalStates.resetUserPassword}
+						toggle={() => closeModal('resetUserPassword')}
+						headerText={`Reset Password for ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
 					/>
 				</Row>
 			)}

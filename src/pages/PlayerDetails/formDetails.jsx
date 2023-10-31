@@ -141,6 +141,17 @@ const getInitialValuesUpdateUser = (defaultValue) => ({
 	sms: defaultValue?.sms || false,
 });
 
+const passwordValidation = () =>
+	Yup.object().shape({
+		password: Yup.string()
+			.matches(
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+				'Invalid Password'
+			)
+			.max(50)
+			.required('Password Required'),
+	});
+
 export {
 	validationSchema,
 	getInitialValues,
@@ -152,4 +163,5 @@ export {
 	depositSchema,
 	userSchema,
 	getInitialValuesUpdateUser,
+	passwordValidation,
 };

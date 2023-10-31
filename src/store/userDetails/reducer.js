@@ -39,12 +39,18 @@ import {
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
+	SEND_PASSWORD_RESET,
+	SEND_PASSWORD_RESET_FAIL,
+	SEND_PASSWORD_RESET_SUCCESS,
 	UPDATE_SA_USER_STATUS,
 	UPDATE_SA_USER_STATUS_FAIL,
 	UPDATE_SA_USER_STATUS_SUCCESS,
 	UPDATE_USER_INFO,
 	UPDATE_USER_INFO_FAIL,
 	UPDATE_USER_INFO_SUCCESS,
+	UPDATE_USER_PASSWORD,
+	UPDATE_USER_PASSWORD_FAIL,
+	UPDATE_USER_PASSWORD_SUCCESS,
 	UPDATE_USER_TAGS,
 	UPDATE_USER_TAGS_FAIL,
 	UPDATE_USER_TAGS_SUCCESS,
@@ -105,6 +111,12 @@ const INIT_STATE = {
 	updateUserInfoLoading: false,
 	updateUserInfoSuccess: false,
 	updateUserInfoError: false,
+	sendPasswordResetError: false,
+	sendPasswordResetLoading: false,
+	sendPasswordResetSuccess: false,
+	updateUserPasswordLoading: false,
+	updateUserPasswordSuccess: false,
+	updateUserPasswordError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -488,6 +500,50 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				updateUserInfoError: payload,
 				updateUserInfoLoading: false,
 				updateUserInfoSuccess: false,
+			};
+
+		case SEND_PASSWORD_RESET:
+			return {
+				...state,
+				sendPasswordResetLoading: true,
+			};
+
+		case SEND_PASSWORD_RESET_SUCCESS:
+			return {
+				...state,
+				sendPasswordResetLoading: false,
+				sendPasswordResetSuccess: payload,
+				sendPasswordResetError: null,
+			};
+
+		case SEND_PASSWORD_RESET_FAIL:
+			return {
+				...state,
+				sendPasswordResetError: payload,
+				sendPasswordResetLoading: false,
+				sendPasswordResetSuccess: false,
+			};
+
+		case UPDATE_USER_PASSWORD:
+			return {
+				...state,
+				updateUserPasswordLoading: true,
+			};
+
+		case UPDATE_USER_PASSWORD_SUCCESS:
+			return {
+				...state,
+				updateUserPasswordLoading: false,
+				updateUserPasswordSuccess: payload,
+				updateUserPasswordError: null,
+			};
+
+		case UPDATE_USER_PASSWORD_FAIL:
+			return {
+				...state,
+				updateUserPasswordError: payload,
+				updateUserPasswordLoading: false,
+				updateUserPasswordSuccess: false,
 			};
 
 		default:

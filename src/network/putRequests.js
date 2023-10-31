@@ -92,6 +92,12 @@ const addDepositToOtherCall = (data) =>
 const updateUserInfoCall = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/user`, data);
 
+const resetPasswordEmail = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/reset-password`, data);
+
+const resetUserPassword = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/update-password`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -119,4 +125,6 @@ export {
 	updateUserTags,
 	addDepositToOtherCall,
 	updateUserInfoCall,
+	resetPasswordEmail,
+	resetUserPassword,
 };
