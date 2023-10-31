@@ -5,15 +5,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Email = ({ cell }) => (
-	<Link
-		to={`/staff/details/${cell?.row?.original?.adminUserId}`}
-		className="text-body fw-bold"
-	>
+	<Link to={`/staff/details/${cell?.row?.original?.adminUserId}`}>
 		{cell.value ?? ''}
 	</Link>
 );
 
-const AdminUserID = ({ cell }) => cell.value ?? '';
+const AdminUserID = ({ cell }) => (
+	<span className="fw-bold">{cell.value ?? ''}</span>
+);
 
 const FullName = ({ cell }) => cell.value ?? '';
 
