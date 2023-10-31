@@ -209,6 +209,7 @@ import DashboardView from '../pages/DashboardView';
 import PlayerDetailsPage from '../pages/PlayerDetails';
 import ImageGallery from '../pages/ImageGallery';
 import CreateBonus from '../pages/Bonus/CreateBonus';
+import AdminDetails from '../pages/AdminDetails';
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
 // import ContactsList from "../pages/Contacts/ContactList/contacts-list";
@@ -236,6 +237,7 @@ const authProtectedRoutes = [
 	{ path: '/forms9', component: <FormWizard /> },
 	{ path: '/staff', component: <Admins /> },
 	{ path: '/staff/add', component: <AddAdmin /> },
+	{ path: '/staff/details/:adminUserId', component: <AdminDetails /> },
 	{ path: '/staff/edit/:adminUserId', component: <EditAdmin /> },
 	{ path: '/cms', component: <Cms /> },
 	{ path: '/casino-aggregators', component: <CasinoAggregators /> },
