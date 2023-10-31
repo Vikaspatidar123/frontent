@@ -4,17 +4,17 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
-import { ID, Name, Status } from '../AggregatorListCol';
+import { Name, Status } from '../AggregatorListCol';
 
 const useAggregatorList = (handleStatus) => {
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'gameAggregatorId',
-				filterable: true,
-				Cell: (cellProps) => <ID {...cellProps} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'gameAggregatorId',
+			// 	filterable: true,
+			// 	Cell: (cellProps) => <ID {...cellProps} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',
