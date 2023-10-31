@@ -43,14 +43,14 @@ const FormModal = ({
 				) : (
 					<>
 						<Row>
-							<Col className={`col-12 ${customColClasses}`}>
-								{formFields?.map(
-									(field) =>
-										!field?.isHide && (
-											<div className="mb-3">{getField(field, validation)}</div>
-										)
-								)}
-							</Col>
+							{formFields?.map(
+								(field) =>
+									!field?.isHide && (
+										<Col className={`col-12 mb-3 ${customColClasses}`}>
+											{getField(field, validation)}
+										</Col>
+									)
+							)}
 						</Row>
 						<Row>{customComponent}</Row>
 						<Row>

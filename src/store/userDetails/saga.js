@@ -32,6 +32,12 @@ import {
 	issueBonusFail,
 	depositToOtherSuccess,
 	depositToOtherFail,
+	updateUserInfoSuccess,
+	updateUserInfoFail,
+	sendPasswordResetSuccess,
+	sendPasswordResetFail,
+	updateUserPasswordSuccess,
+	updateUserPasswordFail,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
@@ -47,7 +53,10 @@ import {
 	ISSUE_BONUS,
 	MARK_USER_AS_INTERNAL,
 	RESET_USER_LIMIT,
+	SEND_PASSWORD_RESET,
 	UPDATE_SA_USER_STATUS,
+	UPDATE_USER_INFO,
+	UPDATE_USER_PASSWORD,
 	UPDATE_USER_TAGS,
 	VERIFY_USER_EMAIL,
 } from './actionTypes';
@@ -71,7 +80,10 @@ import { showToastr } from '../../utils/helpers';
 import {
 	addDepositToOtherCall,
 	markUserAsInternal,
+	resetPasswordEmail,
+	resetUserPassword,
 	updateSAUserStatusCall,
+	updateUserInfoCall,
 	updateUserTags,
 	verifyPlayerEmail,
 } from '../../network/putRequests';
@@ -325,6 +337,60 @@ function* depositToOtherWorker(action) {
 	}
 }
 
+function* updateUserInfoWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield updateUserInfoCall(payload);
+		yield put(updateUserInfoSuccess(data?.data));
+		showToastr({
+			message: 'User Info Updated Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(updateUserInfoFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* sendPasswordResetWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield resetPasswordEmail(payload);
+		yield put(sendPasswordResetSuccess(data?.data));
+		showToastr({
+			message: 'Reset Link Sent Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(sendPasswordResetFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* updateUserPasswordWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield resetUserPassword(payload);
+		yield put(updateUserPasswordSuccess(data?.data));
+		showToastr({
+			message: 'User Info Updated Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(updateUserPasswordFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -342,6 +408,9 @@ function* userDetailsWatcher() {
 	yield takeLatest(GET_ALL_BONUS, getAllBonusWorker);
 	yield takeLatest(ISSUE_BONUS, issueBonusWorker);
 	yield takeLatest(DEPOSIT_TO_OTHER, depositToOtherWorker);
+	yield takeLatest(UPDATE_USER_INFO, updateUserInfoWorker);
+	yield takeLatest(UPDATE_USER_PASSWORD, updateUserPasswordWorker);
+	yield takeLatest(SEND_PASSWORD_RESET, sendPasswordResetWorker);
 }
 
 function* UserDetailsSaga() {
