@@ -2,6 +2,9 @@ import {
 	CREATE_USER_COMMENT,
 	CREATE_USER_COMMENT_FAIL,
 	CREATE_USER_COMMENT_SUCCESS,
+	DEPOSIT_TO_OTHER,
+	DEPOSIT_TO_OTHER_FAIL,
+	DEPOSIT_TO_OTHER_SUCCESS,
 	DISABLE_USER,
 	DISABLE_USER_FAIL,
 	DISABLE_USER_SUCCESS,
@@ -93,6 +96,9 @@ const INIT_STATE = {
 	issueBonusLoading: false,
 	issueBonusSuccess: false,
 	issueBonusError: false,
+	depositToOtherLoading: false,
+	depositToOtherSuccess: false,
+	depositToOtherError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -432,6 +438,28 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				issueBonusError: payload,
 				issueBonusLoading: false,
 				issueBonusSuccess: false,
+			};
+
+		case DEPOSIT_TO_OTHER:
+			return {
+				...state,
+				depositToOtherLoading: true,
+			};
+
+		case DEPOSIT_TO_OTHER_SUCCESS:
+			return {
+				...state,
+				depositToOtherLoading: false,
+				depositToOtherSuccess: payload,
+				depositToOtherError: null,
+			};
+
+		case DEPOSIT_TO_OTHER_FAIL:
+			return {
+				...state,
+				depositToOtherError: payload,
+				depositToOtherLoading: false,
+				depositToOtherSuccess: false,
 			};
 
 		default:

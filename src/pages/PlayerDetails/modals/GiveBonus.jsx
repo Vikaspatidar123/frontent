@@ -121,8 +121,9 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 						{bonusList?.map((bonus) => (
 							<div key={bonus.bonusId} className="p-2">
 								<CustomSwitchButton
-									htmlFor={bonus?.bonusId}
 									labelClassName="form-check-label"
+									htmlFor={bonus?.bonusId}
+									id={bonus?.bonusId}
 									label={bonus?.promotionTitle?.EN}
 									type="switch"
 									checked={!!(selectedBonus === bonus?.bonusId)}

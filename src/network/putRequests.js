@@ -86,6 +86,9 @@ const verifyPlayerEmail = (data) =>
 const updateUserTags = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/user/tags`, data);
 
+const addDepositToOtherCall = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/add-balance`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -111,4 +114,5 @@ export {
 	updateWageringTemplate,
 	verifyPlayerEmail,
 	updateUserTags,
+	addDepositToOtherCall,
 };

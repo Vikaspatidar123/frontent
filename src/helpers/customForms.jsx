@@ -324,6 +324,7 @@ export const getField = (
 		levelFieldName,
 		minimum,
 		maximum,
+		adornmentText,
 	},
 	validation
 ) => {
@@ -605,6 +606,53 @@ export const getField = (
 						value={validation.values[name]}
 						onChange={callBack}
 					/>
+				</>
+			);
+		case 'radioGroup':
+			return (
+				<>
+					{label && <Label for={name}>{label}</Label>}
+					<div>
+						{!!optionList.length &&
+							optionList.map((option) => (
+								<CustomSwitchButton
+									labelClassName="form-check-label"
+									label={option.optionLabel}
+									htmlFor={`customRadioInline${option.value}`}
+									type="switch"
+									id={`customRadioInline${option.value}`}
+									value={!!validation.values[name]}
+									name={name}
+									checked={!!(validation.values[name] === option.value)}
+									inputClassName="form-check-input"
+									onClick={() => validation.setFieldValue(name, option.value)}
+									onBlur={validation.handleBlur}
+									disabled={!!isDisabled}
+								/>
+							))}
+					</div>
+				</>
+			);
+		case 'textfieldWithAdornment':
+			return (
+				<>
+					{label && <Label for={name}>{label}</Label>}
+					<InputGroup>
+						<InputGroupText>{adornmentText}</InputGroupText>
+						<CustomInputField
+							type={type}
+							name={name}
+							placeholder={placeholder}
+							value={validation?.values?.[name]}
+							onChange={validation.handleChange}
+							onBlur={validation.handleBlur}
+							invalid={
+								!!(validation.touched?.[name] && validation.errors?.[name])
+							}
+							isError
+							errorMsg={validation.touched?.[name] && validation.errors?.[name]}
+						/>
+					</InputGroup>
 				</>
 			);
 		default:

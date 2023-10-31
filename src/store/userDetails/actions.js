@@ -2,6 +2,9 @@ import {
 	CREATE_USER_COMMENT,
 	CREATE_USER_COMMENT_FAIL,
 	CREATE_USER_COMMENT_SUCCESS,
+	DEPOSIT_TO_OTHER,
+	DEPOSIT_TO_OTHER_FAIL,
+	DEPOSIT_TO_OTHER_SUCCESS,
 	DISABLE_USER,
 	DISABLE_USER_FAIL,
 	DISABLE_USER_SUCCESS,
@@ -274,5 +277,20 @@ export const issueBonusFail = (payload) => ({
 
 export const issueBonus = (payload) => ({
 	type: ISSUE_BONUS,
+	payload,
+});
+
+export const depositToOtherSuccess = (payload) => ({
+	type: DEPOSIT_TO_OTHER_SUCCESS,
+	payload,
+});
+
+export const depositToOtherFail = (payload) => ({
+	type: DEPOSIT_TO_OTHER_FAIL,
+	payload,
+});
+
+export const depositToOther = (payload) => ({
+	type: DEPOSIT_TO_OTHER,
 	payload,
 });

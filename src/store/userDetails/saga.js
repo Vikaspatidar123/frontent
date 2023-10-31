@@ -28,9 +28,14 @@ import {
 	getAllBonusFail,
 	getUserBonusDetailsSuccess,
 	getUserBonusDetailsFail,
+	issueBonusSuccess,
+	issueBonusFail,
+	depositToOtherSuccess,
+	depositToOtherFail,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
+	DEPOSIT_TO_OTHER,
 	DISABLE_USER,
 	GET_ALL_BONUS,
 	GET_BONUS_DETAILS,
@@ -64,6 +69,7 @@ import {
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import {
+	addDepositToOtherCall,
 	markUserAsInternal,
 	updateSAUserStatusCall,
 	updateUserTags,
@@ -284,13 +290,34 @@ function* issueBonusWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield issueBonus(payload);
-		yield put(getAllBonusSuccess(data?.data?.bonus));
+		yield put(issueBonusSuccess(data?.data?.bonus));
 		showToastr({
 			message: `Bonus Issued Successfully`,
 			type: 'success',
 		});
 	} catch (e) {
-		yield put(getAllBonusFail(e.message));
+		yield put(issueBonusFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* depositToOtherWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield addDepositToOtherCall(payload);
+		yield put(depositToOtherSuccess(data?.data?.bonus));
+		showToastr({
+			message:
+				payload.addAmount > 0
+					? `Deposit Successful`
+					: 'Amount Removed from Wallet Successful',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(depositToOtherFail(e.message));
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
 			type: 'error',
@@ -314,6 +341,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(GET_BONUS_DETAILS, getBonusDetailsWorker);
 	yield takeLatest(GET_ALL_BONUS, getAllBonusWorker);
 	yield takeLatest(ISSUE_BONUS, issueBonusWorker);
+	yield takeLatest(DEPOSIT_TO_OTHER, depositToOtherWorker);
 }
 
 function* UserDetailsSaga() {

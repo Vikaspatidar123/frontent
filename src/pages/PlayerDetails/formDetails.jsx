@@ -60,6 +60,16 @@ const getLimitInitialValues = (defaultValue) => ({
 	limit: defaultValue?.limit || '',
 });
 
+const depositSchema = () =>
+	Yup.object().shape({
+		addAmount: Yup.number()
+			.typeError('Only numbers are allowed')
+			.min(0, 'Amount should be greater than 0')
+			.required('Amount Required'),
+		transactionType: Yup.string().required('Transaction type required'),
+		walletType: Yup.string().required('Wallet type required'),
+	});
+
 export {
 	validationSchema,
 	getInitialValues,
@@ -68,4 +78,5 @@ export {
 	selfExclusionSchema,
 	getLimitInitialValues,
 	setDisableUserlimitsSchema,
+	depositSchema,
 };
