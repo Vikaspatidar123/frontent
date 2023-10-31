@@ -8,7 +8,7 @@ import Permissions from '../Profile/FormSections/Permissions';
 import { getPermissionsStart } from '../../store/auth/permissionDetails/actions';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 // eslint-disable-next-line import/no-unresolved
-import OverView from './OverView';
+import OverView from './Overview';
 import Spinners from '../../components/Common/Spinner';
 
 const AdminDetails = ({ t }) => {
