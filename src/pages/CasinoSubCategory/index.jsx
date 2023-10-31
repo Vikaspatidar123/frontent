@@ -123,7 +123,7 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 			Cell: (cellProps) => <GameCategory {...cellProps} />,
 		},
 		{
-			Header: 'IMAGE URL',
+			Header: 'IMAGE',
 			accessor: 'imageUrl',
 			filterable: true,
 			Cell: (cellProps) => <ImageUrl {...cellProps} />,
