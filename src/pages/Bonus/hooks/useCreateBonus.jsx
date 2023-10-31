@@ -42,7 +42,7 @@ const useCreateBonus = () => {
 		{
 			id: '1',
 			title: 'General',
-			component: <General />,
+			component: <General activeTab={activeTab} />,
 		},
 		{
 			id: '2',
