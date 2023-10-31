@@ -36,7 +36,7 @@ const ImageUrl = ({ cell }) => {
 				className="btn btn-link waves-effect"
 				onClick={() => setisFits(true)}
 			>
-				{'View Image' ?? ''}
+				View Image
 			</Button>
 		</>
 	);
