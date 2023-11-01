@@ -35,6 +35,7 @@ const TableContainer = ({
 	changeRowsPerPageCallback,
 	hideHeader,
 	tbodyHeight,
+	cellPadding,
 }) => {
 	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
 	const tableHeaderClass = useSelector(
@@ -136,7 +137,11 @@ const TableContainer = ({
 									<Fragment key={row.getRowProps().key}>
 										<tr>
 											{row.cells.map((cell) => (
-												<td key={cell.id} {...cell.getCellProps()}>
+												<td
+													style={cellPadding ? { padding: cellPadding } : {}}
+													key={cell.id}
+													{...cell.getCellProps()}
+												>
 													{cell.render('Cell')}
 												</td>
 											))}
