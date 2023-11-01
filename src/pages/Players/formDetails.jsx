@@ -64,8 +64,8 @@ const filterValues = () => ({
 	affiliateName: '',
 	startDate: null,
 	endDate: null,
-	userId: null,
-	phoneNumber: null,
+	userId: '',
+	phoneNumber: '',
 	orderBy: null,
 	sort: '',
 });
