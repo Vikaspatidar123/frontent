@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import { Card, CardBody, Col, Container, Row, Collapse } from 'reactstrap';
 
 import classnames from 'classnames';
 import TableContainer from '../../components/Common/TableContainer';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
 
 import useKYCLables from './hooks/useKYCLabels';
@@ -33,7 +33,7 @@ const columns = [
 	},
 ];
 
-const KYCLabels = ({ t }) => {
+const KYCLabels = () => {
 	// meta title
 	document.title = projectName;
 
@@ -63,7 +63,7 @@ const KYCLabels = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs title={t('Player')} breadcrumbItem={t('KYC Labels')} />
+				{/* <Breadcrumbs title={t('Player')} breadcrumbItem={t('KYC Labels')} /> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -159,7 +159,7 @@ const KYCLabels = ({ t }) => {
 };
 
 KYCLabels.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 KYCLabels.defaultProps = {
