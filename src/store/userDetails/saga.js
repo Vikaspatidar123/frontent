@@ -74,6 +74,8 @@ import {
 	disableUserCall,
 	disableUserSession,
 	issueBonus,
+	resetDepositLimitCall,
+	resetLossLimitCall,
 	resetUserLimitCall,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
@@ -146,12 +148,18 @@ function* createUserCommentWorker(action) {
 function* resetUserLimitWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield resetUserLimitCall(payload);
+		if (payload?.type === 'wager') {
+			yield resetUserLimitCall(payload);
+		} else if (payload?.type === 'deposit') {
+			yield resetDepositLimitCall(payload);
+		} else {
+			yield resetLossLimitCall(payload);
+		}
 		showToastr({
 			message: `Limit ${payload.reset ? 'Reset' : 'Set'} Successfully`,
 			type: 'success',
 		});
-		yield put(resetUserLimitSuccess(data?.data));
+		yield put(resetUserLimitSuccess(true));
 	} catch (e) {
 		yield put(resetUserLimitFail(e.message));
 	}
