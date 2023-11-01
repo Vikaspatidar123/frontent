@@ -50,6 +50,12 @@ const createWageringTemplate = (data) =>
 const resetUserLimitCall = (data) =>
   postRequest(`${VITE_APP_API_URL}/api/admin/user/daily-limit`, data);
 
+const resetDepositLimitCall = (data) =>
+  postRequest(`${VITE_APP_API_URL}/api/admin/user/deposit-limit`, data);
+
+const resetLossLimitCall = (data) =>
+  postRequest(`${VITE_APP_API_URL}/api/admin/user/loss-limit`, data);
+
 const disableUserCall = (data) =>
   postRequest(`${VITE_APP_API_URL}/api/admin/user/disable-until`, data);
 
@@ -57,7 +63,7 @@ const disableUserSession = (data) =>
   postRequest(`${VITE_APP_API_URL}/api/admin/user/session-time`, data);
 
 const createSuperAdminCMS = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/cms`, data);
+  postRequest(`${VITE_APP_API_URL}/api/admin/cms`, data);
 
 const updateMatchFeaturedTemplate = (data) =>
   postRequest(
@@ -69,6 +75,7 @@ const issueBonus = (data) =>
   postRequest(`${VITE_APP_API_URL}/api/admin/bonus/issue`, data);
 
 export {
+  createSuperAdminCMS,
   superAdminLogin,
   createCurrency,
   addSuperAdminUser,
@@ -85,7 +92,8 @@ export {
   resetUserLimitCall,
   disableUserCall,
   disableUserSession,
-	createSuperAdminCMS,
   updateMatchFeaturedTemplate,
   issueBonus,
+  resetDepositLimitCall,
+  resetLossLimitCall,
 };

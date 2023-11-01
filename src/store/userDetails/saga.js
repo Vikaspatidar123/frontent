@@ -38,6 +38,8 @@ import {
 	sendPasswordResetFail,
 	updateUserPasswordSuccess,
 	updateUserPasswordFail,
+	markDocumentRequiredSuccess,
+	markDocumentRequiredFail,
 } from './actions';
 import {
 	CREATE_USER_COMMENT,
@@ -51,6 +53,7 @@ import {
 	GET_USER_DETAILS,
 	GET_USER_DOCUMENTS,
 	ISSUE_BONUS,
+	MARK_DOCUMENT_REQUIRED,
 	MARK_USER_AS_INTERNAL,
 	RESET_USER_LIMIT,
 	SEND_PASSWORD_RESET,
@@ -74,12 +77,16 @@ import {
 	disableUserCall,
 	disableUserSession,
 	issueBonus,
+	resetDepositLimitCall,
+	resetLossLimitCall,
 	resetUserLimitCall,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import {
 	addDepositToOtherCall,
+	cancelDocumentRequest,
 	markUserAsInternal,
+	requestDocument,
 	resetPasswordEmail,
 	resetUserPassword,
 	updateSAUserStatusCall,
@@ -146,12 +153,18 @@ function* createUserCommentWorker(action) {
 function* resetUserLimitWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield resetUserLimitCall(payload);
+		if (payload?.type === 'wager') {
+			yield resetUserLimitCall(payload);
+		} else if (payload?.type === 'deposit') {
+			yield resetDepositLimitCall(payload);
+		} else {
+			yield resetLossLimitCall(payload);
+		}
 		showToastr({
 			message: `Limit ${payload.reset ? 'Reset' : 'Set'} Successfully`,
 			type: 'success',
 		});
-		yield put(resetUserLimitSuccess(data?.data));
+		yield put(resetUserLimitSuccess(true));
 	} catch (e) {
 		yield put(resetUserLimitFail(e.message));
 	}
@@ -391,6 +404,29 @@ function* updateUserPasswordWorker(action) {
 	}
 }
 
+function* markDocumentRequiredWorker(action) {
+	try {
+		const payload = action && action.payload;
+
+		if (payload.isRequested) {
+			yield requestDocument(payload);
+		} else yield cancelDocumentRequest(payload);
+		yield put(markDocumentRequiredSuccess(true));
+		showToastr({
+			message: payload.isRequested
+				? 'Document Requested Successfully'
+				: 'Document Unrequested Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(markDocumentRequiredFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -411,6 +447,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(UPDATE_USER_INFO, updateUserInfoWorker);
 	yield takeLatest(UPDATE_USER_PASSWORD, updateUserPasswordWorker);
 	yield takeLatest(SEND_PASSWORD_RESET, sendPasswordResetWorker);
+	yield takeLatest(MARK_DOCUMENT_REQUIRED, markDocumentRequiredWorker);
 }
 
 function* UserDetailsSaga() {

@@ -85,6 +85,7 @@ const PlayerWallet = ({ userDetails }) => {
 					pagination="pagination justify-content-start pagination-rounded"
 					customPageSize={20}
 					hideHeader
+					cellPadding="0.25rem"
 				/>
 			</Card>
 		</Container>

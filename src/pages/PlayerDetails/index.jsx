@@ -127,7 +127,11 @@ const PlayerDetailsPage = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumb title={t('Player')} breadcrumbItem={t('Player Details')} />
+				<Breadcrumb
+					leftTitle={`Player Details : ${userDetails?.firstName} ${userDetails?.lastName}`}
+					title={t('Player')}
+					breadcrumbItem={t('Player Details')}
+				/>
 				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
 			</Container>
 		</div>
