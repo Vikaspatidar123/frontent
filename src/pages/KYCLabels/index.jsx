@@ -79,23 +79,28 @@ const KYCLabels = ({ t }) => {
 										const labelId = label[0].documentLabelId;
 										const { isRequired, languageData } = label[0];
 										return (
-											<div className="accordion" id="accordion" key={labelId}>
-												<div className="accordion-item">
+											<div
+												className="accordion mb-2"
+												id="accordion"
+												key={labelId}
+											>
+												<div className="accordion-item border-0 bg-transparent">
 													<h2
-														className="accordion-header"
+														className="accordion-header accordion-border-radius accordion-item"
 														id={`heading${labelId}`}
 													>
 														<button
 															className={classnames(
 																'accordion-button',
 																'fw-medium',
+																'accordion-border-radius',
 																{ collapsed: expanded !== labelId }
 															)}
 															type="button"
 															onClick={handleChange(labelId)}
 															style={{ cursor: 'pointer' }}
 														>
-															<h5 className="font-size-14 d-inline-flex align-items-center gap-2">
+															<h5 className="font-size-14 d-inline-flex align-items-center gap-2 mb-0 fw-bolder">
 																Label {labelId}
 																{isRequired ? (
 																	<span className="text-success">
