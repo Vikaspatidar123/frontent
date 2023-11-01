@@ -16,11 +16,11 @@ import PropTypes from 'prop-types';
 const TabsPage = ({ activeTab, tabsData, toggle }) => (
 	<div>
 		<Row>
-			<Col lg={12}>
+			<Col>
 				<Card>
 					<CardBody>
 						<Nav pills className="navtab-bg nav-justified">
-							{tabsData.map((tab) => (
+							{tabsData?.map((tab) => (
 								<NavItem key={tab.id}>
 									<NavLink
 										style={{ cursor: 'pointer' }}
@@ -39,7 +39,7 @@ const TabsPage = ({ activeTab, tabsData, toggle }) => (
 			</Col>
 		</Row>
 		<TabContent activeTab={activeTab} className="text-muted">
-			{tabsData.map((tab) => (
+			{tabsData?.map((tab) => (
 				<TabPane key={tab.id} tabId={tab.id}>
 					<Row>
 						<Col sm="12">{tab.component}</Col>

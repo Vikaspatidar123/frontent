@@ -154,6 +154,14 @@ const getImageGalleryData = () =>
 const getCommentsList = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user/comments`, payload);
 
+const getCMSDynamicKeys = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/cms/dynamic-data`);
+
+const getCmsByPageId = ({ cmsPageId }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/cms/details?cmsPageId=${cmsPageId}`
+	);
+
 const getDuplicateUsers = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user/duplicate`, payload);
 
@@ -208,6 +216,8 @@ export {
 	getUserBonuses,
 	getCommentsList,
 	getDashboardDemoGraphicService,
+	getCMSDynamicKeys,
+	getCmsByPageId,
 	getDuplicateUsers,
 	getBonusDetails,
 	fetchRestrictedCountries,

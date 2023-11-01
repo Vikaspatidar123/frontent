@@ -10,6 +10,7 @@ import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
+import useCreateCms from './hooks/useCreateCms';
 
 const Cms = ({ t }) => {
 	// Set meta title
@@ -26,6 +27,8 @@ const Cms = ({ t }) => {
 		onChangeRowsPerPage,
 		columns,
 	} = useCmsListing();
+
+	const { buttonList } = useCreateCms();
 
 	const {
 		toggleAdvance,
@@ -45,7 +48,7 @@ const Cms = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="CMS Listing" />
+							<CrudSection buttonList={buttonList} title="CMS Listing" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

@@ -172,6 +172,8 @@ import CountriesList from '../pages/CountriesList';
 import PlayersList from '../pages/Players';
 import Admins from '../pages/Admins';
 import Cms from '../pages/Cms';
+import CreateCMS from '../pages/Cms/CreateCMS';
+import EditCMS from '../pages/Cms/EditCMS';
 import CasinoCategory from '../pages/CasinoCategory';
 import CasinoSubCategory from '../pages/CasinoSubCategory';
 import CasinoAggregators from '../pages/Casino Management/Aggregators';
@@ -241,6 +243,8 @@ const authProtectedRoutes = [
   { path: '/staff/details/:adminUserId', component: <AdminDetails /> },
   { path: '/staff/edit/:adminUserId', component: <EditAdmin /> },
   { path: '/cms', component: <Cms /> },
+	{ path: '/cms/create', component: <CreateCMS /> },
+	{ path: '/cms/edit/:cmsPageId', component: <EditCMS /> },
   { path: '/casino-aggregators', component: <CasinoAggregators /> },
   { path: '/bonus', component: <BonusDetail /> },
   { path: '/bonus/create', component: <CreateBonus /> },

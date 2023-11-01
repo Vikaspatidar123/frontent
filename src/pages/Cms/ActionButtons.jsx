@@ -4,7 +4,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const ActionButtons = ({ cell, handleStatus }) => {
+const ActionButtons = ({ cell, handleStatus, handleEditClick }) => {
 	const status = cell?.row?.original?.isActive;
 	const cmsPageId = cell?.row?.original?.cmsPageId;
 	return (
@@ -58,20 +58,11 @@ const ActionButtons = ({ cell, handleStatus }) => {
 				<Link
 					to="#"
 					className="btn btn-sm btn-soft-info"
-					// onClick={(e) => handleEdit(e, cell?.row?.original)}
+					onClick={(e) => handleEditClick(e, cmsPageId)}
 				>
 					<i className="mdi mdi-pencil-outline" id="edittooltip" />
 					<UncontrolledTooltip placement="top" target="edittooltip">
 						Edit
-					</UncontrolledTooltip>
-				</Link>
-			</li>
-
-			<li>
-				<Link to="/" className="btn btn-sm btn-soft-danger">
-					<i className="mdi mdi-delete-outline" id="deletetooltip" />
-					<UncontrolledTooltip placement="top" target="deletetooltip">
-						Delete
 					</UncontrolledTooltip>
 				</Link>
 			</li>
@@ -80,6 +71,7 @@ const ActionButtons = ({ cell, handleStatus }) => {
 };
 
 ActionButtons.propTypes = {
+	handleEditClick: PropTypes.func.isRequired,
 	handleStatus: PropTypes.func.isRequired,
 	cell: PropTypes.objectOf.isRequired,
 };

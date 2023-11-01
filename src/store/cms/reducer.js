@@ -5,6 +5,18 @@ import {
 	UPDATE_SA_CMS_STATUS,
 	UPDATE_SA_CMS_STATUS_SUCCESS,
 	UPDATE_SA_CMS_STATUS_FAIL,
+	GET_CMS_DYNAMIC_KEYS,
+	GET_CMS_DYNAMIC_KEYS_SUCCESS,
+	GET_CMS_DYNAMIC_KEYS_FAIL,
+	CREATE_SA_CMS,
+	CREATE_SA_CMS_SUCCESS,
+	CREATE_SA_CMS_FAIL,
+	GET_CMS_BY_PAGE_ID,
+	GET_CMS_BY_PAGE_ID_SUCCESS,
+	GET_CMS_BY_PAGE_ID_FAIL,
+	UPDATE_SA_CMS,
+	UPDATE_SA_CMS_SUCCESS,
+	UPDATE_SA_CMS_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -14,6 +26,18 @@ const INIT_STATE = {
 	updateSACmsStatus: false,
 	updateSACmsStatusError: null,
 	updateSACmsStatusLoading: false,
+	cmsDynamicKeys: null,
+	cmsDynamicKeysError: null,
+	cmsDynamicKeysLoading: false,
+	isCreateCms: false,
+	createCmsLoading: false,
+	createCmsError: null,
+	cmsByPageId: null,
+	cmsByPageIdLoading: false,
+	cmsByPageIdError: null,
+	updateCms: false,
+	updateCmsLoading: false,
+	updateCmsError: null,
 };
 
 const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
@@ -59,6 +83,94 @@ const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
 				updateSACmsStatusLoading: false,
 				updateSACmsStatus: true,
 				updateSACmsStatusError: false,
+			};
+
+		case GET_CMS_DYNAMIC_KEYS:
+			return {
+				...state,
+				cmsDynamicKeysLoading: true,
+			};
+
+		case GET_CMS_DYNAMIC_KEYS_FAIL:
+			return {
+				...state,
+				cmsDynamicKeysLoading: false,
+				cmsDynamicKeysError: payload,
+				cmsDynamicKeys: null,
+			};
+
+		case GET_CMS_DYNAMIC_KEYS_SUCCESS:
+			return {
+				...state,
+				cmsDynamicKeysLoading: false,
+				cmsDynamicKeys: payload,
+				cmsDynamicKeysError: null,
+			};
+
+		case CREATE_SA_CMS:
+			return {
+				...state,
+				createCmsLoading: true,
+			};
+
+		case CREATE_SA_CMS_FAIL:
+			return {
+				...state,
+				createCmsLoading: false,
+				createCmsError: payload,
+				isCreateCmspd: false,
+			};
+
+		case CREATE_SA_CMS_SUCCESS:
+			return {
+				...state,
+				createCmsLoading: false,
+				isCreateCms: true,
+				createCmsError: null,
+			};
+
+		case GET_CMS_BY_PAGE_ID:
+			return {
+				...state,
+				cmsByPageIdLoading: true,
+			};
+
+		case GET_CMS_BY_PAGE_ID_FAIL:
+			return {
+				...state,
+				cmsByPageIdLoading: false,
+				cmsByPageIdError: payload,
+				cmsByPageId: null,
+			};
+
+		case GET_CMS_BY_PAGE_ID_SUCCESS:
+			return {
+				...state,
+				cmsByPageIdLoading: false,
+				cmsByPageId: payload,
+				cmsByPageIdError: null,
+			};
+
+		case UPDATE_SA_CMS:
+			return {
+				...state,
+				updateCmsLoading: true,
+			};
+
+		case UPDATE_SA_CMS_FAIL:
+			return {
+				...state,
+				updateCmsLoading: false,
+				updateCmsError: payload,
+				updateCms: false,
+			};
+
+		case UPDATE_SA_CMS_SUCCESS:
+			return {
+				...state,
+				updateCmsLoading: false,
+				updateCms: true,
+				updateCmsError: null,
 			};
 
 		default:

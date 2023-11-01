@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
 	getAllCmsDetails,
 	updateSaCmsStatus,
@@ -9,6 +10,7 @@ import { CmsPageId, Title, Slug, Portal, Status } from '../CmsListCol';
 import ActionButtons from '../ActionButtons';
 
 const useCmsListing = () => {
+	const navigate = useNavigate();
 	const { cmsDetails, isLoading, error } = useSelector((state) => state.AllCms);
 	const [limit, setLimit] = useState(15);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -71,6 +73,11 @@ const useCmsListing = () => {
 		);
 	};
 
+	const handleEditClick = (e, cmsPageId) => {
+		e.preventDefault();
+		navigate(`edit/${cmsPageId}`);
+	};
+
 	useEffect(() => {
 		fetchData();
 	}, [limit, selectedPortal, selectedClient, active, page, itemsPerPage]);
@@ -112,7 +119,11 @@ const useCmsListing = () => {
 				accessor: 'action',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<ActionButtons cell={cell} handleStatus={handleStatus} />
+					<ActionButtons
+						cell={cell}
+						handleStatus={handleStatus}
+						handleEditClick={handleEditClick}
+					/>
 				),
 			},
 		],
