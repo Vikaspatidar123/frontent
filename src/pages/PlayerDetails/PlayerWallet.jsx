@@ -48,7 +48,7 @@ const PlayerWallet = ({ userDetails }) => {
 					Number(userDetails?.userWallet?.nonCashAmount)
 				}`,
 			};
-			keyArray.map((key) =>
+			keyArray?.map((key) =>
 				arrayToReturn.push({ key: key.label, value: copyArray[key.accessor] })
 			);
 		}

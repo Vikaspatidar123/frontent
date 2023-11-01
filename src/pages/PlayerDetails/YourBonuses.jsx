@@ -21,7 +21,7 @@ const YourBonuses = ({ userId }) => {
 	const formattedUserBonus = useMemo(() => {
 		const formattedValues = [];
 		if (userBonus) {
-			userBonus.rows.map((bonus) =>
+			userBonus?.rows?.map((bonus) =>
 				formattedValues.push({
 					...bonus,
 					cancelledBy: bonus?.cancelledBy || '-',
