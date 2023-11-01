@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -7,12 +8,16 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getAdminDetails } from '../../../store/actions';
-import { itemsPerPage } from '../../../constants/config';
+import { debounceTime, itemsPerPage } from '../../../constants/config';
 
+let debounce;
 const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
+	const prevValues = useRef(null);
+	const isFirst = useRef(true);
+	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
 	const fetchData = (values) => {
 		dispatch(
@@ -37,22 +42,29 @@ const useFilters = () => {
 		staticFormFields: staticFiltersFields,
 	});
 
-	const handleAdvance = () => {
-		toggleAdvance();
-	};
+	// const handleAdvance = () => {
+	// 	toggleAdvance();
+	// };
 
 	const handleClear = () => {
 		const initialValues = filterValues();
 		validation.resetForm(initialValues);
-		fetchData(initialValues);
 	};
 
 	useEffect(() => {
-		const debounce = setTimeout(() => {
-			handleFilter(validation.values);
-		}, 600);
+		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
+			setIsFilterChanged(true);
+			debounce = setTimeout(() => {
+				handleFilter(validation.values);
+			}, debounceTime);
+			prevValues.current = validation.values;
+		}
+		isFirst.current = false;
+		if (isEqual(filterValues(), validation.values)) {
+			setIsFilterChanged(false);
+		}
 		return () => clearTimeout(debounce);
-	}, [JSON.stringify(validation.values)]);
+	}, [validation.values]);
 
 	const actionButtons = useMemo(() => [
 		{
@@ -60,14 +72,16 @@ const useFilters = () => {
 			label: '',
 			icon: 'mdi mdi-refresh',
 			handleClick: handleClear,
+			tooltip: 'Clear filter',
+			id: 'clear',
 		},
-		{
-			type: 'button',
-			label: '',
-			icon: 'bx bx-add-to-queue',
-			handleClick: handleAdvance,
-			color: 'btn-secondary',
-		},
+		// {
+		// 	type: 'button',
+		// 	label: '',
+		// 	icon: 'bx bx-add-to-queue',
+		// 	handleClick: handleAdvance,
+		// 	color: 'btn-secondary',
+		// },
 	]);
 
 	return {
@@ -76,6 +90,7 @@ const useFilters = () => {
 		filterFields: formFields,
 		actionButtons,
 		filterValidation: validation,
+		isFilterChanged,
 	};
 };
 

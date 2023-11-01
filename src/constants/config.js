@@ -16,6 +16,8 @@ const tbodyClass = '';
 
 const itemsPerPage = 10;
 
+const debounceTime = 700;
+
 export {
 	projectName,
 	role,
@@ -24,4 +26,5 @@ export {
 	theadClass,
 	tbodyClass,
 	itemsPerPage,
+	debounceTime,
 };
