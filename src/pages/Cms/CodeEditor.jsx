@@ -139,11 +139,11 @@ export default function CodeEditor({
 		writeInFrame(iFrame, tmpHTML, tmpDynamacData);
 	};
 
-	useEffect(() => {
-		if (cmsByPageId) {
-			updateTextArea('HTML', validation?.values?.content || '');
-		}
-	}, [cmsByPageId]);
+	// useEffect(() => {
+	// 	if (cmsByPageId) {
+	// 		updateTextArea('HTML', validation?.values?.content || '');
+	// 	}
+	// }, [cmsByPageId]);
 
 	return (
 		<div className="codepen">
@@ -195,7 +195,7 @@ export default function CodeEditor({
 							<Editor
 								disabled={details || disabled}
 								className="textarea-editor"
-								value={validation?.values?.content}
+								value={_HTML}
 								onValueChange={(newVal) => updateTextArea('HTML', newVal)}
 								highlight={(code) => highlight(code, languages.html, 'html')}
 							/>

@@ -28,6 +28,7 @@ const CreateCMSTemplate = ({
 	const [template, setTemplate] = useState('');
 	const [label, setLabel] = useState('');
 	const [requiredKeyData, setRequiredKeyData] = useState({});
+	const [data] = useState(validation?.values?.content);
 
 	useEffect(() => {
 		if (cmsKeys?.dynamicKeys && Object.keys(cmsKeys?.dynamicKeys)?.length) {
@@ -73,7 +74,7 @@ const CreateCMSTemplate = ({
 					<CodeEditor
 						cmsByPageId={cmsByPageId}
 						dynamicData={safeStringify(requiredKeyData, null, 2)}
-						HTML=""
+						HTML={data || ''}
 						initial="HTML"
 						mobileQuery={800}
 						height="70vh"
