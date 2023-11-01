@@ -80,7 +80,7 @@ const KYCLabels = () => {
 										const { isRequired, languageData } = label[0];
 										return (
 											<div
-												className="accordion mb-2"
+												className="accordion mb-2 left-accordion-arrow"
 												id="accordion"
 												key={labelId}
 											>
@@ -100,7 +100,7 @@ const KYCLabels = () => {
 															onClick={handleChange(labelId)}
 															style={{ cursor: 'pointer' }}
 														>
-															<h5 className="font-size-14 d-inline-flex align-items-center gap-2 mb-0 fw-bolder">
+															<h5 className="font-size-14 d-inline-flex align-items-center gap-2 mb-0 fw-bolder margin-left">
 																Label {labelId}
 																{isRequired ? (
 																	<span className="text-success">
@@ -123,7 +123,7 @@ const KYCLabels = () => {
 														isOpen={expanded === labelId}
 														className="accordion-collapse"
 													>
-														<div className="accordion-body">
+														<div className="accordion-body accordion-body-padding">
 															<TableContainer
 																columns={columns}
 																data={languageData}

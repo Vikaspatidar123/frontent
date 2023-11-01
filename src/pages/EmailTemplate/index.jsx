@@ -72,7 +72,11 @@ const EmailTemplate = ({ t }) => {
 							/>
 						) : (
 							Object.keys(emailTemplates).map((key) => (
-								<div className="accordion mb-2" id="accordion" key={key}>
+								<div
+									className="accordion mb-2 left-accordion-arrow"
+									id="accordion"
+									key={key}
+								>
 									<div className="accordion-item border-0 bg-transparent">
 										<h2
 											className="accordion-header accordion-border-radius accordion-item"
@@ -92,7 +96,9 @@ const EmailTemplate = ({ t }) => {
 												onClick={handleChange(key)}
 												style={{ cursor: 'pointer' }}
 											>
-												<h5 className="font-size-14 mb-0 fw-bolder ">{key}</h5>
+												<h5 className="font-size-14 mb-0 fw-bolder margin-left">
+													{key}
+												</h5>
 											</button>
 										</h2>
 
@@ -100,7 +106,7 @@ const EmailTemplate = ({ t }) => {
 											isOpen={expanded === key}
 											className="accordion-collapse"
 										>
-											<div className="accordion-body">
+											<div className="accordion-body accordion-body-padding">
 												<TableContainer
 													columns={columns}
 													data={emailTemplates[key]}

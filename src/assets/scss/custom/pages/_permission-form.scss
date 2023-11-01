@@ -24,7 +24,7 @@ body[data-bs-theme='light'] {
 	border-radius: 50px !important;
 }
 
-.accordion-header .accordion-border-radius:after {
+.left-accordion-arrow .accordion-header .accordion-border-radius:after {
 	content: '';
 	border: 1px solid var(--bs-border-color) !important;
 	background-position: center !important;
@@ -32,10 +32,17 @@ body[data-bs-theme='light'] {
 	width: 60px;
 	border-radius: 50%;
 	position: absolute;
-	right: 0;
-	box-shadow: $arrow-shadow;
+	left: 0;
 }
 
 .min-height {
 	min-height: 60px;
+}
+
+.margin-left {
+	margin-left: 60px;
+}
+
+.accordion-body-padding {
+	padding: 0 8px;
 }
