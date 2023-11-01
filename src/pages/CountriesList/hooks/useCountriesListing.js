@@ -35,7 +35,7 @@ const useCountriesListing = () => {
 	const formattedCountries = useMemo(() => {
 		const formattedValues = [];
 		if (countries) {
-			countries.rows.map((country) =>
+			countries?.rows?.map((country) =>
 				formattedValues.push({
 					...country,
 					countryName: country.name,

@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Card, Container } from 'reactstrap';
+import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import {
@@ -10,13 +10,15 @@ import {
 	Amount,
 	CreatedAt,
 	CurrencyCode,
-	Email,
+	// Email,
 	Id,
 	NonCashAmount,
 	Status,
 } from './TableCol';
 import { fetchSportsTransactionStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
+import Filters from '../../components/Common/Filters';
+import useSportBetHistoryFilters from './hooks/useSportBetHistoryFilters';
 
 const SportsBettingHistory = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -40,7 +42,7 @@ const SportsBettingHistory = ({ userId }) => {
 	const formattedSportsTransaction = useMemo(() => {
 		const formattedValues = [];
 		if (sportsTransaction) {
-			sportsTransaction.rows.map((txn) =>
+			sportsTransaction?.rows?.map((txn) =>
 				formattedValues.push({
 					...txn,
 					email: txn.users.email,
@@ -60,12 +62,12 @@ const SportsBettingHistory = ({ userId }) => {
 				filterable: true,
 				Cell: (cellProps) => <Id {...cellProps} />,
 			},
-			{
-				Header: 'Email',
-				accessor: 'email',
-				filterable: true,
-				Cell: (cellProps) => <Email {...cellProps} />,
-			},
+			// {
+			// 	Header: 'Email',
+			// 	accessor: 'email',
+			// 	filterable: true,
+			// 	Cell: (cellProps) => <Email {...cellProps} />,
+			// },
 			{
 				Header: 'Amount',
 				accessor: 'amount',
@@ -103,6 +105,15 @@ const SportsBettingHistory = ({ userId }) => {
 		[]
 	);
 
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useSportBetHistoryFilters();
+
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
@@ -110,22 +121,32 @@ const SportsBettingHistory = ({ userId }) => {
 	return (
 		<Container fluid className="bg-white">
 			<Card className="p-2">
-				<TableContainer
-					isLoading={isSportsTransactionLoading}
-					columns={columns}
-					data={formattedSportsTransaction}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={sportsTransaction?.count}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					changeRowsPerPageCallback={onChangeRowsPerPage}
-				/>
+				<CardBody>
+					<Filters
+						validation={filterValidation}
+						filterFields={filterFields}
+						actionButtons={actionButtons}
+						isAdvanceOpen={isAdvanceOpen}
+						toggleAdvance={toggleAdvance}
+						isFilterChanged={isFilterChanged}
+					/>
+					<TableContainer
+						isLoading={isSportsTransactionLoading}
+						columns={columns}
+						data={formattedSportsTransaction}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						// paginationDiv="col-sm-12 col-md-7"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={sportsTransaction?.count}
+						isManualPagination
+						onChangePagination={setCurrentPage}
+						currentPage={currentPage}
+						changeRowsPerPageCallback={onChangeRowsPerPage}
+					/>
+				</CardBody>
 			</Card>
 		</Container>
 	);

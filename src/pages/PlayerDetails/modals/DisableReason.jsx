@@ -19,7 +19,7 @@ const staticFormFields = [
 		fieldType: 'select',
 		label: 'Reason',
 		placeholder: 'Select Reason',
-		optionList: userDisableReasons.map((reason) => ({
+		optionList: userDisableReasons?.map((reason) => ({
 			value: reason,
 			optionLabel: reason,
 		})),

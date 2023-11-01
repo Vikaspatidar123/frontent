@@ -1,31 +1,37 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty, isEqual } from 'lodash';
+import { useParams } from 'react-router-dom';
 import {
-	filterValidationSchema,
-	filterValues,
-	staticFiltersFields,
+	sportsBetFiltersFields,
+	sportsBetFilterValues,
+	sportsBetFilterValidationSchema,
 } from '../formDetails';
+
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getAdminDetails } from '../../../store/actions';
+import {
+	fetchCurrenciesStart,
+	fetchSportsTransactionStart,
+} from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
-const useFilters = () => {
+const useSportBetHistoryFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
+	const { currencies } = useSelector((state) => state.Currencies);
+	const { playerId } = useParams();
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
 	const fetchData = (values) => {
 		dispatch(
-			getAdminDetails({
+			fetchSportsTransactionStart({
 				limit: itemsPerPage,
 				pageNo: 1,
-				orderBy: 'adminUserId',
-				sort: 'desc',
+				userId: playerId,
 				...values,
 			})
 		);
@@ -35,11 +41,11 @@ const useFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields } = useForm({
-		initialValues: filterValues(),
-		validationSchema: filterValidationSchema(),
+	const { validation, formFields, setFormFields } = useForm({
+		initialValues: sportsBetFilterValues(),
+		validationSchema: sportsBetFilterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields,
+		staticFormFields: sportsBetFiltersFields(),
 	});
 
 	// const handleAdvance = () => {
@@ -47,12 +53,38 @@ const useFilters = () => {
 	// };
 
 	const handleClear = () => {
-		const initialValues = filterValues();
+		const initialValues = sportsBetFilterValues();
 		validation.resetForm(initialValues);
 	};
 
 	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
+		if (isEmpty(currencies)) {
+			dispatch(
+				fetchCurrenciesStart({
+					// limit: itemsPerPage,
+					// pageNo: page,
+				})
+			);
+		} else {
+			const currencyField = currencies?.rows?.map((row) => ({
+				optionLabel: row.name,
+				value: row.code,
+			}));
+			setFormFields([
+				{
+					name: 'currencyCode',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select a currency',
+					optionList: currencyField,
+				},
+				...sportsBetFiltersFields(),
+			]);
+		}
+	}, [currencies]);
+
+	useEffect(() => {
+		if (!isFirst?.current && !isEqual(validation.values, prevValues.current)) {
 			setIsFilterChanged(true);
 			debounce = setTimeout(() => {
 				handleFilter(validation.values);
@@ -60,7 +92,7 @@ const useFilters = () => {
 			prevValues.current = validation.values;
 		}
 		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
+		if (isEqual(sportsBetFilterValues(), validation.values)) {
 			setIsFilterChanged(false);
 		}
 		return () => clearTimeout(debounce);
@@ -87,4 +119,4 @@ const useFilters = () => {
 	};
 };
 
-export default useFilters;
+export default useSportBetHistoryFilters;

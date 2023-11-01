@@ -21,7 +21,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 					/>
 				) : (
 					<Row>
-						{limitLabels.map((limit) => (
+						{limitLabels?.map((limit) => (
 							<Col md={4}>
 								<SingleLimitCard
 									limit={limit}

@@ -116,7 +116,7 @@ const UpdateUserInfo = ({ show, header, toggle }) => {
 	const formattedCountries = useMemo(() => {
 		const arrayToReturn = [];
 		if (countries) {
-			countries.map((country) =>
+			countries?.map((country) =>
 				arrayToReturn.push({
 					optionLabel: country.name,
 					value: country.code,

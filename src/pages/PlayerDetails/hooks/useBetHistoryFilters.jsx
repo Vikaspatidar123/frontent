@@ -1,31 +1,37 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty, isEqual } from 'lodash';
+import { useParams } from 'react-router-dom';
 import {
 	filterValidationSchema,
 	filterValues,
 	staticFiltersFields,
 } from '../formDetails';
+
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getAdminDetails } from '../../../store/actions';
+import {
+	fetchCasinoTransactionsStart,
+	fetchCurrenciesStart,
+} from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
-const useFilters = () => {
+const useBetHistoryFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
+	const { currencies } = useSelector((state) => state.Currencies);
+	const { playerId } = useParams();
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
 	const fetchData = (values) => {
 		dispatch(
-			getAdminDetails({
+			fetchCasinoTransactionsStart({
 				limit: itemsPerPage,
 				pageNo: 1,
-				orderBy: 'adminUserId',
-				sort: 'desc',
+				userId: playerId,
 				...values,
 			})
 		);
@@ -35,11 +41,11 @@ const useFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields } = useForm({
+	const { validation, formFields, setFormFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields,
+		staticFormFields: staticFiltersFields(),
 	});
 
 	// const handleAdvance = () => {
@@ -52,7 +58,33 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
+		if (isEmpty(currencies)) {
+			dispatch(
+				fetchCurrenciesStart({
+					// limit: itemsPerPage,
+					// pageNo: page,
+				})
+			);
+		} else {
+			const currencyField = currencies?.rows?.map((row) => ({
+				optionLabel: row.name,
+				value: row.code,
+			}));
+			setFormFields([
+				{
+					name: 'currencyCode',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select a currency',
+					optionList: currencyField,
+				},
+				...staticFiltersFields(),
+			]);
+		}
+	}, [currencies]);
+
+	useEffect(() => {
+		if (!isFirst?.current && !isEqual(validation.values, prevValues.current)) {
 			setIsFilterChanged(true);
 			debounce = setTimeout(() => {
 				handleFilter(validation.values);
@@ -87,4 +119,4 @@ const useFilters = () => {
 	};
 };
 
-export default useFilters;
+export default useBetHistoryFilters;

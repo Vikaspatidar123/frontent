@@ -23,7 +23,7 @@ const Comments = ({ userId }) => {
 	const formattedUserBonus = useMemo(() => {
 		const formattedValues = [];
 		if (userComments) {
-			userComments.rows.map((comment) =>
+			userComments?.rows?.map((comment) =>
 				formattedValues.push({
 					...comment,
 					createdAt: getDateTime(comment.createdAt),

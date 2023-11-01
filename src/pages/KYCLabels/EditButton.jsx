@@ -9,8 +9,14 @@ const EditButton = ({ handleClick, label }) => (
 		onClick={(e) => handleClick(e, label)}
 		className="btn btn-sm btn-soft-info"
 	>
-		<i className="mdi mdi-pencil-outline" id="edittooltip" />
-		<UncontrolledTooltip placement="top" target="edittooltip">
+		<i
+			className="mdi mdi-pencil-outline"
+			id={`edit-tooltip-${label?.documentLabelId}`}
+		/>
+		<UncontrolledTooltip
+			placement="top"
+			target={`edit-tooltip-${label?.documentLabelId}`}
+		>
 			Edit
 		</UncontrolledTooltip>
 	</Link>

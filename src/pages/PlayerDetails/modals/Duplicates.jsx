@@ -105,7 +105,7 @@ const Duplicates = ({ show, toggle, header }) => {
 	const formattedDuplicates = useMemo(() => {
 		const formattedValues = [];
 		if (duplicateUsers) {
-			duplicateUsers.rows.map((user) =>
+			duplicateUsers?.rows?.map((user) =>
 				formattedValues.push({
 					...user,
 					dateOfBirth: formatDateYMD(user.dateOfBirth),

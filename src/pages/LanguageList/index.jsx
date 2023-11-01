@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import useLanguageListing from './hooks/useLanguageListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 
-const LanguageList = ({ t }) => {
+const LanguageList = () => {
 	document.title = projectName;
 
 	const {
@@ -29,16 +29,17 @@ const LanguageList = ({ t }) => {
 		filterFields,
 		actionButtons,
 		filterValidation,
+		isFilterChanged,
 	} = useFilters();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb
+				{/* <Breadcrumb
 					title={t('Site Configurations')}
 					breadcrumbItem={t('Languages')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -50,6 +51,7 @@ const LanguageList = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									isLoading={isLanguagesLoading}
@@ -77,7 +79,7 @@ const LanguageList = ({ t }) => {
 };
 
 LanguageList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 LanguageList.defaultProps = {

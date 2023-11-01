@@ -11,10 +11,10 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
 				<Link to="#'" className="btn btn-sm btn-soft-primary">
-					<i className="mdi mdi-eye-outline" id="viewtooltip" />
+					<i className="mdi mdi-eye-outline" id={`viewtooltip-${countryId}`} />
 				</Link>
 			</li>
-			<UncontrolledTooltip placement="top" target="viewtooltip">
+			<UncontrolledTooltip placement="top" target={`viewtooltip-${countryId}`}>
 				View
 			</UncontrolledTooltip>
 
@@ -30,8 +30,14 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id="inactivetooltip" />
-						<UncontrolledTooltip placement="top" target="inactivetooltip">
+						<i
+							className="mdi mdi-close-thick"
+							id={`inactive-tooltip-${countryId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`inactive-tooltip-${countryId}`}
+						>
 							Set Inactive
 						</UncontrolledTooltip>
 					</Link>
@@ -46,8 +52,14 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-check-circle" id="activetooltip" />
-						<UncontrolledTooltip placement="top" target="activetooltip">
+						<i
+							className="mdi mdi-check-circle"
+							id={`active-tooltip-${countryId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`active-tooltip-${countryId}`}
+						>
 							Set Active
 						</UncontrolledTooltip>
 					</Link>
@@ -63,21 +75,27 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 						handleEditClick(row?.original);
 					}}
 				>
-					<i className="mdi mdi-pencil-outline" id="edittooltip" />
-					<UncontrolledTooltip placement="top" target="edittooltip">
+					<i
+						className="mdi mdi-pencil-outline"
+						id={`edit-tooltip-${countryId}`}
+					/>
+					<UncontrolledTooltip
+						placement="top"
+						target={`edit-tooltip-${countryId}`}
+					>
 						Edit
 					</UncontrolledTooltip>
 				</Link>
 			</li>
 
-			<li>
+			{/* <li>
 				<Link to="/" className="btn btn-sm btn-soft-danger">
 					<i className="mdi mdi-delete-outline" id="deletetooltip" />
 					<UncontrolledTooltip placement="top" target="deletetooltip">
 						Delete
 					</UncontrolledTooltip>
 				</Link>
-			</li>
+			</li> */}
 		</ul>
 	);
 };

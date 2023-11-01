@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import PropTypes from 'prop-types';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import PropTypes from 'prop-types';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useCurrencyListing from './hooks/useCurrencyListing';
 import { projectName } from '../../constants/config';
@@ -10,7 +10,7 @@ import FormModal from '../../components/Common/FormModal';
 import useCreateCurrency from './hooks/useCreateCurrency';
 import CrudSection from '../../components/Common/CrudSection';
 
-const CurrencyList = ({ t }) => {
+const CurrencyList = () => {
 	document.title = projectName;
 
 	const {
@@ -39,10 +39,10 @@ const CurrencyList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb
+				{/* <Breadcrumb
 					title={t('Site Configurations')}
 					breadcrumbItem={t('Currencies')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -83,7 +83,7 @@ const CurrencyList = ({ t }) => {
 };
 
 CurrencyList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 CurrencyList.defaultProps = {

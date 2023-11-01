@@ -1,5 +1,9 @@
 import * as Yup from 'yup';
 import { formatDateYMD } from '../../utils/helpers';
+import {
+	statusType,
+	transactionType,
+} from '../CasinoTransactionsList/constants';
 
 const getInitialValues = (defaultValue) => ({
 	title: defaultValue?.title || '',
@@ -152,6 +156,87 @@ const passwordValidation = () =>
 			.required('Password Required'),
 	});
 
+// Bet History filters
+const staticFiltersFields = () => [
+	{
+		name: 'transactionType',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Transaction Type',
+		optionList: transactionType.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
+		name: 'status',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: statusType.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
+		name: 'ranges',
+		fieldType: 'dateRangeSelector',
+		label: '',
+		placeholder: 'Date Range',
+	},
+];
+
+const filterValues = () => ({
+	status: null,
+	startDate: null,
+	endDate: null,
+	currencyCode: null,
+	transactionType: null,
+});
+
+const filterValidationSchema = () =>
+	Yup.object({
+		status: Yup.string().nullable(),
+		startDate: Yup.string().nullable(),
+		endDate: Yup.string().nullable(),
+		currencyCode: Yup.string().nullable(),
+		transactionType: Yup.string().nullable(),
+	});
+
+// Sports Bet History filters
+const sportsBetFiltersFields = () => [
+	{
+		name: 'email',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by email',
+	},
+	{
+		name: 'ranges',
+		fieldType: 'dateRangeSelector',
+		label: '',
+		placeholder: 'Date Range',
+	},
+];
+
+const sportsBetFilterValues = () => ({
+	email: '',
+	startDate: null,
+	endDate: null,
+	currencyCode: null,
+});
+
+const sportsBetFilterValidationSchema = () =>
+	Yup.object({
+		email: Yup.string().nullable(),
+		startDate: Yup.string().nullable(),
+		endDate: Yup.string().nullable(),
+		currencyCode: Yup.string().nullable(),
+	});
+
 export {
 	validationSchema,
 	getInitialValues,
@@ -164,4 +249,10 @@ export {
 	userSchema,
 	getInitialValuesUpdateUser,
 	passwordValidation,
+	staticFiltersFields,
+	filterValidationSchema,
+	filterValues,
+	sportsBetFiltersFields,
+	sportsBetFilterValues,
+	sportsBetFilterValidationSchema,
 };

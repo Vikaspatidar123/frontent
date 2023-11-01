@@ -83,7 +83,7 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 				validFrom: formatDate(bonusDetails?.validFrom),
 				validTo: formatDate(bonusDetails?.validTo),
 			};
-			bonusKeyArray.map((key) =>
+			bonusKeyArray?.map((key) =>
 				arrayToReturn.push({ key: key.label, value: copyArray[key.accessor] })
 			);
 		}
@@ -118,20 +118,21 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 				<Row>
 					<Col md={4}>
 						<h6 className="text-center">AVAILABLE BONUSES</h6>
-						{bonusList?.map((bonus) => (
-							<div key={bonus.bonusId} className="p-2">
-								<CustomSwitchButton
-									labelClassName="form-check-label"
-									htmlFor={bonus?.bonusId}
-									id={bonus?.bonusId}
-									label={bonus?.promotionTitle?.EN}
-									type="switch"
-									checked={!!(selectedBonus === bonus?.bonusId)}
-									inputClassName="form-check-input"
-									onClick={() => setSelectedBonus(bonus?.bonusId)}
-								/>
-							</div>
-						))}
+						{!!bonusList?.length &&
+							bonusList?.map((bonus) => (
+								<div key={bonus.bonusId} className="p-2">
+									<CustomSwitchButton
+										labelClassName="form-check-label"
+										htmlFor={bonus?.bonusId}
+										id={bonus?.bonusId}
+										label={bonus?.promotionTitle?.EN}
+										type="switch"
+										checked={!!(selectedBonus === bonus?.bonusId)}
+										inputClassName="form-check-input"
+										onClick={() => setSelectedBonus(bonus?.bonusId)}
+									/>
+								</div>
+							))}
 					</Col>
 					<Col md={8}>
 						<h6 className="text-center">BONUS DETAILS</h6>
