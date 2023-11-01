@@ -3,7 +3,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import { Badge } from 'reactstrap';
+import { Badge, UncontrolledTooltip } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { Colors } from '../../helpers/common';
 
 const PlayerId = (cell) => (cell.value ? cell.value : '');
@@ -28,7 +29,27 @@ const KycStatus = (cell) => (cell.value ? cell.value : '');
 
 const IsInternal = (cell) => (cell.value ? cell.value : '');
 
-const Action = (cell) => (cell.value ? cell.value : '');
+const Action = (cell) => (
+	<ul className="list-unstyled hstack gap-1 mb-0">
+		<li data-bs-toggle="tooltip" data-bs-placement="top">
+			<Link
+				to={`/player-details/${cell?.row?.original?.userId}`}
+				className="btn btn-sm btn-soft-primary"
+			>
+				<i
+					className="mdi mdi-eye-outline"
+					id={`view-tooltip-${cell?.row?.original?.userId}`}
+				/>
+			</Link>
+		</li>
+		<UncontrolledTooltip
+			placement="top"
+			target={`view-tooltip-${cell?.row?.original?.userId}`}
+		>
+			View
+		</UncontrolledTooltip>
+	</ul>
+);
 
 const Status = (cell) => {
 	switch (cell.value) {

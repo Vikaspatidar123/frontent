@@ -1,5 +1,16 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import { Card, Col, Collapse, Row, Form, Label, Input } from 'reactstrap';
+import {
+	Card,
+	Col,
+	Collapse,
+	Row,
+	Form,
+	Label,
+	Input,
+	UncontrolledTooltip,
+} from 'reactstrap';
 import PropTypes from 'prop-types';
 import { getField } from '../../helpers/customForms';
 import { experienceData, jobType } from '../../common/data';
@@ -9,6 +20,7 @@ const Filters = ({
 	validation,
 	actionButtons,
 	isAdvanceOpen,
+	isFilterChanged,
 }) => (
 	<Row>
 		<Col lg={12}>
@@ -24,30 +36,41 @@ const Filters = ({
 						{filterFields?.map(
 							(field) =>
 								!field?.isHide && (
-									<Col xxl={2} lg={4}>
+									<Col xxl={2} lg={4} md={4} sm={6}>
 										<div className="position-relative">
 											{getField(field, validation)}
 										</div>
 									</Col>
 								)
 						)}
-						{actionButtons?.map(
-							({ label, icon, handleClick, isHide, color, type }) =>
-								!isHide && (
-									<Col xxl={2} xl={2} lg={3} md={4} sm={5}>
-										<div className="position-relative h-100 hstack gap-3">
-											<button
+						{isFilterChanged &&
+							actionButtons?.map(
+								({ icon, handleClick, isHide, tooltip, id }) =>
+									!isHide && (
+										<Col xxl={1} xl={1} lg={1} md={1} sm={1} xs={1}>
+											<div className="position-relative h-100 hstack gap-3">
+												{/* <button
 												type={type === 'button' ? 'button' : 'submit'}
 												className={`btn h-100 w-100 ${color || 'btn-primary'}`}
 												onClick={handleClick}
-											>
-												<i className={`${icon} align-middle`} />
-												{`  ${label}`}
-											</button>
-										</div>
-									</Col>
-								)
-						)}
+											> */}
+												<i
+													className={`${icon} align-middle filter-icons`}
+													onClick={handleClick}
+													id={id || 'clear-filter'}
+												/>
+												<UncontrolledTooltip
+													placement="top"
+													target={id || 'clear-filter'}
+												>
+													{tooltip}
+												</UncontrolledTooltip>
+												{/* {label} */}
+												{/* </button> */}
+											</div>
+										</Col>
+									)
+							)}
 						<Collapse isOpen={isAdvanceOpen} id="advanceCollapse">
 							<div>
 								<Row className="g-3">
@@ -137,6 +160,7 @@ const Filters = ({
 
 Filters.defaultProps = {
 	isAdvanceOpen: false,
+	isFilterChanged: true,
 };
 
 Filters.propTypes = {
@@ -144,6 +168,7 @@ Filters.propTypes = {
 	validation: PropTypes.objectOf.isRequired,
 	actionButtons: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
 	isAdvanceOpen: PropTypes.bool,
+	isFilterChanged: PropTypes.bool,
 };
 
 export default Filters;

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Container, Col, Row, Card, CardBody } from 'reactstrap';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	projectName,
@@ -14,9 +14,8 @@ import CrudSection from '../../components/Common/CrudSection';
 import useActions from './hooks/useActions';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
-// const columns =
 
-const Admins = ({ t }) => {
+const Admins = () => {
 	// meta title
 	document.title = projectName;
 
@@ -26,6 +25,7 @@ const Admins = ({ t }) => {
 		filterFields,
 		actionButtons,
 		filterValidation,
+		isFilterChanged,
 	} = useFilters();
 
 	const {
@@ -43,7 +43,7 @@ const Admins = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs title={t('Dashboard')} breadcrumbItem={t('Staff')} />
+				{/* <Breadcrumbs title={t('Dashboard')} breadcrumbItem={t('Staff')} /> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -55,6 +55,7 @@ const Admins = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									columns={columns || []}
@@ -83,11 +84,11 @@ const Admins = ({ t }) => {
 };
 
 Admins.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 Admins.defaultProps = {
-	t: (string) => string,
+	// t: (string) => string,
 };
 
 export default Admins;

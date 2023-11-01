@@ -1,16 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import usePlayersListing from './hooks/usePlayersListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 
-const PlayersList = ({ t }) => {
+const PlayersList = () => {
 	document.title = projectName;
 
 	const {
@@ -30,13 +30,14 @@ const PlayersList = ({ t }) => {
 		filterFields,
 		actionButtons,
 		filterValidation,
+		isFilterChanged,
 	} = useFilters();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb title={t('Player')} breadcrumbItem={t('Players')} />
+				{/* <Breadcrumb title={t('Player')} breadcrumbItem={t('Players')} /> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -48,6 +49,7 @@ const PlayersList = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									isLoading={isPlayersLoading}
@@ -75,7 +77,7 @@ const PlayersList = ({ t }) => {
 };
 
 PlayersList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 PlayersList.defaultProps = {

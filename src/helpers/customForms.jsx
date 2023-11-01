@@ -368,6 +368,7 @@ export const getField = (
 					placeholder={placeholder}
 					validate={{ required: { value: true } }}
 					value={validation.values[name]}
+					key={`my_unique_select_key__${validation.values[name]}`}
 					invalid={!!(validation.touched[name] && validation.errors[name])}
 					isError
 					errorMsg={validation.touched[name] && validation.errors[name]}
