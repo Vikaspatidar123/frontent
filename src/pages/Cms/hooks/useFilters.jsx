@@ -19,10 +19,6 @@ const useFilters = () => {
 			getAllCmsDetails({
 				limit: itemsPerPage,
 				pageNo: 1,
-				// tenantId: selectedPortal,
-				// adminId: selectedClient,
-				// search,
-				// isActive: active,
 				...values,
 			})
 		);

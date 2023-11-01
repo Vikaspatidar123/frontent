@@ -80,6 +80,9 @@ const markUserAsInternal = (data) =>
 const updateWageringTemplate = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, data);
 
+const updateSuperAdminCMS = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/cms`, data);
+
 const verifyPlayerEmail = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/user/verify-email`, data);
 
@@ -121,6 +124,7 @@ export {
 	updateSAUserStatusCall,
 	markUserAsInternal,
 	updateWageringTemplate,
+	updateSuperAdminCMS,
 	verifyPlayerEmail,
 	updateUserTags,
 	addDepositToOtherCall,

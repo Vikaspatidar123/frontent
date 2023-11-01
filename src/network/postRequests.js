@@ -56,6 +56,9 @@ const disableUserCall = (data) =>
 const disableUserSession = (data) =>
   postRequest(`${VITE_APP_API_URL}/api/admin/user/session-time`, data);
 
+const createSuperAdminCMS = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/cms`, data);
+
 const updateMatchFeaturedTemplate = (data) =>
   postRequest(
     `${VITE_APP_API_URL}/api/admin/sportsbook/featured-matches`,
@@ -82,6 +85,7 @@ export {
   resetUserLimitCall,
   disableUserCall,
   disableUserSession,
+	createSuperAdminCMS,
   updateMatchFeaturedTemplate,
   issueBonus,
 };

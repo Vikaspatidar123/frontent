@@ -40,4 +40,58 @@ const filterValidationSchema = () =>
 		search: Yup.string().nullable(),
 	});
 
-export { staticFiltersFields, filterValues, filterValidationSchema };
+const getInitialValues = (cmsData) => ({
+		title: cmsData ? cmsData?.title?.EN : '',
+		slug: cmsData ? cmsData?.slug : '',
+		content: cmsData ? cmsData?.content?.EN : '',
+		category: cmsData ? cmsData?.category : 1,
+		isActive: cmsData ? !!cmsData?.isActive : true,
+		language: '',
+	});
+
+const createCmsNewSchema = Yup.object().shape({
+	title: Yup.string().required('Title for English is required'),
+	slug: Yup.string()
+		.required('Slug is required')
+		.min(3, 'Slug must be at least 3 characters')
+		.max(30, 'Slug must be at most 30 characters')
+		.matches(/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/, 'Enter a valid url slug'),
+});
+
+const staticFormFields = () => [
+	{
+		name: 'slug',
+		fieldType: 'textField',
+		placeholder: 'Enter Slug',
+	},
+	{
+		name: 'category',
+		fieldType: 'select',
+		placeholder: 'Category',
+		optionList: [
+			{
+				optionLabel: 'Support Links',
+				value: 1,
+			},
+			{
+				optionLabel: 'Other Links',
+				value: 2,
+			},
+		],
+	},
+	{
+		name: 'isActive',
+		fieldType: 'toggle',
+		label: 'Status',
+		placeholder: 'Status',
+	},
+];
+
+export {
+	staticFiltersFields,
+	filterValues,
+	filterValidationSchema,
+	getInitialValues,
+	createCmsNewSchema,
+	staticFormFields,
+};
