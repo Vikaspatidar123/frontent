@@ -21,6 +21,8 @@ const CreateCMSTemplate = ({
 	setContent,
 	cmsByPageId,
 	isEdit = false,
+	isView = false,
+	setIsView,
 }) => {
 	const [activeTab, setactiveTab] = useState(5);
 	const [template, setTemplate] = useState('');
@@ -63,6 +65,7 @@ const CreateCMSTemplate = ({
 						invalid={!!(validation.touched.title && validation.errors.title)}
 						isError
 						errorMsg={validation.touched.title && validation.errors.title}
+						disabled={isView}
 					/>
 				</div>
 				<Col sm="12">
@@ -80,6 +83,7 @@ const CreateCMSTemplate = ({
 						selectedTab={activeTab}
 						setTemp={setTemplate}
 						validation={validation}
+						disabled={isView}
 					/>
 				</Col>
 			</Row>
@@ -114,9 +118,9 @@ const CreateCMSTemplate = ({
 	}, [template, activeTab, validation?.values?.content]);
 
 	const toggle = (tab) => {
-		if ((title?.EN && content?.EN) || isEdit) {
+		if (!isView && ((title?.EN && content?.EN) || isEdit)) {
 			setactiveTab(tab);
-		} else {
+		} else if (!isView) {
 			showToastr({
 				message:
 					'You must enter data for English language before switching to another language ',

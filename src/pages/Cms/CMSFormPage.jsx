@@ -13,6 +13,7 @@ const CmsFormPage = ({
 	customComponent,
 	isSubmitLoading,
 	formTitle,
+	isSubmit = false,
 }) => (
 	<Card className="p-3">
 		<Row>
@@ -37,13 +38,15 @@ const CmsFormPage = ({
 				<Row>
 					<Col>
 						<div className="text-end">
-							<button
-								type="submit"
-								className="btn btn-primary waves-effect waves-light"
-								disabled={isSubmitLoading}
-							>
-								{submitLabel}
-							</button>
+							{isSubmit && (
+								<button
+									type="submit"
+									className="btn btn-primary waves-effect waves-light"
+									disabled={isSubmitLoading}
+								>
+									{submitLabel}
+								</button>
+							)}
 						</div>
 					</Col>
 				</Row>
