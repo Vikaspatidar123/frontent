@@ -10,11 +10,11 @@ import { Link } from 'react-router-dom';
 
 // Import menuDropdown
 import { withTranslation } from 'react-i18next';
-import sideBarElements from '../../constants/sidebar';
+// import sideBarElements from '../../constants/sidebar';
 import LanguageDropdown from '../CommonForBoth/TopbarDropdown/LanguageDropdown';
 import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
-import megamenuImg from '../../assets/images/megamenu-img.png';
+// import megamenuImg from '../../assets/images/megamenu-img.png';
 
 import logo from '../../assets/images/logo.svg';
 import logoLightSvg from '../../assets/images/logo-light.svg';
@@ -32,7 +32,7 @@ import { socialHandles } from '../../constants/generalConfig';
 
 const Header = (props) => {
 	const [search, setsearch] = useState(false);
-	const [megaMenu, setmegaMenu] = useState(false);
+	// const [megaMenu, setmegaMenu] = useState(false);
 	const [socialDrp, setsocialDrp] = useState(false);
 
 	function toggleFullscreen() {
@@ -101,7 +101,7 @@ const Header = (props) => {
 
 					{/* <NavigationSearch /> */}
 
-					<Dropdown
+					{/* <Dropdown
 						className="dropdown-mega d-none d-lg-block ms-2"
 						isOpen={megaMenu}
 						toggle={() => {
@@ -143,7 +143,7 @@ const Header = (props) => {
 								</Col>
 							</Row>
 						</DropdownMenu>
-					</Dropdown>
+					</Dropdown> */}
 				</div>
 				<div className="d-flex">
 					<div className="dropdown d-inline-block d-lg-none ms-2">
@@ -257,7 +257,7 @@ Header.defaultProps = {
 	// leftSideBarType: PropTypes.objectOf,
 	showRightSidebar: () => {},
 	showRightSidebarAction: () => {},
-	t: () => {},
+	// t: () => {},
 	// toggleLeftmenu: PropTypes.func
 };
 
@@ -267,7 +267,7 @@ Header.propTypes = {
 	// leftSideBarType: PropTypes.objectOf,
 	showRightSidebar: PropTypes.objectOf,
 	showRightSidebarAction: PropTypes.func,
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 const mapStatetoProps = (state) => {
