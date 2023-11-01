@@ -48,8 +48,8 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 		});
 
 	useEffect(() => {
+		const options = [];
 		if (userDetails?.tags?.length > 0) {
-			const options = [];
 			for (const i in userDetails?.tags) {
 				if (userDetails?.tags[i] !== '' && userDetails?.tags[i] !== null) {
 					options.push({
@@ -58,22 +58,22 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 					});
 				}
 			}
-			setFormFields([
-				{
-					name: 'tags',
-					fieldType: 'creatableSelect',
-					label: 'Tags (Only Alphabets and Numbers Allowed)',
-					required: false,
-					optionList: options,
-					callBack: (option, e) => {
-						if (e.removedValue?.value !== 'Internal') {
-							validation.setFieldValue('tags', option);
-						}
-					},
-				},
-			]);
-			validation.setFieldValue('tags', options);
 		}
+		setFormFields([
+			{
+				name: 'tags',
+				fieldType: 'creatableSelect',
+				label: 'Tags (Only Alphabets and Numbers Allowed)',
+				required: false,
+				optionList: options,
+				callBack: (option, e) => {
+					if (e.removedValue?.value !== 'Internal') {
+						validation.setFieldValue('tags', option);
+					}
+				},
+			},
+		]);
+		validation.setFieldValue('tags', options);
 	}, [userDetails?.tags]);
 
 	useEffect(() => {
