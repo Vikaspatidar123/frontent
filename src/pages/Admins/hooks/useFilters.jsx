@@ -75,13 +75,6 @@ const useFilters = () => {
 			tooltip: 'Clear filter',
 			id: 'clear',
 		},
-		// {
-		// 	type: 'button',
-		// 	label: '',
-		// 	icon: 'bx bx-add-to-queue',
-		// 	handleClick: handleAdvance,
-		// 	color: 'btn-secondary',
-		// },
 	]);
 
 	return {

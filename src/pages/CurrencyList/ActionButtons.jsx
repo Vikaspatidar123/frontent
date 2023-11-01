@@ -15,8 +15,14 @@ const ActionButtons = ({ handleClick, cell }) => (
 					handleClick(cell?.row?.original);
 				}}
 			>
-				<i className="mdi mdi-pencil-outline" id="edittooltip" />
-				<UncontrolledTooltip placement="top" target="edittooltip">
+				<i
+					className="mdi mdi-pencil-outline"
+					id={`edittooltip-${cell?.row?.original?.currencyId}`}
+				/>
+				<UncontrolledTooltip
+					placement="top"
+					target={`edittooltip-${cell?.row?.original?.currencyId}`}
+				>
 					Edit
 				</UncontrolledTooltip>
 			</Link>

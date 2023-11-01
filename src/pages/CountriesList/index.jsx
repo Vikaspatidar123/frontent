@@ -2,8 +2,8 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import PropTypes from 'prop-types';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import PropTypes from 'prop-types';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	CountryCode,
@@ -21,7 +21,7 @@ import useEditCountry from './hooks/useEditCountry';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 
-const CountriesList = ({ t }) => {
+const CountriesList = () => {
 	document.title = projectName;
 
 	const {
@@ -51,6 +51,7 @@ const CountriesList = ({ t }) => {
 		filterFields,
 		actionButtons,
 		filterValidation,
+		isFilterChanged,
 	} = useFilters();
 
 	const columns = useMemo(
@@ -105,10 +106,10 @@ const CountriesList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb
+				{/* <Breadcrumb
 					title={t('Site Configurations')}
 					breadcrumbItem={t('Countries')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -120,6 +121,7 @@ const CountriesList = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									isLoading={isCountriesLoading}
@@ -156,7 +158,7 @@ const CountriesList = ({ t }) => {
 };
 
 CountriesList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 CountriesList.defaultProps = {
