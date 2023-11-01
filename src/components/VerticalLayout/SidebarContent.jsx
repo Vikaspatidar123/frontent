@@ -146,23 +146,28 @@ const SidebarContent = ({ t }) => {
 				<ul className="metismenu list-unstyled" id="side-menu">
 					<li className="menu-title">{t('Menu')} </li>
 
-					{sideBarElements.map((nav) => (
-						<li>
-							<Link to={nav.link} className={nav.linkClass}>
-								<i className={nav.iconName} />
-								<span className={nav.spanClass}>{t(nav.label)}</span>
-							</Link>
-							{nav?.subMenu?.length && (
-								<ul className="sub-menu">
-									{nav?.subMenu?.map((sub) => (
-										<li>
-											<Link to={sub.link}>{t(sub.label)}</Link>
-										</li>
-									))}
-								</ul>
-							)}
-						</li>
-					))}
+					{sideBarElements.map((nav) => {
+						if (nav?.isSeprator) {
+							return <li className="menu-title">{nav.title} </li>;
+						}
+						return (
+							<li>
+								<Link to={nav.link} className={nav.linkClass}>
+									<i className={nav.iconName} />
+									<span className={nav.spanClass}>{t(nav.label)}</span>
+								</Link>
+								{nav?.subMenu?.length && (
+									<ul className="sub-menu">
+										{nav?.subMenu?.map((sub) => (
+											<li>
+												<Link to={sub.link}>{t(sub.label)}</Link>
+											</li>
+										))}
+									</ul>
+								)}
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 		</SimpleBar>
