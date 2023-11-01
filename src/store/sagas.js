@@ -50,6 +50,7 @@ import ProfileDataSaga from './Profile/saga';
 import GlobalRegistrationSaga from './registrationformFiels/saga';
 import DashboardViewSaga from './dashboardView/saga';
 import UserDetailsSaga from './userDetails/saga';
+import RestrictedCountriesSaga from './restrictedCountries/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -81,6 +82,7 @@ export default function* rootSaga() {
 		fork(ProfileDataSaga),
 		fork(GlobalRegistrationSaga),
 		fork(UserDetailsSaga),
+		fork(RestrictedCountriesSaga),
 		// public
 		fork(AccountSaga),
 		fork(ForgetSaga),
