@@ -32,6 +32,10 @@ import {
 	ISSUE_BONUS,
 	ISSUE_BONUS_FAIL,
 	ISSUE_BONUS_SUCCESS,
+	MARK_DOCUMENT_REQUIRED,
+	MARK_DOCUMENT_REQUIRED_FAIL,
+	MARK_DOCUMENT_REQUIRED_RESET,
+	MARK_DOCUMENT_REQUIRED_SUCCESS,
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
@@ -346,5 +350,25 @@ export const sendPasswordResetFail = (payload) => ({
 
 export const sendPasswordReset = (payload) => ({
 	type: SEND_PASSWORD_RESET,
+	payload,
+});
+
+export const markDocumentRequiredSuccess = (payload) => ({
+	type: MARK_DOCUMENT_REQUIRED_SUCCESS,
+	payload,
+});
+
+export const markDocumentRequiredFail = (payload) => ({
+	type: MARK_DOCUMENT_REQUIRED_FAIL,
+	payload,
+});
+
+export const markDocumentRequired = (payload) => ({
+	type: MARK_DOCUMENT_REQUIRED,
+	payload,
+});
+
+export const markDocumentRequiredReset = (payload) => ({
+	type: MARK_DOCUMENT_REQUIRED_RESET,
 	payload,
 });

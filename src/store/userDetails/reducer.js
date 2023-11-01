@@ -32,6 +32,10 @@ import {
 	ISSUE_BONUS,
 	ISSUE_BONUS_FAIL,
 	ISSUE_BONUS_SUCCESS,
+	MARK_DOCUMENT_REQUIRED,
+	MARK_DOCUMENT_REQUIRED_FAIL,
+	MARK_DOCUMENT_REQUIRED_RESET,
+	MARK_DOCUMENT_REQUIRED_SUCCESS,
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
@@ -117,6 +121,9 @@ const INIT_STATE = {
 	updateUserPasswordLoading: false,
 	updateUserPasswordSuccess: false,
 	updateUserPasswordError: false,
+	markDocumentRequiredLoading: false,
+	markDocumentRequiredSuccess: false,
+	markDocumentRequiredError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -546,6 +553,35 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				updateUserPasswordSuccess: false,
 			};
 
+		case MARK_DOCUMENT_REQUIRED:
+			return {
+				...state,
+				markDocumentRequiredLoading: true,
+			};
+
+		case MARK_DOCUMENT_REQUIRED_SUCCESS:
+			return {
+				...state,
+				markDocumentRequiredLoading: false,
+				markDocumentRequiredSuccess: payload,
+				markDocumentRequiredError: null,
+			};
+
+		case MARK_DOCUMENT_REQUIRED_FAIL:
+			return {
+				...state,
+				markDocumentRequiredError: payload,
+				markDocumentRequiredLoading: false,
+				markDocumentRequiredSuccess: false,
+			};
+
+		case MARK_DOCUMENT_REQUIRED_RESET:
+			return {
+				...state,
+				markDocumentRequiredError: false,
+				markDocumentRequiredLoading: false,
+				markDocumentRequiredSuccess: false,
+			};
 		default:
 			return { ...state };
 	}

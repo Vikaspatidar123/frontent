@@ -32,13 +32,17 @@ import {
 } from './actions';
 import {
 	getAllSABanners,
-	getDocumentLabel,
+	getDocumentLabelCall,
 	getloyaltyLevel,
 } from '../../network/getRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 import { createKYCLabels, createSABanners } from '../../network/postRequests';
-import { editBanners, updateKYCLabels, updateloyaltyLevel } from '../../network/putRequests';
+import {
+	editBanners,
+	updateKYCLabels,
+	updateloyaltyLevel,
+} from '../../network/putRequests';
 
 function* getAllSABannersWorker(action) {
 	try {
@@ -60,7 +64,7 @@ function* getAllSABannersWorker(action) {
 function* getDocumentLabelWorker(action) {
 	try {
 		const { userId } = action && action.payload;
-		const { data } = yield getDocumentLabel(userId);
+		const { data } = yield getDocumentLabelCall(userId);
 		yield put(getDocumentLabelSuccess(data?.data?.documentLabel));
 	} catch (e) {
 		yield put(getDocumentLabelFail(e?.response?.data?.errors[0]?.description));

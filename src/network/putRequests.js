@@ -101,6 +101,15 @@ const resetPasswordEmail = (data) =>
 const resetUserPassword = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/user/update-password`, data);
 
+const requestDocument = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/request-document`, data);
+
+const cancelDocumentRequest = (data) =>
+	putRequest(
+		`${VITE_APP_API_URL}/api/admin/user/cancel-document-request`,
+		data
+	);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -131,4 +140,6 @@ export {
 	updateUserInfoCall,
 	resetPasswordEmail,
 	resetUserPassword,
+	requestDocument,
+	cancelDocumentRequest,
 };

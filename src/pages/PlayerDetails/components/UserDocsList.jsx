@@ -1,11 +1,19 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-inner-declarations */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, Container } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
-import { getDocumentLabel, getUserDocuments } from '../../../store/actions';
+import {
+	getDocumentLabel,
+	getUserDetails,
+	getUserDocuments,
+	markDocumentRequired,
+	markDocumentRequiredReset,
+} from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 import {
 	Action,
@@ -17,13 +25,19 @@ import {
 	UpdatedAt,
 } from './UserDocsListCol';
 import { Id, Status } from '../TableCol';
+import ActionButtons from '../ActionButtons';
+import { getDocumentLabelCall } from '../../../network/getRequests';
 
 const UserDocsList = ({ userId }) => {
 	const dispatch = useDispatch();
+	const [docLabels, setDocLabels] = useState('');
 
-	const { userDocuments, userDocumentsLoading } = useSelector(
-		(state) => state.UserDetails
-	);
+	const {
+		userDetails,
+		userDocuments,
+		userDocumentsLoading,
+		markDocumentRequiredSuccess,
+	} = useSelector((state) => state.UserDetails);
 	const { documentLabels, documentLabelsLoading } = useSelector(
 		(state) => state.SASettings
 	);
@@ -51,9 +65,56 @@ const UserDocsList = ({ userId }) => {
 					name: doc.name.EN,
 				})
 			);
+			if (
+				docLabels &&
+				docLabels.length &&
+				Array.isArray(userDetails?.requestedDocuments)
+			) {
+				docLabels.map((doc) => {
+					if (
+						userDetails?.requestedDocuments?.includes(doc.documentLabelId) &&
+						!formattedValues.find(
+							(val) => val.documentLabelId === doc.documentLabelId
+						)
+					) {
+						formattedValues.push({
+							...doc,
+							name: doc.name.EN,
+							isRequired: true,
+						});
+					}
+				});
+			}
 		}
 		return formattedValues;
-	}, [documentLabels]);
+	}, [documentLabels, docLabels, userDetails]);
+
+	const fetchAllLabels = async () => {
+		await getDocumentLabelCall('').then((res) => {
+			setDocLabels(res?.data?.data?.documentLabel);
+		});
+	};
+
+	useEffect(() => {
+		if (!docLabels) {
+			fetchAllLabels();
+		}
+	}, [docLabels]);
+
+	const handleMarkAsRequired = ({
+		labelName,
+		documentLabelId,
+		isRequested,
+	}) => {
+		dispatch(
+			markDocumentRequired({
+				labelName,
+				documentLabelId,
+				userId: parseInt(userId, 10),
+				isRequested,
+			})
+		);
+	};
 
 	const columns = useMemo(
 		() => [
@@ -120,13 +181,15 @@ const UserDocsList = ({ userId }) => {
 
 			{
 				Header: 'Action',
-				Cell: (cellProps) => <Action {...cellProps} />,
+				Cell: (cellProps) => (
+					<ActionButtons {...cellProps} handleStatus={handleMarkAsRequired} />
+				),
 			},
 		],
 		[]
 	);
 
-	useEffect(() => {
+	const fetchLabels = () => {
 		dispatch(
 			getUserDocuments({
 				userId,
@@ -137,7 +200,20 @@ const UserDocsList = ({ userId }) => {
 				userId,
 			})
 		);
+	};
+
+	useEffect(() => {
+		fetchLabels();
 	}, []);
+
+	useEffect(() => {
+		if (markDocumentRequiredSuccess) {
+			fetchLabels();
+			setDocLabels('');
+			dispatch(markDocumentRequiredReset());
+			dispatch(getUserDetails({ userId }));
+		}
+	}, [markDocumentRequiredSuccess]);
 
 	return (
 		<Container fluid className="bg-white">

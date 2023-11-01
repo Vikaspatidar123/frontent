@@ -122,7 +122,7 @@ const getEmailTemplates = () =>
 const getAdminDetails = (adminId) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/details?adminUserId=${adminId}`);
 
-const getDocumentLabel = (userId) =>
+const getDocumentLabelCall = (userId) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/document-label?userId=${userId}`);
 
 const getUserDocument = (payload) =>
@@ -203,7 +203,7 @@ export {
 	getSportsMarkets,
 	getEmailTemplates,
 	getAdminDetails,
-	getDocumentLabel,
+	getDocumentLabelCall,
 	getSuperAdminWageringTemplateDetail,
 	getSuperAdminWageringTemplate,
 	getSiteConfiguration,
