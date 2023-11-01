@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container, Collapse } from 'reactstrap';
+import { Container, Collapse, CardBody, Card } from 'reactstrap';
 import classnames from 'classnames';
 
 import { projectName } from '../../constants/config';
@@ -63,49 +63,62 @@ const EmailTemplate = ({ t }) => {
 					title={t('Content Management')}
 					breadcrumbItem={t('Email Template')}
 				/>
-				{emailTemplateloading ? (
-					<Spinners
-						color="primary"
-						className="position-absolute top-50 start-50"
-					/>
-				) : (
-					Object.keys(emailTemplates).map((key) => (
-						<div className="accordion" id="accordion" key={key}>
-							<div className="accordion-item">
-								<h2 className="accordion-header" id={`heading${key}`}>
-									<button
-										className={classnames('accordion-button', 'fw-medium', {
-											collapsed: expanded !== key,
-										})}
-										type="button"
-										onClick={handleChange(key)}
-										style={{ cursor: 'pointer' }}
-									>
-										<h5 className="font-size-14">{key}</h5>
-									</button>
-								</h2>
+				<Card>
+					<CardBody>
+						{emailTemplateloading ? (
+							<Spinners
+								color="primary"
+								className="position-absolute top-50 start-50"
+							/>
+						) : (
+							Object.keys(emailTemplates).map((key) => (
+								<div className="accordion mb-2" id="accordion" key={key}>
+									<div className="accordion-item border-0 bg-transparent">
+										<h2
+											className="accordion-header accordion-border-radius accordion-item"
+											id={`heading${key}`}
+										>
+											<button
+												className={classnames(
+													'accordion-button',
+													'fw-medium',
+													'accordion-border-radius',
+													'min-height',
+													{
+														collapsed: expanded !== key,
+													}
+												)}
+												type="button"
+												onClick={handleChange(key)}
+												style={{ cursor: 'pointer' }}
+											>
+												<h5 className="font-size-14 mb-0 fw-bolder ">{key}</h5>
+											</button>
+										</h2>
 
-								<Collapse
-									isOpen={expanded === key}
-									className="accordion-collapse"
-								>
-									<div className="accordion-body">
-										<TableContainer
-											columns={columns}
-											data={emailTemplates[key]}
-											customPageSize={1}
-											tableClass="table-bordered align-middle nowrap mt-2"
-											paginationDiv="justify-content-center"
-											pagination="pagination justify-content-start pagination-rounded"
-											isLoading={emailTemplateloading}
-											thCustomClass="col-3"
-										/>
+										<Collapse
+											isOpen={expanded === key}
+											className="accordion-collapse"
+										>
+											<div className="accordion-body">
+												<TableContainer
+													columns={columns}
+													data={emailTemplates[key]}
+													customPageSize={1}
+													tableClass="table-bordered align-middle nowrap mt-2"
+													paginationDiv="justify-content-center"
+													pagination="pagination justify-content-start pagination-rounded"
+													isLoading={emailTemplateloading}
+													thCustomClass="col-3"
+												/>
+											</div>
+										</Collapse>
 									</div>
-								</Collapse>
-							</div>
-						</div>
-					))
-				)}
+								</div>
+							))
+						)}
+					</CardBody>
+				</Card>
 			</Container>
 		</div>
 	);
