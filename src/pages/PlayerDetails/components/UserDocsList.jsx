@@ -11,9 +11,9 @@ import {
 	Action,
 	ActionAt,
 	Actionee,
-	DocumentPreview,
 	Name,
 	Reason,
+	ThumbnailUrl,
 	UpdatedAt,
 } from './UserDocsListCol';
 import { Id, Status } from '../TableCol';
@@ -73,7 +73,7 @@ const UserDocsList = ({ userId }) => {
 				Header: 'DOCUMENT PREVIEW',
 				accessor: 'documentUrl',
 				filterable: true,
-				Cell: (cellProps) => <DocumentPreview {...cellProps} />,
+				Cell: (cellProps) => <ThumbnailUrl {...cellProps} />,
 			},
 			{
 				Header: 'REASON',

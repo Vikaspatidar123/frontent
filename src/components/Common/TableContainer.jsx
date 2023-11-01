@@ -72,6 +72,8 @@ const TableContainer = ({
 		changeRowsPerPageCallback(e.target.value);
 	};
 
+	const noDataFound = !isLoading && !page.length;
+
 	return (
 		<>
 			<div className="table-responsive react-table">
@@ -124,7 +126,7 @@ const TableContainer = ({
 								className="position-absolute top-50 start-50"
 							/>
 						)}
-						{!isLoading && !page.length && (
+						{noDataFound && (
 							<tr style={{ textAlign: 'center' }}>
 								<td colSpan={columns.length}>No data found</td>
 							</tr>
@@ -156,40 +158,42 @@ const TableContainer = ({
 			{isPagination && (
 				<Row className="d-flex justify-content-between align-items-center">
 					<Col lg={4}>
-						{totalPageCount && (
+						{!!totalPageCount && (
 							<div className="text-muted">
 								Showing <span className="fw-semibold">{page.length}</span> of{' '}
 								<span className="fw-semibold">{totalPageCount}</span> entries
 							</div>
 						)}
 						{/* need to remove inline styles here */}
-						<div
-							className="d-flex align-items-center mt-10"
-							style={{ marginTop: 10 }}
-						>
-							<div className="text-muted" style={{ marginRight: 10 }}>
-								Rows per Page
-							</div>
-							<div>
-								<CustomSelectField
-									value={rowsPerPage}
-									type="select"
-									onChange={onChangeRowsPerPage}
-									options={
-										<>
-											<option value={null} selected disabled>
-												Select
-											</option>
-											{rowsPerPageOptions?.map(({ optionLabel, value }) => (
-												<option key={value} value={value}>
-													{optionLabel}
+						{!noDataFound && (
+							<div
+								className="d-flex align-items-center mt-10"
+								style={{ marginTop: 10 }}
+							>
+								<div className="text-muted" style={{ marginRight: 10 }}>
+									Rows per Page
+								</div>
+								<div>
+									<CustomSelectField
+										value={rowsPerPage}
+										type="select"
+										onChange={onChangeRowsPerPage}
+										options={
+											<>
+												<option value={null} selected disabled>
+													Select
 												</option>
-											))}
-										</>
-									}
-								/>
+												{rowsPerPageOptions?.map(({ optionLabel, value }) => (
+													<option key={value} value={value}>
+														{optionLabel}
+													</option>
+												))}
+											</>
+										}
+									/>
+								</div>
 							</div>
-						</div>
+						)}
 					</Col>
 					<Col lg={4} className={paginationDiv}>
 						<div className="d-flex justify-content-end">
