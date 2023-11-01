@@ -78,6 +78,11 @@ const useCmsListing = () => {
 		navigate(`edit/${cmsPageId}`);
 	};
 
+	const handleViewClick = (e, cmsPageId) => {
+		e.preventDefault();
+		navigate(`details/${cmsPageId}`);
+	};
+
 	useEffect(() => {
 		fetchData();
 	}, [limit, selectedPortal, selectedClient, active, page, itemsPerPage]);
@@ -123,6 +128,7 @@ const useCmsListing = () => {
 						cell={cell}
 						handleStatus={handleStatus}
 						handleEditClick={handleEditClick}
+						handleViewClick={handleViewClick}
 					/>
 				),
 			},

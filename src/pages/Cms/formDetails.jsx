@@ -41,13 +41,13 @@ const filterValidationSchema = () =>
 	});
 
 const getInitialValues = (cmsData) => ({
-		title: cmsData ? cmsData?.title?.EN : '',
-		slug: cmsData ? cmsData?.slug : '',
-		content: cmsData ? cmsData?.content?.EN : '',
-		category: cmsData ? cmsData?.category : 1,
-		isActive: cmsData ? !!cmsData?.isActive : true,
-		language: '',
-	});
+	title: cmsData ? cmsData?.title?.EN : '',
+	slug: cmsData ? cmsData?.slug : '',
+	content: cmsData ? cmsData?.content?.EN : '',
+	category: cmsData ? cmsData?.category : 1,
+	isActive: cmsData ? !!cmsData?.isActive : true,
+	language: '',
+});
 
 const createCmsNewSchema = Yup.object().shape({
 	title: Yup.string().required('Title for English is required'),
@@ -58,16 +58,18 @@ const createCmsNewSchema = Yup.object().shape({
 		.matches(/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/, 'Enter a valid url slug'),
 });
 
-const staticFormFields = () => [
+const staticFormFields = (isView) => [
 	{
 		name: 'slug',
 		fieldType: 'textField',
 		placeholder: 'Enter Slug',
+		isDisabled: isView || false,
 	},
 	{
 		name: 'category',
 		fieldType: 'select',
 		placeholder: 'Category',
+		isDisabled: isView || false,
 		optionList: [
 			{
 				optionLabel: 'Support Links',
@@ -84,6 +86,7 @@ const staticFormFields = () => [
 		fieldType: 'toggle',
 		label: 'Status',
 		placeholder: 'Status',
+		isDisabled: isView || false,
 	},
 ];
 

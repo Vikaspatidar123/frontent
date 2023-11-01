@@ -4,19 +4,28 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const ActionButtons = ({ cell, handleStatus, handleEditClick }) => {
+const ActionButtons = ({
+	cell,
+	handleStatus,
+	handleEditClick,
+	handleViewClick,
+}) => {
 	const status = cell?.row?.original?.isActive;
 	const cmsPageId = cell?.row?.original?.cmsPageId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-				<Link to="#" className="btn btn-sm btn-soft-primary">
+				<Link
+					to="#"
+					className="btn btn-sm btn-soft-primary"
+					onClick={(e) => handleViewClick(e, cmsPageId)}
+				>
 					<i className="mdi mdi-eye-outline" id="viewtooltip" />
+					<UncontrolledTooltip placement="top" target="viewtooltip">
+						View
+					</UncontrolledTooltip>
 				</Link>
 			</li>
-			<UncontrolledTooltip placement="top" target="viewtooltip">
-				View
-			</UncontrolledTooltip>
 
 			<li>
 				{status ? (
@@ -72,6 +81,7 @@ const ActionButtons = ({ cell, handleStatus, handleEditClick }) => {
 
 ActionButtons.propTypes = {
 	handleEditClick: PropTypes.func.isRequired,
+	handleViewClick: PropTypes.func.isRequired,
 	handleStatus: PropTypes.func.isRequired,
 	cell: PropTypes.objectOf.isRequired,
 };

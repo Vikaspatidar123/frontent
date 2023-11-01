@@ -27,6 +27,7 @@ export default function CodeEditor({
 	setFieldValue,
 	details = false,
 	cmsByPageId,
+	disabled,
 }) {
 	const DynamicStyles = CreateDynamicStyles(themeTransitionSpeed, mobileQuery);
 
@@ -192,7 +193,7 @@ export default function CodeEditor({
 					>
 						{selected === 'HTML' && (
 							<Editor
-								disabled={details}
+								disabled={details || disabled}
 								className="textarea-editor"
 								value={validation?.values?.content}
 								onValueChange={(newVal) => updateTextArea('HTML', newVal)}
@@ -207,7 +208,7 @@ export default function CodeEditor({
 					>
 						{selected === 'dynamicData' && (
 							<Editor
-								disabled={details}
+								disabled={details || disabled}
 								value={_dynamicData}
 								onValueChange={(newVal) =>
 									updateTextArea('dynamicData', newVal)

@@ -21,25 +21,17 @@ import {
 
 import CreateCMSTemplate from '../CreateCMSTemplate';
 
-const useEditCms = () => {
+const useCmsDetail = () => {
 	const navigate = useNavigate();
 	const { cmsPageId } = useParams();
 	const dispatch = useDispatch();
 	const [customComponent, setCustomComponent] = useState();
+	const [isView, setIsView] = useState(true);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { cmsDynamicKeys, cmsByPageId } = useSelector((state) => state.AllCms);
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
-
-	const formSubmitHandler = (values) => {
-		dispatch(
-			updateSaCms({
-				cmsData: { ...values, cmsPageId: parseInt(cmsPageId) },
-				navigate,
-			})
-		);
-	};
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
@@ -55,11 +47,10 @@ const useEditCms = () => {
 	}, []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
-		header: `Edit CMS ${cmsPageId}`,
+		header: `View CMS ${cmsPageId}`,
 		initialValues: getInitialValues(cmsByPageId),
 		validationSchema: createCmsNewSchema,
-		staticFormFields: staticFormFields(),
-		onSubmitEntry: formSubmitHandler,
+		staticFormFields: staticFormFields(isView),
 	});
 
 	useEffect(() => {
@@ -73,7 +64,8 @@ const useEditCms = () => {
 				setTitle={(v) => setTitle(v)}
 				content={content}
 				setContent={(v) => setContent(v)}
-				isEdit
+				isView={isView}
+				setIsView={(v) => setIsView(v)}
 			/>
 		);
 	}, [languageData, title, content]);
@@ -101,4 +93,4 @@ const useEditCms = () => {
 	};
 };
 
-export default useEditCms;
+export default useCmsDetail;
