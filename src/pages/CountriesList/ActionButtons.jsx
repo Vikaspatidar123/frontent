@@ -9,14 +9,14 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 	const countryId = row?.original?.countryId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+			{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
 				<Link to="#'" className="btn btn-sm btn-soft-primary">
 					<i className="mdi mdi-eye-outline" id={`viewtooltip-${countryId}`} />
 				</Link>
 			</li>
 			<UncontrolledTooltip placement="top" target={`viewtooltip-${countryId}`}>
 				View
-			</UncontrolledTooltip>
+			</UncontrolledTooltip> */}
 
 			<li>
 				{active ? (
