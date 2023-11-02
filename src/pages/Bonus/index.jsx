@@ -1,8 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
 import useBonusListing from './hooks/useBonusListing';
@@ -11,7 +11,7 @@ import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 import useCreateBonus from './hooks/useCreateBonus';
 
-const BonusDetail = ({ t }) => {
+const BonusDetail = () => {
 	// meta title
 	document.title = projectName;
 
@@ -40,10 +40,10 @@ const BonusDetail = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title={t('Bonus Management')}
 					breadcrumbItem={t('Bonus')}
-				/>
+				/> */}
 
 				<Row>
 					<Col lg="12">
@@ -84,7 +84,7 @@ const BonusDetail = ({ t }) => {
 };
 
 BonusDetail.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 BonusDetail.defaultProps = {
