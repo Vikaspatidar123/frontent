@@ -5,7 +5,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Row, UncontrolledTooltip } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
@@ -18,7 +17,7 @@ import {
 } from './CasinoSubCategory';
 import { projectName } from '../../constants/config';
 
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import { getCasinoSubCategoryDetailStart } from '../../store/actions';
 import CrudSection from '../../components/Common/CrudSection';
 import useCreateSubCategory from './hooks/useCreateSubCategory';
@@ -26,7 +25,7 @@ import FormModal from '../../components/Common/FormModal';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 
-const GetCasinoSubCategoryDetail = ({ t }) => {
+const GetCasinoSubCategoryDetail = () => {
 	// meta title
 	document.title = projectName;
 
@@ -39,11 +38,22 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const dispatch = useDispatch();
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
 	const fetchData = () => {
 		dispatch(
 			getCasinoSubCategoryDetailStart({
 				limit: itemsPerPage,
 				pageNo: page,
+				...filterValidation.values,
 			})
 		);
 	};
@@ -65,14 +75,6 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 		onClickEdit,
 		isEditSubCategoryLoading,
 	} = useCreateSubCategory();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
 
 	useEffect(() => {
 		if (isCreateSubCategorySuccess || isEditSubCategorySuccess) fetchData();
@@ -143,14 +145,14 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 				const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
 				return (
 					<ul className="list-unstyled hstack gap-1 mb-0">
-						<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+						{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
 							<Link to="#'" className="btn btn-sm btn-soft-primary">
 								<i className="mdi mdi-eye-outline" id="viewtooltip" />
 							</Link>
 						</li>
 						<UncontrolledTooltip placement="top" target="viewtooltip">
 							View
-						</UncontrolledTooltip>
+						</UncontrolledTooltip> */}
 
 						<li>
 							{status ? (
@@ -164,8 +166,14 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 										})
 									}
 								>
-									<i className="mdi mdi-close-thick" id="inactivetooltip" />
-									<UncontrolledTooltip placement="top" target="inactivetooltip">
+									<i
+										className="mdi mdi-close-thick"
+										id={`inactive-${gameSubCategoryId}`}
+									/>
+									<UncontrolledTooltip
+										placement="top"
+										target={`inactive-${gameSubCategoryId}`}
+									>
 										Set Inactive
 									</UncontrolledTooltip>
 								</Link>
@@ -180,8 +188,14 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 										})
 									}
 								>
-									<i className="mdi mdi-check-circle" id="activetooltip" />
-									<UncontrolledTooltip placement="top" target="activetooltip">
+									<i
+										className="mdi mdi-check-circle"
+										id={`active-${gameSubCategoryId}`}
+									/>
+									<UncontrolledTooltip
+										placement="top"
+										target={`active-${gameSubCategoryId}`}
+									>
 										Set Active
 									</UncontrolledTooltip>
 								</Link>
@@ -197,21 +211,27 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 									onClickEdit(cell?.row?.original);
 								}}
 							>
-								<i className="mdi mdi-pencil-outline" id="edittooltip" />
-								<UncontrolledTooltip placement="top" target="edittooltip">
+								<i
+									className="mdi mdi-pencil-outline"
+									id={`edit-${gameSubCategoryId}`}
+								/>
+								<UncontrolledTooltip
+									placement="top"
+									target={`edit-${gameSubCategoryId}`}
+								>
 									Edit
 								</UncontrolledTooltip>
 							</Link>
 						</li>
 
-						<li>
+						{/* <li>
 							<Link to="/" className="btn btn-sm btn-soft-danger">
 								<i className="mdi mdi-delete-outline" id="deletetooltip" />
 								<UncontrolledTooltip placement="top" target="deletetooltip">
 									Delete
 								</UncontrolledTooltip>
 							</Link>
-						</li>
+						</li> */}
 					</ul>
 				);
 			},
@@ -221,11 +241,11 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					Breadcrumbs
 					title={t('Casino Management')}
 					breadcrumbItem={t('Casino Sub Categories')}
-				/>
+				/> */}
 
 				<Row>
 					<Col lg="12">
@@ -241,6 +261,7 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									columns={columns}
@@ -280,7 +301,7 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 };
 
 GetCasinoSubCategoryDetail.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 GetCasinoSubCategoryDetail.defaultProps = {

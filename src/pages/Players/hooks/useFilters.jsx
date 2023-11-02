@@ -55,7 +55,7 @@ const useFilters = () => {
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields,
+		staticFormFields: staticFiltersFields(),
 	});
 
 	// const handleAdvance = () => {
