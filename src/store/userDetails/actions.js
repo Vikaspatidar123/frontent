@@ -46,6 +46,9 @@ import {
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
+	RESOLVE_USER_COMMENT,
+	RESOLVE_USER_COMMENT_FAIL,
+	RESOLVE_USER_COMMENT_SUCCESS,
 	SEND_PASSWORD_RESET,
 	SEND_PASSWORD_RESET_FAIL,
 	SEND_PASSWORD_RESET_SUCCESS,
@@ -388,5 +391,20 @@ export const cancelUserBonus = (payload) => ({
 
 export const cancelUserBonusSuccess = (payload) => ({
 	type: CANCEL_USER_BONUS_SUCCESS,
+	payload,
+});
+
+export const resolveUserCommentFail = (payload) => ({
+	type: RESOLVE_USER_COMMENT_FAIL,
+	payload,
+});
+
+export const resolveUserComment = (payload) => ({
+	type: RESOLVE_USER_COMMENT,
+	payload,
+});
+
+export const resolveUserCommentSuccess = (payload) => ({
+	type: RESOLVE_USER_COMMENT_SUCCESS,
 	payload,
 });

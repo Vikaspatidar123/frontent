@@ -6,21 +6,26 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
-import { Action, Comment, Id, KeyValueCell, KeyValueCellNA } from './TableCol';
-import { getUserComments } from '../../store/actions';
+import { Comment, Id, KeyValueCell, KeyValueCellNA } from './TableCol';
+import { getUserComments, resolveUserComment } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
 import FormModal from '../../components/Common/FormModal';
 import useCreateComment from './hooks/useCreateComment';
 import CrudSection from '../../components/Common/CrudSection';
 import useCommentFilter from './hooks/useCommentFilter';
 import Filters from '../../components/Common/Filters';
+import CommentActionButtons from './CommentActions';
 
 const Comments = ({ userId }) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
-	const { userComments, userCommentsLoading, createUserCommentsSuccess } =
-		useSelector((state) => state.UserDetails);
+	const {
+		userComments,
+		userCommentsLoading,
+		createUserCommentsSuccess,
+		resolveUserCommentSuccess,
+	} = useSelector((state) => state.UserDetails);
 
 	const formattedUserBonus = useMemo(() => {
 		const formattedValues = [];
@@ -47,12 +52,22 @@ const Comments = ({ userId }) => {
 	};
 
 	useEffect(() => {
-		if (createUserCommentsSuccess) fetchData();
-	}, [createUserCommentsSuccess]);
+		if (createUserCommentsSuccess || resolveUserCommentSuccess) fetchData();
+	}, [createUserCommentsSuccess, resolveUserCommentSuccess]);
 
 	useEffect(() => {
 		fetchData();
 	}, [currentPage, itemsPerPage]);
+
+	const handleStatus = ({ commentId, isActive }) => {
+		dispatch(
+			resolveUserComment({
+				commentId,
+				status: isActive,
+				userId,
+			})
+		);
+	};
 
 	const columns = useMemo(
 		() => [
@@ -98,7 +113,9 @@ const Comments = ({ userId }) => {
 			},
 			{
 				Header: 'ACTION',
-				Cell: (cellProps) => <Action {...cellProps} />,
+				Cell: (cellProps) => (
+					<CommentActionButtons handleStatus={handleStatus} {...cellProps} />
+				),
 			},
 		],
 		[]

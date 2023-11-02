@@ -46,6 +46,9 @@ import {
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
+	RESOLVE_USER_COMMENT,
+	RESOLVE_USER_COMMENT_FAIL,
+	RESOLVE_USER_COMMENT_SUCCESS,
 	SEND_PASSWORD_RESET,
 	SEND_PASSWORD_RESET_FAIL,
 	SEND_PASSWORD_RESET_SUCCESS,
@@ -130,6 +133,9 @@ const INIT_STATE = {
 	cancelUserBonusLoading: false,
 	cancelUserBonusSuccess: false,
 	cancelUserBonusError: false,
+	resolveUserCommentError: false,
+	resolveUserCommentLoading: false,
+	resolveUserCommentSuccess: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -609,6 +615,28 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				cancelUserBonusLoading: true,
+			};
+
+		case RESOLVE_USER_COMMENT_SUCCESS:
+			return {
+				...state,
+				resolveUserCommentLoading: false,
+				resolveUserCommentSuccess: payload,
+				resolveUserCommentError: null,
+			};
+
+		case RESOLVE_USER_COMMENT_FAIL:
+			return {
+				...state,
+				resolveUserCommentError: payload,
+				resolveUserCommentLoading: false,
+				resolveUserCommentSuccess: false,
+			};
+
+		case RESOLVE_USER_COMMENT:
+			return {
+				...state,
+				resolveUserCommentLoading: true,
 			};
 		default:
 			return { ...state };
