@@ -1,10 +1,14 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React, { useState } from 'react';
 import { Button, Badge } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import DivLoader from '../../components/Common/Loader/divLoader';
+import { CustomToggleButton } from '../../helpers/customForms';
 
 const CasinoGameId = ({ cell }) => (
 	<Link to="/#" className="text-body fw-bold">
@@ -70,6 +74,41 @@ Status.propTypes = {
 	}).isRequired,
 };
 
+const IsFeatured = ({ cellProps, toggleIsFeaturedGames }) => {
+	const { isFeaturedLoading, featuredGameData } = useSelector(
+		(state) => state.CasinoManagementData
+	);
+	return (
+		<>
+			{isFeaturedLoading &&
+			Number(featuredGameData?.casinoGameId) ===
+				Number(cellProps?.row?.original.casinoGameId) ? (
+				<DivLoader isWithoutPadding />
+			) : (
+				<div className="form-check-success d-flex justify-content-center">
+					<CustomToggleButton
+						containerClass="false"
+						type="checkbox"
+						className="form-check-input"
+						checked={cellProps?.value?.toString() === 'true'}
+						switchSizeClass="form-switch-sm"
+						onClick={(e) => toggleIsFeaturedGames(e, cellProps)}
+					/>
+				</div>
+			)}
+		</>
+	);
+};
+IsFeatured.propTypes = {
+	cellProps: PropTypes.oneOfType([PropTypes.object]),
+	toggleIsFeaturedGames: PropTypes.func,
+};
+
+IsFeatured.defaultProps = {
+	cellProps: PropTypes.oneOfType([PropTypes.object]),
+	toggleIsFeaturedGames: PropTypes.func,
+};
+
 export {
 	CasinoGameId,
 	Name,
@@ -79,4 +118,5 @@ export {
 	ThumbnailUrl,
 	DeviceType,
 	Status,
+	IsFeatured,
 };

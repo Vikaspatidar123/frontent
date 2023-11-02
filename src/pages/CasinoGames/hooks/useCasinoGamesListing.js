@@ -5,6 +5,7 @@ import {
 	getCasinoGamesStart,
 	getCasinoProvidersDataStart,
 	getCasinoSubCategoryDetailStart,
+	updateCasinoIsFeaturedStart,
 	updateSACasinoGamesStatusStart,
 } from '../../../store/actions';
 
@@ -119,7 +120,15 @@ const useCasinoGamesListings = () => {
 		);
 		setShow((prev) => !prev);
 	};
-
+	const toggleIsFeaturedGames = (event, cell) => {
+		event.preventDefault();
+		const data = {
+			isFeatured: event.target.checked.toString(),
+			casinoProviderId: cell.row.original.casinoProviderId,
+			casinoGameId: cell.row.original.casinoGameId.toString(),
+		};
+		dispatch(updateCasinoIsFeaturedStart(data));
+	};
 	return {
 		formattedCasinoGames,
 		isCasinoGamesLoading,
@@ -143,6 +152,7 @@ const useCasinoGamesListings = () => {
 		handleStatus,
 		show,
 		setShow,
+		toggleIsFeaturedGames,
 	};
 };
 

@@ -31,7 +31,7 @@ const KpiSummary = (props) => {
 		<Col xl="12">
 			<Card>
 				<CardBody>
-					<h4 className="card-title mb-4">KPI Summary</h4>
+					<h4 className="card-title mb-4">KPI Summary{activeKpiSummTab}</h4>
 
 					<Nav pills className="bg-light rounded" role="tablist">
 						<NavItem>
@@ -39,9 +39,7 @@ const KpiSummary = (props) => {
 								className={classnames({
 									active: activeKpiSummTab === 'banking',
 								})}
-								onClick={() => {
-									setActiveKpiSummTab('banking');
-								}}
+								onClick={() => setActiveKpiSummTab('banking')}
 							>
 								Banking
 							</NavLink>
@@ -51,9 +49,7 @@ const KpiSummary = (props) => {
 								className={classnames({
 									active: activeKpiSummTab === 'sports',
 								})}
-								onClick={() => {
-									setActiveKpiSummTab('sports');
-								}}
+								onClick={() => setActiveKpiSummTab('sports')}
 							>
 								Sports
 							</NavLink>
@@ -63,9 +59,7 @@ const KpiSummary = (props) => {
 								className={classnames({
 									active: activeKpiSummTab === 'casino',
 								})}
-								onClick={() => {
-									setActiveKpiSummTab('casino');
-								}}
+								onClick={() => setActiveKpiSummTab('casino')}
 							>
 								Casino
 							</NavLink>

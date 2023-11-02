@@ -41,6 +41,9 @@ import {
 	EDIT_CASINO_GAMES_SUCCESS,
 	EDIT_CASINO_GAMES_FAIL,
 	EDIT_CASINO_GAMES_START,
+	UPDATE_GAME_ISFEATURED_START,
+	UPDATE_GAME_ISFEATURED_SUCCESS,
+	UPDATE_GAME_ISFEATURED_FAIL,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -250,5 +253,19 @@ export const editCasinoGamesFailure = (payload) => ({
 
 export const editCasinoGamesStart = (payload) => ({
 	type: EDIT_CASINO_GAMES_START,
+	payload,
+});
+
+export const updateCasinoIsFeaturedStart = (payload) => ({
+	type: UPDATE_GAME_ISFEATURED_START,
+	payload,
+});
+export const updateCasinoIsFeaturedSuccess = (payload) => ({
+	type: UPDATE_GAME_ISFEATURED_SUCCESS,
+	payload,
+});
+
+export const updateCasinoIsFeaturedFailure = (payload) => ({
+	type: UPDATE_GAME_ISFEATURED_FAIL,
 	payload,
 });

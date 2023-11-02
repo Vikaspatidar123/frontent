@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import {
 	GET_CASINO_PROVIDERS_DATA,
 	GET_CASINO_PROVIDERS_DATA_SUCCESS,
@@ -41,6 +42,9 @@ import {
 	EDIT_CASINO_GAMES_START,
 	EDIT_CASINO_GAMES_SUCCESS,
 	EDIT_CASINO_GAMES_FAIL,
+	UPDATE_GAME_ISFEATURED_START,
+	UPDATE_GAME_ISFEATURED_SUCCESS,
+	UPDATE_GAME_ISFEATURED_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -86,6 +90,8 @@ const INIT_STATE = {
 	isEditCasinoGamesError: false,
 	isEditCasinoGamesSuccess: false,
 	isEditCasinoGamesLoading: false,
+	isFeaturedLoading: false,
+	featuredGameData: null,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -392,7 +398,37 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isUpdateSACasinoGamesStatusError: payload,
 				isUpdateSACasinoGamesStatus: false,
 			};
+		case UPDATE_GAME_ISFEATURED_START:
+			return {
+				...state,
+				isFeaturedLoading: true,
+				featuredGameData: payload,
+			};
 
+		case UPDATE_GAME_ISFEATURED_FAIL:
+			return {
+				...state,
+				isFeaturedLoading: false,
+				error: true,
+				featuredGameData: null,
+			};
+		case UPDATE_GAME_ISFEATURED_SUCCESS:
+			const temp = { ...state.casinoGames };
+			const newObject = temp?.rows?.map((obj) =>
+				obj.casinoGameId === Number(payload.casinoGameId)
+					? { ...obj, isFeatured: payload.isFeatured }
+					: obj
+			);
+			const newData = {
+				...state.casinoGames,
+				rows: newObject,
+			};
+			return {
+				...state,
+				isFeaturedLoading: false,
+				casinoGames: newData,
+				featuredGameData: null,
+			};
 		default:
 			return state;
 	}
