@@ -215,6 +215,7 @@ import CreateBonus from '../pages/Bonus/CreateBonus';
 import AdminDetails from '../pages/AdminDetails';
 import ViewBlockedCountries from '../pages/ViewBlockedCountries';
 import CreateEmailTemplate from '../pages/EmailTemplate/CreateEmailTemplate';
+import EditEmailTemplate from '../pages/EmailTemplate/EditEmailTemplate';
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
 // import ContactsList from "../pages/Contacts/ContactList/contacts-list";
@@ -270,6 +271,10 @@ const authProtectedRoutes = [
 	{ path: '/markets', component: <SportsMarketsList /> },
 	{ path: '/email-templates', component: <EmailTemplate /> },
 	{ path: '/email-templates/create', component: <CreateEmailTemplate /> },
+	{
+		path: '/email-templates/edit/:emailTemplateId',
+		component: <EditEmailTemplate />,
+	},
 	{ path: '/kyc-labels', component: <KYCLabels /> },
 	{ path: '/wagering-template', component: <WageringTemplate /> },
 	{ path: '/wagering-template/create', component: <CreateWageringTemplate /> },

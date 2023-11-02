@@ -40,6 +40,7 @@ const safeStringify = (object) =>
 const CreateTemplate = ({
 	languageData,
 	validation,
+	emailTemplate,
 	dynamicKeys,
 	setTemp,
 	selectedTab,
@@ -59,7 +60,13 @@ const CreateTemplate = ({
 	const [template, setTemplate] = useState('');
 	const [requiredKeyData, setRequiredKeyData] = useState({});
 	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
-	// const [data] = useState(validation?.values?.content);
+	const [data, setData] = useState(emailTemplate?.templateCode?.EN);
+
+	useEffect(() => {
+		if (emailTemplate?.templateCode?.EN) {
+			setData(emailTemplate?.templateCode?.EN);
+		}
+	}, [emailTemplate]);
 
 	const deleteImage = (f) => {
 		const data = {
@@ -211,9 +218,8 @@ const CreateTemplate = ({
 				<Col sm="12">
 					{' '}
 					<CodeEditor
-						// cmsByPageId={cmsByPageId}
 						dynamicData={safeStringify(requiredKeyData, null, 2)}
-						HTML=""
+						HTML={data || ''}
 						initial="HTML"
 						mobileQuery={800}
 						height="60vh"
@@ -229,7 +235,7 @@ const CreateTemplate = ({
 		),
 	}));
 
-	const emailFormSubmitHandler = () => {
+	const emailFormSubmitHandler = (e) => {
 		if (template) {
 			const templateCode = Buffer.from(template).toString('base64');
 			templateCode &&
@@ -268,19 +274,18 @@ const CreateTemplate = ({
 	const toggle = (tab) => {
 		if (isEdit) {
 			setactiveTab(tab);
+		} else {
+			showToastr({
+				message:
+					'You must enter data for English language and Submit before switching to another language ',
+				type: 'error',
+			});
 		}
-		// else if (!isView) {
-		// 	showToastr({
-		// 		message:
-		// 			'You must enter data for English language before switching to another language ',
-		// 		type: 'error',
-		// 	});
-		// }
 	};
 
 	return (
 		<>
-			<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />;
+			<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
 			<FormModal
 				isOpen={isTestTemplateModalVisible}
 				toggle={() => setIsTestTemplateModalVisible(false)}

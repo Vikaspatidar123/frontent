@@ -172,6 +172,11 @@ const fetchUnrestrictedCountries = (payload) =>
 const getEmailTypes = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/email/dynamic-data`);
 
+const getEmailTemplate = (emailTemplateId) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/email?emailTemplateId=${emailTemplateId}`
+	);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -224,4 +229,5 @@ export {
 	fetchRestrictedCountries,
 	fetchUnrestrictedCountries,
 	getEmailTypes,
+	getEmailTemplate,
 };

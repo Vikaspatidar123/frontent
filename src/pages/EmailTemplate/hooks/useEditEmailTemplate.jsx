@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useMemo, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -8,8 +8,8 @@ import {
 	getLanguagesStart,
 	getEmailTypes,
 	getDynamicKeys,
-	resetEmailTemplate,
-	createEmailTemplate,
+	getEmailTemplate,
+	updateEmailTemplate,
 } from '../../../store/actions';
 
 import {
@@ -22,27 +22,33 @@ import useEmailTemplate from './useEmailTemplate';
 import { showToastr } from '../../../utils/helpers';
 import CreateTemplate from '../CreateTemplate';
 
-const useCreateEmailTemplate = () => {
+const useEditEmailTemplate = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { emailTemplateId } = useParams();
 	const [customComponent, setCustomComponent] = useState();
 
 	const [template, setTemplate] = useState('');
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
-
+	const isEdit = true;
 	const { emailTemplateOrder } = useEmailTemplate();
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const { emailTypes, dynamicKeys } = useSelector(
+	const { emailTypes, dynamicKeys, emailTemplate } = useSelector(
 		(state) => state.EmailTemplate
 	);
+
+	useEffect(() => {
+		if (emailTemplateId) {
+			dispatch(getEmailTemplate(emailTemplateId));
+		}
+	}, [emailTemplateId]);
 
 	const getTemplateKeys = (template) => {
 		const mainKeys = [];
 		const keys = template.match(/{{{ *[A-Za-z0-9]* *}}}/g);
 
-		// let keys = template.match(/{{{(.*)}}}/g)
 		if (keys) {
 			keys.forEach((key) => {
 				mainKeys.push(key.replaceAll('{', '').replaceAll('}', '').trim());
@@ -54,6 +60,8 @@ const useCreateEmailTemplate = () => {
 	};
 
 	const formSubmitHandler = (values) => {
+		console.log('values: ', values);
+		console.log('template: ', template);
 		if (template) {
 			const allKeys = dynamicKeys?.map((item) => item.key);
 			const requiredKeys = dynamicKeys
@@ -61,13 +69,15 @@ const useCreateEmailTemplate = () => {
 				.map((item) => item.key);
 
 			const templateKeys = getTemplateKeys(template);
+			console.log('templateKeys: ', templateKeys);
 			if (templateKeys?.length || requiredKeys?.length) {
 				if (allKeys.some((r) => templateKeys.includes(r))) {
 					if (requiredKeys.every((v) => templateKeys.includes(v))) {
 						dispatch(
-							createEmailTemplate({
+							updateEmailTemplate({
 								data: {
 									...values,
+									emailTemplateId,
 									type: parseInt(values?.type),
 									templateCode: template,
 									language: selectedTab,
@@ -90,10 +100,11 @@ const useCreateEmailTemplate = () => {
 				}
 			} else {
 				dispatch(
-					createEmailTemplate({
+					updateEmailTemplate({
 						data: {
 							...values,
 							type: parseInt(values?.type),
+							emailTemplateId,
 							templateCode: template,
 							language: selectedTab,
 							dynamicData: templateKeys,
@@ -120,47 +131,42 @@ const useCreateEmailTemplate = () => {
 	}, []);
 
 	const { validation, formFields, setFormFields } = useForm({
-		initialValues: getInitialValues(),
+		initialValues: getInitialValues(emailTemplate),
 		validationSchema: emailTemplateSchema,
-		staticFormFields: staticFormFields(emailTemplateOrder),
+		staticFormFields: staticFormFields(emailTemplateOrder, isEdit),
 		onSubmitEntry: formSubmitHandler,
 	});
 
 	useEffect(() => {
-		emailTypes && dispatch(getDynamicKeys({ type: 0, emailTypes }));
-		return () => {
-			resetEmail();
-		};
-	}, [emailTypes]);
-
-	const resetEmail = () => dispatch(resetEmailTemplate());
+		if (emailTemplate && Object.keys(emailTemplate).length) {
+			emailTypes &&
+				dispatch(getDynamicKeys({ type: emailTemplate.type, emailTypes }));
+			setTemplate(emailTemplate.templateCode);
+		}
+	}, [emailTemplate, emailTypes]);
 
 	useEffect(() => {
 		setCustomComponent(
 			<CreateTemplate
 				languageData={languageData}
 				dynamicKeys={dynamicKeys}
+				emailTemplate={emailTemplate}
 				setTemp={setTemplate}
 				validation={validation}
 				selectedTab={selectedTab}
 				setSelectedTab={setSelectedTab}
 				showGallery={showGallery}
 				setShowGallery={setShowGallery}
+				isEdit={isEdit}
 			/>
 		);
-	}, [languageData, dynamicKeys, template, selectedTab, showGallery]);
-
-	const handleCreateClick = (e) => {
-		e.preventDefault();
-		navigate('create');
-	};
-
-	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleCreateClick,
-			link: '#!',
-		},
+	}, [
+		languageData,
+		dynamicKeys,
+		template,
+		selectedTab,
+		showGallery,
+		emailTemplate,
 	]);
 
 	const handleGalleryClick = (e) => {
@@ -177,7 +183,6 @@ const useCreateEmailTemplate = () => {
 
 	return {
 		validation,
-		buttonList,
 		galleryList,
 		formFields,
 		setFormFields,
@@ -187,7 +192,8 @@ const useCreateEmailTemplate = () => {
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,
+		emailTemplateId,
 	};
 };
 
-export default useCreateEmailTemplate;
+export default useEditEmailTemplate;
