@@ -16,15 +16,12 @@ import {
 import { getAggregators } from '../../network/getRequests';
 import { createAggregator } from '../../network/postRequests';
 import { superAdminViewToggleStatus } from '../../network/putRequests';
-import { showToastr } from '../../utils/helpers';
+import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 
 function* getAggregatorsWorker(action) {
 	try {
-		const { limit, pageNo } = action && action.payload;
-		const { data } = yield getAggregators({
-			limit,
-			pageNo,
-		});
+		const payload = clearEmptyProperty(action && action.payload);
+		const { data } = yield getAggregators(payload);
 		yield put(getAggregatorsListSuccess(data?.data?.aggregators));
 	} catch (e) {
 		yield toast(e?.response?.data?.errors[0].description, 'error');
