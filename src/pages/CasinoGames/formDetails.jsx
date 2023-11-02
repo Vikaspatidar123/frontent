@@ -66,6 +66,24 @@ const staticFiltersFields = () => [
 			},
 		],
 	},
+	{
+		name: 'isFeatured',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Is Featured',
+		optionList: [
+			{
+				id: 1,
+				optionLabel: 'Yes',
+				value: true,
+			},
+			{
+				id: 2,
+				optionLabel: 'No',
+				value: false,
+			},
+		],
+	},
 ];
 
 // casinoCategoryId: 2

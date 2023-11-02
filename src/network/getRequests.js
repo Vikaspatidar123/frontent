@@ -36,10 +36,8 @@ const getPlayers = (payload) =>
 const getAllCms = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/cms`, payload);
 
-const getAggregators = ({ limit, pageNo }) =>
-	getRequest(
-		`${VITE_APP_API_URL}/api/admin/casino/aggregators?limit=${limit}&pageNo=${pageNo}`
-	);
+const getAggregators = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/casino/aggregators`, payload);
 
 const getSuperAdminWageringTemplateDetail = (payload) =>
 	getRequest(

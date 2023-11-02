@@ -2,9 +2,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
 import {
@@ -21,7 +21,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 
-const CasinoProviders = ({ t }) => {
+const CasinoProviders = () => {
 	// meta title
 	document.title = projectName;
 
@@ -53,6 +53,7 @@ const CasinoProviders = ({ t }) => {
 		filterFields,
 		actionButtons,
 		filterValidation,
+		isFilterChanged,
 	} = useFilters();
 
 	const columns = [
@@ -97,10 +98,10 @@ const CasinoProviders = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title={t('Casino Management')}
 					breadcrumbItem={t('Casino Providers')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -112,6 +113,7 @@ const CasinoProviders = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									columns={columns}
@@ -149,7 +151,7 @@ const CasinoProviders = ({ t }) => {
 };
 
 CasinoProviders.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 CasinoProviders.defaultProps = {

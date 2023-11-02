@@ -8,7 +8,7 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 
 // import components
-import Breadcrumbs from '../../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../../components/Common/Breadcrumb';
 import { getAggregatorsList } from '../../../store/actions';
 
 // redux
@@ -75,10 +75,10 @@ const CasinoAggregators = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title="Casino Management"
 					breadcrumbItem="Casino Aggregators"
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
