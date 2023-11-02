@@ -11,6 +11,19 @@ import {
 	DELETE_IMAGE_GALLERY,
 	DELETE_IMAGE_GALLERY_SUCCESS,
 	DELETE_IMAGE_GALLERY_FAIL,
+	GET_DYNAMIC_KEYS,
+	GET_DYNAMIC_KEYS_SUCCESS,
+	GET_DYNAMIC_KEYS_FAIL,
+	GET_EMAIL_TYPES,
+	GET_EMAIL_TYPES_SUCCESS,
+	GET_EMAIL_TYPES_FAIL,
+	RESET_EMAIL_TEMPLATES,
+	TEST_EMAIL_TEMPLATE_SUCCESS,
+	TEST_EMAIL_TEMPLATE_FAIL,
+	TEST_EMAIL_TEMPLATE,
+	CREATE_EMAIL_TEMPLATE_SUCCESS,
+	CREATE_EMAIL_TEMPLATE_FAIL,
+	CREATE_EMAIL_TEMPLATE,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -28,6 +41,18 @@ const INIT_STATE = {
 	deleteGallery: false,
 	deleteGalleryloading: false,
 	deleteGalleryError: null,
+	dynamicKeys: {},
+	dynamicKeysLoading: false,
+	dynamicKeysError: null,
+	emailTypes: null,
+	emailTypesLoading: false,
+	emailTypesError: null,
+	testEmailTemplate: false,
+	testEmailTemplateLoading: false,
+	testEmailTemplateError: null,
+	createEmailTemplate: false,
+	createEmailTemplateLoading: false,
+	createEmailTemplateError: null,
 };
 
 const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
@@ -116,6 +141,95 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				deleteGalleryloading: false,
 				deleteGalleryError: payload,
 				deleteGallery: false,
+			};
+
+		case GET_DYNAMIC_KEYS:
+			return {
+				...state,
+				dynamicKeysLoading: true,
+			};
+
+		case GET_DYNAMIC_KEYS_SUCCESS:
+			return {
+				...state,
+				dynamicKeysLoading: false,
+				dynamicKeys: payload,
+			};
+
+		case GET_DYNAMIC_KEYS_FAIL:
+			return {
+				...state,
+				dynamicKeysLoading: false,
+				dynamicKeysError: payload,
+			};
+
+		case GET_EMAIL_TYPES:
+			return {
+				...state,
+				emailTypesLoading: true,
+			};
+
+		case GET_EMAIL_TYPES_SUCCESS:
+			return {
+				...state,
+				emailTypesLoading: false,
+				emailTypes: payload,
+			};
+
+		case GET_EMAIL_TYPES_FAIL:
+			return {
+				...state,
+				emailTypesLoading: false,
+				emailTypesError: payload,
+			};
+
+		case RESET_EMAIL_TEMPLATES:
+			return {
+				...state,
+				keyLoading: false,
+				emailTemplate: null,
+			};
+
+		case TEST_EMAIL_TEMPLATE:
+			return {
+				...state,
+				testEmailTemplateLoading: true,
+			};
+
+		case TEST_EMAIL_TEMPLATE_SUCCESS:
+			return {
+				...state,
+				testEmailTemplateLoading: false,
+				testEmailTemplate: true,
+			};
+
+		case TEST_EMAIL_TEMPLATE_FAIL:
+			return {
+				...state,
+				testEmailTemplateLoading: false,
+				testEmailTemplateError: payload,
+				testEmailTemplate: false,
+			};
+
+		case CREATE_EMAIL_TEMPLATE:
+			return {
+				...state,
+				createEmailTemplateLoading: true,
+			};
+
+		case CREATE_EMAIL_TEMPLATE_SUCCESS:
+			return {
+				...state,
+				createEmailTemplateLoading: false,
+				createEmailTemplate: true,
+			};
+
+		case CREATE_EMAIL_TEMPLATE_FAIL:
+			return {
+				...state,
+				createEmailTemplateLoading: false,
+				createEmailTemplateError: payload,
+				createEmailTemplate: false,
 			};
 
 		default:

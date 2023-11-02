@@ -74,6 +74,12 @@ const updateMatchFeaturedTemplate = (data) =>
 const issueBonus = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/bonus/issue`, data);
 
+const testEmailTemplateEndPoint = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/email/test`, data);
+
+const createEmailTemplate = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/email`, data);
+
 const isCasinoFeaturedService = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/casino/featured-games`, data);
 
@@ -100,4 +106,6 @@ export {
 	resetDepositLimitCall,
 	resetLossLimitCall,
 	isCasinoFeaturedService,
+  testEmailTemplateEndPoint,
+	createEmailTemplate,
 };
