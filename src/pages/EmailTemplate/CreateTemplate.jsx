@@ -1,11 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-shadow */
-/* eslint-disable camelcase */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-undef */
-/* eslint-disable react/no-children-prop */
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -20,8 +12,10 @@ import {
 	ButtonDropdown,
 	UncontrolledTooltip,
 } from 'reactstrap';
+
 import { Buffer } from 'buffer';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import TabsPage from '../../components/Common/TabsPage';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import CodeEditor from './CodeEditor';
@@ -64,7 +58,7 @@ const CreateTemplate = ({
 	const [activeTab, setactiveTab] = useState(5);
 	const [template, setTemplate] = useState('');
 	const [requiredKeyData, setRequiredKeyData] = useState({});
-	const [drp_primaryStates, setDrp_primaryStates] = useState({});
+	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
 	// const [data] = useState(validation?.values?.content);
 
 	const deleteImage = (f) => {
@@ -156,7 +150,7 @@ const CreateTemplate = ({
 	}, [imageGallery]);
 
 	const toggleDropdown = (tabId) => {
-		setDrp_primaryStates((prevState) => ({
+		setDrpPrimaryStates((prevState) => ({
 			...prevState,
 			[tabId]: !prevState[tabId],
 		}));
@@ -183,10 +177,10 @@ const CreateTemplate = ({
 						<Col className="text-end">
 							<div className="btn-group">
 								<ButtonDropdown
-									isOpen={drp_primaryStates[item.languageId] || false}
+									isOpen={drpPrimaryStates[item.languageId] || false}
 									toggle={() => toggleDropdown(item.languageId)}
 								>
-									<Button id="caret" color="primary">
+									<Button id="caret" type="button" color="primary">
 										Dynamic Keys
 									</Button>
 									<DropdownToggle caret color="primary">
@@ -306,6 +300,19 @@ const CreateTemplate = ({
 			/>
 		</>
 	);
+};
+
+CreateTemplate.propTypes = {
+	languageData: PropTypes.object,
+	validation: PropTypes.object,
+	dynamicKeys: PropTypes.array,
+	setTemp: PropTypes.func,
+	selectedTab: PropTypes.string,
+	setSelectedTab: PropTypes.func,
+	showGallery: PropTypes.bool,
+	setShowGallery: PropTypes.func,
+	isEdit: PropTypes.bool,
+	isView: PropTypes.bool,
 };
 
 export default CreateTemplate;
