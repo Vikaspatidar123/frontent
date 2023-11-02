@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable */
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container, Collapse, CardBody, Card, Row, Card } from 'reactstrap';
+import { Container, Collapse, CardBody, Card } from 'reactstrap';
 import classnames from 'classnames';
 
 import { projectName } from '../../constants/config';
