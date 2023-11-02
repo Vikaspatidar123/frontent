@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useBannerManagement from './hooks/useBannerManagement';
 import { Pages, BannerPreview } from './BannerManagementListCol';
@@ -34,7 +34,7 @@ const computeColumns = ({ onClickEdit }) => [
 	},
 ];
 
-const BannerManagement = ({ t }) => {
+const BannerManagement = () => {
 	// meta title
 	document.title = projectName;
 
@@ -57,10 +57,10 @@ const BannerManagement = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title={t('Casino Management')}
 					breadcrumbItem={t('Banner Management')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -95,7 +95,7 @@ const BannerManagement = ({ t }) => {
 };
 
 BannerManagement.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 BannerManagement.defaultProps = {

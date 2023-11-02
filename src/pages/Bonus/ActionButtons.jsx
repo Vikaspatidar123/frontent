@@ -10,14 +10,14 @@ const ActionButtons = ({ cell, handleStatus }) => {
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+			{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
 				<Link to="#" className="btn btn-sm btn-soft-primary">
-					<i className="mdi mdi-eye-outline" id="viewtooltip" />
+					<i className="mdi mdi-eye-outline" id={`view-${bonusId}`} />
 				</Link>
 			</li>
-			<UncontrolledTooltip placement="top" target="viewtooltip">
+			<UncontrolledTooltip placement="top" target={`view-${bonusId}`}>
 				View
-			</UncontrolledTooltip>
+			</UncontrolledTooltip> */}
 
 			<li>
 				{active ? (
@@ -31,8 +31,8 @@ const ActionButtons = ({ cell, handleStatus }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id="inactivetooltip" />
-						<UncontrolledTooltip placement="top" target="inactivetooltip">
+						<i className="mdi mdi-close-thick" id={`inactive-${bonusId}`} />
+						<UncontrolledTooltip placement="top" target={`inactive-${bonusId}`}>
 							Set Inactive
 						</UncontrolledTooltip>
 					</Link>
@@ -47,14 +47,14 @@ const ActionButtons = ({ cell, handleStatus }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-check-circle" id="activetooltip" />
-						<UncontrolledTooltip placement="top" target="activetooltip">
+						<i className="mdi mdi-check-circle" id={`active-${bonusId}`} />
+						<UncontrolledTooltip placement="top" target={`active-${bonusId}`}>
 							Set Active
 						</UncontrolledTooltip>
 					</Link>
 				)}
 			</li>
-
+			{/*
 			<li>
 				<Link
 					to="#"
@@ -75,7 +75,7 @@ const ActionButtons = ({ cell, handleStatus }) => {
 						Delete
 					</UncontrolledTooltip>
 				</Link>
-			</li>
+			</li> */}
 		</ul>
 	);
 };
