@@ -2,9 +2,9 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
 import {
@@ -26,9 +26,18 @@ import FormModal from '../../components/Common/FormModal';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 
-const CasinoGames = ({ t }) => {
+const CasinoGames = () => {
 	// meta title
 	document.title = projectName;
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
 
 	const {
 		formattedCasinoGames,
@@ -40,7 +49,7 @@ const CasinoGames = ({ t }) => {
 		handleStatus,
 		onChangeRowsPerPage,
 		toggleIsFeaturedGames,
-	} = useCasinoGamesListings();
+	} = useCasinoGamesListings(filterValidation.values);
 
 	const {
 		onClickEdit,
@@ -51,15 +60,6 @@ const CasinoGames = ({ t }) => {
 		validation,
 		formFields,
 	} = useEditCasinoGames();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
 
 	const columns = [
 		{
@@ -139,10 +139,10 @@ const CasinoGames = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title={t('Casino Management')}
 					breadcrumbItem={t('Casino Games')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -192,7 +192,7 @@ const CasinoGames = ({ t }) => {
 };
 
 CasinoGames.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 CasinoGames.defaultProps = {

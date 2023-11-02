@@ -9,7 +9,7 @@ import {
 	updateSACasinoGamesStatusStart,
 } from '../../../store/actions';
 
-const useCasinoGamesListings = () => {
+const useCasinoGamesListings = (filterValues = {}) => {
 	const {
 		casinoGames,
 		isCasinoGamesLoading,
@@ -19,13 +19,7 @@ const useCasinoGamesListings = () => {
 	} = useSelector((state) => state.CasinoManagementData);
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [selectedSubCategoryId, setSelectedSubCategoryId] = useState('');
-	const [search, setSearch] = useState('');
-	const [casinoGameId, setCasinoGameId] = useState();
-	const [active, setActive] = useState('');
 	const [show, setShow] = useState(false);
-	const [status, setStatus] = useState();
-	const [selectedProvider, setSelectedProvider] = useState('');
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -74,26 +68,14 @@ const useCasinoGamesListings = () => {
 			getCasinoGamesStart({
 				limit: itemsPerPage,
 				pageNo: page,
-				casinoCategoryId: selectedSubCategoryId,
-				search,
-				isActive: active,
-				tenantId: '',
-				selectedProvider,
+				...filterValues,
 			})
 		);
 	};
 
 	useEffect(() => {
 		fetchData();
-	}, [
-		itemsPerPage,
-		page,
-		selectedSubCategoryId,
-		search,
-		active,
-		selectedProvider,
-		show,
-	]);
+	}, [itemsPerPage, page, show]);
 
 	useEffect(() => {
 		if (isEditCasinoGamesSuccess) fetchData();
@@ -135,23 +117,9 @@ const useCasinoGamesListings = () => {
 		itemsPerPage,
 		totalCasinoGamesCount: casinoGames?.count,
 		onChangeRowsPerPage,
-		search,
-		setSearch,
 		page,
 		setPage,
-		selectedSubCategoryId,
-		setSelectedSubCategoryId,
-		selectedProvider,
-		setSelectedProvider,
-		casinoGameId,
-		setCasinoGameId,
-		active,
-		setActive,
-		status,
-		setStatus,
 		handleStatus,
-		show,
-		setShow,
 		toggleIsFeaturedGames,
 	};
 };
