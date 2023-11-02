@@ -1,9 +1,11 @@
 import * as Yup from 'yup';
 import { formatDateYMD } from '../../utils/helpers';
 import {
-	statusType,
+	statusType as casinoStatusType,
 	transactionType,
 } from '../CasinoTransactionsList/constants';
+import { statusType } from '../TransactionBankingList/constants';
+import { bonusStatus, bonusTypes } from './constants';
 
 const getInitialValues = (defaultValue) => ({
 	title: defaultValue?.title || '',
@@ -174,7 +176,7 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: statusType.map(({ value, label }) => ({
+		optionList: casinoStatusType.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
@@ -237,6 +239,103 @@ const sportsBetFilterValidationSchema = () =>
 		currencyCode: Yup.string().nullable(),
 	});
 
+// Transaction filters
+
+const transactionFiltersFields = () => [
+	{
+		name: 'transactionType',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Transaction type',
+		optionList: transactionType.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
+		name: 'status',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: statusType.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
+		name: 'paymentProvider',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by payment provider',
+	},
+	{
+		name: 'ranges',
+		fieldType: 'dateRangeSelector',
+		label: '',
+		placeholder: 'Date Range',
+	},
+];
+
+const transactionFilterValues = () => ({
+	paymentProvider: '',
+	status: null,
+	startDate: null,
+	endDate: null,
+	currencyCode: null,
+	transactionType: null,
+});
+
+const transactionFilterValidationSchema = () =>
+	Yup.object({
+		paymentProvider: Yup.string().nullable(),
+		status: Yup.string().nullable(),
+		startDate: Yup.string().nullable(),
+		endDate: Yup.string().nullable(),
+		currencyCode: Yup.string().nullable(),
+		transactionType: Yup.string().nullable(),
+	});
+
+// Bonus filters
+
+const bonusFiltersFields = () => [
+	{
+		name: 'bonusType',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Bonus type',
+		optionList: bonusTypes.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
+		name: 'status',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: bonusStatus.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+];
+
+const bonusFilterValues = () => ({
+	bonusType: null,
+	status: null,
+});
+
+const bonusFilterValidationSchema = () =>
+	Yup.object({
+		bonusType: Yup.string().nullable(),
+		status: Yup.string().nullable(),
+	});
+
 export {
 	validationSchema,
 	getInitialValues,
@@ -255,4 +354,10 @@ export {
 	sportsBetFiltersFields,
 	sportsBetFilterValues,
 	sportsBetFilterValidationSchema,
+	transactionFiltersFields,
+	transactionFilterValues,
+	transactionFilterValidationSchema,
+	bonusFiltersFields,
+	bonusFilterValues,
+	bonusFilterValidationSchema,
 };

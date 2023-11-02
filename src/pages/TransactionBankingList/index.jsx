@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import PropTypes from 'prop-types';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import PropTypes from 'prop-types';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 
 import useTransactionBankingListing from './hooks/useTransactionBankingListing';
@@ -10,7 +10,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 
-const TransactionBankingList = ({ t }) => {
+const TransactionBankingList = () => {
 	document.title = projectName;
 
 	const {
@@ -30,16 +30,17 @@ const TransactionBankingList = ({ t }) => {
 		filterFields,
 		actionButtons,
 		filterValidation,
+		isFilterChanged,
 	} = useFilters();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb
+				{/* <Breadcrumb
 					title={t('Reports')}
 					breadcrumbItem={t('Transactions Banking')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -54,6 +55,7 @@ const TransactionBankingList = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									isLoading={isTransactionBankingLoading}
@@ -81,7 +83,7 @@ const TransactionBankingList = ({ t }) => {
 };
 
 TransactionBankingList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 TransactionBankingList.defaultProps = {

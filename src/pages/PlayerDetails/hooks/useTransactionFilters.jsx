@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isEqual } from 'lodash';
+import { useParams } from 'react-router-dom';
 import {
-	filterValidationSchema,
-	filterValues,
-	staticFiltersFields,
+	transactionFilterValidationSchema,
+	transactionFilterValues,
+	transactionFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
@@ -14,11 +15,12 @@ import {
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
-const useFilters = () => {
+const useTransactionFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 	const { currencies } = useSelector((state) => state.Currencies);
+	const { playerId } = useParams();
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
@@ -28,6 +30,7 @@ const useFilters = () => {
 			fetchTransactionBankingStart({
 				limit: itemsPerPage,
 				pageNo: 1,
+				userId: playerId,
 				...values,
 			})
 		);
@@ -38,10 +41,10 @@ const useFilters = () => {
 	};
 
 	const { validation, formFields, setFormFields } = useForm({
-		initialValues: filterValues(),
-		validationSchema: filterValidationSchema(),
+		initialValues: transactionFilterValues(),
+		validationSchema: transactionFilterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields,
+		staticFormFields: transactionFiltersFields(),
 	});
 
 	// const handleAdvance = () => {
@@ -49,7 +52,7 @@ const useFilters = () => {
 	// };
 
 	const handleClear = () => {
-		const initialValues = filterValues();
+		const initialValues = transactionFilterValues();
 		validation.resetForm(initialValues);
 	};
 
@@ -74,7 +77,7 @@ const useFilters = () => {
 					placeholder: 'Select a currency',
 					optionList: currencyField,
 				},
-				...staticFiltersFields(),
+				...transactionFiltersFields(),
 			]);
 		}
 	}, [currencies]);
@@ -88,7 +91,7 @@ const useFilters = () => {
 			prevValues.current = validation.values;
 		}
 		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
+		if (isEqual(transactionFilterValues(), validation.values)) {
 			setIsFilterChanged(false);
 		}
 		return () => clearTimeout(debounce);
@@ -115,4 +118,4 @@ const useFilters = () => {
 	};
 };
 
-export default useFilters;
+export default useTransactionFilters;

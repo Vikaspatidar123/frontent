@@ -3,12 +3,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Card, Container } from 'reactstrap';
+import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import { Action, Id, KeyValueCell, PromotionTitle } from './TableCol';
 import { getUserBonus } from '../../store/actions';
 import { formatDate } from '../../utils/dateFormatter';
+import useBonusFilter from './hooks/useBonusFilter';
+import Filters from '../../components/Common/Filters';
 
 const YourBonuses = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -134,6 +136,15 @@ const YourBonuses = ({ userId }) => {
 		[]
 	);
 
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useBonusFilter();
+
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
@@ -141,22 +152,32 @@ const YourBonuses = ({ userId }) => {
 	return (
 		<Container fluid className="bg-white">
 			<Card className="p-2">
-				<TableContainer
-					isLoading={userBonusLoading}
-					columns={columns}
-					data={formattedUserBonus}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={userBonus?.count}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					changeRowsPerPageCallback={onChangeRowsPerPage}
-				/>
+				<CardBody>
+					<Filters
+						validation={filterValidation}
+						filterFields={filterFields}
+						actionButtons={actionButtons}
+						isAdvanceOpen={isAdvanceOpen}
+						toggleAdvance={toggleAdvance}
+						isFilterChanged={isFilterChanged}
+					/>
+					<TableContainer
+						isLoading={userBonusLoading}
+						columns={columns}
+						data={formattedUserBonus}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						// paginationDiv="col-sm-12 col-md-7"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={userBonus?.count}
+						isManualPagination
+						onChangePagination={setCurrentPage}
+						currentPage={currentPage}
+						changeRowsPerPageCallback={onChangeRowsPerPage}
+					/>
+				</CardBody>
 			</Card>
 		</Container>
 	);

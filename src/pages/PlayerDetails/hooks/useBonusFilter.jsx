@@ -1,33 +1,32 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { isEqual } from 'lodash';
+import { useParams } from 'react-router-dom';
 import {
-	filterValidationSchema,
-	filterValues,
-	staticFiltersFields,
+	bonusFilterValidationSchema,
+	bonusFilterValues,
+	bonusFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	fetchCurrenciesStart,
-	fetchTransactionBankingStart,
-} from '../../../store/actions';
+import { getUserBonus } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
-const useFilters = () => {
+const useBonusFilter = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const { currencies } = useSelector((state) => state.Currencies);
+	const { playerId } = useParams();
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
 	const fetchData = (values) => {
 		dispatch(
-			fetchTransactionBankingStart({
+			getUserBonus({
 				limit: itemsPerPage,
 				pageNo: 1,
+				userId: playerId,
 				...values,
 			})
 		);
@@ -37,11 +36,11 @@ const useFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields, setFormFields } = useForm({
-		initialValues: filterValues(),
-		validationSchema: filterValidationSchema(),
+	const { validation, formFields } = useForm({
+		initialValues: bonusFilterValues(),
+		validationSchema: bonusFilterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields,
+		staticFormFields: bonusFiltersFields(),
 	});
 
 	// const handleAdvance = () => {
@@ -49,35 +48,9 @@ const useFilters = () => {
 	// };
 
 	const handleClear = () => {
-		const initialValues = filterValues();
+		const initialValues = bonusFilterValues();
 		validation.resetForm(initialValues);
 	};
-
-	useEffect(() => {
-		if (isEmpty(currencies)) {
-			dispatch(
-				fetchCurrenciesStart({
-					// limit: itemsPerPage,
-					// pageNo: page,
-				})
-			);
-		} else {
-			const currencyField = currencies?.rows?.map((row) => ({
-				optionLabel: row.name,
-				value: row.code,
-			}));
-			setFormFields([
-				{
-					name: 'currencyCode',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Select a currency',
-					optionList: currencyField,
-				},
-				...staticFiltersFields(),
-			]);
-		}
-	}, [currencies]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
@@ -88,7 +61,7 @@ const useFilters = () => {
 			prevValues.current = validation.values;
 		}
 		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
+		if (isEqual(bonusFilterValues(), validation.values)) {
 			setIsFilterChanged(false);
 		}
 		return () => clearTimeout(debounce);
@@ -115,4 +88,4 @@ const useFilters = () => {
 	};
 };
 
-export default useFilters;
+export default useBonusFilter;

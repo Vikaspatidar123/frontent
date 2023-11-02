@@ -357,3 +357,22 @@ export const countryMasks = {
 	zm: '..-...-....',
 	zw: '.-......',
 };
+
+export const bonusStatus = [
+	{ label: 'All', value: '' },
+	{ label: 'Active', value: 'ACTIVE' },
+	{ label: 'Pending', value: 'PENDING' },
+	{ label: 'Cancelled', value: 'CANCELLED' },
+	{ label: 'Forfeited', value: 'FORFEITED' },
+	{ label: 'Expired', value: 'EXPIRED' },
+	{ label: 'Completed', value: 'COMPLETED' },
+];
+
+export const bonusTypes = [
+	{ label: 'All', value: '' },
+	{ label: 'MATCH', value: 'match', id: 0 },
+	{ label: 'BALANCE', value: 'balance', id: 1 },
+	{ label: 'FREESPINS', value: 'freespins', id: 2 },
+	{ label: 'DEPOSIT(CASHBACK)', value: 'deposit', id: 3 },
+	{ label: 'WAGERING(CASHBACK)', value: 'wagering', id: 4 },
+];

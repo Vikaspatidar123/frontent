@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { CardText, Container } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { getSiteConfiguration } from '../../network/getRequests';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 
@@ -121,7 +121,7 @@ const ProfilePage = ({ t }) => {
 			title: 'Permissions',
 			component: <Permissions details={superAdminUser} />,
 		},
-		{ id: '5', title: 'Tree', component: <CardText>default2</CardText> },
+		// { id: '5', title: 'Tree', component: <CardText>default2</CardText> },
 	];
 	return (
 		<div className="page-content">
