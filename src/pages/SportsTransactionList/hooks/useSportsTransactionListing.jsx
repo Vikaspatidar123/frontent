@@ -14,7 +14,7 @@ import {
 	Status,
 } from '../SportsTransactionListCol';
 
-const useSportsTransactionListing = () => {
+const useSportsTransactionListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -29,6 +29,7 @@ const useSportsTransactionListing = () => {
 			fetchSportsTransactionStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
+				...filterValues,
 			})
 		);
 	}, [currentPage, itemsPerPage]);

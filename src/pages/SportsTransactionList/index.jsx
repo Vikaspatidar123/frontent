@@ -15,6 +15,15 @@ const SportsTransactionList = ({ t }) => {
 	document.title = projectName;
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		currentPage,
 		setCurrentPage,
 		totalSportsTransactionCount,
@@ -23,15 +32,7 @@ const SportsTransactionList = ({ t }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useSportsTransactionListing();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
+	} = useSportsTransactionListing(filterValidation.values);
 
 	return (
 		<div className="page-content">
@@ -52,6 +53,7 @@ const SportsTransactionList = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									isLoading={isSportsTransactionLoading}
