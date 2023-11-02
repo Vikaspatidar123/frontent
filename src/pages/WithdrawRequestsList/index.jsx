@@ -1,16 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import useWithdrawRequestsListing from './hooks/useWithdrawRequestsListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 
-const WithdrawRequestsList = ({ t }) => {
+const WithdrawRequestsList = () => {
 	document.title = projectName;
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
 
 	const {
 		currentPage,
@@ -21,24 +30,16 @@ const WithdrawRequestsList = ({ t }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useWithdrawRequestsListing();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
+	} = useWithdrawRequestsListing(filterValidation.values);
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb
-					title={t('Reports')}
-					breadcrumbItem={t('Withdraw Requests')}
-				/>
+				{/* <Breadcrumb
+          title={t('Reports')}
+          breadcrumbItem={t('Withdraw Requests')}
+        /> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -50,6 +51,7 @@ const WithdrawRequestsList = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									isLoading={isWithdrawRequestsLoading}
@@ -77,7 +79,7 @@ const WithdrawRequestsList = ({ t }) => {
 };
 
 WithdrawRequestsList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 WithdrawRequestsList.defaultProps = {
