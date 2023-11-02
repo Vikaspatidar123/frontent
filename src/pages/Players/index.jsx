@@ -14,6 +14,15 @@ const PlayersList = () => {
 	document.title = projectName;
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		currentPage,
 		setCurrentPage,
 		totalPlayersCount,
@@ -22,16 +31,7 @@ const PlayersList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = usePlayersListing();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
+	} = usePlayersListing(filterValidation.values);
 
 	return (
 		<div className="page-content">

@@ -4,7 +4,7 @@ import { Col, Row, Card, CardBody } from 'reactstrap';
 import { projectName } from '../../constants/config';
 import useCasinoCategoryColumn from './CasinoCategoryColumn';
 import TableContainer from '../../components/Common/TableContainer';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
@@ -51,10 +51,10 @@ const GetCasinoCategoryDetails = () => {
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title="Casino Management"
 					breadcrumbItem="Casino Category"
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
