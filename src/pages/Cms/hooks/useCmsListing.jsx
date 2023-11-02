@@ -9,16 +9,13 @@ import {
 import { CmsPageId, Title, Slug, Portal, Status } from '../CmsListCol';
 import ActionButtons from '../ActionButtons';
 
-const useCmsListing = () => {
+const useCmsListing = (filterValues = {}) => {
 	const navigate = useNavigate();
 	const { cmsDetails, isLoading, error } = useSelector((state) => state.AllCms);
 	const [limit, setLimit] = useState(15);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
-	const [search, setSearch] = useState('');
 	const [selectedClient, setSelectedClient] = useState('');
-	const [selectedPortal, setSelectedPortal] = useState('');
-	const [active, setActive] = useState('');
 	const [show, setShow] = useState(false);
 	const dispatch = useDispatch();
 
@@ -44,10 +41,8 @@ const useCmsListing = () => {
 			getAllCmsDetails({
 				limit: itemsPerPage,
 				pageNo: page,
-				tenantId: selectedPortal,
 				adminId: selectedClient,
-				search,
-				isActive: active,
+				...filterValues,
 			})
 		);
 	};
@@ -65,10 +60,7 @@ const useCmsListing = () => {
 				},
 				limit,
 				pageNo: page,
-				tenantId: selectedPortal,
 				adminId: selectedClient,
-				search,
-				isActive: active,
 			})
 		);
 	};
@@ -85,7 +77,7 @@ const useCmsListing = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, selectedPortal, selectedClient, active, page, itemsPerPage]);
+	}, [limit, selectedClient, page, itemsPerPage]);
 
 	const columns = useMemo(
 		() => [
@@ -145,10 +137,7 @@ const useCmsListing = () => {
 		error,
 		setLimit,
 		setPage,
-		setSearch,
 		setSelectedClient,
-		setSelectedPortal,
-		setActive,
 		handleStatus,
 		show,
 		setShow,

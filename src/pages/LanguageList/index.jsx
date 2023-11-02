@@ -13,6 +13,15 @@ const LanguageList = () => {
 	document.title = projectName;
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		currentPage,
 		setCurrentPage,
 		totalLanguagesCount,
@@ -21,16 +30,7 @@ const LanguageList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useLanguageListing();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
+	} = useLanguageListing(filterValidation.values);
 
 	return (
 		<div className="page-content">

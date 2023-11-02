@@ -5,7 +5,7 @@ import {
 	updateCountryStatusStart,
 } from '../../../store/actions';
 
-const useCountriesListing = () => {
+const useCountriesListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +21,7 @@ const useCountriesListing = () => {
 			fetchCountriesStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
+				...filterValues,
 			})
 		);
 

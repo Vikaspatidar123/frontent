@@ -94,7 +94,7 @@ const useFilters = () => {
 			setFormFields([
 				...staticFiltersFields(),
 				{
-					name: 'gameSubCategoryId',
+					name: 'casinoCategoryId',
 					fieldType: 'select',
 					label: '',
 					placeholder: 'Sub Category',

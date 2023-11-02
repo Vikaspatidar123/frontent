@@ -16,6 +16,15 @@ const Cms = () => {
 	// Set meta title
 	document.title = projectName;
 
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
 	// Fetch CMS page data and manage pagination state
 	const {
 		formattedCmsDetails,
@@ -26,18 +35,9 @@ const Cms = () => {
 		totalCmsCount,
 		onChangeRowsPerPage,
 		columns,
-	} = useCmsListing();
+	} = useCmsListing(filterValidation.values);
 
 	const { buttonList } = useCreateCms();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
 
 	return (
 		<div className="page-content">
