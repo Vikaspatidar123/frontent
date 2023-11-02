@@ -69,10 +69,10 @@ const EmailTemplate = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title={t('Content Management')}
 					breadcrumbItem={t('Email Template')}
-				/>
+				/> */}
 				<Card>
 					<CardBody>
 						<CrudSection

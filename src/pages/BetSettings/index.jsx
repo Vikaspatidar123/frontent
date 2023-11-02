@@ -21,7 +21,7 @@ import {
 	UpdatedAt,
 } from './BetSettingsListCol';
 import ActionButtons from './ActionButtons';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCreateBetSettings from './hooks/useCreateBetSettings';
 import FormModal from '../../components/Common/FormModal';
 import CrudSection from '../../components/Common/CrudSection';
@@ -137,7 +137,7 @@ const BetSettings = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumb title="Sports Book" breadcrumbItem="Bet Settings" />
+				{/* <Breadcrumb title="Sports Book" breadcrumbItem="Bet Settings" /> */}
 				<Row>
 					<Col lg="12">
 						<Card>

@@ -1,16 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import useLanguageManagementListing from './hooks/useLanguageManagementListing';
 import { Action, English, Keys } from './LanguageManagementCol';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 
-const LanguageManagementList = ({ t }) => {
+const LanguageManagementList = () => {
 	document.title = projectName;
 
 	const { isLanguageManagementLoading, formattedLanguageManagement } =
@@ -44,10 +44,10 @@ const LanguageManagementList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb
+				{/* <Breadcrumb
 					title={t('Site Configurations')}
 					breadcrumbItem={t('Language Management')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -70,7 +70,7 @@ const LanguageManagementList = ({ t }) => {
 };
 
 LanguageManagementList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 LanguageManagementList.defaultProps = {
