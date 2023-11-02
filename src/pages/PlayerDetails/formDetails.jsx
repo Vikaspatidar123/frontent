@@ -336,6 +336,62 @@ const bonusFilterValidationSchema = () =>
 		status: Yup.string().nullable(),
 	});
 
+// Comments filter
+// search: anil
+// userId: 72
+// role: admin
+// status: false
+const commentsFiltersFields = () => [
+	{
+		name: 'search',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by Title, Description or Agent',
+	},
+	{
+		name: 'role',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Select Role',
+		optionList: [
+			{
+				value: 'admin',
+				optionLabel: 'Admin',
+			},
+		],
+	},
+	{
+		name: 'status',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: [
+			{
+				value: true,
+				optionLabel: 'Active',
+			},
+			{
+				value: false,
+				optionLabel: 'Resolved',
+			},
+		],
+	},
+];
+
+const commentsFilterValues = () => ({
+	search: '',
+	role: null,
+	status: null,
+});
+
+const commentsFilterValidationSchema = () =>
+	Yup.object({
+		search: Yup.string().nullable(),
+		role: Yup.string().nullable(),
+		status: Yup.string().nullable(),
+	});
+
 export {
 	validationSchema,
 	getInitialValues,
@@ -360,4 +416,7 @@ export {
 	bonusFiltersFields,
 	bonusFilterValues,
 	bonusFilterValidationSchema,
+	commentsFilterValidationSchema,
+	commentsFilterValues,
+	commentsFiltersFields,
 };
