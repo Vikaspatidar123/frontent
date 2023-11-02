@@ -105,7 +105,7 @@ const CasinoProviders = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Providers Listing" />
+							<CrudSection buttonList={buttonList} title="Casino Providers" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

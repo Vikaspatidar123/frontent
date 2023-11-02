@@ -54,7 +54,7 @@ const ReviewManagementList = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Reviews Listing" />
+							<CrudSection buttonList={buttonList} title="Reviews" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

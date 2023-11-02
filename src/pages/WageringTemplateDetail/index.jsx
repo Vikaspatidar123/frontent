@@ -84,7 +84,7 @@ const WageringTemplate = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Templates Listing" />
+							<CrudSection buttonList={buttonList} title="Templates" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

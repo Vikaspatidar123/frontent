@@ -41,7 +41,7 @@ const PlayersList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Player Listing" />
+							<CrudSection buttonList={[]} title="Players" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

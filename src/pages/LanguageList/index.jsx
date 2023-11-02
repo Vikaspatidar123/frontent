@@ -43,7 +43,7 @@ const LanguageList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Languages Listing" />
+							<CrudSection buttonList={[]} title="Languages" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

@@ -82,10 +82,7 @@ const CasinoAggregators = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection
-								buttonList={buttonList}
-								title="Aggregators Listing"
-							/>
+							<CrudSection buttonList={buttonList} title="Casino Aggregators" />
 							{!loading && (
 								<CardBody>
 									<TableContainer

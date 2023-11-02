@@ -29,7 +29,7 @@ const CreateCMS = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={galleryList} title="CMS Listing" />
+							<CrudSection buttonList={galleryList} title="CMS" />
 							<FormPage
 								formTitle={header}
 								validation={validation}

@@ -232,7 +232,7 @@ const GetCasinoSubCategoryDetail = ({ t }) => {
 						<Card>
 							<CrudSection
 								buttonList={buttonList}
-								title="Sub Categories Listing"
+								title="Casino Sub Categories"
 							/>
 							<CardBody>
 								<Filters

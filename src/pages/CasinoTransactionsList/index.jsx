@@ -42,10 +42,7 @@ const CasinoTransactionsList = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection
-								buttonList={[]}
-								title="Casino Transactions Listing"
-							/>
+							<CrudSection buttonList={[]} title="Casino Transactions" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

@@ -49,7 +49,7 @@ const Cms = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="CMS Listing" />
+							<CrudSection buttonList={buttonList} title="CMS" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

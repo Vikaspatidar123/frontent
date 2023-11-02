@@ -58,7 +58,7 @@ const GetCasinoCategoryDetails = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Category Listing" />
+							<CrudSection buttonList={buttonList} title="Casino Categories" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

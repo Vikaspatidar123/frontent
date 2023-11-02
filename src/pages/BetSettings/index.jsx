@@ -141,10 +141,7 @@ const BetSettings = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection
-								buttonList={buttonList}
-								title="Bet Settings Listing"
-							/>
+							<CrudSection buttonList={buttonList} title="Bet Settings" />
 							<CardBody>
 								<TableContainer
 									columns={columns}

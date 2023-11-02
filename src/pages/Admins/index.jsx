@@ -47,7 +47,7 @@ const Admins = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Staff Listing" />
+							<CrudSection buttonList={buttonList} title="Staff" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}
