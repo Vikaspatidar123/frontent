@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Flatpickr from 'react-flatpickr';
 import {
 	Col,
 	Card,
@@ -11,6 +12,7 @@ import {
 	NavLink,
 	TabContent,
 	TabPane,
+	InputGroup,
 } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -26,12 +28,42 @@ const KpiSummary = (props) => {
 		kPISummaryColumn,
 		kPISummary,
 	} = props;
+	const lastDate = new Date();
 
+	// add a day
+	lastDate.setDate(lastDate.getDate() + 1);
 	return (
 		<Col xl="12">
 			<Card>
 				<CardBody>
-					<h4 className="card-title mb-4">KPI Summary{activeKpiSummTab}</h4>
+					<div className="float-end">
+						<div className="d-flex justify-content-between align-items-center">
+							<InputGroup>
+								<Flatpickr
+									className="form-control dashboard-range-picker"
+									// placeholder="dd M,yyyy"
+									options={{
+										mode: 'range ',
+										dateFormat: 'Y-m-d',
+										defaultDate: [new Date(), lastDate],
+									}}
+								/>
+								<div className="input-group-append">
+									<span className="input-group-text">
+										<i className="mdi mdi-clock-outline" />
+									</span>
+								</div>
+							</InputGroup>
+							<button
+								type="button"
+								className="btn btn-primary dashboard-export-btn"
+							>
+								Export Details
+								<i className="bx bx-download align-baseline ms-1" />
+							</button>
+						</div>
+					</div>
+					<h4 className="card-title mb-4">KPI Summary</h4>
 
 					<Nav pills className="bg-light rounded" role="tablist">
 						<NavItem>

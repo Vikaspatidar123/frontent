@@ -18,6 +18,7 @@ import classnames from 'classnames';
 import SimpleBar from 'simplebar-react';
 import TableContainer from '../../../components/Common/TableContainer';
 import { tableCustomClass } from '../../../constants/config';
+import { dateConstants } from '../constant';
 
 const GameReport = (props) => {
 	const {
@@ -31,6 +32,30 @@ const GameReport = (props) => {
 		<Col xl="12">
 			<Card>
 				<CardBody>
+					<div className="float-end">
+						<div className="d-flex justify-content-between align-items-center">
+							<select
+								// value={demoDateOptions}
+								className="form-select ms-2"
+								onChange={() => {
+									// setDemoDateOptions(e.target.value);
+								}}
+							>
+								{dateConstants?.map((item) => (
+									<option value={item.value} key={item.value}>
+										{item.label}
+									</option>
+								))}
+							</select>
+							<button
+								type="button"
+								className="btn btn-primary dashboard-export-btn"
+							>
+								Export Details
+								<i className="bx bx-download align-baseline ms-1" />
+							</button>
+						</div>
+					</div>
 					<h4 className="card-title mb-4">Game Report</h4>
 
 					<Nav pills className="bg-light rounded" role="tablist">
