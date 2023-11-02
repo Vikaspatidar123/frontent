@@ -5,6 +5,7 @@ import {
 	transactionType,
 } from '../CasinoTransactionsList/constants';
 import { statusType } from '../TransactionBankingList/constants';
+import { bonusStatus, bonusTypes } from './constants';
 
 const getInitialValues = (defaultValue) => ({
 	title: defaultValue?.title || '',
@@ -297,6 +298,44 @@ const transactionFilterValidationSchema = () =>
 		transactionType: Yup.string().nullable(),
 	});
 
+// Bonus filters
+
+const bonusFiltersFields = () => [
+	{
+		name: 'bonusType',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Bonus type',
+		optionList: bonusTypes.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
+		name: 'status',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: bonusStatus.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+];
+
+const bonusFilterValues = () => ({
+	bonusType: null,
+	status: null,
+});
+
+const bonusFilterValidationSchema = () =>
+	Yup.object({
+		bonusType: Yup.string().nullable(),
+		status: Yup.string().nullable(),
+	});
+
 export {
 	validationSchema,
 	getInitialValues,
@@ -318,4 +357,7 @@ export {
 	transactionFiltersFields,
 	transactionFilterValues,
 	transactionFilterValidationSchema,
+	bonusFiltersFields,
+	bonusFilterValues,
+	bonusFilterValidationSchema,
 };
