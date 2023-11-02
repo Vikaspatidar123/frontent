@@ -38,8 +38,10 @@ const KYCLabels = () => {
 	document.title = projectName;
 
 	const { formattedDocumentLabels, documentLabelsLoading } = useKYCLables();
-	const [expanded, setExpanded] = useState('');
 
+	const [expanded, setExpanded] = useState(
+		formattedDocumentLabels[0]?.[0]?.documentLabelId || ''
+	);
 	const handleChange = (panel) => () => {
 		if (expanded === panel) {
 			setExpanded('');

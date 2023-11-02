@@ -46,7 +46,8 @@ const EmailTemplate = ({ t }) => {
 	document.title = projectName;
 
 	const { emailTemplateloading, emailTemplates } = useEmailTemplate();
-	const [expanded, setExpanded] = useState('');
+	const keyList = Object.keys(emailTemplates);
+	const [expanded, setExpanded] = useState(keyList[0] || '');
 
 	const handleChange = (panel) => () => {
 		if (expanded === panel) {
@@ -71,7 +72,7 @@ const EmailTemplate = ({ t }) => {
 								className="position-absolute top-50 start-50"
 							/>
 						) : (
-							Object.keys(emailTemplates).map((key) => (
+							keyList?.map((key) => (
 								<div
 									className="accordion mb-2 left-accordion-arrow"
 									id="accordion"
