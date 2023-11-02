@@ -1,4 +1,7 @@
 import {
+	CANCEL_USER_BONUS,
+	CANCEL_USER_BONUS_FAIL,
+	CANCEL_USER_BONUS_SUCCESS,
 	CREATE_USER_COMMENT,
 	CREATE_USER_COMMENT_FAIL,
 	CREATE_USER_COMMENT_SUCCESS,
@@ -370,5 +373,20 @@ export const markDocumentRequired = (payload) => ({
 
 export const markDocumentRequiredReset = (payload) => ({
 	type: MARK_DOCUMENT_REQUIRED_RESET,
+	payload,
+});
+
+export const cancelUserBonusFail = (payload) => ({
+	type: CANCEL_USER_BONUS_FAIL,
+	payload,
+});
+
+export const cancelUserBonus = (payload) => ({
+	type: CANCEL_USER_BONUS,
+	payload,
+});
+
+export const cancelUserBonusSuccess = (payload) => ({
+	type: CANCEL_USER_BONUS_SUCCESS,
 	payload,
 });

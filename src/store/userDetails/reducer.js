@@ -1,4 +1,7 @@
 import {
+	CANCEL_USER_BONUS,
+	CANCEL_USER_BONUS_FAIL,
+	CANCEL_USER_BONUS_SUCCESS,
 	CREATE_USER_COMMENT,
 	CREATE_USER_COMMENT_FAIL,
 	CREATE_USER_COMMENT_SUCCESS,
@@ -124,6 +127,9 @@ const INIT_STATE = {
 	markDocumentRequiredLoading: false,
 	markDocumentRequiredSuccess: false,
 	markDocumentRequiredError: false,
+	cancelUserBonusLoading: false,
+	cancelUserBonusSuccess: false,
+	cancelUserBonusError: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -581,6 +587,28 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				markDocumentRequiredError: false,
 				markDocumentRequiredLoading: false,
 				markDocumentRequiredSuccess: false,
+			};
+
+		case CANCEL_USER_BONUS_SUCCESS:
+			return {
+				...state,
+				cancelUserBonusLoading: false,
+				cancelUserBonusSuccess: payload,
+				cancelUserBonusError: null,
+			};
+
+		case CANCEL_USER_BONUS_FAIL:
+			return {
+				...state,
+				cancelUserBonusError: payload,
+				cancelUserBonusLoading: false,
+				cancelUserBonusSuccess: false,
+			};
+
+		case CANCEL_USER_BONUS:
+			return {
+				...state,
+				cancelUserBonusLoading: true,
 			};
 		default:
 			return { ...state };
