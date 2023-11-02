@@ -41,6 +41,7 @@ import LoggedInPlayer from './LoggedInPlayer';
 import './dashboard.scss';
 
 const DashboardView = ({ t }) => {
+	// const [activeKpiSummTab, setActiveKpiSummTab] = useState('banking');
 	//   const dispatch = useDispatch()
 
 	const selectDashboardState = (state) => state.Dashboard;
@@ -132,23 +133,6 @@ const DashboardView = ({ t }) => {
 					</Col>
 				</Row>
 				<Row>
-					{/* <Col xl="12">
-						<Row>
-							<LivePlayerReports
-								isLivePlayerLoading={isLivePlayerLoading}
-								livePlayerData={livePlayerData}
-							/>
-						</Row>
-					</Col> */}
-					{/* <Col xl="12">
-						<Row>
-              <DemographicReport
-                demoGrapFormatedData={demoGrapFormatedData}
-                demoGraphOptions={demoGraphOptions}
-                demoGraphicData={demoGraphicData}
-                demoGraphColumn={demoGraphColumn} />
-            </Row>
-          </Col> */}
 					<Col xl="12">
 						<Row>
 							<KpiSummary

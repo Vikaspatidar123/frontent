@@ -16,6 +16,7 @@ import {
 	ThumbnailUrl,
 	DeviceType,
 	Status,
+	IsFeatured,
 } from './CasinoGamesListCol';
 import ActionButtons from './ActionButtons';
 import useCasinoGamesListings from './hooks/useCasinoGamesListing';
@@ -38,6 +39,7 @@ const CasinoGames = ({ t }) => {
 		itemsPerPage,
 		handleStatus,
 		onChangeRowsPerPage,
+		toggleIsFeaturedGames,
 	} = useCasinoGamesListings();
 
 	const {
@@ -61,14 +63,14 @@ const CasinoGames = ({ t }) => {
 	const columns = [
 		{
 			Header: 'IS FEATURED',
-			Cell: () => (
-				<div className="form-check form-switch form-switch-md form-check-success d-flex justify-content-center">
-					<input
-						type="checkbox"
-						className="form-check-input"
-						id="customSwitchsizemd"
-					/>
-				</div>
+			accessor: 'isFeatured',
+			Cell: (cellProps) => (
+				<IsFeatured
+					toggleIsFeaturedGames={toggleIsFeaturedGames}
+					isFeaturedUpdateLoading={false}
+					// featuredFabData={featuredFabData}
+					cellProps={cellProps}
+				/>
 			),
 		},
 		{
