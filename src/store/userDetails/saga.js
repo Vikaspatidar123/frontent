@@ -40,8 +40,11 @@ import {
 	updateUserPasswordFail,
 	markDocumentRequiredSuccess,
 	markDocumentRequiredFail,
+	cancelUserBonusSuccess,
+	cancelUserBonusFail,
 } from './actions';
 import {
+	CANCEL_USER_BONUS,
 	CREATE_USER_COMMENT,
 	DEPOSIT_TO_OTHER,
 	DISABLE_USER,
@@ -84,6 +87,7 @@ import {
 import { showToastr } from '../../utils/helpers';
 import {
 	addDepositToOtherCall,
+	cancelBonus,
 	cancelDocumentRequest,
 	markUserAsInternal,
 	requestDocument,
@@ -427,6 +431,25 @@ function* markDocumentRequiredWorker(action) {
 	}
 }
 
+function* cancelUserBonusWorker(action) {
+	try {
+		const payload = action && action.payload;
+
+		yield cancelBonus(payload);
+		yield put(cancelUserBonusSuccess(true));
+		showToastr({
+			message: 'Bonus Cancelled Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(cancelUserBonusFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -448,6 +471,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(UPDATE_USER_PASSWORD, updateUserPasswordWorker);
 	yield takeLatest(SEND_PASSWORD_RESET, sendPasswordResetWorker);
 	yield takeLatest(MARK_DOCUMENT_REQUIRED, markDocumentRequiredWorker);
+	yield takeLatest(CANCEL_USER_BONUS, cancelUserBonusWorker);
 }
 
 function* UserDetailsSaga() {

@@ -6,19 +6,29 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
-import { Action, Id, KeyValueCell, PromotionTitle } from './TableCol';
-import { getUserBonus } from '../../store/actions';
+import { Id, KeyValueCell, PromotionTitle } from './TableCol';
+import { cancelUserBonus, getUserBonus } from '../../store/actions';
 import { formatDate } from '../../utils/dateFormatter';
 import useBonusFilter from './hooks/useBonusFilter';
 import Filters from '../../components/Common/Filters';
+import BonusActionButtons from './BonusActionButtons';
+import BonusDetails from './modals/BonusDetails';
 
 const YourBonuses = ({ userId }) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [bonusDetailsModal, setBonusDetailsModal] = useState({
+		open: false,
+		data: '',
+	});
 	const { userBonus, userBonusLoading } = useSelector(
 		(state) => state.UserDetails
 	);
+
+	const onViewClick = ({ bonusDetails }) => {
+		setBonusDetailsModal({ open: true, data: bonusDetails });
+	};
 
 	const formattedUserBonus = useMemo(() => {
 		const formattedValues = [];
@@ -61,6 +71,15 @@ const YourBonuses = ({ userId }) => {
 		);
 	}, [currentPage, itemsPerPage]);
 
+	const onCancelClick = ({ userBonusId }) => {
+		dispatch(
+			cancelUserBonus({
+				userBonusId,
+				userId,
+			})
+		);
+	};
+
 	const columns = useMemo(
 		() => [
 			{
@@ -96,7 +115,7 @@ const YourBonuses = ({ userId }) => {
 			{
 				Header: 'STATUS',
 				accessor: 'status',
-				Cell: (cellProps) => <keyValueCell {...cellProps} />,
+				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
 			{
 				Header: 'ISSUED BY',
@@ -130,7 +149,13 @@ const YourBonuses = ({ userId }) => {
 			},
 			{
 				Header: 'ACTION',
-				Cell: (cellProps) => <Action {...cellProps} />,
+				Cell: (cellProps) => (
+					<BonusActionButtons
+						onViewClick={onViewClick}
+						onCancelClick={onCancelClick}
+						{...cellProps}
+					/>
+				),
 			},
 		],
 		[]
@@ -178,6 +203,13 @@ const YourBonuses = ({ userId }) => {
 						changeRowsPerPageCallback={onChangeRowsPerPage}
 					/>
 				</CardBody>
+				<BonusDetails
+					show={bonusDetailsModal.open}
+					toggle={() => setBonusDetailsModal({ open: false, data: '' })}
+					bonusId={bonusDetailsModal.data?.bonusId}
+					bonusTitle={bonusDetailsModal.data?.promotionTitle}
+					userBonusId={bonusDetailsModal.data?.userBonusId}
+				/>
 			</Card>
 		</Container>
 	);

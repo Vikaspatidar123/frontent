@@ -124,11 +124,15 @@ const PlayerDetailsPage = ({ t }) => {
 		},
 	];
 
+	const leftTitle = userDetailsLoading
+		? 'Player Details'
+		: `Player Details : ${userDetails?.firstName} ${userDetails?.lastName}`;
+
 	return (
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumb
-					leftTitle={`Player Details : ${userDetails?.firstName} ${userDetails?.lastName}`}
+					leftTitle={leftTitle}
 					title={t('Player')}
 					breadcrumbItem={t('Player Details')}
 				/>
