@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -8,12 +9,16 @@ import {
 
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { fetchWithdrawRequestsStart } from '../../../store/actions';
-import { itemsPerPage } from '../../../constants/config';
+import { debounceTime, itemsPerPage } from '../../../constants/config';
 
+let debounce;
 const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
+	const prevValues = useRef(null);
+	const isFirst = useRef(true);
+	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
 	const fetchData = (values) => {
 		dispatch(
@@ -32,41 +37,44 @@ const useFilters = () => {
 	const { validation, formFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
-		onSubmitEntry: handleFilter,
+		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(),
 	});
 
-	const handleAdvance = () => {
-		toggleAdvance();
-	};
+	// const handleAdvance = () => {
+	//   toggleAdvance();
+	// };
 
 	const handleClear = () => {
 		const initialValues = filterValues();
 		validation.resetForm(initialValues);
-		fetchData(initialValues);
 	};
 
 	const actionButtons = useMemo(() => [
 		{
-			// type: 'button', // if you pass type button handle the click event
-			label: 'Filter',
-			icon: 'bx bx-filter-alt',
-			// handleClick: handleFilter,
-		},
-		{
 			type: 'button', // if you pass type button handle the click event
-			label: 'Clear',
-			icon: 'mdi mdi-close-thick',
+			label: '',
+			icon: 'mdi mdi-refresh',
 			handleClick: handleClear,
-		},
-		{
-			type: 'button',
-			label: 'Advance',
-			icon: 'bx bx-add-to-queue',
-			handleClick: handleAdvance,
-			color: 'btn-secondary',
+			tooltip: 'Clear filter',
+			id: 'clear',
 		},
 	]);
+
+	useEffect(() => {
+		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
+			setIsFilterChanged(true);
+			debounce = setTimeout(() => {
+				handleFilter(validation.values);
+			}, debounceTime);
+			prevValues.current = validation.values;
+		}
+		isFirst.current = false;
+		if (isEqual(filterValues(), validation.values)) {
+			setIsFilterChanged(false);
+		}
+		return () => clearTimeout(debounce);
+	}, [validation.values]);
 
 	return {
 		toggleAdvance,
@@ -74,6 +82,7 @@ const useFilters = () => {
 		filterFields: formFields,
 		actionButtons,
 		filterValidation: validation,
+		isFilterChanged,
 	};
 };
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import useReviewManagementListing from './hooks/useReviewManagementListing';
 import { projectName } from '../../constants/config';
 import useCreateReview from './hooks/useCreateReview';
@@ -11,8 +11,17 @@ import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 
-const ReviewManagementList = ({ t }) => {
+const ReviewManagementList = () => {
 	document.title = projectName;
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
 
 	const {
 		currentPage,
@@ -23,7 +32,7 @@ const ReviewManagementList = ({ t }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useReviewManagementListing();
+	} = useReviewManagementListing(filterValidation.values);
 
 	const {
 		isOpen,
@@ -35,22 +44,14 @@ const ReviewManagementList = ({ t }) => {
 		buttonList,
 	} = useCreateReview();
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
-
 	return (
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb
+				{/* <Breadcrumb
 					title={t('Reports')}
 					breadcrumbItem={t('Review Management')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -62,6 +63,7 @@ const ReviewManagementList = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									isLoading={isReviewManagementLoading}
@@ -99,7 +101,7 @@ const ReviewManagementList = ({ t }) => {
 };
 
 ReviewManagementList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 ReviewManagementList.defaultProps = {

@@ -11,7 +11,7 @@ import {
 	UserName,
 } from '../ReviewManagementListCol';
 
-const useReviewManagementListing = () => {
+const useReviewManagementListing = (formValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -30,6 +30,7 @@ const useReviewManagementListing = () => {
 			fetchReviewManagementStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
+				...formValues,
 			})
 		);
 	};
