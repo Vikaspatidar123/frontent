@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getWageringTemplateDetails } from '../../../store/wageringTemplate/actions';
 
-const useWageringTemplate = () => {
+const useWageringTemplate = (filterValues = {}) => {
 	const { wageringTemplateDetail, wageringTemplateDetailLoading } = useSelector(
 		(state) => state.WageringTemplate
 	);
@@ -19,6 +19,7 @@ const useWageringTemplate = () => {
 			getWageringTemplateDetails({
 				limit: itemsPerPage,
 				pageNo: page,
+				...filterValues,
 			})
 		);
 	};

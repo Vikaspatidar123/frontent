@@ -16,6 +16,15 @@ const BonusDetail = ({ t }) => {
 	document.title = projectName;
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		formattedBonusDetails,
 		isLoading,
 		page,
@@ -24,15 +33,7 @@ const BonusDetail = ({ t }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useBonusListing();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
+	} = useBonusListing(filterValidation.values);
 
 	const { buttonList } = useCreateBonus();
 
@@ -55,6 +56,7 @@ const BonusDetail = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									columns={columns}

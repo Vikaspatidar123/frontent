@@ -2,10 +2,10 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 
 import useWageringTemplate from './hooks/useWageringTemplate';
@@ -18,9 +18,18 @@ import Filters from '../../components/Common/Filters';
 import useCreateWageringTemplate from './hooks/useCreateWagringTemplate';
 import useEditWageringTemplate from './hooks/useEditWageringTemplate';
 
-const WageringTemplate = ({ t }) => {
+const WageringTemplate = () => {
 	// Set meta title
 	document.title = projectName;
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
 
 	const {
 		wageringTemplateDetail,
@@ -30,7 +39,7 @@ const WageringTemplate = ({ t }) => {
 		setPage,
 		itemsPerPage,
 		onChangeRowsPerPage,
-	} = useWageringTemplate();
+	} = useWageringTemplate(filterValidation.values);
 
 	const { handleEditClick, handleViewClick } = useEditWageringTemplate();
 
@@ -66,25 +75,17 @@ const WageringTemplate = ({ t }) => {
 		[]
 	);
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
-
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title={t('Wagering Template List')}
 					breadcrumbItem={t('Wagering Template')}
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Templates" />
+							<CrudSection buttonList={buttonList} title="Wagering Templates" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}
@@ -92,6 +93,7 @@ const WageringTemplate = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									columns={columns}
@@ -120,7 +122,7 @@ const WageringTemplate = ({ t }) => {
 };
 
 WageringTemplate.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 WageringTemplate.defaultProps = {

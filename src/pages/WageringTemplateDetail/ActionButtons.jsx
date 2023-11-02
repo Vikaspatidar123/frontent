@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const ActionButtons = ({ cell, handleEdit, handleView }) => (
 	<ul className="list-unstyled hstack gap-1 mb-0">
-		<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+		<li data-bs-toggle="tooltip" data-bs-placement="top">
 			<Link
 				to="#"
 				className="btn btn-sm btn-soft-primary"
@@ -15,10 +15,10 @@ const ActionButtons = ({ cell, handleEdit, handleView }) => (
 					handleView(cell?.row?.original);
 				}}
 			>
-				<i className="mdi mdi-eye-outline" id="viewtooltip" />
+				<i className="mdi mdi-eye-outline" id={`view-${cell?.row?.id}`} />
 			</Link>
 		</li>
-		<UncontrolledTooltip placement="top" target="viewtooltip">
+		<UncontrolledTooltip placement="top" target={`view-${cell?.row?.id}`}>
 			View
 		</UncontrolledTooltip>
 
@@ -31,21 +31,21 @@ const ActionButtons = ({ cell, handleEdit, handleView }) => (
 					handleEdit(cell?.row?.original);
 				}}
 			>
-				<i className="mdi mdi-pencil-outline" id="edittooltip" />
-				<UncontrolledTooltip placement="top" target="edittooltip">
+				<i className="mdi mdi-pencil-outline" id={`edit-${cell?.row?.id}`} />
+				<UncontrolledTooltip placement="top" target={`edit-${cell?.row?.id}`}>
 					Edit
 				</UncontrolledTooltip>
 			</Link>
 		</li>
 
-		<li>
+		{/* <li>
 			<Link to="#" className="btn btn-sm btn-soft-dark">
 				<i className="mdi mdi-content-copy" id="deletetooltip" />
 				<UncontrolledTooltip placement="top" target="deletetooltip">
 					Clone
 				</UncontrolledTooltip>
 			</Link>
-		</li>
+		</li> */}
 	</ul>
 );
 

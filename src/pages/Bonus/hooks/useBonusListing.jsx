@@ -16,17 +16,12 @@ import {
 } from '../BonusListCol';
 import ActionButtons from '../ActionButtons';
 
-const useBonusListing = () => {
+const useBonusListing = (filterValues = {}) => {
 	const { bonusDetails, isLoading } = useSelector(
 		(state) => state.AllBonusDetails
 	);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [selectedClient, setSelectedClient] = useState('');
-	const [selectedPortal, setSelectedPortal] = useState('');
 	const [page, setPage] = useState(1);
-	const [bonusTyp, setBonusTyp] = useState('');
-	const [search, setSearch] = useState('');
-	const [isActive, setIsActive] = useState('');
 	const [status, setStatus] = useState(false);
 	const dispatch = useDispatch();
 
@@ -86,31 +81,20 @@ const useBonusListing = () => {
 	}, [bonusDetails]);
 
 	const fetchData = () => {
+		const { bonusType, ...rest } = filterValues;
 		dispatch(
 			getBonusDetails({
-				adminId: selectedClient,
-				tenantId: selectedPortal,
 				limit: itemsPerPage,
 				pageNo: page,
-				search,
-				bonusType: bonusTyp === '' ? '' : safeStringify([bonusTyp]),
-				isActive,
+				bonusType: bonusType ? safeStringify([bonusType]) : null,
+				...rest,
 			})
 		);
 	};
 
 	useEffect(() => {
 		fetchData();
-	}, [
-		selectedPortal,
-		bonusTyp,
-		isActive,
-		page,
-		search,
-		selectedClient,
-		status,
-		itemsPerPage,
-	]);
+	}, [page, itemsPerPage, status]);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
@@ -122,13 +106,6 @@ const useBonusListing = () => {
 					bonusId,
 					status: !active,
 				},
-				// adminId: selectedClient,
-				// tenantId: selectedPortal,
-				// limit,
-				// pageNo: page,
-				// search,
-				// bonusType: bonusTyp === '' ? '' : safeStringify([bonusTyp]),
-				// isActive,
 			})
 		);
 		setStatus((prev) => !prev);
@@ -195,21 +172,9 @@ const useBonusListing = () => {
 		formattedBonusDetails,
 		isLoading,
 		totalBonusCount: bonusDetails?.count,
-		selectedClient,
-		setSelectedClient,
-		selectedPortal,
-		setSelectedPortal,
 		itemsPerPage,
 		page,
 		setPage,
-		bonusTyp,
-		setBonusTyp,
-		search,
-		setSearch,
-		isActive,
-		setIsActive,
-		status,
-		setStatus,
 		onChangeRowsPerPage,
 		columns,
 	};
