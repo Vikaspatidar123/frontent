@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Card, Container } from 'reactstrap';
+import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import { Action, Comment, Id, KeyValueCell, KeyValueCellNA } from './TableCol';
@@ -12,6 +12,8 @@ import { getDateTime } from '../../utils/dateFormatter';
 import FormModal from '../../components/Common/FormModal';
 import useCreateComment from './hooks/useCreateComment';
 import CrudSection from '../../components/Common/CrudSection';
+import useCommentFilter from './hooks/useCommentFilter';
+import Filters from '../../components/Common/Filters';
 
 const Comments = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -102,6 +104,15 @@ const Comments = ({ userId }) => {
 		[]
 	);
 
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useCommentFilter();
+
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
@@ -119,23 +130,33 @@ const Comments = ({ userId }) => {
 	return (
 		<Container fluid className="bg-white">
 			<Card className="p-2">
-				<CrudSection buttonList={buttonList} />
-				<TableContainer
-					isLoading={userCommentsLoading}
-					columns={columns}
-					data={formattedUserBonus}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={userComments?.count}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					changeRowsPerPageCallback={onChangeRowsPerPage}
-				/>
+				<CrudSection buttonList={buttonList} title="Comments Listing" />
+				<CardBody>
+					<Filters
+						validation={filterValidation}
+						filterFields={filterFields}
+						actionButtons={actionButtons}
+						isAdvanceOpen={isAdvanceOpen}
+						toggleAdvance={toggleAdvance}
+						isFilterChanged={isFilterChanged}
+					/>
+					<TableContainer
+						isLoading={userCommentsLoading}
+						columns={columns}
+						data={formattedUserBonus}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						// paginationDiv="col-sm-12 col-md-7"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={userComments?.count}
+						isManualPagination
+						onChangePagination={setCurrentPage}
+						currentPage={currentPage}
+						changeRowsPerPageCallback={onChangeRowsPerPage}
+					/>
+				</CardBody>
 				<FormModal
 					isOpen={isOpen}
 					toggle={() => setIsOpen((prev) => !prev)}
