@@ -1,4 +1,7 @@
 import {
+	ACCEPT_USER_DOC,
+	ACCEPT_USER_DOC_FAIL,
+	ACCEPT_USER_DOC_SUCCESS,
 	CANCEL_USER_BONUS,
 	CANCEL_USER_BONUS_FAIL,
 	CANCEL_USER_BONUS_SUCCESS,
@@ -46,6 +49,9 @@ import {
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
+	RESOLVE_USER_COMMENT,
+	RESOLVE_USER_COMMENT_FAIL,
+	RESOLVE_USER_COMMENT_SUCCESS,
 	SEND_PASSWORD_RESET,
 	SEND_PASSWORD_RESET_FAIL,
 	SEND_PASSWORD_RESET_SUCCESS,
@@ -388,5 +394,35 @@ export const cancelUserBonus = (payload) => ({
 
 export const cancelUserBonusSuccess = (payload) => ({
 	type: CANCEL_USER_BONUS_SUCCESS,
+	payload,
+});
+
+export const resolveUserCommentFail = (payload) => ({
+	type: RESOLVE_USER_COMMENT_FAIL,
+	payload,
+});
+
+export const resolveUserComment = (payload) => ({
+	type: RESOLVE_USER_COMMENT,
+	payload,
+});
+
+export const resolveUserCommentSuccess = (payload) => ({
+	type: RESOLVE_USER_COMMENT_SUCCESS,
+	payload,
+});
+
+export const acceptUserDocsFail = (payload) => ({
+	type: ACCEPT_USER_DOC_FAIL,
+	payload,
+});
+
+export const acceptUserDocs = (payload) => ({
+	type: ACCEPT_USER_DOC,
+	payload,
+});
+
+export const acceptUserDocsSuccess = (payload) => ({
+	type: ACCEPT_USER_DOC_SUCCESS,
 	payload,
 });

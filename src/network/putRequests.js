@@ -113,6 +113,12 @@ const cancelDocumentRequest = (data) =>
 const cancelBonus = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/bonus/cancel`, data);
 
+const updateComment = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/comment-status`, data);
+
+const verifyUserDocument = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/user/verify-document`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -146,4 +152,6 @@ export {
 	requestDocument,
 	cancelDocumentRequest,
 	cancelBonus,
+	updateComment,
+	verifyUserDocument,
 };

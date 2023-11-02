@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, Container } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 import {
+	acceptUserDocs,
 	getDocumentLabel,
 	getUserDetails,
 	getUserDocuments,
@@ -16,7 +17,6 @@ import {
 } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 import {
-	Action,
 	ActionAt,
 	Actionee,
 	Name,
@@ -27,6 +27,7 @@ import {
 import { Id, Status } from '../TableCol';
 import ActionButtons from '../ActionButtons';
 import { getDocumentLabelCall } from '../../../network/getRequests';
+import KYCActionButtons from '../KYCActions';
 
 const UserDocsList = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const UserDocsList = ({ userId }) => {
 		userDocuments,
 		userDocumentsLoading,
 		markDocumentRequiredSuccess,
+		acceptUserDocSuccess,
 	} = useSelector((state) => state.UserDetails);
 	const { documentLabels, documentLabelsLoading } = useSelector(
 		(state) => state.SASettings
@@ -116,6 +118,16 @@ const UserDocsList = ({ userId }) => {
 		);
 	};
 
+	const acceptOrReject = ({ userDocumentId, status }) => {
+		dispatch(
+			acceptUserDocs({
+				userDocumentId,
+				status,
+				userId: parseInt(userId, 10),
+			})
+		);
+	};
+
 	const columns = useMemo(
 		() => [
 			{
@@ -165,7 +177,9 @@ const UserDocsList = ({ userId }) => {
 			},
 			{
 				Header: 'ACTION',
-				Cell: (cellProps) => <Action {...cellProps} />,
+				Cell: (cellProps) => (
+					<KYCActionButtons handleStatus={acceptOrReject} {...cellProps} />
+				),
 			},
 		],
 		[]
@@ -205,6 +219,10 @@ const UserDocsList = ({ userId }) => {
 	useEffect(() => {
 		fetchLabels();
 	}, []);
+
+	useEffect(() => {
+		if (acceptUserDocSuccess) fetchLabels();
+	}, [acceptUserDocSuccess]);
 
 	useEffect(() => {
 		if (markDocumentRequiredSuccess) {

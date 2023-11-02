@@ -1,4 +1,7 @@
 import {
+	ACCEPT_USER_DOC,
+	ACCEPT_USER_DOC_FAIL,
+	ACCEPT_USER_DOC_SUCCESS,
 	CANCEL_USER_BONUS,
 	CANCEL_USER_BONUS_FAIL,
 	CANCEL_USER_BONUS_SUCCESS,
@@ -46,6 +49,9 @@ import {
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
+	RESOLVE_USER_COMMENT,
+	RESOLVE_USER_COMMENT_FAIL,
+	RESOLVE_USER_COMMENT_SUCCESS,
 	SEND_PASSWORD_RESET,
 	SEND_PASSWORD_RESET_FAIL,
 	SEND_PASSWORD_RESET_SUCCESS,
@@ -130,6 +136,12 @@ const INIT_STATE = {
 	cancelUserBonusLoading: false,
 	cancelUserBonusSuccess: false,
 	cancelUserBonusError: false,
+	resolveUserCommentError: false,
+	resolveUserCommentLoading: false,
+	resolveUserCommentSuccess: false,
+	acceptUserDocError: false,
+	acceptUserDocLoading: false,
+	acceptUserDocSuccess: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -609,6 +621,50 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				cancelUserBonusLoading: true,
+			};
+
+		case RESOLVE_USER_COMMENT_SUCCESS:
+			return {
+				...state,
+				resolveUserCommentLoading: false,
+				resolveUserCommentSuccess: payload,
+				resolveUserCommentError: null,
+			};
+
+		case RESOLVE_USER_COMMENT_FAIL:
+			return {
+				...state,
+				resolveUserCommentError: payload,
+				resolveUserCommentLoading: false,
+				resolveUserCommentSuccess: false,
+			};
+
+		case RESOLVE_USER_COMMENT:
+			return {
+				...state,
+				resolveUserCommentLoading: true,
+			};
+
+		case ACCEPT_USER_DOC_SUCCESS:
+			return {
+				...state,
+				acceptUserDocLoading: false,
+				acceptUserDocSuccess: true,
+				acceptUserDocError: null,
+			};
+
+		case ACCEPT_USER_DOC_FAIL:
+			return {
+				...state,
+				acceptUserDocError: payload,
+				acceptUserDocLoading: false,
+				acceptUserDocSuccess: false,
+			};
+
+		case ACCEPT_USER_DOC:
+			return {
+				...state,
+				acceptUserDocLoading: true,
 			};
 		default:
 			return { ...state };

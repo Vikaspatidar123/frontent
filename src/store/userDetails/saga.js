@@ -42,8 +42,13 @@ import {
 	markDocumentRequiredFail,
 	cancelUserBonusSuccess,
 	cancelUserBonusFail,
+	resolveUserCommentSuccess,
+	resolveUserCommentFail,
+	acceptUserDocsSuccess,
+	acceptUserDocsFail,
 } from './actions';
 import {
+	ACCEPT_USER_DOC,
 	CANCEL_USER_BONUS,
 	CREATE_USER_COMMENT,
 	DEPOSIT_TO_OTHER,
@@ -59,6 +64,7 @@ import {
 	MARK_DOCUMENT_REQUIRED,
 	MARK_USER_AS_INTERNAL,
 	RESET_USER_LIMIT,
+	RESOLVE_USER_COMMENT,
 	SEND_PASSWORD_RESET,
 	UPDATE_SA_USER_STATUS,
 	UPDATE_USER_INFO,
@@ -93,10 +99,12 @@ import {
 	requestDocument,
 	resetPasswordEmail,
 	resetUserPassword,
+	updateComment,
 	updateSAUserStatusCall,
 	updateUserInfoCall,
 	updateUserTags,
 	verifyPlayerEmail,
+	verifyUserDocument,
 } from '../../network/putRequests';
 
 function* getUserDetailsWorker(action) {
@@ -450,6 +458,47 @@ function* cancelUserBonusWorker(action) {
 	}
 }
 
+function* resolveUserCommentWorker(action) {
+	try {
+		const payload = action && action.payload;
+
+		yield updateComment(payload);
+		yield put(resolveUserCommentSuccess(true));
+		showToastr({
+			message: 'Resolved Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(resolveUserCommentFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* acceptUserDocWorker(action) {
+	try {
+		const payload = action && action.payload;
+
+		yield verifyUserDocument(payload);
+		yield put(acceptUserDocsSuccess(true));
+		showToastr({
+			message:
+				payload.status === 'approved'
+					? 'Accepted Successfully'
+					: 'Rejected Succesfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(acceptUserDocsFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -472,6 +521,8 @@ function* userDetailsWatcher() {
 	yield takeLatest(SEND_PASSWORD_RESET, sendPasswordResetWorker);
 	yield takeLatest(MARK_DOCUMENT_REQUIRED, markDocumentRequiredWorker);
 	yield takeLatest(CANCEL_USER_BONUS, cancelUserBonusWorker);
+	yield takeLatest(RESOLVE_USER_COMMENT, resolveUserCommentWorker);
+	yield takeLatest(ACCEPT_USER_DOC, acceptUserDocWorker);
 }
 
 function* UserDetailsSaga() {
