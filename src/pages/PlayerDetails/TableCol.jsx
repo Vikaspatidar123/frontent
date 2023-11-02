@@ -26,7 +26,19 @@ const BonusMoney = (cell) =>
 		'-'
 	);
 
-const Status = (cell) => (cell.value ? cell.value : '');
+const Status = (cell) => {
+	const status = cell.value;
+	if (status === 0) {
+		return <td>Pending</td>;
+	}
+	if (status === 1) {
+		return <td>Approved</td>;
+	}
+	if (status === 4) {
+		return <td>Re-Requested</td>;
+	}
+	return <td>Rejected</td>;
+};
 
 const CreatedAt = (cell) => (cell.value ? cell.value : '');
 

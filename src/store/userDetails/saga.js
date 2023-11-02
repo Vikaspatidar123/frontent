@@ -44,8 +44,11 @@ import {
 	cancelUserBonusFail,
 	resolveUserCommentSuccess,
 	resolveUserCommentFail,
+	acceptUserDocsSuccess,
+	acceptUserDocsFail,
 } from './actions';
 import {
+	ACCEPT_USER_DOC,
 	CANCEL_USER_BONUS,
 	CREATE_USER_COMMENT,
 	DEPOSIT_TO_OTHER,
@@ -101,6 +104,7 @@ import {
 	updateUserInfoCall,
 	updateUserTags,
 	verifyPlayerEmail,
+	verifyUserDocument,
 } from '../../network/putRequests';
 
 function* getUserDetailsWorker(action) {
@@ -473,6 +477,28 @@ function* resolveUserCommentWorker(action) {
 	}
 }
 
+function* acceptUserDocWorker(action) {
+	try {
+		const payload = action && action.payload;
+
+		yield verifyUserDocument(payload);
+		yield put(acceptUserDocsSuccess(true));
+		showToastr({
+			message:
+				payload.status === 'approved'
+					? 'Accepted Successfully'
+					: 'Rejected Succesfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(acceptUserDocsFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
@@ -496,6 +522,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(MARK_DOCUMENT_REQUIRED, markDocumentRequiredWorker);
 	yield takeLatest(CANCEL_USER_BONUS, cancelUserBonusWorker);
 	yield takeLatest(RESOLVE_USER_COMMENT, resolveUserCommentWorker);
+	yield takeLatest(ACCEPT_USER_DOC, acceptUserDocWorker);
 }
 
 function* UserDetailsSaga() {

@@ -1,4 +1,7 @@
 import {
+	ACCEPT_USER_DOC,
+	ACCEPT_USER_DOC_FAIL,
+	ACCEPT_USER_DOC_SUCCESS,
 	CANCEL_USER_BONUS,
 	CANCEL_USER_BONUS_FAIL,
 	CANCEL_USER_BONUS_SUCCESS,
@@ -406,5 +409,20 @@ export const resolveUserComment = (payload) => ({
 
 export const resolveUserCommentSuccess = (payload) => ({
 	type: RESOLVE_USER_COMMENT_SUCCESS,
+	payload,
+});
+
+export const acceptUserDocsFail = (payload) => ({
+	type: ACCEPT_USER_DOC_FAIL,
+	payload,
+});
+
+export const acceptUserDocs = (payload) => ({
+	type: ACCEPT_USER_DOC,
+	payload,
+});
+
+export const acceptUserDocsSuccess = (payload) => ({
+	type: ACCEPT_USER_DOC_SUCCESS,
 	payload,
 });
