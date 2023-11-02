@@ -46,7 +46,7 @@ const CurrencyList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Currency Listing" />
+							<CrudSection buttonList={buttonList} title="Currency" />
 							<CardBody>
 								<TableContainer
 									isLoading={isCurrenciesLoading}

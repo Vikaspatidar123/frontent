@@ -11,7 +11,7 @@ import {
 	UpdatedAt,
 	Status,
 	Name,
-} from './CasinoCategoryListCol';
+} from '../CasinoCategoryListCol';
 
 const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 	const columns = useMemo(
@@ -55,15 +55,6 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 					const gameCategoryId = cell?.row?.original?.gameCategoryId;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
-							<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-								<Link to="#'" className="btn btn-sm btn-soft-primary">
-									<i className="mdi mdi-eye-outline" id="viewtooltip" />
-								</Link>
-							</li>
-							<UncontrolledTooltip placement="top" target="viewtooltip">
-								View
-							</UncontrolledTooltip>
-
 							<li>
 								{active ? (
 									<Link
@@ -76,10 +67,13 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 											})
 										}
 									>
-										<i className="mdi mdi-close-thick" id="inactivetooltip" />
+										<i
+											className="mdi mdi-close-thick"
+											id={`inactive-${gameCategoryId}`}
+										/>
 										<UncontrolledTooltip
 											placement="top"
-											target="inactivetooltip"
+											target={`inactive-${gameCategoryId}`}
 										>
 											Set Inactive
 										</UncontrolledTooltip>
@@ -95,8 +89,14 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 											})
 										}
 									>
-										<i className="mdi mdi-check-circle" id="activetooltip" />
-										<UncontrolledTooltip placement="top" target="activetooltip">
+										<i
+											className="mdi mdi-check-circle"
+											id={`active-${gameCategoryId}`}
+										/>
+										<UncontrolledTooltip
+											placement="top"
+											target={`active-${gameCategoryId}`}
+										>
 											Set Active
 										</UncontrolledTooltip>
 									</Link>
@@ -112,18 +112,15 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 										onClickEdit(cell?.row?.original);
 									}}
 								>
-									<i className="mdi mdi-pencil-outline" id="edittooltip" />
-									<UncontrolledTooltip placement="top" target="edittooltip">
+									<i
+										className="mdi mdi-pencil-outline"
+										id={`edit-${gameCategoryId}`}
+									/>
+									<UncontrolledTooltip
+										placement="top"
+										target={`edit-${gameCategoryId}`}
+									>
 										Edit
-									</UncontrolledTooltip>
-								</Link>
-							</li>
-
-							<li>
-								<Link to="/" className="btn btn-sm btn-soft-danger">
-									<i className="mdi mdi-delete-outline" id="deletetooltip" />
-									<UncontrolledTooltip placement="top" target="deletetooltip">
-										Delete
 									</UncontrolledTooltip>
 								</Link>
 							</li>

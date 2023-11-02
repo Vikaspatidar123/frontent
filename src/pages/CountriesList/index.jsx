@@ -25,6 +25,15 @@ const CountriesList = () => {
 	document.title = projectName;
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		currentPage,
 		setCurrentPage,
 		totalCountriesCount,
@@ -33,7 +42,7 @@ const CountriesList = () => {
 		itemsPerPage,
 		handleStatus,
 		onChangeRowsPerPage,
-	} = useCountriesListing();
+	} = useCountriesListing(filterValidation.values);
 
 	const {
 		isOpen,
@@ -44,15 +53,6 @@ const CountriesList = () => {
 		isEditCountryLoading,
 		handleEditClick,
 	} = useEditCountry();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
 
 	const columns = useMemo(
 		() => [
@@ -113,7 +113,7 @@ const CountriesList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Countries Listing" />
+							<CrudSection buttonList={[]} title="Countries" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

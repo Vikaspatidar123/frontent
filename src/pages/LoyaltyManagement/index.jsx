@@ -33,10 +33,7 @@ const LoyaltyManagement = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection
-								buttonList={buttonList}
-								title="Loyalty Level Listing"
-							/>
+							<CrudSection buttonList={buttonList} title="Loyalty Level" />
 							{loyaltyLevelLoading ? (
 								<Spinners />
 							) : (

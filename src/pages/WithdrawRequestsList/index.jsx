@@ -42,7 +42,7 @@ const WithdrawRequestsList = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Withdraw Requests Listing" />
+							<CrudSection buttonList={[]} title="Withdraw Requests" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

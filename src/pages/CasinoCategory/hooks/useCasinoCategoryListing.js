@@ -7,7 +7,7 @@ import {
 	updateSACasinoGamesStatusStart,
 } from '../../../store/casinoManagement/actions';
 
-const useCasinoCategoryListing = () => {
+const useCasinoCategoryListing = (filterValues = {}) => {
 	const {
 		casinoCategoryDetails,
 		iscasinoCategoryDetailsLoading,
@@ -17,7 +17,6 @@ const useCasinoCategoryListing = () => {
 	} = useSelector((state) => state.CasinoManagementData);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
-	const [search, setSearch] = useState('');
 	const [modal, setModal] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [job, setJob] = useState(null);
@@ -45,14 +44,14 @@ const useCasinoCategoryListing = () => {
 			getCasinoCategoryDetailStart({
 				limit: itemsPerPage,
 				pageNo: page,
-				search,
+				...filterValues,
 			})
 		);
 	};
 
 	useEffect(() => {
 		fetchData();
-	}, [page, search, itemsPerPage, active]);
+	}, [page, itemsPerPage, active]);
 
 	useEffect(() => {
 		if (isCreateCategorySuccess || isEditCategorySuccess) fetchData();
@@ -90,8 +89,6 @@ const useCasinoCategoryListing = () => {
 		languageData,
 		page,
 		setPage,
-		search,
-		setSearch,
 		itemsPerPage,
 		totalCasinoCategriesCount: casinoCategoryDetails?.count,
 		modal,

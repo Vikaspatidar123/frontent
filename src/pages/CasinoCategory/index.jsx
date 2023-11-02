@@ -2,9 +2,9 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Row, Card, CardBody } from 'reactstrap';
 import { projectName } from '../../constants/config';
-import useCasinoCategoryColumn from './CasinoCategoryColumn';
+import useCasinoCategoryColumn from './hooks/useCasinoCategoryColumn';
 import TableContainer from '../../components/Common/TableContainer';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
+// import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
@@ -16,6 +16,15 @@ const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		formattedCasinoCategoriesData,
 		iscasinoCategoryDetailsLoading,
 		page,
@@ -24,7 +33,7 @@ const GetCasinoCategoryDetails = () => {
 		totalCasinoCategriesCount,
 		onChangeRowsPerPage,
 		handleStatus,
-	} = useCasinoCategoryListing();
+	} = useCasinoCategoryListing(filterValidation.values);
 
 	const {
 		isOpen,
@@ -38,27 +47,19 @@ const GetCasinoCategoryDetails = () => {
 		isEditCategoryLoading,
 	} = useCreateCategory();
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
-
 	const columns = useCasinoCategoryColumn({ handleStatus, onClickEdit });
 
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
-				<Breadcrumbs
+				{/* <Breadcrumbs
 					title="Casino Management"
 					breadcrumbItem="Casino Category"
-				/>
+				/> */}
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Category Listing" />
+							<CrudSection buttonList={buttonList} title="Casino Categories" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}
@@ -66,6 +67,7 @@ const GetCasinoCategoryDetails = () => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									columns={columns}

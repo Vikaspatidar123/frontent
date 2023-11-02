@@ -69,7 +69,7 @@ const KYCLabels = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="KYC Labels Listing" />
+							<CrudSection buttonList={buttonList} title="KYC Labels" />
 							<CardBody>
 								{documentLabelsLoading ? (
 									<Spinners

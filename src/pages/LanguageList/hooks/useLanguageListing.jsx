@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchLanguagesStart } from '../../../store/actions';
 import { Id, LanguageCode, LanguageName } from '../LanguageListCol';
 
-const useLanguageListing = () => {
+const useLanguageListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +21,7 @@ const useLanguageListing = () => {
 			fetchLanguagesStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
+				...filterValues,
 			})
 		);
 	}, [currentPage, itemsPerPage]);

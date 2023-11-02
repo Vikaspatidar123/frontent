@@ -44,10 +44,7 @@ const TransactionBankingList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection
-								buttonList={[]}
-								title="Transactions Banking Listing"
-							/>
+							<CrudSection buttonList={[]} title="Transactions Banking" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

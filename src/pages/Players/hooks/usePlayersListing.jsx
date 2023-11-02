@@ -15,7 +15,7 @@ import {
 	UserName,
 } from '../PlayersListCol';
 
-const usePlayersListing = () => {
+const usePlayersListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -86,6 +86,7 @@ const usePlayersListing = () => {
 			fetchPlayersStart({
 				limit: itemsPerPage,
 				pageNo: currentPage,
+				...filterValues,
 			})
 		);
 	}, [currentPage, itemsPerPage]);

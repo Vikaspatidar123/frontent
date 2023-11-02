@@ -130,7 +130,7 @@ const Comments = ({ userId }) => {
 	return (
 		<Container fluid className="bg-white">
 			<Card className="p-2">
-				<CrudSection buttonList={buttonList} title="Comments Listing" />
+				<CrudSection buttonList={buttonList} title="Comments" />
 				<CardBody>
 					<Filters
 						validation={filterValidation}

@@ -26,6 +26,15 @@ const CasinoProviders = () => {
 	document.title = projectName;
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		casinoProvidersData,
 		isCasinoProvidersDataLoading,
 		page,
@@ -33,7 +42,7 @@ const CasinoProviders = () => {
 		itemsPerPage,
 		handleStatus,
 		onChangeRowsPerPage,
-	} = useCasinoProvidersListing();
+	} = useCasinoProvidersListing(filterValidation.values);
 
 	const {
 		isOpen,
@@ -46,15 +55,6 @@ const CasinoProviders = () => {
 		onClickEdit,
 		isEditProviderLoading,
 	} = useCreateProvider();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
 
 	const columns = [
 		{
@@ -105,7 +105,7 @@ const CasinoProviders = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Providers Listing" />
+							<CrudSection buttonList={buttonList} title="Casino Providers" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

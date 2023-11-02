@@ -64,7 +64,7 @@ const BannerManagement = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Banner Listing" />
+							<CrudSection buttonList={buttonList} title="Banners" />
 							<CardBody>
 								<TableContainer
 									columns={columns}
