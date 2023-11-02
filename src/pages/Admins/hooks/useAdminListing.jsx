@@ -15,7 +15,7 @@ import {
 import ActionButtons from '../ActionButtons';
 import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
 
-const useAdmin = (handleEdit) => {
+const useAdmin = (handleEdit, filterValues = {}) => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -24,9 +24,7 @@ const useAdmin = (handleEdit) => {
 	);
 	const [page, setPage] = useState(1);
 	const [orderBy, setOrderBy] = useState('adminUserId');
-	const [search, setSearch] = useState('');
 	const [sort, setSort] = useState('desc');
-	const [status, setStatus] = useState('');
 	const [name, setName] = useState();
 	const [active, setActive] = useState(false);
 
@@ -55,10 +53,8 @@ const useAdmin = (handleEdit) => {
 				pageNo: page,
 				orderBy,
 				sort,
-				search,
 				superAdminId: '',
 				superRoleId: '',
-				status,
 			})
 		);
 	};
@@ -70,16 +66,15 @@ const useAdmin = (handleEdit) => {
 				pageNo: page,
 				orderBy,
 				sort,
-				search,
 				adminRoleId: adminDetails?.adminRoleId,
-				status,
+				...filterValues,
 			})
 		);
 	};
 
 	useEffect(() => {
 		if (location.pathname === '/staff') fetchData();
-	}, [page, orderBy, sort, status, location, active, itemsPerPage]);
+	}, [page, orderBy, sort, location, active, itemsPerPage]);
 
 	const columns = useMemo(
 		() => [
@@ -149,12 +144,8 @@ const useAdmin = (handleEdit) => {
 		setPage,
 		orderBy,
 		setOrderBy,
-		search,
-		setSearch,
 		sort,
 		setSort,
-		status,
-		setStatus,
 		name,
 		setName,
 		itemsPerPage,

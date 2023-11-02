@@ -26,7 +26,7 @@ import {
 import useAdminListing from './useAdminListing';
 import { showToastr } from '../../../utils/helpers';
 
-const useActions = (isEditPage) => {
+const useActions = (isEditPage, filterValues = {}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const roles = useSelector((state) => state.AdminRoles.roles);
@@ -119,7 +119,7 @@ const useActions = (isEditPage) => {
 		itemsPerPage,
 		columns,
 		onChangeRowsPerPage,
-	} = useAdminListing(handleEdit);
+	} = useAdminListing(handleEdit, filterValues);
 
 	const handleAddClick = (e) => {
 		e.preventDefault();

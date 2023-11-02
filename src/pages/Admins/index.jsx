@@ -38,7 +38,7 @@ const Admins = () => {
 		formattedAdminDetails,
 		buttonList,
 		onChangeRowsPerPage,
-	} = useActions();
+	} = useActions(false, filterValidation.values);
 
 	return (
 		<div className="page-content">
