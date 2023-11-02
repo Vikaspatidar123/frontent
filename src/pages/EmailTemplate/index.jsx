@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container, Collapse, CardBody, Card } from 'reactstrap';
@@ -16,38 +16,12 @@ import CrudSection from '../../components/Common/CrudSection';
 import { EmailTemplateId, Label, Primary } from './EmailTemplateListCol';
 import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
 
-const columns = [
-	{
-		Header: 'ID',
-		accessor: 'emailTemplateId',
-		filterable: true,
-		Cell: ({ cell }) => <EmailTemplateId cell={cell} />,
-	},
-	{
-		Header: 'LABEL',
-		accessor: 'label',
-		filterable: true,
-		Cell: ({ cell }) => <Label cell={cell} />,
-	},
-	{
-		Header: 'PRIMARY',
-		accessor: 'isPrimary',
-		filterable: true,
-		Cell: ({ cell }) => <Primary cell={cell} />,
-	},
-	{
-		Header: 'ACTION',
-		accessor: 'action',
-		disableFilters: true,
-		Cell: () => <ActionButtons />,
-	},
-];
-
 const EmailTemplate = ({ t }) => {
 	// meta title
 	document.title = projectName;
 
-	const { emailTemplateloading, emailTemplates } = useEmailTemplate();
+	const { emailTemplateloading, emailTemplates, handleEditClick } =
+		useEmailTemplate();
 	const keyList = Object.keys(emailTemplates);
 	const { buttonList } = useCreateEmailTemplate();
 	const [expanded, setExpanded] = useState(keyList[0] || '');
@@ -59,6 +33,38 @@ const EmailTemplate = ({ t }) => {
 			setExpanded(panel);
 		}
 	};
+
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'emailTemplateId',
+				filterable: true,
+				Cell: ({ cell }) => <EmailTemplateId cell={cell} />,
+			},
+			{
+				Header: 'LABEL',
+				accessor: 'label',
+				filterable: true,
+				Cell: ({ cell }) => <Label cell={cell} />,
+			},
+			{
+				Header: 'PRIMARY',
+				accessor: 'isPrimary',
+				filterable: true,
+				Cell: ({ cell }) => <Primary cell={cell} />,
+			},
+			{
+				Header: 'ACTION',
+				accessor: 'action',
+				disableFilters: true,
+				Cell: ({ cell }) => (
+					<ActionButtons cell={cell} handleEditClick={handleEditClick} />
+				),
+			},
+		],
+		[]
+	);
 
 	return (
 		<div className="page-content">
@@ -110,7 +116,6 @@ const EmailTemplate = ({ t }) => {
 												</h5>
 											</button>
 										</h2>
-
 										<Collapse
 											isOpen={expanded === key}
 											className="accordion-collapse"
@@ -119,7 +124,7 @@ const EmailTemplate = ({ t }) => {
 												<TableContainer
 													columns={columns}
 													data={emailTemplates[key]}
-													customPageSize={1}
+													customPageSize={emailTemplates[key].count}
 													tableClass="table-bordered align-middle nowrap mt-2"
 													paginationDiv="justify-content-center"
 													pagination="pagination justify-content-start pagination-rounded"

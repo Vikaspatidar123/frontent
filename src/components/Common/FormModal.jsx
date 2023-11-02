@@ -31,7 +31,7 @@ const FormModal = ({
 			<Form
 				onSubmit={(e) => {
 					e.preventDefault();
-					validation.handleSubmit();
+					validation.handleSubmit(e);
 					return false;
 				}}
 			>

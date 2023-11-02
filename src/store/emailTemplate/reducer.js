@@ -24,6 +24,12 @@ import {
 	CREATE_EMAIL_TEMPLATE_SUCCESS,
 	CREATE_EMAIL_TEMPLATE_FAIL,
 	CREATE_EMAIL_TEMPLATE,
+	GET_EMAIL_TEMPLATE,
+	GET_EMAIL_TEMPLATE_SUCCESS,
+	GET_EMAIL_TEMPLATE_FAIL,
+	UPDATE_EMAIL_TEMPLATE,
+	UPDATE_EMAIL_TEMPLATE_SUCCESS,
+	UPDATE_EMAIL_TEMPLATE_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -53,6 +59,12 @@ const INIT_STATE = {
 	createEmailTemplate: false,
 	createEmailTemplateLoading: false,
 	createEmailTemplateError: null,
+	emailTemplate: null,
+	isEmailTemplateLoading: false,
+	isEmailTemplateError: null,
+	updateEmailTemplate: false,
+	updateEmailTemplateLoading: false,
+	updateEmailTemplateError: null,
 };
 
 const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
@@ -230,6 +242,47 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				createEmailTemplateLoading: false,
 				createEmailTemplateError: payload,
 				createEmailTemplate: false,
+			};
+
+		case GET_EMAIL_TEMPLATE:
+			return {
+				...state,
+				isEmailTemplateLoading: true,
+			};
+
+		case GET_EMAIL_TEMPLATE_SUCCESS:
+			return {
+				...state,
+				isEmailTemplateLoading: false,
+				emailTemplate: payload,
+			};
+
+		case GET_EMAIL_TEMPLATE_FAIL:
+			return {
+				...state,
+				isEmailTemplateLoading: false,
+				emailTemplateError: payload,
+			};
+
+		case UPDATE_EMAIL_TEMPLATE:
+			return {
+				...state,
+				updateEmailTemplateLoading: true,
+			};
+
+		case UPDATE_EMAIL_TEMPLATE_SUCCESS:
+			return {
+				...state,
+				updateEmailTemplateLoading: false,
+				updateEmailTemplate: true,
+			};
+
+		case UPDATE_EMAIL_TEMPLATE_FAIL:
+			return {
+				...state,
+				updateEmailTemplateLoading: false,
+				updateEmailTemplateError: payload,
+				updateEmailTemplate: false,
 			};
 
 		default:

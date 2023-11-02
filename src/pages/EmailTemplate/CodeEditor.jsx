@@ -1,9 +1,4 @@
-/* eslint-disable react/function-component-definition */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { highlight, languages } from 'prismjs';
 import { Button } from 'reactstrap';
@@ -30,8 +25,6 @@ export default function CodeEditor({
 }) {
 	const DynamicStyles = CreateDynamicStyles(themeTransitionSpeed, mobileQuery);
 
-	// determines if the user can reset the editor
-	// eslint-disable-next-line no-unneeded-ternary
 	const _resettable = resettable !== undefined ? resettable : true;
 
 	// save initial state of the editor
@@ -52,10 +45,6 @@ export default function CodeEditor({
 	// generate unique id for this iframe
 	const iFrameId = uuid();
 	const [iFrame, setIFrame] = useState(null);
-
-	// useEffect(() => {
-	//   setTheme(theme)
-	// }, [theme])
 
 	useEffect(() => {
 		setHTML(HTML);

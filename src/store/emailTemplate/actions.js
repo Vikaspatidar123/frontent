@@ -24,6 +24,12 @@ import {
 	CREATE_EMAIL_TEMPLATE_SUCCESS,
 	CREATE_EMAIL_TEMPLATE_FAIL,
 	CREATE_EMAIL_TEMPLATE,
+	GET_EMAIL_TEMPLATE,
+	GET_EMAIL_TEMPLATE_SUCCESS,
+	GET_EMAIL_TEMPLATE_FAIL,
+	UPDATE_EMAIL_TEMPLATE,
+	UPDATE_EMAIL_TEMPLATE_SUCCESS,
+	UPDATE_EMAIL_TEMPLATE_FAIL,
 } from './actionTypes';
 
 export const getAllEmailTemplatesSuccess = (payload) => ({
@@ -148,5 +154,35 @@ export const createEmailTemplateFail = (payload) => ({
 
 export const createEmailTemplate = (payload) => ({
 	type: CREATE_EMAIL_TEMPLATE,
+	payload,
+});
+
+export const getEmailTemplateSuccess = (payload) => ({
+	type: GET_EMAIL_TEMPLATE_SUCCESS,
+	payload,
+});
+
+export const getEmailTemplateFail = (payload) => ({
+	type: GET_EMAIL_TEMPLATE_FAIL,
+	payload,
+});
+
+export const getEmailTemplate = (payload) => ({
+	type: GET_EMAIL_TEMPLATE,
+	payload,
+});
+
+export const updateEmailTemplateSuccess = (payload) => ({
+	type: UPDATE_EMAIL_TEMPLATE_SUCCESS,
+	payload,
+});
+
+export const updateEmailTemplateFail = (payload) => ({
+	type: UPDATE_EMAIL_TEMPLATE_FAIL,
+	payload,
+});
+
+export const updateEmailTemplate = (payload) => ({
+	type: UPDATE_EMAIL_TEMPLATE,
 	payload,
 });

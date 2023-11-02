@@ -20,6 +20,10 @@ import {
 	testEmailTemplateFail,
 	createEmailTemplateSuccess,
 	createEmailTemplateFail,
+	getEmailTemplateSuccess,
+	getEmailTemplateFail,
+	updateEmailTemplateSuccess,
+	updateEmailTemplateFail,
 } from './actions';
 
 import {
@@ -31,12 +35,15 @@ import {
 	GET_EMAIL_TYPES,
 	TEST_EMAIL_TEMPLATE,
 	CREATE_EMAIL_TEMPLATE,
+	GET_EMAIL_TEMPLATE,
+	UPDATE_EMAIL_TEMPLATE,
 } from './actionTypes';
 
 import {
 	getEmailTemplates,
 	getImageGalleryData,
 	getEmailTypes,
+	getEmailTemplate,
 } from '../../network/getRequests';
 
 import {
@@ -44,7 +51,7 @@ import {
 	createEmailTemplate,
 } from '../../network/postRequests';
 
-import { uploadGallery } from '../../network/putRequests';
+import { uploadGallery, updateEmailTemplate } from '../../network/putRequests';
 import { deleteFromGallery } from '../../network/deleteRequests';
 import { showToastr } from '../../utils/helpers';
 import { objectToFormData } from '../../utils/objectToFormdata';
@@ -196,6 +203,47 @@ function* createEmailTemplateWorker(action) {
 	}
 }
 
+function* getemailTemplateWorker(action) {
+	try {
+		const emailTemplateId = action && action.payload;
+
+		const { data } = yield getEmailTemplate(emailTemplateId);
+
+		yield put(getEmailTemplateSuccess(data?.data?.emailTemplate));
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+		yield put(getEmailTemplateFail());
+	}
+}
+
+function* updateEmailTemplateWorker(action) {
+	try {
+		const { data, navigate } = action && action.payload;
+		yield updateEmailTemplate(data);
+
+		showToastr({
+			message: 'Template Updated Successfully',
+			type: 'success',
+		});
+
+		yield put(updateEmailTemplateSuccess());
+
+		if (navigate) {
+			navigate('/email-templates');
+		}
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(updateEmailTemplateFail());
+	}
+}
+
 export function* getEmailTemplateWatcher() {
 	yield takeLatest(GET_ALL_EMAIL_TEMPLATES, getAllEmailTemplatesWorker);
 	yield takeLatest(GET_IMAGE_GALLERY, getImageGalleryWorker);
@@ -205,6 +253,8 @@ export function* getEmailTemplateWatcher() {
 	yield takeLatest(GET_EMAIL_TYPES, getEmailTypesWorker);
 	yield takeLatest(TEST_EMAIL_TEMPLATE, testEmailTemplateWorker);
 	yield takeLatest(CREATE_EMAIL_TEMPLATE, createEmailTemplateWorker);
+	yield takeLatest(GET_EMAIL_TEMPLATE, getemailTemplateWorker);
+	yield takeLatest(UPDATE_EMAIL_TEMPLATE, updateEmailTemplateWorker);
 }
 
 function* EmailTemplateSaga() {

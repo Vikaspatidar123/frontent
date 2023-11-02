@@ -110,6 +110,9 @@ const cancelDocumentRequest = (data) =>
 		data
 	);
 
+const updateEmailTemplate = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/email`, data);
+
 const cancelBonus = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/bonus/cancel`, data);
 
@@ -151,6 +154,7 @@ export {
 	resetUserPassword,
 	requestDocument,
 	cancelDocumentRequest,
+	updateEmailTemplate,
 	cancelBonus,
 	updateComment,
 	verifyUserDocument,

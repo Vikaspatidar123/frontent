@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 export const emailDynamicOptions = ({ type, emailTypes }) => {
 	const allOpt = [];
 

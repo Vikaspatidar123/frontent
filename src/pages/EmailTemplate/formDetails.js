@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
 
-const getInitialValues = () => ({
-	label: '',
-	type: 0,
+const getInitialValues = (emailTemplate) => ({
+	label: emailTemplate?.label || '',
+	type: emailTemplate?.type || 0,
 });
 
 const getTestEmailInitialValues = () => ({
@@ -14,7 +14,7 @@ const emailTemplateSchema = Yup.object().shape({
 	type: Yup.string().required('Type Required!'),
 });
 
-const staticFormFields = (emailTemplateOrder) => [
+const staticFormFields = (emailTemplateOrder, isEdit) => [
 	{
 		name: 'label',
 		fieldType: 'textField',
@@ -26,7 +26,7 @@ const staticFormFields = (emailTemplateOrder) => [
 		name: 'type',
 		label: 'Template Type',
 		fieldType: 'select',
-		// isDisabled: isView || false,
+		isDisabled: isEdit || false,
 		optionList: emailTemplateOrder?.map((item, index) => ({
 			value: index,
 			optionLabel: item,
