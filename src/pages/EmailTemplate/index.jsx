@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable */
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
-import { Container, Collapse, CardBody, Card } from 'reactstrap';
+import { Container, Collapse, CardBody, Card, Row, Card } from 'reactstrap';
 import classnames from 'classnames';
 
 import { projectName } from '../../constants/config';
@@ -11,8 +12,10 @@ import ActionButtons from './ActionButtons';
 import useEmailTemplate from './hooks/useEmailTemplate';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
+import CrudSection from '../../components/Common/CrudSection';
 
 import { EmailTemplateId, Label, Primary } from './EmailTemplateListCol';
+import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
 
 const columns = [
 	{
@@ -47,6 +50,7 @@ const EmailTemplate = ({ t }) => {
 
 	const { emailTemplateloading, emailTemplates } = useEmailTemplate();
 	const keyList = Object.keys(emailTemplates);
+	const { buttonList } = useCreateEmailTemplate();
 	const [expanded, setExpanded] = useState(keyList[0] || '');
 
 	const handleChange = (panel) => () => {
@@ -66,6 +70,11 @@ const EmailTemplate = ({ t }) => {
 				/>
 				<Card>
 					<CardBody>
+						<CrudSection
+							buttonList={buttonList}
+							title="Email Template Listing  "
+						/>
+
 						{emailTemplateloading ? (
 							<Spinners
 								color="primary"

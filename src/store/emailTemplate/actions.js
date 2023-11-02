@@ -11,6 +11,19 @@ import {
 	DELETE_IMAGE_GALLERY,
 	DELETE_IMAGE_GALLERY_SUCCESS,
 	DELETE_IMAGE_GALLERY_FAIL,
+	GET_DYNAMIC_KEYS,
+	GET_DYNAMIC_KEYS_SUCCESS,
+	GET_DYNAMIC_KEYS_FAIL,
+	GET_EMAIL_TYPES,
+	GET_EMAIL_TYPES_SUCCESS,
+	GET_EMAIL_TYPES_FAIL,
+	RESET_EMAIL_TEMPLATES,
+	TEST_EMAIL_TEMPLATE_SUCCESS,
+	TEST_EMAIL_TEMPLATE_FAIL,
+	TEST_EMAIL_TEMPLATE,
+	CREATE_EMAIL_TEMPLATE_SUCCESS,
+	CREATE_EMAIL_TEMPLATE_FAIL,
+	CREATE_EMAIL_TEMPLATE,
 } from './actionTypes';
 
 export const getAllEmailTemplatesSuccess = (payload) => ({
@@ -70,5 +83,70 @@ export const deleteImageGalleryFail = (payload) => ({
 
 export const deleteImageGallery = (payload) => ({
 	type: DELETE_IMAGE_GALLERY,
+	payload,
+});
+
+export const getDynamicKeysSuccess = (payload) => ({
+	type: GET_DYNAMIC_KEYS_SUCCESS,
+	payload,
+});
+
+export const getDynamicKeysFail = (payload) => ({
+	type: GET_DYNAMIC_KEYS_FAIL,
+	payload,
+});
+
+export const getDynamicKeys = (payload) => ({
+	type: GET_DYNAMIC_KEYS,
+	payload,
+});
+
+export const getEmailTypesSuccess = (payload) => ({
+	type: GET_EMAIL_TYPES_SUCCESS,
+	payload,
+});
+
+export const getEmailTypesFail = (payload) => ({
+	type: GET_EMAIL_TYPES_FAIL,
+	payload,
+});
+
+export const getEmailTypes = (payload) => ({
+	type: GET_EMAIL_TYPES,
+	payload,
+});
+
+export const resetEmailTemplate = (payload) => ({
+	type: RESET_EMAIL_TEMPLATES,
+	payload,
+});
+
+export const testEmailTemplateSuccess = (payload) => ({
+	type: TEST_EMAIL_TEMPLATE_SUCCESS,
+	payload,
+});
+
+export const testEmailTemplateFail = (payload) => ({
+	type: TEST_EMAIL_TEMPLATE_FAIL,
+	payload,
+});
+
+export const testEmailTemplate = (payload) => ({
+	type: TEST_EMAIL_TEMPLATE,
+	payload,
+});
+
+export const createEmailTemplateSuccess = (payload) => ({
+	type: CREATE_EMAIL_TEMPLATE_SUCCESS,
+	payload,
+});
+
+export const createEmailTemplateFail = (payload) => ({
+	type: CREATE_EMAIL_TEMPLATE_FAIL,
+	payload,
+});
+
+export const createEmailTemplate = (payload) => ({
+	type: CREATE_EMAIL_TEMPLATE,
 	payload,
 });

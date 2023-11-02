@@ -339,7 +339,11 @@ export const getField = (
 					label={label}
 					name={name}
 					type={type}
-					onChange={validation.handleChange}
+					onChange={(e) => {
+						validation.handleChange(e);
+						// eslint-disable-next-line no-unused-expressions
+						callBack ? callBack(e) : null;
+					}}
 					onBlur={validation.handleBlur}
 					placeholder={placeholder}
 					validate={{ required: { value: true } }}

@@ -1,25 +1,26 @@
+/* eslint-disable */
 import React from 'react';
 import { Card, Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
 import { projectName } from '../../constants/config';
-import useCreateCms from './hooks/useCreateCms';
 import FormPage from '../../components/Common/FormPage';
+import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
 
-const CreateCMS = () => {
+const CreateEmailTemplate = () => {
 	// Set meta title
 	document.title = projectName;
 
-	const { header, validation, formFields, galleryList, customComponent } =
-		useCreateCms();
+	const { galleryList, validation, formFields, customComponent } =
+		useCreateEmailTemplate();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs
-					title="CMS"
+					title="Email Template"
 					breadcrumbItem="Create"
-					titleLink="/cms"
+					titleLink="/email-templates"
 					leftTitle={
 						<>
 							<i className="fas fa-angle-left" /> Back
@@ -29,9 +30,11 @@ const CreateCMS = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={galleryList} title="CMS Listing" />
+							<CrudSection
+								buttonList={galleryList}
+								title="Create Email Template"
+							/>
 							<FormPage
-								formTitle={header}
 								validation={validation}
 								responsiveFormFields={formFields}
 								customComponent={customComponent}
@@ -47,4 +50,4 @@ const CreateCMS = () => {
 	);
 };
 
-export default CreateCMS;
+export default CreateEmailTemplate;

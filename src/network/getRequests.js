@@ -171,6 +171,9 @@ const fetchRestrictedCountries = (payload) =>
 const fetchUnrestrictedCountries = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/country/unrestricted`, payload);
 
+const getEmailTypes = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/email/dynamic-data`);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -222,4 +225,5 @@ export {
 	getBonusDetails,
 	fetchRestrictedCountries,
 	fetchUnrestrictedCountries,
+	getEmailTypes,
 };
