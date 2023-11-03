@@ -23,6 +23,7 @@ const useCreateCms = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [customComponent, setCustomComponent] = useState();
+	const [showGallery, setShowGallery] = useState(false);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { cmsDynamicKeys } = useSelector((state) => state.AllCms);
@@ -69,13 +70,19 @@ const useCreateCms = () => {
 				setTitle={(v) => setTitle(v)}
 				content={content}
 				setContent={(v) => setContent(v)}
+				showGallery={showGallery}
+				setShowGallery={setShowGallery}
 			/>
 		);
-	}, [languageData, title, content]);
+	}, [languageData, title, content, showGallery]);
 
 	const handleCreateClick = (e) => {
 		e.preventDefault();
 		navigate('create');
+	};
+
+	const handleGalleryClick = (e) => {
+		setShowGallery(true);
 	};
 
 	const buttonList = useMemo(() => [
@@ -89,7 +96,7 @@ const useCreateCms = () => {
 	const galleryList = useMemo(() => [
 		{
 			label: 'Image Gallery',
-			handleClick: '',
+			handleClick: handleGalleryClick,
 			link: '#!',
 		},
 	]);
@@ -107,6 +114,9 @@ const useCreateCms = () => {
 		setCustomComponent,
 		cmsDynamicKeys,
 		onChangeRowsPerPage,
+		showGallery,
+		setShowGallery,
+		handleGalleryClick,
 	};
 };
 

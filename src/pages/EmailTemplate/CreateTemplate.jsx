@@ -51,12 +51,13 @@ const CreateTemplate = ({
 	isView = false,
 }) => {
 	const { imageGallery } = useSelector((state) => state.EmailTemplate);
+	console.log('imageGallery: ', imageGallery);
 	const [imageComponent, setImageComponent] = useState();
 	const [testEmail, setTestEmail] = useState('');
 	const [isTestTemplateModalVisible, setIsTestTemplateModalVisible] =
 		useState(false);
 	const dispatch = useDispatch();
-	const [activeTab, setactiveTab] = useState(5);
+	const [activeTab, setActiveTab] = useState(5);
 	const [template, setTemplate] = useState('');
 	const [requiredKeyData, setRequiredKeyData] = useState({});
 	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
@@ -152,6 +153,10 @@ const CreateTemplate = ({
 						</Col>
 					))}
 				</div>
+			);
+		} else {
+			setImageComponent(
+				<div className="text-center text-danger">No Images Found</div>
 			);
 		}
 	}, [imageGallery]);
@@ -273,7 +278,7 @@ const CreateTemplate = ({
 
 	const toggle = (tab) => {
 		if (isEdit) {
-			setactiveTab(tab);
+			setActiveTab(tab);
 		} else {
 			showToastr({
 				message:
@@ -318,6 +323,7 @@ CreateTemplate.propTypes = {
 	setShowGallery: PropTypes.func,
 	isEdit: PropTypes.bool,
 	isView: PropTypes.bool,
+	emailTemplate: PropTypes.objectOf,
 };
 
 export default CreateTemplate;

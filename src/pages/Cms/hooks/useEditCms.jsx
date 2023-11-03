@@ -25,6 +25,7 @@ const useEditCms = () => {
 	const navigate = useNavigate();
 	const { cmsPageId } = useParams();
 	const dispatch = useDispatch();
+	const [showGallery, setShowGallery] = useState(false);
 	const [customComponent, setCustomComponent] = useState();
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
@@ -73,15 +74,21 @@ const useEditCms = () => {
 				setTitle={(v) => setTitle(v)}
 				content={content}
 				setContent={(v) => setContent(v)}
+				showGallery={showGallery}
+				setShowGallery={setShowGallery}
 				isEdit
 			/>
 		);
-	}, [languageData, title, content]);
+	}, [languageData, title, content, showGallery]);
+
+	const handleGalleryClick = (e) => {
+		setShowGallery(true);
+	};
 
 	const galleryList = useMemo(() => [
 		{
 			label: 'Image Gallery',
-			handleClick: '',
+			handleClick: handleGalleryClick,
 			link: '#!',
 		},
 	]);
@@ -98,6 +105,9 @@ const useEditCms = () => {
 		setCustomComponent,
 		cmsDynamicKeys,
 		onChangeRowsPerPage,
+		showGallery,
+		setShowGallery,
+		handleGalleryClick,
 	};
 };
 
