@@ -1,28 +1,28 @@
 import React from 'react';
 import { Button, Card, Spinner } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
-import useAddToRestrictedCountriesListing from '../hooks/useAddToRestrictedCountriesListing';
+import useRemoveFromRestrictedCountriesListing from '../hooks/useRemoveFromRestrictedCountries';
 
-const AddToRestrictedCountries = () => {
+const RemoveFromRestrictedCountries = () => {
 	const {
-		unrestrictedCountriesCount,
-		unrestrictedCountriesLoading,
+		restrictedCountriesCount,
+		restrictedCountriesLoading,
+		restrictedCountriesState,
 		currentPage,
 		setCurrentPage,
 		columns,
 		itemsPerPage,
 		onChangeRowsPerPage,
-		unrestrictedCountriesState,
 		selectedCountriesState,
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
-	} = useAddToRestrictedCountriesListing({});
+	} = useRemoveFromRestrictedCountriesListing({});
 
 	return (
 		<Card className="p-2">
 			<div className="d-flex justify-content-between my-2 align-items-center">
-				<h4>Countries you add will appear here</h4>
+				<h4>Countries you remove will appear here</h4>
 				<Button
 					disabled={
 						!selectedCountriesState.length || addToRestrictedCountriesLoading
@@ -40,18 +40,18 @@ const AddToRestrictedCountries = () => {
 				customPageSize={itemsPerPage}
 				tableClass="table-bordered align-middle nowrap mt-2"
 			/>
-			<h4>Unrestricted Countries</h4>
+			<h4>Restricted Countries</h4>
 			<TableContainer
 				columns={columns}
-				isLoading={unrestrictedCountriesLoading}
-				data={unrestrictedCountriesState}
+				isLoading={restrictedCountriesLoading}
+				data={restrictedCountriesState}
 				isPagination
 				customPageSize={itemsPerPage}
 				tableClass="table-bordered align-middle nowrap mt-2"
 				// paginationDiv="col-sm-12 col-md-7"
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
-				totalPageCount={unrestrictedCountriesCount}
+				totalPageCount={restrictedCountriesCount}
 				isManualPagination
 				onChangePagination={setCurrentPage}
 				currentPage={currentPage}
@@ -61,4 +61,4 @@ const AddToRestrictedCountries = () => {
 	);
 };
 
-export default AddToRestrictedCountries;
+export default RemoveFromRestrictedCountries;

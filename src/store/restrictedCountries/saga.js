@@ -18,6 +18,7 @@ import {
 } from '../../network/getRequests';
 import { addRestrictedCountriesCall } from '../../network/putRequests';
 import { showToastr } from '../../utils/helpers';
+import { removeRestrictedCountriesCall } from '../../network/deleteRequests';
 
 function* fetchRestrictedCountriesWorker(action) {
 	try {
@@ -48,12 +49,17 @@ function* fetchUnrestrictedCountriesWorker(action) {
 function* addRestrictedCountriesWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const response = yield call(addRestrictedCountriesCall, payload);
-		yield put(
-			addRestrictedCountriesSuccess(response?.data?.data?.unrestrictedCountries)
-		);
+		if (payload.case === 'remove') {
+			yield call(removeRestrictedCountriesCall, payload);
+		} else {
+			yield call(addRestrictedCountriesCall, payload);
+		}
+		yield put(addRestrictedCountriesSuccess());
 		showToastr({
-			message: 'Restricted Countries Updated Successfully',
+			message:
+				payload.case === 'remove'
+					? 'Restricted Country Removed Successfully'
+					: 'Restricted Countries Updated Successfully',
 			type: 'success',
 		});
 	} catch (error) {
