@@ -2,8 +2,19 @@ import React from 'react';
 import { Button, Card, Spinner } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 import useAddToRestrictedCountriesListing from '../hooks/useAddToRestrictedCountriesListing';
+import useFilters from '../hooks/useFilters';
+import Filters from '../../../components/Common/Filters';
 
 const AddToRestrictedCountries = () => {
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
 	const {
 		unrestrictedCountriesCount,
 		unrestrictedCountriesLoading,
@@ -17,7 +28,7 @@ const AddToRestrictedCountries = () => {
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
-	} = useAddToRestrictedCountriesListing({});
+	} = useAddToRestrictedCountriesListing(filterValidation.values);
 
 	return (
 		<Card className="p-2">
@@ -41,6 +52,14 @@ const AddToRestrictedCountries = () => {
 				tableClass="table-bordered align-middle nowrap mt-2"
 			/>
 			<h4>Unrestricted Countries</h4>
+			<Filters
+				validation={filterValidation}
+				filterFields={filterFields}
+				actionButtons={actionButtons}
+				isAdvanceOpen={isAdvanceOpen}
+				toggleAdvance={toggleAdvance}
+				isFilterChanged={isFilterChanged}
+			/>
 			<TableContainer
 				columns={columns}
 				isLoading={unrestrictedCountriesLoading}
