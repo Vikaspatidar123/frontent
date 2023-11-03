@@ -10,9 +10,10 @@ import {
 import { KeyValueCell } from '../RestrictedCountriesListCol';
 import ActionButtons from '../ActionButtons';
 
-const useAddToRestrictedCountriesListing = () => {
+const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const { casinoProviderId } = useParams();
@@ -33,6 +34,7 @@ const useAddToRestrictedCountriesListing = () => {
 				limit: itemsPerPage,
 				pageNo: currentPage,
 				type: 'providers',
+				...filterValues,
 			})
 		);
 	}, [casinoProviderId, currentPage, itemsPerPage]);
@@ -153,6 +155,10 @@ const useAddToRestrictedCountriesListing = () => {
 		navigate('/casino-providers');
 	};
 
+	const onChangeSearch = (e) => {
+		setSearchText(e.target.value);
+	};
+
 	return {
 		casinoProviderId,
 		setCurrentPage,
@@ -170,6 +176,8 @@ const useAddToRestrictedCountriesListing = () => {
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
+		searchText,
+		onChangeSearch,
 	};
 };
 
