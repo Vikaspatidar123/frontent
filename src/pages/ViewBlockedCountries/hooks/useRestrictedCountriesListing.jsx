@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchRestrictedCountriesStart } from '../../../store/actions';
 import { KeyValueCell } from '../RestrictedCountriesListCol';
 
-const useRestrictedCountriesListing = ({ game }) => {
+const useRestrictedCountriesListing = () => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -21,26 +21,26 @@ const useRestrictedCountriesListing = ({ game }) => {
 				itemId: casinoProviderId,
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				type: game ? 'games' : 'providers',
+				type: 'providers',
 			})
 		);
 	}, [casinoProviderId, currentPage, itemsPerPage]);
 
 	const columns = useMemo(() => [
 		{
-			Header: 'Id',
+			Header: 'ID',
 			accessor: 'countryId',
 			filterable: true,
 			Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 		},
 		{
-			Header: 'Name',
+			Header: 'NAME',
 			accessor: 'name',
 			filterable: true,
 			Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 		},
 		{
-			Header: 'Code',
+			Header: 'CODE',
 			accessor: 'code',
 			filterable: true,
 			Cell: (cellProps) => <KeyValueCell {...cellProps} />,

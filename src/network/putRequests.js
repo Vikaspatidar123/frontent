@@ -122,6 +122,9 @@ const updateComment = (data) =>
 const verifyUserDocument = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/user/verify-document`, data);
 
+const addRestrictedCountriesCall = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/country/restricted-items`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -158,4 +161,5 @@ export {
 	cancelBonus,
 	updateComment,
 	verifyUserDocument,
+	addRestrictedCountriesCall,
 };
