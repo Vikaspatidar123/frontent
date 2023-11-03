@@ -10,15 +10,6 @@ const ActionButtons = ({ cell, handleStatus }) => {
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-				<Link to="#'" className="btn btn-sm btn-soft-primary">
-					<i className="mdi mdi-eye-outline" id="viewtooltip" />
-				</Link>
-			</li>
-			<UncontrolledTooltip placement="top" target="viewtooltip">
-				View
-			</UncontrolledTooltip>
-
 			<li>
 				{active ? (
 					<Link
@@ -31,8 +22,8 @@ const ActionButtons = ({ cell, handleStatus }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id="inactivetooltip" />
-						<UncontrolledTooltip placement="top" target="inactivetooltip">
+						<i className="mdi mdi-close-thick" id={`inactive-${sportId}`} />
+						<UncontrolledTooltip placement="top" target={`inactive-${sportId}`}>
 							Set Inactive
 						</UncontrolledTooltip>
 					</Link>
@@ -47,34 +38,12 @@ const ActionButtons = ({ cell, handleStatus }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-check-circle" id="activetooltip" />
-						<UncontrolledTooltip placement="top" target="activetooltip">
+						<i className="mdi mdi-check-circle" id={`active-${sportId}`} />
+						<UncontrolledTooltip placement="top" target={`active-${sportId}`}>
 							Set Active
 						</UncontrolledTooltip>
 					</Link>
 				)}
-			</li>
-
-			<li>
-				<Link
-					to="#"
-					className="btn btn-sm btn-soft-info"
-					// onClick={(e) => handleEdit(e, cell?.row?.original)}
-				>
-					<i className="mdi mdi-pencil-outline" id="edittooltip" />
-					<UncontrolledTooltip placement="top" target="edittooltip">
-						Edit
-					</UncontrolledTooltip>
-				</Link>
-			</li>
-
-			<li>
-				<Link to="/" className="btn btn-sm btn-soft-danger">
-					<i className="mdi mdi-delete-outline" id="deletetooltip" />
-					<UncontrolledTooltip placement="top" target="deletetooltip">
-						Delete
-					</UncontrolledTooltip>
-				</Link>
 			</li>
 		</ul>
 	);
