@@ -6,7 +6,7 @@ import { getSportsList, updateStatusStart } from '../../../store/actions';
 import { SportId, SportName, Status, Icon } from '../sportsListCol';
 import ActionButtons from '../ActionButtons';
 
-const useSportsListing = () => {
+const useSportsListing = (filterValues = {}) => {
 	const { sportsListInfo, isSportsListLoading } = useSelector(
 		(state) => state.SportsList
 	);
@@ -35,6 +35,7 @@ const useSportsListing = () => {
 			getSportsList({
 				limit: itemsPerPage,
 				pageNo: page,
+				...filterValues,
 			})
 		);
 	};

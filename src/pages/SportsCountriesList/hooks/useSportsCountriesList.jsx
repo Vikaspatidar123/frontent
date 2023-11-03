@@ -10,7 +10,7 @@ import {
 } from '../sportsCountriesListCol';
 import ActionButtons from '../ActionButtons';
 
-const useSportsCountriesListing = () => {
+const useSportsCountriesListing = (filterValues = {}) => {
 	const { sportsCountries, isSportsCountriesLoading } = useSelector(
 		(state) => state.SportsList
 	);
@@ -40,6 +40,7 @@ const useSportsCountriesListing = () => {
 			getSportsCountries({
 				limit: itemsPerPage,
 				pageNo: page,
+				...filterValues,
 			})
 		);
 	};

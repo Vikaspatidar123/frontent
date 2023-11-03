@@ -8,9 +8,8 @@ import {
 	CountryName,
 	SportName,
 } from '../sportsTournamentListCol';
-import ActionButtons from '../ActionButtons';
 
-const useSportsTounamentListing = () => {
+const useSportsTounamentListing = (filterValues = {}) => {
 	const { sportsTournamentList, isSportsTournamentListLoading } = useSelector(
 		(state) => state.SportsList
 	);
@@ -19,9 +18,6 @@ const useSportsTounamentListing = () => {
 		setItemsPerPage(value);
 	};
 	const [page, setPage] = useState(1);
-	const [searchByName, setSearchByName] = useState('');
-	const [searchByCountry, setSearchByCountry] = useState('');
-	const [searchBySports, setSearchBySports] = useState('');
 	const dispatch = useDispatch();
 
 	const formattedSportsTournamenList = useMemo(() => {
@@ -41,12 +37,10 @@ const useSportsTounamentListing = () => {
 			getSportsTournamentList({
 				limit: itemsPerPage,
 				pageNo: page,
-				providerCountryId: searchByCountry,
-				providerSportId: searchBySports,
-				search: searchByName,
+				...filterValues,
 			})
 		);
-	}, [page, itemsPerPage, searchByName, searchByCountry, searchBySports]);
+	}, [page, itemsPerPage]);
 
 	const columns = useMemo(() => [
 		{
@@ -73,12 +67,6 @@ const useSportsTounamentListing = () => {
 			disableFilters: true,
 			Cell: ({ cell }) => <SportName cell={cell} />,
 		},
-		{
-			Header: 'Action',
-			accessor: 'action',
-			disableFilters: true,
-			Cell: () => <ActionButtons />,
-		},
 	]);
 
 	return {
@@ -88,12 +76,6 @@ const useSportsTounamentListing = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		searchByName,
-		setSearchByName,
-		searchByCountry,
-		setSearchByCountry,
-		searchBySports,
-		setSearchBySports,
 		onChangeRowsPerPage,
 		columns,
 	};

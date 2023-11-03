@@ -4,7 +4,7 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsListing from './hooks/useSportsListing';
 import { projectName } from '../../constants/config';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
@@ -12,6 +12,15 @@ import Filters from '../../components/Common/Filters';
 const SportsListing = () => {
 	// meta title
 	document.title = projectName;
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
 
 	const {
 		formattedSportsList,
@@ -22,20 +31,12 @@ const SportsListing = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useSportsListing();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
+	} = useSportsListing(filterValidation.values);
 
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumb title="Sports Book" breadcrumbItem="Sports" />
+				{/* <Breadcrumb title="Sports Book" breadcrumbItem="Sports" /> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -47,6 +48,7 @@ const SportsListing = () => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									columns={columns}

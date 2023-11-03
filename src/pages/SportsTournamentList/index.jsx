@@ -5,7 +5,7 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsTounamentListing from './hooks/useSportsTournamentListing';
 import { projectName } from '../../constants/config';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
@@ -13,6 +13,15 @@ import Filters from '../../components/Common/Filters';
 const SportsTournamentList = () => {
 	// meta title
 	document.title = projectName;
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
 
 	const {
 		formattedSportsTournamenList,
@@ -23,20 +32,12 @@ const SportsTournamentList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useSportsTounamentListing();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
+	} = useSportsTounamentListing(filterValidation.values);
 
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumb title="Sports Book" breadcrumbItem="Tournaments" />
+				{/* <Breadcrumb title="Sports Book" breadcrumbItem="Tournaments" /> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -48,6 +49,7 @@ const SportsTournamentList = () => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									columns={columns}
