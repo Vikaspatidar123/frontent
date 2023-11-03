@@ -1,16 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+// import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsMarketsListing from './hooks/useSportsMarketsListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 
-const SportsMarketsList = ({ t }) => {
+const SportsMarketsList = () => {
 	document.title = projectName;
+
+	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
 
 	const {
 		currentPage,
@@ -21,21 +30,13 @@ const SportsMarketsList = ({ t }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useSportsMarketsListing();
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-	} = useFilters();
+	} = useSportsMarketsListing(filterValidation.values);
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb title={t('Sports Book')} breadcrumbItem={t('Markets')} />
+				{/* <Breadcrumb title={t('Sports Book')} breadcrumbItem={t('Markets')} /> */}
 				<Row>
 					<Col lg="12">
 						<Card>
@@ -47,6 +48,7 @@ const SportsMarketsList = ({ t }) => {
 									actionButtons={actionButtons}
 									isAdvanceOpen={isAdvanceOpen}
 									toggleAdvance={toggleAdvance}
+									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
 									isLoading={isSportsMarketsLoading}
@@ -74,7 +76,7 @@ const SportsMarketsList = ({ t }) => {
 };
 
 SportsMarketsList.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 SportsMarketsList.defaultProps = {
