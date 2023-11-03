@@ -1,9 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import {
+	ADD_RESTRICTED_COUNTRIES_START,
 	FETCH_RESTRICTED_COUNTRIES_START,
 	FETCH_UNRESTRICTED_COUNTRIES_START,
 } from './actionTypes';
 import {
+	addRestrictedCountriesFail,
+	addRestrictedCountriesSuccess,
 	fetchRestrictedCountriesFail,
 	fetchRestrictedCountriesSuccess,
 	fetchUnrestrictedCountriesFail,
@@ -13,6 +16,8 @@ import {
 	fetchRestrictedCountries,
 	fetchUnrestrictedCountries,
 } from '../../network/getRequests';
+import { addRestrictedCountriesCall } from '../../network/putRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* fetchRestrictedCountriesWorker(action) {
 	try {
@@ -31,10 +36,32 @@ function* fetchUnrestrictedCountriesWorker(action) {
 		const payload = action && action.payload;
 		const response = yield call(fetchUnrestrictedCountries, payload);
 		yield put(
-			fetchUnrestrictedCountriesSuccess(response?.data?.data?.transactionDetail)
+			fetchUnrestrictedCountriesSuccess(
+				response?.data?.data?.unrestrictedCountries
+			)
 		);
+	} catch (e) {
+		yield put(fetchUnrestrictedCountriesFail(e));
+	}
+}
+
+function* addRestrictedCountriesWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const response = yield call(addRestrictedCountriesCall, payload);
+		yield put(
+			addRestrictedCountriesSuccess(response?.data?.data?.unrestrictedCountries)
+		);
+		showToastr({
+			message: 'Restricted Countries Updated Successfully',
+			type: 'success',
+		});
 	} catch (error) {
-		yield put(fetchUnrestrictedCountriesFail(error));
+		showToastr({
+			message: error?.response?.data?.errors[0]?.description || error.message,
+			type: 'error',
+		});
+		yield put(addRestrictedCountriesFail(error));
 	}
 }
 
@@ -47,6 +74,7 @@ function* restrictedCountriesSaga() {
 		FETCH_UNRESTRICTED_COUNTRIES_START,
 		fetchUnrestrictedCountriesWorker
 	);
+	yield takeEvery(ADD_RESTRICTED_COUNTRIES_START, addRestrictedCountriesWorker);
 }
 
 export default restrictedCountriesSaga;

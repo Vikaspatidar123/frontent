@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container } from 'reactstrap';
 import TabsPage from '../../components/Common/TabsPage';
 import RestrictedCountries from './components/RestrictedCountries';
+import AddToRestrictedCountries from './components/AddToRestrictedCountries';
 
 const ViewBlockedCountries = () => {
 	const [activeTab, setActiveTab] = useState(1);
@@ -15,7 +16,7 @@ const ViewBlockedCountries = () => {
 		{
 			id: 2,
 			title: 'Add to Restricted Countries',
-			component: <div />,
+			component: <AddToRestrictedCountries />,
 		},
 		{
 			id: 3,
