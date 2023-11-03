@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { Row, Col, Card, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-import avatar1 from '../../assets/images/users/avatar-1.jpg';
 import profileImg from '../../assets/images/profile-img.png';
 
 const WelcomeComp = () => {
@@ -27,12 +26,8 @@ const WelcomeComp = () => {
 			<CardBody className="pt-0">
 				<Row>
 					<Col sm="3">
-						<div className="avatar-md profile-user-wid mb-4">
-							<img
-								src={avatar1}
-								alt=""
-								className="img-thumbnail rounded-circle"
-							/>
+						<div className="avatar-md profile-user-wid mb-4 dashboard-prof-logo">
+							<p className="profile-logo-avatar">A</p>
 						</div>
 						{/* <h5 className="font-size-15 text-truncate">Henry Price</h5>
 					<p className="text-muted mb-0 text-truncate">UI/UX Designer</p> */}
