@@ -8,7 +8,6 @@ import {
 	CountryName,
 	SportName,
 } from '../sportsTournamentListCol';
-import ActionButtons from '../ActionButtons';
 
 const useSportsTounamentListing = (filterValues = {}) => {
 	const { sportsTournamentList, isSportsTournamentListLoading } = useSelector(
@@ -67,12 +66,6 @@ const useSportsTounamentListing = (filterValues = {}) => {
 			accessor: 'sportName',
 			disableFilters: true,
 			Cell: ({ cell }) => <SportName cell={cell} />,
-		},
-		{
-			Header: 'Action',
-			accessor: 'action',
-			disableFilters: true,
-			Cell: () => <ActionButtons />,
 		},
 	]);
 

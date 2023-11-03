@@ -66,13 +66,13 @@ const staticFiltersFields = () => [
 			},
 		],
 	},
-	{
-		name: 'search',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by name',
-	},
+	// {
+	// 	name: 'search',
+	// 	fieldType: 'textField',
+	// 	type: 'search',
+	// 	label: '',
+	// 	placeholder: 'Search by name',
+	// },
 ];
 
 const filterValues = () => ({
