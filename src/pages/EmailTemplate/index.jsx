@@ -9,9 +9,9 @@ import { projectName } from '../../constants/config';
 import TableContainer from '../../components/Common/TableContainer';
 import ActionButtons from './ActionButtons';
 import useEmailTemplate from './hooks/useEmailTemplate';
-import Breadcrumbs from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
 import CrudSection from '../../components/Common/CrudSection';
+import Modal from '../../components/Common/Modal';
 
 import { EmailTemplateId, Label, Primary } from './EmailTemplateListCol';
 import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
@@ -20,8 +20,18 @@ const EmailTemplate = ({ t }) => {
 	// meta title
 	document.title = projectName;
 
-	const { emailTemplateloading, emailTemplates, handleEditClick } =
-		useEmailTemplate();
+	const {
+		emailTemplateloading,
+		emailTemplates,
+		handleEditClick,
+		handleViewClick,
+		handleDeleteClick,
+		toggleView,
+		isView,
+		emailTemplate,
+		isEmailTemplateLoading,
+		customComponent,
+	} = useEmailTemplate();
 	const keyList = Object.keys(emailTemplates);
 	const { buttonList } = useCreateEmailTemplate();
 	const [expanded, setExpanded] = useState(keyList[0] || '');
@@ -59,7 +69,12 @@ const EmailTemplate = ({ t }) => {
 				accessor: 'action',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<ActionButtons cell={cell} handleEditClick={handleEditClick} />
+					<ActionButtons
+						cell={cell}
+						handleEditClick={handleEditClick}
+						handleViewClick={handleViewClick}
+						handleDeleteClick={handleDeleteClick}
+					/>
 				),
 			},
 		],
@@ -69,10 +84,6 @@ const EmailTemplate = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumbs
-					title={t('Content Management')}
-					breadcrumbItem={t('Email Template')}
-				/> */}
 				<Card>
 					<CardBody>
 						<CrudSection
@@ -139,6 +150,15 @@ const EmailTemplate = ({ t }) => {
 						)}
 					</CardBody>
 				</Card>
+				<Modal
+					openModal={isView}
+					toggleModal={toggleView}
+					headerTitle={emailTemplate?.label}
+					children={customComponent}
+					className="modal-dialog modal-lg"
+					isLoading={isEmailTemplateLoading}
+					hideFooter
+				/>
 			</Container>
 		</div>
 	);

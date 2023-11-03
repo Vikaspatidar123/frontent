@@ -24,6 +24,8 @@ import {
 	getEmailTemplateFail,
 	updateEmailTemplateSuccess,
 	updateEmailTemplateFail,
+	deleteEmailTemplateSuccess,
+	deleteEmailTemplateFail,
 } from './actions';
 
 import {
@@ -37,6 +39,7 @@ import {
 	CREATE_EMAIL_TEMPLATE,
 	GET_EMAIL_TEMPLATE,
 	UPDATE_EMAIL_TEMPLATE,
+	DELETE_EMAIL_TEMPLATE,
 } from './actionTypes';
 
 import {
@@ -52,15 +55,17 @@ import {
 } from '../../network/postRequests';
 
 import { uploadGallery, updateEmailTemplate } from '../../network/putRequests';
-import { deleteFromGallery } from '../../network/deleteRequests';
+import {
+	deleteFromGallery,
+	deleteEmailTemplate,
+} from '../../network/deleteRequests';
 import { showToastr } from '../../utils/helpers';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { emailDynamicOptions } from '../../pages/EmailTemplate/Constant';
 
 function* getAllEmailTemplatesWorker(action) {
 	try {
-		const { isTenant = false } = action && action.payload;
-		const { data } = yield getEmailTemplates({ isTenant });
+		const { data } = yield getEmailTemplates();
 		yield put(getAllEmailTemplatesSuccess(data?.data));
 	} catch (e) {
 		yield put(
@@ -244,6 +249,27 @@ function* updateEmailTemplateWorker(action) {
 	}
 }
 
+function* deleteTemplateWorker(action) {
+	try {
+		const data = action && action.payload;
+		yield deleteEmailTemplate(data);
+
+		yield getEmailTemplates();
+		yield put(deleteEmailTemplateSuccess());
+
+		showToastr({
+			message: 'Template Deleted Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+		yield put(deleteEmailTemplateFail());
+	}
+}
+
 export function* getEmailTemplateWatcher() {
 	yield takeLatest(GET_ALL_EMAIL_TEMPLATES, getAllEmailTemplatesWorker);
 	yield takeLatest(GET_IMAGE_GALLERY, getImageGalleryWorker);
@@ -255,6 +281,7 @@ export function* getEmailTemplateWatcher() {
 	yield takeLatest(CREATE_EMAIL_TEMPLATE, createEmailTemplateWorker);
 	yield takeLatest(GET_EMAIL_TEMPLATE, getemailTemplateWorker);
 	yield takeLatest(UPDATE_EMAIL_TEMPLATE, updateEmailTemplateWorker);
+	yield takeLatest(DELETE_EMAIL_TEMPLATE, deleteTemplateWorker);
 }
 
 function* EmailTemplateSaga() {
