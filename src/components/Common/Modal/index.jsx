@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import Spinners from '../Spinner';
 
 const ModalView = (props) => {
 	const {
@@ -24,6 +25,7 @@ const ModalView = (props) => {
 		titleHeaderIcon,
 		firstBtnClass,
 		secondBtnClass,
+		isLoading = false,
 	} = props;
 	return (
 		<Modal
@@ -35,11 +37,15 @@ const ModalView = (props) => {
 			size={size}
 			centered={center}
 		>
-			{!hideHeader && (
-				<ModalHeader toggle={toggleModal} className={headerClass}>
-					{titleHeaderIcon && <img src={titleHeaderIcon} alt="" />}
-					{headerTitle}
-				</ModalHeader>
+			{isLoading ? (
+				<Spinners />
+			) : (
+				!hideHeader && (
+					<ModalHeader toggle={toggleModal} className={headerClass}>
+						{titleHeaderIcon && <img src={titleHeaderIcon} alt="" />}
+						{headerTitle}
+					</ModalHeader>
+				)
 			)}
 			<ModalBody>{children}</ModalBody>
 			{!hideFooter && (
@@ -88,6 +94,7 @@ ModalView.defaultProps = {
 	titleHeaderIcon: '',
 	firstBtnClass: '',
 	secondBtnClass: '',
+	isLoading: false,
 };
 
 ModalView.propTypes = {
@@ -110,5 +117,6 @@ ModalView.propTypes = {
 	titleHeaderIcon: PropTypes.string,
 	firstBtnClass: PropTypes.string,
 	secondBtnClass: PropTypes.string,
+	isLoading: PropTypes.bool,
 };
 export default ModalView;

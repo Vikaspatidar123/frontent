@@ -30,6 +30,9 @@ import {
 	UPDATE_EMAIL_TEMPLATE,
 	UPDATE_EMAIL_TEMPLATE_SUCCESS,
 	UPDATE_EMAIL_TEMPLATE_FAIL,
+	DELETE_EMAIL_TEMPLATE,
+	DELETE_EMAIL_TEMPLATE_SUCCESS,
+	DELETE_EMAIL_TEMPLATE_FAIL,
 } from './actionTypes';
 
 export const getAllEmailTemplatesSuccess = (payload) => ({
@@ -184,5 +187,20 @@ export const updateEmailTemplateFail = (payload) => ({
 
 export const updateEmailTemplate = (payload) => ({
 	type: UPDATE_EMAIL_TEMPLATE,
+	payload,
+});
+
+export const deleteEmailTemplateSuccess = (payload) => ({
+	type: DELETE_EMAIL_TEMPLATE_SUCCESS,
+	payload,
+});
+
+export const deleteEmailTemplateFail = (payload) => ({
+	type: DELETE_EMAIL_TEMPLATE_FAIL,
+	payload,
+});
+
+export const deleteEmailTemplate = (payload) => ({
+	type: DELETE_EMAIL_TEMPLATE,
 	payload,
 });
