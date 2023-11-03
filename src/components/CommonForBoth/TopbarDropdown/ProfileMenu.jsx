@@ -38,11 +38,11 @@ const ProfileMenu = ({ t }) => {
             src={user1}
             alt="Header Avatar"
           /> */}
-				<Badge pill className="text-badge">
+				<Badge className="text-badge pill avatar-title rounded-circle bg-primary-subtle text-primary height-per-55">
 					{name[0]}
 				</Badge>
-				<span className="d-none d-xl-inline-block ms-2 me-1">{name}</span>
-				<i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
+				{/* <span className="d-none d-xl-inline-block ms-2 me-1">{name}</span> */}
+				{/* <i className="mdi mdi-chevron-down d-none d-xl-inline-block" /> */}
 			</DropdownToggle>
 			<DropdownMenu className="dropdown-menu-end">
 				<DropdownItem tag="a" href="/profile">

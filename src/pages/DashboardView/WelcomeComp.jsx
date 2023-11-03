@@ -9,6 +9,7 @@ import profileImg from '../../assets/images/profile-img.png';
 
 const WelcomeComp = () => {
 	const { superAdminUser } = useSelector((state) => state.PermissionDetails);
+	// const name = superAdminUser.firstName || superAdminUser.adminUsername || 'A';
 	return (
 		<Card className="overflow-hidden">
 			<div className="bg-primary-subtle">
@@ -16,7 +17,6 @@ const WelcomeComp = () => {
 					<Col xs="7">
 						<div className="text-primary p-3">
 							<h5 className="text-primary">Welcome Back !</h5>
-							{/* <p>Skote Dashboard</p> */}
 						</div>
 					</Col>
 					<Col xs="5" className="align-self-end">
@@ -47,7 +47,6 @@ const WelcomeComp = () => {
 											? `${superAdminUser?.firstName} ${superAdminUser?.lastName}`
 											: superAdminUser.adminUsername}
 									</h5>
-									{/* <p className="text-muted mb-0 text-truncate">UI/UX</p> */}
 								</Col>
 								<Col xs="12 mt-3">
 									<Link to="/profile" className="btn btn-primary  btn-sm">
