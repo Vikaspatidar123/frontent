@@ -59,9 +59,13 @@ const FormModal = ({
 									<button
 										type="submit"
 										disabled={isSubmitLoading}
-										className="btn btn-success save-user"
+										className="btn btn-primary save-user"
 									>
-										{isSubmitLoading ? <Spinner /> : submitLabel}
+										{isSubmitLoading && (
+											<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
+										)}
+										{/* {isSubmitLoading && <i className="bx bx-loader bx-spin font-size-16 align-middle me-2" /> } */}{' '}
+										{submitLabel}
 									</button>
 								</div>
 							</Col>

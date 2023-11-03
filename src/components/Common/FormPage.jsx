@@ -87,6 +87,10 @@ const FormPage = ({
 									className="btn btn-primary waves-effect waves-light"
 									disabled={isSubmitLoading}
 								>
+									{isSubmitLoading && (
+										<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
+									)}
+									{/* {isSubmitLoading && <i className="bx bx-loader bx-spin font-size-16 align-middle me-2" /> } */}{' '}
 									{submitLabel}
 								</button>
 							)}
