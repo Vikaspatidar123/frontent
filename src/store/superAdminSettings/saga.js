@@ -10,7 +10,9 @@ import {
 	EDIT_SA_BANNERS_START,
 	GET_LOYALTY_LEVEL,
 	UPDATE_LOYALTY_LEVEL,
+	DELETE_SA_BANNERS_START,
 } from './actionTypes';
+
 import {
 	getSABannersSuccess,
 	getSABannersFail,
@@ -29,20 +31,27 @@ import {
 	updateLoyaltyLevelSuccess,
 	updateLoyaltyLevelFail,
 	getLoyaltyLevel,
+	deleteSABannersSuccess,
+	deleteSABannersFail,
 } from './actions';
+
 import {
 	getAllSABanners,
 	getDocumentLabelCall,
 	getloyaltyLevel,
 } from '../../network/getRequests';
+
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 import { createKYCLabels, createSABanners } from '../../network/postRequests';
+
 import {
 	editBanners,
 	updateKYCLabels,
 	updateloyaltyLevel,
 } from '../../network/putRequests';
+
+import { deleteSABanners } from '../../network/deleteRequests';
 
 function* getAllSABannersWorker(action) {
 	try {
@@ -196,6 +205,30 @@ function* updateloyaltyLevelWorker(action) {
 	}
 }
 
+function* deleteSABannersWorker(action) {
+	try {
+		const { bannerType } = action && action.payload;
+
+		yield deleteSABanners({
+			bannerType,
+		});
+
+		showToastr({
+			message: 'Banner Deleted Successfully',
+			type: 'success',
+		});
+
+		yield put(deleteSABannersSuccess());
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(deleteSABannersFail());
+	}
+}
+
 export function* getAllSABannersWatcher() {
 	yield takeLatest(GET_SA_BANNERS, getAllSABannersWorker);
 }
@@ -228,6 +261,10 @@ export function* updateLoyaltyLevelWatcher() {
 	yield takeLatest(UPDATE_LOYALTY_LEVEL, updateloyaltyLevelWorker);
 }
 
+export function* deleteSABannersWatcher() {
+	yield takeLatest(DELETE_SA_BANNERS_START, deleteSABannersWorker);
+}
+
 function* SASettingsSaga() {
 	yield all([fork(getAllSABannersWatcher)]);
 	yield all([fork(getDocumentLabelWatcher)]);
@@ -237,6 +274,7 @@ function* SASettingsSaga() {
 	yield all([fork(editSABannersWatcher)]);
 	yield all([fork(getLoyaltyLevelWatcher)]);
 	yield all([fork(updateLoyaltyLevelWatcher)]);
+	yield all([fork(deleteSABannersWatcher)]);
 }
 
 export default SASettingsSaga;

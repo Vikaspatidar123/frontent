@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+/* eslint-disable array-callback-return */
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 
 import {
@@ -23,6 +23,7 @@ const SiteConfig = ({
 	updateSiteConfiguration,
 	isLanguageDataLoading,
 }) => {
+	const [formLanguage, setFormLanguage] = useState([]);
 	const languageOptions =
 		languageData?.rows?.map(({ code, languageName }) => ({
 			value: code,
@@ -45,6 +46,19 @@ const SiteConfig = ({
 		setEditableSiteConfig(true);
 	};
 
+	useEffect(() => {
+		if (details && details[1]?.value?.languages) {
+			const selectedArray = [];
+			Object.keys(details[1]?.value?.languages).map((key) => {
+				const label = {};
+				label.label = details[1]?.value?.languages[key];
+				label.value = key;
+				selectedArray.push(label);
+			});
+			setFormLanguage(selectedArray);
+		}
+	}, [details]);
+
 	const {
 		leftFormFields,
 		rightFormFields,
@@ -52,7 +66,7 @@ const SiteConfig = ({
 		setRightFormFields,
 		validation,
 	} = useForm({
-		initialValues: getSiteConfigInitialValues(details),
+		initialValues: getSiteConfigInitialValues(details, formLanguage),
 		validationSchema: adminSiteConfigSchema,
 		onSubmitEntry: handleSubmit,
 		leftStaticFormFields: leftStaticSiteConfigFormFields(editableSiteConfig),
@@ -93,7 +107,7 @@ const SiteConfig = ({
 	useEffect(() => {
 		if (details.length) {
 			validation.resetForm({
-				values: getSiteConfigInitialValues(details),
+				values: getSiteConfigInitialValues(details, formLanguage),
 			});
 			setRightFormFields([
 				...rightStaticSiteConfigFormFields(editableSiteConfig),
@@ -122,7 +136,7 @@ const SiteConfig = ({
 			]);
 		}
 	}, [details]);
-	console.log('VAlues = ', validation.values, details[1]);
+
 	return (
 		<Row>
 			<Col lg="12">

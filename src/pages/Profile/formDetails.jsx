@@ -105,14 +105,14 @@ const getPasswordInitialValues = () => ({
 	confirmPassword: '',
 });
 
-const getSiteConfigInitialValues = (details) => ({
+const getSiteConfigInitialValues = (details, formLanguage) => ({
 	name: details[1]?.value.name || '',
 	url: details[1]?.value.url || '',
 	supportEmail: details[1]?.value.supportEmail || '',
 	sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
 	sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
 	logo: `${VITE_APP_AWS_GALLERY_URL}/${details[1]?.value?.logo}` || null,
-	lang: null,
+	lang: formLanguage || null,
 	maintenance: !!details[1]?.value.maintenance,
 });
 

@@ -13,7 +13,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
 import useCreateBanner from './hooks/useCreateBanner';
 
-const computeColumns = ({ onClickEdit }) => [
+const computeColumns = ({ onClickEdit, onClickDelete }) => [
 	{
 		Header: 'PAGES',
 		accessor: 'pages',
@@ -30,7 +30,13 @@ const computeColumns = ({ onClickEdit }) => [
 		Header: 'Action',
 		accessor: 'action',
 		disableFilters: true,
-		Cell: ({ cell }) => <ActionButtons cell={cell} onClickEdit={onClickEdit} />,
+		Cell: ({ cell }) => (
+			<ActionButtons
+				cell={cell}
+				onClickEdit={onClickEdit}
+				onClickDelete={onClickDelete}
+			/>
+		),
 	},
 ];
 
@@ -38,7 +44,8 @@ const BannerManagement = () => {
 	// meta title
 	document.title = projectName;
 
-	const { formattedSABanners, SABannersloading } = useBannerManagement();
+	const { formattedSABanners, SABannersloading, onClickDelete } =
+		useBannerManagement();
 
 	const {
 		isOpen,
@@ -52,7 +59,10 @@ const BannerManagement = () => {
 		onClickEdit,
 	} = useCreateBanner();
 
-	const columns = useMemo(() => computeColumns({ onClickEdit }), []);
+	const columns = useMemo(
+		() => computeColumns({ onClickEdit, onClickDelete }),
+		[]
+	);
 
 	return (
 		<div className="page-content">

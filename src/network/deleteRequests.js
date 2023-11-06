@@ -17,10 +17,14 @@ const deleteSubCategory = (data) =>
 const deleteCasinoGames = (data) =>
 	deleteRequest(`${VITE_APP_API_URL}/api/admin/casino/games`, data);
 
+const deleteSABanners = ({ bannerType }) =>
+	deleteRequest(`${VITE_APP_API_URL}/api/admin/banner?bannerKey=${bannerType}`);
+
 export {
 	deleteFromGallery,
 	removeRestrictedCountriesCall,
 	deleteEmailTemplate,
 	deleteSubCategory,
 	deleteCasinoGames,
+	deleteSABanners,
 };

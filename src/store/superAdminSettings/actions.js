@@ -23,6 +23,9 @@ import {
 	UPDATE_LOYALTY_LEVEL,
 	UPDATE_LOYALTY_LEVEL_SUCCESS,
 	UPDATE_LOYALTY_LEVEL_FAIL,
+	DELETE_SA_BANNERS_START,
+	DELETE_SA_BANNERS_SUCCESS,
+	DELETE_SA_BANNERS_FAIL,
 } from './actionTypes';
 
 export const getSABanners = (payload) => ({
@@ -142,5 +145,20 @@ export const updateLoyaltyLevelSuccess = (payload) => ({
 
 export const updateLoyaltyLevelFail = (payload) => ({
 	type: UPDATE_LOYALTY_LEVEL_FAIL,
+	payload,
+});
+
+export const deleteSABannersStart = (payload) => ({
+	type: DELETE_SA_BANNERS_START,
+	payload,
+});
+
+export const deleteSABannersSuccess = (payload) => ({
+	type: DELETE_SA_BANNERS_SUCCESS,
+	payload,
+});
+
+export const deleteSABannersFail = (payload) => ({
+	type: DELETE_SA_BANNERS_FAIL,
 	payload,
 });
