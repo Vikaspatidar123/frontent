@@ -32,45 +32,58 @@ const Filters = ({
 						return false;
 					}}
 				>
-					<Row className="g-3">
-						{filterFields?.map(
-							(field) =>
-								!field?.isHide && (
-									<Col xxl={2} lg={4} md={4} sm={6}>
-										<div className="position-relative">
-											{getField(field, validation)}
-										</div>
-									</Col>
-								)
-						)}
-						{isFilterChanged &&
-							actionButtons?.map(
-								({ icon, handleClick, isHide, tooltip, id }) =>
-									!isHide && (
-										<Col xxl={1} xl={1} lg={1} md={1} sm={1} xs={1}>
-											<div className="position-relative h-100 hstack gap-3">
-												{/* <button
+					<Row>
+						<Col xxl={11} xl={11} lg={11} md={11} sm={11}>
+							<Row className="g-3">
+								{filterFields?.map(
+									(field) =>
+										!field?.isHide && (
+											<Col xxl={2} lg={4} md={4} sm={6}>
+												<div className="position-relative">
+													{getField(field, validation)}
+												</div>
+											</Col>
+										)
+								)}
+							</Row>
+						</Col>
+						<Col
+							xxl={1}
+							xl={1}
+							lg={1}
+							md={1}
+							sm={1}
+							className="align-symbol-end"
+						>
+							{isFilterChanged &&
+								actionButtons?.map(
+									({ icon, handleClick, isHide, tooltip, id }) =>
+										!isHide && (
+											<Col xxl={1} xl={1} lg={1} md={1} sm={1} xs={1}>
+												<div className="position-relative h-100 hstack gap-3">
+													{/* <button
 												type={type === 'button' ? 'button' : 'submit'}
 												className={`btn h-100 w-100 ${color || 'btn-primary'}`}
 												onClick={handleClick}
 											> */}
-												<i
-													className={`${icon} align-middle filter-icons`}
-													onClick={handleClick}
-													id={id || 'clear-filter'}
-												/>
-												<UncontrolledTooltip
-													placement="top"
-													target={id || 'clear-filter'}
-												>
-													{tooltip}
-												</UncontrolledTooltip>
-												{/* {label} */}
-												{/* </button> */}
-											</div>
-										</Col>
-									)
-							)}
+													<i
+														className={`${icon} align-middle filter-icons`}
+														onClick={handleClick}
+														id={id || 'clear-filter'}
+													/>
+													<UncontrolledTooltip
+														placement="top"
+														target={id || 'clear-filter'}
+													>
+														{tooltip}
+													</UncontrolledTooltip>
+													{/* {label} */}
+													{/* </button> */}
+												</div>
+											</Col>
+										)
+								)}
+						</Col>
 						<Collapse isOpen={isAdvanceOpen} id="advanceCollapse">
 							<div>
 								<Row className="g-3">
