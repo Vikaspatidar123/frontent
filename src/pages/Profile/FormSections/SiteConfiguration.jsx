@@ -80,10 +80,11 @@ const SiteConfig = ({
 					multiple: true,
 				},
 				{
-					name: 'Maintenance',
+					name: 'maintenance',
 					fieldType: 'toggle',
-					label: 'maintenance',
+					label: 'Maintenance',
 					isDisabled: editableSiteConfig,
+					divClass: 'maintenance-margin',
 				},
 			]);
 		}
@@ -92,16 +93,7 @@ const SiteConfig = ({
 	useEffect(() => {
 		if (details.length) {
 			validation.resetForm({
-				values: {
-					name: details[1]?.value.name || '',
-					url: details[1]?.value.url || '',
-					supportEmail: details[1]?.value.supportEmail || '',
-					sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
-					sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
-					logo: null,
-					lang: null,
-					maintenance: !!details[1]?.value.maintenance,
-				},
+				values: getSiteConfigInitialValues(details),
 			});
 			setRightFormFields([
 				...rightStaticSiteConfigFormFields(editableSiteConfig),
@@ -121,15 +113,16 @@ const SiteConfig = ({
 					multiple: true,
 				},
 				{
-					name: 'Maintenance',
+					name: 'maintenance',
 					fieldType: 'toggle',
-					label: 'maintenance',
+					label: 'Maintenance',
 					isDisabled: editableSiteConfig,
+					divClass: 'maintenance-margin',
 				},
 			]);
 		}
 	}, [details]);
-
+	console.log('VAlues = ', validation.values, details[1]);
 	return (
 		<Row>
 			<Col lg="12">
