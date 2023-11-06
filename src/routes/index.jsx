@@ -217,6 +217,7 @@ import AdminDetails from '../pages/AdminDetails';
 import ViewBlockedCountries from '../pages/ViewBlockedCountries';
 import CreateEmailTemplate from '../pages/EmailTemplate/CreateEmailTemplate';
 import EditEmailTemplate from '../pages/EmailTemplate/EditEmailTemplate';
+import SportsMatchDetail from '../pages/SportsMatchDetail';
 // //Contacts
 // import ContactsGrid from "../pages/Contacts/contacts-grid";
 // import ContactsList from "../pages/Contacts/ContactList/contacts-list";
@@ -273,6 +274,7 @@ const authProtectedRoutes = [
 	{ path: '/casino-games', component: <CasinoGames /> },
 	{ path: '/banner-management', component: <BannerManagement /> },
 	{ path: '/matches', component: <SportsMatchesList /> },
+	{ path: '/match/:matchId', component: <SportsMatchDetail /> },
 	{ path: '/markets', component: <SportsMarketsList /> },
 	{ path: '/email-templates', component: <EmailTemplate /> },
 	{ path: '/email-templates/create', component: <CreateEmailTemplate /> },

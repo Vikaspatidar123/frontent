@@ -1,12 +1,15 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
 	fetchSportsMatchesStart,
 	updateFeaturedMatchStart,
 } from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
 import {
+	Action,
 	Id,
 	IsFeatured,
 	Live,
@@ -19,6 +22,7 @@ import {
 
 const useSportsMatchesListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const {
@@ -65,6 +69,9 @@ const useSportsMatchesListing = (filterValues = {}) => {
 		};
 		dispatch(updateFeaturedMatchStart(data));
 	};
+	const onMatchClick = (matchId) => {
+		navigate(`/match/${matchId}`);
+	};
 	const columns = useMemo(
 		() => [
 			{
@@ -89,7 +96,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 				Header: 'Title',
 				accessor: 'title',
 				filterable: true,
-				Cell: (cellProps) => <Title {...cellProps} />,
+				Cell: ({ cell }) => <Title cell={cell} onMatchClick={onMatchClick} />,
 			},
 			{
 				Header: 'Tournament',
@@ -123,6 +130,11 @@ const useSportsMatchesListing = (filterValues = {}) => {
 				Header: 'Live',
 				accessor: 'isLive',
 				Cell: (cellProps) => <Live {...cellProps} />,
+			},
+			{
+				Header: 'Action',
+				accessor: '',
+				Cell: (cellProps) => <Action {...cellProps} />,
 			},
 		],
 		[]
