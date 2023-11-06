@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
 import { Button, Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -7,18 +6,26 @@ import PropTypes from 'prop-types';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 
-const GameSubCategoryId = (cell) => (
+const CasinoGameId = ({ cell }) => (
+	<Link to="/#" className="text-body">
+		{cell.value ? cell.value : ''}
+	</Link>
+);
+
+const DeviceType = ({ cell }) => (cell.value ? cell.value : '');
+
+const GameSubCategoryId = ({ cell }) => (
 	<Link to="/#" className="text-body fw-bold">
 		{cell.value ? cell.value : ''}
 	</Link>
 );
 
-const Name = (cell) => (cell.value ? cell.value : '');
+const Name = ({ cell }) => (cell.value ? cell.value : '');
 
 const GameCategory = (cell) => (cell.value ? cell.value : '');
 
 const ImageUrl = ({ cell }) => {
-	const [isFits, setisFits] = useState(false);
+	const [isFits, setIsFits] = useState(false);
 	return (
 		<>
 			{isFits ? (
@@ -26,7 +33,7 @@ const ImageUrl = ({ cell }) => {
 					mainSrc={cell.value}
 					enableZoom={false}
 					onCloseRequest={() => {
-						setisFits(!isFits);
+						setIsFits(!isFits);
 					}}
 				/>
 			) : null}
@@ -34,7 +41,7 @@ const ImageUrl = ({ cell }) => {
 			<Button
 				color="link"
 				className="btn btn-link waves-effect"
-				onClick={() => setisFits(true)}
+				onClick={() => setIsFits(true)}
 			>
 				View Image
 			</Button>
@@ -67,4 +74,36 @@ ImageUrl.propTypes = {
 	}).isRequired,
 };
 
-export { GameSubCategoryId, Name, GameCategory, ImageUrl, Status };
+GameCategory.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.string,
+	}).isRequired,
+};
+
+Name.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.string,
+	}).isRequired,
+};
+
+DeviceType.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.string,
+	}).isRequired,
+};
+
+CasinoGameId.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.string,
+	}).isRequired,
+};
+
+export {
+	GameSubCategoryId,
+	Name,
+	GameCategory,
+	ImageUrl,
+	Status,
+	DeviceType,
+	CasinoGameId,
+};

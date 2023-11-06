@@ -1,7 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable react/prop-types */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -74,6 +71,7 @@ const GetCasinoSubCategoryDetail = () => {
 		active,
 		onClickEdit,
 		isEditSubCategoryLoading,
+		handleAddGameClick,
 	} = useCreateSubCategory();
 
 	useEffect(() => {
@@ -105,47 +103,48 @@ const GetCasinoSubCategoryDetail = () => {
 		return [];
 	}, [casinoSubCategoryDetails]);
 
-	const columns = [
-		{
-			Header: 'ID',
-			accessor: 'gameSubCategoryId',
-			filterable: true,
-			Cell: (cellProps) => <GameSubCategoryId {...cellProps} />,
-		},
-		{
-			Header: 'NAME',
-			accessor: 'nameEN',
-			filterable: true,
-			Cell: (cellProps) => <Name {...cellProps} />,
-		},
-		{
-			Header: 'GAME CATEGORY',
-			accessor: 'gameCategory',
-			filterable: true,
-			Cell: (cellProps) => <GameCategory {...cellProps} />,
-		},
-		{
-			Header: 'IMAGE',
-			accessor: 'imageUrl',
-			filterable: true,
-			Cell: (cellProps) => <ImageUrl {...cellProps} />,
-		},
-		{
-			Header: 'STATUS',
-			accessor: 'isActive',
-			filterable: true,
-			Cell: (cellProps) => <Status {...cellProps} />,
-		},
-		{
-			Header: 'Action',
-			accessor: 'action',
-			disableFilters: true,
-			Cell: ({ cell }) => {
-				const status = cell?.row?.original?.isActive;
-				const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
-				return (
-					<ul className="list-unstyled hstack gap-1 mb-0">
-						{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'gameSubCategoryId',
+				filterable: true,
+				Cell: (cellProps) => <GameSubCategoryId {...cellProps} />,
+			},
+			{
+				Header: 'NAME',
+				accessor: 'nameEN',
+				filterable: true,
+				Cell: (cellProps) => <Name {...cellProps} />,
+			},
+			{
+				Header: 'GAME CATEGORY',
+				accessor: 'gameCategory',
+				filterable: true,
+				Cell: (cellProps) => <GameCategory {...cellProps} />,
+			},
+			{
+				Header: 'IMAGE',
+				accessor: 'imageUrl',
+				filterable: true,
+				Cell: (cellProps) => <ImageUrl {...cellProps} />,
+			},
+			{
+				Header: 'STATUS',
+				accessor: 'isActive',
+				filterable: true,
+				Cell: (cellProps) => <Status {...cellProps} />,
+			},
+			{
+				Header: 'Action',
+				accessor: 'action',
+				disableFilters: true,
+				Cell: ({ cell }) => {
+					const status = cell?.row?.original?.isActive;
+					const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
+					return (
+						<ul className="list-unstyled hstack gap-1 mb-0">
+							{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
 							<Link to="#'" className="btn btn-sm btn-soft-primary">
 								<i className="mdi mdi-eye-outline" id="viewtooltip" />
 							</Link>
@@ -154,89 +153,101 @@ const GetCasinoSubCategoryDetail = () => {
 							View
 						</UncontrolledTooltip> */}
 
-						<li>
-							{status ? (
+							<li>
+								{status ? (
+									<Link
+										to="#"
+										className="btn btn-sm btn-soft-danger"
+										onClick={(e) =>
+											handleStatus(e, {
+												status,
+												gameSubCategoryId,
+											})
+										}
+									>
+										<i
+											className="mdi mdi-close-thick"
+											id={`inactive-${gameSubCategoryId}`}
+										/>
+										<UncontrolledTooltip
+											placement="top"
+											target={`inactive-${gameSubCategoryId}`}
+										>
+											Set Inactive
+										</UncontrolledTooltip>
+									</Link>
+								) : (
+									<Link
+										to="#"
+										className="btn btn-sm btn-soft-success"
+										onClick={(e) =>
+											handleStatus(e, {
+												status,
+												gameSubCategoryId,
+											})
+										}
+									>
+										<i
+											className="mdi mdi-check-circle"
+											id={`active-${gameSubCategoryId}`}
+										/>
+										<UncontrolledTooltip
+											placement="top"
+											target={`active-${gameSubCategoryId}`}
+										>
+											Set Active
+										</UncontrolledTooltip>
+									</Link>
+								)}
+							</li>
+
+							<li>
 								<Link
 									to="#"
-									className="btn btn-sm btn-soft-danger"
-									onClick={(e) =>
-										handleStatus(e, {
-											status,
-											gameSubCategoryId,
-										})
-									}
+									className="btn btn-sm btn-soft-info"
+									onClick={(e) => {
+										e.preventDefault();
+										onClickEdit(cell?.row?.original);
+									}}
 								>
 									<i
-										className="mdi mdi-close-thick"
-										id={`inactive-${gameSubCategoryId}`}
+										className="mdi mdi-pencil-outline"
+										id={`edit-${gameSubCategoryId}`}
 									/>
 									<UncontrolledTooltip
 										placement="top"
-										target={`inactive-${gameSubCategoryId}`}
+										target={`edit-${gameSubCategoryId}`}
 									>
-										Set Inactive
+										Edit
 									</UncontrolledTooltip>
 								</Link>
-							) : (
+							</li>
+
+							<li>
 								<Link
 									to="#"
-									className="btn btn-sm btn-soft-success"
-									onClick={(e) =>
-										handleStatus(e, {
-											status,
-											gameSubCategoryId,
-										})
-									}
+									className="btn btn-sm btn-soft-primary"
+									onClick={(e) => handleAddGameClick(e, gameSubCategoryId)}
 								>
 									<i
-										className="mdi mdi-check-circle"
-										id={`active-${gameSubCategoryId}`}
+										className="mdi mdi-plus-one"
+										id={`plus-one-${gameSubCategoryId}`}
 									/>
 									<UncontrolledTooltip
 										placement="top"
-										target={`active-${gameSubCategoryId}`}
+										target={`plus-one-${gameSubCategoryId}`}
 									>
-										Set Active
+										Add Game
 									</UncontrolledTooltip>
 								</Link>
-							)}
-						</li>
-
-						<li>
-							<Link
-								to="#"
-								className="btn btn-sm btn-soft-info"
-								onClick={(e) => {
-									e.preventDefault();
-									onClickEdit(cell?.row?.original);
-								}}
-							>
-								<i
-									className="mdi mdi-pencil-outline"
-									id={`edit-${gameSubCategoryId}`}
-								/>
-								<UncontrolledTooltip
-									placement="top"
-									target={`edit-${gameSubCategoryId}`}
-								>
-									Edit
-								</UncontrolledTooltip>
-							</Link>
-						</li>
-
-						{/* <li>
-							<Link to="/" className="btn btn-sm btn-soft-danger">
-								<i className="mdi mdi-delete-outline" id="deletetooltip" />
-								<UncontrolledTooltip placement="top" target="deletetooltip">
-									Delete
-								</UncontrolledTooltip>
-							</Link>
-						</li> */}
-					</ul>
-				);
+							</li>
+						</ul>
+					);
+				},
 			},
-		},
-	];
+		],
+		[]
+	);
 
 	return (
 		<div className="page-content">

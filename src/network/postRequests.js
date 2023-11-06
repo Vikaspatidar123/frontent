@@ -83,6 +83,9 @@ const createEmailTemplate = (data) =>
 const isCasinoFeaturedService = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/casino/featured-games`, data);
 
+const addGamesToSubCategory = (data) =>
+	postRequest(`${VITE_APP_API_URL}/api/admin/casino/category-games`, data);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -106,6 +109,7 @@ export {
 	resetDepositLimitCall,
 	resetLossLimitCall,
 	isCasinoFeaturedService,
-  testEmailTemplateEndPoint,
+	testEmailTemplateEndPoint,
 	createEmailTemplate,
+	addGamesToSubCategory,
 };

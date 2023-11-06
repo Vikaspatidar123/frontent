@@ -32,6 +32,8 @@ import {
 	editCasinoGamesFailure,
 	updateCasinoIsFeaturedSuccess,
 	updateCasinoIsFeaturedFailure,
+	addGameToSubCategorySuccess,
+	addGameToSubCategoryFail,
 } from './actions';
 
 import {
@@ -50,6 +52,7 @@ import {
 	EDIT_CASINO_SUBCATEGORY_START,
 	EDIT_CASINO_GAMES_START,
 	UPDATE_GAME_ISFEATURED_START,
+	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
 } from './actionTypes';
 
 import {
@@ -65,6 +68,7 @@ import {
 	createCasinoProvider,
 	createCasinoSubCategory,
 	isCasinoFeaturedService,
+	addGamesToSubCategory,
 } from '../../network/postRequests';
 
 import {
@@ -391,6 +395,35 @@ function* updateGameFeatured(action) {
 		yield put(updateCasinoIsFeaturedFailure(error));
 	}
 }
+
+function* addGamesToSubCategoryWorker(action) {
+	try {
+		const { gameSubCategoryId, games, navigate } = action && action.payload;
+
+		yield addGamesToSubCategory({
+			gameSubCategoryId,
+			games,
+		});
+
+		showToastr({
+			message: 'Games Added To Sub Category',
+			type: 'success',
+		});
+		if (navigate) {
+			navigate('/sub-categories');
+		}
+
+		yield put(addGameToSubCategorySuccess());
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(addGameToSubCategoryFail());
+	}
+}
+
 export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_CATEGORY_DATA, getCasinoCategoryWorker);
 	yield takeLatest(GET_CASINO_SUB_CATEGORY_DATA, getCasinoSubCategoryWorker);
@@ -413,6 +446,10 @@ export function* casinoManagementWatcher() {
 	yield takeLatest(EDIT_CASINO_SUBCATEGORY_START, editCasinoSubCategoryWorker);
 	yield takeLatest(EDIT_CASINO_GAMES_START, editCasinoGamesWorker);
 	yield takeLatest(UPDATE_GAME_ISFEATURED_START, updateGameFeatured);
+	yield takeLatest(
+		ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
+		addGamesToSubCategoryWorker
+	);
 }
 
 function* CasinoManagementSaga() {

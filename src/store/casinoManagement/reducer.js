@@ -45,6 +45,9 @@ import {
 	UPDATE_GAME_ISFEATURED_START,
 	UPDATE_GAME_ISFEATURED_SUCCESS,
 	UPDATE_GAME_ISFEATURED_FAIL,
+	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
+	ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS,
+	ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -92,6 +95,9 @@ const INIT_STATE = {
 	isEditCasinoGamesLoading: false,
 	isFeaturedLoading: false,
 	featuredGameData: null,
+	isAddGameToCasinoSubCatSuccess: false,
+	isAddGameToCasinoSubCatError: null,
+	isAddGameToCasinoSubCatLoading: false,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -429,6 +435,29 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				casinoGames: newData,
 				featuredGameData: null,
 			};
+
+		case ADD_GAME_TO_CASINO_SUB_CATEGORY_START:
+			return {
+				...state,
+				isAddGameToCasinoSubCatLoading: true,
+			};
+
+		case ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS:
+			return {
+				...state,
+				isAddGameToCasinoSubCatLoading: false,
+				isAddGameToCasinoSubCatSuccess: true,
+				isAddGameToCasinoSubCatError: null,
+			};
+
+		case ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL:
+			return {
+				...state,
+				isAddGameToCasinoSubCatLoading: false,
+				isAddGameToCasinoSubCatSuccess: false,
+				isAddGameToCasinoSubCatError: payload,
+			};
+
 		default:
 			return state;
 	}
