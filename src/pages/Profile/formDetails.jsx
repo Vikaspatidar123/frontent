@@ -1,6 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as Yup from 'yup';
 
+const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
+
 const adminSiteConfigSchema = Yup.object().shape({
 	name: Yup.string()
 		.min(3, 'Name must be atleast 3 characters')
@@ -22,17 +24,15 @@ const adminSiteConfigSchema = Yup.object().shape({
 		.required('sendgridEmail Required'),
 	sendgridKey: Yup.string().required('sendgridKey Required'),
 	logo: Yup.mixed()
-		.test(
-			'File Size',
-			'File Size Should be Less Than 1MB',
-			(value) => !value || (value && value.size <= 1024 * 1024)
+		.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
+			typeof value === 'string'
+				? true
+				: !value || (value && value.size <= 1024 * 1024)
 		)
-		.test(
-			'FILE_FORMAT',
-			'Uploaded file has unsupported format.',
-			(value) =>
-				!value ||
-				(value && ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+		.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+			typeof value === 'string'
+				? true
+				: value && ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type)
 		),
 	lang: Yup.mixed().required('Language Required'),
 });
@@ -111,7 +111,7 @@ const getSiteConfigInitialValues = (details) => ({
 	supportEmail: details[1]?.value.supportEmail || '',
 	sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
 	sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
-	logo: null,
+	logo: `${VITE_APP_AWS_GALLERY_URL}/${details[1]?.value?.logo}` || null,
 	lang: null,
 	maintenance: !!details[1]?.value.maintenance,
 });
@@ -206,6 +206,7 @@ const leftStaticSiteConfigFormFields = (editableSiteConfig) => [
 		label: 'Site Logo',
 		isDisabled: editableSiteConfig,
 		placeholder: 'Enter Site Logo',
+		showThumbnail: true,
 	},
 ];
 
