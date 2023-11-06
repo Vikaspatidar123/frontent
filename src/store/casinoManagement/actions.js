@@ -44,6 +44,9 @@ import {
 	UPDATE_GAME_ISFEATURED_START,
 	UPDATE_GAME_ISFEATURED_SUCCESS,
 	UPDATE_GAME_ISFEATURED_FAIL,
+	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
+	ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS,
+	ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -267,5 +270,19 @@ export const updateCasinoIsFeaturedSuccess = (payload) => ({
 
 export const updateCasinoIsFeaturedFailure = (payload) => ({
 	type: UPDATE_GAME_ISFEATURED_FAIL,
+	payload,
+});
+
+export const addGameToSubCategoryStart = (payload) => ({
+	type: ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
+	payload,
+});
+export const addGameToSubCategorySuccess = (payload) => ({
+	type: ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const addGameToSubCategoryFail = (payload) => ({
+	type: ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
 	payload,
 });

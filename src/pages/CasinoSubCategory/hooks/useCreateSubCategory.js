@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import {
 	getInitialValues,
@@ -17,6 +18,7 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateSubCategory = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const [active, setActive] = useState(false);
 
@@ -168,6 +170,11 @@ const useCreateSubCategory = () => {
 		dispatch(getCasinoCategoryDetailStart({ limit: '', pageNo: '', name: '' }));
 	}, []);
 
+	const handleAddGameClick = (e, gameSubCategoryId) => {
+		e.preventDefault();
+		navigate(`addGames/${gameSubCategoryId}`);
+	};
+
 	const buttonList = useMemo(() => [
 		{
 			label: 'Create',
@@ -190,6 +197,7 @@ const useCreateSubCategory = () => {
 		handleStatus,
 		onClickEdit,
 		isEditSubCategoryLoading,
+		handleAddGameClick,
 	};
 };
 
