@@ -7,6 +7,7 @@ import {
 	getCasinoSubCategoryDetailStart,
 	updateCasinoIsFeaturedStart,
 	updateSACasinoGamesStatusStart,
+	deleteCasinoGamesStart,
 } from '../../../store/actions';
 
 const useCasinoGamesListings = (filterValues = {}) => {
@@ -16,6 +17,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		casinoProvidersData,
 		casinoSubCategoryDetails,
 		isEditCasinoGamesSuccess,
+		isDeleteCasinoGamesSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -78,8 +80,8 @@ const useCasinoGamesListings = (filterValues = {}) => {
 	}, [itemsPerPage, page, show]);
 
 	useEffect(() => {
-		if (isEditCasinoGamesSuccess) fetchData();
-	}, [isEditCasinoGamesSuccess]);
+		if (isEditCasinoGamesSuccess || isDeleteCasinoGamesSuccess) fetchData();
+	}, [isEditCasinoGamesSuccess, isDeleteCasinoGamesSuccess]);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
@@ -102,6 +104,18 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		);
 		setShow((prev) => !prev);
 	};
+
+	const handleDeleteItem = (casinoGameId) => {
+		dispatch(
+			deleteCasinoGamesStart({
+				casinoGameId,
+				limit: itemsPerPage,
+				pageNo: page,
+				search: '',
+			})
+		);
+	};
+
 	const toggleIsFeaturedGames = (event, cell) => {
 		event.preventDefault();
 		const data = {
@@ -111,6 +125,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		};
 		dispatch(updateCasinoIsFeaturedStart(data));
 	};
+
 	return {
 		formattedCasinoGames,
 		isCasinoGamesLoading,
@@ -121,6 +136,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		setPage,
 		handleStatus,
 		toggleIsFeaturedGames,
+		handleDeleteItem,
 	};
 };
 

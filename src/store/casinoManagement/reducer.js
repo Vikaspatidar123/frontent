@@ -48,6 +48,12 @@ import {
 	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
 	ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS,
 	ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
+	DELETE_CASINO_SUB_CATEGORY_START,
+	DELETE_CASINO_SUB_CATEGORY_SUCCESS,
+	DELETE_CASINO_SUB_CATEGORY_FAIL,
+	DELETE_CASINO_GAMES_START,
+	DELETE_CASINO_GAMES_SUCCESS,
+	DELETE_CASINO_GAMES_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -98,6 +104,12 @@ const INIT_STATE = {
 	isAddGameToCasinoSubCatSuccess: false,
 	isAddGameToCasinoSubCatError: null,
 	isAddGameToCasinoSubCatLoading: false,
+	isDeleteCasinoSubCategorySuccess: false,
+	isDeleteCasinoSubCategoryError: null,
+	isDeleteCasinoSubCategoryLoading: false,
+	isDeleteCasinoGamesSuccess: false,
+	isDeleteCasinoGamesError: null,
+	isDeleteCasinoGamesLoading: false,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -456,6 +468,54 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isAddGameToCasinoSubCatLoading: false,
 				isAddGameToCasinoSubCatSuccess: false,
 				isAddGameToCasinoSubCatError: payload,
+			};
+
+		case DELETE_CASINO_SUB_CATEGORY_START:
+			return {
+				...state,
+				isDeleteCasinoSubCategoryLoading: true,
+				isDeleteCasinoSubCategorySuccess: false,
+				isDeleteCasinoSubCategoryError: null,
+			};
+
+		case DELETE_CASINO_SUB_CATEGORY_SUCCESS:
+			return {
+				...state,
+				isDeleteCasinoSubCategoryLoading: false,
+				isDeleteCasinoSubCategorySuccess: true,
+				isDeleteCasinoSubCategoryError: null,
+			};
+
+		case DELETE_CASINO_SUB_CATEGORY_FAIL:
+			return {
+				...state,
+				isDeleteCasinoSubCategoryLoading: false,
+				isDeleteCasinoSubCategorySuccess: false,
+				isDeleteCasinoSubCategoryError: payload,
+			};
+
+		case DELETE_CASINO_GAMES_START:
+			return {
+				...state,
+				isDeleteCasinoGamesLoading: true,
+				isDeleteCasinoGamesSuccess: false,
+				isDeleteCasinoGamesError: null,
+			};
+
+		case DELETE_CASINO_GAMES_SUCCESS:
+			return {
+				...state,
+				isDeleteCasinoGamesLoading: false,
+				isDeleteCasinoGamesSuccess: true,
+				isDeleteCasinoGamesError: null,
+			};
+
+		case DELETE_CASINO_GAMES_FAIL:
+			return {
+				...state,
+				isDeleteCasinoGamesLoading: false,
+				isDeleteCasinoGamesSuccess: false,
+				isDeleteCasinoGamesError: payload,
 			};
 
 		default:

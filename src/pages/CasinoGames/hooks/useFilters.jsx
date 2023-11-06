@@ -23,9 +23,11 @@ const useFilters = () => {
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
-	const { casinoSubCategoryDetails, casinoProvidersData } = useSelector(
-		(state) => state.CasinoManagementData
-	);
+	const {
+		casinoSubCategoryDetails,
+		casinoProvidersData,
+		isDeleteCasinoGamesSuccess,
+	} = useSelector((state) => state.CasinoManagementData);
 	const fetchData = (values) => {
 		dispatch(
 			getCasinoGamesStart({
@@ -55,6 +57,12 @@ const useFilters = () => {
 	// const handleAdvance = () => {
 	// 	toggleAdvance();
 	// };
+
+	useEffect(() => {
+		if (isDeleteCasinoGamesSuccess) {
+			handleFilter(validation.values);
+		}
+	}, [isDeleteCasinoGamesSuccess]);
 
 	const handleClear = () => {
 		const initialValues = filterValues();

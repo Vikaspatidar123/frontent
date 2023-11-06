@@ -1,8 +1,14 @@
 /* eslint-disable */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, CardBody, Col, Row, UncontrolledTooltip } from 'reactstrap';
+import {
+	Card,
+	CardBody,
+	Col,
+	Row,
+	UncontrolledTooltip,
+	Button,
+} from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import {
@@ -15,7 +21,10 @@ import {
 import { projectName } from '../../constants/config';
 
 // import Breadcrumbs from '../../components/Common/Breadcrumb';
-import { getCasinoSubCategoryDetailStart } from '../../store/actions';
+import {
+	deleteCasinoSubCategoryStart,
+	getCasinoSubCategoryDetailStart,
+} from '../../store/actions';
 import CrudSection from '../../components/Common/CrudSection';
 import useCreateSubCategory from './hooks/useCreateSubCategory';
 import FormModal from '../../components/Common/FormModal';
@@ -31,6 +40,7 @@ const GetCasinoSubCategoryDetail = () => {
 		iscasinoSubCategoryDetailsLoading,
 		isCreateSubCategorySuccess,
 		isEditSubCategorySuccess,
+		isDeleteCasinoSubCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -59,6 +69,17 @@ const GetCasinoSubCategoryDetail = () => {
 		setItemsPerPage(value);
 	};
 
+	const onClickDelete = (gameSubCategoryId) => {
+		dispatch(
+			deleteCasinoSubCategoryStart({
+				gameSubCategoryId,
+				limit: itemsPerPage,
+				pageNo: page,
+				search: '',
+			})
+		);
+	};
+
 	const {
 		isOpen,
 		setIsOpen,
@@ -75,21 +96,17 @@ const GetCasinoSubCategoryDetail = () => {
 	} = useCreateSubCategory();
 
 	useEffect(() => {
-		if (isCreateSubCategorySuccess || isEditSubCategorySuccess) fetchData();
-	}, [isCreateSubCategorySuccess, isEditSubCategorySuccess]);
-
-	useEffect(() => {
-		fetchData();
-	}, [itemsPerPage, page, active]);
-
-	// const getGameName = (id) => {
-	// 	return (
-	// 		getCasinoSubCategoryDetails &&
-	// 		getCasinoSubCategoryDetails?.rows?.find(
-	// 			(obj) => obj.gameCategoryId === id
-	// 		)?.name?.EN
-	// 	);
-	// };
+		if (
+			isCreateSubCategorySuccess ||
+			isEditSubCategorySuccess ||
+			isDeleteCasinoSubCategorySuccess
+		)
+			fetchData();
+	}, [
+		isCreateSubCategorySuccess,
+		isEditSubCategorySuccess,
+		isDeleteCasinoSubCategorySuccess,
+	]);
 
 	const formattedgetCasinoSubCategoryDetails = useMemo(() => {
 		if (casinoSubCategoryDetails) {
@@ -102,6 +119,10 @@ const GetCasinoSubCategoryDetail = () => {
 		}
 		return [];
 	}, [casinoSubCategoryDetails]);
+
+	useEffect(() => {
+		fetchData();
+	}, [itemsPerPage, page, active, isFilterChanged]);
 
 	const columns = useMemo(
 		() => [
@@ -142,21 +163,13 @@ const GetCasinoSubCategoryDetail = () => {
 				Cell: ({ cell }) => {
 					const status = cell?.row?.original?.isActive;
 					const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
+					const isGlobal = cell?.row?.original?.isGlobal;
+					console.log('isGlobal: ', isGlobal);
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
-							{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-							<Link to="#'" className="btn btn-sm btn-soft-primary">
-								<i className="mdi mdi-eye-outline" id="viewtooltip" />
-							</Link>
-						</li>
-						<UncontrolledTooltip placement="top" target="viewtooltip">
-							View
-						</UncontrolledTooltip> */}
-
 							<li>
 								{status ? (
-									<Link
-										to="#"
+									<Button
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -175,10 +188,9 @@ const GetCasinoSubCategoryDetail = () => {
 										>
 											Set Inactive
 										</UncontrolledTooltip>
-									</Link>
+									</Button>
 								) : (
-									<Link
-										to="#"
+									<Button
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -197,13 +209,12 @@ const GetCasinoSubCategoryDetail = () => {
 										>
 											Set Active
 										</UncontrolledTooltip>
-									</Link>
+									</Button>
 								)}
 							</li>
 
 							<li>
-								<Link
-									to="#"
+								<Button
 									className="btn btn-sm btn-soft-info"
 									onClick={(e) => {
 										e.preventDefault();
@@ -220,12 +231,36 @@ const GetCasinoSubCategoryDetail = () => {
 									>
 										Edit
 									</UncontrolledTooltip>
-								</Link>
+								</Button>
 							</li>
 
 							<li>
-								<Link
-									to="#"
+								<Button
+									type="button"
+									disabled={isGlobal}
+									className="btn btn-sm btn-soft-danger"
+									onClick={(e) => {
+										e.preventDefault();
+										onClickDelete(gameSubCategoryId);
+									}}
+								>
+									<i
+										className="mdi mdi-delete-outline"
+										id={`delete-${gameSubCategoryId}`}
+									/>
+									<UncontrolledTooltip
+										placement="top"
+										target={`delete-${gameSubCategoryId}`}
+									>
+										Delete
+									</UncontrolledTooltip>
+								</Button>
+							</li>
+
+							<li>
+								<Button
+									type="button"
+									disabled={isGlobal}
 									className="btn btn-sm btn-soft-primary"
 									onClick={(e) => handleAddGameClick(e, gameSubCategoryId)}
 								>
@@ -239,7 +274,7 @@ const GetCasinoSubCategoryDetail = () => {
 									>
 										Add Game
 									</UncontrolledTooltip>
-								</Link>
+								</Button>
 							</li>
 						</ul>
 					);

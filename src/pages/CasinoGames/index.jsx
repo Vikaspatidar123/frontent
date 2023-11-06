@@ -49,6 +49,7 @@ const CasinoGames = () => {
 		handleStatus,
 		onChangeRowsPerPage,
 		toggleIsFeaturedGames,
+		handleDeleteItem,
 	} = useCasinoGamesListings(filterValidation.values);
 
 	const {
@@ -131,6 +132,7 @@ const CasinoGames = () => {
 					cell={cell}
 					handleStatus={handleStatus}
 					onClickEdit={onClickEdit}
+					handleDeleteItem={handleDeleteItem}
 				/>
 			),
 		},
