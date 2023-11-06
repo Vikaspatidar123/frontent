@@ -47,6 +47,12 @@ import {
 	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
 	ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS,
 	ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
+	DELETE_CASINO_SUB_CATEGORY_START,
+	DELETE_CASINO_SUB_CATEGORY_SUCCESS,
+	DELETE_CASINO_SUB_CATEGORY_FAIL,
+	DELETE_CASINO_GAMES_START,
+	DELETE_CASINO_GAMES_SUCCESS,
+	DELETE_CASINO_GAMES_FAIL,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -284,5 +290,35 @@ export const addGameToSubCategorySuccess = (payload) => ({
 
 export const addGameToSubCategoryFail = (payload) => ({
 	type: ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
+	payload,
+});
+
+export const deleteCasinoSubCategoryStart = (payload) => ({
+	type: DELETE_CASINO_SUB_CATEGORY_START,
+	payload,
+});
+
+export const deleteCasinoSubCategorySuccess = (payload) => ({
+	type: DELETE_CASINO_SUB_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const deleteCasinoSubCategoryFail = (payload) => ({
+	type: DELETE_CASINO_SUB_CATEGORY_FAIL,
+	payload,
+});
+
+export const deleteCasinoGamesStart = (payload) => ({
+	type: DELETE_CASINO_GAMES_START,
+	payload,
+});
+
+export const deleteCasinoGamesSuccess = (payload) => ({
+	type: DELETE_CASINO_GAMES_SUCCESS,
+	payload,
+});
+
+export const deleteCasinoGamesFail = (payload) => ({
+	type: DELETE_CASINO_GAMES_FAIL,
 	payload,
 });

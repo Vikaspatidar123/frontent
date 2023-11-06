@@ -72,7 +72,7 @@ const useCasinoAddGame = () => {
 	};
 
 	const handleSubmitClick = () => {
-		if (newGamesData) {
+		if (newGamesData.length) {
 			dispatch(
 				addGameToSubCategoryStart({
 					gameSubCategoryId: parseInt(gameSubCategoryId, 10),

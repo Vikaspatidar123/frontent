@@ -34,6 +34,10 @@ import {
 	updateCasinoIsFeaturedFailure,
 	addGameToSubCategorySuccess,
 	addGameToSubCategoryFail,
+	deleteCasinoSubCategorySuccess,
+	deleteCasinoSubCategoryFail,
+	deleteCasinoGamesSuccess,
+	deleteCasinoGamesFail,
 } from './actions';
 
 import {
@@ -53,6 +57,8 @@ import {
 	EDIT_CASINO_GAMES_START,
 	UPDATE_GAME_ISFEATURED_START,
 	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
+	DELETE_CASINO_SUB_CATEGORY_START,
+	DELETE_CASINO_GAMES_START,
 } from './actionTypes';
 
 import {
@@ -78,6 +84,11 @@ import {
 	editCasinoSubCategory,
 	superAdminViewToggleStatus,
 } from '../../network/putRequests';
+
+import {
+	deleteSubCategory,
+	deleteCasinoGames,
+} from '../../network/deleteRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 
@@ -424,6 +435,67 @@ function* addGamesToSubCategoryWorker(action) {
 	}
 }
 
+function* deleteCasinoSubCategoryWorker(action) {
+	try {
+		const { gameSubCategoryId, limit, pageNo, search } =
+			action && action.payload;
+
+		yield deleteSubCategory({
+			gameSubCategoryId,
+		});
+
+		showToastr({
+			message: 'Sub Category Deleted Successfully',
+			type: 'success',
+		});
+
+		yield put(deleteCasinoSubCategorySuccess());
+		yield getCasinoSubCategoryListing({
+			gameSubCategoryId,
+			limit,
+			pageNo,
+			search,
+		});
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(deleteCasinoSubCategoryFail());
+	}
+}
+
+function* deleteCasinoGamesWorker(action) {
+	try {
+		const { casinoGameId, limit, pageNo, search } = action && action.payload;
+
+		yield deleteCasinoGames({
+			casinoGameId,
+		});
+
+		showToastr({
+			message: 'Game Deleted Successfully',
+			type: 'success',
+		});
+
+		yield put(deleteCasinoGamesSuccess());
+		yield getAllCasinoGames({
+			casinoGameId,
+			limit,
+			pageNo,
+			search,
+		});
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(deleteCasinoGamesFail());
+	}
+}
+
 export function* casinoManagementWatcher() {
 	yield takeLatest(GET_CASINO_CATEGORY_DATA, getCasinoCategoryWorker);
 	yield takeLatest(GET_CASINO_SUB_CATEGORY_DATA, getCasinoSubCategoryWorker);
@@ -450,6 +522,11 @@ export function* casinoManagementWatcher() {
 		ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
 		addGamesToSubCategoryWorker
 	);
+	yield takeLatest(
+		DELETE_CASINO_SUB_CATEGORY_START,
+		deleteCasinoSubCategoryWorker
+	);
+	yield takeLatest(DELETE_CASINO_GAMES_START, deleteCasinoGamesWorker);
 }
 
 function* CasinoManagementSaga() {

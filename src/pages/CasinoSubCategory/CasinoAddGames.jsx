@@ -157,13 +157,16 @@ const CasinoAddGames = () => {
 								buttonList={buttonList}
 								title={`Add Games: ${gameSubCategoryId}`}
 							/>
+							<div className="mx-4 pt-2">
+								<h5>Games you add will appear here</h5>
+							</div>
 							<CardBody>
 								<TableContainer
 									columns={newGamesColumns}
 									data={newGamesData}
 									isPagination
 									customPageSize={newGameItemsPerPage}
-									tableClass="table-bordered align-middle nowrap mt-2"
+									tableClass="table-bordered align-middle nowrap"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									totalPageCount={newGamesData?.length}
