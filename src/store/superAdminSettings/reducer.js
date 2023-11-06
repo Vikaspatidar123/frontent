@@ -23,6 +23,9 @@ import {
 	UPDATE_LOYALTY_LEVEL,
 	UPDATE_LOYALTY_LEVEL_SUCCESS,
 	UPDATE_LOYALTY_LEVEL_FAIL,
+	DELETE_SA_BANNERS_START,
+	DELETE_SA_BANNERS_SUCCESS,
+	DELETE_SA_BANNERS_FAIL,
 } from './actionTypes';
 
 const initialState = {
@@ -50,6 +53,9 @@ const initialState = {
 	isUpdateLoyaltyLevelLoading: false,
 	isUpdateLoyaltyLevelSuccess: false,
 	isUpdateLoyaltyLevelError: null,
+	isDeleteSABannersSuccess: false,
+	isDeleteSABannersError: null,
+	isDeleteSABannersLoading: false,
 };
 
 const SASettings = (state = initialState, { type, payload } = {}) => {
@@ -224,6 +230,30 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				isUpdateLoyaltyLevelLoading: false,
 				isUpdateLoyaltyLevelError: payload,
 				isUpdateLoyaltyLevelSuccess: false,
+			};
+
+		case DELETE_SA_BANNERS_START:
+			return {
+				...state,
+				isDeleteSABannersLoading: true,
+				isDeleteSABannersSuccess: false,
+				isDeleteSABannersError: null,
+			};
+
+		case DELETE_SA_BANNERS_SUCCESS:
+			return {
+				...state,
+				isDeleteSABannersLoading: false,
+				isDeleteSABannersSuccess: true,
+				isDeleteSABannersError: null,
+			};
+
+		case DELETE_SA_BANNERS_FAIL:
+			return {
+				...state,
+				isDeleteSABannersLoading: false,
+				isDeleteSABannersSuccess: false,
+				isDeleteSABannersError: payload,
 			};
 
 		default:

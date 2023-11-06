@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -364,9 +365,12 @@ export const getField = (
 					isClearable
 					type="select"
 					onChange={(e) => {
-						validation.handleChange(e);
-						// eslint-disable-next-line no-unused-expressions
-						callBack ? callBack(e) : null;
+						if (multiple) {
+							callBack && callBack(e);
+						} else {
+							validation.handleChange(e);
+							callBack && callBack(e);
+						}
 					}}
 					onBlur={validation.handleBlur}
 					placeholder={placeholder}

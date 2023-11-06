@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSABanners } from '../../../store/actions';
+import { deleteSABannersStart, getSABanners } from '../../../store/actions';
 
 const useBannerManagement = () => {
 	const dispatch = useDispatch();
@@ -10,6 +10,7 @@ const useBannerManagement = () => {
 		SABannersloading,
 		isCreateSABannersSuccess,
 		isEditSABannersSuccess,
+		isDeleteSABannersSuccess,
 	} = useSelector((state) => state.SASettings);
 	const [selectedClient, setSelectedClient] = useState('');
 	const [selectedPortal, setSelectedPortal] = useState('');
@@ -42,9 +43,22 @@ const useBannerManagement = () => {
 		fetchData();
 	}, [selectedClient, selectedPortal]);
 
+	const onClickDelete = (bannerType) => {
+		dispatch(deleteSABannersStart({ bannerType }));
+	};
+
 	useEffect(() => {
-		if (isCreateSABannersSuccess || isEditSABannersSuccess) fetchData();
-	}, [isCreateSABannersSuccess, isEditSABannersSuccess]);
+		if (
+			isCreateSABannersSuccess ||
+			isEditSABannersSuccess ||
+			isDeleteSABannersSuccess
+		)
+			fetchData();
+	}, [
+		isCreateSABannersSuccess,
+		isEditSABannersSuccess,
+		isDeleteSABannersSuccess,
+	]);
 
 	return {
 		formattedSABanners,
@@ -53,6 +67,7 @@ const useBannerManagement = () => {
 		setSelectedPortal,
 		selectedClient,
 		setSelectedClient,
+		onClickDelete,
 	};
 };
 
