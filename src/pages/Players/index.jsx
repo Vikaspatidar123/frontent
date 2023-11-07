@@ -1,9 +1,9 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
-
-// import Breadcrumb from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import usePlayersListing from './hooks/usePlayersListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
@@ -12,6 +12,7 @@ import Filters from '../../components/Common/Filters';
 
 const PlayersList = () => {
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -37,7 +38,9 @@ const PlayersList = () => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				{/* <Breadcrumb title={t('Player')} breadcrumbItem={t('Players')} /> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Player" breadcrumbItem="Players" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

@@ -29,7 +29,7 @@ const OverView = ({ details, t }) => {
 						{overViewCol.map((item) => (
 							<div key={item.row} className="row">
 								<div className="col">
-									<p>
+									<p className="font-weight-bold">
 										{t(`${item.firstCol.label}`)} :{' '}
 										{item.firstCol.name !== 'role'
 											? details[item.firstCol.name]
@@ -37,7 +37,7 @@ const OverView = ({ details, t }) => {
 									</p>
 								</div>
 								<div className="col">
-									<p>
+									<p className="font-weight-bold">
 										{t(`${item.secondCol.label}`)} :{' '}
 										{details[item.secondCol.name]}
 									</p>

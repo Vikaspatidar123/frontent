@@ -11,6 +11,7 @@ import {
 	TOGGLE_LEFTMENU,
 	CHANGE_LAYOUT_MODE,
 	SET_TABLE_HEADER_THEME,
+	SET_BREADCRUMB,
 } from './actionTypes';
 
 export const changeLayout = (layout) => ({
@@ -71,4 +72,9 @@ export const toggleLeftmenu = (isopen) => ({
 export const setTableHeaderClass = (className) => ({
 	type: SET_TABLE_HEADER_THEME,
 	payload: className,
+});
+
+export const setBreadcrumb = (value) => ({
+	type: SET_BREADCRUMB,
+	payload: value,
 });

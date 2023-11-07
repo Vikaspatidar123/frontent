@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
 
@@ -37,11 +37,13 @@ const KYCLabels = () => {
 	// meta title
 	document.title = projectName;
 
-	const { formattedDocumentLabels, documentLabelsLoading } = useKYCLables();
+	const {
+		formattedDocumentLabels,
+		documentLabelsLoading,
+		expanded,
+		setExpanded,
+	} = useKYCLables();
 
-	const [expanded, setExpanded] = useState(
-		formattedDocumentLabels[0]?.[0]?.documentLabelId || ''
-	);
 	const handleChange = (panel) => () => {
 		if (expanded === panel) {
 			setExpanded('');

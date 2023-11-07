@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDocumentLabel } from '../../../store/actions';
 import languageCode from '../constants';
@@ -11,6 +11,7 @@ const useKYCLables = () => {
 		isEditKYCLabelsSuccess,
 	} = useSelector((state) => state.SASettings);
 	const dispatch = useDispatch();
+	const [expanded, setExpanded] = useState('');
 
 	const fetchData = () => {
 		dispatch(getDocumentLabel({ userId: '' }));
@@ -18,6 +19,7 @@ const useKYCLables = () => {
 
 	const formattedDocumentLabels = useMemo(() => {
 		if (documentLabels) {
+			setExpanded(documentLabels[0]?.documentLabelId);
 			return documentLabels.map((label) => {
 				const language = Object.keys(label.name);
 				return [
@@ -46,6 +48,8 @@ const useKYCLables = () => {
 		documentLabels,
 		formattedDocumentLabels,
 		documentLabelsLoading,
+		expanded,
+		setExpanded,
 	};
 };
 

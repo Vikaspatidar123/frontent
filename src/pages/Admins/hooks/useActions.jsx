@@ -182,7 +182,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 					placeholder: 'Select group',
 					optionList: groupOptions,
 				},
-				customField,
+				isEdit ? {} : customField,
 			]);
 
 			setLeftFormFields([
@@ -195,6 +195,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 					optionList: roleOptions,
 					isDisabled: isEdit,
 				},
+				isEdit ? customField : {},
 			]);
 		}
 	};

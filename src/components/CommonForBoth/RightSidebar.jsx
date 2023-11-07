@@ -21,6 +21,7 @@ import {
 	changeTopbarTheme,
 	showRightSidebarAction,
 	setTableHeaderClass,
+	setBreadcrumb,
 } from '../../store/actions';
 
 import './rightbar.scss';
@@ -323,6 +324,38 @@ const RightSidebar = (props) => (
 									/>
 									<label className="me-1" htmlFor="whiteHeader">
 										LIGHT
+									</label>
+								</div>
+
+								<hr className="mt-1" />
+
+								<div className="radio-toolbar">
+									<span className="mb-2 d-block" id="radio-title">
+										Breadcrumb{' '}
+									</span>
+									<input
+										type="radio"
+										id="showBreadcrumb"
+										value
+										checked={props.showBreadcrumb}
+										onChange={() => {
+											props.setBreadcrumb(true);
+										}}
+									/>
+									<label className="me-1" htmlFor="showBreadcrumb">
+										SHOW
+									</label>
+									<input
+										type="radio"
+										id="hideBreadcrumb"
+										value={false}
+										checked={!props.showBreadcrumb}
+										onChange={() => {
+											props.setBreadcrumb(false);
+										}}
+									/>
+									<label className="me-1" htmlFor="hideBreadcrumb">
+										HIDE
 									</label>
 								</div>
 
@@ -698,6 +731,8 @@ RightSidebar.propTypes = {
 	topbarTheme: PropTypes.objectOf.isRequired,
 	setTableHeaderClass: PropTypes.func.isRequired,
 	tableHeaderClass: PropTypes.string.isRequired,
+	setBreadcrumb: PropTypes.func.isRequired,
+	showBreadcrumb: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({ ...state.Layout });
@@ -713,4 +748,5 @@ export default connect(mapStateToProps, {
 	changePreloader,
 	showRightSidebarAction,
 	setTableHeaderClass,
+	setBreadcrumb,
 })(RightSidebar);

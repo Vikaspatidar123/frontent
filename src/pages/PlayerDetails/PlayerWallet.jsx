@@ -77,7 +77,7 @@ const PlayerWallet = ({ userDetails }) => {
 	return (
 		<Container fluid className="bg-white">
 			<Card className="p-2">
-				<h4 className="text-center">Player Wallet</h4>
+				<h4 className="text-center border-bottom p-3">Player Wallet</h4>
 				<TableContainer
 					columns={columns}
 					data={formattedUserDetails}

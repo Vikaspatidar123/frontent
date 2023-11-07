@@ -12,6 +12,7 @@ import {
 	SHOW_SIDEBAR,
 	CHANGE_LAYOUT_MODE,
 	SET_TABLE_HEADER_THEME,
+	SET_BREADCRUMB,
 } from './actionTypes';
 
 // constants
@@ -40,6 +41,7 @@ const INIT_STATE = {
 	showSidebar: true,
 	leftMenu: false,
 	tableHeaderClass: tableHeaderClass.GREY,
+	showBreadcrumb: true,
 };
 
 const Layout = (state = INIT_STATE, { type, payload } = {}) => {
@@ -103,6 +105,11 @@ const Layout = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				tableHeaderClass: payload,
+			};
+		case SET_BREADCRUMB:
+			return {
+				...state,
+				showBreadcrumb: payload,
 			};
 		default:
 			return state;
