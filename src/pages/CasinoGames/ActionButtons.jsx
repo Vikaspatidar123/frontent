@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { UncontrolledTooltip, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
@@ -15,8 +16,12 @@ const ActionButtons = ({
 	const isDisabled = !!cell?.row?.original?.parentId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-				<Button type="button" className="btn btn-sm btn-soft-primary">
+			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+				<Link
+					to={`/casino-games/restrict-countries/${casinoGameId}`}
+					state={{ type: 'games' }}
+					className="btn btn-sm btn-soft-primary"
+				>
 					<i
 						className="mdi mdi-eye-outline"
 						id={`viewtooltip-${casinoGameId}`}
@@ -27,8 +32,8 @@ const ActionButtons = ({
 					>
 						View
 					</UncontrolledTooltip>
-				</Button>
-			</li> */}
+				</Link>
+			</li>
 
 			<li>
 				{active ? (

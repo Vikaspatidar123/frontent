@@ -1,16 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchRestrictedCountriesStart } from '../../../store/actions';
 import { KeyValueCell } from '../RestrictedCountriesListCol';
 
 const useRestrictedCountriesListing = () => {
 	const dispatch = useDispatch();
+	const { state: casinoState } = useLocation();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const { casinoProviderId } = useParams();
+	const paramId = useParams();
+	const id =
+		casinoState?.type === 'providers'
+			? paramId?.casinoProviderId
+			: paramId?.casinoGameId;
 	const { restrictedCountries, restrictedCountriesLoading } = useSelector(
 		(state) => state.RestrictedCountries
 	);
@@ -18,13 +23,13 @@ const useRestrictedCountriesListing = () => {
 	useEffect(() => {
 		dispatch(
 			fetchRestrictedCountriesStart({
-				itemId: casinoProviderId,
+				itemId: id,
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				type: 'providers',
+				type: casinoState?.type,
 			})
 		);
-	}, [casinoProviderId, currentPage, itemsPerPage]);
+	}, [id, currentPage, itemsPerPage]);
 
 	const columns = useMemo(() => [
 		{
@@ -64,7 +69,7 @@ const useRestrictedCountriesListing = () => {
 	};
 
 	return {
-		casinoProviderId,
+		id,
 		setCurrentPage,
 		setItemsPerPage,
 		itemsPerPage,

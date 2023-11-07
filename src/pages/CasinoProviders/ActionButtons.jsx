@@ -12,6 +12,7 @@ const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
 				<Link
 					to={`/casino-providers/restrict-countries/${casinoProviderId}`}
+					state={{ type: 'providers' }}
 					className="btn btn-sm btn-soft-primary"
 				>
 					<i className="mdi mdi-eye-outline" id="viewtooltip" />
