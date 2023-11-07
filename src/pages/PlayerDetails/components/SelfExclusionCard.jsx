@@ -159,7 +159,9 @@ const SelfExclusionCard = ({ limit, userId }) => {
 						errorMsg={validation.touched?.days && validation.errors?.days}
 					/>
 					<div className="mt-3 text-center">
-						<Button type="submit">Set</Button>
+						<Button type="submit" className="btn btn-primary" color="primary">
+							Set
+						</Button>
 						{limit.days && (
 							<Button onClick={onResetLimit} className="mx-2">
 								Reset Limit

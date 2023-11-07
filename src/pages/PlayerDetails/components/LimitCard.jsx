@@ -125,7 +125,9 @@ const LimitCard = ({ limit, userId }) => {
 						errorMsg={validation.touched?.limit && validation.errors?.limit}
 					/>
 					<div className="mt-3 text-center">
-						<Button type="submit">Set</Button>
+						<Button type="submit" className="btn btn-primary" color="primary">
+							Set
+						</Button>
 						{limit.value && (
 							<Button onClick={onResetLimit} className="mx-2">
 								Reset Limit
