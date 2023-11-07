@@ -72,15 +72,6 @@ const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 					</UncontrolledTooltip>
 				</Link>
 			</li>
-
-			<li>
-				<Link to="/" className="btn btn-sm btn-soft-danger">
-					<i className="mdi mdi-delete-outline" id="deletetooltip" />
-					<UncontrolledTooltip placement="top" target="deletetooltip">
-						Delete
-					</UncontrolledTooltip>
-				</Link>
-			</li>
 		</ul>
 	);
 };

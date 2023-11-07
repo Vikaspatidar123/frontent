@@ -86,7 +86,7 @@ const CasinoAggregators = () => {
 							<CardBody>
 								<TableContainer
 									columns={columns || []}
-									data={aggregatorsData?.rows}
+									data={aggregatorsData?.rows || []}
 									isGlobalFilter
 									isPagination
 									customPageSize={itemsPerPage}
