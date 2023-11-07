@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	addRestrictedCountriesStart,
@@ -13,10 +13,15 @@ import ActionButtons from '../ActionButtons';
 const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { state: casinoState } = useLocation();
+	const paramId = useParams();
+	const id =
+		casinoState?.type === 'providers'
+			? paramId?.casinoProviderId
+			: paramId?.casinoGameId;
 	const [searchText, setSearchText] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const { casinoProviderId } = useParams();
 	const {
 		unrestrictedCountries,
 		unrestrictedCountriesLoading,
@@ -30,14 +35,14 @@ const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchUnrestrictedCountriesStart({
-				itemId: casinoProviderId,
+				itemId: id,
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				type: 'providers',
+				type: casinoState?.type,
 				...filterValues,
 			})
 		);
-	}, [casinoProviderId, currentPage, itemsPerPage]);
+	}, [id, currentPage, itemsPerPage]);
 
 	const onAddCountry = (cell) => {
 		setSelectedCountriesState((prev) => [...prev, cell]);
@@ -147,12 +152,12 @@ const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 		const countries = selectedCountriesState.map((g) => g.countryId);
 		dispatch(
 			addRestrictedCountriesStart({
-				type: 'providers',
+				type: casinoState?.type,
 				countryIds: countries,
-				itemId: parseInt(casinoProviderId, 10),
+				itemId: parseInt(id, 10),
 			})
 		);
-		navigate('/casino-providers');
+		navigate(`/casino-${casinoState?.type}`);
 	};
 
 	const onChangeSearch = (e) => {
@@ -160,7 +165,7 @@ const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 	};
 
 	return {
-		casinoProviderId,
+		id,
 		setCurrentPage,
 		setItemsPerPage,
 		itemsPerPage,

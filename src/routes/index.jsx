@@ -303,6 +303,10 @@ const authProtectedRoutes = [
 		path: '/casino-providers/restrict-countries/:casinoProviderId',
 		component: <ViewBlockedCountries />,
 	},
+	{
+		path: '/casino-games/restrict-countries/:casinoGameId',
+		component: <ViewBlockedCountries />,
+	},
 
 	// { path: "/dashboard-saas", component: <DashboardSaas /> },
 	// { path: "/dashboard-crypto", component: <DashboardCrypto /> },

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/react-in-jsx-scope */
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	addRestrictedCountriesStart,
@@ -12,10 +12,15 @@ import ActionButtons from '../ActionButtons';
 
 const useRemoveFromRestrictedCountriesListing = () => {
 	const dispatch = useDispatch();
+	const { state: casinoState } = useLocation();
 	const navigate = useNavigate();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const { casinoProviderId } = useParams();
+	const paramId = useParams();
+	const id =
+		casinoState?.type === 'providers'
+			? paramId?.casinoProviderId
+			: paramId?.casinoGameId;
 	const {
 		restrictedCountries,
 		restrictedCountriesLoading,
@@ -28,14 +33,14 @@ const useRemoveFromRestrictedCountriesListing = () => {
 		if (!restrictedCountries) {
 			dispatch(
 				fetchRestrictedCountriesStart({
-					itemId: casinoProviderId,
+					itemId: id,
 					limit: itemsPerPage,
 					pageNo: currentPage,
-					type: 'providers',
+					type: casinoState?.type,
 				})
 			);
 		}
-	}, [casinoProviderId, currentPage, itemsPerPage, restrictedCountries]);
+	}, [id, currentPage, itemsPerPage, restrictedCountries]);
 
 	const onAddCountry = (cell) => {
 		setSelectedCountriesState((prev) => [...prev, cell]);
@@ -145,17 +150,17 @@ const useRemoveFromRestrictedCountriesListing = () => {
 		const countries = selectedCountriesState.map((g) => g.countryId);
 		dispatch(
 			addRestrictedCountriesStart({
-				type: 'providers',
+				type: casinoState?.type,
 				countryIds: countries,
-				itemId: parseInt(casinoProviderId, 10),
+				itemId: parseInt(id, 10),
 				case: 'remove',
 			})
 		);
-		navigate('/casino-providers');
+		navigate(`/casino-${casinoState?.type}`);
 	};
 
 	return {
-		casinoProviderId,
+		id,
 		setCurrentPage,
 		setItemsPerPage,
 		itemsPerPage,

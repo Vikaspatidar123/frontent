@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { isEqual } from 'lodash';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -13,7 +13,12 @@ import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
 const useFilters = () => {
-	const { casinoProviderId } = useParams();
+	const { state } = useLocation();
+	const paramId = useParams();
+	const id =
+		state?.type === 'providers'
+			? paramId?.casinoProviderId
+			: paramId?.casinoGameId;
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
@@ -24,11 +29,11 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchUnrestrictedCountriesStart({
-				itemId: casinoProviderId,
+				itemId: id,
 				limit: itemsPerPage,
 				pageNo: 1,
 				...values,
-				type: 'providers',
+				type: state?.type,
 			})
 		);
 	};
