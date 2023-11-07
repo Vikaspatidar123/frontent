@@ -122,40 +122,38 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 
 	return (
 		<Card className="p-3 border">
-			<div>
-				<Form
-					onSubmit={(e) => {
-						e.preventDefault();
-						validation.handleSubmit();
-						return false;
-					}}
-				>
-					<h5 className="text-center">{limit.label}</h5>
-					<InputGroup>
-						<InputGroupText>{currencyCode}</InputGroupText>
-						<CustomInputField
-							name="limit"
-							placeholder="Enter Limit"
-							value={validation?.values?.limit}
-							onChange={validation.handleChange}
-							onBlur={validation.handleBlur}
-							invalid={
-								!!(validation.touched?.limit && validation.errors?.limit)
-							}
-							isError
-							errorMsg={validation.touched?.limit && validation.errors?.limit}
-						/>
-					</InputGroup>
-					<div className="mt-3 text-center">
-						<Button type="submit">Set</Button>
-						{limit.value && (
-							<Button onClick={onResetLimit} className="mx-2">
-								Reset Limit
-							</Button>
-						)}
-					</div>
-				</Form>
-			</div>
+			<Form
+				onSubmit={(e) => {
+					e.preventDefault();
+					validation.handleSubmit();
+					return false;
+				}}
+			>
+				<h5 className="text-center">{limit.label}</h5>
+				<InputGroup>
+					<InputGroupText>{currencyCode}</InputGroupText>
+					<CustomInputField
+						name="limit"
+						placeholder="Enter Limit"
+						value={validation?.values?.limit}
+						onChange={validation.handleChange}
+						onBlur={validation.handleBlur}
+						invalid={!!(validation.touched?.limit && validation.errors?.limit)}
+						isError
+						errorMsg={validation.touched?.limit && validation.errors?.limit}
+					/>
+				</InputGroup>
+				<div className="mt-3 text-center">
+					<Button type="submit" className="btn btn-primary" color="primary">
+						Set
+					</Button>
+					{limit.value && (
+						<Button onClick={onResetLimit} className="mx-2">
+							Reset Limit
+						</Button>
+					)}
+				</div>
+			</Form>
 			<Modal isOpen={isResetLimit.open} toggle={toggle}>
 				<ModalHeader toggle={toggle} tag="h4">
 					Are you sure you want to reset {limit?.label}?

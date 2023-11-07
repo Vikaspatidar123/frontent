@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty } from 'lodash';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import FormModal from '../../../components/Common/FormModal';
 import { getInitialValuesUpdateUser, userSchema } from '../formDetails';
@@ -116,8 +115,15 @@ const UpdateUserInfo = ({ show, header, toggle }) => {
 
 	const formattedCountries = useMemo(() => {
 		const arrayToReturn = [];
-		if (!isEmpty(countries)) {
+		if (countries?.length) {
 			countries?.map((country) =>
+				arrayToReturn.push({
+					optionLabel: country.name,
+					value: country.code,
+				})
+			);
+		} else if (countries?.rows?.length) {
+			countries.rows.map((country) =>
 				arrayToReturn.push({
 					optionLabel: country.name,
 					value: country.code,

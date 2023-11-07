@@ -9,8 +9,9 @@ export const setupInterceptors = () => {
 	axiosInstance.interceptors.response.use(
 		(res) => res,
 		(error) => {
-			if (error.response.status === 403) {
+			if (error.response.status === 200) {
 				removeLoginToken();
+				window.location.href = '/login';
 				// window.location.href = AdminsRoutes.SuperAdminSignin;
 			}
 

@@ -48,8 +48,8 @@ const Login = (props) => {
 		enableReinitialize: true,
 
 		initialValues: {
-			user: 'admingamma@yopmail.com',
-			password: 'admin',
+			user: '',
+			password: '',
 		},
 		validationSchema: Yup.object({
 			user: Yup.string().required('Please Enter Your Username or Email'),
@@ -174,21 +174,6 @@ const Login = (props) => {
 													</FormFeedback>
 												) : null}
 											</div>
-
-											<div className="form-check">
-												<input
-													type="checkbox"
-													className="form-check-input"
-													id="customControlInline"
-												/>
-												<label
-													htmlFor="customControlInline"
-													className="form-check-label"
-												>
-													Remember me
-												</label>
-											</div>
-
 											<div className="mt-3 d-grid">
 												<button
 													className="btn btn-primary btn-block"

@@ -31,10 +31,11 @@ const EmailTemplate = ({ t }) => {
 		emailTemplate,
 		isEmailTemplateLoading,
 		customComponent,
+		expanded,
+		setExpanded,
 	} = useEmailTemplate();
 	const keyList = Object.keys(emailTemplates);
 	const { buttonList } = useCreateEmailTemplate();
-	const [expanded, setExpanded] = useState(keyList[0] || '');
 
 	const handleChange = (panel) => () => {
 		if (expanded === panel) {

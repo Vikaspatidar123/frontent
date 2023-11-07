@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'reactstrap';
+import { isEmpty } from 'lodash';
 import {
 	getAllEmailTemplates,
 	getEmailTemplate,
@@ -25,6 +26,8 @@ const useEmailTemplate = () => {
 	const [clickId, setClickId] = useState();
 	const [customComponent, setCustomComponent] = useState();
 	const [language, setLanguage] = useState('EN');
+	const [expanded, setExpanded] = useState('');
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -51,14 +54,15 @@ const useEmailTemplate = () => {
 										English
 									</option>
 									{languageData?.count &&
-										languageData?.rows?.map(({ languageName, code }) => (
+										languageData?.rows?.map(
+											({ languageName, code }) =>
 												code !== 'EN' &&
 												emailTemplate?.templateCode?.[code] !== undefined && (
 													<option key={code} value={code}>
 														{languageName}
 													</option>
 												)
-											))}
+										)}
 								</>
 							}
 						/>
@@ -73,6 +77,13 @@ const useEmailTemplate = () => {
 			);
 		}
 	}, [emailTemplate, languageData, language]);
+
+	useEffect(() => {
+		if (!isEmpty(emailTemplates)) {
+			const keyList = Object.keys(emailTemplates || {});
+			setExpanded(keyList[0]);
+		}
+	}, [emailTemplates]);
 
 	useEffect(() => {
 		fetchData();
@@ -118,6 +129,8 @@ const useEmailTemplate = () => {
 		customComponent,
 		setCustomComponent,
 		handleDeleteClick,
+		expanded,
+		setExpanded,
 	};
 };
 
