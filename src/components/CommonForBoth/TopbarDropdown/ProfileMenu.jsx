@@ -6,6 +6,7 @@ import {
 	DropdownMenu,
 	DropdownItem,
 	Badge,
+	Button,
 } from 'reactstrap';
 
 // i18n
@@ -13,15 +14,23 @@ import { withTranslation } from 'react-i18next';
 
 // Redux
 import { connect, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import withRouter from '../../Common/withRouter';
+import { removeLoginToken } from '../../../network/storageUtils';
 
 const ProfileMenu = ({ t }) => {
 	// Declare a new state variable, which we'll call "menu"
+	const navigate = useNavigate();
 	const [menu, setMenu] = useState(false);
 
 	const { superAdminUser } = useSelector((state) => state.PermissionDetails);
 	const name = superAdminUser.firstName || superAdminUser.adminUsername || 'A';
+
+	const logoutAdmin = () => {
+		removeLoginToken();
+		navigate('/login');
+	};
+
 	return (
 		<Dropdown
 			isOpen={menu}
@@ -64,10 +73,10 @@ const ProfileMenu = ({ t }) => {
             {t("Lock screen")}
           </DropdownItem> */}
 				<div className="dropdown-divider" />
-				<Link to="/logout" className="dropdown-item">
+				<Button className="dropdown-item" onClick={logoutAdmin}>
 					<i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
 					<span>{t('Logout')}</span>
-				</Link>
+				</Button>
 			</DropdownMenu>
 		</Dropdown>
 	);
