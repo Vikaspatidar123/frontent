@@ -233,8 +233,8 @@ const Login = (props) => {
 									</Link>{' '}
 								</p>
 								<p>
-									© {new Date().getFullYear()} Skote. Crafted with{' '}
-									<i className="mdi mdi-heart text-danger" /> by Themesbrand
+									© {new Date().getFullYear()} {projectName}{' '}
+									<i className="mdi mdi-heart text-danger" /> by Gammastack
 								</p>
 							</div>
 						</Col>
