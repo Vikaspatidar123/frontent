@@ -15,6 +15,7 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateKYCLabels = () => {
 	const dispatch = useDispatch();
+	const [langState, setLangState] = useState({ EN: '' });
 	const [isEditPage, setIsEditPage] = useState({
 		open: false,
 		selectedRow: '',
@@ -57,7 +58,7 @@ const useCreateKYCLabels = () => {
 	} = useForm({
 		header: 'Add KYC Labels',
 		initialValues: getInitialValues({ name: { EN: '' } }),
-		validationSchema: validationSchema(),
+		validationSchema: validationSchema(langState),
 		staticFormFields,
 		onSubmitEntry: isEditPage.open
 			? handleEditKYCLabels
@@ -94,6 +95,7 @@ const useCreateKYCLabels = () => {
 			...prev,
 			name: { ...prev.name, [e.target.value]: '' },
 		}));
+		setLangState((prev) => ({ ...prev, [e.target.value]: '' }));
 	};
 
 	const onRemoveLanguage = (e) => {
@@ -101,6 +103,10 @@ const useCreateKYCLabels = () => {
 			const { name } = prev;
 			const { [e]: key, ...rest } = name;
 			return { ...prev, name: rest };
+		});
+		setLangState((prev) => {
+			const { [e]: key, ...rest } = prev;
+			return rest;
 		});
 	};
 

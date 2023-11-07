@@ -14,6 +14,7 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 
 const useCreateCategory = () => {
 	const dispatch = useDispatch();
+	const [langState, setLangState] = useState({ EN: '' });
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const {
 		casinoCategoryDetails,
@@ -50,7 +51,7 @@ const useCreateCategory = () => {
 	} = useForm({
 		header: 'Add Category',
 		initialValues: getInitialValues({ name: { EN: '' } }),
-		validationSchema,
+		validationSchema: validationSchema(langState),
 		staticFormFields,
 		onSubmitEntry: isEdit.open ? handleEditCategory : handleCreateCategory,
 	});
@@ -83,6 +84,7 @@ const useCreateCategory = () => {
 			...prev,
 			name: { ...prev.name, [e.target.value]: '' },
 		}));
+		setLangState((prev) => ({ ...prev, [e.target.value]: '' }));
 	};
 
 	const onRemoveLanguage = (e) => {
@@ -90,6 +92,10 @@ const useCreateCategory = () => {
 			const { name } = prev;
 			const { [e]: key, ...rest } = name;
 			return { ...prev, name: rest };
+		});
+		setLangState((prev) => {
+			const { [e]: key, ...rest } = prev;
+			return rest;
 		});
 	};
 

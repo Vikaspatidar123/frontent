@@ -575,14 +575,15 @@ export const getField = (
 									}
 								/>
 							</InputGroup>
-							<Button
-								className="btn-danger"
-								style={{ Height: '35px', lineHeight: '14px' }}
-								disabled={item === 'EN'}
-								onClick={() => onDelete(item)}
-							>
-								<i className="mdi mdi-trash-can-outline" />
-							</Button>
+							<div>
+								<Button
+									className="btn-danger"
+									disabled={item === 'EN'}
+									onClick={() => onDelete(item)}
+								>
+									<i className="mdi mdi-trash-can-outline" />
+								</Button>
+							</div>
 						</Col>
 						{/* {validation?.touched?.name?.[item] && validation?.errors?.name?.[item] && <FormFeedback type="invalid">ERROR</FormFeedback>} */}
 					</Col>
