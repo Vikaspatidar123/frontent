@@ -6,7 +6,7 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 // import Breadcrumb from '../../components/Common/Breadcrumb';
 import useLanguageManagementListing from './hooks/useLanguageManagementListing';
-import { Action, English, Keys } from './LanguageManagementCol';
+import { English, Keys } from './LanguageManagementCol';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 
@@ -30,12 +30,12 @@ const LanguageManagementList = () => {
 				filterable: true,
 				Cell: (cellProps) => <English {...cellProps} />,
 			},
-			{
-				Header: 'Action',
-				// accessor: 'username',
-				filterable: true,
-				Cell: (cellProps) => <Action {...cellProps} />,
-			},
+			// {
+			// 	Header: 'Action',
+			// 	// accessor: 'username',
+			// 	filterable: true,
+			// 	Cell: (cellProps) => <Action {...cellProps} />,
+			// },
 		],
 		[]
 	);

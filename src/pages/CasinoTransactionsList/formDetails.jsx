@@ -3,10 +3,10 @@ import { transactionType } from './constants';
 
 const staticFiltersFields = () => [
 	{
-		name: 'status',
+		name: 'transactionType',
 		fieldType: 'select',
 		label: '',
-		placeholder: 'Status',
+		placeholder: 'Transaction Type',
 		optionList: transactionType.map(({ value, label }) => ({
 			id: value,
 			value,
@@ -30,7 +30,7 @@ const staticFiltersFields = () => [
 
 const filterValues = () => ({
 	email: '',
-	status: null,
+	// status: null,
 	startDate: null,
 	endDate: null,
 	currencyCode: null,
@@ -40,7 +40,7 @@ const filterValues = () => ({
 const filterValidationSchema = () =>
 	Yup.object({
 		email: Yup.string().nullable(),
-		status: Yup.string().nullable(),
+		// status: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
 		currencyCode: Yup.string().nullable(),

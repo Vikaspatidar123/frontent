@@ -51,20 +51,22 @@ const useCreateBetSettings = () => {
 		initialValues: getInitialValues(),
 		validationSchema,
 		staticFormFields,
-		onSubmitEntry: isEdit ? handleEditBetSettings : handleCreateBetSettings,
+		onSubmitEntry: isEdit?.open
+			? handleEditBetSettings
+			: handleCreateBetSettings,
 	});
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
 		validation.resetForm(getInitialValues());
-		setHeader('Edit Bet Settings');
+		setHeader('Create Bet Settings');
 		setIsEdit({ open: false, selectedRow: '' });
 	};
 
 	const onClickEdit = (selectedRow) => {
 		setIsEdit({ open: true, selectedRow });
-		setHeader('Add Bet Settings');
+		setHeader('Edit Bet Settings');
 		validation.setValues(getInitialValues(selectedRow));
 		setIsOpen((prev) => !prev);
 	};
