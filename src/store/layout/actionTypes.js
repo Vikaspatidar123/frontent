@@ -23,3 +23,6 @@ export const CHANGE_LAYOUT_MODE = 'CHANGE_LAYOUT_MODE';
 
 // Header color
 export const SET_TABLE_HEADER_THEME = 'SET_TABLE_HEADER_THEME';
+
+// Set show breadcrumb
+export const SET_BREADCRUMB = 'SET_BREADCRUMB';
