@@ -33,8 +33,8 @@ const SiteConfig = ({
 	const handleSubmit = (values) => {
 		const label = {};
 		if (values?.lang) {
-			languageOptions.forEach((language) => {
-				if (values?.lang.includes(language.label)) {
+			languageOptions?.forEach((language) => {
+				if (values?.lang.some((item) => item.label === language.label)) {
 					label[language.value] = language.label;
 				}
 			});
