@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -28,6 +29,10 @@ const useFormFields = () => {
 		dispatch(getRegistrationFields());
 	}, []);
 
+	const callback = (e, name) => {
+		validation.setFieldValue(name, !e.target.checked ? 2 : 0);
+	};
+
 	const {
 		leftFormFields,
 		rightFormFields,
@@ -37,8 +42,8 @@ const useFormFields = () => {
 	} = useForm({
 		initialValues: getInitialValues(formFields),
 		onSubmitEntry: handleFormSubmit,
-		leftStaticFormFields: leftStaticFormFields(formFields),
-		rightStaticFormFields: rightStaticFormFields(formFields),
+		leftStaticFormFields: leftStaticFormFields(formFields, callback),
+		rightStaticFormFields: rightStaticFormFields(formFields, callback),
 	});
 
 	useEffect(() => {
@@ -46,8 +51,8 @@ const useFormFields = () => {
 			validation.resetForm({
 				values: getInitialValues(formFields),
 			});
-			setLeftFormFields(leftStaticFormFields(formFields));
-			setRightFormFields(rightStaticFormFields(formFields));
+			setLeftFormFields(leftStaticFormFields(formFields, callback));
+			setRightFormFields(rightStaticFormFields(formFields, callback));
 		}
 	}, [formFields]);
 

@@ -429,8 +429,8 @@ export const getField = (
 					inputClassName="form-check-input"
 					value={!!validation.values[name]}
 					onClick={(e) => {
-						// validation.setFieldValue(name, !e.target.checked ? 2 : 0);
 						validation.setFieldValue(name, !e.target.checked);
+						callBack && callBack(e);
 					}}
 					onBlur={validation.handleBlur}
 					disabled={!!isDisabled}

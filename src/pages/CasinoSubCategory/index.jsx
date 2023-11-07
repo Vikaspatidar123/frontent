@@ -164,7 +164,6 @@ const GetCasinoSubCategoryDetail = () => {
 					const status = cell?.row?.original?.isActive;
 					const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
 					const isGlobal = cell?.row?.original?.isGlobal;
-					console.log('isGlobal: ', isGlobal);
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li>
