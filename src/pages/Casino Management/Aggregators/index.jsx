@@ -83,26 +83,24 @@ const CasinoAggregators = () => {
 					<Col lg="12">
 						<Card>
 							<CrudSection buttonList={buttonList} title="Casino Aggregators" />
-							{!loading && (
-								<CardBody>
-									<TableContainer
-										columns={columns || []}
-										data={aggregatorsData?.rows}
-										isGlobalFilter
-										isPagination
-										customPageSize={itemsPerPage}
-										tableClass="table-bordered align-middle nowrap mt-2"
-										paginationDiv="justify-content-center"
-										pagination="pagination justify-content-start pagination-rounded"
-										totalPageCount={aggregatorsData?.count}
-										isManualPagination
-										onChangePagination={setCurrentPage}
-										currentPage={currentPage}
-										isLoading={loading}
-										changeRowsPerPageCallback={onChangeRowsPerPage}
-									/>
-								</CardBody>
-							)}
+							<CardBody>
+								<TableContainer
+									columns={columns || []}
+									data={aggregatorsData?.rows}
+									isGlobalFilter
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={aggregatorsData?.count}
+									isManualPagination
+									onChangePagination={setCurrentPage}
+									currentPage={currentPage}
+									isLoading={loading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
+								/>
+							</CardBody>
 						</Card>
 					</Col>
 				</Row>
