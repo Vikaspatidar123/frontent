@@ -26,7 +26,7 @@ import { loginUser } from '../../../store/actions';
 // import images
 import { projectName } from '../../../constants/config';
 import Banner from './Banner';
-import logodark from '../../../assets/images/b2c-gs.png';
+// import logodark from '../../../assets/images/b2c-gs.png';
 
 const Login = (props) => {
 	const [passwordShow, setPasswordShow] = useState(false);
@@ -57,7 +57,8 @@ const Login = (props) => {
 
 	const { error, loading } = useSelector((state) => state.Login);
 
-	// const signIn = (type) => {
+	// const signIn = (type) => {import logodark from '../../../assets/images/b2c-gs.png';
+
 	// 	dispatch(socialLogin(type, navigate));
 	// };
 
@@ -72,11 +73,11 @@ const Login = (props) => {
 				<Row className="g-0">
 					<Banner />
 
-					<Col xl={3}>
+					<Col xl={4}>
 						<div className="auth-full-page-content p-md-5 p-4">
 							<div className="w-100">
 								<div className="d-flex flex-column h-100">
-									<div className="mb-4 mb-md-5">
+									{/* <div className="mb-4 mb-md-5">
 										<img
 											src={logodark}
 											alt=""
@@ -89,10 +90,10 @@ const Login = (props) => {
 											height="30"
 											className="logo-light-element"
 										/>
-									</div>
+									</div> */}
 									<div className="my-auto">
 										<div>
-											<h5 className="text-primary">Welcome Back !</h5>
+											<h2 className="text-primary">Welcome Back !</h2>
 											<p className="text-muted">
 												Sign in to continue to {projectName}.
 											</p>

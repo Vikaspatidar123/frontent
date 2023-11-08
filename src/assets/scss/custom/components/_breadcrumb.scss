@@ -1,18 +1,26 @@
-
-// 
+//
 // breadcrumb.scss
 //
 
-
 // Breadcrumb item arrow
 .breadcrumb-item {
-    > a {
-        color: var(--#{$prefix}emphasis-color);
-    }
-    +.breadcrumb-item {
-        &::before {
-            font-family: "Material Design Icons";
-        }
-    }
+	> a {
+		color: var(--#{$prefix}emphasis-color);
+	}
+	+ .breadcrumb-item {
+		&::before {
+			font-family: 'Material Design Icons';
+		}
+	}
 }
-  
+
+.leaf-position {
+	right: -7.6rem;
+	left: 0;
+	img {
+		width: 10%;
+	}
+	@media screen and (max-width: 991px) {
+		display: none;
+	}
+}
