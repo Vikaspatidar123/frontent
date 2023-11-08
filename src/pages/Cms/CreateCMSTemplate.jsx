@@ -1,6 +1,17 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, UncontrolledTooltip } from 'reactstrap';
+import {
+	Row,
+	Col,
+	Card,
+	UncontrolledTooltip,
+	Label,
+	ButtonDropdown,
+	DropdownToggle,
+	DropdownMenu,
+	DropdownItem,
+	Button,
+} from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import TabsPage from '../../components/Common/TabsPage';
@@ -30,6 +41,8 @@ const CreateCMSTemplate = ({
 	setIsView,
 	showGallery,
 	setShowGallery,
+	selectedTab,
+	setSelectedTab,
 }) => {
 	const { imageGallery } = useSelector((state) => state.EmailTemplate);
 	const [imageComponent, setImageComponent] = useState();
@@ -37,8 +50,22 @@ const CreateCMSTemplate = ({
 	const [template, setTemplate] = useState('');
 	const [label, setLabel] = useState('');
 	const [requiredKeyData, setRequiredKeyData] = useState({});
-	const [data] = useState(validation?.values?.content);
+	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
+	const [data, setData] = useState(cmsByPageId?.content?.[selectedTab] || '');
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (activeTab) {
+			const tab = tabData?.find((item) => item.id === activeTab);
+			setSelectedTab(tab?.title);
+		}
+	}, [activeTab]);
+
+	useEffect(() => {
+		if (cmsByPageId?.content?.[selectedTab]) {
+			setData(cmsByPageId?.content?.[selectedTab]);
+		}
+	}, [cmsByPageId?.content?.[selectedTab]]);
 
 	useEffect(() => {
 		if (cmsKeys?.dynamicKeys && Object.keys(cmsKeys?.dynamicKeys)?.length) {
@@ -129,11 +156,53 @@ const CreateCMSTemplate = ({
 		}
 	}, [imageGallery]);
 
+	const toggleDropdown = (tabId) => {
+		setDrpPrimaryStates((prevState) => ({
+			...prevState,
+			[tabId]: !prevState[tabId],
+		}));
+	};
+
 	const tabData = languageData?.rows?.map((item) => ({
 		id: item.languageId,
 		title: item.code,
 		component: (
 			<Row>
+				<Col className="text-end">
+					<div className="btn-group">
+						<ButtonDropdown
+							isOpen={drpPrimaryStates[item.languageId] || false}
+							toggle={() => toggleDropdown(item.languageId)}
+						>
+							<Button id="caret" type="button" color="primary" hidden={isView}>
+								Dynamic Keys
+							</Button>
+							<DropdownToggle caret color="primary" hidden={isView}>
+								<i className="mdi mdi-chevron-down" />
+							</DropdownToggle>
+							<DropdownMenu>
+								{cmsKeys?.dynamicKeys?.map?.((item, index) => (
+									<DropdownItem
+										key={index}
+										onClick={() => {
+											requiredKeyData
+												? setRequiredKeyData({
+														...requiredKeyData,
+														[item]: cmsKeys?.keyDescription[item],
+												  })
+												: setRequiredKeyData({
+														[item]: cmsKeys?.keyDescription[item],
+												  });
+										}}
+									>
+										{`${item} `}
+										{item.required ? '(Required)' : '(Optional)'}
+									</DropdownItem>
+								))}
+							</DropdownMenu>
+						</ButtonDropdown>
+					</div>
+				</Col>
 				<div className="mb-3">
 					<CustomInputField
 						label="Title"
@@ -147,14 +216,18 @@ const CreateCMSTemplate = ({
 						onBlur={validation.handleBlur}
 						placeholder="Title"
 						validate={{ required: { value: true } }}
-						invalid={!!(validation.touched.title && validation.errors.title)}
+						invalid={
+							!!(validation?.touched?.title && validation?.errors?.title)
+						}
 						isError
-						errorMsg={validation.touched.title && validation.errors.title}
+						errorMsg={validation?.touched?.title && validation?.errors?.title}
 						disabled={isView}
 					/>
 				</div>
 				<Col sm="12">
 					{' '}
+					<Label className="form-label">Content</Label>
+					<span className="text-danger"> *</span>
 					<CodeEditor
 						cmsByPageId={cmsByPageId}
 						dynamicData={safeStringify(requiredKeyData, null, 2)}
@@ -227,6 +300,22 @@ const CreateCMSTemplate = ({
 			/>
 		</>
 	);
+};
+
+CreateCMSTemplate.propTypes = {
+	languageData: PropTypes.object,
+	validation: PropTypes.object,
+	cmsKeys: PropTypes.object,
+	title: PropTypes.object,
+	setTitle: PropTypes.func,
+	content: PropTypes.object,
+	setContent: PropTypes.func,
+	cmsByPageId: PropTypes.object,
+	isEdit: PropTypes.bool,
+	isView: PropTypes.bool,
+	setIsView: PropTypes.func,
+	showGallery: PropTypes.bool,
+	setShowGallery: PropTypes.func,
 };
 
 export default CreateCMSTemplate;

@@ -1,17 +1,15 @@
 import React from 'react';
 import { Card, Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import CrudSection from '../../components/Common/CrudSection';
 import { projectName } from '../../constants/config';
-import CmsFormPage from './CMSFormPage';
 import useCmsDetail from './hooks/useCmsDetails';
+import FormPage from '../../components/Common/FormPage';
 
 const CMSDetails = () => {
 	// Set meta title
 	document.title = projectName;
 
-	const { header, validation, formFields, galleryList, customComponent } =
-		useCmsDetail();
+	const { header, validation, formFields, customComponent } = useCmsDetail();
 
 	return (
 		<div className="page-content">
@@ -29,11 +27,10 @@ const CMSDetails = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={galleryList} title="CMS" />
-							<CmsFormPage
+							<FormPage
 								formTitle={header}
 								validation={validation}
-								staticFormFields={formFields}
+								responsiveFormFields={formFields}
 								customComponent={customComponent}
 								submitLabel="Submit"
 								customColClasses=""

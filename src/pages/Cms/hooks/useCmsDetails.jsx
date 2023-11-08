@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable radix */
-import React, { useMemo, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -10,7 +10,6 @@ import {
 	getLanguagesStart,
 	getCmsDynamicKeys,
 	getCmsByPageId,
-	updateSaCms,
 } from '../../../store/actions';
 
 import {
@@ -22,10 +21,10 @@ import {
 import CreateCMSTemplate from '../CreateCMSTemplate';
 
 const useCmsDetail = () => {
-	const navigate = useNavigate();
 	const { cmsPageId } = useParams();
 	const dispatch = useDispatch();
 	const [customComponent, setCustomComponent] = useState();
+	const [selectedTab, setSelectedTab] = useState('EN');
 	const [isView, setIsView] = useState(true);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
@@ -66,23 +65,16 @@ const useCmsDetail = () => {
 				setContent={(v) => setContent(v)}
 				isView={isView}
 				setIsView={(v) => setIsView(v)}
+				selectedTab={selectedTab}
+				setSelectedTab={(v) => setSelectedTab(v)}
 			/>
 		);
-	}, [languageData, title, content]);
-
-	const galleryList = useMemo(() => [
-		{
-			label: 'Image Gallery',
-			handleClick: '',
-			link: '#!',
-		},
-	]);
+	}, [languageData, title, content, selectedTab]);
 
 	return {
 		header,
 		validation,
 		setHeader,
-		galleryList,
 		formFields,
 		setFormFields,
 		languageData,

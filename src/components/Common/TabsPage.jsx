@@ -19,7 +19,7 @@ const TabsPage = ({ activeTab, tabsData, toggle }) => (
 			<Col>
 				<Card>
 					<CardBody>
-						<Nav pills className="navtab-bg nav-justified tab-max-width">
+						<Nav pills className="navtab-bg tab-max-width">
 							{tabsData?.map((tab) => (
 								<NavItem key={tab.id}>
 									<NavLink
