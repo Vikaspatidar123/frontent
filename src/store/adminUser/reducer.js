@@ -44,13 +44,15 @@ const adminUser = (state = INIT_STATE, { type, payload } = {}) => {
 		case UPDATE_SUPER_ADMIN_STATUS_START:
 			return {
 				...state,
-				superAdminStatusLoading: false,
+				superAdminStatusLoading: true,
+				superAdminStatusError: null,
+				superAdminStatus: false,
 			};
 
 		case UPDATE_SUPER_ADMIN_STATUS_SUCCESS:
 			return {
 				...state,
-				superAdminStatusLoading: true,
+				superAdminStatusLoading: false,
 				superAdminStatus: true,
 				superAdminStatusError: null,
 			};
