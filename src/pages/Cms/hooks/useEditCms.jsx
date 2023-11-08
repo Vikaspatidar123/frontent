@@ -20,6 +20,7 @@ import {
 } from '../formDetails';
 
 import CreateCMSTemplate from '../CreateCMSTemplate';
+import { showToastr } from '../../../utils/helpers';
 
 const useEditCms = () => {
 	const navigate = useNavigate();
@@ -30,16 +31,24 @@ const useEditCms = () => {
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { cmsDynamicKeys, cmsByPageId } = useSelector((state) => state.AllCms);
+	const [selectedTab, setSelectedTab] = useState('EN');
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
 
 	const formSubmitHandler = (values) => {
-		dispatch(
-			updateSaCms({
-				cmsData: { ...values, cmsPageId: parseInt(cmsPageId) },
-				navigate,
-			})
-		);
+		if (values?.content) {
+			dispatch(
+				updateSaCms({
+					cmsData: { ...values, cmsPageId: parseInt(cmsPageId) },
+					navigate,
+				})
+			);
+		} else {
+			showToastr({
+				message: 'Content Required',
+				type: 'error',
+			});
+		}
 	};
 
 	const onChangeRowsPerPage = (value) => {
@@ -77,6 +86,8 @@ const useEditCms = () => {
 				showGallery={showGallery}
 				setShowGallery={setShowGallery}
 				isEdit
+				selectedTab={selectedTab}
+				setSelectedTab={setSelectedTab}
 			/>
 		);
 	}, [languageData, title, content, showGallery]);

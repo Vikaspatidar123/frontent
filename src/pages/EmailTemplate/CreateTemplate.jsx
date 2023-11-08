@@ -51,7 +51,6 @@ const CreateTemplate = ({
 	isView = false,
 }) => {
 	const { imageGallery } = useSelector((state) => state.EmailTemplate);
-	console.log('imageGallery: ', imageGallery);
 	const [imageComponent, setImageComponent] = useState();
 	const [testEmail, setTestEmail] = useState('');
 	const [isTestTemplateModalVisible, setIsTestTemplateModalVisible] =

@@ -19,6 +19,8 @@ import {
 } from '../formDetails';
 import CreateCMSTemplate from '../CreateCMSTemplate';
 
+import { showToastr } from '../../../utils/helpers';
+
 const useCreateCms = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -27,20 +29,30 @@ const useCreateCms = () => {
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { cmsDynamicKeys } = useSelector((state) => state.AllCms);
+	const [selectedTab, setSelectedTab] = useState('EN');
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
 
 	const formSubmitHandler = (values) => {
-		for (const lang in title) {
-			if (
-				[undefined, ''].includes(content?.[lang]) &&
-				[undefined, ''].includes(title?.[lang])
-			) {
-				delete title[lang];
-				delete content[lang];
+		if (title[selectedTab] === '' || content[selectedTab] === '') {
+			showToastr({
+				message: 'Please fill all the required fields',
+				type: 'error',
+			});
+		} else {
+			for (const lang in title) {
+				if (
+					[undefined, ''].includes(content?.[lang]) &&
+					[undefined, ''].includes(title?.[lang])
+				) {
+					delete title[lang];
+					delete content[lang];
+				}
 			}
+			dispatch(
+				createSaCms({ cmsData: { ...values, title, content }, navigate })
+			);
 		}
-		dispatch(createSaCms({ cmsData: { ...values, title, content }, navigate }));
 	};
 
 	const onChangeRowsPerPage = (value) => {
@@ -72,9 +84,11 @@ const useCreateCms = () => {
 				setContent={(v) => setContent(v)}
 				showGallery={showGallery}
 				setShowGallery={setShowGallery}
+				selectedTab={selectedTab}
+				setSelectedTab={setSelectedTab}
 			/>
 		);
-	}, [languageData, title, content, showGallery]);
+	}, [languageData, title, content, showGallery, selectedTab]);
 
 	const handleCreateClick = (e) => {
 		e.preventDefault();

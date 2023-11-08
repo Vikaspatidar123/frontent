@@ -4,7 +4,7 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
 import { projectName } from '../../constants/config';
 import useEditCms from './hooks/useEditCms';
-import CmsFormPage from './CMSFormPage';
+import FormPage from '../../components/Common/FormPage';
 
 const EditCMS = () => {
 	// Set meta title
@@ -30,10 +30,10 @@ const EditCMS = () => {
 					<Col lg="12">
 						<Card>
 							<CrudSection buttonList={galleryList} title="CMS" />
-							<CmsFormPage
+							<FormPage
 								formTitle={header}
 								validation={validation}
-								staticFormFields={formFields}
+								responsiveFormFields={formFields}
 								customComponent={customComponent}
 								submitLabel="Submit"
 								customColClasses=""
