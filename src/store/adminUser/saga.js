@@ -1,4 +1,5 @@
-import { takeLatest, put } from 'redux-saga/effects';
+/* eslint-disable no-param-reassign */
+import { takeLatest, put, select } from 'redux-saga/effects';
 import {
 	// getAdminUsers,
 	// getAdminUserDetails,
@@ -8,7 +9,6 @@ import {
 	// updateSuperAdminUser,
 	// updateTenantAdminUser,
 	getAllGroups,
-	getAllAdmins,
 } from '../../network/getRequests';
 
 import { superAdminViewToggleStatus } from '../../network/putRequests';
@@ -32,6 +32,8 @@ import {
 	getAllGroupsSuccess,
 	getAllGroupsFailure,
 } from './actions';
+
+import { getAdminDetailsSuccess } from '../actions';
 
 import {
 	GET_ALL_GROUP_START,
@@ -109,32 +111,27 @@ import {
 
 function* updateSuperAdminStatusWorker(action) {
 	try {
-		const {
-			data,
-			limit,
-			pageNo,
-			orderBy,
-			sort,
-			search,
-			superAdminId,
-			superRoleId,
-			status,
-		} = action && action.payload;
+		const { payload } = action;
 
-		yield superAdminViewToggleStatus(data);
+		yield superAdminViewToggleStatus(payload);
 
 		yield put(updateSuperAdminStatusSuccess());
 
-		yield getAllAdmins({
-			limit,
-			pageNo,
-			orderBy,
-			sort,
-			search,
-			superAdminId,
-			superRoleId,
-			status,
+		const { adminDetails } = yield select((state) => state.AllAdmins);
+
+		const newAdminRow = adminDetails?.rows?.map((admin) => {
+			if (admin?.adminUserId === payload.adminId) {
+				admin.isActive = payload.status;
+			}
+			return admin;
 		});
+
+		yield put(
+			getAdminDetailsSuccess({
+				...adminDetails,
+				rows: newAdminRow,
+			})
+		);
 
 		showToastr({
 			message: 'Status updated Successfully',

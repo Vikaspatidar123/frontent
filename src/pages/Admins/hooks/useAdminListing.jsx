@@ -26,7 +26,6 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	const [orderBy, setOrderBy] = useState('adminUserId');
 	const [sort, setSort] = useState('desc');
 	const [name, setName] = useState();
-	const [active, setActive] = useState(false);
 
 	const formattedAdminDetails = useMemo(() => {
 		if (adminDetails) {
@@ -41,20 +40,11 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	const handleStatus = (e, props) => {
 		e.preventDefault();
 		const { active: isActive, adminUserId } = props;
-		setActive((prev) => !prev);
 		dispatch(
 			updateSuperAdminStatusStart({
-				data: {
-					code: 'ADMIN',
-					status: !isActive,
-					adminId: adminUserId,
-				},
-				limit: itemsPerPage,
-				pageNo: page,
-				orderBy,
-				sort,
-				superAdminId: '',
-				superRoleId: '',
+				code: 'ADMIN',
+				status: !isActive,
+				adminId: adminUserId,
 			})
 		);
 	};
@@ -74,7 +64,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 
 	useEffect(() => {
 		if (location.pathname === '/staff') fetchData();
-	}, [page, orderBy, sort, location, active, itemsPerPage]);
+	}, [page, orderBy, sort, location, itemsPerPage]);
 
 	const columns = useMemo(
 		() => [

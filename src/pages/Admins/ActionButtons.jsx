@@ -40,10 +40,13 @@ const ActionButtons = ({ handleEdit, cell, handleStatus }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id={`tooltip-${adminUserId}`} />
+						<i
+							className="mdi mdi-close-thick"
+							id={`active-tooltip-${adminUserId}`}
+						/>
 						<UncontrolledTooltip
 							placement="top"
-							target={`tooltip-${adminUserId}`}
+							target={`active-tooltip-${adminUserId}`}
 						>
 							Set Inactive
 						</UncontrolledTooltip>
