@@ -26,8 +26,7 @@ import { loginUser } from '../../../store/actions';
 // import images
 import { projectName } from '../../../constants/config';
 import Banner from './Banner';
-import logodark from '../../../assets/images/logo-dark.png';
-import logolight from '../../../assets/images/logo-light.png';
+import logodark from '../../../assets/images/b2c-gs.png';
 
 const Login = (props) => {
 	const [passwordShow, setPasswordShow] = useState(false);
@@ -85,7 +84,7 @@ const Login = (props) => {
 											className="logo-dark-element"
 										/>
 										<img
-											src={logolight}
+											src={logodark}
 											alt=""
 											height="30"
 											className="logo-light-element"
