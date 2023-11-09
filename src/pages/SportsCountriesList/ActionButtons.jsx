@@ -22,11 +22,8 @@ const ActionButtons = ({ cell, handleStatus }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id={`inactive-${countryId}`} />
-						<UncontrolledTooltip
-							placement="top"
-							target={`inactive-${countryId}`}
-						>
+						<i className="mdi mdi-close-thick" id={`active-${countryId}`} />
+						<UncontrolledTooltip placement="top" target={`active-${countryId}`}>
 							Set Inactive
 						</UncontrolledTooltip>
 					</Link>

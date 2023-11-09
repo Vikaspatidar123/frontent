@@ -1,4 +1,5 @@
-import { put, takeLatest, all, fork } from 'redux-saga/effects';
+/* eslint-disable no-param-reassign */
+import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
 
 // Crypto Redux States
 import {
@@ -29,19 +30,26 @@ function* getBonusListingWorker(action) {
 
 function* updateSABonusStatusWorker(action) {
 	try {
-		const {
-			// adminId,
-			// tenantId,
-			// limit,
-			// pageNo,
-			// bonusType,
-			// isActive,
-			// search,
-			data,
-		} = action && action.payload;
+		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(data);
+		yield superAdminViewToggleStatus(payload);
 		yield put(updateSABonusStatusSuccess());
+
+		const { bonusDetails } = yield select((state) => state.AllBonusDetails);
+
+		const updatedBonusDetails = bonusDetails?.rows?.map((bonus) => {
+			if (bonus.bonusId === payload.bonusId) {
+				bonus.isActive = payload.status;
+			}
+			return bonus;
+		});
+
+		yield put(
+			getBonusDetailsSuccess({
+				...bonusDetails,
+				rows: updatedBonusDetails,
+			})
+		);
 
 		showToastr({
 			message: `Status Updated Successfully`,

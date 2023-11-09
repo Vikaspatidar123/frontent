@@ -16,7 +16,6 @@ const useCmsListing = (filterValues = {}) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [selectedClient, setSelectedClient] = useState('');
-	const [show, setShow] = useState(false);
 	const dispatch = useDispatch();
 
 	const formattedCmsDetails = useMemo(() => {
@@ -50,17 +49,11 @@ const useCmsListing = (filterValues = {}) => {
 	const handleStatus = (e, props) => {
 		e.preventDefault();
 		const { status, cmsPageId } = props;
-		setShow((prev) => !prev);
 		dispatch(
 			updateSaCmsStatus({
-				data: {
-					code: 'CMS',
-					cmsPageId,
-					status: !status,
-				},
-				limit,
-				pageNo: page,
-				adminId: selectedClient,
+				code: 'CMS',
+				cmsPageId,
+				status: !status,
 			})
 		);
 	};
@@ -139,8 +132,6 @@ const useCmsListing = (filterValues = {}) => {
 		setPage,
 		setSelectedClient,
 		handleStatus,
-		show,
-		setShow,
 		onChangeRowsPerPage,
 		columns,
 	};

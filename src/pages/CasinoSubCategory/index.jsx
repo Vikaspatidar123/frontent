@@ -179,11 +179,11 @@ const GetCasinoSubCategoryDetail = () => {
 									>
 										<i
 											className="mdi mdi-close-thick"
-											id={`inactive-${gameSubCategoryId}`}
+											id={`active-${gameSubCategoryId}`}
 										/>
 										<UncontrolledTooltip
 											placement="top"
-											target={`inactive-${gameSubCategoryId}`}
+											target={`active-${gameSubCategoryId}`}
 										>
 											Set Inactive
 										</UncontrolledTooltip>

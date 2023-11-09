@@ -1,4 +1,5 @@
-import { put, takeEvery } from 'redux-saga/effects';
+/* eslint-disable no-param-reassign */
+import { put, select, takeEvery } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import {
 	CREATE_AGGREGATORS_START,
@@ -56,9 +57,9 @@ function* createAggregatorWorker(action) {
 
 function* updateSuperAdminAggregatorStatusWorker(action) {
 	try {
-		const { data, limit, pageNo } = action && action.payload;
+		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(data);
+		yield superAdminViewToggleStatus(payload);
 
 		yield put(updateAggregatorStatusSuccess());
 
@@ -67,7 +68,23 @@ function* updateSuperAdminAggregatorStatusWorker(action) {
 			type: 'success',
 		});
 
-		yield getAggregators({ limit, pageNo });
+		const { aggregatorsData } = yield select(
+			(state) => state.AggregatorsReducer
+		);
+
+		const updatedAggregatorsData = aggregatorsData?.rows?.map((aggregator) => {
+			if (aggregator.gameAggregatorId === payload.gameAggregatorId) {
+				aggregator.isActive = payload.status;
+			}
+			return aggregator;
+		});
+
+		yield put(
+			getAggregatorsListSuccess({
+				...aggregatorsData,
+				rows: updatedAggregatorsData,
+			})
+		);
 	} catch (e) {
 		yield put(updateAggregatorStatusFail());
 

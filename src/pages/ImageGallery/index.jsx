@@ -40,7 +40,7 @@ const ImageGallery = () => {
 				<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
 
 				<Row>
-					<Col className="col-12">
+					<Col>
 						<Card>
 							<CardBody>
 								<Form onSubmit={validation.handleSubmit}>
@@ -73,50 +73,55 @@ const ImageGallery = () => {
 										  })
 										: ''}
 									<div
-										className="d-flex justify-content-center flex-wrap gap-3 dropzone-previews mt-3"
+										className="d-flex justify-content-start flex-wrap gap-3 dropzone-previews mt-3"
 										id="file-previews"
 									>
-										{imageGalleryLoading ? (
-											<Spinners
-												color="primary"
-												className="position-absolute top-0 start-50"
-											/>
-										) : (
-											imageGallery.map((f, i) => (
-												<Col key={`${i}-file`}>
-													<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
-														<div className="p-2">
-															<img
-																data-dz-thumbnail=""
-																height="200"
-																width="250"
-																className="rounded me-2 bg-light"
-																alt={f.name}
-																src={`https://gammastack-casino.s3.amazonaws.com/${f.fileName}`}
-															/>
-															<Col className="position-absolute top-0 end-0">
-																<Link
-																	to="#"
-																	className="btn btn-sm btn-soft-danger"
-																	onClick={() => deleteImage(f)}
-																>
-																	<i
-																		className="mdi mdi-delete-outline"
-																		id="deletetooltip"
-																	/>
-																	<UncontrolledTooltip
-																		placement="top"
-																		target="deletetooltip"
+										<Row className="justify-content-start">
+											{imageGalleryLoading ? (
+												<Spinners
+													color="primary"
+													className="position-absolute top-0 start-50"
+												/>
+											) : (
+												imageGallery.map((f, i) => (
+													<Col>
+														<Card
+															key={`${i}-file`}
+															className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+														>
+															<div className="p-2">
+																<img
+																	data-dz-thumbnail=""
+																	height="200"
+																	width="250"
+																	className="rounded me-2 bg-light"
+																	alt={f.name}
+																	src={`https://gammastack-casino.s3.amazonaws.com/${f.fileName}`}
+																/>
+																<Col className="position-absolute top-0 end-0">
+																	<Link
+																		to="#"
+																		className="btn btn-sm btn-soft-danger"
+																		onClick={() => deleteImage(f)}
 																	>
-																		Delete
-																	</UncontrolledTooltip>
-																</Link>
-															</Col>
-														</div>
-													</Card>
-												</Col>
-											))
-										)}
+																		<i
+																			className="mdi mdi-delete-outline"
+																			id="deletetooltip"
+																		/>
+																		<UncontrolledTooltip
+																			placement="top"
+																			target="deletetooltip"
+																		>
+																			Delete
+																		</UncontrolledTooltip>
+																	</Link>
+																</Col>
+															</div>
+														</Card>
+													</Col>
+												))
+											)}
+										</Row>
 									</div>
 								</Form>
 							</CardBody>

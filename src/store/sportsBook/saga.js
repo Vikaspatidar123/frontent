@@ -1,4 +1,5 @@
-import { put, takeLatest, all, fork } from 'redux-saga/effects';
+/* eslint-disable default-case */
+import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
 
 // Crypto Redux States
 import {
@@ -63,8 +64,54 @@ function* sportsTournamentListWorker(action) {
 
 function* updateStatusWorker(action) {
 	try {
-		yield updateStatus(action.payload);
-		yield put(updateStatusSuccess(action.payload));
+		const payload = action && action.payload;
+		yield updateStatus(payload);
+		yield put(updateStatusSuccess(payload));
+
+		switch (payload.code) {
+			case 'SPORTS': {
+				const { sportsListInfo } = yield select((state) => state.SportsList);
+
+				const updatedSportsList = sportsListInfo?.rows?.map((item) => {
+					if (item.sportId === payload.sportId) {
+						return {
+							...item,
+							isActive: payload.status,
+						};
+					}
+					return item;
+				});
+
+				yield put(
+					getSportsListSuccess({
+						...sportsListInfo,
+						rows: updatedSportsList,
+					})
+				);
+				break;
+			}
+			case 'SPORTCONTRY': {
+				const { sportsCountries } = yield select((state) => state.SportsList);
+
+				const updatedCountryList = sportsCountries?.rows?.map((item) => {
+					if (item.countryId === payload.sportCountryId) {
+						return {
+							...item,
+							isActive: payload.status,
+						};
+					}
+					return item;
+				});
+
+				yield put(
+					getSportsCountriesSuccess({
+						...sportsCountries,
+						rows: updatedCountryList,
+					})
+				);
+				break;
+			}
+		}
 
 		showToastr({
 			message: 'Status updated Successfully',

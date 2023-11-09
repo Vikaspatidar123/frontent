@@ -14,7 +14,6 @@ const useCasinoProvidersListing = (filterValues = {}) => {
 	} = useSelector((state) => state.CasinoManagementData);
 	const [limit, setLimit] = useState(10);
 	const [page, setPage] = useState(1);
-	const [active, setActive] = useState('');
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 
@@ -34,7 +33,7 @@ const useCasinoProvidersListing = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [limit, page, active, itemsPerPage]);
+	}, [limit, page, itemsPerPage]);
 
 	useEffect(() => {
 		if (isCreateProviderSuccess || isEditProviderSuccess) fetchData();
@@ -45,14 +44,11 @@ const useCasinoProvidersListing = (filterValues = {}) => {
 		const { status, casinoProviderId } = props;
 		dispatch(
 			updateCasinoStatusStart({
-				data: {
-					code: 'CASINO_PROVIDER',
-					casinoProviderId,
-					status: !status,
-				},
+				code: 'CASINO_PROVIDER',
+				casinoProviderId,
+				status: !status,
 			})
 		);
-		setActive((prev) => !prev);
 	};
 
 	return {
@@ -64,8 +60,6 @@ const useCasinoProvidersListing = (filterValues = {}) => {
 		page,
 		setPage,
 		handleStatus,
-		active,
-		setActive,
 		onChangeRowsPerPage,
 	};
 };

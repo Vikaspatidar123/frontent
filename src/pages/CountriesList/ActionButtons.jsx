@@ -30,13 +30,10 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 							})
 						}
 					>
-						<i
-							className="mdi mdi-close-thick"
-							id={`inactive-tooltip-${countryId}`}
-						/>
+						<i className="mdi mdi-close-thick" id={`tooltip-${countryId}`} />
 						<UncontrolledTooltip
 							placement="top"
-							target={`inactive-tooltip-${countryId}`}
+							target={`tooltip-${countryId}`}
 						>
 							Set Inactive
 						</UncontrolledTooltip>
@@ -52,13 +49,10 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 							})
 						}
 					>
-						<i
-							className="mdi mdi-check-circle"
-							id={`active-tooltip-${countryId}`}
-						/>
+						<i className="mdi mdi-check-circle" id={`tooltip-${countryId}`} />
 						<UncontrolledTooltip
 							placement="top"
-							target={`active-tooltip-${countryId}`}
+							target={`tooltip-${countryId}`}
 						>
 							Set Active
 						</UncontrolledTooltip>

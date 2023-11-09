@@ -69,11 +69,11 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 									>
 										<i
 											className="mdi mdi-close-thick"
-											id={`inactive-${gameCategoryId}`}
+											id={`active-${gameCategoryId}`}
 										/>
 										<UncontrolledTooltip
 											placement="top"
-											target={`inactive-${gameCategoryId}`}
+											target={`active-${gameCategoryId}`}
 										>
 											Set Inactive
 										</UncontrolledTooltip>

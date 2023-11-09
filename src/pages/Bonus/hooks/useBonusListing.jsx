@@ -22,7 +22,6 @@ const useBonusListing = (filterValues = {}) => {
 	);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
-	const [status, setStatus] = useState(false);
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -94,21 +93,18 @@ const useBonusListing = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, itemsPerPage, status]);
+	}, [page, itemsPerPage]);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
 		const { active, bonusId } = props;
 		dispatch(
 			updateSABonusStatus({
-				data: {
-					code: 'BONUS',
-					bonusId,
-					status: !active,
-				},
+				code: 'BONUS',
+				bonusId,
+				status: !active,
 			})
 		);
-		setStatus((prev) => !prev);
 	};
 
 	const columns = useMemo(

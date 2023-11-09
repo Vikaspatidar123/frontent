@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import useForm from '../../../../components/Common/Hooks/useFormModal';
 import {
 	getInitialValues,
@@ -13,7 +13,6 @@ import {
 
 const useCreateAggregator = () => {
 	const dispatch = useDispatch();
-	const [active, setActive] = useState('');
 
 	const { isCreateAggregatorLoading, aggregatorsData } = useSelector(
 		(state) => state.AggregatorsReducer
@@ -46,19 +45,14 @@ const useCreateAggregator = () => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active: status, gameAggregatorId } = props;
+		const { active, gameAggregatorId } = props;
 		dispatch(
 			updateAggregatorStatusStart({
-				data: {
-					code: 'AGGREGATOR',
-					gameAggregatorId,
-					status: !status,
-				},
-				limit: 15,
-				pageNo: 1,
+				code: 'AGGREGATOR',
+				gameAggregatorId,
+				status: !active,
 			})
 		);
-		setActive((prev) => !prev);
 	};
 
 	useEffect(() => {
@@ -83,8 +77,6 @@ const useCreateAggregator = () => {
 		buttonList,
 		isCreateAggregatorLoading,
 		handleStatus,
-		active,
-		setActive,
 	};
 };
 

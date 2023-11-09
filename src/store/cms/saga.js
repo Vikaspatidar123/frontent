@@ -1,11 +1,11 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import { put, takeLatest, all, fork } from 'redux-saga/effects';
+/* eslint-disable no-param-reassign */
+import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
 
 // Crypto Redux States
 import {
 	getAllCmsDetailsSuccess,
 	getAllCmsDetailsFail,
-	getAllCmsDetails,
 	updateSaCmsStatusSuccess,
 	updateSaCmsStatusFail,
 	getCmsDynamicKeysSuccess,
@@ -54,7 +54,7 @@ function* getCmsDetails(action) {
 
 function* getCmsByPageIdWorker(action) {
 	try {
-		const { cmsPageId } = action && action?.payload;
+		const { cmsPageId } = action;
 
 		const { data } = yield getCmsByPageId({
 			cmsPageId,
@@ -112,27 +112,32 @@ function* createSuperAdminCMSWorker(action) {
 
 function* updateSACMSStatusWorker(action) {
 	try {
-		const { data, limit, pageNo, tenantId, adminId, search, isActive } =
-			action && action.payload;
+		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(data);
+		yield superAdminViewToggleStatus(payload);
 
 		showToastr({
 			message: 'CMS Status Updated Successfully',
 			type: 'success',
 		});
 
-		yield put(updateSaCmsStatusSuccess());
+		const { cmsDetails } = yield select((state) => state.AllCms);
+
+		const updatedCmsDetails = cmsDetails?.rows?.map((cms) => {
+			if (cms?.cmsPageId === payload.cmsPageId) {
+				cms.isActive = payload.status;
+			}
+			return cms;
+		});
+
 		yield put(
-			getAllCmsDetails({
-				limit,
-				pageNo,
-				tenantId,
-				adminId,
-				search,
-				isActive,
+			getAllCmsDetailsSuccess({
+				...cmsDetails,
+				rows: updatedCmsDetails,
 			})
 		);
+
+		yield put(updateSaCmsStatusSuccess());
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,

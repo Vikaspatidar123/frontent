@@ -47,16 +47,16 @@ const useLanguageListing = (filterValues = {}) => {
 				Cell: (cellProps) => <Id {...cellProps} />,
 			},
 			{
-				Header: 'Language Code',
-				accessor: 'code',
-				filterable: true,
-				Cell: (cellProps) => <LanguageCode {...cellProps} />,
-			},
-			{
 				Header: 'Language Name',
 				accessor: 'languageName',
 				filterable: true,
 				Cell: (cellProps) => <LanguageName {...cellProps} />,
+			},
+			{
+				Header: 'Language Code',
+				accessor: 'code',
+				filterable: true,
+				Cell: (cellProps) => <LanguageCode {...cellProps} />,
 			},
 		],
 		[]

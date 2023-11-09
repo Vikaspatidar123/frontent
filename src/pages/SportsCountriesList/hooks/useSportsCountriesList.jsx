@@ -17,7 +17,6 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 
 	const [page, setPage] = useState(1);
-	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -47,22 +46,21 @@ const useSportsCountriesListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active: status, countryId: sportCountryId } = props;
+		const { active, countryId: sportCountryId } = props;
 		dispatch(
 			updateStatusStart({
 				code: 'SPORTCONTRY',
-				status: !status,
+				status: !active,
 				sportCountryId,
 				limit: itemsPerPage,
 				pageNo: page,
 			})
 		);
-		setActive((prev) => !prev);
 	};
 
 	useEffect(() => {
 		fetchData();
-	}, [itemsPerPage, page, active]);
+	}, [itemsPerPage, page]);
 
 	const columns = useMemo(
 		() => [
@@ -110,8 +108,6 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		setPage,
 		itemsPerPage,
 		handleStatus,
-		active,
-		setActive,
 		onChangeRowsPerPage,
 		columns,
 	};

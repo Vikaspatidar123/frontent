@@ -39,8 +39,14 @@ const ActionButtons = ({
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id="inactivetooltip" />
-						<UncontrolledTooltip placement="top" target="inactivetooltip">
+						<i
+							className="mdi mdi-close-thick"
+							id={`activetooltip-${cmsPageId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`activetooltip-${cmsPageId}`}
+						>
 							Set Inactive
 						</UncontrolledTooltip>
 					</Link>
@@ -55,8 +61,14 @@ const ActionButtons = ({
 							})
 						}
 					>
-						<i className="mdi mdi-check-circle" id="activetooltip" />
-						<UncontrolledTooltip placement="top" target="activetooltip">
+						<i
+							className="mdi mdi-check-circle"
+							id={`activetooltip-${cmsPageId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`activetooltip-${cmsPageId}`}
+						>
 							Set Active
 						</UncontrolledTooltip>
 					</Link>
