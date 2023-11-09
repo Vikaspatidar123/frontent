@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 // Import menuDropdown
 import { withTranslation } from 'react-i18next';
 // import sideBarElements from '../../constants/sidebar';
-import LanguageDropdown from '../CommonForBoth/TopbarDropdown/LanguageDropdown';
 import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 // import megamenuImg from '../../assets/images/megamenu-img.png';
@@ -185,7 +184,7 @@ const Header = (props) => {
 						</div>
 					</div>
 
-					<LanguageDropdown />
+					{/* <LanguageDropdown /> */}
 
 					<Dropdown
 						className="d-none d-lg-inline-block ms-1"

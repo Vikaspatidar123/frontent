@@ -15,7 +15,7 @@ const BannerPreview = ({ cell }) => {
 		<>
 			{isFits ? (
 				<Lightbox
-					mainSrc={`${VITE_APP_AWS_GALLERY_URL}${cell.value}`} // need to be updated
+					mainSrc={`${VITE_APP_AWS_GALLERY_URL}/${cell.value}`} // need to be updated
 					enableZoom={false}
 					onCloseRequest={() => {
 						setisFits(!isFits);
