@@ -21,7 +21,6 @@ const useCasinoGamesListings = (filterValues = {}) => {
 	} = useSelector((state) => state.CasinoManagementData);
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [show, setShow] = useState(false);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -77,7 +76,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [itemsPerPage, page, show]);
+	}, [itemsPerPage, page]);
 
 	useEffect(() => {
 		if (isEditCasinoGamesSuccess || isDeleteCasinoGamesSuccess) fetchData();
@@ -85,24 +84,14 @@ const useCasinoGamesListings = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active: state, casinoGameId: id } = props;
+		const { active, casinoGameId: id } = props;
 		dispatch(
 			updateSACasinoGamesStatusStart({
-				data: {
-					code: 'CASINO_GAME',
-					casinoGameId: id,
-					status: !state,
-				},
-				// limit,
-				// pageNo: page,
-				// casinoCategoryId: selectedSubCategoryId,
-				// search,
-				// isActive: active,
-				// tenantId: '',
-				// selectedProvider,
+				code: 'CASINO_GAME',
+				casinoGameId: id,
+				status: !active,
 			})
 		);
-		setShow((prev) => !prev);
 	};
 
 	const handleDeleteItem = (casinoGameId) => {

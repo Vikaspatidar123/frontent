@@ -28,7 +28,7 @@ const BannerPreview = ({ cell }) => {
 				className="btn btn-link waves-effect"
 				onClick={() => setisFits(true)}
 			>
-				{cell.value ? 'Banner Preview' : ''}
+				{cell.value ? 'Preview' : ''}
 			</Button>
 		</>
 	);

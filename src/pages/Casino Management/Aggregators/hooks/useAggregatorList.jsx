@@ -50,11 +50,11 @@ const useAggregatorList = (handleStatus) => {
 									>
 										<i
 											className="mdi mdi-close-thick"
-											id={`inactive-aggregator-${gameAggregatorId}`}
+											id={`aggregator-${gameAggregatorId}`}
 										/>
 										<UncontrolledTooltip
 											placement="top"
-											target={`inactive-aggregator-${gameAggregatorId}`}
+											target={`aggregator-${gameAggregatorId}`}
 										>
 											Set Inactive
 										</UncontrolledTooltip>
@@ -72,11 +72,11 @@ const useAggregatorList = (handleStatus) => {
 									>
 										<i
 											className="mdi mdi-check-circle"
-											id={`active-aggregator-${gameAggregatorId}`}
+											id={`aggregator-${gameAggregatorId}`}
 										/>
 										<UncontrolledTooltip
 											placement="top"
-											target={`active-aggregator-${gameAggregatorId}`}
+											target={`aggregator-${gameAggregatorId}`}
 										>
 											Set Active
 										</UncontrolledTooltip>

@@ -12,7 +12,6 @@ const useSportsListing = (filterValues = {}) => {
 	);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
-	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -42,7 +41,7 @@ const useSportsListing = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, itemsPerPage, active]);
+	}, [page, itemsPerPage]);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
@@ -54,10 +53,8 @@ const useSportsListing = (filterValues = {}) => {
 				sportId,
 				limit: itemsPerPage,
 				pageNo: page,
-				// search: searchByName,
 			})
 		);
-		setActive((prev) => !prev);
 	};
 
 	const columns = useMemo(
@@ -106,8 +103,6 @@ const useSportsListing = (filterValues = {}) => {
 		setPage,
 		itemsPerPage,
 		handleStatus,
-		active,
-		setActive,
 		onChangeRowsPerPage,
 		columns,
 	};

@@ -49,11 +49,11 @@ const ActionButtons = ({
 					>
 						<i
 							className="mdi mdi-close-thick"
-							id={`inactivetooltip-${casinoGameId}`}
+							id={`activetooltip-${casinoGameId}`}
 						/>
 						<UncontrolledTooltip
 							placement="top"
-							target={`inactivetooltip-${casinoGameId}`}
+							target={`activetooltip-${casinoGameId}`}
 						>
 							Set Inactive
 						</UncontrolledTooltip>

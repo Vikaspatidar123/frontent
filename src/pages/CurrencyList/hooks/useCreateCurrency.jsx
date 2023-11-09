@@ -16,7 +16,6 @@ import {
 	Id,
 	LoyaltyPoints,
 	Name,
-	Primary,
 	Type,
 } from '../CurrencyListCol';
 import ActionButtons from '../ActionButtons';
@@ -141,12 +140,6 @@ const useCreateCurrency = () => {
 				accessor: 'type',
 				// filterable: true,
 				Cell: (cellProps) => <Type {...cellProps} />,
-			},
-			{
-				Header: 'PRIMARY',
-				accessor: 'primary',
-				// filterable: true,
-				Cell: (cellProps) => <Primary {...cellProps} />,
 			},
 			{
 				Header: 'ACTION',

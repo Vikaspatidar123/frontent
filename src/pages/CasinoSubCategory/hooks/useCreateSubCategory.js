@@ -21,7 +21,6 @@ const useCreateSubCategory = () => {
 	const navigate = useNavigate();
 	const [langState, setLangState] = useState({ EN: '' });
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
-	const [active, setActive] = useState(false);
 
 	const {
 		casinoSubCategoryDetails,
@@ -79,14 +78,11 @@ const useCreateSubCategory = () => {
 		const { status, gameSubCategoryId } = props;
 		dispatch(
 			updateCasinoStatusStart({
-				data: {
-					code: 'CASINO_SUB_CATEGORY',
-					gameSubCategoryId,
-					status: !status,
-				},
+				code: 'CASINO_SUB_CATEGORY',
+				gameSubCategoryId,
+				status: !status,
 			})
 		);
-		setActive((prev) => !prev);
 	};
 
 	const handleAddClick = (e) => {
@@ -199,8 +195,6 @@ const useCreateSubCategory = () => {
 		setFormFields,
 		buttonList,
 		isCreateSubCategoryLoading,
-		active,
-		setActive,
 		handleStatus,
 		onClickEdit,
 		isEditSubCategoryLoading,

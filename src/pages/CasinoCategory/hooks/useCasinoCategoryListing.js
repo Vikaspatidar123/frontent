@@ -20,7 +20,6 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 	const [modal, setModal] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [job, setJob] = useState(null);
-	const [active, setActive] = useState(false);
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -51,7 +50,7 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, itemsPerPage, active]);
+	}, [page, itemsPerPage]);
 
 	useEffect(() => {
 		if (isCreateCategorySuccess || isEditCategorySuccess) fetchData();
@@ -66,21 +65,11 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		const { active: status, gameCategoryId } = props;
 		dispatch(
 			updateSACasinoGamesStatusStart({
-				data: {
-					code: 'CASINO_CATEGORY',
-					gameCategoryId,
-					status: !status,
-				},
-				// limit,
-				// pageNo: page,
-				// casinoCategoryId: selectedSubCategoryId,
-				// search,
-				// isActive: active,
-				// tenantId: '',
-				// selectedProvider,
+				code: 'CASINO_CATEGORY',
+				gameCategoryId,
+				status: !status,
 			})
 		);
-		setActive((prev) => !prev);
 	};
 
 	return {
@@ -98,8 +87,6 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		job,
 		setJob,
 		handleStatus,
-		active,
-		setActive,
 		onChangeRowsPerPage,
 	};
 };

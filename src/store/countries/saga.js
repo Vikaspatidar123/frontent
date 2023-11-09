@@ -1,4 +1,5 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+/* eslint-disable no-param-reassign */
+import { call, put, takeEvery, select } from 'redux-saga/effects';
 
 // Login Redux States
 import {
@@ -9,7 +10,6 @@ import {
 import {
 	fetchCountriesFail,
 	fetchCountriesSuccess,
-	fetchCountriesStart,
 	updateCountryStatusSuccess,
 	updateCountryStatusFail,
 	editCountryFail,
@@ -33,23 +33,29 @@ function* fetchCountries({ payload }) {
 
 function* updateCountryStatusWorker(action) {
 	try {
-		const { data, limit, pageNo, isActive, name, kycMethod } =
-			action && action.payload;
+		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(data);
+		yield superAdminViewToggleStatus(payload);
 
 		showToastr({
 			message: 'Status updated Successfully',
 			type: 'success',
 		});
 
-		yield fetchCountriesStart({
-			limit,
-			pageNo,
-			isActive,
-			name,
-			kycMethod,
+		const { countries } = yield select((state) => state.Countries);
+		const updatedCountries = countries?.rows?.map((country) => {
+			if (country?.countryId === payload.countryId) {
+				country.status = payload.status;
+			}
+			return country;
 		});
+
+		yield put(
+			fetchCountriesSuccess({
+				...countries,
+				rows: updatedCountries,
+			})
+		);
 
 		yield put(updateCountryStatusSuccess());
 	} catch (e) {

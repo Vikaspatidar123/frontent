@@ -34,8 +34,14 @@ const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id="inactivetooltip" />
-						<UncontrolledTooltip placement="top" target="inactivetooltip">
+						<i
+							className="mdi mdi-close-thick"
+							id={`activetooltip-${casinoProviderId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`activetooltip-${casinoProviderId}`}
+						>
 							Set Inactive
 						</UncontrolledTooltip>
 					</Link>
@@ -50,8 +56,14 @@ const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 							})
 						}
 					>
-						<i className="mdi mdi-check-circle" id="activetooltip" />
-						<UncontrolledTooltip placement="top" target="activetooltip">
+						<i
+							className="mdi mdi-check-circle"
+							id={`activetooltip-${casinoProviderId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`activetooltip-${casinoProviderId}`}
+						>
 							Set Active
 						</UncontrolledTooltip>
 					</Link>

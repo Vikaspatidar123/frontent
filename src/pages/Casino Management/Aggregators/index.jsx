@@ -47,12 +47,11 @@ const CasinoAggregators = () => {
 		isCreateAggregatorLoading,
 		buttonList,
 		handleStatus,
-		active,
 	} = useCreateAggregator();
 
 	useEffect(() => {
 		fetchData();
-	}, [active, currentPage, itemsPerPage]);
+	}, [currentPage, itemsPerPage]);
 
 	const selectAggregatorsState = (state) => state.AggregatorsReducer;
 	const columns = useAggregatorList(handleStatus);

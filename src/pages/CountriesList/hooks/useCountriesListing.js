@@ -9,7 +9,6 @@ const useCountriesListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [active, setActive] = useState(false);
 	const {
 		countries,
 		loading: isCountriesLoading,
@@ -27,7 +26,7 @@ const useCountriesListing = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [currentPage, active, itemsPerPage]);
+	}, [currentPage, itemsPerPage]);
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
@@ -51,18 +50,11 @@ const useCountriesListing = (filterValues = {}) => {
 	const handleStatus = (e, props) => {
 		e.preventDefault();
 		const { status, countryId } = props;
-		setActive((prev) => !prev);
 		dispatch(
 			updateCountryStatusStart({
-				data: {
-					code: 'COUNTRY',
-					countryId,
-					status: !status,
-				},
-				limit: itemsPerPage,
-				pageNo: currentPage,
-				isActive: status,
-				kycMethod: '',
+				code: 'COUNTRY',
+				countryId,
+				status: !status,
 			})
 		);
 	};
