@@ -780,3 +780,19 @@ aside.EmojiPickerReact.epr-main {
 	border-radius: 4px;
 	background-color: rgba(29, 207, 122, 0.1);
 }
+
+.match-details-more {
+	position: absolute;
+	z-index: 10;
+	right: 40px;
+	top: 10px;
+
+	.market-status-change-dropdown {
+		z-index: 2;
+
+		&.show {
+			right: 30px !important;
+			top: 20px !important;
+		}
+	}
+}
