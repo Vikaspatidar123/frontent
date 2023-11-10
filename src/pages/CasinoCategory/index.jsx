@@ -1,10 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Row, Card, CardBody } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import { projectName } from '../../constants/config';
 import useCasinoCategoryColumn from './hooks/useCasinoCategoryColumn';
 import TableContainer from '../../components/Common/TableContainer';
-// import Breadcrumbs from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
@@ -14,6 +15,7 @@ import useFilters from './hooks/useFilters';
 
 const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -52,10 +54,13 @@ const GetCasinoCategoryDetails = () => {
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
-				{/* <Breadcrumbs
-					title="Casino Management"
-					breadcrumbItem="Casino Category"
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb
+						title="Casino Management"
+						breadcrumbItem="Casino Category"
+					/>
+				)}
+
 				<Row>
 					<Col lg="12">
 						<Card>

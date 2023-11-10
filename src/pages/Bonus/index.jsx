@@ -1,8 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-// import Breadcrumbs from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
 import useBonusListing from './hooks/useBonusListing';
@@ -14,6 +15,7 @@ import useCreateBonus from './hooks/useCreateBonus';
 const BonusDetail = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -40,11 +42,9 @@ const BonusDetail = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumbs
-					title={t('Bonus Management')}
-					breadcrumbItem={t('Bonus')}
-				/> */}
-
+				{showBreadcrumb && (
+					<Breadcrumb title="Bonus Management" breadcrumbItem="Bonus" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

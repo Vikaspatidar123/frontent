@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 // import PropTypes from 'prop-types';
-// import Breadcrumb from '../../components/Common/Breadcrumb';
+import { useSelector } from 'react-redux';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 
 import useTransactionBankingListing from './hooks/useTransactionBankingListing';
@@ -12,6 +13,7 @@ import useFilters from './hooks/useFilters';
 
 const TransactionBankingList = () => {
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		currentPage,
@@ -36,11 +38,9 @@ const TransactionBankingList = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* Render Breadcrumb */}
-				{/* <Breadcrumb
-					title={t('Reports')}
-					breadcrumbItem={t('Transactions Banking')}
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Reports" breadcrumbItem="Transactions Banking" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

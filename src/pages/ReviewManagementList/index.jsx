@@ -1,8 +1,9 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-// import Breadcrumb from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import useReviewManagementListing from './hooks/useReviewManagementListing';
 import { projectName } from '../../constants/config';
 import useCreateReview from './hooks/useCreateReview';
@@ -13,6 +14,7 @@ import useFilters from './hooks/useFilters';
 
 const ReviewManagementList = () => {
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -47,11 +49,9 @@ const ReviewManagementList = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* Render Breadcrumb */}
-				{/* <Breadcrumb
-					title={t('Reports')}
-					breadcrumbItem={t('Review Management')}
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Reports" breadcrumbItem="Review Management" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

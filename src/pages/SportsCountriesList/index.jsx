@@ -1,9 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsCountriesListing from './hooks/useSportsCountriesList';
 import { projectName } from '../../constants/config';
-// import Breadcrumb from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
@@ -11,6 +12,7 @@ import Filters from '../../components/Common/Filters';
 const SportsCountriesListing = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -35,7 +37,9 @@ const SportsCountriesListing = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumb title="Sports Book" breadcrumbItem="Countries" /> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Sports Book" breadcrumbItem="Countries" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

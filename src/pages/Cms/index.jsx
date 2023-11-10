@@ -1,8 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-// import Breadcrumbs from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useCmsListing from './hooks/useCmsListing';
 
@@ -15,6 +16,7 @@ import useCreateCms from './hooks/useCreateCms';
 const Cms = () => {
 	// Set meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -42,10 +44,9 @@ const Cms = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumbs
-					title={t('Content Management')}
-					breadcrumbItem={t('Cms')}
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Content Management" breadcrumbItem="Cms" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

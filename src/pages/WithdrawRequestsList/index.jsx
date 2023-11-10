@@ -1,8 +1,9 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-// import Breadcrumb from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import useWithdrawRequestsListing from './hooks/useWithdrawRequestsListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
@@ -11,6 +12,7 @@ import Filters from '../../components/Common/Filters';
 
 const WithdrawRequestsList = () => {
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -35,11 +37,9 @@ const WithdrawRequestsList = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* Render Breadcrumb */}
-				{/* <Breadcrumb
-          title={t('Reports')}
-          breadcrumbItem={t('Withdraw Requests')}
-        /> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Reports" breadcrumbItem="Withdraw Requests" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

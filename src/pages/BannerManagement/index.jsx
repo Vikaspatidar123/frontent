@@ -2,8 +2,9 @@
 import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-// import Breadcrumbs from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import useBannerManagement from './hooks/useBannerManagement';
 import { Pages, BannerPreview } from './BannerManagementListCol';
@@ -43,6 +44,7 @@ const computeColumns = ({ onClickEdit, onClickDelete }) => [
 const BannerManagement = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const { formattedSABanners, SABannersloading, onClickDelete } =
 		useBannerManagement();
@@ -67,10 +69,12 @@ const BannerManagement = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumbs
-					title={t('Casino Management')}
-					breadcrumbItem={t('Banner Management')}
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb
+						title="Casino Management"
+						breadcrumbItem="Banner Management"
+					/>
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

@@ -20,7 +20,7 @@ import {
 } from './CasinoSubCategory';
 import { projectName } from '../../constants/config';
 
-// import Breadcrumbs from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import {
 	deleteCasinoSubCategoryStart,
 	getCasinoSubCategoryDetailStart,
@@ -34,6 +34,7 @@ import useFilters from './hooks/useFilters';
 const GetCasinoSubCategoryDetail = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		casinoSubCategoryDetails,
@@ -286,12 +287,13 @@ const GetCasinoSubCategoryDetail = () => {
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
-				{/* <Breadcrumbs
-					Breadcrumbs
-					title={t('Casino Management')}
-					breadcrumbItem={t('Casino Sub Categories')}
-				/> */}
-
+				{showBreadcrumb && (
+					<Breadcrumb
+						Breadcrumbs
+						title="Casino Management "
+						breadcrumbItem="Casino Sub Categories"
+					/>
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

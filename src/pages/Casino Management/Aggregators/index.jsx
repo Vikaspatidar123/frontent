@@ -8,7 +8,7 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 
 // import components
-// import Breadcrumbs from '../../../components/Common/Breadcrumb';
+import Breadcrumb from '../../../components/Common/Breadcrumb';
 import { getAggregatorsList } from '../../../store/actions';
 
 // redux
@@ -21,6 +21,8 @@ import FormModal from '../../../components/Common/FormModal';
 const CasinoAggregators = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
+
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 
@@ -74,10 +76,13 @@ const CasinoAggregators = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumbs
-					title="Casino Management"
-					breadcrumbItem="Casino Aggregators"
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb
+						title="Casino Management"
+						breadcrumbItem="Casino Aggregators"
+					/>
+				)}
+
 				<Row>
 					<Col lg="12">
 						<Card>

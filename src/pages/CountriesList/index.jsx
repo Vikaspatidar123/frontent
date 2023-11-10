@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 // import PropTypes from 'prop-types';
-// import Breadcrumb from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	CountryCode,
@@ -23,6 +24,7 @@ import useFilters from './hooks/useFilters';
 
 const CountriesList = () => {
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -105,11 +107,9 @@ const CountriesList = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* Render Breadcrumb */}
-				{/* <Breadcrumb
-					title={t('Site Configurations')}
-					breadcrumbItem={t('Countries')}
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Site Configurations" breadcrumbItem="Countries" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

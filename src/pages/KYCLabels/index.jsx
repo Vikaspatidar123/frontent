@@ -2,12 +2,12 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
-
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row, Collapse } from 'reactstrap';
 
 import classnames from 'classnames';
 import TableContainer from '../../components/Common/TableContainer';
-// import Breadcrumbs from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
 
 import useKYCLables from './hooks/useKYCLabels';
@@ -36,6 +36,7 @@ const columns = [
 const KYCLabels = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		formattedDocumentLabels,
@@ -67,7 +68,9 @@ const KYCLabels = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumbs title={t('Player')} breadcrumbItem={t('KYC Labels')} /> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Player" breadcrumbItem="KYC Labels" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>
