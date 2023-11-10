@@ -116,17 +116,15 @@ function* getSportsMatchesDetailWorker(action) {
 function* updateOddsVariationWorker(action) {
 	try {
 		const { data } = yield updateOddsVariationApi(action.payload);
-		if (data.errors.length === 0) {
-			if (action.payload.toggleModal) action.payload.toggleModal();
-			if (action.payload.setVaryPercentage) action.payload.setVaryPercentage();
-			yield put(updateOdsVariationSuccess(data?.data));
-			yield put(getSportsMatchDetailStart({ matchId: action.payload.matchId }));
-			yield;
-			showToastr({
-				message: data?.data?.message,
-				type: 'success',
-			});
-		}
+		if (action.payload.toggleModal) action.payload.toggleModal();
+		if (action.payload.setVaryPercentage) action.payload.setVaryPercentage();
+		yield put(updateOdsVariationSuccess(data?.data));
+		yield put(getSportsMatchDetailStart({ matchId: action.payload.matchId }));
+		yield;
+		showToastr({
+			message: data?.data?.message,
+			type: 'success',
+		});
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
@@ -142,19 +140,15 @@ function* updateOddsVariationWorker(action) {
 function* detachOddsVariationWorker(action) {
 	try {
 		const { data } = yield detachOddsVariationApi(action.payload);
-		if (data.errors.length === 0) {
-			if (action.payload.toggleDetachMarketModal)
-				action.payload.toggleDetachMarketModal();
-			yield put(deatechOdsVariationSuccess(data?.data));
-			yield;
-			showToastr({
-				message: data?.data?.message,
-				type: 'success',
-			});
-			yield put(
-				getSportsMatchDetailStart({ matchId: action.payload.marketId })
-			);
-		}
+		if (action.payload.toggleDetachMarketModal)
+			action.payload.toggleDetachMarketModal();
+		yield put(deatechOdsVariationSuccess(data?.data));
+		yield;
+		showToastr({
+			message: data?.data?.message,
+			type: 'success',
+		});
+		yield put(getSportsMatchDetailStart({ matchId: action.payload.marketId }));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
@@ -168,15 +162,14 @@ function* detachOddsVariationWorker(action) {
 
 function* updateCompanyOddWorker(action) {
 	try {
-		const { data } = yield updateCompanyOddApi({ ...action.payload });
-		if (data.errors.length === 0) {
-			yield;
-			showToastr({
-				message: data?.data?.message,
-				type: 'success',
-			});
-			yield put(updateCompanyOddSuccess(action.payload));
-		}
+		const { data } = yield updateCompanyOddApi(action.payload);
+		yield;
+		showToastr({
+			message: data?.data?.message,
+			type: 'success',
+		});
+		yield put(updateCompanyOddSuccess(action.payload));
+		yield put(getSportsMatchDetailStart({ matchId: action.payload.matchId }));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,

@@ -36,7 +36,6 @@ const TableContainer = ({
 	hideHeader,
 	tbodyHeight,
 	cellPadding,
-	isMatchDetailsPage = false,
 }) => {
 	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
 	const tableHeaderClass = useSelector(
@@ -115,10 +114,7 @@ const TableContainer = ({
 					<tbody
 						{...getTableBodyProps({
 							height: `${
-								tbodyHeight ||
-								(isLoading || !page?.length
-									? !isMatchDetailsPage && '500px'
-									: '0')
+								tbodyHeight || (isLoading || !page?.length ? '500px' : '0')
 							}`,
 						})}
 						id="generic-table-body"

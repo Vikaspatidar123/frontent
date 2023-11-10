@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -23,8 +22,8 @@ import {
 	Table,
 	UncontrolledDropdown,
 } from 'reactstrap';
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import { showToastr } from '../../../utils/helpers';
 import { updateCompanyOddStart } from '../../../store/actions';
 
 import VerticalIcon from '../../../assets/images/VerticalDots.svg';
@@ -66,7 +65,7 @@ const AccordianMatchDetails = ({
 
 	const handleSetClick = (value, item, index) => {
 		if (!varyPercentageMap[index] || Number(varyPercentageMap[index] < 0)) {
-			toast.error('Please Error a Valid Number.', { autoClose: 2000 });
+			showToastr({ message: 'Please Error a Valid Number.', type: 'error' });
 		} else {
 			dispatch(
 				updateCompanyOddStart({
@@ -130,21 +129,21 @@ const AccordianMatchDetails = ({
 							</div>
 							<AccordionHeader targetId={idx + 1}>
 								<Row className="w-100">
-									<Col className="" xs="1">
+									<Col className="text-align-center" xs="1">
 										<b> #{idx + 1}.</b>
 									</Col>
-									<Col className="" xs="3">
+									<Col className="text-align-center" xs="3">
 										<b> {item?.markets?.marketName[0].name || '-'}</b>
 									</Col>
-									<Col className="" xs="2">
+									<Col className="text-align-center" xs="2">
 										<b> Modification Type</b> <br />
 										{item?.modificationType || '-'}
 									</Col>
-									<Col className="" xs="2">
+									<Col className="text-align-center" xs="2">
 										<b> Modification Value</b> <br />
 										{item?.modificationValue || '0'}
 									</Col>
-									<Col className="" xs="2">
+									<Col className="text-align-center" xs="2">
 										<b> Detached</b> <br />
 										<b>
 											<span

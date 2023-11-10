@@ -1,6 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { isEmpty } from 'lodash';
 import CrudSection from '../../components/Common/CrudSection';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsMatchDetail from './hooks/useSportsMatchDetail';
@@ -43,34 +43,35 @@ const SportsMatchDetail = () => {
 									data={matchOdsDetails?.match ? [matchOdsDetails?.match] : []}
 									isPagination={false}
 									tableClass="table-bordered align-middle nowrap mt-2 match-details-table"
-									isMatchDetailsPage
 								/>
 							</CardBody>
 						</Card>
-						<Card>
-							<CrudSection buttonList={[]} title="Event Detail" />
-							<CardBody>
-								<AccordianMatchDetails
-									matchOdsDetails={matchOdsDetails}
-									toggleModal={toggleModal}
-									handleChange={handleChange}
-									matchId={matchId}
-									setIsAllEvents={setIsAllEvents}
-									setMatchMarketId={setMatchMarketId}
-									toggleDetachMarketModal={toggleDetachMarketModal}
-									showDetachMarketModal={showDetachMarketModal}
-									handleDetachMarket={handleDetachMarket}
-									varyType={varyType}
-									setVaryType={setVaryType}
-									varyPercentage={varyPercentage}
-									setVaryPercentage={setVaryPercentage}
-									showOddsModal={showOddsModal}
-									marketDetail={marketDetail}
-									handleVarySubmit={handleVarySubmit}
-									setMarketDetail={setMarketDetail}
-								/>
-							</CardBody>
-						</Card>
+						{!isEmpty(matchOdsDetails?.rows) && (
+							<Card>
+								<CrudSection buttonList={[]} title="Event Detail" />
+								<CardBody>
+									<AccordianMatchDetails
+										matchOdsDetails={matchOdsDetails}
+										toggleModal={toggleModal}
+										handleChange={handleChange}
+										matchId={matchId}
+										setIsAllEvents={setIsAllEvents}
+										setMatchMarketId={setMatchMarketId}
+										toggleDetachMarketModal={toggleDetachMarketModal}
+										showDetachMarketModal={showDetachMarketModal}
+										handleDetachMarket={handleDetachMarket}
+										varyType={varyType}
+										setVaryType={setVaryType}
+										varyPercentage={varyPercentage}
+										setVaryPercentage={setVaryPercentage}
+										showOddsModal={showOddsModal}
+										marketDetail={marketDetail}
+										handleVarySubmit={handleVarySubmit}
+										setMarketDetail={setMarketDetail}
+									/>
+								</CardBody>
+							</Card>
+						)}
 					</Col>
 				</Row>
 			</Container>
