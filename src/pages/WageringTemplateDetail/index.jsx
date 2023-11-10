@@ -3,9 +3,9 @@
 import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
-
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-// import Breadcrumbs from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 
 import useWageringTemplate from './hooks/useWageringTemplate';
@@ -21,6 +21,7 @@ import useEditWageringTemplate from './hooks/useEditWageringTemplate';
 const WageringTemplate = () => {
 	// Set meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -78,10 +79,12 @@ const WageringTemplate = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumbs
-					title={t('Wagering Template List')}
-					breadcrumbItem={t('Wagering Template')}
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb
+						title="Wagering Template List"
+						breadcrumbItem="Wagering Template"
+					/>
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

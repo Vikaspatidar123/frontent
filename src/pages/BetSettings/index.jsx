@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useBetSettings from './hooks/useBetSettings';
@@ -21,7 +22,7 @@ import {
 	UpdatedAt,
 } from './BetSettingsListCol';
 import ActionButtons from './ActionButtons';
-// import Breadcrumb from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCreateBetSettings from './hooks/useCreateBetSettings';
 import FormModal from '../../components/Common/FormModal';
 import CrudSection from '../../components/Common/CrudSection';
@@ -110,6 +111,7 @@ const computeColumns = ({ onClickEdit }) => [
 const BetSettings = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		formattedBetSettingsList,
@@ -137,7 +139,9 @@ const BetSettings = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumb title="Sports Book" breadcrumbItem="Bet Settings" /> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Sports Book" breadcrumbItem="Bet Settings" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

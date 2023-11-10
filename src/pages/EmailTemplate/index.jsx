@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container, Collapse, CardBody, Card } from 'reactstrap';
@@ -12,6 +13,7 @@ import useEmailTemplate from './hooks/useEmailTemplate';
 import Spinners from '../../components/Common/Spinner';
 import CrudSection from '../../components/Common/CrudSection';
 import Modal from '../../components/Common/Modal';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 
 import { EmailTemplateId, Label, Primary } from './EmailTemplateListCol';
 import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
@@ -19,6 +21,7 @@ import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
 const EmailTemplate = ({ t }) => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		emailTemplateloading,
@@ -85,6 +88,9 @@ const EmailTemplate = ({ t }) => {
 	return (
 		<div className="page-content">
 			<Container fluid>
+				{showBreadcrumb && (
+					<Breadcrumb title="Content Management" breadcrumbItem="Crm" />
+				)}
 				<Card>
 					<CardBody>
 						<CrudSection

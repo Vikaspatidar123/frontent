@@ -1,8 +1,9 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
-// import Breadcrumb from '../../components/Common/Breadcrumb';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCasinoTransactionsListing from './hooks/useCasinoTransactionsListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
@@ -11,6 +12,7 @@ import Filters from '../../components/Common/Filters';
 
 const CasinoTransactionsList = () => {
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -35,11 +37,9 @@ const CasinoTransactionsList = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* Render Breadcrumb */}
-				{/* <Breadcrumb
-					title={t('Reports')}
-					breadcrumbItem={t('Casino Transactions')}
-				/> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Reports" breadcrumbItem="Casino Transactions" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

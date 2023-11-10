@@ -3,7 +3,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
 import { Container, Col, Row, Card, CardBody } from 'reactstrap';
-// import Breadcrumbs from '../../components/Common/Breadcrumb';
+import { useSelector } from 'react-redux';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import {
 	projectName,
@@ -18,6 +19,7 @@ import useFilters from './hooks/useFilters';
 const Admins = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -43,7 +45,9 @@ const Admins = () => {
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* <Breadcrumbs title={t('Dashboard')} breadcrumbItem={t('Staff')} /> */}
+				{showBreadcrumb && (
+					<Breadcrumb title="Dashboard" breadcrumbItem="Staff" />
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>
