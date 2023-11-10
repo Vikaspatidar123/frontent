@@ -128,7 +128,7 @@ const useTransactionBankingListing = ({ userId }) => {
 				Cell: (cellProps) => <Status {...cellProps} />,
 			},
 			{
-				Header: 'Created At',
+				Header: 'Date',
 				accessor: 'createdAt',
 				Cell: (cellProps) => <CreatedAt {...cellProps} />,
 			},

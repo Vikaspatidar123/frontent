@@ -47,7 +47,7 @@ const useCreateComment = ({ userId }) => {
 
 	const buttonList = useMemo(() => [
 		{
-			label: 'Add Comment',
+			label: 'Add Note',
 			handleClick: handleAddClick,
 			link: '#!',
 		},

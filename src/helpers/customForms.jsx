@@ -254,6 +254,7 @@ export const CustomToggleButton = ({
 	disabled,
 	containerClass,
 	switchSizeClass,
+	required,
 	...rest
 }) => (
 	<span
@@ -261,11 +262,20 @@ export const CustomToggleButton = ({
 			containerClass || 'mb-3 mt-3'
 		}`}
 	>
-		{label && (
-			<Label htmlFor={htmlFor} className={labelClassName}>
-				{label}
-			</Label>
-		)}
+		{required
+			? label && (
+					<div>
+						<Label htmlFor={htmlFor} className={labelClassName}>
+							{label}
+						</Label>{' '}
+						<span className="text-danger"> *</span>
+					</div>
+			  )
+			: label && (
+					<Label htmlFor={htmlFor} className={labelClassName}>
+						{label}
+					</Label>
+			  )}
 		<Input
 			type={type}
 			id={id}
@@ -329,6 +339,7 @@ export const getField = (
 		maximum,
 		adornmentText,
 		namesArray,
+		isRequired,
 		...rest
 	},
 	validation
@@ -434,6 +445,7 @@ export const getField = (
 					}}
 					onBlur={validation.handleBlur}
 					disabled={!!isDisabled}
+					required={isRequired}
 					{...rest}
 				/>
 			);

@@ -54,7 +54,7 @@ function* getCmsDetails(action) {
 
 function* getCmsByPageIdWorker(action) {
 	try {
-		const { cmsPageId } = action;
+		const { cmsPageId } = action && action.payload;
 
 		const { data } = yield getCmsByPageId({
 			cmsPageId,

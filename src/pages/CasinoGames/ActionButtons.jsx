@@ -16,21 +16,21 @@ const ActionButtons = ({
 	const isDisabled = !!cell?.row?.original?.parentId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+			<li data-bs-toggle="tooltip" data-bs-placement="top">
 				<Link
 					to={`/casino-games/restrict-countries/${casinoGameId}`}
 					state={{ type: 'games' }}
 					className="btn btn-sm btn-soft-primary"
 				>
 					<i
-						className="mdi mdi-eye-outline"
+						className="mdi mdi-block-helper"
 						id={`viewtooltip-${casinoGameId}`}
 					/>
 					<UncontrolledTooltip
 						placement="top"
 						target={`viewtooltip-${casinoGameId}`}
 					>
-						View
+						View Restricted Countries
 					</UncontrolledTooltip>
 				</Link>
 			</li>
