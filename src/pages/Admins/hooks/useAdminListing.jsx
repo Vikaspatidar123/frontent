@@ -69,22 +69,36 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	const columns = useMemo(
 		() => [
 			{
+				Header: '#',
+				disableFilters: true,
+				filterable: true,
+				accessor: (cellProps) => (
+					// <div className="avatar-xs btn-soft-primary btn-rounded">
+					// 	<span className="d-flex align-items-center justify-content-center h-100 w-100 rounded-circle">
+					<div className="avatar-xs">
+						<span className="avatar-title rounded-circle">
+							{cellProps.fullName.charAt(0)}
+						</span>
+					</div>
+				),
+			},
+			{
 				Header: 'ID',
 				accessor: 'adminUserId',
 				filterable: true,
 				Cell: ({ cell }) => <AdminUserID cell={cell} />,
 			},
 			{
-				Header: 'Email',
-				accessor: 'email',
-				filterable: true,
-				Cell: ({ cell }) => <Email cell={cell} />,
-			},
-			{
 				Header: 'Name',
 				accessor: 'fullName',
 				filterable: true,
 				Cell: ({ cell }) => <FullName cell={cell} />,
+			},
+			{
+				Header: 'Email',
+				accessor: 'email',
+				filterable: true,
+				Cell: ({ cell }) => <Email cell={cell} />,
 			},
 			{
 				Header: 'Role',
