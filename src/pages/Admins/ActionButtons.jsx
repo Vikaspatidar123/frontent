@@ -25,7 +25,7 @@ const ActionButtons = ({ handleEdit, cell, handleStatus }) => {
 				placement="top"
 				target={`view-tooltip-${adminUserId}`}
 			>
-				View
+				View Details
 			</UncontrolledTooltip>
 
 			<li>
@@ -90,7 +90,7 @@ const ActionButtons = ({ handleEdit, cell, handleStatus }) => {
 						placement="top"
 						target={`edit-tooltip-${adminUserId}`}
 					>
-						Edit
+						Edit Details
 					</UncontrolledTooltip>
 				</Link>
 			</li>

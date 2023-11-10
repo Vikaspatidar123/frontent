@@ -1,6 +1,18 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Form, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import {
+	Button,
+	Card,
+	Form,
+	Modal,
+	ModalBody,
+	ModalHeader,
+	Row,
+	Col,
+	UncontrolledTooltip,
+} from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import { CustomInputField } from '../../../helpers/customForms';
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -113,27 +125,52 @@ const LimitCard = ({ limit, userId }) => {
 					}}
 				>
 					<h5 className="text-center">{limit.label}</h5>
-					<CustomInputField
-						label="Time Period"
-						name="limit"
-						placeholder={limit.placeholder}
-						value={validation?.values?.limit}
-						onChange={validation.handleChange}
-						onBlur={validation.handleBlur}
-						invalid={!!(validation.touched?.limit && validation.errors?.limit)}
-						isError
-						errorMsg={validation.touched?.limit && validation.errors?.limit}
-					/>
-					<div className="mt-3 text-center">
-						<Button type="submit" className="btn btn-primary" color="primary">
-							Set
-						</Button>
-						{limit.value && (
-							<Button onClick={onResetLimit} className="mx-2">
-								Reset Limit
-							</Button>
-						)}
-					</div>
+					<Row lg={12}>
+						<Col lg={9} className="pe-0" sm={9}>
+							<CustomInputField
+								label="Time Period"
+								name="limit"
+								placeholder={limit.placeholder}
+								value={validation?.values?.limit}
+								onChange={validation.handleChange}
+								onBlur={validation.handleBlur}
+								invalid={
+									!!(validation.touched?.limit && validation.errors?.limit)
+								}
+								isError
+								errorMsg={validation.touched?.limit && validation.errors?.limit}
+							/>
+						</Col>
+						<Col lg={3} sm={3}>
+							<div className="d-flex align-items-center gap-2 mt-4">
+								<Button
+									type="submit"
+									className="btn btn-primary"
+									color="primary"
+								>
+									Set
+								</Button>
+								{limit.value && (
+									<>
+										<i
+											className="mdi mdi-refresh"
+											id="refresh"
+											onClick={onResetLimit}
+											onKeyDown={(event) => {
+												if (event.key === 'Enter') {
+													onResetLimit();
+												}
+											}}
+											tabIndex="0"
+										/>
+										<UncontrolledTooltip placement="top" target="refresh">
+											Reset Limit
+										</UncontrolledTooltip>
+									</>
+								)}
+							</div>
+						</Col>
+					</Row>
 				</Form>
 			</div>
 			<Modal isOpen={isResetLimit.open} toggle={toggle}>

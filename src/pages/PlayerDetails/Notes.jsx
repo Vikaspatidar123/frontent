@@ -16,7 +16,7 @@ import useCommentFilter from './hooks/useCommentFilter';
 import Filters from '../../components/Common/Filters';
 import CommentActionButtons from './CommentActions';
 
-const Comments = ({ userId }) => {
+const Notes = ({ userId }) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -84,13 +84,13 @@ const Comments = ({ userId }) => {
 				Cell: (cellProps) => <KeyValueCellNA {...cellProps} />,
 			},
 			{
-				Header: 'COMMENT',
+				Header: 'NOTE',
 				accessor: 'comment',
 				filterable: true,
 				Cell: (cellProps) => <Comment {...cellProps} />,
 			},
 			{
-				Header: 'COMMENTED BY',
+				Header: 'NOTED BY',
 				accessor: 'commentedBy',
 				filterable: true,
 				Cell: (cellProps) => <KeyValueCellNA {...cellProps} />,
@@ -107,7 +107,7 @@ const Comments = ({ userId }) => {
 				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
 			{
-				Header: 'COMMENTED AT',
+				Header: 'NOTED AT',
 				accessor: 'createdAt',
 				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
@@ -147,7 +147,7 @@ const Comments = ({ userId }) => {
 	return (
 		<Container fluid className="bg-white">
 			<Card className="p-2">
-				<CrudSection buttonList={buttonList} title="Comments" />
+				<CrudSection buttonList={buttonList} title="Notes" />
 				<CardBody>
 					<Filters
 						validation={filterValidation}
@@ -189,4 +189,4 @@ const Comments = ({ userId }) => {
 	);
 };
 
-export default Comments;
+export default Notes;

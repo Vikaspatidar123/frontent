@@ -525,9 +525,9 @@ const sideBarElements = [
 				ulTagClass: '',
 			},
 			{
-				link: '/sports/tournaments',
-				label: 'Tournaments',
-				searchString: 'sports tournaments',
+				link: '/sports/leagues',
+				label: 'Leagues',
+				searchString: 'sports leagues',
 				iconName: '',
 				linkClass: '',
 				anchorClass: '',

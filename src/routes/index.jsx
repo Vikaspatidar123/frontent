@@ -267,7 +267,7 @@ const authProtectedRoutes = [
 	{ path: '/sports', component: <SportsListing /> },
 	{ path: '/review-management', component: <ReviewManagementList /> },
 	{ path: '/sports/countries', component: <SportsCountriesListing /> },
-	{ path: '/sports/tournaments', component: <SportsTournamentList /> },
+	{ path: '/sports/leagues', component: <SportsTournamentList /> },
 	{ path: '/sports-transactions', component: <SportsTransactionList /> },
 	{ path: '/casino-transactions', component: <CasinoTransactionsList /> },
 	{ path: '/withdraw-request', component: <WithdrawRequestsList /> },

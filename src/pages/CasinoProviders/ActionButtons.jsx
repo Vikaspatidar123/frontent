@@ -9,15 +9,15 @@ const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 	const casinoProviderId = cell?.row?.original?.casinoProviderId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+			<li data-bs-toggle="tooltip" data-bs-placement="top">
 				<Link
 					to={`/casino-providers/restrict-countries/${casinoProviderId}`}
 					state={{ type: 'providers' }}
 					className="btn btn-sm btn-soft-primary"
 				>
-					<i className="mdi mdi-eye-outline" id="viewtooltip" />
+					<i className="mdi mdi-block-helper" id="viewtooltip" />
 					<UncontrolledTooltip placement="top" target="viewtooltip">
-						View Blocked Countries
+						View Restricted Countries
 					</UncontrolledTooltip>
 				</Link>
 			</li>

@@ -13,7 +13,7 @@ import SportsBettingHistory from './SportsBettingHistory';
 import Transactions from './Transactions';
 import KYCSettings from './KYCSettings';
 import YourBonuses from './YourBonuses';
-import Comments from './Comments';
+import Notes from './Notes';
 import Limits from './Limits';
 import { getUserDetails, resetUserLimitData } from '../../store/actions';
 
@@ -114,13 +114,13 @@ const PlayerDetailsPage = ({ t }) => {
 		},
 		{
 			id: 9,
-			title: 'Your Bonuses',
+			title: 'Bonuses',
 			component: <YourBonuses userId={playerId} />,
 		},
 		{
 			id: 10,
-			title: 'Comments',
-			component: <Comments userId={playerId} />,
+			title: 'Notes',
+			component: <Notes userId={playerId} />,
 		},
 	];
 
