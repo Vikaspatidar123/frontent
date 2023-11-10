@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable default-case */
 import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
-import { toast } from 'react-toastify';
 
 import {
 	getCasinoProvidersDataSuccess,
@@ -100,7 +99,7 @@ function* getCasinoCategoryWorker(action) {
 		const { data } = yield getCasinoCategoryListing(payload);
 		yield put(getCasinoCategoryDetailSuccess(data?.data?.casinoCategories));
 	} catch (error) {
-		toast.error('Something Went wrong', { autoClose: 2000 });
+		showToastr({ message: 'Something Went wrong', type: 'error' });
 		yield put(
 			getCasinoCategoryDetailFailure(
 				error?.response?.data?.errors[0]?.description
@@ -116,7 +115,7 @@ function* getCasinoSubCategoryWorker(action) {
 		const { data } = yield getCasinoSubCategoryListing(payload);
 		yield put(getCasinoSubCategoryDetailSuccess(data?.data?.casinoSubCategory));
 	} catch (error) {
-		toast.error('Something Went wrong', { autoClose: 2000 });
+		showToastr({ message: 'Something Went wrong', type: 'error' });
 		yield put(
 			getCasinoSubCategoryDetailFailure(
 				error?.response?.data?.errors[0]?.description
@@ -133,7 +132,7 @@ function* getLanguagesWorker(action) {
 
 		yield put(getLanguagesSuccess(data?.data?.languages));
 	} catch (error) {
-		toast.error('Something Went wrong', { autoClose: 2000 });
+		showToastr({ message: 'Something Went wrong', type: 'error' });
 		yield put(
 			getLanguagesFailure(error?.response?.data?.errors[0].description)
 		);
@@ -146,7 +145,10 @@ function* getAllCasinoProvidersWorker(action) {
 		const { data } = yield getAllCasinoProviders(payload);
 		yield put(getCasinoProvidersDataSuccess(data?.data?.providerList));
 	} catch (e) {
-		yield toast(e?.response?.data?.errors[0].description, 'error');
+		showToastr({
+			message: e?.response?.data?.errors[0].description,
+			type: 'error',
+		});
 		yield put(
 			getCasinoProvidersDataFailure(e?.response?.data?.errors[0].description)
 		);
@@ -192,7 +194,10 @@ function* getAllCasinoGamesWorker(action) {
 
 		yield put(getCasinoGamesSuccess(data?.data?.casinoGames));
 	} catch (e) {
-		yield toast(e?.response?.data?.errors[0]?.description, 'error');
+		yield showToastr({
+			message: e?.response?.data?.errors[0]?.description,
+			type: 'error',
+		});
 
 		yield put(getCasinoGamesFailure(e?.response?.data?.errors[0]?.description));
 	}

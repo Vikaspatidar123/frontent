@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { showToastr } from '../../../utils/helpers';
 import {
 	deatechOdsVariationStart,
 	getSportsMatchDetailStart,
@@ -48,9 +48,15 @@ const useSportsMatchDetail = () => {
 
 	const handleVarySubmit = () => {
 		if (varyPercentage > 100) {
-			toast.error('Odd Percentage can not be more than 100');
+			showToastr({
+				message: 'Odd Percentage can not be more than 100',
+				type: 'error',
+			});
 		} else if (varyPercentage < 1) {
-			toast.error('Odd Percentage can not be less than 1', { autoClose: 2000 });
+			showToastr({
+				message: 'Odd Percentage can not be less than 1',
+				type: 'error',
+			});
 		} else {
 			dispatch(
 				updateOdsVariationStart({
