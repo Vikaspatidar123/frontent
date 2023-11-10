@@ -6,18 +6,22 @@ const OverView = ({ details, t }) => {
 	const overViewCol = [
 		{
 			row: 1,
-			firstCol: { name: 'firstName', label: 'First Name' },
-			secondCol: { name: 'lastName', label: 'Last Name' },
+			firstCol: { name: 'firstName', label: 'First Name', icon: 'account' },
+			secondCol: { name: 'lastName', label: 'Last Name', icon: 'account' },
 		},
 		{
 			row: 2,
-			firstCol: { name: 'email', label: 'Email' },
-			secondCol: { name: 'adminUsername', label: 'Username' },
+			firstCol: { name: 'email', label: 'Email', icon: 'email' },
+			secondCol: {
+				name: 'adminUsername',
+				label: 'Username',
+				icon: 'account-details',
+			},
 		},
 		{
 			row: 3,
-			firstCol: { name: 'role', label: 'Role' },
-			secondCol: { name: 'group', label: 'Group' },
+			firstCol: { name: 'role', label: 'Role', icon: 'account-cog' },
+			secondCol: { name: 'group', label: 'Group', icon: 'account-group' },
 		},
 	];
 
@@ -27,22 +31,40 @@ const OverView = ({ details, t }) => {
 				<Card>
 					<CardBody>
 						{overViewCol.map((item) => (
-							<div key={item.row} className="row">
-								<div className="col">
-									<p className="font-weight-bold">
-										{t(`${item.firstCol.label}`)} :{' '}
-										{item.firstCol.name !== 'role'
-											? details[item.firstCol.name]
-											: details?.AdminRole?.name}
-									</p>
-								</div>
-								<div className="col">
-									<p className="font-weight-bold">
-										{t(`${item.secondCol.label}`)} :{' '}
-										{details[item.secondCol.name]}
-									</p>
-								</div>
-							</div>
+							<Row key={item.row} className="list-unstyled hstack p-3">
+								<Col>
+									<div className="d-flex">
+										<i
+											className={`mdi mdi-${item.firstCol.icon} font-size-18 text-primary`}
+										 />
+										<div className="ms-3">
+											<h6 className="mb-1 fw-semibold">
+												{t(`${item.firstCol.label}`)} :{' '}
+											</h6>
+											<span className="text-muted">
+												{item.firstCol.name !== 'role'
+													? details[item.firstCol.name]
+													: details?.AdminRole?.name}
+											</span>
+										</div>
+									</div>
+								</Col>
+								<Col>
+									<div className="d-flex">
+										<i
+											className={`mdi mdi-${item.secondCol.icon} font-size-18 text-primary`}
+										 />
+										<div className="ms-3">
+											<h6 className="mb-1 fw-semibold">
+												{t(`${item.secondCol.label}`)} :{' '}
+											</h6>
+											<span className="text-muted">
+												{details[item.secondCol.name]}
+											</span>
+										</div>
+									</div>
+								</Col>
+							</Row>
 						))}
 					</CardBody>
 				</Card>
