@@ -4,7 +4,6 @@
 /* eslint-disable react/forbid-prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
 import { Routes, Route } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 
@@ -72,7 +71,6 @@ const App = () => {
 
 	return (
 		<>
-			<ToastContainer />
 			<LinearLoading />
 			<Routes>
 				{publicRoutes.map((route) => (

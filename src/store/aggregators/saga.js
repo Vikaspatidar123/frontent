@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { put, select, takeEvery } from 'redux-saga/effects';
-import { toast } from 'react-toastify';
 import {
 	CREATE_AGGREGATORS_START,
 	GET_AGGREGATORS_START,
@@ -25,7 +24,10 @@ function* getAggregatorsWorker(action) {
 		const { data } = yield getAggregators(payload);
 		yield put(getAggregatorsListSuccess(data?.data?.aggregators));
 	} catch (e) {
-		yield toast(e?.response?.data?.errors[0].description, 'error');
+		yield showToastr({
+			message: e?.response?.data?.errors[0].description,
+			type: 'error',
+		});
 
 		yield put(
 			getAggregatorsListFailure(e?.response?.data?.errors[0].description)
