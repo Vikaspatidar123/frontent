@@ -12,6 +12,18 @@ import {
 	UPDATE_STATUS_START,
 	UPDATE_STATUS_SUCCESS,
 	UPDATE_STATUS_FAIL,
+	UPDATE_COMPANYODD_FAILURE,
+	UPDATE_COMPANYODD_SUCCESS,
+	UPDATE_COMPANYODD_START,
+	DETACH_ODDSVARIATION_FAILURE,
+	DETACH_ODDSVARIATION_SUCCESS,
+	DETACH_ODDSVARIATION_START,
+	UPDATE_ODDSVARIATION_FAILURE,
+	UPDATE_ODDSVARIATION_SUCCESS,
+	UPDATE_ODDSVARIATION_START,
+	GET_SPORTS_MATCHESDETAIL_FAILURE,
+	GET_SPORTS_MATCHESDETAIL_SUCCESS,
+	GET_SPORTS_MATCHESDETAIL_START,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -27,6 +39,11 @@ const INIT_STATE = {
 	updateStatus: false,
 	updateStatusError: null,
 	isUpdateStatusLoading: false,
+	isSportsMatchDetailsLoading: false,
+	isUpdateOdsVariationLoading: false,
+	isdeatechOdsVariationLoading: false,
+	isUpdateCompanyOdsLoading: false,
+	matchOdsDetails: null,
 };
 
 const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
@@ -148,6 +165,79 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 				updateStatusError: payload,
 				isUpdateStatusLoading: false,
 				updateStatus: false,
+			};
+
+		case UPDATE_COMPANYODD_FAILURE:
+			return {
+				...state,
+				isUpdateCompanyOdsLoading: false,
+			};
+
+		case UPDATE_COMPANYODD_SUCCESS:
+			return {
+				...state,
+				isUpdateCompanyOdsLoading: false,
+			};
+
+		case UPDATE_COMPANYODD_START:
+			return {
+				...state,
+				isUpdateCompanyOdsLoading: true,
+			};
+
+		case DETACH_ODDSVARIATION_FAILURE:
+			return {
+				...state,
+				isdeatechOdsVariationLoading: false,
+			};
+
+		case DETACH_ODDSVARIATION_SUCCESS:
+			return {
+				...state,
+				isdeatechOdsVariationLoading: false,
+			};
+
+		case DETACH_ODDSVARIATION_START:
+			return {
+				...state,
+				isdeatechOdsVariationLoading: true,
+			};
+
+		case UPDATE_ODDSVARIATION_FAILURE:
+			return {
+				...state,
+				isUpdateOdsVariationLoading: false,
+			};
+
+		case UPDATE_ODDSVARIATION_SUCCESS:
+			return {
+				...state,
+				isUpdateOdsVariationLoading: false,
+			};
+
+		case UPDATE_ODDSVARIATION_START:
+			return {
+				...state,
+				isUpdateOdsVariationLoading: true,
+			};
+
+		case GET_SPORTS_MATCHESDETAIL_FAILURE:
+			return {
+				...state,
+				isSportsMatchDetailsLoading: false,
+			};
+
+		case GET_SPORTS_MATCHESDETAIL_SUCCESS:
+			return {
+				...state,
+				isSportsMatchDetailsLoading: false,
+				matchOdsDetails: payload,
+			};
+
+		case GET_SPORTS_MATCHESDETAIL_START:
+			return {
+				...state,
+				isSportsMatchDetailsLoading: true,
 			};
 
 		default:

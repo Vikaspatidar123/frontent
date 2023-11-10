@@ -177,6 +177,11 @@ const getEmailTemplate = (emailTemplateId) =>
 		`${VITE_APP_API_URL}/api/admin/email?emailTemplateId=${emailTemplateId}`
 	);
 
+const getSportsMatchesDetailApi = ({ matchId = '' }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/sportsbook/match-markets?matchId=${matchId}`
+	);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -230,4 +235,5 @@ export {
 	fetchUnrestrictedCountries,
 	getEmailTypes,
 	getEmailTemplate,
+	getSportsMatchesDetailApi,
 };

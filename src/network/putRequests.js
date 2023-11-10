@@ -125,6 +125,15 @@ const verifyUserDocument = (data) =>
 const addRestrictedCountriesCall = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/country/restricted-items`, data);
 
+const updateOddsVariationApi = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/odd-settings`, data);
+
+const detachOddsVariationApi = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/detach-market`, data);
+
+const updateCompanyOddApi = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/custom-odds`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -162,4 +171,7 @@ export {
 	updateComment,
 	verifyUserDocument,
 	addRestrictedCountriesCall,
+	updateOddsVariationApi,
+	detachOddsVariationApi,
+	updateCompanyOddApi,
 };
