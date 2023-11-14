@@ -15,8 +15,7 @@ import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDr
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 // import megamenuImg from '../../assets/images/megamenu-img.png';
 
-import logo from '../../assets/images/logo.svg';
-import logoLightSvg from '../../assets/images/logo-light.svg';
+import logo from '../../assets/images/logo-light.png';
 
 // i18n
 
@@ -74,17 +73,17 @@ const Header = (props) => {
 			<div className="navbar-header">
 				<div className="d-flex">
 					<div className="navbar-brand-box d-lg-none d-md-block">
-						<Link to="/" className="logo logo-dark">
+						<Link to="/" className="logo">
 							<span className="logo-sm">
-								<img src={logo} alt="" height="22" />
+								<img src={logo} alt="" height="30" />
 							</span>
 						</Link>
 
-						<Link to="/" className="logo logo-light">
+						{/* <Link to="/" className="logo logo-light">
 							<span className="logo-sm">
 								<img src={logoLightSvg} alt="" height="22" />
 							</span>
-						</Link>
+						</Link> */}
 					</div>
 
 					<button

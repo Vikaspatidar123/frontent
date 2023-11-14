@@ -15,7 +15,7 @@ const Breadcrumb = ({
 	return (
 		<Row>
 			<Col xs="12">
-				<div className="page-title-box d-sm-flex align-items-center justify-content-between">
+				<div className="page-title-box d-flex align-items-center justify-content-between">
 					<h4
 						className="mb-0 ms-2 font-size-18"
 						role="presentation"
