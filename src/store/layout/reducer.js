@@ -41,7 +41,7 @@ const INIT_STATE = {
 	showSidebar: true,
 	leftMenu: false,
 	tableHeaderClass: tableHeaderClass.GREY,
-	showBreadcrumb: true,
+	showBreadcrumb: false,
 };
 
 const Layout = (state = INIT_STATE, { type, payload } = {}) => {
