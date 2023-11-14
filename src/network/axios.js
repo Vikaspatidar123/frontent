@@ -9,10 +9,10 @@ export const setupInterceptors = () => {
 	axiosInstance.interceptors.response.use(
 		(res) => res,
 		(error) => {
-			if (error.response.status === 200) {
+			const { status } = error.response;
+			if (status === 401 || status === 403) {
 				removeLoginToken();
 				window.location.href = '/login';
-				// window.location.href = AdminsRoutes.SuperAdminSignin;
 			}
 
 			return Promise.reject(error);
