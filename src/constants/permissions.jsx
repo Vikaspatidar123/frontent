@@ -69,4 +69,42 @@ const permissionLabel = (label) => {
 	}
 };
 
-export { permissionIcons, permissionLabel };
+const modules = {
+	CMS: 'CMS',
+	Bonus: 'Bonus',
+	Users: 'Users',
+	Admins: 'Admins',
+	Tenant: 'Tenant',
+	Themes: 'Themes',
+	Reviews: 'Reviews',
+	KycLabel: 'KycLabel',
+	KpiReport: 'KpiReport',
+	Currencies: 'Currencies',
+	GameReport: 'GameReport',
+	UserComment: 'UserComment',
+	BetSettings: 'BetSettings',
+	ImageGallery: 'ImageGallery',
+	Transactions: 'Transactions',
+	EmailTemplate: 'EmailTemplate',
+	MultiLanguage: 'MultiLanguage',
+	TenantSettings: 'TenantSettings',
+	DemographReport: 'DemographReport',
+	BannerManagement: 'BannerManagement',
+	CasinoManagement: 'CasinoManagement',
+	KpiSummaryReport: 'KpiSummaryReport',
+	LivePlayerReport: 'LivePlayerReport',
+	WageringTemplate: 'WageringTemplate',
+	CashierManagement: 'CashierManagement',
+	LoyaltyManagement: 'LoyaltyManagement',
+	RegistrationField: 'RegistrationField',
+	RestrictedCountry: 'RestrictedCountry',
+	TenantCredentials: 'TenantCredentials',
+	TenantConfigurations: 'TenantConfigurations',
+	PlayerLiabilityReport: 'PlayerLiabilityReport',
+	PlayerManagementReport: 'PlayerManagementReport',
+	SiteConfiguration: 'SiteConfiguration',
+	SportbookManagement: 'SportbookManagement',
+	SportsbookManagement: 'SportsbookManagement',
+};
+
+export { permissionIcons, permissionLabel, modules };

@@ -1,3 +1,5 @@
+import { modules } from './permissions';
+
 const sideBarElements = [
 	{
 		link: '/dashboard',
@@ -20,6 +22,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		// module: modules.Profile
 	},
 	{
 		link: '/staff',
@@ -31,6 +34,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		module: modules.Admins,
 	},
 	{
 		link: '/users',
@@ -42,6 +46,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		module: modules.Users,
 	},
 	{
 		link: '/kyc-labels',
@@ -53,6 +58,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		module: modules.KycLabel,
 	},
 	// {
 	// 	link: '/#',
@@ -145,6 +151,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		// module: modules.SiteConfiguration,
 		subMenu: [
 			{
 				link: '/currencies',
@@ -156,6 +163,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.Currencies,
 			},
 			{
 				link: '/countries',
@@ -167,6 +175,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.RestrictedCountry,
 			},
 			{
 				link: '/languages',
@@ -178,6 +187,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.MultiLanguage,
 			},
 			{
 				link: '/languages-management',
@@ -189,6 +199,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.MultiLanguage,
 			},
 			{
 				link: '/form-fields',
@@ -200,6 +211,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.RegistrationField,
 			},
 		],
 	},
@@ -224,6 +236,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.CMS,
 			},
 			{
 				link: '/email-templates',
@@ -235,6 +248,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.EmailTemplate,
 			},
 			{
 				link: '/image-gallery',
@@ -246,6 +260,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.ImageGallery,
 			},
 		],
 	},
@@ -274,6 +289,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.CasinoManagement,
 			},
 			{
 				link: '/casino-providers',
@@ -285,6 +301,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.CasinoManagement,
 			},
 			{
 				link: '/categories',
@@ -296,6 +313,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.CasinoManagement,
 			},
 			{
 				link: '/sub-categories',
@@ -307,6 +325,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.CasinoManagement,
 			},
 			{
 				link: '/casino-games',
@@ -318,6 +337,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.CasinoManagement,
 			},
 			{
 				link: '/banner-management',
@@ -329,6 +349,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.BannerManagement,
 			},
 		],
 	},
@@ -357,6 +378,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.LoyaltyManagement,
 			},
 			{
 				link: '/wagering-template',
@@ -368,6 +390,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.WageringTemplate,
 			},
 			{
 				link: '/bonus',
@@ -379,6 +402,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.Bonus,
 			},
 		],
 	},
@@ -407,6 +431,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.Transactions,
 			},
 			{
 				link: '/casino-transactions',
@@ -418,6 +443,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.Transactions,
 			},
 			{
 				link: '/sports-transactions',
@@ -429,6 +455,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.Transactions,
 			},
 			{
 				link: '/withdraw-request',
@@ -440,6 +467,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.Transactions,
 			},
 			{
 				link: '/review-management',
@@ -451,6 +479,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.Reviews,
 			},
 		],
 	},
@@ -468,6 +497,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		module: modules.BetSettings,
 	},
 	// {
 	// 	link: '/matches',
@@ -512,6 +542,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.SportbookManagement,
 			},
 			{
 				link: '/sports/countries',
@@ -523,6 +554,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.SportbookManagement,
 			},
 			{
 				link: '/sports/leagues',
@@ -534,6 +566,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.SportbookManagement,
 			},
 			{
 				link: '/matches',
@@ -545,6 +578,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.SportbookManagement,
 			},
 			{
 				link: '/markets',
@@ -556,6 +590,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
+				module: modules.SportbookManagement,
 			},
 		],
 	},
