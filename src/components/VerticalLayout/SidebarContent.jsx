@@ -10,12 +10,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import withRouter from '../Common/withRouter';
 import sideBarElements from '../../constants/sidebar';
+import usePermission from '../Common/Hooks/usePermission';
 
 // i18n
 
 const SidebarContent = ({ t }) => {
 	const ref = useRef();
 	const path = useLocation();
+	const { isGranted } = usePermission();
 
 	function scrollElement(item) {
 		if (item) {
@@ -147,6 +149,9 @@ const SidebarContent = ({ t }) => {
 					<li className="menu-title">{t('Menu')} </li>
 
 					{sideBarElements.map((nav) => {
+						if (nav?.module && !isGranted(nav.module, 'R')) {
+							return null;
+						}
 						if (nav?.isSeprator) {
 							return <li className="menu-title">{nav.title} </li>;
 						}

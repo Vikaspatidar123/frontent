@@ -1,99 +1,106 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({ handleEdit, cell, handleStatus }) => {
 	const active = cell?.row?.original?.isActive;
 	const adminUserId = cell?.row?.original?.adminUserId;
+	const { isGranted } = usePermission();
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top">
-				<Link
-					to={`/staff/details/${adminUserId}`}
-					className="btn btn-sm btn-soft-primary"
-				>
-					<i
-						className="mdi mdi-eye-outline"
-						id={`view-tooltip-${adminUserId}`}
-					/>
-				</Link>
-			</li>
-			<UncontrolledTooltip
-				placement="top"
-				target={`view-tooltip-${adminUserId}`}
-			>
-				View Details
-			</UncontrolledTooltip>
-
-			<li>
-				{active ? (
+			{isGranted(modules.Admins, 'R') && (
+				<li data-bs-toggle="tooltip" data-bs-placement="top">
 					<Link
-						to="#"
-						className="btn btn-sm btn-soft-danger"
-						onClick={(e) =>
-							handleStatus(e, {
-								active,
-								adminUserId,
-							})
-						}
+						to={`/staff/details/${adminUserId}`}
+						className="btn btn-sm btn-soft-primary"
 					>
 						<i
-							className="mdi mdi-close-thick"
-							id={`active-tooltip-${adminUserId}`}
+							className="mdi mdi-eye-outline"
+							id={`view-tooltip-${adminUserId}`}
 						/>
 						<UncontrolledTooltip
 							placement="top"
-							target={`active-tooltip-${adminUserId}`}
+							target={`view-tooltip-${adminUserId}`}
 						>
-							Set Inactive
+							View Details
 						</UncontrolledTooltip>
 					</Link>
-				) : (
+				</li>
+			)}
+			{isGranted(modules.Admins, 'T') && (
+				<li>
+					{active ? (
+						<Link
+							to="#!"
+							className="btn btn-sm btn-soft-danger"
+							onClick={(e) =>
+								handleStatus(e, {
+									active,
+									adminUserId,
+								})
+							}
+						>
+							<i
+								className="mdi mdi-close-thick"
+								id={`active-tooltip-${adminUserId}`}
+							/>
+							<UncontrolledTooltip
+								placement="top"
+								target={`active-tooltip-${adminUserId}`}
+							>
+								Set Inactive
+							</UncontrolledTooltip>
+						</Link>
+					) : (
+						<Link
+							to="#!"
+							className="btn btn-sm btn-soft-success"
+							onClick={(e) =>
+								handleStatus(e, {
+									active,
+									adminUserId,
+								})
+							}
+						>
+							<i
+								className="mdi mdi-check-circle"
+								id={`active-tooltip-${adminUserId}`}
+							/>
+							<UncontrolledTooltip
+								placement="top"
+								target={`active-tooltip-${adminUserId}`}
+							>
+								Set Active
+							</UncontrolledTooltip>
+						</Link>
+					)}
+				</li>
+			)}
+
+			{isGranted(modules.Admins, 'U') && (
+				<li>
 					<Link
-						to="#"
-						className="btn btn-sm btn-soft-success"
-						onClick={(e) =>
-							handleStatus(e, {
-								active,
-								adminUserId,
-							})
-						}
+						to="#!"
+						className="btn btn-sm btn-soft-info"
+						onClick={(e) => handleEdit(e, cell?.row?.original)}
 					>
 						<i
-							className="mdi mdi-check-circle"
-							id={`active-tooltip-${adminUserId}`}
+							className="mdi mdi-pencil-outline"
+							id={`edit-tooltip-${adminUserId}`}
 						/>
 						<UncontrolledTooltip
 							placement="top"
-							target={`active-tooltip-${adminUserId}`}
+							target={`edit-tooltip-${adminUserId}`}
 						>
-							Set Active
+							Edit Details
 						</UncontrolledTooltip>
 					</Link>
-				)}
-			</li>
-
-			<li>
-				<Link
-					to="#"
-					className="btn btn-sm btn-soft-info"
-					onClick={(e) => handleEdit(e, cell?.row?.original)}
-				>
-					<i
-						className="mdi mdi-pencil-outline"
-						id={`edit-tooltip-${adminUserId}`}
-					/>
-					<UncontrolledTooltip
-						placement="top"
-						target={`edit-tooltip-${adminUserId}`}
-					>
-						Edit Details
-					</UncontrolledTooltip>
-				</Link>
-			</li>
+				</li>
+			)}
 
 			{/* <li>
 				<Link to="/" className="btn btn-sm btn-soft-danger">

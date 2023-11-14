@@ -25,6 +25,7 @@ import {
 } from '../../../store/actions';
 import useAdminListing from './useAdminListing';
 import { showToastr } from '../../../utils/helpers';
+import { modules } from '../../../constants/permissions';
 
 const useActions = (isEditPage, filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -133,6 +134,8 @@ const useActions = (isEditPage, filterValues = {}) => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.Admins,
+			operation: 'C',
 		},
 	]);
 
