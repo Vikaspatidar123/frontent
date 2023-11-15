@@ -91,7 +91,7 @@ const Navbar = ({ leftMenu, menuOpen }) => {
 										className="nav-link arrow-none"
 										onClick={(e) => {
 											e.preventDefault();
-											setOpen(nav.id);
+											setOpen((prev) => (prev === nav.id ? 0 : nav.id));
 										}}
 										to={nav?.link || '#'}
 									>

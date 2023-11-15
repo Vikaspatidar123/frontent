@@ -234,7 +234,7 @@ const RightSidebar = (props) => (
 							)}
 						</div>
 
-						{props.layoutType === 'vertical' ? (
+						{props.layoutType === 'vertical' && (
 							<>
 								<hr className="mt-1" />
 								<div className="radio-toolbar">
@@ -287,377 +287,258 @@ const RightSidebar = (props) => (
 										Icon
 									</label>
 								</div>
-
-								<hr className="mt-1" />
-								<div className="radio-toolbar">
-									<span className="mb-2 d-block" id="radio-title">
-										Table Header{' '}
-									</span>
-									<input
-										type="radio"
-										id="darkHeader"
-										// name="sidebarType"
-										value={tableHeaderClass.GREY}
-										checked={props.tableHeaderClass === tableHeaderClass.GREY}
-										onChange={(e) => {
-											if (e.target.checked) {
-												props.setTableHeaderClass(e.target.value);
-											}
-										}}
-									/>
-									<label className="me-1" htmlFor="darkHeader">
-										GREY
-									</label>
-									<input
-										type="radio"
-										id="whiteHeader"
-										// name="sidebarType"
-										value={tableHeaderClass.TRANSPARENT}
-										checked={
-											props.tableHeaderClass === tableHeaderClass.TRANSPARENT
-										}
-										onChange={(e) => {
-											if (e.target.checked) {
-												props.setTableHeaderClass(e.target.value);
-											}
-										}}
-									/>
-									<label className="me-1" htmlFor="whiteHeader">
-										LIGHT
-									</label>
-								</div>
-
-								<hr className="mt-1" />
-
-								<div className="radio-toolbar">
-									<span className="mb-2 d-block" id="radio-title">
-										Breadcrumb{' '}
-									</span>
-									<input
-										type="radio"
-										id="showBreadcrumb"
-										value
-										checked={props.showBreadcrumb}
-										onChange={() => {
-											props.setBreadcrumb(true);
-										}}
-									/>
-									<label className="me-1" htmlFor="showBreadcrumb">
-										SHOW
-									</label>
-									<input
-										type="radio"
-										id="hideBreadcrumb"
-										value={false}
-										checked={!props.showBreadcrumb}
-										onChange={() => {
-											props.setBreadcrumb(false);
-										}}
-									/>
-									<label className="me-1" htmlFor="hideBreadcrumb">
-										HIDE
-									</label>
-								</div>
-
-								<hr className="mt-1" />
-
-								<div className="radio-toolbar coloropt-radio">
-									<span className="mb-2 d-block" id="radio-title">
-										Left Sidebar Color Options
-									</span>
-									<Row>
-										<Col>
-											<input
-												type="radio"
-												id="leftsidebarThemelight"
-												name="leftsidebarTheme"
-												value={leftSideBarThemeTypes.LIGHT}
-												checked={
-													props.leftSideBarTheme === leftSideBarThemeTypes.LIGHT
-												}
-												onChange={(e) => {
-													if (e.target.checked) {
-														props.changeSidebarTheme(e.target.value);
-													}
-												}}
-											/>
-											<label
-												htmlFor="leftsidebarThemelight"
-												className={
-													props.layoutModeType === 'dark'
-														? 'bg-dark rounded-circle wh-30 me-1'
-														: 'bg-light rounded-circle wh-30 me-1'
-												}
-											/>
-
-											<input
-												type="radio"
-												id="leftsidebarThemedark"
-												name="leftsidebarTheme"
-												value={leftSideBarThemeTypes.DARK}
-												checked={
-													props.leftSideBarTheme === leftSideBarThemeTypes.DARK
-												}
-												onChange={(e) => {
-													if (e.target.checked) {
-														props.changeSidebarTheme(e.target.value);
-													}
-												}}
-											/>
-											<label
-												htmlFor="leftsidebarThemedark"
-												className={
-													props.layoutModeType === 'light'
-														? 'bg-dark rounded-circle wh-30 me-1'
-														: 'bg-light rounded-circle wh-30 me-1'
-												}
-											/>
-
-											<input
-												type="radio"
-												id="leftsidebarThemecolored"
-												name="leftsidebarTheme"
-												value={leftSideBarThemeTypes.COLORED}
-												checked={
-													props.leftSideBarTheme ===
-													leftSideBarThemeTypes.COLORED
-												}
-												onChange={(e) => {
-													if (e.target.checked) {
-														props.changeSidebarTheme(e.target.value);
-													}
-												}}
-											/>
-											<label
-												htmlFor="leftsidebarThemecolored"
-												className="bg-colored rounded-circle wh-30 me-1"
-											/>
-										</Col>
-									</Row>
-									<Row>
-										<Col>
-											<input
-												type="radio"
-												id="leftsidebarThemewinter"
-												name="leftsidebarTheme"
-												value={leftSideBarThemeTypes.WINTER}
-												checked={
-													props.leftSideBarTheme ===
-													leftSideBarThemeTypes.WINTER
-												}
-												onChange={(e) => {
-													if (e.target.checked) {
-														props.changeSidebarTheme(e.target.value);
-													}
-												}}
-											/>
-											<label
-												htmlFor="leftsidebarThemewinter"
-												className="gradient-winter rounded-circle wh-30 me-1"
-											/>
-
-											<input
-												type="radio"
-												id="leftsidebarThemeladylip"
-												name="leftsidebarTheme"
-												value={leftSideBarThemeTypes.LADYLIP}
-												checked={
-													props.leftSideBarTheme ===
-													leftSideBarThemeTypes.LADYLIP
-												}
-												onChange={(e) => {
-													if (e.target.checked) {
-														props.changeSidebarTheme(e.target.value);
-													}
-												}}
-											/>
-											<label
-												htmlFor="leftsidebarThemeladylip"
-												className="gradient-lady-lip rounded-circle wh-30 me-1"
-											/>
-
-											<input
-												type="radio"
-												id="leftsidebarThemeplumplate"
-												name="leftsidebarTheme"
-												value={leftSideBarThemeTypes.PLUMPLATE}
-												checked={
-													props.leftSideBarTheme ===
-													leftSideBarThemeTypes.PLUMPLATE
-												}
-												onChange={(e) => {
-													if (e.target.checked) {
-														props.changeSidebarTheme(e.target.value);
-													}
-												}}
-											/>
-											<label
-												htmlFor="leftsidebarThemeplumplate"
-												className="gradient-plum-plate rounded-circle wh-30 me-1"
-											/>
-
-											<input
-												type="radio"
-												id="leftsidebarThemestrongbliss"
-												name="leftsidebarTheme"
-												value={leftSideBarThemeTypes.STRONGBLISS}
-												checked={
-													props.leftSideBarTheme ===
-													leftSideBarThemeTypes.STRONGBLISS
-												}
-												onChange={(e) => {
-													if (e.target.checked) {
-														props.changeSidebarTheme(e.target.value);
-													}
-												}}
-											/>
-											<label
-												htmlFor="leftsidebarThemestrongbliss"
-												className="gradient-strong-bliss rounded-circle wh-30 me-1"
-											/>
-											<input
-												type="radio"
-												id="leftsidebarThemesgreatwhale"
-												name="leftsidebarTheme"
-												value={leftSideBarThemeTypes.GREATWHALE}
-												checked={
-													props.leftSideBarTheme ===
-													leftSideBarThemeTypes.GREATWHALE
-												}
-												onChange={(e) => {
-													if (e.target.checked) {
-														props.changeSidebarTheme(e.target.value);
-													}
-												}}
-											/>
-											<label
-												htmlFor="leftsidebarThemesgreatwhale"
-												className="gradient-strong-great-whale rounded-circle wh-30 me-1"
-											/>
-										</Col>
-									</Row>
-								</div>
-								{/* <div className="radio-toolbar imgopt-radio">
-                    <span className="mb-2 d-block" id="radio-bgimg">
-                      Left Sidebar Bg Image
-                    </span>
-                    <div className="d-flex gap-2 flex-wrap">
-                      <input
-                        type="radio"
-                        id="leftsidebarThemebgimg1"
-                        name="leftsidebarThemeImage"
-                        value={leftBarThemeImageTypes.IMG1}
-                        checked={props.leftSideBarThemeImage === leftBarThemeImageTypes.IMG1}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            props.changeSidebarThemeImage(e.target.value);
-                          }
-                        }}
-                      />
-
-                      <label htmlFor="leftsidebarThemebgimg1">
-                        <img
-                          alt="sidebar bg image"
-                          width="90"
-                          className="themesideimage rounded"
-                          src={bgimg1}
-                        />
-                      </label>
-                      {"   "}
-
-                      <input
-                        type="radio"
-                        id="leftsidebarThemebgimg2"
-                        name="leftsidebarThemeImage"
-                        value={leftBarThemeImageTypes.IMG2}
-                        checked={props.leftSideBarThemeImage === leftBarThemeImageTypes.IMG2}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            props.changeSidebarThemeImage(e.target.value);
-                          }
-                        }}
-                      />
-
-                      <label htmlFor="leftsidebarThemebgimg2">
-                        <img
-                          alt="sidebar bg image"
-                          width="90"
-                          className="themesideimage rounded"
-                          src={bgimg2}
-                        />
-                      </label>
-                      {"   "}
-
-                      <input
-                        type="radio"
-                        id="leftsidebarThemebgimg3"
-                        name="leftsidebarThemeImage"
-                        value={leftBarThemeImageTypes.IMG3}
-                        checked={props.leftSideBarThemeImage === leftBarThemeImageTypes.IMG3}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            props.changeSidebarThemeImage(e.target.value);
-                          }
-                        }}
-                      />
-
-                      <label htmlFor="leftsidebarThemebgimg3">
-                        <img
-                          alt="sidebar bg image"
-                          width="90"
-                          className="themesideimage rounded"
-                          src={bgimg3}
-                        />
-                      </label>
-                      {"   "}
-                      <input
-                        type="radio"
-                        id="leftsidebarThemebgimg4"
-                        name="leftsidebarThemeImage"
-                        value={leftBarThemeImageTypes.IMG4}
-                        checked={props.leftSideBarThemeImage === leftBarThemeImageTypes.IMG4}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            props.changeSidebarThemeImage(e.target.value);
-                          }
-                        }}
-                      />
-                      <label htmlFor="leftsidebarThemebgimg4">
-                        <img
-                          alt="sidebar bg image"
-                          width="90"
-                          className="themesideimage rounded"
-                          src={bgimg4}
-                        />
-                      </label>
-                      {"   "}
-
-                      <input
-                        type="radio"
-                        id="leftsidebarThemenone"
-                        name="leftsidebarThemeImage"
-                        value={leftBarThemeImageTypes.NONE}
-                        checked={props.leftSideBarThemeImage === leftBarThemeImageTypes.NONE}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            props.changeSidebarThemeImage(e.target.value);
-                          }
-                        }}
-                      />
-                      <label htmlFor="leftsidebarThemenone">
-                        <div style={{ width: "40px", height: "80px" }}>
-                          <div className="bg-light border px-2 h-100 shadow-none">
-                            <div className="verticalcontent">None</div>
-                          </div>
-                        </div>
-                      </label>
-                      {"   "}
-                    </div>
-                  </div> */}
-								<hr className="mt-1" />
 							</>
-						) : null}
+						)}
 
+						<hr className="mt-1" />
+						<div className="radio-toolbar">
+							<span className="mb-2 d-block" id="radio-title">
+								Table Header{' '}
+							</span>
+							<input
+								type="radio"
+								id="darkHeader"
+								// name="sidebarType"
+								value={tableHeaderClass.GREY}
+								checked={props.tableHeaderClass === tableHeaderClass.GREY}
+								onChange={(e) => {
+									if (e.target.checked) {
+										props.setTableHeaderClass(e.target.value);
+									}
+								}}
+							/>
+							<label className="me-1" htmlFor="darkHeader">
+								GREY
+							</label>
+							<input
+								type="radio"
+								id="whiteHeader"
+								// name="sidebarType"
+								value={tableHeaderClass.TRANSPARENT}
+								checked={
+									props.tableHeaderClass === tableHeaderClass.TRANSPARENT
+								}
+								onChange={(e) => {
+									if (e.target.checked) {
+										props.setTableHeaderClass(e.target.value);
+									}
+								}}
+							/>
+							<label className="me-1" htmlFor="whiteHeader">
+								LIGHT
+							</label>
+						</div>
+
+						<hr className="mt-1" />
+
+						<div className="radio-toolbar">
+							<span className="mb-2 d-block" id="radio-title">
+								Breadcrumb{' '}
+							</span>
+							<input
+								type="radio"
+								id="showBreadcrumb"
+								value
+								checked={props.showBreadcrumb}
+								onChange={() => {
+									props.setBreadcrumb(true);
+								}}
+							/>
+							<label className="me-1" htmlFor="showBreadcrumb">
+								SHOW
+							</label>
+							<input
+								type="radio"
+								id="hideBreadcrumb"
+								value={false}
+								checked={!props.showBreadcrumb}
+								onChange={() => {
+									props.setBreadcrumb(false);
+								}}
+							/>
+							<label className="me-1" htmlFor="hideBreadcrumb">
+								HIDE
+							</label>
+						</div>
+
+						<hr className="mt-1" />
+
+						{props.layoutType === 'vertical' && (
+							<div className="radio-toolbar coloropt-radio">
+								<span className="mb-2 d-block" id="radio-title">
+									Left Sidebar Color Options
+								</span>
+								<Row>
+									<Col>
+										<input
+											type="radio"
+											id="leftsidebarThemelight"
+											name="leftsidebarTheme"
+											value={leftSideBarThemeTypes.LIGHT}
+											checked={
+												props.leftSideBarTheme === leftSideBarThemeTypes.LIGHT
+											}
+											onChange={(e) => {
+												if (e.target.checked) {
+													props.changeSidebarTheme(e.target.value);
+												}
+											}}
+										/>
+										<label
+											htmlFor="leftsidebarThemelight"
+											className={
+												props.layoutModeType === 'dark'
+													? 'bg-dark rounded-circle wh-30 me-1'
+													: 'bg-light rounded-circle wh-30 me-1'
+											}
+										/>
+
+										<input
+											type="radio"
+											id="leftsidebarThemedark"
+											name="leftsidebarTheme"
+											value={leftSideBarThemeTypes.DARK}
+											checked={
+												props.leftSideBarTheme === leftSideBarThemeTypes.DARK
+											}
+											onChange={(e) => {
+												if (e.target.checked) {
+													props.changeSidebarTheme(e.target.value);
+												}
+											}}
+										/>
+										<label
+											htmlFor="leftsidebarThemedark"
+											className={
+												props.layoutModeType === 'light'
+													? 'bg-dark rounded-circle wh-30 me-1'
+													: 'bg-light rounded-circle wh-30 me-1'
+											}
+										/>
+
+										<input
+											type="radio"
+											id="leftsidebarThemecolored"
+											name="leftsidebarTheme"
+											value={leftSideBarThemeTypes.COLORED}
+											checked={
+												props.leftSideBarTheme === leftSideBarThemeTypes.COLORED
+											}
+											onChange={(e) => {
+												if (e.target.checked) {
+													props.changeSidebarTheme(e.target.value);
+												}
+											}}
+										/>
+										<label
+											htmlFor="leftsidebarThemecolored"
+											className="bg-colored rounded-circle wh-30 me-1"
+										/>
+									</Col>
+								</Row>
+								<Row>
+									<Col>
+										<input
+											type="radio"
+											id="leftsidebarThemewinter"
+											name="leftsidebarTheme"
+											value={leftSideBarThemeTypes.WINTER}
+											checked={
+												props.leftSideBarTheme === leftSideBarThemeTypes.WINTER
+											}
+											onChange={(e) => {
+												if (e.target.checked) {
+													props.changeSidebarTheme(e.target.value);
+												}
+											}}
+										/>
+										<label
+											htmlFor="leftsidebarThemewinter"
+											className="gradient-winter rounded-circle wh-30 me-1"
+										/>
+
+										<input
+											type="radio"
+											id="leftsidebarThemeladylip"
+											name="leftsidebarTheme"
+											value={leftSideBarThemeTypes.LADYLIP}
+											checked={
+												props.leftSideBarTheme === leftSideBarThemeTypes.LADYLIP
+											}
+											onChange={(e) => {
+												if (e.target.checked) {
+													props.changeSidebarTheme(e.target.value);
+												}
+											}}
+										/>
+										<label
+											htmlFor="leftsidebarThemeladylip"
+											className="gradient-lady-lip rounded-circle wh-30 me-1"
+										/>
+
+										<input
+											type="radio"
+											id="leftsidebarThemeplumplate"
+											name="leftsidebarTheme"
+											value={leftSideBarThemeTypes.PLUMPLATE}
+											checked={
+												props.leftSideBarTheme ===
+												leftSideBarThemeTypes.PLUMPLATE
+											}
+											onChange={(e) => {
+												if (e.target.checked) {
+													props.changeSidebarTheme(e.target.value);
+												}
+											}}
+										/>
+										<label
+											htmlFor="leftsidebarThemeplumplate"
+											className="gradient-plum-plate rounded-circle wh-30 me-1"
+										/>
+
+										<input
+											type="radio"
+											id="leftsidebarThemestrongbliss"
+											name="leftsidebarTheme"
+											value={leftSideBarThemeTypes.STRONGBLISS}
+											checked={
+												props.leftSideBarTheme ===
+												leftSideBarThemeTypes.STRONGBLISS
+											}
+											onChange={(e) => {
+												if (e.target.checked) {
+													props.changeSidebarTheme(e.target.value);
+												}
+											}}
+										/>
+										<label
+											htmlFor="leftsidebarThemestrongbliss"
+											className="gradient-strong-bliss rounded-circle wh-30 me-1"
+										/>
+										<input
+											type="radio"
+											id="leftsidebarThemesgreatwhale"
+											name="leftsidebarTheme"
+											value={leftSideBarThemeTypes.GREATWHALE}
+											checked={
+												props.leftSideBarTheme ===
+												leftSideBarThemeTypes.GREATWHALE
+											}
+											onChange={(e) => {
+												if (e.target.checked) {
+													props.changeSidebarTheme(e.target.value);
+												}
+											}}
+										/>
+										<label
+											htmlFor="leftsidebarThemesgreatwhale"
+											className="gradient-strong-great-whale rounded-circle wh-30 me-1"
+										/>
+									</Col>
+								</Row>
+							</div>
+						)}
+						<hr className="mt-1" />
 						<FormGroup>
 							<span className="mb-2 d-block" id="radio-title">
 								Preloader

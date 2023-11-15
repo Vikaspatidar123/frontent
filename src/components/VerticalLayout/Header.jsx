@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -25,7 +25,6 @@ import {
 import MegaMenu from '../CommonForBoth/TopbarDropdown/MegaMenu';
 
 const Header = (props) => {
-	const [search, setsearch] = useState(false);
 	function toggleFullscreen() {
 		if (
 			!document.fullscreenElement &&
@@ -95,7 +94,7 @@ const Header = (props) => {
 					<MegaMenu />
 				</div>
 				<div className="d-flex">
-					<div className="dropdown d-inline-block d-lg-none ms-2">
+					{/* <div className="dropdown d-inline-block d-lg-none ms-2">
 						<button
 							onClick={() => {
 								setsearch(!search);
@@ -132,7 +131,7 @@ const Header = (props) => {
 								</div>
 							</form>
 						</div>
-					</div>
+					</div> */}
 
 					{/* <LanguageDropdown /> */}
 
@@ -178,17 +177,14 @@ const Header = (props) => {
 
 Header.defaultProps = {
 	// changeSidebarType: PropTypes.func,
-	// leftMenu: PropTypes.objectOf,
 	// leftSideBarType: PropTypes.objectOf,
 	showRightSidebar: () => {},
 	showRightSidebarAction: () => {},
 	// t: () => {},
-	// toggleLeftmenu: PropTypes.func
 };
 
 Header.propTypes = {
 	// changeSidebarType: PropTypes.func,
-	// leftMenu: PropTypes.objectOf,
 	// leftSideBarType: PropTypes.objectOf,
 	showRightSidebar: PropTypes.objectOf,
 	showRightSidebarAction: PropTypes.func,

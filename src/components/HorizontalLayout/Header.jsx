@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-undef */
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // Redux Store
 import { withTranslation } from 'react-i18next';
-// import { showRightSidebarAction, toggleLeftmenu } from "../../store/actions";
+import {
+	showRightSidebarAction,
+	toggleLeftmenu,
+	changeSidebarType,
+} from '../../store/actions';
 // reactstrap
 
 // Import menuDropdown
 import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 
-import logo from '../../assets/images/logo.svg';
 import logoDark from '../../assets/images/logo-dark.png';
 
 // import images
@@ -20,14 +25,7 @@ import MegaMenu from '../CommonForBoth/TopbarDropdown/MegaMenu';
 
 // i18n
 
-const Header = ({
-	toggleLeftmenu,
-	leftMenu,
-	showRightSidebarAction,
-	showRightSidebar,
-}) => {
-	const [isSearch, setSearch] = useState(false);
-
+const Header = (props) => {
 	function toggleFullscreen() {
 		if (
 			!document.fullscreenElement &&
@@ -59,7 +57,7 @@ const Header = ({
 					<div className="navbar-brand-box">
 						<Link to="/" className="logo">
 							<span className="logo-sm">
-								<img src={logo} alt="" height="20" />
+								<img src={logoDark} alt="" height="20" />
 							</span>
 							<span className="logo-lg">
 								<img src={logoDark} alt="" height="30" />
@@ -72,7 +70,7 @@ const Header = ({
 						className="btn btn-sm px-3 font-size-16 d-lg-none header-item"
 						data-toggle="collapse"
 						onClick={() => {
-							toggleLeftmenu(!leftMenu);
+							props.toggleLeftmenu(!props.leftMenu);
 						}}
 						data-target="#topnav-menu-content"
 					>
@@ -85,7 +83,7 @@ const Header = ({
 				</div>
 
 				<div className="d-flex">
-					<div className="dropdown d-inline-block d-lg-none ms-2">
+					{/* <div className="dropdown d-inline-block d-lg-none ms-2">
 						<button
 							type="button"
 							className="btn header-item noti-icon "
@@ -120,7 +118,7 @@ const Header = ({
 								</div>
 							</form>
 						</div>
-					</div>
+					</div> */}
 
 					{/* <LanguageDropdown /> */}
 
@@ -146,7 +144,7 @@ const Header = ({
 					<div className="dropdown d-inline-block">
 						<button
 							onClick={() => {
-								showRightSidebarAction(!showRightSidebar);
+								props.showRightSidebarAction(!props.showRightSidebar);
 							}}
 							type="button"
 							className="btn header-item noti-icon right-bar-toggle "
@@ -161,15 +159,20 @@ const Header = ({
 };
 
 Header.propTypes = {
-	leftMenu: PropTypes.bool.isRequired,
 	showRightSidebar: PropTypes.bool.isRequired,
 	showRightSidebarAction: PropTypes.func.isRequired,
+	leftMenu: PropTypes.bool.isRequired,
 	toggleLeftmenu: PropTypes.func.isRequired,
 };
 
 const mapStatetoProps = (state) => {
-	const { layoutType, showRightSidebar, leftMenu } = state.Layout;
-	return { layoutType, showRightSidebar, leftMenu };
+	const { layoutType, showRightSidebar, leftMenu, leftSideBarType } =
+		state.Layout;
+	return { layoutType, showRightSidebar, leftMenu, leftSideBarType };
 };
 
-export default connect(mapStatetoProps, {})(withTranslation()(Header));
+export default connect(mapStatetoProps, {
+	showRightSidebarAction,
+	toggleLeftmenu,
+	changeSidebarType,
+})(withTranslation()(Header));
