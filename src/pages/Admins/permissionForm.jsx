@@ -58,7 +58,7 @@ const PermissionForm = ({
 									<div className="list-group list-group-flush">
 										{permissions[key].map((value) => (
 											<div className="d-flex justify-content-between align-items-center py-1 px-3 list-group-item">
-												<small>{permissionLabel(value)}</small>
+												<p className="m-0 p-0">{permissionLabel(value)}</p>
 												<div className="form-check">
 													{permissions[key].includes('R') ? (
 														<CustomInputField

@@ -31,7 +31,9 @@ const Permissions = ({ details }) => (
 															className="d-flex justify-content-between align-items-center py-1 px-3 list-group-item"
 															key={permissionKey}
 														>
-															<small>{permissionLabel(permissionKey)}</small>
+															<p className="m-0 p-0">
+																{permissionLabel(permissionKey)}
+															</p>
 															<img
 																width={16}
 																src="/src/assets/images/small/check.svg"

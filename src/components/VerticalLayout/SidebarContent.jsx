@@ -175,7 +175,7 @@ const SidebarContent = ({ t }) => {
 					})}
 				</ul>
 				<p className="text-center w-100 bottom-text">
-					powered by GAMMASTACK V1
+					ARC 1.0.0 powered by GAMMASTACK
 				</p>
 			</div>
 		</SimpleBar>

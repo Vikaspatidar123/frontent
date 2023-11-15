@@ -3,6 +3,7 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import { Card, Container } from 'reactstrap';
+import { isEmpty } from 'lodash';
 import TableContainer from '../../components/Common/TableContainer';
 import { KeyValueCell } from './TableCol';
 import { keyArray } from './constants';
@@ -12,7 +13,7 @@ import { formatDate } from '../../utils/dateFormatter';
 const PlayerWallet = ({ userDetails }) => {
 	const formattedUserDetails = useMemo(() => {
 		const arrayToReturn = [];
-		if (userDetails) {
+		if (!isEmpty(userDetails)) {
 			const currencySymbol =
 				currencyCodeList[userDetails?.userWallet?.currencyCode];
 			const copyArray = {
@@ -85,7 +86,8 @@ const PlayerWallet = ({ userDetails }) => {
 					pagination="pagination justify-content-start pagination-rounded"
 					customPageSize={20}
 					hideHeader
-					cellPadding="0.25rem"
+					cellPadding="0.3rem"
+					tableClass="table-striped table-hover "
 				/>
 			</Card>
 		</Container>
