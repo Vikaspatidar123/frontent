@@ -143,8 +143,8 @@ const SidebarContent = ({ t }) => {
 	}, [activeMenu]);
 
 	return (
-		<SimpleBar className="h-100" ref={ref}>
-			<div id="sidebar-menu">
+		<SimpleBar className="h-100 simple-bar" ref={ref}>
+			<div id="sidebar-menu" className="h-100 position-relative">
 				<ul className="metismenu list-unstyled" id="side-menu">
 					{sideBarElements.map((nav) => {
 						if (nav?.module && !isGranted(nav.module, 'R')) {
@@ -172,6 +172,9 @@ const SidebarContent = ({ t }) => {
 						);
 					})}
 				</ul>
+				<p className="text-center w-100 bottom-text">
+					ARC 1.0.0 powered by GAMMASTACK
+				</p>
 			</div>
 		</SimpleBar>
 	);
