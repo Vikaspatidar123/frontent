@@ -28,6 +28,8 @@ import GiveBonusModal from './modals/GiveBonus';
 import ManageMoney from './modals/ManageMoney';
 import UpdateUserInfo from './modals/UpdateUserInfo';
 import ResetUserPassword from './modals/ResetUserPassword';
+import { modules } from '../../constants/permissions';
+import usePermission from '../../components/Common/Hooks/usePermission';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -36,6 +38,7 @@ const ColumnContainer = ({ hidden, children }) => (
 );
 
 const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
+	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
 	const { playerId } = useParams();
 	const [openResetMenu, setOpenResetMenu] = useState(false);
@@ -141,47 +144,49 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 							</h4>
 							<div className="div-overview">
 								<Row>
-									<ColumnContainer>
-										<Button
-											className="actionButton w-100"
-											variant={
-												userDetails?.isActive
-													? 'outline-danger'
-													: 'outline-success'
-											}
-											// hidden={isHidden({ module: { key: 'Users', value: 'T' } })}
-											onClick={() => openModal('activeInactiveModal')}
+									{isGranted(modules.Users, 'T') && (
+										<ColumnContainer>
+											<Button
+												className="actionButton w-100"
+												variant={
+													userDetails?.isActive
+														? 'outline-danger'
+														: 'outline-success'
+												}
+												onClick={() => openModal('activeInactiveModal')}
+											>
+												{userDetails && userDetails?.isActive
+													? 'In-Active'
+													: 'Active'}
+											</Button>
+										</ColumnContainer>
+									)}
+									{(isGranted(modules.Users, 'U') ||
+										userDetails?.tags?.includes('Internal')) && (
+										<ColumnContainer
+											hidden={userDetails?.tags?.includes('Internal')}
 										>
-											{userDetails && userDetails?.isActive
-												? 'In-Active'
-												: 'Active'}
-										</Button>
-									</ColumnContainer>
-									<ColumnContainer
-										hidden={userDetails?.tags?.includes('Internal')}
-									>
-										<Button
-											className="actionButton w-100"
-											variant="outline-warning"
-											// hidden={
-											// isHidden({ module: { key: 'Users', value: 'U' } }) ||
-											// userDetails?.tags?.includes('Internal')
-											// }
-											onClick={() => openModal('internalModal')}
-										>
-											Internal
-										</Button>
-									</ColumnContainer>
-									<ColumnContainer hidden={userDetails?.isEmailVerified}>
-										<Button
-											className="actionButton w-100"
-											variant="outline-success"
-											// hidden={isHidden({ module: { key: 'Users', value: 'EV' } }) || userDetails?.isEmailVerified}
-											onClick={() => openModal('verifyEmailModal')}
-										>
-											Verify Email
-										</Button>
-									</ColumnContainer>
+											<Button
+												className="actionButton w-100"
+												variant="outline-warning"
+												onClick={() => openModal('internalModal')}
+											>
+												Internal
+											</Button>
+										</ColumnContainer>
+									)}
+									{(isGranted(modules.Users, 'EV') ||
+										userDetails?.isEmailVerified) && (
+										<ColumnContainer hidden={userDetails?.isEmailVerified}>
+											<Button
+												className="actionButton w-100"
+												variant="outline-success"
+												onClick={() => openModal('verifyEmailModal')}
+											>
+												Verify Email
+											</Button>
+										</ColumnContainer>
+									)}
 									<ColumnContainer>
 										<Button
 											variant="outline-warning"
@@ -200,26 +205,28 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											Duplicates ({duplicateUsers?.count})
 										</Button>
 									</ColumnContainer>
-									<ColumnContainer>
-										<Button
-											className="actionButton w-100"
-											variant="outline-secondary"
-											// hidden={isHidden({ module: { key: 'Bonus', value: 'Issue' } })}
-											onClick={() => openModal('giveBonusModal')}
-										>
-											Give Bonus
-										</Button>
-									</ColumnContainer>
-									<ColumnContainer>
-										<Button
-											className="actionButton w-100"
-											variant="outline-success"
-											// hidden={isHidden({ module: { key: 'Users', value: 'AB' } })}
-											onClick={() => openModal('manageMoneyModal')}
-										>
-											Manage Money
-										</Button>
-									</ColumnContainer>
+									{isGranted(modules.Bonus, 'Issue') && (
+										<ColumnContainer>
+											<Button
+												className="actionButton w-100"
+												variant="outline-secondary"
+												onClick={() => openModal('giveBonusModal')}
+											>
+												Give Bonus
+											</Button>
+										</ColumnContainer>
+									)}
+									{isGranted(modules.Users, 'AB') && (
+										<ColumnContainer>
+											<Button
+												className="actionButton w-100"
+												variant="outline-success"
+												onClick={() => openModal('manageMoneyModal')}
+											>
+												Manage Money
+											</Button>
+										</ColumnContainer>
+									)}
 									<ColumnContainer hidden>
 										{userDetails?.trackingToken &&
 											userDetails?.isAffiliateUpdated === false && (
@@ -261,43 +268,46 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 												</Button>
 											)}
 									</ColumnContainer>
-									<ColumnContainer>
-										<Button
-											className="actionButton w-100"
-											variant="outline-warning"
-											// hidden={isHidden({ module: { key: 'Users', value: 'U' } })}
-											onClick={() => openModal('editUserModal')}
-										>
-											Edit User Info
-										</Button>
-									</ColumnContainer>
-									<ColumnContainer>
-										<Dropdown
-											isOpen={openResetMenu}
-											toggle={() => setOpenResetMenu((prev) => !prev)}
-										>
-											<DropdownToggle
-												id="dropdown-autoclose-outside"
+									{isGranted(modules.Users, 'U') && (
+										<ColumnContainer>
+											<Button
 												className="actionButton w-100"
-												variant="outline-success"
+												variant="outline-warning"
+												onClick={() => openModal('editUserModal')}
 											>
-												Reset Password
-											</DropdownToggle>
-
-											<DropdownMenu className="dropdown-menu-end">
-												<DropdownItem
-													onClick={() => openModal('resetPasswordEmail')}
-												>
-													Send Email
-												</DropdownItem>
-												<DropdownItem
-													onClick={() => openModal('resetUserPassword')}
+												Edit User Info
+											</Button>
+										</ColumnContainer>
+									)}
+									{isGranted(modules.Users, 'UP') && (
+										<ColumnContainer>
+											<Dropdown
+												isOpen={openResetMenu}
+												toggle={() => setOpenResetMenu((prev) => !prev)}
+											>
+												<DropdownToggle
+													id="dropdown-autoclose-outside"
+													className="actionButton w-100"
+													variant="outline-success"
 												>
 													Reset Password
-												</DropdownItem>
-											</DropdownMenu>
-										</Dropdown>
-									</ColumnContainer>
+												</DropdownToggle>
+
+												<DropdownMenu className="dropdown-menu-end">
+													<DropdownItem
+														onClick={() => openModal('resetPasswordEmail')}
+													>
+														Send Email
+													</DropdownItem>
+													<DropdownItem
+														onClick={() => openModal('resetUserPassword')}
+													>
+														Reset Password
+													</DropdownItem>
+												</DropdownMenu>
+											</Dropdown>
+										</ColumnContainer>
+									)}
 								</Row>
 							</div>
 						</Card>

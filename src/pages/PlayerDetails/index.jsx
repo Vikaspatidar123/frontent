@@ -15,9 +15,12 @@ import KYCSettings from './KYCSettings';
 import YourBonuses from './YourBonuses';
 import Notes from './Notes';
 import Limits from './Limits';
+import { modules } from '../../constants/permissions';
 import { getUserDetails, resetUserLimitData } from '../../store/actions';
+import usePermission from '../../components/Common/Hooks/usePermission';
 
 const PlayerDetailsPage = ({ t }) => {
+	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState(1);
 	const { playerId } = useParams();
@@ -96,16 +99,19 @@ const PlayerDetailsPage = ({ t }) => {
 			id: 5,
 			title: 'Bet History',
 			component: <BetHistory userId={playerId} />,
+			isHidden: !isGranted(modules.Transactions, 'R'),
 		},
 		{
 			id: 6,
 			title: 'Sports Betting History',
 			component: <SportsBettingHistory userId={playerId} />,
+			isHidden: !isGranted(modules.Transactions, 'R'),
 		},
 		{
 			id: 7,
 			title: 'Transactions',
 			component: <Transactions userId={playerId} />,
+			isHidden: !isGranted(modules.Transactions, 'R'),
 		},
 		{
 			id: 8,
@@ -116,11 +122,13 @@ const PlayerDetailsPage = ({ t }) => {
 			id: 9,
 			title: 'Bonuses',
 			component: <YourBonuses userId={playerId} />,
+			isHidden: !isGranted(modules.Bonus, 'R'),
 		},
 		{
 			id: 10,
 			title: 'Notes',
 			component: <Notes userId={playerId} />,
+			isHidden: !isGranted(modules.UserComment, 'R'),
 		},
 	];
 

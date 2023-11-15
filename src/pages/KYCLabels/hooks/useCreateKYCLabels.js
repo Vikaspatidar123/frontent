@@ -12,6 +12,7 @@ import {
 	getLanguagesStart,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
+import { modules } from '../../../constants/permissions';
 
 const useCreateKYCLabels = () => {
 	const dispatch = useDispatch();
@@ -143,6 +144,8 @@ const useCreateKYCLabels = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.KycLabel,
+			operation: 'C',
 		},
 	]);
 

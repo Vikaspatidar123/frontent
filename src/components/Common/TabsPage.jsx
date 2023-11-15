@@ -22,15 +22,17 @@ const TabsPage = ({ activeTab, tabsData, toggle }) => (
 						<Nav pills className="navtab-bg tab-max-width">
 							{tabsData?.map((tab) => (
 								<NavItem key={tab.id}>
-									<NavLink
-										style={{ cursor: 'pointer' }}
-										className={classNames({ active: activeTab === tab.id })}
-										onClick={() => {
-											toggle(tab.id);
-										}}
-									>
-										{tab.title}
-									</NavLink>
+									{tab?.isHidden ? null : (
+										<NavLink
+											style={{ cursor: 'pointer' }}
+											className={classNames({ active: activeTab === tab.id })}
+											onClick={() => {
+												toggle(tab.id);
+											}}
+										>
+											{tab.title}
+										</NavLink>
+									)}
 								</NavItem>
 							))}
 						</Nav>
