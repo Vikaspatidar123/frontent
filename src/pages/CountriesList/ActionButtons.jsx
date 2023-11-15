@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Button, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
+	const { isGranted } = usePermission();
 	const active = row?.original?.status;
 	const countryId = row?.original?.countryId;
 	return (
@@ -20,8 +22,8 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 
 			<li>
 				{active ? (
-					<Link
-						to="#"
+					<Button
+						hidden={!isGranted(modules.CasinoManagement, 'T')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -37,10 +39,10 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 						>
 							Set Inactive
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				) : (
-					<Link
-						to="#"
+					<Button
+						hidden={!isGranted(modules.CasinoManagement, 'T')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -56,13 +58,12 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 						>
 							Set Active
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				)}
 			</li>
 
 			<li>
-				<Link
-					to="#"
+				<Button
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => {
 						e.preventDefault();
@@ -79,7 +80,7 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 					>
 						Edit
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 
 			{/* <li>

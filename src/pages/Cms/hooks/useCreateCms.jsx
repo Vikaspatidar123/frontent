@@ -20,6 +20,7 @@ import {
 import CreateCMSTemplate from '../CreateCMSTemplate';
 
 import { showToastr } from '../../../utils/helpers';
+import { modules } from '../../../constants/permissions';
 
 const useCreateCms = () => {
 	const navigate = useNavigate();
@@ -104,6 +105,8 @@ const useCreateCms = () => {
 			label: 'Create',
 			handleClick: handleCreateClick,
 			link: '#!',
+			module: modules.CMS,
+			operation: 'C',
 		},
 	]);
 

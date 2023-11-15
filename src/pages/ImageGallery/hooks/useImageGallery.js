@@ -11,9 +11,13 @@ import {
 	formatBytes,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { modules } from '../../../constants/permissions';
+import { showToastr } from '../../../utils/helpers';
 
 const useImageGallery = () => {
 	const dispatch = useDispatch();
+	const { isGranted } = usePermission();
 
 	const { imageGallery, imageGalleryLoading } = useSelector(
 		(state) => state.EmailTemplate
@@ -47,14 +51,21 @@ const useImageGallery = () => {
 	});
 
 	const handleFileUpload = (files) => {
-		const formattedFiles = files.map((file) =>
-			Object.assign(file, {
-				preview: URL.createObjectURL(file),
-				formattedSize: formatBytes(file.size),
-			})
-		);
+		if (isGranted(modules.ImageGallery, 'U')) {
+			const formattedFiles = files.map((file) =>
+				Object.assign(file, {
+					preview: URL.createObjectURL(file),
+					formattedSize: formatBytes(file.size),
+				})
+			);
 
-		validation.setFieldValue('initialstate', formattedFiles[0]);
+			validation.setFieldValue('initialstate', formattedFiles[0]);
+		} else {
+			showToastr({
+				type: 'error',
+				message: 'You do not have permission to upload image',
+			});
+		}
 	};
 
 	useEffect(() => {

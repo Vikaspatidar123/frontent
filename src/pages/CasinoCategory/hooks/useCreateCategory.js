@@ -11,6 +11,7 @@ import {
 	editCasinoCategoryStart,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
+import { modules } from '../../../constants/permissions';
 
 const useCreateCategory = () => {
 	const dispatch = useDispatch();
@@ -132,6 +133,8 @@ const useCreateCategory = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.CasinoManagement,
+			operation: 'C',
 		},
 	]);
 

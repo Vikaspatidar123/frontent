@@ -3,8 +3,7 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 
-import { UncontrolledTooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Button, UncontrolledTooltip } from 'reactstrap';
 import {
 	GameCategoryId,
 	CreatedAt,
@@ -12,8 +11,11 @@ import {
 	Status,
 	Name,
 } from '../CasinoCategoryListCol';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { modules } from '../../../constants/permissions';
 
 const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
+	const { isGranted } = usePermission();
 	const columns = useMemo(
 		() => [
 			{
@@ -57,8 +59,8 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li>
 								{active ? (
-									<Link
-										to="#"
+									<Button
+										hidden={!isGranted(modules.CasinoManagement, 'T')}
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -77,10 +79,10 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 										>
 											Set Inactive
 										</UncontrolledTooltip>
-									</Link>
+									</Button>
 								) : (
-									<Link
-										to="#"
+									<Button
+										hidden={!isGranted(modules.CasinoManagement, 'T')}
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -99,13 +101,13 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 										>
 											Set Active
 										</UncontrolledTooltip>
-									</Link>
+									</Button>
 								)}
 							</li>
 
 							<li>
-								<Link
-									to="#"
+								<Button
+									hidden={!isGranted(modules.CasinoManagement, 'U')}
 									className="btn btn-sm btn-soft-info"
 									onClick={(e) => {
 										e.preventDefault();
@@ -122,7 +124,7 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 									>
 										Edit
 									</UncontrolledTooltip>
-								</Link>
+								</Button>
 							</li>
 						</ul>
 					);

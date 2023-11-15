@@ -15,6 +15,7 @@ import {
 	editSABannersStart,
 } from '../../../store/actions';
 import { bannerType } from '../constants';
+import { modules } from '../../../constants/permissions';
 
 const useCreateBanner = () => {
 	const dispatch = useDispatch();
@@ -110,6 +111,8 @@ const useCreateBanner = () => {
 			label: 'Upload',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.BannerManagement,
+			operation: 'C',
 		},
 	]);
 

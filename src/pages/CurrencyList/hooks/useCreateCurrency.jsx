@@ -1,7 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
+import { Button, UncontrolledTooltip } from 'reactstrap';
+// import PropTypes from 'prop-types';
 
 import {
 	getInitialValues,
@@ -18,10 +21,12 @@ import {
 	Name,
 	Type,
 } from '../CurrencyListCol';
-import ActionButtons from '../ActionButtons';
+import { modules } from '../../../constants/permissions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const useCreateCurrency = () => {
 	const dispatch = useDispatch();
+	const { isGranted } = usePermission();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const {
 		isCreateCurrencyLoading,
@@ -93,6 +98,8 @@ const useCreateCurrency = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.Currencies,
+			operation: 'C',
 		},
 	]);
 
@@ -145,8 +152,27 @@ const useCreateCurrency = () => {
 				Header: 'ACTION',
 				accessor: 'actions',
 				disableFilters: true,
-				Cell: (cellProps) => (
-					<ActionButtons cell={cellProps} handleClick={onClickEdit} />
+				Cell: ({ cell }) => (
+					<Button
+						hidden={!isGranted(modules.Currencies, 'U')}
+						type="button"
+						className="btn btn-sm btn-soft-info"
+						onClick={(e) => {
+							e.preventDefault();
+							onClickEdit(cell?.row?.original);
+						}}
+					>
+						<i
+							className="mdi mdi-pencil-outline"
+							id={`edittooltip-${cell?.row?.original?.currencyId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`edittooltip-${cell?.row?.original?.currencyId}`}
+						>
+							Edit
+						</UncontrolledTooltip>
+					</Button>
 				),
 			},
 		],
@@ -166,5 +192,36 @@ const useCreateCurrency = () => {
 		isEditCurrencyLoading,
 	};
 };
+
+// useCreateCurrency.propTypes = {
+// 	columns: PropTypes.shape({
+// 		Header: PropTypes.string,
+// 		accessor: PropTypes.string,
+// 		Cell: PropTypes.shape({
+//
+// 				cell: PropTypes.shape({
+// 					row: PropTypes.shape({
+// 						original: PropTypes.shape({
+// 							currencyId: PropTypes.number,
+// 						}),
+// 					}),
+// 				}),
+// 			}),
+// 		}),
+// };
+
+// useCreateCurrency.columns.PropTypes = {
+// 	Header: PropTypes.string,
+// 	accessor: PropTypes.string,
+// 	Cell: PropTypes.shape({
+// 		cell: PropTypes.shape({
+// 			row: PropTypes.shape({
+// 				original: PropTypes.shape({
+// 					currencyId: PropTypes.number,
+// 				}),
+// 			}),
+// 		}),
+// 	}),
+// };
 
 export default useCreateCurrency;

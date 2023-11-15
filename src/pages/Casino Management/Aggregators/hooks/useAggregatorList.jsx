@@ -2,11 +2,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { UncontrolledTooltip } from 'reactstrap';
+import { Button, UncontrolledTooltip } from 'reactstrap';
 import { Name, Status } from '../AggregatorListCol';
+import usePermission from '../../../../components/Common/Hooks/usePermission';
+import { modules } from '../../../../constants/permissions';
 
 const useAggregatorList = (handleStatus) => {
+	const { isGranted } = usePermission();
 	const columns = useMemo(
 		() => [
 			// {
@@ -38,8 +40,8 @@ const useAggregatorList = (handleStatus) => {
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li>
 								{active ? (
-									<Link
-										to="#"
+									<Button
+										hidden={!isGranted(modules.CasinoManagement, 'T')}
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -58,10 +60,10 @@ const useAggregatorList = (handleStatus) => {
 										>
 											Set Inactive
 										</UncontrolledTooltip>
-									</Link>
+									</Button>
 								) : (
-									<Link
-										to="#"
+									<Button
+										hidden={!isGranted(modules.CasinoManagement, 'T')}
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -80,7 +82,7 @@ const useAggregatorList = (handleStatus) => {
 										>
 											Set Active
 										</UncontrolledTooltip>
-									</Link>
+									</Button>
 								)}
 							</li>
 						</ul>

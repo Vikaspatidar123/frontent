@@ -8,6 +8,7 @@ import {
 } from '../formDetails';
 import { createReviewStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
+import { modules } from '../../../constants/permissions';
 
 const useCreateReview = () => {
 	const dispatch = useDispatch();
@@ -50,6 +51,8 @@ const useCreateReview = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.Reviews,
+			operation: 'C',
 		},
 	]);
 

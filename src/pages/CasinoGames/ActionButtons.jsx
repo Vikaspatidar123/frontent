@@ -4,6 +4,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { UncontrolledTooltip, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({
 	cell,
@@ -11,34 +13,38 @@ const ActionButtons = ({
 	onClickEdit,
 	handleDeleteItem,
 }) => {
+	const { isGranted } = usePermission();
 	const active = cell?.row?.original?.isActive;
 	const casinoGameId = cell?.row?.original?.casinoGameId;
 	const isDisabled = !!cell?.row?.original?.parentId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li data-bs-toggle="tooltip" data-bs-placement="top">
-				<Link
-					to={`/casino-games/restrict-countries/${casinoGameId}`}
-					state={{ type: 'games' }}
-					className="btn btn-sm btn-soft-primary"
-				>
-					<i
-						className="mdi mdi-block-helper"
-						id={`viewtooltip-${casinoGameId}`}
-					/>
-					<UncontrolledTooltip
-						placement="top"
-						target={`viewtooltip-${casinoGameId}`}
+				{isGranted(modules.CasinoManagement, 'U') && (
+					<Link
+						to={`/casino-games/restrict-countries/${casinoGameId}`}
+						state={{ type: 'games' }}
+						className="btn btn-sm btn-soft-primary"
 					>
-						View Restricted Countries
-					</UncontrolledTooltip>
-				</Link>
+						<i
+							className="mdi mdi-block-helper"
+							id={`viewtooltip-${casinoGameId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`viewtooltip-${casinoGameId}`}
+						>
+							View Restricted Countries
+						</UncontrolledTooltip>
+					</Link>
+				)}
 			</li>
 
 			<li>
 				{active ? (
 					<Button
 						type="button"
+						hidden={!isGranted(modules.CasinoManagement, 'T')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -61,6 +67,7 @@ const ActionButtons = ({
 				) : (
 					<Button
 						type="button"
+						hidden={!isGranted(modules.CasinoManagement, 'T')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -86,6 +93,7 @@ const ActionButtons = ({
 			<li>
 				<Button
 					type="button"
+					hidden={!isGranted(modules.CasinoManagement, 'U')}
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => {
 						e.preventDefault();
@@ -108,6 +116,7 @@ const ActionButtons = ({
 			<li>
 				<Button
 					type="button"
+					hidden={!isGranted(modules.CasinoManagement, 'D')}
 					disabled={!isDisabled}
 					className="btn btn-sm btn-soft-danger"
 					onClick={(e) => {

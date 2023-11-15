@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 // } from '../formDetails';
 import // showLinearProgress,
 '../../../store/progressLoading/actions';
-import {} from '../../../store/actions';
 // import useAdminListing from './useAdminListing';
 import General from '../FormSections/General';
+import { modules } from '../../../constants/permissions';
 
 const useCreateBonus = () => {
 	// const dispatch = useDispatch();
@@ -35,6 +35,8 @@ const useCreateBonus = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.Bonus,
+			operation: 'C',
 		},
 	]);
 

@@ -10,10 +10,13 @@ import Spinners from '../../components/Common/Spinner';
 import FormPage from '../../components/Common/FormPage';
 import useFormFields from './hooks/useFormFields';
 import { projectName } from '../../constants/config';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const RegistrationFields = ({ t }) => {
 	// meta title
 	document.title = projectName;
+	const { isGranted } = usePermission();
 
 	const { leftFormFields, rightFormFields, validation, isformFieldsLoading } =
 		useFormFields();
@@ -37,6 +40,7 @@ const RegistrationFields = ({ t }) => {
 								validation={validation}
 								leftFormFields={leftFormFields}
 								rightFormFields={rightFormFields}
+								isSubmit={isGranted(modules.RegistrationField, 'U')}
 								submitLabel="Submit"
 								customColClasses=""
 								isSubmitLoading={isformFieldsLoading}
