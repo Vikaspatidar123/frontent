@@ -322,6 +322,7 @@ export const CustomTextEditor = ({
 	// value,
 	isError,
 	onChange,
+	errorMsg,
 	// ...rest
 }) => (
 	<>
@@ -335,6 +336,11 @@ export const CustomTextEditor = ({
 			// editorState={value} // Controlled will create issue after conversion
 			onEditorStateChange={onChange}
 		/>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid" className="d-block">
+				{errorMsg}
+			</FormFeedback>
+		) : null}
 	</>
 );
 
@@ -550,6 +556,7 @@ export const getField = (
 					validate={{ required: { value: true } }}
 					value={validation.values[name]}
 					isError
+					errorMsg={validation.touched[name] && validation.errors[name]}
 					// invalid={!!(validation.touched[name] && validation.errors[name])}
 					// isError
 					// errorMsg={validation.touched[name] && validation.errors[name]}

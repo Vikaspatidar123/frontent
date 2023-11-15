@@ -1,13 +1,9 @@
 import React from 'react';
 import {
+	Button,
 	Card,
 	CardBody,
 	Col,
-	// Container,
-	// Form,
-	// FormGroup,
-	// Input,
-	// Label,
 	NavItem,
 	NavLink,
 	Row,
@@ -15,16 +11,15 @@ import {
 	TabPane,
 } from 'reactstrap';
 import classnames from 'classnames';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const StepFormTabs = ({
 	tabsData,
 	title,
 	activeTab,
-	setActiveTab,
 	toggleTab,
 	passedSteps,
+	onNextClick,
 }) => (
 	<Row>
 		<Col lg="12">
@@ -41,7 +36,7 @@ const StepFormTabs = ({
 										<NavLink
 											className={classnames({ current: activeTab === tab.id })}
 											onClick={() => {
-												setActiveTab(tab.id);
+												toggleTab(tab.id);
 											}}
 											disabled={!(passedSteps || []).includes(tab.id)}
 										>
@@ -63,28 +58,28 @@ const StepFormTabs = ({
 								<li
 									className={activeTab === 1 ? 'previous disabled' : 'previous'}
 								>
-									<Link
-										to="#!"
+									<Button
+										disabled={activeTab === 1}
 										onClick={() => {
 											toggleTab(activeTab - 1);
 										}}
 									>
 										Previous
-									</Link>
+									</Button>
 								</li>
 								<li
 									className={
 										activeTab === tabsData?.length ? 'next disabled' : 'next'
 									}
 								>
-									<Link
-										to="#!"
+									<Button
+										disabled={activeTab === tabsData?.length}
 										onClick={() => {
-											toggleTab(activeTab + 1);
+											onNextClick(activeTab);
 										}}
 									>
 										Next
-									</Link>
+									</Button>
 								</li>
 							</ul>
 						</div>
@@ -98,7 +93,6 @@ const StepFormTabs = ({
 StepFormTabs.propTypes = {
 	title: PropTypes.string.isRequired,
 	activeTab: PropTypes.number.isRequired,
-	setActiveTab: PropTypes.func.isRequired,
 	toggleTab: PropTypes.func.isRequired,
 	passedSteps: PropTypes.arrayOf(PropTypes.number).isRequired,
 	tabsData: PropTypes.arrayOf(
@@ -106,6 +100,7 @@ StepFormTabs.propTypes = {
 			PropTypes.oneOfType([PropTypes.number, PropTypes.node, PropTypes.string])
 		)
 	).isRequired,
+	onNextClick: PropTypes.func.isRequired,
 };
 
 export default StepFormTabs;

@@ -1,11 +1,15 @@
 import * as Yup from 'yup';
-import { bonusTypes } from './contants';
+import moment from 'moment';
+import { bonusTypes } from './constants';
+
+const currentDate = moment().toDate();
 
 const getCreateBonusInitialValues = () => ({
 	promotionTitle: '',
 	bonusType: 'deposit',
-	validFrom: '',
-	validTo: '',
+	//  change to ValidFrom and validTo
+	startDate: currentDate,
+	endDate: currentDate,
 	termCondition: '',
 	quantity: 1,
 	wageringMultiplier: 1,
@@ -25,7 +29,7 @@ const getCreateBonusInitialValues = () => ({
 	maxBonusThreshold: '',
 	status: '',
 	minDeposit: '',
-	wageringRequirementType: 'bonus',
+	wageringRequirementType: 1,
 	maxWinAmount: '',
 	isWinCashAmt: '',
 	isBonusWagering: '',
@@ -77,6 +81,8 @@ const generalStaticFormFields = () => [
 		fieldType: 'dateRangeSelector',
 		label: 'Bonus Validity',
 		placeholder: 'Select Range',
+		minDate: moment().utc().startOf('day').toDate(),
+		maxDate: moment().add(100, 'years').utc().toDate(),
 	},
 ];
 
@@ -93,7 +99,7 @@ const commonFields = () => [
 		label: 'Visible in Promotions',
 	},
 	{
-		name: 'shshowBonusValidityow',
+		name: 'showBonusValidity',
 		fieldType: 'toggle',
 		label: 'Hide Validity',
 	},
@@ -152,7 +158,7 @@ const typeDepositAdditionalFields = () => [
 		],
 	},
 	{
-		name: 'wageringType',
+		name: 'wageringRequirementType',
 		fieldType: 'select',
 		label: 'Wagering Type',
 		placeholder: 'Wagering Type',
@@ -196,7 +202,7 @@ const typeFreeSpinAdditionalFields = () => [
 		placeholder: 'Wagering Multiplier',
 	},
 	{
-		name: 'wageringType',
+		name: 'wageringRequirementType',
 		fieldType: 'select',
 		label: 'Wagering Type',
 		placeholder: 'Wagering Type',

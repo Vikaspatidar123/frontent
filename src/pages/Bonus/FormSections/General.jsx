@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
-
 import {
 	getCreateBonusInitialValues,
 	generalStaticFormFields,
@@ -9,31 +8,37 @@ import {
 	typeFreeSpinAdditionalFields,
 	commonFields,
 } from '../formDetails';
-
 import FormPage from '../../../components/Common/FormPage';
 import Spinners from '../../../components/Common/Spinner';
-
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { bonusTypes } from '../contants';
-import { bonusSchema } from '../Validation/schema';
+import { bonusTypes } from '../constants';
+import { generalFormSchema } from '../Validation/schema';
 
-const General = ({ isLoading }) => {
-	// const handleEdit = () => {
-	// 	setIsEditable((prev) => !prev);
-	// };
-
-	const handleSubmit = () => {};
+const General = ({
+	isLoading,
+	isNext,
+	setActiveTab,
+	setNextPressed,
+	setAllFields,
+}) => {
+	const handleSubmit = (values) => {
+		setAllFields((prev) => ({ ...prev, ...values }));
+		setActiveTab(2);
+	};
 
 	const { formFields, setFormFields, validation } = useForm({
 		initialValues: getCreateBonusInitialValues(),
-		validationSchema: bonusSchema('en', { bonusDetail: null })[1],
+		validationSchema: generalFormSchema(),
 		// staticFormFields: generalStaticFormFields(),
 		onSubmitEntry: handleSubmit,
 	});
 
 	useEffect(() => {
-		validation.validateForm(validation.values);
-	}, []);
+		if (isNext) {
+			validation.submitForm();
+			setNextPressed('');
+		}
+	}, [isNext]);
 
 	const handleBonusTypeChange = (e, type) => {
 		e?.preventDefault();
@@ -114,13 +119,9 @@ const General = ({ isLoading }) => {
 					<FormPage
 						validation={validation}
 						responsiveFormFields={formFields}
-						submitLabel="Next"
 						customColClasses=""
-						isSubmitLoading={isLoading}
 						colOptions={{ xs: 12, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
-						// customComponent={
-						//   <
-						// }
+						isSubmit={false}
 					/>
 				)}
 			</Col>
