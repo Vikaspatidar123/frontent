@@ -3,7 +3,16 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row, Collapse } from 'reactstrap';
+import {
+	Card,
+	CardBody,
+	Col,
+	Container,
+	Row,
+	Collapse,
+	Button,
+	UncontrolledTooltip,
+} from 'reactstrap';
 
 import classnames from 'classnames';
 import TableContainer from '../../components/Common/TableContainer';
@@ -12,11 +21,12 @@ import Spinners from '../../components/Common/Spinner';
 
 import useKYCLables from './hooks/useKYCLabels';
 import { Language, LabelName } from './KYCLabelListCol';
-import EditButton from './EditButton';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
 import useCreateKYCLabels from './hooks/useCreateKYCLabels';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const columns = [
 	{
@@ -36,6 +46,7 @@ const columns = [
 const KYCLabels = () => {
 	// meta title
 	document.title = projectName;
+	const { isGranted } = usePermission();
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
@@ -118,10 +129,22 @@ const KYCLabels = () => {
 																		(Not Required)
 																	</span>
 																)}{' '}
-																<EditButton
-																	handleClick={onClickEditButton}
-																	label={label?.[0]}
-																/>
+																<Button
+																	hidden={isGranted(modules.KYCLabels, 'U')}
+																	onClick={(e) => onClickEditButton(e, label)}
+																	className="btn btn-sm btn-soft-info"
+																>
+																	<i
+																		className="mdi mdi-pencil-outline"
+																		id={`edit-tooltip-${label?.[0]?.documentLabelId}`}
+																	/>
+																	<UncontrolledTooltip
+																		placement="top"
+																		target={`edit-tooltip-${label?.[0]?.documentLabelId}`}
+																	>
+																		Edit
+																	</UncontrolledTooltip>
+																</Button>
 															</h5>
 														</button>
 													</h2>
