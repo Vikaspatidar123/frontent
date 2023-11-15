@@ -1,7 +1,13 @@
+import { isEmpty } from 'lodash';
 import { modules } from './permissions';
 
 const sideBarElements = [
 	{
+		isSeparator: true,
+		title: 'Menu',
+	},
+	{
+		id: 1,
 		link: '/dashboard',
 		label: 'Dashboard',
 		searchString: 'default dashboard home',
@@ -13,6 +19,7 @@ const sideBarElements = [
 		ulTagClass: '',
 	},
 	{
+		id: 2,
 		link: '/profile',
 		label: 'Profile',
 		searchString: 'profile account my account',
@@ -22,9 +29,9 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		// module: modules.Profile
 	},
 	{
+		id: 3,
 		link: '/staff',
 		label: 'Staff',
 		searchString: 'staff admin superadmin listing',
@@ -37,6 +44,7 @@ const sideBarElements = [
 		module: modules.Admins,
 	},
 	{
+		id: 4,
 		link: '/users',
 		label: 'Players',
 		searchString: 'all users',
@@ -49,6 +57,7 @@ const sideBarElements = [
 		module: modules.Users,
 	},
 	{
+		id: 5,
 		link: '/kyc-labels',
 		label: 'KYC Labels',
 		searchString: 'kyc labels',
@@ -60,88 +69,8 @@ const sideBarElements = [
 		ulTagClass: '',
 		module: modules.KycLabel,
 	},
-	// {
-	// 	link: '/#',
-	// 	label: 'General',
-	// 	searchString: 'dashboards home',
-	// 	iconName: 'bx bx-home-circle',
-	// 	linkClass: 'has-arrow',
-	// 	anchorClass: '',
-	// 	spanClass: '',
-	// 	liTagClass: '',
-	// 	ulTagClass: '',
-	// 	subMenu: [
-	// 		{
-	// 			link: '/dashboard',
-	// 			label: 'Dashboard',
-	// 			searchString: 'default dashboard home',
-	// 			iconName: '',
-	// 			linkClass: '',
-	// 			anchorClass: '',
-	// 			spanClass: '',
-	// 			liTagClass: '',
-	// 			ulTagClass: '',
-	// 		},
-	// 		{
-	// 			link: '/profile',
-	// 			label: 'Profile',
-	// 			searchString: 'profile account my account',
-	// 			iconName: '',
-	// 			linkClass: '',
-	// 			anchorClass: '',
-	// 			spanClass: '',
-	// 			liTagClass: '',
-	// 			ulTagClass: '',
-	// 		},
-	// 		{
-	// 			link: '/staff',
-	// 			label: 'Staff',
-	// 			searchString: 'staff admin superadmin listing',
-	// 			iconName: '',
-	// 			linkClass: '',
-	// 			anchorClass: '',
-	// 			spanClass: '',
-	// 			liTagClass: '',
-	// 			ulTagClass: '',
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	link: '/#',
-	// 	label: 'Player',
-	// 	searchString: 'players',
-	// 	iconName: 'bx bx-group',
-	// 	linkClass: 'has-arrow',
-	// 	anchorClass: '',
-	// 	spanClass: '',
-	// 	liTagClass: '',
-	// 	ulTagClass: '',
-	// 	subMenu: [
-	// 		{
-	// 			link: '/users',
-	// 			label: 'All',
-	// 			searchString: 'all users',
-	// 			iconName: '',
-	// 			linkClass: '',
-	// 			anchorClass: '',
-	// 			spanClass: '',
-	// 			liTagClass: '',
-	// 			ulTagClass: '',
-	// 		},
-	// 		{
-	// 			link: '/kyc-labels',
-	// 			label: 'KYC Labels',
-	// 			searchString: 'kyc labels',
-	// 			iconName: '',
-	// 			linkClass: '',
-	// 			anchorClass: '',
-	// 			spanClass: '',
-	// 			liTagClass: '',
-	// 			ulTagClass: '',
-	// 		},
-	// 	],
-	// },
 	{
+		id: 6,
 		link: '/#',
 		label: 'Site Configuration',
 		searchString: 'site configuration',
@@ -151,9 +80,9 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		// module: modules.SiteConfiguration,
 		subMenu: [
 			{
+				id: 7,
 				link: '/currencies',
 				label: 'Currencies',
 				searchString: 'currencies',
@@ -166,6 +95,7 @@ const sideBarElements = [
 				module: modules.Currencies,
 			},
 			{
+				id: 7,
 				link: '/countries',
 				label: 'Countries',
 				searchString: 'countries',
@@ -178,6 +108,7 @@ const sideBarElements = [
 				module: modules.RestrictedCountry,
 			},
 			{
+				id: 8,
 				link: '/languages',
 				label: 'Languages',
 				searchString: 'languages',
@@ -190,6 +121,7 @@ const sideBarElements = [
 				module: modules.MultiLanguage,
 			},
 			{
+				id: 9,
 				link: '/languages-management',
 				label: 'Languages Management',
 				searchString: 'languages management',
@@ -202,6 +134,7 @@ const sideBarElements = [
 				module: modules.MultiLanguage,
 			},
 			{
+				id: 10,
 				link: '/form-fields',
 				label: 'Registration Fields',
 				searchString: 'registration fields',
@@ -216,6 +149,7 @@ const sideBarElements = [
 		],
 	},
 	{
+		id: 11,
 		link: '/#',
 		label: 'Content Management',
 		searchString: 'content management',
@@ -227,6 +161,7 @@ const sideBarElements = [
 		ulTagClass: '',
 		subMenu: [
 			{
+				id: 12,
 				link: '/cms',
 				label: 'CMS',
 				searchString: 'cms',
@@ -239,6 +174,7 @@ const sideBarElements = [
 				module: modules.CMS,
 			},
 			{
+				id: 13,
 				link: '/email-templates',
 				label: 'CRM',
 				searchString: 'email crm',
@@ -251,6 +187,7 @@ const sideBarElements = [
 				module: modules.EmailTemplate,
 			},
 			{
+				id: 14,
 				link: '/image-gallery',
 				label: 'Image Gallery',
 				searchString: 'image gallery',
@@ -265,10 +202,11 @@ const sideBarElements = [
 		],
 	},
 	{
-		isSeprator: true,
+		isSeparator: true,
 		title: 'Casino 	service',
 	},
 	{
+		id: 15,
 		link: '/#',
 		label: 'Casino Management',
 		searchString: 'casino management slot',
@@ -280,6 +218,7 @@ const sideBarElements = [
 		ulTagClass: '',
 		subMenu: [
 			{
+				id: 16,
 				link: '/casino-aggregators',
 				label: 'Aggregators',
 				searchString: 'casino aggregators',
@@ -292,6 +231,7 @@ const sideBarElements = [
 				module: modules.CasinoManagement,
 			},
 			{
+				id: 17,
 				link: '/casino-providers',
 				label: 'Providers',
 				searchString: 'casino providers',
@@ -304,6 +244,7 @@ const sideBarElements = [
 				module: modules.CasinoManagement,
 			},
 			{
+				id: 18,
 				link: '/categories',
 				label: 'Categories',
 				searchString: 'casino categories',
@@ -316,6 +257,7 @@ const sideBarElements = [
 				module: modules.CasinoManagement,
 			},
 			{
+				id: 19,
 				link: '/sub-categories',
 				label: 'Sub Categories',
 				searchString: 'casino sub categories',
@@ -328,6 +270,7 @@ const sideBarElements = [
 				module: modules.CasinoManagement,
 			},
 			{
+				id: 20,
 				link: '/casino-games',
 				label: 'Games',
 				searchString: 'casino games',
@@ -340,6 +283,7 @@ const sideBarElements = [
 				module: modules.CasinoManagement,
 			},
 			{
+				id: 21,
 				link: '/banner-management',
 				label: 'Banner Management',
 				searchString: 'banner management home banner',
@@ -354,10 +298,11 @@ const sideBarElements = [
 		],
 	},
 	{
-		isSeprator: true,
+		isSeparator: true,
 		title: 'Reward administration',
 	},
 	{
+		id: 22,
 		link: '/#',
 		label: 'Bonus Management',
 		searchString: 'bonus management',
@@ -369,6 +314,7 @@ const sideBarElements = [
 		ulTagClass: '',
 		subMenu: [
 			{
+				id: 23,
 				link: '/loyalty-management',
 				label: 'Loyalty Management',
 				searchString: 'loyalty management',
@@ -381,6 +327,7 @@ const sideBarElements = [
 				module: modules.LoyaltyManagement,
 			},
 			{
+				id: 24,
 				link: '/wagering-template',
 				label: 'Wagering Template',
 				searchString: 'wagering template',
@@ -393,6 +340,7 @@ const sideBarElements = [
 				module: modules.WageringTemplate,
 			},
 			{
+				id: 25,
 				link: '/bonus',
 				label: 'Bonus',
 				searchString: 'bonus',
@@ -407,10 +355,11 @@ const sideBarElements = [
 		],
 	},
 	{
-		isSeprator: true,
+		isSeparator: true,
 		title: 'Statements',
 	},
 	{
+		id: 26,
 		link: '/#',
 		label: 'Reports',
 		searchString: 'reports',
@@ -422,6 +371,7 @@ const sideBarElements = [
 		ulTagClass: '',
 		subMenu: [
 			{
+				id: 27,
 				link: '/transaction-banking',
 				label: 'Transactions Banking',
 				searchString: 'transaction banking',
@@ -434,6 +384,7 @@ const sideBarElements = [
 				module: modules.Transactions,
 			},
 			{
+				id: 28,
 				link: '/casino-transactions',
 				label: 'Casino Transactions',
 				searchString: 'casino transactions',
@@ -446,6 +397,7 @@ const sideBarElements = [
 				module: modules.Transactions,
 			},
 			{
+				id: 29,
 				link: '/sports-transactions',
 				label: 'Sports Transactions',
 				searchString: 'sports transactions',
@@ -458,6 +410,7 @@ const sideBarElements = [
 				module: modules.Transactions,
 			},
 			{
+				id: 30,
 				link: '/withdraw-request',
 				label: 'Withdraw Request',
 				searchString: 'withdraw requests',
@@ -470,6 +423,7 @@ const sideBarElements = [
 				module: modules.Transactions,
 			},
 			{
+				id: 31,
 				link: '/review-management',
 				label: 'Review Management',
 				searchString: 'review management',
@@ -484,10 +438,11 @@ const sideBarElements = [
 		],
 	},
 	{
-		isSeprator: true,
+		isSeparator: true,
 		title: 'Sports Management',
 	},
 	{
+		id: 32,
 		link: '/bet-settings',
 		label: 'Bet Settings',
 		searchString: 'bet settings',
@@ -499,18 +454,8 @@ const sideBarElements = [
 		ulTagClass: '',
 		module: modules.BetSettings,
 	},
-	// {
-	// 	link: '/matches',
-	// 	label: 'Odds manipulation',
-	// 	searchString: 'sports matches',
-	// 	iconName: 'bx bx-book-content',
-	// 	linkClass: '',
-	// 	anchorClass: '',
-	// 	spanClass: '',
-	// 	liTagClass: '',
-	// 	ulTagClass: '',
-	// },
 	{
+		id: 33,
 		link: '/#',
 		label: 'Sports Book',
 		searchString: 'sportsbook sports book',
@@ -521,18 +466,8 @@ const sideBarElements = [
 		liTagClass: '',
 		ulTagClass: '',
 		subMenu: [
-			// {
-			// 	link: '/bet-settings',
-			// 	label: 'Bet Settings',
-			// 	searchString: 'bet settings',
-			// 	iconName: '',
-			// 	linkClass: '',
-			// 	anchorClass: '',
-			// 	spanClass: '',
-			// 	liTagClass: '',
-			// 	ulTagClass: '',
-			// },
 			{
+				id: 34,
 				link: '/sports',
 				label: 'Sports',
 				searchString: 'all sports',
@@ -545,6 +480,7 @@ const sideBarElements = [
 				module: modules.SportbookManagement,
 			},
 			{
+				id: 35,
 				link: '/sports/countries',
 				label: 'Countries',
 				searchString: 'sports countries',
@@ -557,6 +493,7 @@ const sideBarElements = [
 				module: modules.SportbookManagement,
 			},
 			{
+				id: 36,
 				link: '/sports/leagues',
 				label: 'Leagues',
 				searchString: 'sports leagues',
@@ -569,6 +506,7 @@ const sideBarElements = [
 				module: modules.SportbookManagement,
 			},
 			{
+				id: 38,
 				link: '/matches',
 				label: 'Matches',
 				searchString: 'sports matches',
@@ -581,6 +519,7 @@ const sideBarElements = [
 				module: modules.SportbookManagement,
 			},
 			{
+				id: 39,
 				link: '/markets',
 				label: 'Markets',
 				searchString: 'sport match markets',
@@ -596,4 +535,52 @@ const sideBarElements = [
 	},
 ];
 
-export default sideBarElements;
+// For maintaining single source of truth
+const getMegaMenuElement = () => {
+	try {
+		let id = 1;
+		const megaMenu = [];
+		let megaEle = {};
+		let subMenu = [];
+
+		for (let i = 0; i < sideBarElements?.length; i += 1) {
+			const tab = sideBarElements[i];
+			if (tab.isSeparator) {
+				if (!isEmpty(subMenu)) {
+					megaEle.subMenu = subMenu;
+					megaMenu.push(megaEle);
+					subMenu = [];
+				}
+				megaEle = {
+					id,
+					link: '#!',
+					label: tab.title,
+				};
+				id += 1;
+			} else {
+				subMenu.push(tab);
+				if (!isEmpty(tab.subMenu)) {
+					subMenu.push(...tab.subMenu);
+				}
+			}
+		}
+		megaEle.subMenu = subMenu;
+		megaMenu.push(megaEle);
+
+		const filterMenu = [];
+
+		megaMenu.forEach((menu) => {
+			filterMenu.push({
+				...menu,
+				subMenu: menu.subMenu.filter((ele) => ele.link !== '/#'),
+			});
+		});
+
+		return filterMenu;
+	} catch (er) {
+		console.log(er);
+		return [];
+	}
+};
+
+export { sideBarElements, getMegaMenuElement };

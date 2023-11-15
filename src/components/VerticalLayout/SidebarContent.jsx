@@ -9,7 +9,7 @@ import MetisMenu from 'metismenujs';
 import { Link, useLocation } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import withRouter from '../Common/withRouter';
-import sideBarElements from '../../constants/sidebar';
+import { sideBarElements } from '../../constants/sidebar';
 import usePermission from '../Common/Hooks/usePermission';
 
 // i18n
@@ -146,13 +146,11 @@ const SidebarContent = ({ t }) => {
 		<SimpleBar className="h-100" ref={ref}>
 			<div id="sidebar-menu">
 				<ul className="metismenu list-unstyled" id="side-menu">
-					<li className="menu-title">{t('Menu')} </li>
-
 					{sideBarElements.map((nav) => {
 						if (nav?.module && !isGranted(nav.module, 'R')) {
 							return null;
 						}
-						if (nav?.isSeprator) {
+						if (nav?.isSeparator) {
 							return <li className="menu-title">{nav.title} </li>;
 						}
 						return (
