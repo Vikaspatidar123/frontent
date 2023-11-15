@@ -143,8 +143,8 @@ const SidebarContent = ({ t }) => {
 	}, [activeMenu]);
 
 	return (
-		<SimpleBar className="h-100" ref={ref}>
-			<div id="sidebar-menu">
+		<SimpleBar className="h-100 simple-bar" ref={ref}>
+			<div id="sidebar-menu" className="h-100 position-relative">
 				<ul className="metismenu list-unstyled" id="side-menu">
 					<li className="menu-title">{t('Menu')} </li>
 
@@ -174,6 +174,9 @@ const SidebarContent = ({ t }) => {
 						);
 					})}
 				</ul>
+				<p className="text-center w-100 bottom-text">
+					powered by GAMMASTACK V1
+				</p>
 			</div>
 		</SimpleBar>
 	);
