@@ -1,19 +1,16 @@
-/* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import { connect } from 'react-redux';
-import { Row, Col, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 // Import menuDropdown
 import { withTranslation } from 'react-i18next';
-// import sideBarElements from '../../constants/sidebar';
 import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
-// import megamenuImg from '../../assets/images/megamenu-img.png';
 
 import logo from '../../assets/images/logo-light.png';
 
@@ -25,14 +22,10 @@ import {
 	toggleLeftmenu,
 	changeSidebarType,
 } from '../../store/actions';
-import { socialHandles } from '../../constants/generalConfig';
-// import NavigationSearch from './NavigationSearch';
+import MegaMenu from '../CommonForBoth/TopbarDropdown/MegaMenu';
 
 const Header = (props) => {
 	const [search, setsearch] = useState(false);
-	// const [megaMenu, setmegaMenu] = useState(false);
-	const [socialDrp, setsocialDrp] = useState(false);
-
 	function toggleFullscreen() {
 		if (
 			!document.fullscreenElement &&
@@ -99,49 +92,7 @@ const Header = (props) => {
 
 					{/* <NavigationSearch /> */}
 
-					{/* <Dropdown
-						className="dropdown-mega d-none d-lg-block ms-2"
-						isOpen={megaMenu}
-						toggle={() => {
-							setmegaMenu(!megaMenu);
-						}}
-					>
-						<DropdownToggle className="btn header-item " caret tag="button">
-							{' '}
-							{props.t('Mega Menu')} <i className="mdi mdi-chevron-down" />
-						</DropdownToggle>
-						<DropdownMenu className="dropdown-megamenu">
-							<Row>
-								<Col sm={12}>
-									<Row>
-										{sideBarElements?.map((nav) => (
-											<Col md={2}>
-												<h5 className="font-size-14 mt-0">{nav.label}</h5>
-												{nav?.subMenu?.length && (
-													<ul className="list-unstyled megamenu-list">
-														{nav?.subMenu?.map((sub) => (
-															<li>
-																<Link to={sub.link}>{sub.label}</Link>
-															</li>
-														))}
-													</ul>
-												)}
-											</Col>
-										))}
-										<Col md={2}>
-											<div>
-												<img
-													src={megamenuImg}
-													alt=""
-													className="img-fluid mx-auto d-block"
-												/>
-											</div>
-										</Col>
-									</Row>
-								</Col>
-							</Row>
-						</DropdownMenu>
-					</Dropdown> */}
+					<MegaMenu />
 				</div>
 				<div className="d-flex">
 					<div className="dropdown d-inline-block d-lg-none ms-2">
@@ -185,31 +136,7 @@ const Header = (props) => {
 
 					{/* <LanguageDropdown /> */}
 
-					<Dropdown
-						className="d-none d-lg-inline-block ms-1"
-						isOpen={socialDrp}
-						toggle={() => {
-							setsocialDrp(!socialDrp);
-						}}
-					>
-						<DropdownToggle className="btn header-item noti-icon " tag="button">
-							<i className="bx bx-customize" />
-						</DropdownToggle>
-						<DropdownMenu className="dropdown-menu-lg dropdown-menu-end">
-							<div className="px-lg-2">
-								<Row className="no-gutters">
-									{socialHandles.map(({ link, label, img, alt }) => (
-										<Col>
-											<Link className="dropdown-icon-item" to={link}>
-												<img src={img} alt={alt} />
-												<span>{label}</span>
-											</Link>
-										</Col>
-									))}
-								</Row>
-							</div>
-						</DropdownMenu>
-					</Dropdown>
+					{/* <SocialDropdown /> */}
 
 					<div className="dropdown d-none d-lg-inline-block ms-1">
 						<button
