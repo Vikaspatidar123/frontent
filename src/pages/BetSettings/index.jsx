@@ -2,7 +2,15 @@
 import React, { useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import {
+	Card,
+	CardBody,
+	Col,
+	Container,
+	Row,
+	Button,
+	UncontrolledTooltip,
+} from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import useBetSettings from './hooks/useBetSettings';
 import { projectName } from '../../constants/config';
@@ -21,11 +29,12 @@ import {
 	MaxMarketOutcomeCount,
 	UpdatedAt,
 } from './BetSettingsListCol';
-import ActionButtons from './ActionButtons';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCreateBetSettings from './hooks/useCreateBetSettings';
 import FormModal from '../../components/Common/FormModal';
 import CrudSection from '../../components/Common/CrudSection';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const computeColumns = ({ onClickEdit }) => [
 	{
@@ -104,7 +113,24 @@ const computeColumns = ({ onClickEdit }) => [
 		Header: 'Action',
 		accessor: 'action',
 		disableFilters: true,
-		Cell: ({ cell }) => <ActionButtons cell={cell} onClickEdit={onClickEdit} />,
+		Cell: ({ cell }) => {
+			const { isGranted } = usePermission();
+			return (
+				<Button
+					hidden={!isGranted(modules.BetSettings, 'U')}
+					onClick={(e) => {
+						e.preventDefault();
+						onClickEdit(cell?.row?.original);
+					}}
+					className="btn btn-sm btn-soft-info"
+				>
+					<i className="mdi mdi-pencil-outline" id={`edit-${cell?.row?.id}`} />
+					<UncontrolledTooltip placement="top" target={`edit-${cell?.row?.id}`}>
+						Edit
+					</UncontrolledTooltip>
+				</Button>
+			);
+		},
 	},
 ];
 

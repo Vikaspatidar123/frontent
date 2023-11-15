@@ -12,6 +12,7 @@ import {
 	getAggregatorsList,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
+import { modules } from '../../../constants/permissions';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
@@ -116,6 +117,8 @@ const useCreateProvider = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.CasinoManagement,
+			operation: 'C',
 		},
 	]);
 

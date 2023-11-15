@@ -1,31 +1,36 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import { Button, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
+	const { isGranted } = usePermission();
 	const status = cell?.row?.original?.isActive;
 	const casinoProviderId = cell?.row?.original?.casinoProviderId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top">
-				<Link
-					to={`/casino-providers/restrict-countries/${casinoProviderId}`}
-					state={{ type: 'providers' }}
-					className="btn btn-sm btn-soft-primary"
-				>
-					<i className="mdi mdi-block-helper" id="viewtooltip" />
-					<UncontrolledTooltip placement="top" target="viewtooltip">
-						View Restricted Countries
-					</UncontrolledTooltip>
-				</Link>
-			</li>
+			{isGranted(modules.CasinoManagement, 'U') && (
+				<li data-bs-toggle="tooltip" data-bs-placement="top">
+					<Link
+						to={`/casino-providers/restrict-countries/${casinoProviderId}`}
+						state={{ type: 'providers' }}
+						className="btn btn-sm btn-soft-primary"
+					>
+						<i className="mdi mdi-block-helper" id="viewtooltip" />
+						<UncontrolledTooltip placement="top" target="viewtooltip">
+							View Restricted Countries
+						</UncontrolledTooltip>
+					</Link>
+				</li>
+			)}
 
 			<li>
 				{status ? (
-					<Link
-						to="#"
+					<Button
+						hidden={!isGranted(modules.CasinoManagement, 'T')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -44,10 +49,10 @@ const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 						>
 							Set Inactive
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				) : (
-					<Link
-						to="#"
+					<Button
+						hidden={!isGranted(modules.CasinoManagement, 'T')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -66,13 +71,13 @@ const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 						>
 							Set Active
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				)}
 			</li>
 
 			<li>
-				<Link
-					to="#"
+				<Button
+					hidden={!isGranted(modules.CasinoManagement, 'U')}
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => {
 						e.preventDefault();
@@ -83,7 +88,7 @@ const ActionButtons = ({ cell, handleStatus, onClickEdit }) => {
 					<UncontrolledTooltip placement="top" target="edittooltip">
 						Edit
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 		</ul>
 	);

@@ -1,16 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Button, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({ onClickEdit, onClickDelete, cell }) => {
+	const { isGranted } = usePermission();
 	const key = cell?.row?.original?.key;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
-				<Link
-					to="#"
+				<Button
+					hidden={!isGranted(modules.BannerManagement, 'U')}
 					onClick={(e) => {
 						e.preventDefault();
 						onClickEdit(cell?.row?.original);
@@ -21,12 +23,12 @@ const ActionButtons = ({ onClickEdit, onClickDelete, cell }) => {
 					<UncontrolledTooltip placement="top" target={`edit-${cell?.row?.id}`}>
 						Edit
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 
 			<li>
-				<Link
-					to="#"
+				<Button
+					hidden={!isGranted(modules.BannerManagement, 'D')}
 					className="btn btn-sm btn-soft-danger"
 					onClick={(e) => {
 						e.preventDefault();
@@ -43,7 +45,7 @@ const ActionButtons = ({ onClickEdit, onClickDelete, cell }) => {
 					>
 						Delete
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 		</ul>
 	);

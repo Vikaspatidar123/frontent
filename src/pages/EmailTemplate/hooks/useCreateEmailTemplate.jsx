@@ -21,6 +21,7 @@ import {
 import useEmailTemplate from './useEmailTemplate';
 import { showToastr } from '../../../utils/helpers';
 import CreateTemplate from '../CreateTemplate';
+import { modules } from '../../../constants/permissions';
 
 const useCreateEmailTemplate = () => {
 	const navigate = useNavigate();
@@ -160,6 +161,8 @@ const useCreateEmailTemplate = () => {
 			label: 'Create',
 			handleClick: handleCreateClick,
 			link: '#!',
+			module: modules.EmailTemplate,
+			operation: 'C',
 		},
 	]);
 

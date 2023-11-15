@@ -6,6 +6,7 @@ import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import useWageringTemplate from './useWageringTemplate';
 import CasinoGameForm from '../CasinoGameForm';
+import { modules } from '../../../constants/permissions';
 import {
 	getCasinoProvidersDataStart,
 	getCasinoGamesStart,
@@ -152,6 +153,8 @@ const useCreateWageringTemplate = () => {
 			label: 'Create',
 			handleClick: handleCreateClick,
 			link: '#!',
+			module: modules.WageringTemplate,
+			operation: 'C',
 		},
 	]);
 

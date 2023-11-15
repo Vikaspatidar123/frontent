@@ -10,6 +10,7 @@ import {
 	createAggregatorStart,
 	updateAggregatorStatusStart,
 } from '../../../../store/actions';
+import { modules } from '../../../../constants/permissions';
 
 const useCreateAggregator = () => {
 	const dispatch = useDispatch();
@@ -64,6 +65,8 @@ const useCreateAggregator = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
+			module: modules.CasinoManagement,
+			operation: 'C',
 		},
 	]);
 

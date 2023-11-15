@@ -1,8 +1,9 @@
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import { Button, UncontrolledTooltip } from 'reactstrap';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({
 	cell,
@@ -10,13 +11,13 @@ const ActionButtons = ({
 	handleViewClick,
 	handleDeleteClick,
 }) => {
+	const { isGranted } = usePermission();
 	const emailTemplateId = cell?.row?.original?.emailTemplateId;
 	const type = cell?.row?.original?.type;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-				<Link
-					to="#"
+			<li data-bs-toggle="tooltip" data-bs-placement="top">
+				<Button
 					className="btn btn-sm btn-soft-primary"
 					onClick={(e) => handleViewClick(e, emailTemplateId)}
 				>
@@ -24,12 +25,12 @@ const ActionButtons = ({
 					<UncontrolledTooltip placement="top" target="viewtooltip">
 						View
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 
 			<li>
-				<Link
-					to="#"
+				<Button
+					hidden={!isGranted(modules.EmailTemplate, 'U')}
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => handleEditClick(e, emailTemplateId)}
 				>
@@ -37,12 +38,12 @@ const ActionButtons = ({
 					<UncontrolledTooltip placement="top" target="edittooltip">
 						Edit
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 
 			<li>
-				<Link
-					to="#"
+				<Button
+					hidden={!isGranted(modules.EmailTemplate, 'D')}
 					className="btn btn-sm btn-soft-danger"
 					onClick={(e) => handleDeleteClick(e, emailTemplateId, type)}
 				>
@@ -50,7 +51,7 @@ const ActionButtons = ({
 					<UncontrolledTooltip placement="top" target="deletetooltip">
 						Delete
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 		</ul>
 	);

@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Button, UncontrolledTooltip } from 'reactstrap';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({ cell, handleStatus }) => {
+	const { isGranted } = usePermission();
 	const active = cell?.row?.original?.isActive;
 	const bonusId = cell?.row?.original?.bonusId;
 
@@ -21,8 +23,8 @@ const ActionButtons = ({ cell, handleStatus }) => {
 
 			<li>
 				{active ? (
-					<Link
-						to="#"
+					<Button
+						hidden={!isGranted(modules.Bonus, 'T')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -35,10 +37,10 @@ const ActionButtons = ({ cell, handleStatus }) => {
 						<UncontrolledTooltip placement="top" target={`active-${bonusId}`}>
 							Set Inactive
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				) : (
-					<Link
-						to="#"
+					<Button
+						hidden={!isGranted(modules.Bonus, 'T')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -51,7 +53,7 @@ const ActionButtons = ({ cell, handleStatus }) => {
 						<UncontrolledTooltip placement="top" target={`active-${bonusId}`}>
 							Set Active
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				)}
 			</li>
 			{/*

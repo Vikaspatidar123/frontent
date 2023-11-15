@@ -30,10 +30,13 @@ import useCreateSubCategory from './hooks/useCreateSubCategory';
 import FormModal from '../../components/Common/FormModal';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const GetCasinoSubCategoryDetail = () => {
 	// meta title
 	document.title = projectName;
+	const { isGranted } = usePermission();
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
@@ -170,6 +173,7 @@ const GetCasinoSubCategoryDetail = () => {
 							<li>
 								{status ? (
 									<Button
+										hidden={!isGranted(modules.CasinoManagement, 'T')}
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -191,6 +195,7 @@ const GetCasinoSubCategoryDetail = () => {
 									</Button>
 								) : (
 									<Button
+										hidden={!isGranted(modules.CasinoManagement, 'T')}
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -215,6 +220,8 @@ const GetCasinoSubCategoryDetail = () => {
 
 							<li>
 								<Button
+									type="button"
+									hidden={!isGranted(modules.CasinoManagement, 'U')}
 									className="btn btn-sm btn-soft-info"
 									onClick={(e) => {
 										e.preventDefault();
@@ -237,6 +244,7 @@ const GetCasinoSubCategoryDetail = () => {
 							<li>
 								<Button
 									type="button"
+									hidden={!isGranted(modules.CasinoManagement, 'D')}
 									disabled={isGlobal}
 									className="btn btn-sm btn-soft-danger"
 									onClick={(e) => {
@@ -260,6 +268,7 @@ const GetCasinoSubCategoryDetail = () => {
 							<li>
 								<Button
 									type="button"
+									hidden={!isGranted(modules.CasinoManagement, 'U')}
 									disabled={isGlobal}
 									className="btn btn-sm btn-soft-primary"
 									onClick={(e) => handleAddGameClick(e, gameSubCategoryId)}
@@ -272,7 +281,7 @@ const GetCasinoSubCategoryDetail = () => {
 										placement="top"
 										target={`plus-one-${gameSubCategoryId}`}
 									>
-										Add Game
+										Add Games to this sub category
 									</UncontrolledTooltip>
 								</Button>
 							</li>

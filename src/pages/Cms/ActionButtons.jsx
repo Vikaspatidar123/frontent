@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Button, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({
 	cell,
@@ -10,13 +11,28 @@ const ActionButtons = ({
 	handleEditClick,
 	handleViewClick,
 }) => {
+	const { isGranted } = usePermission();
 	const status = cell?.row?.original?.isActive;
 	const cmsPageId = cell?.row?.original?.cmsPageId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
+			<li>
+				<Button
+					hidden={!isGranted(modules.CMS, 'U')}
+					type="button"
+					className="btn btn-sm btn-soft-info"
+					onClick={(e) => handleEditClick(e, cmsPageId)}
+				>
+					<i className="mdi mdi-pencil-outline" id="edittooltip" />
+					<UncontrolledTooltip placement="top" target="edittooltip">
+						Edit
+					</UncontrolledTooltip>
+				</Button>
+			</li>
+
 			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-				<Link
-					to="#"
+				<Button
+					hidden={!isGranted(modules.CMS, 'R')}
 					className="btn btn-sm btn-soft-primary"
 					onClick={(e) => handleViewClick(e, cmsPageId)}
 				>
@@ -24,13 +40,13 @@ const ActionButtons = ({
 					<UncontrolledTooltip placement="top" target="viewtooltip">
 						View
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 
 			<li>
 				{status ? (
-					<Link
-						to="#"
+					<Button
+						hidden={!isGranted(modules.CMS, 'T')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -49,10 +65,10 @@ const ActionButtons = ({
 						>
 							Set Inactive
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				) : (
-					<Link
-						to="#"
+					<Button
+						hidden={!isGranted(modules.CMS, 'T')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -71,21 +87,8 @@ const ActionButtons = ({
 						>
 							Set Active
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				)}
-			</li>
-
-			<li>
-				<Link
-					to="#"
-					className="btn btn-sm btn-soft-info"
-					onClick={(e) => handleEditClick(e, cmsPageId)}
-				>
-					<i className="mdi mdi-pencil-outline" id="edittooltip" />
-					<UncontrolledTooltip placement="top" target="edittooltip">
-						Edit
-					</UncontrolledTooltip>
-				</Link>
 			</li>
 		</ul>
 	);

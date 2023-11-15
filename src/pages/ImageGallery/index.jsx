@@ -11,8 +11,8 @@ import {
 	CardBody,
 	Container,
 	UncontrolledTooltip,
+	Button,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 
 // Breadcrumb
@@ -22,10 +22,13 @@ import { projectName } from '../../constants/config';
 
 import { showToastr } from '../../utils/helpers';
 import useImageGallery from './hooks/useImageGallery';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const ImageGallery = () => {
 	// meta title
 	document.title = projectName;
+	const { isGranted } = usePermission();
 	const {
 		imageGallery,
 		imageGalleryLoading,
@@ -36,99 +39,106 @@ const ImageGallery = () => {
 
 	return (
 		<div className="page-content">
-			<Container fluid>
-				<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
+			{isGranted(modules.ImageGallery, 'R') && (
+				<Container fluid>
+					<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
 
-				<Row>
-					<Col>
-						<Card>
-							<CardBody>
-								<Form onSubmit={validation.handleSubmit}>
-									<Dropzone onDrop={handleFileUpload}>
-										{({ getRootProps, getInputProps }) => (
-											<div className="dropzone">
-												<div
-													className="dz-message needsclick mt-2"
-													{...getRootProps()}
-												>
-													<input {...getInputProps()} />
-													<div className="mb-3">
-														<i className="display-4 text-muted bx bxs-cloud-upload" />
-													</div>
-													<h4>Drop files here or click to upload.</h4>
-													<div className="text-center mt-4">
-														<button type="button" className="btn btn-primary ">
-															Upload Files
-														</button>
+					<Row>
+						<Col>
+							<Card>
+								<CardBody>
+									<Form onSubmit={validation.handleSubmit}>
+										<Dropzone onDrop={handleFileUpload}>
+											{({ getRootProps, getInputProps }) => (
+												<div className="dropzone">
+													<div
+														className="dz-message needsclick mt-2"
+														{...getRootProps()}
+													>
+														<input {...getInputProps()} />
+														<div className="mb-3">
+															<i className="display-4 text-muted bx bxs-cloud-upload" />
+														</div>
+														<h4>Drop files here or click to upload.</h4>
+														<div className="text-center mt-4">
+															<button
+																type="button"
+																className="btn btn-primary "
+															>
+																Upload Files
+															</button>
+														</div>
 													</div>
 												</div>
-											</div>
-										)}
-									</Dropzone>
-									{validation.touched.initialstate &&
-									validation.errors.initialstate
-										? showToastr({
-												message: validation.errors.initialstate,
-												type: 'error',
-										  })
-										: ''}
-									<div
-										className="d-flex justify-content-start flex-wrap gap-3 dropzone-previews mt-3"
-										id="file-previews"
-									>
-										<Row className="justify-content-start">
-											{imageGalleryLoading ? (
-												<Spinners
-													color="primary"
-													className="position-absolute top-0 start-50"
-												/>
-											) : (
-												imageGallery.map((f, i) => (
-													<Col>
-														<Card
-															key={`${i}-file`}
-															className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-														>
-															<div className="p-2">
-																<img
-																	data-dz-thumbnail=""
-																	height="200"
-																	width="250"
-																	className="rounded me-2 bg-light"
-																	alt={f.name}
-																	src={`https://gammastack-casino.s3.amazonaws.com/${f.fileName}`}
-																/>
-																<Col className="position-absolute top-0 end-0">
-																	<Link
-																		to="#"
-																		className="btn btn-sm btn-soft-danger"
-																		onClick={() => deleteImage(f)}
-																	>
-																		<i
-																			className="mdi mdi-delete-outline"
-																			id="deletetooltip"
-																		/>
-																		<UncontrolledTooltip
-																			placement="top"
-																			target="deletetooltip"
-																		>
-																			Delete
-																		</UncontrolledTooltip>
-																	</Link>
-																</Col>
-															</div>
-														</Card>
-													</Col>
-												))
 											)}
-										</Row>
-									</div>
-								</Form>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
-			</Container>
+										</Dropzone>
+										{validation.touched.initialstate &&
+										validation.errors.initialstate
+											? showToastr({
+													message: validation.errors.initialstate,
+													type: 'error',
+											  })
+											: ''}
+										<div
+											className="d-flex justify-content-start flex-wrap gap-3 dropzone-previews mt-3"
+											id="file-previews"
+										>
+											<Row className="justify-content-start">
+												{imageGalleryLoading ? (
+													<Spinners
+														color="primary"
+														className="position-absolute top-0 start-50"
+													/>
+												) : (
+													imageGallery.map((f, i) => (
+														<Col>
+															<Card
+																key={`${i}-file`}
+																className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+															>
+																<div className="p-2">
+																	<img
+																		data-dz-thumbnail=""
+																		height="200"
+																		width="250"
+																		className="rounded me-2 bg-light"
+																		alt={f.name}
+																		src={`https://gammastack-casino.s3.amazonaws.com/${f.fileName}`}
+																	/>
+																	<Col className="position-absolute top-0 end-0">
+																		<Button
+																			hidden={
+																				!isGranted(modules.ImageGallery, 'D')
+																			}
+																			className="btn btn-sm btn-soft-danger"
+																			onClick={() => deleteImage(f)}
+																		>
+																			<i
+																				className="mdi mdi-delete-outline"
+																				id="deletetooltip"
+																			/>
+																			<UncontrolledTooltip
+																				placement="top"
+																				target="deletetooltip"
+																			>
+																				Delete
+																			</UncontrolledTooltip>
+																		</Button>
+																	</Col>
+																</div>
+															</Card>
+														</Col>
+													))
+												)}
+											</Row>
+										</div>
+									</Form>
+								</CardBody>
+							</Card>
+						</Col>
+					</Row>
+				</Container>
+			)}
 		</div>
 	);
 };
