@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import sideBarElements from '../../constants/sidebar';
+import { sideBarElements } from '../../constants/sidebar';
 
 const NavigationSearch = () => {
 	const [navigationSearch, setNavigationSearch] = useState();
