@@ -4,6 +4,21 @@ import { bonusTypes } from './constants';
 
 const currentDate = moment().toDate();
 
+// complete this
+const generalStepInitialValues = () => ({
+	promotionTitle: '',
+	bonusType: 'deposit',
+	//  change to ValidFrom and validTo
+	startDate: currentDate,
+	endDate: currentDate,
+	termCondition: '',
+	quantity: 1,
+	wageringMultiplier: 1,
+	daysToClear: 1,
+	wageringRequirementType: 1,
+	betLevel: 1,
+});
+
 const getCreateBonusInitialValues = () => ({
 	promotionTitle: '',
 	bonusType: 'deposit',
@@ -45,7 +60,6 @@ const getCreateBonusInitialValues = () => ({
 	paymentMethods: {},
 	// wageringTemplateId: wageringTemplateList?.[0]?.wageringTemplateId,
 	appliedBonusId: '',
-	appliedBonusVal: '',
 	// adminId: '',
 	description: '',
 	loyaltyLevel: null,
@@ -300,4 +314,5 @@ export {
 	typeDepositAdditionalFields,
 	typeFreeSpinAdditionalFields,
 	commonFields,
+	generalStepInitialValues,
 };

@@ -63,27 +63,16 @@ const currencyValidate = ({ curr, bonusType, isSticky }) => {
 	return Yup.object(validationObject);
 };
 
-const generalFormSchema = (bonusDetail) =>
+const generalFormSchema = () =>
 	Yup.object({
 		promotionTitle: Yup.string()
 			.required('Promotion Title Required')
 			.nullable(),
 		bonusType: Yup.string().required('Bonus Type Required').nullable(),
-		appliedBonusVal: Yup.string()
-			.when(['bonusType'], {
-				is: (bonusType) => {
-					if (bonusType === 'balance') {
-						return true;
-					}
-					return false;
-				},
-				then: Yup.string().required('Applied Bonus Required'),
-			})
-			.nullable(),
 		betLevel: Yup.number()
 			.when(['bonusType'], {
 				is: (bonusType) => {
-					if (bonusType === 'freespins' || bonusType === 'cashfreespins') {
+					if (bonusType === 'freespins') {
 						return true;
 					}
 					return false;
@@ -116,49 +105,63 @@ const generalFormSchema = (bonusDetail) =>
 				then: (schema) => schema.required('Description Required'),
 			})
 			.nullable(),
-		bonusImage: Yup.mixed().when(['bonusType'], {
-			is: (bonusType) => {
-				if (bonusType !== 'joining') {
-					return true;
-				}
-				return false;
-			},
-			then: (schema) => {
-				if (!bonusDetail) {
-					return schema
-						.required('A file is required')
-						.test(
-							'File Size',
-							'File Size Should be Less Than 1MB',
-							(value) => !value || (value && value.size <= 1024 * 1024)
-						)
-						.test(
-							'FILE_FORMAT',
-							'Uploaded file has unsupported format.',
-							(value) =>
-								!value ||
-								(value &&
-									['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
-						)
-						.nullable();
-				}
-				return schema
-					.test(
-						'File Size',
-						'File Size Should be Less Than 1MB',
-						(value) => !value || (value && value.size <= 1024 * 1024)
-					)
-					.test(
-						'FILE_FORMAT',
-						'Uploaded file has unsupported format.',
-						(value) =>
-							!value ||
-							(value &&
-								['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
-					)
-					.nullable();
-			},
-		}),
+		bonusImage: Yup.mixed()
+			.required('A file is required')
+			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
+				typeof value === 'string'
+					? true
+					: !value || (value && value.size <= 1024 * 1024)
+			)
+			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+				typeof value === 'string'
+					? true
+					: !value ||
+					  (value &&
+							['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+			),
+		// Yup.mixed().when(['bonusType'], {
+		//   is: (bonusType) => {
+		//     if (bonusType !== 'joining') {
+		//       return true;
+		//     }
+		//     return false;
+		//   },
+		//   then: (schema) => {
+		//     if (!bonusDetail) {
+		//       return schema
+		//         .required('A file is required')
+		//         .test(
+		//           'File Size',
+		//           'File Size Should be Less Than 1MB',
+		//           (value) => !value || (value && value.size <= 1024 * 1024)
+		//         )
+		//         .test(
+		//           'FILE_FORMAT',
+		//           'Uploaded file has unsupported format.',
+		//           (value) =>
+		//             !value ||
+		//             (value &&
+		//               ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+		//         )
+		//         .nullable();
+		//     }
+		//     return schema
+		//       .test(
+		//         'File Size',
+		//         'File Size Should be Less Than 1MB',
+		//         (value) => !value || (value && value.size <= 1024 * 1024)
+		//       )
+		//       .test(
+		//         'FILE_FORMAT',
+		//         'Uploaded file has unsupported format.',
+		//         (value) =>
+		//           !value ||
+		//           (value &&
+		//             ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+		//       )
+		//       .nullable();
+		//   },
+		// }),
 		validOnDays: Yup.array()
 			.when(['visibleInPromotions', 'bonusType'], {
 				is: (visibleInPromotions, bonusType) => {
@@ -196,7 +199,7 @@ const generalFormSchema = (bonusDetail) =>
 		}),
 		depositBonusPercent: Yup.number().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType === 'deposit' || bonusType === 'balance') {
+				if (bonusType === 'deposit') {
 					return true;
 				}
 				return false;
@@ -270,8 +273,6 @@ const bonusSchema = (curr, { bonusDetail }) => [
 					.integer('Only Integer Values Allowed'),
 			})
 			.nullable(),
-		// adminId: Yup.number().required('Owner Id Required').nullable(),
-		// tenantIds: Yup.array().min(1, 'Select At Least One Portal'),
 		termCondition: Yup.string()
 			.when(['bonusType'], {
 				is: (bonusType) => {

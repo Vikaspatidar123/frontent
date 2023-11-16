@@ -691,6 +691,84 @@ export const getField = (
 					</div>
 				</>
 			);
+		case 'radioGroupMulti':
+			return (
+				<>
+					{label && (
+						<div className="d-flex align-items-center mb-2 gap-2">
+							<Label className="my-0" for={name}>
+								{label}
+							</Label>
+							<CustomSwitchButton
+								labelClassName="form-check-label"
+								label=""
+								htmlFor={label}
+								type="switch"
+								id={label}
+								name="select-all"
+								checked={
+									!!(validation.values?.[name]?.length === optionList.length)
+								}
+								inputClassName="form-check-input"
+								onClick={() => {
+									validation.setFieldValue(
+										name,
+										validation.values?.[name]?.length === optionList.length
+											? []
+											: optionList.map((option) => option.value)
+									);
+								}}
+								onBlur={validation.handleBlur}
+								disabled={!!isDisabled}
+							/>
+						</div>
+					)}
+					<div>
+						{!!optionList.length &&
+							optionList.map((option) => (
+								<CustomSwitchButton
+									labelClassName="form-check-label"
+									label={option.optionLabel}
+									htmlFor={`customRadioInline${option.value}`}
+									type="switch"
+									id={`customRadioInline${option.value}`}
+									name={option.value}
+									checked={
+										!!(
+											validation.values?.[name] &&
+											validation.values?.[name].includes(option.value)
+										)
+									}
+									inputClassName="form-check-input"
+									onClick={(e) => {
+										if (!validation.values[name].includes(e.target.name)) {
+											validation.values?.[name]?.length
+												? validation.setFieldValue(name, [
+														...validation.values[name],
+														e.target.name,
+												  ])
+												: validation.setFieldValue(name, [e.target.name]);
+										} else {
+											validation.setFieldValue(
+												name,
+												validation.values[name].filter(
+													(value) => value !== e.target.name
+												)
+											);
+										}
+									}}
+									onBlur={validation.handleBlur}
+									disabled={!!isDisabled}
+								/>
+							))}
+					</div>
+					{validation.touched[name] && validation.errors[name] ? (
+						<FormFeedback type="invalid" className="d-block">
+							{validation.errors[name]}
+						</FormFeedback>
+					) : null}
+				</>
+			);
 		case 'textfieldWithAdornment':
 			return (
 				<>

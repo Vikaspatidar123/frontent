@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import {
 	getCreateBonusInitialValues,
@@ -11,7 +11,7 @@ import {
 import FormPage from '../../../components/Common/FormPage';
 import Spinners from '../../../components/Common/Spinner';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { bonusTypes } from '../constants';
+import { bonusTypes, daysOfWeek } from '../constants';
 import { generalFormSchema } from '../Validation/schema';
 
 const General = ({
@@ -21,6 +21,7 @@ const General = ({
 	setNextPressed,
 	setAllFields,
 }) => {
+	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
 	const handleSubmit = (values) => {
 		setAllFields((prev) => ({ ...prev, ...values }));
 		setActiveTab(2);
@@ -106,6 +107,47 @@ const General = ({
 	useEffect(() => {
 		handleBonusTypeChange(null, 'deposit');
 	}, []);
+
+	useEffect(() => {
+		if (
+			validation.values.visibleInPromotions &&
+			validation.values.bonusType !== 'promotion'
+		) {
+			const copyArray = [...formFields];
+			copyArray.splice(
+				validation.values.bonusType === 'freespins' ? 12 : 11,
+				0,
+				{
+					name: 'validOnDays',
+					fieldType: 'radioGroupMulti',
+					label: 'Valid On Days',
+					optionList: daysOfWeek.map(({ label, value, id }) => ({
+						optionLabel: label,
+						value,
+						id,
+					})),
+					fieldColOptions: { lg: 12 },
+					isNewRow: true,
+				}
+			);
+			setFormFields(copyArray);
+			setIsDaysFieldAdded(true);
+		} else if (isDaysFieldAdded) {
+			const copyArray = formFields.filter(
+				(field) => field.name !== 'validOnDays'
+			);
+			setFormFields(copyArray);
+			setIsDaysFieldAdded(false);
+		}
+	}, [validation.values.visibleInPromotions, validation.values.bonusType]);
+
+	useEffect(() => {
+		if (validation.values.isSticky === 'true') {
+			validation.setFieldValue('wageringRequirementType', false);
+		} else {
+			validation.setFieldValue('wageringRequirementType', true);
+		}
+	}, [validation.values.isSticky]);
 
 	return (
 		<Row>
