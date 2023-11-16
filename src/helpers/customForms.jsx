@@ -3,7 +3,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-expressions */
 import React from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // Form Editor
 import { Editor } from 'react-draft-wysiwyg';
@@ -21,7 +20,6 @@ import {
 import 'flatpickr/dist/themes/material_blue.css';
 import Select from 'react-select';
 import FlatPickr from 'react-flatpickr';
-import ReactDatePicker from 'react-datepicker';
 import moment from 'moment';
 import CreatableSelect from 'react-select/creatable';
 import PhoneInput from 'react-phone-input-2';
@@ -131,24 +129,28 @@ export const CustomDateField = ({
 	label,
 	placeholder,
 	value,
+	// eslint-disable-next-line no-unused-vars
 	onChange = () => {},
 	onBlur,
 	isError,
-	dateFormat = 'd M,Y',
+	dateFormat = 'Y-M-D',
 	errorMsg,
+	validation,
 	...props
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
 		<FlatPickr
-			className="form-control mb-3 mb-xxl-0"
+			className="form-control"
 			name={name}
 			placeholder={placeholder}
 			options={{
 				dateFormat,
 			}}
-			selected={value}
-			onChange={onChange}
+			value={value}
+			onChange={(date) => {
+				validation.setFieldValue(name, date[0]);
+			}}
 			{...props}
 		/>
 		{isError && errorMsg ? (
@@ -170,10 +172,30 @@ export const CustomRangeSelector = ({
 	maxDate = moment().utc().startOf('day').toDate(),
 	minDate = moment().subtract(100, 'years').utc().toDate(),
 	validation,
+	dateFormat = 'd M Y',
 	...props
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
+		<FlatPickr
+			className="form-control"
+			// name={name}
+			value={value}
+			placeholder={placeholder}
+			options={{
+				mode: 'range',
+				dateFormat,
+			}}
+			onChange={(date) => {
+				validation.setFieldValue('startDate', date[0]);
+				validation.setFieldValue('endDate', date[1]);
+			}}
+			monthsShown={2}
+			maxDate={maxDate}
+			minDate={minDate}
+			{...props}
+		/>
+		{/* {label && <Label for={name}>{label}</Label>}
 		<ReactDatePicker
 			selectsRange
 			// dateFormat="MMMM dd, yyyy O"
@@ -189,7 +211,7 @@ export const CustomRangeSelector = ({
 			minDate={minDate}
 			className="form-control"
 			{...props}
-		/>
+		/> */}
 	</div>
 );
 
@@ -461,6 +483,7 @@ export const getField = (
 					invalid={!!(validation.touched[name] && validation.errors[name])}
 					errorMsg={validation.touched[name] && validation.errors[name]}
 					disabled={!!isDisabled}
+					validation={validation}
 				/>
 			);
 
