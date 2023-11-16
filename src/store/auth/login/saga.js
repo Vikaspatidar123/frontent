@@ -53,7 +53,9 @@ function* loginUser({ payload: { user, history } }) {
 		// }
 		history('/dashboard');
 	} catch (error) {
-		yield put(apiError('Failed to login', error.message));
+		const err =
+			error?.response?.data?.errors?.[0]?.description || 'Failed to login';
+		yield put(apiError(err, error.message));
 		// yield put(apiError(error.message));
 	}
 }

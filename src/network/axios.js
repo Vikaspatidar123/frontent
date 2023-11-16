@@ -1,4 +1,7 @@
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/react-in-jsx-scope */
 import axios from 'axios';
+import { redirect } from 'react-router-dom';
 import { getAccessToken, removeLoginToken } from './storageUtils';
 
 const axiosInstance = axios.create();
@@ -12,7 +15,7 @@ export const setupInterceptors = () => {
 			const { status } = error.response;
 			if (status === 401 || status === 403) {
 				removeLoginToken();
-				window.location.href = '/login';
+				redirect('/login');
 			}
 
 			return Promise.reject(error);
