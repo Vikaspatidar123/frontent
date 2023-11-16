@@ -2,10 +2,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-expressions */
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // Form Editor
 import { Editor } from 'react-draft-wysiwyg';
+import { convertToRaw, ContentState, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import {
@@ -318,31 +321,56 @@ export const CustomToggleButton = ({
 );
 
 export const CustomTextEditor = ({
+	name,
 	label,
-	// value,
 	isError,
-	onChange,
 	errorMsg,
-	// ...rest
-}) => (
-	<>
-		{label && <Label className="form-label">{label}</Label>}
-		{isError && label && <span className="text-danger"> *</span>}
-		<Editor
-			// {...rest}
-			toolbarClassName="toolbarClassName"
-			wrapperClassName="wrapperClassName"
-			editorClassName="editorClassName"
-			// editorState={value} // Controlled will create issue after conversion
-			onEditorStateChange={onChange}
-		/>
-		{isError && errorMsg ? (
-			<FormFeedback type="invalid" className="d-block">
-				{errorMsg}
-			</FormFeedback>
-		) : null}
-	</>
-);
+	validation,
+	placeholder,
+	value,
+}) => {
+	const prepareDraft = (editorValue) => {
+		const draft = htmlToDraft(editorValue);
+		const contentState = ContentState.createFromBlockArray(draft.contentBlocks);
+		const editorState = EditorState.createWithContent(contentState);
+		return editorState;
+	};
+
+	const [editorState, setEditorState] = useState(
+		value ? prepareDraft(value) : EditorState.createEmpty()
+	);
+
+	const onEditorStateChange = (editorStateIns) => {
+		const forFormik = draftToHtml(
+			convertToRaw(editorStateIns.getCurrentContent())
+		);
+		validation.setFieldValue(
+			name,
+			editorStateIns.getCurrentContent().hasText() ? forFormik : ''
+		);
+		setEditorState(editorStateIns);
+	};
+
+	return (
+		<>
+			{label && <Label className="form-label">{label}</Label>}
+			{isError && label && <span className="text-danger"> *</span>}
+			<Editor
+				placeholder={placeholder}
+				toolbarClassName="toolbarClassName"
+				wrapperClassName="wrapperClassName"
+				editorClassName="editorClassName"
+				editorState={editorState} // Controlled will create issue after conversion
+				onEditorStateChange={onEditorStateChange}
+			/>
+			{isError && errorMsg ? (
+				<FormFeedback type="invalid" className="d-block">
+					{errorMsg}
+				</FormFeedback>
+			) : null}
+		</>
+	);
+};
 
 export const getField = (
 	{
@@ -441,9 +469,9 @@ export const getField = (
 				<CustomSwitchButton
 					labelClassName="form-check-label"
 					label={label}
-					htmlFor="customRadioInline1"
+					htmlFor={`radio${name}`}
 					type="switch"
-					id="customRadioInline1"
+					id={`radio${name}`}
 					value={!!validation.values[name]}
 					name={name}
 					checked={!!validation.values[name]}
@@ -460,9 +488,9 @@ export const getField = (
 				<CustomToggleButton
 					labelClassName="form-check-label"
 					label={label}
-					htmlFor="customSwitch1"
+					htmlFor={`switch${name}`}
+					id={`switch${name}`}
 					type="checkbox"
-					id="customSwitch1"
 					name={name}
 					checked={!!validation.values[name]}
 					inputClassName="form-check-input"
@@ -549,19 +577,11 @@ export const getField = (
 				<CustomTextEditor
 					label={label}
 					name={name}
-					type={type}
-					onChange={(text) => validation.setFieldValue(name, text)}
-					onBlur={validation.handleBlur}
 					placeholder={placeholder}
-					validate={{ required: { value: true } }}
-					value={validation.values[name]}
 					isError
 					errorMsg={validation.touched[name] && validation.errors[name]}
-					// invalid={!!(validation.touched[name] && validation.errors[name])}
-					// isError
-					// errorMsg={validation.touched[name] && validation.errors[name]}
-					// disabled={!!isDisabled}
 					validation={validation}
+					value={validation.values[name]}
 				/>
 			);
 		case 'loyaltyRangeField':
