@@ -1,6 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -227,18 +224,46 @@ const TableContainer = ({
 TableContainer.defaultProps = {
 	preGlobalFilteredRows: [],
 	hideHeader: false,
+	tableClass: '',
+	paginationDiv: '',
+	isPagination: false,
+	theadClass: '',
+	tbodyClass: '',
+	isManualPagination: false,
+	onChangePagination: () => {},
+	thCustomClass: '',
+	changeRowsPerPageCallback: () => {},
+	tbodyHeight: '',
+	cellPadding: '',
 };
 
 TableContainer.propTypes = {
-	// eslint-disable-next-line react/require-default-props
 	preGlobalFilteredRows: PropTypes.arrayOf,
 	hideHeader: PropTypes.bool,
-	// columns: PropTypes.arrayOf,
-	// data: PropTypes.arrayOf,
-	// isGlobalFilter: PropTypes.bool,
-	// isAddOptions: PropTypes.bool,
-	// isAddUserList: PropTypes.bool,
-	// handleOrderClicks: PropTypes.func,
+	columns: PropTypes.arrayOf(
+		PropTypes.shape({
+			Header: PropTypes.string,
+			accessor: PropTypes.string,
+			filterable: PropTypes.bool,
+			Cell: PropTypes.func,
+		})
+	).isRequired,
+	// eslint-disable-next-line react/forbid-prop-types
+	data: PropTypes.arrayOf(PropTypes.object).isRequired,
+	customPageSize: PropTypes.number.isRequired,
+	tableClass: PropTypes.string,
+	paginationDiv: PropTypes.string,
+	isPagination: PropTypes.bool,
+	theadClass: PropTypes.string,
+	tbodyClass: PropTypes.string,
+	totalPageCount: PropTypes.number.isRequired,
+	isManualPagination: PropTypes.bool,
+	onChangePagination: PropTypes.func,
+	isLoading: PropTypes.bool.isRequired,
+	thCustomClass: PropTypes.string,
+	changeRowsPerPageCallback: PropTypes.func,
+	tbodyHeight: PropTypes.string,
+	cellPadding: PropTypes.string,
 };
 
 export default TableContainer;
