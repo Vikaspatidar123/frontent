@@ -5,18 +5,14 @@
 import React from 'react';
 import { Badge, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Colors } from '../../helpers/common';
 
 const PlayerId = (cell) => (cell.value ? cell.value : '');
 
-const UserName = ({ cell, onClickPlayer }) =>
+const UserName = ({ cell }) =>
 	cell.value ? (
-		<div
-			onClick={() => onClickPlayer(cell?.row?.original?.userId)}
-			style={{ color: Colors.primaryBlue, cursor: 'pointer' }}
-		>
+		<Link to={`/player-details/${cell?.row?.original?.userId}`}>
 			{cell.value}
-		</div>
+		</Link>
 	) : (
 		''
 	);

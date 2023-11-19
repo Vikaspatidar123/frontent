@@ -76,7 +76,7 @@ const PlayerWallet = ({ userDetails }) => {
 	);
 
 	return (
-		<Container fluid className="bg-white">
+		<Container fluid>
 			<Card className="p-2">
 				<h4 className="text-center border-bottom p-3">Player Wallet</h4>
 				<TableContainer

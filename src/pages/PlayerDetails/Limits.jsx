@@ -11,7 +11,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 	const { limitLabels, userLimits } = useEditLimits({ userDetails });
 
 	return (
-		<Container fluid className="bg-white">
+		<Container fluid>
 			<Card className="p-2">
 				<h4 className="text-center p-2">Limits</h4>
 				{userDetailsLoading ? (

@@ -234,7 +234,7 @@ const UserDocsList = ({ userId }) => {
 	}, [markDocumentRequiredSuccess]);
 
 	return (
-		<Container fluid className="bg-white">
+		<Container fluid>
 			<Card className="p-2">
 				<TableContainer
 					isLoading={userDocumentsLoading}

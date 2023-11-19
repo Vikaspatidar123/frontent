@@ -2,16 +2,10 @@
 import React from 'react';
 import { Badge } from 'reactstrap';
 // import { Tooltip } from 'recharts';
-import { Colors } from '../../helpers/common';
 
 const Id = (cell) => (cell.value ? cell.value : '');
 
-const UserName = (cell) =>
-	cell.value ? (
-		<div style={{ color: Colors.primaryBlue }}>{cell.value}</div>
-	) : (
-		''
-	);
+const UserName = (cell) => (cell.value ? <div>{cell.value}</div> : '');
 
 const Description = (cell) =>
 	cell.value ? (

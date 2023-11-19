@@ -145,7 +145,7 @@ const Notes = ({ userId }) => {
 	} = useCreateComment({ userId });
 
 	return (
-		<Container fluid className="bg-white">
+		<Container fluid>
 			<Card className="p-2">
 				<CrudSection buttonList={buttonList} title="Notes" />
 				<CardBody>
