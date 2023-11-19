@@ -20,6 +20,7 @@ const General = ({
 	setActiveTab,
 	setNextPressed,
 	setAllFields,
+	setSelectedBonus,
 }) => {
 	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
 	const handleSubmit = (values) => {
@@ -44,6 +45,7 @@ const General = ({
 	const handleBonusTypeChange = (e, type) => {
 		e?.preventDefault();
 		const bonusType = e?.target?.value || type;
+		setSelectedBonus(bonusType);
 		switch (bonusType) {
 			case 'deposit':
 				setFormFields([

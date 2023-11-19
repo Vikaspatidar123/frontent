@@ -328,6 +328,7 @@ export const CustomTextEditor = ({
 	validation,
 	placeholder,
 	value,
+	onValueChange = () => {},
 }) => {
 	const prepareDraft = (editorValue) => {
 		const draft = htmlToDraft(editorValue);
@@ -344,8 +345,13 @@ export const CustomTextEditor = ({
 		const forFormik = draftToHtml(
 			convertToRaw(editorStateIns.getCurrentContent())
 		);
-		validation.setFieldValue(
-			name,
+		if (validation) {
+			validation.setFieldValue(
+				name,
+				editorStateIns.getCurrentContent().hasText() ? forFormik : ''
+			);
+		}
+		onValueChange(
 			editorStateIns.getCurrentContent().hasText() ? forFormik : ''
 		);
 		setEditorState(editorStateIns);

@@ -8,7 +8,8 @@ import useCreateBonus from './hooks/useCreateBonus';
 import StepFormTabs from '../../components/Common/StepFormTabs';
 
 const CreateBonus = () => {
-	const { tabData, toggleTab, activeTab, onNextClick } = useCreateBonus();
+	const { tabData, toggleTab, activeTab, onNextClick, isNextDisabled } =
+		useCreateBonus();
 
 	return (
 		<div className="page-content">
@@ -28,6 +29,7 @@ const CreateBonus = () => {
 					tabsData={tabData}
 					toggleTab={toggleTab}
 					onNextClick={onNextClick}
+					isNextDisabled={isNextDisabled}
 				/>
 			</Container>
 		</div>

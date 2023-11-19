@@ -20,6 +20,7 @@ const StepFormTabs = ({
 	toggleTab,
 	passedSteps,
 	onNextClick,
+	isNextDisabled,
 }) => (
 	<Row>
 		<Col lg="12">
@@ -73,7 +74,7 @@ const StepFormTabs = ({
 									}
 								>
 									<Button
-										disabled={activeTab === tabsData?.length}
+										disabled={activeTab === tabsData?.length || isNextDisabled}
 										onClick={() => {
 											onNextClick(activeTab);
 										}}
@@ -90,6 +91,10 @@ const StepFormTabs = ({
 	</Row>
 );
 
+StepFormTabs.defaultProps = {
+	isNextDisabled: false,
+};
+
 StepFormTabs.propTypes = {
 	title: PropTypes.string.isRequired,
 	activeTab: PropTypes.number.isRequired,
@@ -101,6 +106,7 @@ StepFormTabs.propTypes = {
 		)
 	).isRequired,
 	onNextClick: PropTypes.func.isRequired,
+	isNextDisabled: PropTypes.bool,
 };
 
 export default StepFormTabs;

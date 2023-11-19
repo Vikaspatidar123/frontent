@@ -142,6 +142,7 @@ const commonFields = () => [
 		label: 'Bonus Image',
 		placeholder: 'Select bonus image',
 		isNewRow: true,
+		showThumbnail: true,
 	},
 ];
 

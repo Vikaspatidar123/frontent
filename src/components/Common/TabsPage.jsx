@@ -10,6 +10,7 @@ import {
 	Row,
 	TabContent,
 	TabPane,
+	UncontrolledTooltip,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 
@@ -24,6 +25,7 @@ const TabsPage = ({ activeTab, tabsData, toggle }) => (
 								<NavItem key={tab.id}>
 									{tab?.isHidden ? null : (
 										<NavLink
+											id={`tab-${tab.id}`}
 											style={{ cursor: 'pointer' }}
 											className={classNames({ active: activeTab === tab.id })}
 											onClick={() => {
@@ -32,6 +34,14 @@ const TabsPage = ({ activeTab, tabsData, toggle }) => (
 										>
 											{tab.title}
 										</NavLink>
+									)}
+									{tab.tooltipText && (
+										<UncontrolledTooltip
+											placement="bottom"
+											target={`tab-${tab.id}`}
+										>
+											{tab.tooltipText}
+										</UncontrolledTooltip>
 									)}
 								</NavItem>
 							))}
