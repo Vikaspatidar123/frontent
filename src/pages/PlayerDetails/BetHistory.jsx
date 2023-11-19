@@ -120,7 +120,7 @@ const BetHistory = ({ userId }) => {
 	};
 
 	return (
-		<Container fluid className="bg-white">
+		<Container fluid>
 			<Card className="p-2">
 				<CardBody>
 					<Filters

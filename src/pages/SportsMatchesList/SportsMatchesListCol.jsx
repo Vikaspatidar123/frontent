@@ -10,18 +10,12 @@ import { Link } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
 import { CustomToggleButton } from '../../helpers/customForms';
 import DivLoader from '../../components/Common/Loader/divLoader';
-import { Colors } from '../../helpers/common';
 
 const Id = (cell) => (cell.value ? cell.value : '');
 
-const Title = ({ cell, onMatchClick }) =>
+const Title = ({ cell }) =>
 	cell.value ? (
-		<div
-			onClick={() => onMatchClick(cell?.row?.original?.matchId)}
-			style={{ color: Colors.primaryBlue, cursor: 'pointer' }}
-		>
-			{cell.value}
-		</div>
+		<Link to={`/match/${cell?.row?.original?.matchId}`}>{cell.value}</Link>
 	) : (
 		''
 	);

@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
 	fetchSportsMatchesStart,
 	updateFeaturedMatchStart,
@@ -22,7 +21,6 @@ import {
 
 const useSportsMatchesListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const {
@@ -69,9 +67,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 		};
 		dispatch(updateFeaturedMatchStart(data));
 	};
-	const onMatchClick = (matchId) => {
-		navigate(`/match/${matchId}`);
-	};
+
 	const columns = useMemo(
 		() => [
 			{
@@ -96,7 +92,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 				Header: 'Title',
 				accessor: 'title',
 				filterable: true,
-				Cell: ({ cell }) => <Title cell={cell} onMatchClick={onMatchClick} />,
+				Cell: ({ cell }) => <Title cell={cell} />,
 			},
 			{
 				Header: 'Tournament',
