@@ -9,7 +9,7 @@ const useCreateBonus = () => {
 	const navigate = useNavigate();
 	const [activeLangTab, setActiveLangTab] = useState('');
 	const [selectedBonus, setSelectedBonus] = useState('deposit');
-	const [activeTab, setActiveTab] = useState(2);
+	const [activeTab, setActiveTab] = useState(1);
 	const [allFields, setAllFields] = useState({});
 	const [langList, setLangList] = useState({});
 	const [nextPressed, setNextPressed] = useState('');
