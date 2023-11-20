@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getBonusDetails, updateSABonusStatus } from '../../../store/actions';
 import { formatDate } from '../../../utils/dateFormatter';
 import { safeStringify } from '../../../utils/helpers';
-import { types } from '../contants';
+import { types } from '../constants';
 import {
 	BonusId,
 	Title,

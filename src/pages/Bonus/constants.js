@@ -9,10 +9,20 @@ const types = [
 	{ label: 'JOINING', value: 'joining', id: 7 },
 ];
 
+const daysOfWeek = [
+	{ label: 'Monday', value: 'monday', id: 0 },
+	{ label: 'Tuesday', value: 'tuesday', id: 1 },
+	{ label: 'Wednesday', value: 'wednesday', id: 2 },
+	{ label: 'Thursday', value: 'thursday', id: 3 },
+	{ label: 'Friday', value: 'friday', id: 4 },
+	{ label: 'Saturday', value: 'saturday', id: 5 },
+	{ label: 'Sunday', value: 'sunday', id: 6 },
+];
+
 const bonusTypes = [
 	{ label: 'DEPOSIT', value: 'deposit', id: 1 },
 	{ label: 'FREESPINS', value: 'freespins', id: 2 },
 	{ label: 'PROMOTION', value: 'promotion', id: 3 },
 ];
 
-export { types, bonusTypes };
+export { types, bonusTypes, daysOfWeek };

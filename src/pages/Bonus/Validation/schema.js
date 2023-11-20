@@ -63,6 +63,185 @@ const currencyValidate = ({ curr, bonusType, isSticky }) => {
 	return Yup.object(validationObject);
 };
 
+const generalFormSchema = () =>
+	Yup.object({
+		promotionTitle: Yup.string()
+			.required('Promotion Title Required')
+			.nullable(),
+		bonusType: Yup.string().required('Bonus Type Required').nullable(),
+		betLevel: Yup.number()
+			.when(['bonusType'], {
+				is: (bonusType) => {
+					if (bonusType === 'freespins') {
+						return true;
+					}
+					return false;
+				},
+				then: Yup.number()
+					.min(1, 'Minimum value must be 1')
+					.required('Bet Level Required')
+					.integer('Only Integer Values Allowed'),
+			})
+			.nullable(),
+		termCondition: Yup.string()
+			.when(['bonusType'], {
+				is: (bonusType) => {
+					if (bonusType !== 'joining') {
+						return true;
+					}
+					return false;
+				},
+				then: (schema) => schema.required('Terms and Conditions Required'),
+			})
+			.nullable(),
+		description: Yup.string()
+			.when(['bonusType'], {
+				is: (bonusType) => {
+					if (bonusType !== 'joining') {
+						return true;
+					}
+					return false;
+				},
+				then: (schema) => schema.required('Description Required'),
+			})
+			.nullable(),
+		bonusImage: Yup.mixed()
+			.required('A file is required')
+			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
+				typeof value === 'string'
+					? true
+					: !value || (value && value.size <= 1024 * 1024)
+			)
+			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+				typeof value === 'string'
+					? true
+					: !value ||
+					  (value &&
+							['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+			),
+		// Yup.mixed().when(['bonusType'], {
+		//   is: (bonusType) => {
+		//     if (bonusType !== 'joining') {
+		//       return true;
+		//     }
+		//     return false;
+		//   },
+		//   then: (schema) => {
+		//     if (!bonusDetail) {
+		//       return schema
+		//         .required('A file is required')
+		//         .test(
+		//           'File Size',
+		//           'File Size Should be Less Than 1MB',
+		//           (value) => !value || (value && value.size <= 1024 * 1024)
+		//         )
+		//         .test(
+		//           'FILE_FORMAT',
+		//           'Uploaded file has unsupported format.',
+		//           (value) =>
+		//             !value ||
+		//             (value &&
+		//               ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+		//         )
+		//         .nullable();
+		//     }
+		//     return schema
+		//       .test(
+		//         'File Size',
+		//         'File Size Should be Less Than 1MB',
+		//         (value) => !value || (value && value.size <= 1024 * 1024)
+		//       )
+		//       .test(
+		//         'FILE_FORMAT',
+		//         'Uploaded file has unsupported format.',
+		//         (value) =>
+		//           !value ||
+		//           (value &&
+		//             ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+		//       )
+		//       .nullable();
+		//   },
+		// }),
+		validOnDays: Yup.array()
+			.when(['visibleInPromotions', 'bonusType'], {
+				is: (visibleInPromotions, bonusType) => {
+					if (visibleInPromotions && bonusType !== 'promotion') {
+						return true;
+					}
+					return false;
+				},
+				then: (schema) => schema.min(1, 'Select At Least One Day').nullable(),
+			})
+			.nullable(),
+		quantity: Yup.number().when(['bonusType'], {
+			is: (bonusType) => {
+				if (bonusType === 'freespins') {
+					return true;
+				}
+				return false;
+			},
+			then: (schema) =>
+				schema
+					.min(1, 'Minimum Value Must be One')
+					.typeError('Only Numbers Allowed')
+					.required('Quantity Required')
+					.integer('Only Integer Values Allowed'),
+		}),
+
+		wageringRequirementType: Yup.string().when(['bonusType'], {
+			is: (bonusType) => {
+				if (bonusType !== 'balance') {
+					return true;
+				}
+				return false;
+			},
+			then: (schema) => schema.required('Wagering Type Required').nullable(),
+		}),
+		depositBonusPercent: Yup.number().when(['bonusType'], {
+			is: (bonusType) => {
+				if (bonusType === 'deposit') {
+					return true;
+				}
+				return false;
+			},
+			then: (schema) =>
+				schema
+					.min(1, '% Must be greater than or equal to 1')
+					.typeError('Bonus Percent must be a Number')
+					.required('Bonus Percentage Required')
+					.nullable(),
+		}),
+
+		wageringMultiplier: Yup.number().when(['bonusType'], {
+			is: (bonusType) => {
+				if (bonusType !== 'balance') {
+					return true;
+				}
+				return false;
+			},
+			then: (schema) =>
+				schema
+					.min(1, 'Minimum Value Must be One')
+					.typeError('Only Numbers Allowed')
+					.required('Wagering Multiplier Required'),
+		}),
+
+		daysToClear: Yup.number().when(['bonusType'], {
+			is: (bonusType) => {
+				if (bonusType !== 'promotion') {
+					return true;
+				}
+				return false;
+			},
+			then: (schema) =>
+				schema
+					.min(1, 'Minimum Value Must be One')
+					.typeError('Only Numbers Allowed')
+					.integer('Only Integer Values Allowed')
+					.required('Days To Clear Required'),
+		}),
+	});
+
 const bonusSchema = (curr, { bonusDetail }) => [
 	Yup.object({
 		promotionTitle: Yup.string()
@@ -94,8 +273,6 @@ const bonusSchema = (curr, { bonusDetail }) => [
 					.integer('Only Integer Values Allowed'),
 			})
 			.nullable(),
-		// adminId: Yup.number().required('Owner Id Required').nullable(),
-		// tenantIds: Yup.array().min(1, 'Select At Least One Portal'),
 		termCondition: Yup.string()
 			.when(['bonusType'], {
 				is: (bonusType) => {
@@ -277,4 +454,4 @@ const bonusSchema = (curr, { bonusDetail }) => [
 	}),
 ];
 
-export { bonusSchema, currencyValidate };
+export { bonusSchema, currencyValidate, generalFormSchema };

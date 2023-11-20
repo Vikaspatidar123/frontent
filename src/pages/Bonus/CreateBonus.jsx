@@ -1,31 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Container } from 'reactstrap';
 // import PropTypes from 'prop-types'
 // import { useDispatch } from 'react-redux';
 
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCreateBonus from './hooks/useCreateBonus';
-// import {
-// 	resetLinearProgress,
-// 	showLinearProgress,
-// } from '../../store/progressLoading/actions';
-import TabsPage from '../../components/Common/TabsPage';
+import StepFormTabs from '../../components/Common/StepFormTabs';
 
 const CreateBonus = () => {
-	// const dispatch = useDispatch();
-
-	const {
-		tabData,
-		toggleTab,
-		activeTab,
-
-		// validation,
-		// customComponent,
-		// leftFormFields,
-		// rightFormFields,
-	} = useCreateBonus();
-
-	useEffect(() => {}, []);
+	const { tabData, toggleTab, activeTab, onNextClick, isNextDisabled } =
+		useCreateBonus();
 
 	return (
 		<div className="page-content">
@@ -40,7 +24,13 @@ const CreateBonus = () => {
 				}
 			/>
 			<Container fluid>
-				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggleTab} />
+				<StepFormTabs
+					activeTab={activeTab}
+					tabsData={tabData}
+					toggleTab={toggleTab}
+					onNextClick={onNextClick}
+					isNextDisabled={isNextDisabled}
+				/>
 			</Container>
 		</div>
 	);

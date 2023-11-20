@@ -2,10 +2,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-expressions */
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // Form Editor
 import { Editor } from 'react-draft-wysiwyg';
+import { convertToRaw, ContentState, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import {
@@ -318,25 +321,62 @@ export const CustomToggleButton = ({
 );
 
 export const CustomTextEditor = ({
+	name,
 	label,
-	// value,
 	isError,
-	onChange,
-	// ...rest
-}) => (
-	<>
-		{label && <Label className="form-label">{label}</Label>}
-		{isError && label && <span className="text-danger"> *</span>}
-		<Editor
-			// {...rest}
-			toolbarClassName="toolbarClassName"
-			wrapperClassName="wrapperClassName"
-			editorClassName="editorClassName"
-			// editorState={value} // Controlled will create issue after conversion
-			onEditorStateChange={onChange}
-		/>
-	</>
-);
+	errorMsg,
+	validation,
+	placeholder,
+	value,
+	onValueChange = () => {},
+}) => {
+	const prepareDraft = (editorValue) => {
+		const draft = htmlToDraft(editorValue);
+		const contentState = ContentState.createFromBlockArray(draft.contentBlocks);
+		const editorState = EditorState.createWithContent(contentState);
+		return editorState;
+	};
+
+	const [editorState, setEditorState] = useState(
+		value ? prepareDraft(value) : EditorState.createEmpty()
+	);
+
+	const onEditorStateChange = (editorStateIns) => {
+		const forFormik = draftToHtml(
+			convertToRaw(editorStateIns.getCurrentContent())
+		);
+		if (validation) {
+			validation.setFieldValue(
+				name,
+				editorStateIns.getCurrentContent().hasText() ? forFormik : ''
+			);
+		}
+		onValueChange(
+			editorStateIns.getCurrentContent().hasText() ? forFormik : ''
+		);
+		setEditorState(editorStateIns);
+	};
+
+	return (
+		<>
+			{label && <Label className="form-label">{label}</Label>}
+			{isError && label && <span className="text-danger"> *</span>}
+			<Editor
+				placeholder={placeholder}
+				toolbarClassName="toolbarClassName"
+				wrapperClassName="wrapperClassName"
+				editorClassName="editorClassName"
+				editorState={editorState} // Controlled will create issue after conversion
+				onEditorStateChange={onEditorStateChange}
+			/>
+			{isError && errorMsg ? (
+				<FormFeedback type="invalid" className="d-block">
+					{errorMsg}
+				</FormFeedback>
+			) : null}
+		</>
+	);
+};
 
 export const getField = (
 	{
@@ -435,9 +475,9 @@ export const getField = (
 				<CustomSwitchButton
 					labelClassName="form-check-label"
 					label={label}
-					htmlFor="customRadioInline1"
+					htmlFor={`radio${name}`}
 					type="switch"
-					id="customRadioInline1"
+					id={`radio${name}`}
 					value={!!validation.values[name]}
 					name={name}
 					checked={!!validation.values[name]}
@@ -454,9 +494,9 @@ export const getField = (
 				<CustomToggleButton
 					labelClassName="form-check-label"
 					label={label}
-					htmlFor="customSwitch1"
+					htmlFor={`switch${name}`}
+					id={`switch${name}`}
 					type="checkbox"
-					id="customSwitch1"
 					name={name}
 					checked={!!validation.values[name]}
 					inputClassName="form-check-input"
@@ -543,18 +583,11 @@ export const getField = (
 				<CustomTextEditor
 					label={label}
 					name={name}
-					type={type}
-					onChange={(text) => validation.setFieldValue(name, text)}
-					onBlur={validation.handleBlur}
 					placeholder={placeholder}
-					validate={{ required: { value: true } }}
-					value={validation.values[name]}
 					isError
-					// invalid={!!(validation.touched[name] && validation.errors[name])}
-					// isError
-					// errorMsg={validation.touched[name] && validation.errors[name]}
-					// disabled={!!isDisabled}
+					errorMsg={validation.touched[name] && validation.errors[name]}
 					validation={validation}
+					value={validation.values[name]}
 				/>
 			);
 		case 'loyaltyRangeField':
@@ -682,6 +715,84 @@ export const getField = (
 								/>
 							))}
 					</div>
+				</>
+			);
+		case 'radioGroupMulti':
+			return (
+				<>
+					{label && (
+						<div className="d-flex align-items-center mb-2 gap-2">
+							<Label className="my-0" for={name}>
+								{label}
+							</Label>
+							<CustomSwitchButton
+								labelClassName="form-check-label"
+								label=""
+								htmlFor={label}
+								type="switch"
+								id={label}
+								name="select-all"
+								checked={
+									!!(validation.values?.[name]?.length === optionList.length)
+								}
+								inputClassName="form-check-input"
+								onClick={() => {
+									validation.setFieldValue(
+										name,
+										validation.values?.[name]?.length === optionList.length
+											? []
+											: optionList.map((option) => option.value)
+									);
+								}}
+								onBlur={validation.handleBlur}
+								disabled={!!isDisabled}
+							/>
+						</div>
+					)}
+					<div>
+						{!!optionList.length &&
+							optionList.map((option) => (
+								<CustomSwitchButton
+									labelClassName="form-check-label"
+									label={option.optionLabel}
+									htmlFor={`customRadioInline${option.value}`}
+									type="switch"
+									id={`customRadioInline${option.value}`}
+									name={option.value}
+									checked={
+										!!(
+											validation.values?.[name] &&
+											validation.values?.[name].includes(option.value)
+										)
+									}
+									inputClassName="form-check-input"
+									onClick={(e) => {
+										if (!validation.values[name].includes(e.target.name)) {
+											validation.values?.[name]?.length
+												? validation.setFieldValue(name, [
+														...validation.values[name],
+														e.target.name,
+												  ])
+												: validation.setFieldValue(name, [e.target.name]);
+										} else {
+											validation.setFieldValue(
+												name,
+												validation.values[name].filter(
+													(value) => value !== e.target.name
+												)
+											);
+										}
+									}}
+									onBlur={validation.handleBlur}
+									disabled={!!isDisabled}
+								/>
+							))}
+					</div>
+					{validation.touched[name] && validation.errors[name] ? (
+						<FormFeedback type="invalid" className="d-block">
+							{validation.errors[name]}
+						</FormFeedback>
+					) : null}
 				</>
 			);
 		case 'textfieldWithAdornment':
