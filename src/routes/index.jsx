@@ -1,5 +1,4 @@
 import React from 'react';
-import JobList from '../pages/JobPages/JobList';
 import CountriesList from '../pages/CountriesList';
 import PlayersList from '../pages/Players';
 import Admins from '../pages/Admins';
@@ -67,7 +66,6 @@ const authProtectedRoutes = [
 		path: '/sub-categories/addGames/:gameSubCategoryId',
 		component: <CasinoAddGames />,
 	},
-	{ path: '/listing', component: <JobList /> },
 	{ path: '/countries', component: <CountriesList /> },
 	{ path: '/users', component: <PlayersList /> },
 
