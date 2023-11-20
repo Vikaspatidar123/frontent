@@ -31,7 +31,6 @@ import GlobalRegistrationSaga from './registrationformFiels/saga';
 import DashboardViewSaga from './dashboardView/saga';
 import UserDetailsSaga from './userDetails/saga';
 import RestrictedCountriesSaga from './restrictedCountries/saga';
-import dashboardSaga from './dashboard/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -67,6 +66,5 @@ export default function* rootSaga() {
 		fork(AdminDetailsSaga),
 		fork(aggregatorsSaga),
 		fork(DashboardViewSaga),
-		fork(dashboardSaga),
 	]);
 }

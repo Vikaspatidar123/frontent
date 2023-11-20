@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
@@ -9,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 // Import menuDropdown
 import { withTranslation } from 'react-i18next';
-import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
+// import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 
 import logo from '../../assets/images/logo-light.png';
@@ -150,7 +149,7 @@ const Header = (props) => {
 						</button>
 					</div>
 
-					<NotificationDropdown />
+					{/* <NotificationDropdown /> */}
 					<ProfileMenu
 						showRightSidebarAction={props.showRightSidebarAction}
 						showRightSidebar={props.showRightSidebar}
@@ -161,6 +160,8 @@ const Header = (props) => {
 							props.showRightSidebarAction(!props.showRightSidebar);
 						}}
 						className="dropdown d-inline-block"
+						role="button"
+						tabIndex={0}
 					>
 						<button
 							type="button"
