@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchTransactionBankingStart } from '../../../store/actions';
@@ -85,52 +85,52 @@ const useTransactionBankingListing = ({ userId }) => {
 				Header: 'Id',
 				accessor: 'transactionBankingId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'Transaction Id',
 				accessor: 'paymentTransactionId',
 				filterable: true,
-				Cell: (cellProps) => <TransactionId {...cellProps} />,
+				Cell: ({ cell }) => <TransactionId value={cell.value} />,
 			},
 			{
 				Header: 'Actionee',
 				accessor: 'actioneeEmail',
 				filterable: true,
-				Cell: (cellProps) => <Actionee {...cellProps} />,
+				Cell: ({ cell }) => <Actionee value={cell.value} />,
 			},
 			{
 				Header: 'Payment Provider',
 				accessor: 'paymentProvider',
 				filterable: true,
-				Cell: (cellProps) => <PaymentProvider {...cellProps} />,
+				Cell: ({ cell }) => <PaymentProvider value={cell.value} />,
 			},
 			{
 				Header: 'Amount',
 				accessor: 'amountWithCurr',
 				filterable: true,
-				Cell: (cellProps) => <Amount {...cellProps} />,
+				Cell: ({ cell }) => <Amount value={cell.value} />,
 			},
 			{
 				Header: 'Action Type',
 				accessor: 'actionType',
 				filterable: true,
-				Cell: (cellProps) => <ActionType {...cellProps} />,
+				Cell: ({ cell }) => <ActionType value={cell.value} />,
 			},
 			{
 				Header: 'Actionee Type',
 				accessor: 'actioneeType',
-				Cell: (cellProps) => <ActioneeType {...cellProps} />,
+				Cell: ({ cell }) => <ActioneeType value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'status',
-				Cell: (cellProps) => <Status {...cellProps} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Date',
 				accessor: 'createdAt',
-				Cell: (cellProps) => <CreatedAt {...cellProps} />,
+				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},
 		],
 		[]

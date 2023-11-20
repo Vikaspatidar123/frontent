@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
@@ -86,74 +85,75 @@ const YourBonuses = ({ userId }) => {
 				Header: 'ID',
 				accessor: 'userBonusId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'PROMOTION TITLE',
 				accessor: 'promotionTitle',
 				filterable: true,
-				Cell: (cellProps) => <PromotionTitle {...cellProps} />,
+				Cell: ({ cell }) => <PromotionTitle value={cell.value} />,
 			},
 			{
 				Header: 'BONUS TYPE',
 				accessor: 'bonusType',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'VALID TILL',
 				accessor: 'expiredAt',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'IS EXPIRED',
 				accessor: 'isExpired',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
 				accessor: 'status',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'ISSUED BY',
 				accessor: 'issuedBy',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'ISSUED AT',
 				accessor: 'issuedAt',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'AMOUNT TO WAGER',
 				accessor: 'amountToWager',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'WAGERED AMOUNT',
 				accessor: 'wageredAmount',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'CANCELLED BY',
 				accessor: 'cancelledBy',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'UPDATED AT',
 				accessor: 'updatedAt',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
-				Cell: (cellProps) => (
+				disableSortBy: true,
+				Cell: ({ cell }) => (
 					<BonusActionButtons
 						onViewClick={onViewClick}
 						onCancelClick={onCancelClick}
-						{...cellProps}
+						cell={cell}
 					/>
 				),
 			},

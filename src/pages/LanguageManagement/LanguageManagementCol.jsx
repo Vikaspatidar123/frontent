@@ -1,23 +1,23 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import '../../assets/scss/custom/pages/_language-management.scss';
 import { Tooltip } from 'reactstrap';
 
-const Keys = (cell) => (cell.value ? cell.value : '');
+const Keys = ({ value }) => value ?? '';
 
-const Action = (cell) => (cell.value ? cell.value : '');
+const Action = ({ value }) => value ?? '';
 
-const English = (cell) => {
+const English = ({ cell }) => {
 	const [tooltipOpen, setTooltipOpen] = useState(false);
 	const toggle = () => setTooltipOpen(!tooltipOpen);
 
 	return cell.value ? (
 		<>
-			<div id={`text-${cell?.cell?.row?.id}`} className="english-text">
+			<div id={`text-${cell?.row?.id}`} className="english-text">
 				{cell.value}
 			</div>
 			<Tooltip
-				target={`text-${cell?.cell?.row?.id}`}
+				target={`text-${cell?.row?.id}`}
 				toggle={toggle}
 				isOpen={tooltipOpen}
 			>
@@ -27,6 +27,15 @@ const English = (cell) => {
 	) : (
 		''
 	);
+};
+
+English.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.string.isRequired,
+		row: PropTypes.shape({
+			id: PropTypes.number.isRequired,
+		}).isRequired,
+	}).isRequired,
 };
 
 export { Action, Keys, English };

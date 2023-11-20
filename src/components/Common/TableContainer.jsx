@@ -71,6 +71,22 @@ const TableContainer = ({
 
 	const noDataFound = !isLoading && !page.length;
 
+	const generateSortingIndicator = (column) => {
+		if (column.isSorted) {
+			return (
+				<i
+					className={`bx bx-${
+						column.isSortedDesc ? 'down' : 'up'
+					}-arrow-alt text-primary font-size-16`}
+				/>
+			);
+		}
+		if (!column.disableSortBy) {
+			return <i className="bx bx-sort text-primary" />;
+		}
+		return null;
+	};
+
 	return (
 		<>
 			<div className="table-responsive react-table">
@@ -92,15 +108,16 @@ const TableContainer = ({
 											className={column.isSort ? 'sorting' : thCustomClass}
 										>
 											<div {...column.getSortByToggleProps()}>
-												{column.render('Header')}
+												<span className="d-flex align-items-center gap-1">
+													{column.render('Header')}
+													{generateSortingIndicator(column)}
+												</span>
 												{column.subLabel && (
 													<div style={{ fontSize: 12 }}>
 														({column.subLabel})
 													</div>
 												)}
-												{/* {generateSortingIndicator(column)} */}
 											</div>
-											{/* <Filter column={column} /> */}
 										</th>
 									))}
 								</tr>

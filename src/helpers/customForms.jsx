@@ -692,6 +692,26 @@ export const getField = (
 					/>
 				</>
 			);
+		case 'creatableSingleSelect':
+			return (
+				<>
+					{label && <Label for={name}>{label}</Label>}
+					<CreatableSelect
+						isClearable={false}
+						name={name}
+						onCreateOption={(option) => {
+							validation.setFieldValue(name, option);
+						}}
+						classNamePrefix="select"
+						options={optionList}
+						value={{
+							label: validation.values[name],
+							value: validation.values[name],
+						}}
+						onChange={callBack}
+					/>
+				</>
+			);
 		case 'radioGroup':
 			return (
 				<>

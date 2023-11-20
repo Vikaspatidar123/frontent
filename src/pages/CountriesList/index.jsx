@@ -1,19 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 // import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
-import {
-	CountryCode,
-	CountryName,
-	Id,
-	Language,
-	Status,
-} from './CountriesListCol';
-import ActionButtons from './ActionButtons';
+
 import useCountriesListing from './hooks/useCountriesListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
@@ -42,7 +33,6 @@ const CountriesList = () => {
 		isCountriesLoading,
 		formattedCountries,
 		itemsPerPage,
-		handleStatus,
 		onChangeRowsPerPage,
 	} = useCountriesListing(filterValidation.values);
 
@@ -53,56 +43,8 @@ const CountriesList = () => {
 		validation,
 		formFields,
 		isEditCountryLoading,
-		handleEditClick,
+		columns,
 	} = useEditCountry();
-
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Id',
-				accessor: 'countryId',
-				// filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
-			},
-			{
-				Header: 'Country Code',
-				accessor: 'countryCode',
-				// filterable: true,
-				Cell: (cellProps) => <CountryCode {...cellProps} />,
-			},
-			{
-				Header: 'Name',
-				accessor: 'countryName',
-				// filterable: true,
-				Cell: (cellProps) => <CountryName {...cellProps} />,
-			},
-			{
-				Header: 'Language',
-				accessor: 'language',
-				// filterable: true,
-				Cell: (cellProps) => <Language {...cellProps} />,
-			},
-			{
-				Header: 'Status',
-				accessor: 'status',
-				// filterable: true,
-				Cell: (cellProps) => <Status {...cellProps} />,
-			},
-			{
-				Header: 'Actions',
-				// accessor: "actions",
-				// filterable: true,
-				Cell: (cellProps) => (
-					<ActionButtons
-						{...cellProps}
-						handleEditClick={handleEditClick}
-						handleStatus={handleStatus}
-					/>
-				),
-			},
-		],
-		[]
-	);
 
 	return (
 		<div className="page-content">

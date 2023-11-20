@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
@@ -60,46 +59,46 @@ const SportsBettingHistory = ({ userId }) => {
 				Header: 'Id',
 				accessor: 'transactionId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			// {
 			// 	Header: 'Email',
 			// 	accessor: 'email',
 			// 	filterable: true,
-			// 	Cell: (cellProps) => <Email {...cellProps} />,
+			// 	Cell: ({cell}) => <Email value={cell.value} />,
 			// },
 			{
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
-				Cell: (cellProps) => <Amount {...cellProps} />,
+				Cell: ({ cell }) => <Amount value={cell.value} />,
 			},
 			{
 				Header: 'Non Cash Amount',
 				accessor: 'nonCashAmount',
 				filterable: true,
-				Cell: (cellProps) => <NonCashAmount {...cellProps} />,
+				Cell: ({ cell }) => <NonCashAmount value={cell.value} />,
 			},
 			{
 				Header: 'Currency Code',
 				accessor: 'currencyCode',
 				filterable: true,
-				Cell: (cellProps) => <CurrencyCode {...cellProps} />,
+				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
 			},
 			{
 				Header: 'Action Types',
 				accessor: 'actionType',
-				Cell: (cellProps) => <ActionTypes {...cellProps} />,
+				Cell: ({ cell }) => <ActionTypes value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'status',
-				Cell: (cellProps) => <Status {...cellProps} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
-				Header: 'Created At',
+				Header: 'Date',
 				accessor: 'createdAt',
-				Cell: (cellProps) => <CreatedAt {...cellProps} />,
+				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},
 		],
 		[]

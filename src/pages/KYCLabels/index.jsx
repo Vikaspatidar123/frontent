@@ -33,13 +33,13 @@ const columns = [
 		Header: 'LANGUAGE',
 		accessor: 'language',
 		filterable: true,
-		Cell: ({ cell }) => <Language cell={cell} />,
+		Cell: ({ cell }) => <Language value={cell.value} />,
 	},
 	{
 		Header: 'LABEL NAME',
 		accessor: 'labelName',
 		filterable: true,
-		Cell: ({ cell }) => <LabelName cell={cell} />,
+		Cell: ({ cell }) => <LabelName value={cell.value} />,
 	},
 ];
 

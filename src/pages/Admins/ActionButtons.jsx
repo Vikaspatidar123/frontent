@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ handleEdit, cell, handleStatus }) => {
-	const active = cell?.row?.original?.isActive;
-	const adminUserId = cell?.row?.original?.adminUserId;
+const ActionButtons = ({ handleEdit, row, handleStatus }) => {
+	const active = row?.original?.isActive;
+	const adminUserId = row?.original?.adminUserId;
 	const { isGranted } = usePermission();
 
 	return (
@@ -86,7 +86,7 @@ const ActionButtons = ({ handleEdit, cell, handleStatus }) => {
 					<Link
 						to="#!"
 						className="btn btn-sm btn-soft-info"
-						onClick={(e) => handleEdit(e, cell?.row?.original)}
+						onClick={(e) => handleEdit(e, row?.original)}
 					>
 						<i
 							className="mdi mdi-pencil-outline"
@@ -117,7 +117,7 @@ const ActionButtons = ({ handleEdit, cell, handleStatus }) => {
 ActionButtons.propTypes = {
 	handleEdit: PropTypes.func.isRequired,
 	handleStatus: PropTypes.func.isRequired,
-	cell: PropTypes.objectOf.isRequired,
+	row: PropTypes.objectOf.isRequired,
 };
 
 export default ActionButtons;

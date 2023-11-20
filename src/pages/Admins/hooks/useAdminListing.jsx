@@ -72,12 +72,11 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 				Header: '#',
 				disableFilters: true,
 				filterable: true,
-				accessor: (cellProps) => (
-					// <div className="avatar-xs btn-soft-primary btn-rounded">
-					// 	<span className="d-flex align-items-center justify-content-center h-100 w-100 rounded-circle">
+				disableSortBy: true,
+				accessor: ({ fullName }) => (
 					<div className="avatar-xs">
 						<span className="avatar-title rounded-circle">
-							{cellProps.fullName.charAt(0)}
+							{fullName.charAt(0)}
 						</span>
 					</div>
 				),
@@ -86,46 +85,53 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 				Header: 'ID',
 				accessor: 'adminUserId',
 				filterable: true,
-				Cell: ({ cell }) => <AdminUserID cell={cell} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <AdminUserID value={cell.value} />,
 			},
 			{
 				Header: 'Name',
 				accessor: 'fullName',
 				filterable: true,
-				Cell: ({ cell }) => <FullName cell={cell} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <FullName value={cell.value} />,
 			},
 			{
 				Header: 'Email',
 				accessor: 'email',
 				filterable: true,
+				disableSortBy: false,
 				Cell: ({ cell }) => <Email cell={cell} />,
 			},
 			{
 				Header: 'Role',
 				accessor: 'adminRoleId',
 				filterable: true,
-				Cell: ({ cell }) => <Role cell={cell} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <Role value={cell.value} />,
 			},
 			{
 				Header: 'Group',
 				accessor: 'group',
 				filterable: true,
-				Cell: ({ cell }) => <Group cell={cell} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <Group value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'isActive',
 				disableFilters: true,
-				Cell: ({ cell }) => <Status cell={cell} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Action',
 				accessor: 'action',
 				disableFilters: true,
-				Cell: (cell) => (
+				disableSortBy: true,
+				Cell: ({ cell }) => (
 					<ActionButtons
 						handleEdit={handleEdit}
-						cell={cell}
+						row={cell.row}
 						handleStatus={handleStatus}
 					/>
 				),

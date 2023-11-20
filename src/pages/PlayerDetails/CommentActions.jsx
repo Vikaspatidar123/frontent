@@ -10,13 +10,12 @@ const CommentActionButtons = ({ cell, handleStatus }) => {
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
-				{status === '1' ? (
+				{status === 'Resolved' ? (
 					<Link
 						to="#"
-						className="btn btn-sm btn-soft-success"
+						className="btn btn-sm btn-success"
 						onClick={(e) => {
 							e.preventDefault();
-							handleStatus({});
 						}}
 					>
 						<i
@@ -27,34 +26,32 @@ const CommentActionButtons = ({ cell, handleStatus }) => {
 							placement="top"
 							target={`inactivetooltip-${commentId}`}
 						>
-							Mark As Not Required
+							Active
 						</UncontrolledTooltip>
 					</Link>
 				) : (
-					status === '4' && (
-						<Link
-							to="#"
-							className="btn btn-sm btn-soft-danger"
-							onClick={(e) => {
-								e.preventDefault();
-								handleStatus({
-									commentId,
-									isActive: false,
-								});
-							}}
+					<Link
+						to="#"
+						className="btn btn-sm btn-soft-danger"
+						onClick={(e) => {
+							e.preventDefault();
+							handleStatus({
+								commentId,
+								isActive: false,
+							});
+						}}
+					>
+						<i
+							className="mdi mdi-close-thick"
+							id={`activetooltip-${commentId}`}
+						/>
+						<UncontrolledTooltip
+							placement="top"
+							target={`activetooltip-${commentId}`}
 						>
-							<i
-								className="mdi mdi-close-thick"
-								id={`activetooltip-${commentId}`}
-							/>
-							<UncontrolledTooltip
-								placement="top"
-								target={`activetooltip-${commentId}`}
-							>
-								Resolve
-							</UncontrolledTooltip>
-						</Link>
-					)
+							Resolve
+						</UncontrolledTooltip>
+					</Link>
 				)}
 			</li>
 		</ul>

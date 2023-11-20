@@ -134,51 +134,53 @@ const UserDocsList = ({ userId }) => {
 				Header: 'DOCUMENT ID',
 				accessor: 'userDocumentId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'documentName',
 				filterable: true,
-				Cell: (cellProps) => <Name {...cellProps} />,
+				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
 				Header: 'DOCUMENT PREVIEW',
 				accessor: 'documentUrl',
 				filterable: true,
-				Cell: (cellProps) => <ThumbnailUrl {...cellProps} />,
+				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
 			},
 			{
 				Header: 'REASON',
 				accessor: 'reason',
 				filterable: true,
-				Cell: (cellProps) => <Reason {...cellProps} />,
+				Cell: ({ cell }) => <Reason value={cell.value} />,
 			},
 			{
 				Header: 'UPDATED AT',
 				accessor: 'updatedAt',
 				filterable: true,
-				Cell: (cellProps) => <UpdatedAt {...cellProps} />,
+				Cell: ({ cell }) => <UpdatedAt value={cell.value} />,
 			},
 			{
 				Header: 'ACTIONEE',
 				accessor: 'actionee',
-				Cell: (cellProps) => <Actionee {...cellProps} />,
+				Cell: ({ cell }) => <Actionee value={cell.value} />,
 			},
 			{
 				Header: 'ACTION PERFORMED AT',
 				accessor: 'actionPerformedAt',
-				Cell: (cellProps) => <ActionAt {...cellProps} />,
+				Cell: ({ cell }) => <ActionAt value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
 				accessor: 'status',
-				Cell: (cellProps) => <Status {...cellProps} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
-				Cell: (cellProps) => (
-					<KYCActionButtons handleStatus={acceptOrReject} {...cellProps} />
+				disableSortBy: true,
+				Cell: ({ cell }) => (
+					<KYCActionButtons handleStatus={acceptOrReject} cell={cell} />
 				),
 			},
 		],
@@ -190,13 +192,13 @@ const UserDocsList = ({ userId }) => {
 			{
 				Header: 'NAME',
 				accessor: 'name',
-				Cell: (cellProps) => <Name {...cellProps} />,
+				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 
 			{
 				Header: 'Action',
-				Cell: (cellProps) => (
-					<ActionButtons {...cellProps} handleStatus={handleMarkAsRequired} />
+				Cell: ({ cell }) => (
+					<ActionButtons cell={cell} handleStatus={handleMarkAsRequired} />
 				),
 			},
 		],

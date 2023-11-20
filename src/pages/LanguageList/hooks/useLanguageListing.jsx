@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLanguagesStart } from '../../../store/actions';
@@ -44,19 +44,19 @@ const useLanguageListing = (filterValues = {}) => {
 				Header: 'Id',
 				accessor: 'languageId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'Language Name',
 				accessor: 'languageName',
 				filterable: true,
-				Cell: (cellProps) => <LanguageName {...cellProps} />,
+				Cell: ({ cell }) => <LanguageName value={cell.value} />,
 			},
 			{
 				Header: 'Language Code',
 				accessor: 'code',
 				filterable: true,
-				Cell: (cellProps) => <LanguageCode {...cellProps} />,
+				Cell: ({ cell }) => <LanguageCode value={cell.value} />,
 			},
 		],
 		[]

@@ -1,7 +1,7 @@
-const Id = (cell) => (cell.value ? cell.value : '');
+const Id = ({ value }) => value ?? '';
 
-const LanguageCode = (cell) => cell.value || '';
+const LanguageCode = ({ value }) => value ?? '';
 
-const LanguageName = (cell) => cell.value || '';
+const LanguageName = ({ value }) => value ?? '';
 
 export { Id, LanguageCode, LanguageName };
