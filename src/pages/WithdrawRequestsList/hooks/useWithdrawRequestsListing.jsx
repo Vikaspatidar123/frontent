@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchWithdrawRequestsStart } from '../../../store/actions';
@@ -59,51 +60,51 @@ const useWithdrawRequestsListing = (formValues = {}) => {
 				Header: 'Id',
 				accessor: 'userId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'Email',
 				accessor: 'email',
 				filterable: true,
-				Cell: (cellProps) => <Email {...cellProps} />,
+				Cell: ({ cell }) => <Email value={cell.value} />,
 			},
 			{
 				Header: 'Name',
 				accessor: 'name',
 				filterable: true,
-				Cell: (cellProps) => <Name {...cellProps} />,
+				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
 				Header: 'Amount',
 				accessor: 'amountWithCurr',
 				filterable: true,
-				Cell: (cellProps) => <Amount {...cellProps} />,
+				Cell: ({ cell }) => <Amount value={cell.value} />,
 			},
 			{
 				Header: 'Payment Provider',
 				accessor: 'paymentProvider',
 				filterable: true,
-				Cell: (cellProps) => <PaymentProvider {...cellProps} />,
+				Cell: ({ cell }) => <PaymentProvider value={cell.value} />,
 			},
 			{
 				Header: 'Transaction Id',
 				accessor: 'transactionId',
-				Cell: (cellProps) => <TransactionId {...cellProps} />,
+				Cell: ({ cell }) => <TransactionId value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'statusText',
-				Cell: (cellProps) => <Status {...cellProps} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Actionable Type',
 				accessor: 'actionableType',
-				Cell: (cellProps) => <ActionableType {...cellProps} />,
+				Cell: ({ cell }) => <ActionableType value={cell.value} />,
 			},
 			{
 				Header: 'Updated At',
 				accessor: 'updatedAt',
-				Cell: (cellProps) => <UpdatedAt {...cellProps} />,
+				Cell: ({ cell }) => <UpdatedAt value={cell.value} />,
 			},
 		],
 		[]

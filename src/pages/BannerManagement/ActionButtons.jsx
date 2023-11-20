@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ onClickEdit, onClickDelete, cell }) => {
+const ActionButtons = ({ onClickEdit, onClickDelete, row }) => {
 	const { isGranted } = usePermission();
-	const key = cell?.row?.original?.key;
+	const key = row?.original?.key;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
@@ -15,12 +15,12 @@ const ActionButtons = ({ onClickEdit, onClickDelete, cell }) => {
 					hidden={!isGranted(modules.BannerManagement, 'U')}
 					onClick={(e) => {
 						e.preventDefault();
-						onClickEdit(cell?.row?.original);
+						onClickEdit(row?.original);
 					}}
 					className="btn btn-sm btn-soft-info"
 				>
-					<i className="mdi mdi-pencil-outline" id={`edit-${cell?.row?.id}`} />
-					<UncontrolledTooltip placement="top" target={`edit-${cell?.row?.id}`}>
+					<i className="mdi mdi-pencil-outline" id={`edit-${row?.id}`} />
+					<UncontrolledTooltip placement="top" target={`edit-${row?.id}`}>
 						Edit
 					</UncontrolledTooltip>
 				</Button>
@@ -35,14 +35,8 @@ const ActionButtons = ({ onClickEdit, onClickDelete, cell }) => {
 						onClickDelete(key);
 					}}
 				>
-					<i
-						className="mdi mdi-delete-outline"
-						id={`delete-${cell?.row?.id}`}
-					/>
-					<UncontrolledTooltip
-						placement="top"
-						target={`delete-${cell?.row?.id}`}
-					>
+					<i className="mdi mdi-delete-outline" id={`delete-${row?.id}`} />
+					<UncontrolledTooltip placement="top" target={`delete-${row?.id}`}>
 						Delete
 					</UncontrolledTooltip>
 				</Button>
@@ -54,7 +48,7 @@ const ActionButtons = ({ onClickEdit, onClickDelete, cell }) => {
 ActionButtons.propTypes = {
 	onClickDelete: PropTypes.func.isRequired,
 	onClickEdit: PropTypes.func.isRequired,
-	cell: PropTypes.objectOf.isRequired,
+	row: PropTypes.objectOf.isRequired,
 };
 
 export default ActionButtons;

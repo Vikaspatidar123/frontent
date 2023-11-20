@@ -27,7 +27,6 @@ const usePlayersListing = (filterValues = {}) => {
 				Header: 'Player Id',
 				accessor: 'userId',
 				filterable: true,
-				disableSortBy: false,
 				Cell: ({ cell }) => <PlayerId value={cell.value} />,
 			},
 			{
@@ -40,14 +39,12 @@ const usePlayersListing = (filterValues = {}) => {
 				Header: 'Email',
 				accessor: 'email',
 				filterable: true,
-				disableSortBy: false,
 				Cell: ({ cell }) => <Email value={cell.value} />,
 			},
 			{
 				Header: 'Phone Number',
 				accessor: 'phone',
 				filterable: true,
-				disableSortBy: false,
 				Cell: ({ cell }) => <PhoneNumber value={cell.value} />,
 			},
 			{
@@ -60,13 +57,11 @@ const usePlayersListing = (filterValues = {}) => {
 			{
 				Header: 'Kyc Status',
 				accessor: 'kycStatus',
-				disableSortBy: false,
 				Cell: ({ cell }) => <KycStatus value={cell.value} />,
 			},
 			{
 				Header: 'Is Internal',
 				accessor: 'isInternal',
-				disableSortBy: false,
 				Cell: ({ cell }) => <IsInternal value={cell.value} />,
 			},
 			{

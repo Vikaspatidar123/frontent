@@ -2,38 +2,36 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const BetSettingId = ({ cell }) => (
+const BetSettingId = ({ value }) => (
 	<Link to="/" className="text-body fw-bold">
-		{cell.value ?? ''}
+		{value ?? ''}
 	</Link>
 );
 
-const SportsName = ({ cell }) => cell.value ?? '';
+const SportsName = ({ value }) => value ?? '';
 
-const MaxBetAmount = ({ cell }) => cell.value ?? '';
+const MaxBetAmount = ({ value }) => value ?? '';
 
-const MinBetAmount = ({ cell }) => cell.value ?? '';
+const MinBetAmount = ({ value }) => value ?? '';
 
-const MaxBetCount = ({ cell }) => cell.value ?? '';
+const MaxBetCount = ({ value }) => value ?? '';
 
-const MaxWinAmount = ({ cell }) => cell.value ?? '';
+const MaxWinAmount = ({ value }) => value ?? '';
 
-const CashoutPercentage = ({ cell }) => cell.value ?? '';
+const CashoutPercentage = ({ value }) => value ?? '';
 
-const MinOddLimit = ({ cell }) => cell.value ?? '';
+const MinOddLimit = ({ value }) => value ?? '';
 
-const MaxOddLimit = ({ cell }) => cell.value ?? '';
+const MaxOddLimit = ({ value }) => value ?? '';
 
-const MaxEventCount = ({ cell }) => cell.value ?? '';
+const MaxEventCount = ({ value }) => value ?? '';
 
-const MaxMarketOutcomeCount = ({ cell }) => cell.value ?? '';
+const MaxMarketOutcomeCount = ({ value }) => value ?? '';
 
-const UpdatedAt = ({ cell }) => cell.value ?? '';
+const UpdatedAt = ({ value }) => value ?? '';
 
 BetSettingId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string.isRequired,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 export {

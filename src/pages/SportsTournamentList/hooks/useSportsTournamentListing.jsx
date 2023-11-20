@@ -47,25 +47,25 @@ const useSportsTounamentListing = (filterValues = {}) => {
 			Header: 'ID',
 			accessor: 'tournamentId',
 			filterable: true,
-			Cell: ({ cell }) => <TournamentId cell={cell} />,
+			Cell: ({ cell }) => <TournamentId value={cell.value} />,
 		},
 		{
 			Header: 'NAME',
 			accessor: 'tournamentName',
 			filterable: true,
-			Cell: ({ cell }) => <TournamentName cell={cell} />,
+			Cell: ({ cell }) => <TournamentName value={cell.value} />,
 		},
 		{
 			Header: ' COUNTRY',
 			accessor: 'countryName',
 			disableFilters: true,
-			Cell: ({ cell }) => <CountryName cell={cell} />,
+			Cell: ({ cell }) => <CountryName value={cell.value} />,
 		},
 		{
 			Header: 'SPORT',
 			accessor: 'sportName',
 			disableFilters: true,
-			Cell: ({ cell }) => <SportName cell={cell} />,
+			Cell: ({ cell }) => <SportName value={cell.value} />,
 		},
 	]);
 

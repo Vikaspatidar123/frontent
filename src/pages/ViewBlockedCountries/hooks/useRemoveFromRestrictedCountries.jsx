@@ -1,6 +1,5 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/react-in-jsx-scope */
-import { useEffect, useMemo, useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -62,26 +61,27 @@ const useRemoveFromRestrictedCountriesListing = () => {
 				Header: 'ID',
 				accessor: 'countryId',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'name',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'CODE',
 				accessor: 'code',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'ACTIONS',
 				accessor: 'action',
+				disableSortBy: true,
 				filterable: false,
-				Cell: (cellProps) => (
-					<ActionButtons handleStatus={onAddCountry} cell={cellProps} />
+				Cell: ({ cell }) => (
+					<ActionButtons handleStatus={onAddCountry} row={cell.row} />
 				),
 			},
 		],
@@ -94,29 +94,30 @@ const useRemoveFromRestrictedCountriesListing = () => {
 				Header: 'ID',
 				accessor: 'countryId',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'name',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'CODE',
 				accessor: 'code',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'ACTIONS',
 				accessor: 'action',
+				disableSortBy: true,
 				filterable: false,
-				Cell: (cellProps) => (
+				Cell: ({ cell }) => (
 					<ActionButtons
 						type="remove"
 						handleStatus={onRemoveCountry}
-						cell={cellProps}
+						row={cell.row}
 					/>
 				),
 			},

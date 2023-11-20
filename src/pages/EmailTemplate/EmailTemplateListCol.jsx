@@ -1,7 +1,7 @@
-const EmailTemplateId = ({ cell }) => cell.value ?? '';
+const EmailTemplateId = ({ value }) => value ?? '';
 
-const Label = ({ cell }) => cell.value ?? '';
+const Label = ({ value }) => value ?? '';
 
-const Primary = ({ cell }) => (cell.value ? 'Yes' : 'No');
+const Primary = ({ value }) => (value ? 'Yes' : 'No');
 
 export { EmailTemplateId, Label, Primary };

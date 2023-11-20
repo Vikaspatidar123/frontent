@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -11,8 +12,17 @@ import {
 	editCasinoProvidersStart,
 	getAggregatorsList,
 } from '../../../store/actions';
+
+import {
+	CasinoProviderId,
+	Name,
+	ThumbnailUrl,
+	Status,
+} from '../CasinoProvidersListCol';
+import ActionButtons from '../ActionButtons';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
+import useCasinoProvidersListing from './useCasinoProvidersListing';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
@@ -31,6 +41,8 @@ const useCreateProvider = () => {
 			})
 		);
 	};
+
+	const { handleStatus } = useCasinoProvidersListing();
 
 	const handleEditProvider = (values) => {
 		dispatch(
@@ -122,6 +134,51 @@ const useCreateProvider = () => {
 		},
 	]);
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'casinoProviderId',
+				filterable: true,
+				Cell: ({ cell }) => <CasinoProviderId value={cell.value} />,
+			},
+			{
+				Header: 'NAME',
+				accessor: 'name',
+				filterable: true,
+				Cell: ({ cell }) => <Name value={cell.value} />,
+			},
+			{
+				Header: 'THUMBNAIL',
+				accessor: 'thumbnailUrl',
+				disableSortBy: true,
+				filterable: true,
+				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
+			},
+			{
+				Header: 'STATUS',
+				accessor: 'isActive',
+				disableFilters: true,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
+			},
+			{
+				Header: 'ACTION',
+				accessor: 'action',
+				disableSortBy: true,
+				disableFilters: true,
+				Cell: ({ cell }) => (
+					<ActionButtons
+						row={cell.row}
+						handleStatus={handleStatus}
+						onClickEdit={onClickEdit}
+					/>
+				),
+			},
+		],
+		[casinoProvidersData]
+	);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -133,6 +190,7 @@ const useCreateProvider = () => {
 		isCreateProviderLoading,
 		onClickEdit,
 		isEditProviderLoading,
+		columns,
 	};
 };
 

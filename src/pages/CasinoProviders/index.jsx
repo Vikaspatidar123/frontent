@@ -8,13 +8,7 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
-import {
-	CasinoProviderId,
-	Name,
-	ThumbnailUrl,
-	Status,
-} from './CasinoProvidersListCol';
-import ActionButtons from './ActionButtons';
+
 import useCasinoProvidersListing from './hooks/useCasinoProvidersListing';
 import FormModal from '../../components/Common/FormModal';
 import useCreateProvider from './hooks/useCreateProvider';
@@ -42,7 +36,6 @@ const CasinoProviders = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		handleStatus,
 		onChangeRowsPerPage,
 	} = useCasinoProvidersListing(filterValidation.values);
 
@@ -54,48 +47,9 @@ const CasinoProviders = () => {
 		validation,
 		isCreateProviderLoading,
 		buttonList,
-		onClickEdit,
+		columns,
 		isEditProviderLoading,
 	} = useCreateProvider();
-
-	const columns = [
-		{
-			Header: 'ID',
-			accessor: 'casinoProviderId',
-			filterable: true,
-			Cell: ({ cell }) => <CasinoProviderId cell={cell} />,
-		},
-		{
-			Header: 'NAME',
-			accessor: 'name',
-			filterable: true,
-			Cell: ({ cell }) => <Name cell={cell} />,
-		},
-		{
-			Header: 'THUMBNAIL',
-			accessor: 'thumbnailUrl',
-			filterable: true,
-			Cell: ({ cell }) => <ThumbnailUrl cell={cell} />,
-		},
-		{
-			Header: 'STATUS',
-			accessor: 'isActive',
-			disableFilters: true,
-			Cell: (cell) => <Status cell={cell} />,
-		},
-		{
-			Header: 'ACTION',
-			accessor: 'action',
-			disableFilters: true,
-			Cell: ({ cell }) => (
-				<ActionButtons
-					cell={cell}
-					handleStatus={handleStatus}
-					onClickEdit={onClickEdit}
-				/>
-			),
-		},
-	];
 
 	return (
 		<div className="page-content">

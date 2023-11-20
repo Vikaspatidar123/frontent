@@ -11,7 +11,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { CustomToggleButton } from '../../helpers/customForms';
 import DivLoader from '../../components/Common/Loader/divLoader';
 
-const Id = (cell) => (cell.value ? cell.value : '');
+const Id = ({ value }) => value ?? '';
 
 const Title = ({ cell }) =>
 	cell.value ? (
@@ -20,9 +20,9 @@ const Title = ({ cell }) =>
 		''
 	);
 
-const Tournament = (cell) => (cell.value ? cell.value : '-');
+const Tournament = ({ value }) => value ?? '-';
 
-const Sport = (cell) => (cell.value ? cell.value : '');
+const Sport = ({ value }) => value ?? '';
 
 const IsFeatured = ({ cell, toggleIsFeatured }) => {
 	const { isFeaturedUpdateLoading, featuredFabData } = useSelector(
@@ -50,30 +50,30 @@ const IsFeatured = ({ cell, toggleIsFeatured }) => {
 	);
 };
 
-// const IsFeatured = (cell) => (cell.value ? 'YES' : 'NO');
+// const IsFeatured = ({value}) => (cell.value ? 'YES' : 'NO');
 
-const StartDate = (cell) => (cell.value ? cell.value : '');
+const StartDate = ({ value }) => value ?? '';
 
-const Status = (cell) => (cell.value ? cell.value : '');
+const Status = ({ value }) => value ?? '';
 
-const Live = (cell) => (cell.value ? 'YES' : 'NO');
+const Live = ({ value }) => (value ? 'YES' : 'NO');
 
-const Action = (cell) => (
+const Action = ({ row: { original } }) => (
 	<ul className="list-unstyled hstack gap-1 mb-0">
 		<li data-bs-toggle="tooltip" data-bs-placement="top">
 			<Link
-				to={`/match/${cell?.row?.original?.matchId}`}
+				to={`/match/${original?.matchId}`}
 				className="btn btn-sm btn-soft-primary"
 			>
 				<i
 					className="mdi mdi-eye-outline"
-					id={`view-tooltip-${cell?.row?.original?.matchId}`}
+					id={`view-tooltip-${original?.matchId}`}
 				/>
 			</Link>
 		</li>
 		<UncontrolledTooltip
 			placement="top"
-			target={`view-tooltip-${cell?.row?.original?.matchId}`}
+			target={`view-tooltip-${original?.matchId}`}
 		>
 			Match Detail
 		</UncontrolledTooltip>

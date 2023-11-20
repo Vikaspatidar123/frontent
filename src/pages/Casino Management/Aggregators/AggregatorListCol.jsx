@@ -1,23 +1,21 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Badge } from 'reactstrap';
 import Proptypes from 'prop-types';
-// import { Link } from 'react-router-dom';
 
-const ID = (cell) => (cell.value ? cell.value : '');
+const ID = ({ value }) => value ?? '';
 
-const Name = (cell) => (cell.value ? cell.value : '');
+const Name = ({ value }) => value ?? '';
 
-const Status = (cell) => {
-	const { value } = cell;
-	return value ? (
+const Status = ({ value }) =>
+	value ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">In Active</Badge>
 	);
-};
 
 Status.prototype = {
-	cell: Proptypes.objectOf.isRequired,
+	value: Proptypes.bool.isRequired,
 };
 
 export { ID, Name, Status };

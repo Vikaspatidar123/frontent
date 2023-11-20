@@ -6,23 +6,23 @@ import { Link } from 'react-router-dom';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 
-const CasinoProviderId = ({ cell }) => (
+const CasinoProviderId = ({ value }) => (
 	<Link to="/#" className="text-body fw-bold">
-		{cell.value ?? ''}
+		{value ?? ''}
 	</Link>
 );
-const Name = ({ cell }) => cell.value ?? '';
+const Name = ({ value }) => value ?? '';
 
-const ThumbnailUrl = ({ cell }) => {
-	const [isFits, setisFits] = useState(false);
+const ThumbnailUrl = ({ value }) => {
+	const [isFits, setIsFits] = useState(false);
 	return (
 		<>
 			{isFits ? (
 				<Lightbox
-					mainSrc={cell.value}
+					mainSrc={value}
 					enableZoom={false}
 					onCloseRequest={() => {
-						setisFits(!isFits);
+						setIsFits(!isFits);
 					}}
 				/>
 			) : null}
@@ -30,37 +30,31 @@ const ThumbnailUrl = ({ cell }) => {
 			<Button
 				color="link"
 				className="btn btn-link waves-effect"
-				onClick={() => setisFits(true)}
+				onClick={() => setIsFits(true)}
 			>
-				{cell.value ? 'View Here' : ''}
+				{value ? 'View Here' : ''}
 			</Button>
 		</>
 	);
 };
 
-const Status = ({ cell }) =>
-	cell.value ?? '' ? (
+const Status = ({ value }) =>
+	value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">In Active</Badge>
 	);
 
 CasinoProviderId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.number.isRequired,
-	}).isRequired,
+	value: PropTypes.number.isRequired,
 };
 
 ThumbnailUrl.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string.isRequired,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 Status.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.bool.isRequired,
-	}).isRequired,
+	value: PropTypes.bool.isRequired,
 };
 
 export { CasinoProviderId, Name, ThumbnailUrl, Status };

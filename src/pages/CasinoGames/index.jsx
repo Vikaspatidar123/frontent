@@ -1,25 +1,9 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-// import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
-import {
-	CasinoGameId,
-	Name,
-	Provider,
-	RTP,
-	SubCategory,
-	ThumbnailUrl,
-	DeviceType,
-	Status,
-	IsFeatured,
-} from './CasinoGamesListCol';
-import ActionButtons from './ActionButtons';
 import useCasinoGamesListings from './hooks/useCasinoGamesListing';
 import CrudSection from '../../components/Common/CrudSection';
 import useEditCasinoGames from './hooks/useEditCasinoGames';
@@ -48,97 +32,18 @@ const CasinoGames = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		handleStatus,
 		onChangeRowsPerPage,
-		toggleIsFeaturedGames,
-		handleDeleteItem,
 	} = useCasinoGamesListings(filterValidation.values);
 
 	const {
-		onClickEdit,
 		isEditCasinoGamesLoading,
 		isOpen,
 		setIsOpen,
 		header,
 		validation,
 		formFields,
+		columns,
 	} = useEditCasinoGames();
-
-	const columns = [
-		{
-			Header: 'IS FEATURED',
-			accessor: 'isFeatured',
-			Cell: (cellProps) => (
-				<IsFeatured
-					toggleIsFeaturedGames={toggleIsFeaturedGames}
-					isFeaturedUpdateLoading={false}
-					// featuredFabData={featuredFabData}
-					cellProps={cellProps}
-				/>
-			),
-		},
-		{
-			Header: 'GAME ID',
-			accessor: 'casinoGameId',
-			filterable: true,
-			Cell: ({ cell }) => <CasinoGameId cell={cell} />,
-		},
-		{
-			Header: 'NAME',
-			accessor: 'name',
-			filterable: true,
-			Cell: ({ cell }) => <Name cell={cell} />,
-		},
-		{
-			Header: 'PROVIDER',
-			accessor: 'providerName',
-			filterable: true,
-			Cell: ({ cell }) => <Provider cell={cell} />,
-		},
-		{
-			Header: 'RTP',
-			accessor: 'returnToPlayer',
-			filterable: true,
-			Cell: ({ cell }) => <RTP cell={cell} />,
-		},
-		{
-			Header: 'SUB CATEGORY',
-			accessor: 'subCategoryType',
-			filterable: true,
-			Cell: ({ cell }) => <SubCategory cell={cell} />,
-		},
-		{
-			Header: 'THUMBNAIL',
-			accessor: 'thumbnailUrl',
-			filterable: true,
-			Cell: ({ cell }) => <ThumbnailUrl cell={cell} />,
-		},
-		{
-			Header: 'DEVICE TYPE',
-			accessor: 'devices',
-			filterable: true,
-			Cell: ({ cell }) => <DeviceType cell={cell} />,
-		},
-		{
-			Header: 'STATUS',
-			accessor: 'isActive',
-			disableFilters: true,
-			Cell: (cell) => <Status cell={cell} />,
-		},
-		{
-			Header: 'ACTION',
-			accessor: 'action',
-			disableFilters: true,
-			Cell: ({ cell }) => (
-				<ActionButtons
-					cell={cell}
-					handleStatus={handleStatus}
-					onClickEdit={onClickEdit}
-					handleDeleteItem={handleDeleteItem}
-				/>
-			),
-		},
-	];
 
 	return (
 		<div className="page-content">
@@ -193,10 +98,6 @@ const CasinoGames = () => {
 			</Container>
 		</div>
 	);
-};
-
-CasinoGames.propTypes = {
-	// t: PropTypes.func,
 };
 
 CasinoGames.defaultProps = {

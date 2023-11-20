@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSportsTransactionStart } from '../../../store/actions';
@@ -55,46 +56,46 @@ const useSportsTransactionListing = (filterValues = {}) => {
 				Header: 'Id',
 				accessor: 'transactionId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'Email',
 				accessor: 'email',
 				filterable: true,
-				Cell: (cellProps) => <Email {...cellProps} />,
+				Cell: ({ cell }) => <Email value={cell.value} />,
 			},
 			{
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
-				Cell: (cellProps) => <Amount {...cellProps} />,
+				Cell: ({ cell }) => <Amount value={cell.value} />,
 			},
 			{
 				Header: 'Non Cash Amount',
 				accessor: 'nonCashAmount',
 				filterable: true,
-				Cell: (cellProps) => <NonCashAmount {...cellProps} />,
+				Cell: ({ cell }) => <NonCashAmount value={cell.value} />,
 			},
 			{
 				Header: 'Currency Code',
 				accessor: 'currencyCode',
 				filterable: true,
-				Cell: (cellProps) => <CurrencyCode {...cellProps} />,
+				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
 			},
 			{
 				Header: 'Action Types',
 				accessor: 'actionType',
-				Cell: (cellProps) => <ActionTypes {...cellProps} />,
+				Cell: ({ cell }) => <ActionTypes value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'status',
-				Cell: (cellProps) => <Status {...cellProps} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Created At',
 				accessor: 'createdAt',
-				Cell: (cellProps) => <CreatedAt {...cellProps} />,
+				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},
 		],
 		[]

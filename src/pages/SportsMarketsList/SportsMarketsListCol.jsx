@@ -1,5 +1,5 @@
-const Id = (cell) => (cell.value ? cell.value : '');
+const Id = ({ value }) => value ?? '';
 
-const Name = (cell) => (cell.value ? cell.value : '-');
+const Name = ({ value }) => value ?? '-';
 
 export { Id, Name };

@@ -1,14 +1,13 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ cell, handleStatus }) => {
+const ActionButtons = ({ row: { original }, handleStatus }) => {
 	const { isGranted } = usePermission();
-	const active = cell?.row?.original?.isActive;
-	const sportId = cell?.row?.original?.sportId;
+	const active = original?.isActive;
+	const sportId = original?.sportId;
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -53,7 +52,12 @@ const ActionButtons = ({ cell, handleStatus }) => {
 
 ActionButtons.propTypes = {
 	handleStatus: PropTypes.func.isRequired,
-	cell: PropTypes.objectOf.isRequired,
+	row: PropTypes.shape({
+		original: PropTypes.shape({
+			isActive: PropTypes.bool,
+			sportId: PropTypes.number,
+		}),
+	}).isRequired,
 };
 
 export default ActionButtons;

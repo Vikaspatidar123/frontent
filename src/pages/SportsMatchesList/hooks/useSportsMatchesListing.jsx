@@ -73,12 +73,13 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			{
 				Header: 'IS FEATURED',
 				accessor: 'isFeatured',
-				Cell: (cellProps) => (
+				disableSortBy: true,
+				Cell: ({ cell }) => (
 					<IsFeatured
 						toggleIsFeatured={toggleIsFeatured}
 						isFeaturedUpdateLoading={isFeaturedUpdateLoading}
 						featuredFabData={featuredFabData}
-						{...cellProps}
+						cell={cell}
 					/>
 				),
 			},
@@ -86,7 +87,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 				Header: 'Id',
 				accessor: 'matchId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'Title',
@@ -98,39 +99,40 @@ const useSportsMatchesListing = (filterValues = {}) => {
 				Header: 'Tournament',
 				accessor: 'tournamentName',
 				filterable: true,
-				Cell: (cellProps) => <Tournament {...cellProps} />,
+				Cell: ({ cell }) => <Tournament value={cell.value} />,
 			},
 			{
 				Header: 'Sport',
 				accessor: 'sportName',
 				filterable: true,
-				Cell: (cellProps) => <Sport {...cellProps} />,
+				Cell: ({ cell }) => <Sport value={cell.value} />,
 			},
 			// {
 			// 	Header: 'Is Featured',
 			// 	accessor: 'isFeatured',
 			// 	filterable: true,
-			// 	Cell: (cellProps) => <IsFeatured {...cellProps} />,
+			// 	Cell: ({cell}) => <IsFeatured value={cell.value} />,
 			// },
 			{
 				Header: 'Start Date',
 				accessor: 'startDate',
-				Cell: (cellProps) => <StartDate {...cellProps} />,
+				Cell: ({ cell }) => <StartDate value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'status',
-				Cell: (cellProps) => <Status {...cellProps} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Live',
 				accessor: 'isLive',
-				Cell: (cellProps) => <Live {...cellProps} />,
+				Cell: ({ cell }) => <Live value={cell.value} />,
 			},
 			{
 				Header: 'Action',
 				accessor: '',
-				Cell: (cellProps) => <Action {...cellProps} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Action row={cell.row} />,
 			},
 		],
 		[]

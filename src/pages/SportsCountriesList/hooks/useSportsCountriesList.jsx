@@ -68,32 +68,35 @@ const useSportsCountriesListing = (filterValues = {}) => {
 				Header: 'ID',
 				accessor: 'countryId',
 				filterable: true,
-				Cell: ({ cell }) => <CountryId cell={cell} />,
+				Cell: ({ cell }) => <CountryId value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'countryName',
 				filterable: true,
-				Cell: ({ cell }) => <CountryName cell={cell} />,
+				Cell: ({ cell }) => <CountryName value={cell.value} />,
 			},
 			{
 				Header: 'ICON',
 				accessor: 'icons',
 				disableFilters: true,
-				Cell: ({ cell }) => <Icon cell={cell} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Icon value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
 				accessor: 'isActive',
 				disableFilters: true,
-				Cell: ({ cell }) => <Status cell={cell} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Action',
 				accessor: 'action',
 				disableFilters: true,
+				disableSortBy: true,
 				Cell: ({ cell }) => (
-					<ActionButtons cell={cell} handleStatus={handleStatus} />
+					<ActionButtons row={cell.row} handleStatus={handleStatus} />
 				),
 			},
 		],

@@ -4,8 +4,8 @@ import { UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const ActionButtons = ({ cell, handleStatus, type }) => {
-	const countryId = cell?.row?.original?.countryId;
+const ActionButtons = ({ row: { original }, handleStatus, type }) => {
+	const countryId = original?.countryId;
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -19,7 +19,7 @@ const ActionButtons = ({ cell, handleStatus, type }) => {
 					}
 					onClick={(e) => {
 						e.preventDefault();
-						handleStatus(cell?.row?.original);
+						handleStatus(original);
 					}}
 				>
 					<i
@@ -46,8 +46,13 @@ ActionButtons.defaultProps = {
 
 ActionButtons.propTypes = {
 	handleStatus: PropTypes.func.isRequired,
-	cell: PropTypes.objectOf.isRequired,
 	type: PropTypes.string,
+	row: PropTypes.shape({
+		original: PropTypes.shape({
+			isActive: PropTypes.bool,
+			countryId: PropTypes.number,
+		}),
+	}).isRequired,
 };
 
 export default ActionButtons;
