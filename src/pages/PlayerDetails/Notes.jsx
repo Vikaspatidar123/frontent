@@ -1,6 +1,4 @@
-/* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
@@ -75,46 +73,47 @@ const Notes = ({ userId }) => {
 				Header: 'ID',
 				accessor: 'commentId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'TITLE',
 				accessor: 'title',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCellNA {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			},
 			{
 				Header: 'NOTE',
 				accessor: 'comment',
 				filterable: true,
-				Cell: (cellProps) => <Comment {...cellProps} />,
+				Cell: ({ cell }) => <Comment value={cell.value} />,
 			},
 			{
 				Header: 'NOTED BY',
 				accessor: 'commentedBy',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCellNA {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			},
 			{
 				Header: 'ROLE',
 				accessor: 'role',
 				filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
 				accessor: 'status',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'NOTED AT',
 				accessor: 'createdAt',
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
-				Cell: (cellProps) => (
-					<CommentActionButtons handleStatus={handleStatus} {...cellProps} />
+				disableSortBy: true,
+				Cell: ({ cell }) => (
+					<CommentActionButtons handleStatus={handleStatus} cell={cell} />
 				),
 			},
 		],

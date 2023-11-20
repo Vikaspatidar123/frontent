@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
@@ -116,41 +114,42 @@ const useCreateCurrency = () => {
 				Header: 'ID',
 				accessor: 'currencyId',
 				// filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'name',
 				// filterable: true,
-				Cell: (cellProps) => <Name {...cellProps} />,
+				Cell: ({ cell }) => <Name cell={cell} />,
 			},
 			{
 				Header: 'CODE',
 				accessor: 'code',
 				// filterable: true,
-				Cell: (cellProps) => <Code {...cellProps} />,
+				Cell: ({ cell }) => <Code value={cell.value} />,
 			},
 			{
 				Header: 'EXCHANGE RATES',
 				accessor: 'exchangeRate',
 				// filterable: true,
-				Cell: (cellProps) => <ExchangeRate {...cellProps} />,
+				Cell: ({ cell }) => <ExchangeRate value={cell.value} />,
 			},
 			{
 				Header: 'LOYALTY POINTS',
 				accessor: 'loyaltyPoint',
 				// filterable: true,
-				Cell: (cellProps) => <LoyaltyPoints {...cellProps} />,
+				Cell: ({ cell }) => <LoyaltyPoints value={cell.value} />,
 			},
 			{
 				Header: 'TYPE',
 				accessor: 'type',
 				// filterable: true,
-				Cell: (cellProps) => <Type {...cellProps} />,
+				Cell: ({ cell }) => <Type value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
 				accessor: 'actions',
+				disableSortBy: true,
 				disableFilters: true,
 				Cell: ({ cell }) => (
 					<Button

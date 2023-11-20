@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import {
 	getInitialValues,
@@ -10,6 +9,15 @@ import {
 } from '../formDetails';
 import { editCountryStart, getLanguagesStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
+import {
+	CountryCode,
+	CountryName,
+	Id,
+	Language,
+	Status,
+} from '../CountriesListCol';
+import ActionButtons from '../ActionButtons';
+import useCountriesListing from './useCountriesListing';
 
 const useEditCountry = () => {
 	const dispatch = useDispatch();
@@ -19,6 +27,7 @@ const useEditCountry = () => {
 	} = useSelector((state) => state.Countries);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
+	const { handleStatus } = useCountriesListing();
 
 	const handleEditCountry = (values) => {
 		dispatch(
@@ -79,6 +88,56 @@ const useEditCountry = () => {
 		if (isEditCountrySuccess) setIsOpen(false);
 	}, [isEditCountrySuccess]);
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'Id',
+				accessor: 'countryId',
+				// filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'Country Code',
+				accessor: 'countryCode',
+				// filterable: true,
+				Cell: ({ cell }) => <CountryCode value={cell.value} />,
+			},
+			{
+				Header: 'Name',
+				accessor: 'countryName',
+				// filterable: true,
+				Cell: ({ cell }) => <CountryName value={cell.value} />,
+			},
+			{
+				Header: 'Language',
+				accessor: 'language',
+				// filterable: true,
+				Cell: ({ cell }) => <Language value={cell.value} />,
+			},
+			{
+				Header: 'Status',
+				accessor: 'status',
+				disableSortBy: true,
+				// filterable: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
+			},
+			{
+				Header: 'Actions',
+				disableSortBy: true,
+				// accessor: "actions",
+				// filterable: true,
+				Cell: ({ cell }) => (
+					<ActionButtons
+						row={cell.row}
+						handleEditClick={handleEditClick}
+						handleStatus={handleStatus}
+					/>
+				),
+			},
+		],
+		[]
+	);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -88,6 +147,7 @@ const useEditCountry = () => {
 		setFormFields,
 		isEditCountryLoading,
 		handleEditClick,
+		columns,
 	};
 };
 

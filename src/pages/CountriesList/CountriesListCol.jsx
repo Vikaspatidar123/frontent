@@ -1,25 +1,33 @@
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Badge } from 'reactstrap';
+import PropTypes from 'prop-types';
 
-const Id = (cell) => (cell.value ? cell.value : '');
+const Id = ({ value }) => value ?? '';
 
-const CountryName = (cell) => (cell.value ? cell.value : '');
+const CountryName = ({ value }) => value ?? '';
 
-const CountryCode = (cell) => (cell.value ? cell.value : '');
+const CountryCode = ({ value }) => value ?? '';
 
-const Language = (cell) => (cell.value ? cell.value : '');
+const Language = ({ value }) => value ?? '';
 
-const Status = (cell) =>
-	cell.value ?? '' ? (
+const Status = ({ value }) =>
+	value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">In Active</Badge>
 	);
 
-const Icon = (cell) =>
-	cell.value ? <img alt="sidebar_bg_image" width="20" src={cell.value} /> : '-';
+const Icon = ({ value }) =>
+	value ? <img alt="sidebar_bg_image" width="20" src={value} /> : '-';
 
 const Actions = () => <i className="dripicons-dots-3" />;
 
 export { Id, CountryName, Icon, Status, Actions, CountryCode, Language };
+
+Status.propTypes = {
+	value: PropTypes.bool.isRequired,
+};
+
+Icon.propTypes = {
+	value: PropTypes.string.isRequired,
+};

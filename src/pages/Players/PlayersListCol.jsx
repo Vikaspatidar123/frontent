@@ -1,12 +1,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Badge, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-const PlayerId = (cell) => (cell.value ? cell.value : '');
+const PlayerId = ({ value }) => value ?? '';
 
 const UserName = ({ cell }) =>
 	cell.value ? (
@@ -17,15 +16,15 @@ const UserName = ({ cell }) =>
 		''
 	);
 
-const Email = (cell) => (cell.value ? cell.value : '');
+const Email = ({ value }) => value ?? '';
 
-const PhoneNumber = (cell) => (cell.value ? cell.value : '-');
+const PhoneNumber = ({ value }) => value ?? '-';
 
-const KycStatus = (cell) => (cell.value ? cell.value : '');
+const KycStatus = ({ value }) => value ?? '';
 
-const IsInternal = (cell) => (cell.value ? cell.value : '');
+const IsInternal = ({ value }) => value ?? '';
 
-const Action = (cell) => (
+const Action = ({ cell }) => (
 	<ul className="list-unstyled hstack gap-1 mb-0">
 		<li data-bs-toggle="tooltip" data-bs-placement="top">
 			<Link
@@ -47,8 +46,8 @@ const Action = (cell) => (
 	</ul>
 );
 
-const Status = (cell) => {
-	switch (cell.value) {
+const Status = ({ value }) => {
+	switch (value) {
 		case 'Active':
 			return <Badge className="bg-success">Active</Badge>;
 		case 'In-Active':
@@ -56,6 +55,33 @@ const Status = (cell) => {
 		default:
 			return '';
 	}
+};
+
+UserName.propTypes = {
+	onClickPlayer: PropTypes.func.isRequired,
+	cell: PropTypes.shape({
+		value: PropTypes.string.isRequired,
+		row: PropTypes.shape({
+			original: PropTypes.shape({
+				userId: PropTypes.string.isRequired,
+			}).isRequired,
+		}).isRequired,
+	}).isRequired,
+};
+
+Action.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.string.isRequired,
+		row: PropTypes.shape({
+			original: PropTypes.shape({
+				userId: PropTypes.string.isRequired,
+			}).isRequired,
+		}).isRequired,
+	}).isRequired,
+};
+
+Status.propTypes = {
+	value: PropTypes.string.isRequired,
 };
 
 export {

@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import Lightbox from 'react-image-lightbox';
 import { Button } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const statusMapper = (value) => {
 	switch (value) {
@@ -16,22 +16,22 @@ const statusMapper = (value) => {
 	}
 };
 
-const Id = (cell) => (cell.value ? cell.value : '');
-const Name = (cell) => (cell.value ? cell.value : '');
-const Reason = (cell) => (cell.value ? cell.value : 'NA');
-const UpdatedAt = (cell) => (cell.value ? cell.value : '');
-const Actionee = (cell) => (cell.value ? cell.value : 'NA');
-const ActionAt = (cell) => (cell.value ? cell.value : 'NA');
-const Status = (cell) => (cell.value ? statusMapper(cell.value) : 'NA');
-const Action = (cell) => (cell.value ? statusMapper(cell.value) : 'NA');
+const Id = ({ value }) => value ?? '';
+const Name = ({ value }) => value ?? '';
+const Reason = ({ value }) => value ?? '-';
+const UpdatedAt = ({ value }) => value ?? '';
+const Actionee = ({ value }) => value ?? '-';
+const ActionAt = ({ value }) => value ?? '-';
+const Status = ({ value }) => (value ? statusMapper(value) : '-');
+const Action = ({ value }) => (value ? statusMapper(value) : '-');
 
-const ThumbnailUrl = ({ cell }) => {
+const ThumbnailUrl = ({ value }) => {
 	const [isFits, setisFits] = useState(false);
 	return (
 		<>
 			{isFits ? (
 				<Lightbox
-					mainSrc={cell.value}
+					mainSrc={value}
 					enableZoom={false}
 					onCloseRequest={() => {
 						setisFits(!isFits);
@@ -44,10 +44,14 @@ const ThumbnailUrl = ({ cell }) => {
 				className="btn btn-link waves-effect"
 				onClick={() => setisFits(true)}
 			>
-				{cell.value ? 'View Here' : ''}
+				{value ? 'View Here' : ''}
 			</Button>
 		</>
 	);
+};
+
+ThumbnailUrl.propTypes = {
+	value: PropTypes.string.isRequired,
 };
 
 export {

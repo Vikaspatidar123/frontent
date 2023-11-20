@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlayersStart } from '../../../store/actions';
@@ -28,7 +27,8 @@ const usePlayersListing = (filterValues = {}) => {
 				Header: 'Player Id',
 				accessor: 'userId',
 				filterable: true,
-				Cell: (cellProps) => <PlayerId {...cellProps} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <PlayerId value={cell.value} />,
 			},
 			{
 				Header: 'Username',
@@ -40,34 +40,40 @@ const usePlayersListing = (filterValues = {}) => {
 				Header: 'Email',
 				accessor: 'email',
 				filterable: true,
-				Cell: (cellProps) => <Email {...cellProps} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <Email value={cell.value} />,
 			},
 			{
 				Header: 'Phone Number',
 				accessor: 'phone',
 				filterable: true,
-				Cell: (cellProps) => <PhoneNumber {...cellProps} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <PhoneNumber value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'status',
 				filterable: true,
-				Cell: (cellProps) => <Status {...cellProps} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Kyc Status',
 				accessor: 'kycStatus',
-				Cell: (cellProps) => <KycStatus {...cellProps} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <KycStatus value={cell.value} />,
 			},
 			{
 				Header: 'Is Internal',
 				accessor: 'isInternal',
-				Cell: (cellProps) => <IsInternal {...cellProps} />,
+				disableSortBy: false,
+				Cell: ({ cell }) => <IsInternal value={cell.value} />,
 			},
 			{
 				Header: 'Action',
 				accessor: '',
-				Cell: (cellProps) => <Action {...cellProps} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Action cell={cell} />,
 			},
 		],
 		[]

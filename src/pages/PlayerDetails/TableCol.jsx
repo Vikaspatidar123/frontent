@@ -1,64 +1,82 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/react-in-jsx-scope */
-const KeyValueCell = (cell) => (cell.value ? cell.value : '');
-const KeyValueCellNA = (cell) => (cell.value ? cell.value : 'NA');
-const Id = (cell) => (cell.value ? cell.value : '');
-const Email = (cell) => (cell.value ? cell.value : '');
-const ActionTypes = (cell) => (cell.value ? cell.value : '');
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const GameName = (cell) => (cell.value ? cell.value : '-');
+const KeyValueCell = ({ value }) => value ?? '';
+const KeyValueCellNA = ({ value }) => value ?? '-';
+const Id = ({ value }) => value ?? '';
+const Email = ({ value }) => value ?? '';
+const ActionTypes = ({ value }) => value ?? '';
 
-const Amount = (cell) =>
-	cell.value ? (
-		<div className={cell.value.includes('-') ? 'text-danger' : 'text-success'}>
-			{cell.value}
+const GameName = ({ value }) => value ?? '-';
+
+const Amount = ({ value }) =>
+	value ? (
+		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
+			{value}
 		</div>
 	) : (
 		'-'
 	);
 
-const BonusMoney = (cell) =>
-	cell.value ? (
-		<div className={cell.value.includes('-') ? 'text-danger' : 'text-success'}>
-			{cell.value}
+const BonusMoney = ({ value }) =>
+	value ? (
+		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
+			{value}
 		</div>
 	) : (
 		'-'
 	);
 
-const Status = (cell) => {
-	const status = cell.value;
-	if (status === 0) {
+const Status = ({ value }) => {
+	if (value === 0) {
 		return <td>Pending</td>;
 	}
-	if (status === 1) {
+	if (value === 1) {
 		return <td>Approved</td>;
 	}
-	if (status === 4) {
+	if (value === 4) {
 		return <td>Re-Requested</td>;
 	}
 	return <td>Rejected</td>;
 };
 
-const CreatedAt = (cell) => (cell.value ? cell.value : '');
+const CreatedAt = ({ value }) => value ?? '';
 
-const NonCashAmount = (cell) =>
-	cell.value ? (
-		<div className={cell.value >= 0 ? 'text-success' : 'text-danger'}>
-			{cell.value}
-		</div>
+const NonCashAmount = ({ value }) =>
+	value ? (
+		<div className={value >= 0 ? 'text-success' : 'text-danger'}>{value}</div>
 	) : (
 		'-'
 	);
 
-const CurrencyCode = (cell) => (cell.value ? cell.value : '');
+const CurrencyCode = ({ value }) => value ?? '';
 
-const PromotionTitle = (cell) => (cell.value ? cell.value : '');
+const PromotionTitle = ({ value }) => value ?? '';
 
 const Action = (cell) => (cell.value ? cell.value : '');
 
-const Comment = (cell) =>
-	cell.value ? <div className="comment-term-text">{cell.value}</div> : '';
+const Comment = ({ value }) =>
+	value ? <div className="comment-term-text">{value}</div> : '';
+
+Amount.propTypes = {
+	value: PropTypes.number.isRequired,
+};
+
+BonusMoney.propTypes = {
+	value: PropTypes.number.isRequired,
+};
+
+Status.propTypes = {
+	value: PropTypes.number.isRequired,
+};
+
+NonCashAmount.propTypes = {
+	value: PropTypes.number.isRequired,
+};
+
+Comment.propTypes = {
+	value: PropTypes.string.isRequired,
+};
 
 export {
 	KeyValueCell,

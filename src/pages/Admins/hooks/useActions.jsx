@@ -155,7 +155,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 				.filter((r) => r)
 				.map((g) => ({
 					id: g,
-					optionLabel: g,
+					label: g,
 					value: g,
 				}));
 
@@ -180,10 +180,12 @@ const useActions = (isEditPage, filterValues = {}) => {
 				...rightStaticFormFields(isEdit),
 				{
 					name: 'group',
-					fieldType: 'select',
+					fieldType: 'creatableSingleSelect',
 					label: 'Group',
-					placeholder: 'Select group',
 					optionList: groupOptions,
+					callBack: (option) => {
+						validation.setFieldValue('group', option.value);
+					},
 				},
 				isEdit ? {} : customField,
 			]);
@@ -225,7 +227,14 @@ const useActions = (isEditPage, filterValues = {}) => {
 	useEffect(() => {
 		if (!isEmpty(roles) && !isEmpty(groups) && !isEmpty(allAdminList))
 			setCustomFields();
-	}, [roles, groups, validation?.values?.role, isEdit, allAdminList]);
+	}, [
+		roles,
+		groups,
+		validation?.values?.role,
+		isEdit,
+		allAdminList,
+		validation?.values?.group,
+	]);
 
 	useEffect(() => {
 		// if(validation?.values?.role === 'Admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
