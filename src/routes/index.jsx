@@ -1,5 +1,4 @@
 import React from 'react';
-import Logout from '../pages/Authentication/Logout';
 import JobList from '../pages/JobPages/JobList';
 import CountriesList from '../pages/CountriesList';
 import PlayersList from '../pages/Players';
@@ -132,9 +131,6 @@ const authProtectedRoutes = [
 	{ path: '*', component: <DashboardView /> },
 ];
 
-const publicRoutes = [
-	{ path: '/logout', component: <Logout /> },
-	{ path: '/login', component: <LoginRight /> },
-];
+const publicRoutes = [{ path: '/login', component: <LoginRight /> }];
 
 export { authProtectedRoutes, publicRoutes };
