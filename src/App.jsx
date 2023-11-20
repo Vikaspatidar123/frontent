@@ -26,11 +26,7 @@ import './assets/scss/theme.scss';
 // Import Firebase Configuration file
 // import { initFirebaseBackend } from "./helpers/firebase_helper"
 
-import fakeBackend from './helpers/AuthType/fakeBackend';
 import LinearLoading from './components/Common/LinearLoading';
-
-// Activating fake backend
-fakeBackend();
 
 // const firebaseConfig = {
 //   apiKey: import.meta.env.VITE_APP_APIKEY,

@@ -1,5 +1,4 @@
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-undef */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -15,7 +14,7 @@ import {
 // reactstrap
 
 // Import menuDropdown
-import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
+// import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 
 import logoDark from '../../assets/images/logo-dark.png';
@@ -137,7 +136,7 @@ const Header = (props) => {
 						</button>
 					</div>
 
-					<NotificationDropdown />
+					{/* <NotificationDropdown /> */}
 
 					<ProfileMenu />
 

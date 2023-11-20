@@ -6,10 +6,10 @@ import {
 	GET_DEMOGRAPHIC_SUCCESS,
 	GET_DEMOGRAPHIC_FAIL,
 } from './actionTypes';
-import { gameContant } from './confile/gameReport';
-import { kpiReportConstant } from './confile/kpiReport';
+import { gameContant } from './config/gameReport';
+import { kpiReportConstant } from './config/kpiReport';
 
-import { kpiConstant } from './confile/kpisummary';
+import { kpiConstant } from './config/kpisummary';
 
 const INIT_STATE = {
 	isLivePlayerLoading: false,

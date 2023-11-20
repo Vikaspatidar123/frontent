@@ -4,22 +4,22 @@ import React from 'react';
 import {
 	Card,
 	Col,
-	Collapse,
+	// Collapse,
 	Row,
 	Form,
-	Label,
-	Input,
+	// Label,
+	// Input,
 	UncontrolledTooltip,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { getField } from '../../helpers/customForms';
-import { experienceData, jobType } from '../../common/data';
+// import { experienceData, jobType } from '../../common/data';
 
 const Filters = ({
 	filterFields,
 	validation,
 	actionButtons,
-	isAdvanceOpen,
+	// isAdvanceOpen,
 	isFilterChanged,
 }) => (
 	<Row>
@@ -84,7 +84,7 @@ const Filters = ({
 										)
 								)}
 						</Col>
-						<Collapse isOpen={isAdvanceOpen} id="advanceCollapse">
+						{/* <Collapse isOpen={isAdvanceOpen} id="advanceCollapse">
 							<div>
 								<Row className="g-3">
 									<Col xxl={4} lg={6}>
@@ -163,7 +163,7 @@ const Filters = ({
 									</Col>
 								</Row>
 							</div>
-						</Collapse>
+						</Collapse> */}
 					</Row>
 				</Form>
 			</Card>
@@ -172,7 +172,7 @@ const Filters = ({
 );
 
 Filters.defaultProps = {
-	isAdvanceOpen: false,
+	// isAdvanceOpen: false,
 	isFilterChanged: true,
 };
 
@@ -180,7 +180,7 @@ Filters.propTypes = {
 	filterFields: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
 	validation: PropTypes.objectOf.isRequired,
 	actionButtons: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
-	isAdvanceOpen: PropTypes.bool,
+	// isAdvanceOpen: PropTypes.bool,
 	isFilterChanged: PropTypes.bool,
 };
 
