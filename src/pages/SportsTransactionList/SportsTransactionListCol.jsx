@@ -1,35 +1,40 @@
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Id = (cell) => (cell.value ? cell.value : '');
+const Id = ({ value }) => value ?? '';
 
-const Email = (cell) => (cell.value ? cell.value : '');
+const Email = ({ value }) => value ?? '';
 
-const Amount = (cell) =>
-	cell.value ? (
-		<div className={cell.value >= 0 ? 'text-success' : 'text-danger'}>
-			{cell.value}
-		</div>
+const Amount = ({ value }) =>
+	value ? (
+		<div className={value >= 0 ? 'text-success' : 'text-danger'}>{value}</div>
 	) : (
 		'-'
 	);
 
-const NonCashAmount = (cell) =>
-	cell.value ? (
-		<div className={cell.value >= 0 ? 'text-success' : 'text-danger'}>
-			{cell.value}
-		</div>
+const NonCashAmount = ({ value }) =>
+	value ? (
+		<div className={value >= 0 ? 'text-success' : 'text-danger'}>{value}</div>
 	) : (
 		'-'
 	);
 
-const CurrencyCode = (cell) => (cell.value ? cell.value : '');
+const CurrencyCode = ({ value }) => value ?? '';
 
 const ActionTypes = () => 'Bet';
 
-const Status = (cell) => cell.value || 'Pending';
+const Status = ({ value }) => value || 'Pending';
 
-const CreatedAt = (cell) => (cell.value ? cell.value : '');
+const CreatedAt = ({ value }) => value ?? '';
+
+Amount.protoTypes = {
+	value: PropTypes.string.isRequired,
+};
+
+NonCashAmount.protoTypes = {
+	value: PropTypes.string.isRequired,
+};
 
 export {
 	Status,

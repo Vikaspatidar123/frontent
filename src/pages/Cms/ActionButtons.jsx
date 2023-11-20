@@ -6,14 +6,14 @@ import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({
-	cell,
+	row,
 	handleStatus,
 	handleEditClick,
 	handleViewClick,
 }) => {
 	const { isGranted } = usePermission();
-	const status = cell?.row?.original?.isActive;
-	const cmsPageId = cell?.row?.original?.cmsPageId;
+	const status = row?.original?.isActive;
+	const cmsPageId = row?.original?.cmsPageId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
@@ -98,7 +98,7 @@ ActionButtons.propTypes = {
 	handleEditClick: PropTypes.func.isRequired,
 	handleViewClick: PropTypes.func.isRequired,
 	handleStatus: PropTypes.func.isRequired,
-	cell: PropTypes.objectOf.isRequired,
+	row: PropTypes.objectOf.isRequired,
 };
 
 export default ActionButtons;

@@ -1,40 +1,36 @@
 import React from 'react';
-import { Badge } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-const BonusId = ({ cell }) => (
+const BonusId = ({ value }) => (
 	<Link to="/" className="text-body fw-bold">
-		{cell.value ?? ''}
+		{value ?? ''}
 	</Link>
 );
-const Title = ({ cell }) => cell.value ?? '';
+const Title = ({ value }) => value ?? '';
 
-const BonusType = ({ cell }) => cell.value ?? '';
+const BonusType = ({ value }) => value ?? '';
 
-const ValidTill = ({ cell }) => cell.value ?? '';
+const ValidTill = ({ value }) => value ?? '';
 
-const IsExpired = ({ cell }) => cell.value ?? '';
+const IsExpired = ({ value }) => value ?? '';
 
-const IsClaimed = ({ cell }) => cell.value ?? '';
+const IsClaimed = ({ value }) => value ?? '';
 
-const Status = ({ cell }) =>
-	cell.value ?? '' ? (
+const Status = ({ value }) =>
+	value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">In Active</Badge>
 	);
 
 BonusId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.number.isRequired,
-	}).isRequired,
+	value: PropTypes.number.isRequired,
 };
 
 Status.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.bool.isRequired,
-	}).isRequired,
+	value: PropTypes.bool.isRequired,
 };
 
 export { BonusId, Title, BonusType, ValidTill, IsExpired, IsClaimed, Status };

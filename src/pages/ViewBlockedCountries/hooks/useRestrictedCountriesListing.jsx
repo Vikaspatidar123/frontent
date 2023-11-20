@@ -1,6 +1,5 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/react-in-jsx-scope */
-import { useEffect, useMemo, useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchRestrictedCountriesStart } from '../../../store/actions';
@@ -36,19 +35,19 @@ const useRestrictedCountriesListing = () => {
 			Header: 'ID',
 			accessor: 'countryId',
 			filterable: true,
-			Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+			Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 		},
 		{
 			Header: 'NAME',
 			accessor: 'name',
 			filterable: true,
-			Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+			Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 		},
 		{
 			Header: 'CODE',
 			accessor: 'code',
 			filterable: true,
-			Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+			Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 		},
 	]);
 

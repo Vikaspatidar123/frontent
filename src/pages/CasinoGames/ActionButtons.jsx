@@ -8,15 +8,15 @@ import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({
-	cell,
+	row: { original },
 	handleStatus,
 	onClickEdit,
 	handleDeleteItem,
 }) => {
 	const { isGranted } = usePermission();
-	const active = cell?.row?.original?.isActive;
-	const casinoGameId = cell?.row?.original?.casinoGameId;
-	const isDisabled = !!cell?.row?.original?.parentId;
+	const active = original?.isActive;
+	const casinoGameId = original?.casinoGameId;
+	const isDisabled = !!original?.parentId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li data-bs-toggle="tooltip" data-bs-placement="top">
@@ -97,7 +97,7 @@ const ActionButtons = ({
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => {
 						e.preventDefault();
-						onClickEdit(cell?.row?.original);
+						onClickEdit(original);
 					}}
 				>
 					<i
@@ -141,7 +141,7 @@ const ActionButtons = ({
 };
 
 ActionButtons.prototype = {
-	cell: PropTypes.objectOf.isRequired,
+	original: PropTypes.objectOf.isRequired,
 	handleStatus: PropTypes.func.isRequired,
 	onClickEdit: PropTypes.func.isRequired,
 	handleDeleteItem: PropTypes.func.isRequired,

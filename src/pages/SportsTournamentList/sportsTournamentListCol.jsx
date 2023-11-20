@@ -2,22 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const TournamentId = ({ cell }) => (
+const TournamentId = ({ value }) => (
 	<Link to="/" className="text-body fw-bold">
-		{cell.value ?? ''}
+		{value ?? ''}
 	</Link>
 );
 
-const TournamentName = ({ cell }) => cell.value ?? '';
+const TournamentName = ({ value }) => value ?? '';
 
-const CountryName = ({ cell }) => cell.value ?? '';
+const CountryName = ({ value }) => value ?? '';
 
-const SportName = ({ cell }) => cell.value ?? '';
+const SportName = ({ value }) => value ?? '';
 
 TournamentId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 export { TournamentId, TournamentName, CountryName, SportName };

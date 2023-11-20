@@ -22,36 +22,38 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 				Header: 'ID',
 				accessor: 'gameCategoryId',
 				filterable: true,
-				Cell: (cellProps) => <GameCategoryId {...cellProps} />,
+				Cell: ({ cell }) => <GameCategoryId value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'nameEN',
 				filterable: true,
-				Cell: (cellProps) => <Name {...cellProps} />,
+				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
 				Header: 'CREATED AT',
 				accessor: 'createdAt',
 				filterable: true,
-				Cell: (cellProps) => <CreatedAt {...cellProps} />,
+				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},
 			{
 				Header: 'UPDATED AT',
 				accessor: 'updatedAt',
 				filterable: true,
-				Cell: (cellProps) => <UpdatedAt {...cellProps} />,
+				Cell: ({ cell }) => <UpdatedAt value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
 				accessor: 'isActive',
 				filterable: true,
-				Cell: (cellProps) => <Status {...cellProps} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Action',
 				accessor: 'action',
 				disableFilters: true,
+				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const active = cell?.row?.original?.isActive;
 					const gameCategoryId = cell?.row?.original?.gameCategoryId;

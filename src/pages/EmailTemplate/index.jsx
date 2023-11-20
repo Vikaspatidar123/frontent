@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
@@ -54,27 +54,28 @@ const EmailTemplate = ({ t }) => {
 				Header: 'ID',
 				accessor: 'emailTemplateId',
 				filterable: true,
-				Cell: ({ cell }) => <EmailTemplateId cell={cell} />,
+				Cell: ({ cell }) => <EmailTemplateId value={cell.value} />,
 			},
 			{
 				Header: 'LABEL',
 				accessor: 'label',
 				filterable: true,
-				Cell: ({ cell }) => <Label cell={cell} />,
+				Cell: ({ cell }) => <Label value={cell.value} />,
 			},
 			{
 				Header: 'PRIMARY',
 				accessor: 'isPrimary',
 				filterable: true,
-				Cell: ({ cell }) => <Primary cell={cell} />,
+				Cell: ({ cell }) => <Primary value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
 				accessor: 'action',
 				disableFilters: true,
+				disableSortBy: true,
 				Cell: ({ cell }) => (
 					<ActionButtons
-						cell={cell}
+						row={cell.row}
 						handleEditClick={handleEditClick}
 						handleViewClick={handleViewClick}
 						handleDeleteClick={handleDeleteClick}

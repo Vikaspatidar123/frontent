@@ -7,18 +7,18 @@ import 'react-image-lightbox/style.css';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
-const Pages = ({ cell }) => cell.value ?? '';
+const Pages = ({ value }) => value ?? '';
 
-const BannerPreview = ({ cell }) => {
-	const [isFits, setisFits] = useState(false);
+const BannerPreview = ({ value }) => {
+	const [isFits, setIsFits] = useState(false);
 	return (
 		<>
 			{isFits ? (
 				<Lightbox
-					mainSrc={`${VITE_APP_AWS_GALLERY_URL}/${cell.value}`} // need to be updated
+					mainSrc={`${VITE_APP_AWS_GALLERY_URL}/${value}`} // need to be updated
 					enableZoom={false}
 					onCloseRequest={() => {
-						setisFits(!isFits);
+						setIsFits(!isFits);
 					}}
 				/>
 			) : null}
@@ -26,18 +26,16 @@ const BannerPreview = ({ cell }) => {
 			<Button
 				color="link"
 				className="btn btn-link waves-effect"
-				onClick={() => setisFits(true)}
+				onClick={() => setIsFits(true)}
 			>
-				{cell.value ? 'Preview' : ''}
+				{value ? 'Preview' : ''}
 			</Button>
 		</>
 	);
 };
 
 BannerPreview.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string.isRequired,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 export { Pages, BannerPreview };

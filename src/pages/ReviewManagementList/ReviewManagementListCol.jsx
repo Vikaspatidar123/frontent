@@ -1,27 +1,20 @@
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Badge } from 'reactstrap';
-// import { Tooltip } from 'recharts';
+import PropTypes from 'prop-types';
 
-const Id = (cell) => (cell.value ? cell.value : '');
+const Id = ({ value }) => value ?? '';
 
-const UserName = (cell) => (cell.value ? <div>{cell.value}</div> : '');
+const UserName = ({ value }) => (value ? <div>{value}</div> : '');
 
-const Description = (cell) =>
-	cell.value ? (
-		// <Tooltip title={cell.value}>
-		<div className="english-text">{cell.value}</div>
-	) : (
-		// </Tooltip>
-		''
-	);
+const Description = ({ value }) =>
+	value ? <div className="english-text">{value}</div> : '';
 
-const Rating = (cell) => (cell.value ? cell.value : '-');
+const Rating = ({ value }) => value ?? '-';
 
-const Actions = (cell) => (cell.value ? cell.value : '');
+const Actions = ({ value }) => value ?? '';
 
-const Status = (cell) => {
-	switch (cell.value) {
+const Status = ({ value }) => {
+	switch (value) {
 		case 'Active':
 			return <Badge className="bg-success">Active</Badge>;
 		case 'In-Active':
@@ -29,6 +22,18 @@ const Status = (cell) => {
 		default:
 			return '';
 	}
+};
+
+UserName.propTypes = {
+	value: PropTypes.string.isRequired,
+};
+
+Description.propTypes = {
+	value: PropTypes.string.isRequired,
+};
+
+Status.propTypes = {
+	value: PropTypes.string.isRequired,
 };
 
 export { Status, UserName, Actions, Id, Description, Rating };

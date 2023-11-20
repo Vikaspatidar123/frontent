@@ -19,21 +19,23 @@ const computeColumns = ({ onClickEdit, onClickDelete }) => [
 		Header: 'PAGES',
 		accessor: 'pages',
 		filterable: true,
-		Cell: ({ cell }) => <Pages cell={cell} />,
+		Cell: ({ cell }) => <Pages value={cell.value} />,
 	},
 	{
 		Header: 'BANNER PREVIEW',
 		accessor: 'bannerPreview',
 		filterable: true,
-		Cell: ({ cell }) => <BannerPreview cell={cell} />,
+		disableSortBy: true,
+		Cell: ({ cell }) => <BannerPreview value={cell.value} />,
 	},
 	{
 		Header: 'Action',
 		accessor: 'action',
 		disableFilters: true,
+		disableSortBy: true,
 		Cell: ({ cell }) => (
 			<ActionButtons
-				cell={cell}
+				row={cell.row}
 				onClickEdit={onClickEdit}
 				onClickDelete={onClickDelete}
 			/>

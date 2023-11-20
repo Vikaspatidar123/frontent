@@ -63,32 +63,35 @@ const useSportsListing = (filterValues = {}) => {
 				Header: 'ID',
 				accessor: 'sportId',
 				filterable: true,
-				Cell: ({ cell }) => <SportId cell={cell} />,
+				Cell: ({ cell }) => <SportId value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'sportName',
 				filterable: true,
-				Cell: ({ cell }) => <SportName cell={cell} />,
+				Cell: ({ cell }) => <SportName value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
 				accessor: 'isActive',
+				disableSortBy: true,
 				disableFilters: true,
-				Cell: ({ cell }) => <Status cell={cell} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'ICON',
 				accessor: 'icons',
 				disableFilters: true,
-				Cell: ({ cell }) => <Icon cell={cell} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Icon value={cell.value} />,
 			},
 			{
 				Header: 'Action',
 				accessor: 'action',
 				disableFilters: true,
+				disableSortBy: true,
 				Cell: ({ cell }) => (
-					<ActionButtons cell={cell} handleStatus={handleStatus} />
+					<ActionButtons row={cell.row} handleStatus={handleStatus} />
 				),
 			},
 		],

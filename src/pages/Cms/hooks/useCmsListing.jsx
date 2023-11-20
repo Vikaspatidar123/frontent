@@ -78,39 +78,41 @@ const useCmsListing = (filterValues = {}) => {
 				Header: 'ID',
 				accessor: 'cmsPageId',
 				filterable: true,
-				Cell: ({ cell }) => <CmsPageId cell={cell} />,
+				Cell: ({ cell }) => <CmsPageId value={cell.value} />,
 			},
 			{
 				Header: 'TITLE',
 				accessor: 'title',
 				filterable: true,
-				Cell: ({ cell }) => <Title cell={cell} />,
+				Cell: ({ cell }) => <Title value={cell.value} />,
 			},
 			{
 				Header: 'SLUG',
 				accessor: 'slug',
 				filterable: true,
-				Cell: ({ cell }) => <Slug cell={cell} />,
+				Cell: ({ cell }) => <Slug value={cell.value} />,
 			},
 			{
 				Header: 'PORTAL',
 				accessor: 'portal',
 				filterable: true,
-				Cell: ({ cell }) => <Portal cell={cell} />,
+				Cell: ({ cell }) => <Portal value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
 				accessor: 'isActive',
 				disableFilters: true,
-				Cell: ({ cell }) => <Status cell={cell} />,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
 				accessor: 'action',
 				disableFilters: true,
+				disableSortBy: true,
 				Cell: ({ cell }) => (
 					<ActionButtons
-						cell={cell}
+						row={cell.row}
 						handleStatus={handleStatus}
 						handleEditClick={handleEditClick}
 						handleViewClick={handleViewClick}

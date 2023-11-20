@@ -15,23 +15,25 @@ const useAggregatorList = (handleStatus) => {
 			// 	Header: 'ID',
 			// 	accessor: 'gameAggregatorId',
 			// 	filterable: true,
-			// 	Cell: (cellProps) => <ID {...cellProps} />,
+			// 	Cell: ({cell}) => <ID value={cell.value} />,
 			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',
 				filterable: true,
-				Cell: (cellProps) => <Name {...cellProps} />,
+				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'isActive',
+				disableSortBy: true,
 				disableFilters: true,
-				Cell: (cellProps) => <Status {...cellProps} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Action',
 				accessor: 'action',
+				disableSortBy: true,
 				disableFilters: true,
 				Cell: ({ cell }) => {
 					const active = cell?.row?.original?.isActive;

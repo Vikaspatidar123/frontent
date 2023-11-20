@@ -113,50 +113,52 @@ const useBonusListing = (filterValues = {}) => {
 				Header: 'ID',
 				accessor: 'bonusId',
 				filterable: true,
-				Cell: ({ cell }) => <BonusId cell={cell} />,
+				Cell: ({ cell }) => <BonusId value={cell.value} />,
 			},
 			{
 				Header: 'TITLE',
 				accessor: 'title',
 				filterable: true,
-				Cell: ({ cell }) => <Title cell={cell} />,
+				Cell: ({ cell }) => <Title value={cell.value} />,
 			},
 			{
 				Header: 'BONUS TYPE',
 				accessor: 'bonusType',
 				filterable: true,
-				Cell: ({ cell }) => <BonusType cell={cell} />,
+				Cell: ({ cell }) => <BonusType value={cell.value} />,
 			},
 			{
 				Header: 'VALID TILL',
 				accessor: 'validTill',
 				filterable: true,
-				Cell: ({ cell }) => <ValidTill cell={cell} />,
+				Cell: ({ cell }) => <ValidTill value={cell.value} />,
 			},
 			{
 				Header: 'IS EXPIRED',
 				accessor: 'isExpired',
 				filterable: true,
-				Cell: ({ cell }) => <IsExpired cell={cell} />,
+				Cell: ({ cell }) => <IsExpired value={cell.value} />,
 			},
 			{
 				Header: 'IS CLAIMED',
 				accessor: 'isClaimed',
 				filterable: true,
-				Cell: (cell) => <IsClaimed cell={cell} />,
+				Cell: ({ cell }) => <IsClaimed value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
 				accessor: 'isActive',
+				disableSortBy: true,
 				disableFilters: true,
-				Cell: (cell) => <Status cell={cell} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
 				accessor: 'action',
+				disableSortBy: true,
 				disableFilters: true,
-				Cell: (cell) => (
-					<ActionButtons cell={cell} handleStatus={handleStatus} />
+				Cell: ({ cell }) => (
+					<ActionButtons row={cell.row} handleStatus={handleStatus} />
 				),
 			},
 		],

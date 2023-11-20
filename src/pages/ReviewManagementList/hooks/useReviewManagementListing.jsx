@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchReviewManagementStart } from '../../../store/actions';
@@ -61,36 +61,38 @@ const useReviewManagementListing = (formValues = {}) => {
 			Header: 'Id',
 			accessor: 'reviewId',
 			filterable: true,
-			Cell: (cellProps) => <Id {...cellProps} />,
+			Cell: ({ cell }) => <Id value={cell.value} />,
 		},
 		{
 			Header: 'Username',
 			accessor: 'userName',
 			filterable: true,
-			Cell: (cellProps) => <UserName {...cellProps} />,
+			Cell: ({ cell }) => <UserName value={cell.value} />,
 		},
 		{
 			Header: 'Description',
 			accessor: 'description',
 			filterable: true,
-			Cell: (cellProps) => <Description {...cellProps} />,
+			Cell: ({ cell }) => <Description value={cell.value} />,
 		},
 		{
 			Header: 'Rating',
 			accessor: 'rating',
 			filterable: true,
-			Cell: (cellProps) => <Rating {...cellProps} />,
+			Cell: ({ cell }) => <Rating value={cell.value} />,
 		},
 		{
 			Header: 'Status',
 			accessor: 'status',
 			filterable: true,
-			Cell: (cellProps) => <Status {...cellProps} />,
+			disableSortBy: true,
+			Cell: ({ cell }) => <Status value={cell.value} />,
 		},
 		{
 			Header: 'Actions',
 			filterable: true,
-			Cell: (cellProps) => <Actions {...cellProps} />,
+			disableSortBy: true,
+			Cell: ({ cell }) => <Actions row={cell.row} />,
 		},
 	]);
 

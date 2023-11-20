@@ -64,6 +64,7 @@ const WageringTemplate = () => {
 				Header: 'ACTION',
 				accessor: 'action',
 				disableFilters: true,
+				disableSortBy: true,
 				Cell: ({ cell }) => (
 					<ActionButtons
 						cell={cell}

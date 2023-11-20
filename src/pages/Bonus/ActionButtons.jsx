@@ -1,14 +1,13 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ cell, handleStatus }) => {
+const ActionButtons = ({ row: { original }, handleStatus }) => {
 	const { isGranted } = usePermission();
-	const active = cell?.row?.original?.isActive;
-	const bonusId = cell?.row?.original?.bonusId;
+	const active = original?.isActive;
+	const bonusId = original?.bonusId;
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -61,7 +60,7 @@ const ActionButtons = ({ cell, handleStatus }) => {
 				<Link
 					to="#"
 					className="btn btn-sm btn-soft-info"
-					// onClick={(e) => handleEdit(e, cell?.row?.original)}
+					// onClick={(e) => handleEdit(e, original)}
 				>
 					<i className="mdi mdi-pencil-outline" id="edittooltip" />
 					<UncontrolledTooltip placement="top" target="edittooltip">
@@ -80,6 +79,16 @@ const ActionButtons = ({ cell, handleStatus }) => {
 			</li> */}
 		</ul>
 	);
+};
+
+ActionButtons.propTypes = {
+	row: PropTypes.shape({
+		original: PropTypes.shape({
+			bonusId: PropTypes.number.isRequired,
+			isActive: PropTypes.bool.isRequired,
+		}).isRequired,
+	}).isRequired,
+	handleStatus: PropTypes.func.isRequired,
 };
 
 export default ActionButtons;

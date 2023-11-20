@@ -1,19 +1,19 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Button, UncontrolledTooltip } from 'reactstrap';
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({
-	cell,
+	row: { original },
 	handleEditClick,
 	handleViewClick,
 	handleDeleteClick,
 }) => {
 	const { isGranted } = usePermission();
-	const emailTemplateId = cell?.row?.original?.emailTemplateId;
-	const type = cell?.row?.original?.type;
+	const emailTemplateId = original?.emailTemplateId;
+	const type = original?.type;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li data-bs-toggle="tooltip" data-bs-placement="top">
@@ -58,10 +58,15 @@ const ActionButtons = ({
 };
 
 ActionButtons.propTypes = {
-	cell: PropTypes.objectOf.isRequired,
 	handleEditClick: PropTypes.func.isRequired,
 	handleViewClick: PropTypes.func.isRequired,
 	handleDeleteClick: PropTypes.func.isRequired,
+	row: PropTypes.shape({
+		original: PropTypes.shape({
+			emailTemplateId: PropTypes.number.isRequired,
+			type: PropTypes.string.isRequired,
+		}).isRequired,
+	}).isRequired,
 };
 
 export default ActionButtons;

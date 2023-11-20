@@ -6,31 +6,31 @@ import PropTypes from 'prop-types';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 
-const CasinoGameId = ({ cell }) => (
+const CasinoGameId = ({ value }) => (
 	<Link to="/#" className="text-body">
-		{cell.value ? cell.value : ''}
+		{value ?? ''}
 	</Link>
 );
 
-const DeviceType = ({ cell }) => (cell.value ? cell.value : '');
+const DeviceType = ({ value }) => value ?? '';
 
-const GameSubCategoryId = ({ cell }) => (
+const GameSubCategoryId = ({ value }) => (
 	<Link to="/#" className="text-body fw-bold">
-		{cell.value ? cell.value : ''}
+		{value ?? ''}
 	</Link>
 );
 
-const Name = ({ cell }) => (cell.value ? cell.value : '');
+const Name = ({ value }) => value ?? '';
 
-const GameCategory = (cell) => (cell.value ? cell.value : '');
+const GameCategory = ({ value }) => value ?? '';
 
-const ImageUrl = ({ cell }) => {
+const ImageUrl = ({ value }) => {
 	const [isFits, setIsFits] = useState(false);
 	return (
 		<>
 			{isFits ? (
 				<Lightbox
-					mainSrc={cell.value}
+					mainSrc={value}
 					enableZoom={false}
 					onCloseRequest={() => {
 						setIsFits(!isFits);
@@ -49,53 +49,39 @@ const ImageUrl = ({ cell }) => {
 	);
 };
 
-const Status = ({ cell }) =>
-	cell.value ?? '' ? (
+const Status = ({ value }) =>
+	value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">In Active</Badge>
 	);
 
 GameSubCategoryId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 Status.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.bool.isRequired,
-	}).isRequired,
+	value: PropTypes.bool.isRequired,
 };
 
 ImageUrl.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 GameCategory.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 Name.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 DeviceType.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 CasinoGameId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 export {

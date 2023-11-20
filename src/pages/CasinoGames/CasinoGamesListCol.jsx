@@ -10,29 +10,29 @@ import 'react-image-lightbox/style.css';
 import DivLoader from '../../components/Common/Loader/divLoader';
 import { CustomToggleButton } from '../../helpers/customForms';
 
-const CasinoGameId = ({ cell }) => (
+const CasinoGameId = ({ value }) => (
 	<Link to="/#" className="text-body fw-bold">
-		{cell.value ?? ''}
+		{value ?? ''}
 	</Link>
 );
-const Name = ({ cell }) => cell.value ?? '';
+const Name = ({ value }) => value ?? '';
 
-const Provider = ({ cell }) => cell.value ?? '';
+const Provider = ({ value }) => value ?? '';
 
-const RTP = ({ cell }) => cell.value ?? '';
+const Rtp = ({ value }) => value ?? '';
 
-const SubCategory = ({ cell }) => cell.value ?? '';
+const SubCategory = ({ value }) => value ?? '';
 
-const ThumbnailUrl = ({ cell }) => {
-	const [isFits, setisFits] = useState(false);
+const ThumbnailUrl = ({ value }) => {
+	const [isFits, setIsFits] = useState(false);
 	return (
 		<>
 			{isFits ? (
 				<Lightbox
-					mainSrc={cell.value}
+					mainSrc={value}
 					enableZoom={false}
 					onCloseRequest={() => {
-						setisFits(!isFits);
+						setIsFits(!isFits);
 					}}
 				/>
 			) : null}
@@ -40,38 +40,32 @@ const ThumbnailUrl = ({ cell }) => {
 			<Button
 				color="link"
 				className="btn btn-link waves-effect"
-				onClick={() => setisFits(true)}
+				onClick={() => setIsFits(true)}
 			>
-				{cell.value ? 'View Here' : ''}
+				{value ? 'View Here' : ''}
 			</Button>
 		</>
 	);
 };
-const DeviceType = ({ cell }) => cell.value ?? '';
+const DeviceType = ({ value }) => value ?? '';
 
-const Status = ({ cell }) =>
-	cell.value ?? '' ? (
+const Status = ({ value }) =>
+	value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">In Active</Badge>
 	);
 
 CasinoGameId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.number.isRequired,
-	}).isRequired,
+	value: PropTypes.number.isRequired,
 };
 
 ThumbnailUrl.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string.isRequired,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 Status.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.bool.isRequired,
-	}).isRequired,
+	value: PropTypes.bool.isRequired,
 };
 
 const IsFeatured = ({ cellProps, toggleIsFeaturedGames }) => {
@@ -113,7 +107,7 @@ export {
 	CasinoGameId,
 	Name,
 	Provider,
-	RTP,
+	Rtp,
 	SubCategory,
 	ThumbnailUrl,
 	DeviceType,

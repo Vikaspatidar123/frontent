@@ -11,6 +11,10 @@ import {
 } from '../../../store/actions';
 
 const useCasinoGamesListings = (filterValues = {}) => {
+	const [page, setPage] = useState(1);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const dispatch = useDispatch();
+
 	const {
 		casinoGames,
 		isCasinoGamesLoading,
@@ -19,9 +23,6 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		isEditCasinoGamesSuccess,
 		isDeleteCasinoGamesSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
-	const [page, setPage] = useState(1);
-	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (isEmpty(casinoSubCategoryDetails)) {
@@ -116,6 +117,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 	};
 
 	return {
+		casinoGames,
 		formattedCasinoGames,
 		isCasinoGamesLoading,
 		itemsPerPage,

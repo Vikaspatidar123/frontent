@@ -6,6 +6,7 @@ import {
 	addGameToSubCategoryStart,
 	getCasinoGamesStart,
 } from '../../../store/actions';
+import { modules } from '../../../constants/permissions';
 
 const useCasinoAddGame = () => {
 	const dispatch = useDispatch();
@@ -88,6 +89,8 @@ const useCasinoAddGame = () => {
 			label: 'Submit',
 			handleClick: handleSubmitClick,
 			link: '#!',
+			module: modules.CasinoManagement,
+			operation: 'C',
 		},
 	]);
 

@@ -48,24 +48,25 @@ const CasinoAddGames = () => {
 				Header: 'ID',
 				accessor: 'casinoGameId',
 				filterable: true,
-				Cell: ({ cell }) => <CasinoGameId cell={cell} />,
+				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'name',
 				filterable: true,
-				Cell: ({ cell }) => <Name cell={cell} />,
+				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
 				Header: 'DEVICE TYPE',
 				accessor: 'devices',
 				filterable: true,
-				Cell: ({ cell }) => <DeviceType cell={cell} />,
+				Cell: ({ cell }) => <DeviceType value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
 				accessor: 'action',
 				disableFilters: true,
+				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const casinoGameId = cell?.row?.original.casinoGameId;
 					return (
@@ -99,24 +100,25 @@ const CasinoAddGames = () => {
 				Header: 'ID',
 				accessor: 'casinoGameId',
 				filterable: true,
-				Cell: ({ cell }) => <CasinoGameId cell={cell} />,
+				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'name',
 				filterable: true,
-				Cell: ({ cell }) => <Name cell={cell} />,
+				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
 				Header: 'DEVICE TYPE',
 				accessor: 'devices',
 				filterable: true,
-				Cell: ({ cell }) => <DeviceType cell={cell} />,
+				Cell: ({ cell }) => <DeviceType value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
 				accessor: 'action',
 				disableFilters: true,
+				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const casinoGameId = cell?.row?.original.casinoGameId;
 					return (

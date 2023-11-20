@@ -4,37 +4,30 @@ import { Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const GameCategoryId = (cell) => {
-	const { value = '' } = cell;
-	return (
+const GameCategoryId = ({ value }) => (
 		<Link to="#" className="text-body fw-bold">
-			{value || ''}
+			{value ?? ''}
 		</Link>
 	);
-};
-const Name = (cell) => (cell.value ? cell.value : '');
+const Name = ({ value }) => value ?? '';
 
-const CreatedAt = (cell) => (cell.value ? cell.value : '');
+const CreatedAt = ({ value }) => value ?? '';
 
-const UpdatedAt = (cell) => (cell.value ? cell.value : '');
+const UpdatedAt = ({ value }) => value ?? '';
 
-const Status = ({ cell }) =>
-	cell.value ?? '' ? (
+const Status = ({ value }) =>
+	value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">In Active</Badge>
 	);
 
 GameCategoryId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 Status.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.bool.isRequired,
-	}).isRequired,
+	value: PropTypes.bool.isRequired,
 };
 
 export { GameCategoryId, Name, CreatedAt, UpdatedAt, Status };

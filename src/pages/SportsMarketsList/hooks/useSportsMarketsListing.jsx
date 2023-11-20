@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSportsMarketsStart } from '../../../store/actions';
@@ -45,13 +46,13 @@ const useSportsMarketsListing = (filterValues = {}) => {
 				Header: 'Id',
 				accessor: 'marketId',
 				filterable: true,
-				Cell: (cellProps) => <Id {...cellProps} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'Name',
 				accessor: 'name',
 				filterable: true,
-				Cell: (cellProps) => <Name {...cellProps} />,
+				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 		],
 		[]

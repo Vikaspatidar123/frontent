@@ -1,35 +1,44 @@
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Id = (cell) => (cell.value ? cell.value : '');
+const Id = ({ value }) => value ?? '';
 
-const UserEmail = (cell) => (cell.value ? cell.value : '');
+const UserEmail = ({ value }) => value ?? '';
 
-const GameName = (cell) => (cell.value ? cell.value : '-');
+const GameName = ({ value }) => value ?? '-';
 
-const ActionType = (cell) => (cell.value ? cell.value : '');
+const ActionType = ({ value }) => value ?? '';
 
-const Amount = (cell) =>
-	cell.value ? (
-		<div className={cell.value.includes('-') ? 'text-danger' : 'text-success'}>
-			{cell.value}
+const Amount = ({ value }) =>
+	value ? (
+		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
+			{value}
 		</div>
 	) : (
 		'-'
 	);
 
-const BonusMoney = (cell) =>
-	cell.value ? (
-		<div className={cell.value.includes('-') ? 'text-danger' : 'text-success'}>
-			{cell.value}
+const BonusMoney = ({ value }) =>
+	value ? (
+		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
+			{value}
 		</div>
 	) : (
 		'-'
 	);
 
-const Status = (cell) => (cell.value ? cell.value : '');
+const Status = ({ value }) => value ?? '';
 
-const CreatedAt = (cell) => (cell.value ? cell.value : '');
+const CreatedAt = ({ value }) => value ?? '';
+
+Amount.protoTypes = {
+	value: PropTypes.string.isRequired,
+};
+
+BonusMoney.protoTypes = {
+	value: PropTypes.string.isRequired,
+};
 
 export {
 	Id,

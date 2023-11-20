@@ -3,33 +3,29 @@ import { Link } from 'react-router-dom';
 import { Badge } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-const SportId = ({ cell }) => (
+const SportId = ({ value }) => (
 	<Link to="/" className="text-body fw-bold">
-		{cell.value ?? ''}
+		{value ?? ''}
 	</Link>
 );
 
-const SportName = ({ cell }) => cell.value ?? '';
+const SportName = ({ value }) => value ?? '';
 
-const Status = ({ cell }) =>
-	cell.value ? (
+const Status = ({ value }) =>
+	value ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
 		<Badge className="bg-danger">In Active</Badge>
 	);
 
-const Icon = ({ cell }) => cell.value ?? '';
+const Icon = ({ value }) => value ?? '';
 
 SportId.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string,
-	}).isRequired,
+	value: PropTypes.string.isRequired,
 };
 
 Status.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.bool,
-	}).isRequired,
+	value: PropTypes.bool.isRequired,
 };
 
 export { SportId, SportName, Status, Icon };
