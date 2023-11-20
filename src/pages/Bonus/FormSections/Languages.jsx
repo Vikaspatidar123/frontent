@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Col, Row } from 'reactstrap';
 import TabsPage from '../../../components/Common/TabsPage';
 import {
@@ -14,10 +14,10 @@ const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
 				placeholder="Enter Promotion Title"
 				label="Promotion Title"
 				value={langContent.promoTitle[lang]}
-				onChange={(value) =>
+				onChange={(e) =>
 					setLangContent((prev) => ({
 						...prev,
-						promoTitle: { ...prev.promoTitle, [lang]: value },
+						promoTitle: { ...prev.promoTitle, [lang]: e.target.value },
 					}))
 				}
 			/>
@@ -57,15 +57,24 @@ const Languages = ({
 	langList,
 	langContent,
 	setLangContent,
+	disableTabSwitching,
+	isNext,
+	setNextPressed,
+	setActiveTab,
 }) => {
-	const toggle = (id) => setActiveLangTab(id);
+	useEffect(() => {
+		if (isNext) {
+			setActiveTab(3);
+			setNextPressed('');
+		}
+	}, [isNext]);
+
+	const toggle = (id) => !disableTabSwitching && setActiveLangTab(id);
 
 	const tabData = useMemo(() => {
 		const langArray =
 			Object.keys(langList).filter((lang) => lang !== 'EN') || [];
-		if (langArray.length) {
-			setActiveLangTab(langArray[0]);
-		}
+
 		return langArray.map((lang) => ({
 			id: lang,
 			title: lang,
@@ -80,6 +89,12 @@ const Languages = ({
 		}));
 	}, [langList]);
 
+	useEffect(() => {
+		if (tabData.length) {
+			setActiveLangTab(tabData[0]?.id);
+		}
+	}, [tabData]);
+
 	return (
 		<Row>
 			<Row className="text-danger">
@@ -93,6 +108,7 @@ const Languages = ({
 					activeTab={activeLangTab}
 					tabsData={tabData}
 					toggle={toggle}
+					disableTabSwitching={disableTabSwitching}
 				/>
 			</Col>
 		</Row>

@@ -80,7 +80,7 @@ const useCreateBonus = () => {
 		},
 	]);
 
-	const freespinsBonusSteps = [
+	const tabData = [
 		{
 			id: 1,
 			title: 'General',
@@ -92,6 +92,7 @@ const useCreateBonus = () => {
 					setNextPressed={setNextPressed}
 					setAllFields={setAllFields}
 					setSelectedBonus={setSelectedBonus}
+					setLangContent={setLangContent}
 				/>
 			),
 		},
@@ -105,6 +106,10 @@ const useCreateBonus = () => {
 					langContent={langContent}
 					activeLangTab={activeLangTab}
 					setActiveLangTab={setActiveLangTab}
+					disableTabSwitching={isNextDisabled}
+					isNext={nextPressed === 2}
+					setNextPressed={setNextPressed}
+					setActiveTab={setActiveTab}
 				/>
 			),
 		},
@@ -112,16 +117,19 @@ const useCreateBonus = () => {
 			id: 3,
 			title: 'Currency',
 			component: <div />,
+			isHidden: ['promotion'].includes(selectedBonus),
 		},
 		{
 			id: 4,
 			title: 'Wagering Contribution',
 			component: <div />,
+			isHidden: ['promotion'].includes(selectedBonus),
 		},
 		{
 			id: 5,
 			title: 'Games',
 			component: <div />,
+			isHidden: ['promotion', 'deposit'].includes(selectedBonus),
 		},
 		{
 			id: 6,
@@ -129,99 +137,6 @@ const useCreateBonus = () => {
 			component: <div />,
 		},
 	];
-
-	const promotionBonusSteps = [
-		{
-			id: 1,
-			title: 'General',
-			component: (
-				<General
-					activeTab={activeTab}
-					isNext={nextPressed === 1}
-					setActiveTab={setActiveTab}
-					setNextPressed={setNextPressed}
-					setAllFields={setAllFields}
-					setSelectedBonus={setSelectedBonus}
-				/>
-			),
-		},
-		{
-			id: 2,
-			title: 'Languages',
-			component: (
-				<Languages
-					activeLangTab={activeLangTab}
-					setActiveLangTab={setActiveLangTab}
-					langList={langList}
-					setLangContent={setLangContent}
-					langContent={langContent}
-				/>
-			),
-		},
-		{
-			id: 3,
-			title: 'Countries',
-			component: <div />,
-		},
-	];
-
-	const depositBonusSteps = [
-		{
-			id: 1,
-			title: 'General',
-			component: (
-				<General
-					activeTab={activeTab}
-					isNext={nextPressed === 1}
-					setActiveTab={setActiveTab}
-					setNextPressed={setNextPressed}
-					setAllFields={setAllFields}
-					setSelectedBonus={setSelectedBonus}
-				/>
-			),
-		},
-		{
-			id: 2,
-			title: 'Languages',
-			component: (
-				<Languages
-					activeLangTab={activeLangTab}
-					setActiveLangTab={setActiveLangTab}
-					langList={langList}
-					setLangContent={setLangContent}
-					langContent={langContent}
-				/>
-			),
-		},
-		{
-			id: 3,
-			title: 'Currency',
-			component: <div />,
-		},
-		{
-			id: 4,
-			title: 'Wagering Contribution',
-			component: <div />,
-		},
-		{
-			id: 5,
-			title: 'Countries',
-			component: <div />,
-		},
-	];
-
-	const tabData = useMemo(() => {
-		switch (selectedBonus) {
-			case 'deposit':
-				return depositBonusSteps;
-			case 'promotion':
-				return promotionBonusSteps;
-			case 'freespins':
-				return freespinsBonusSteps;
-			default:
-				return [];
-		}
-	});
 
 	return {
 		tabData,

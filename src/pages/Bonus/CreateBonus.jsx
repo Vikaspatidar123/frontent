@@ -30,6 +30,7 @@ const CreateBonus = () => {
 					toggleTab={toggleTab}
 					onNextClick={onNextClick}
 					isNextDisabled={isNextDisabled}
+					isPrevDisabled={isNextDisabled}
 				/>
 			</Container>
 		</div>

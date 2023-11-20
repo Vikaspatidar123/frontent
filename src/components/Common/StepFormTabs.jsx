@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
 	Button,
 	Card,
@@ -21,78 +21,93 @@ const StepFormTabs = ({
 	passedSteps,
 	onNextClick,
 	isNextDisabled,
-}) => (
-	<Row>
-		<Col lg="12">
-			<Card>
-				<CardBody>
-					<h4 className="card-title mb-4">{title}</h4>
-					<div className="wizard clearfix">
-						<div className="steps clearfix">
-							<ul>
-								{tabsData?.map((tab, idx) => (
-									<NavItem
-										className={classnames({ current: activeTab === tab.id })}
-									>
-										<NavLink
+	isPrevDisabled,
+}) => {
+	const tabsToShow = useMemo(
+		() => tabsData.filter((tab) => !tab.isHidden),
+		[tabsData]
+	);
+
+	return (
+		<Row>
+			<Col lg="12">
+				<Card>
+					<CardBody>
+						<h4 className="card-title mb-4">{title}</h4>
+						<div className="wizard clearfix">
+							<div className="steps clearfix">
+								<ul>
+									{tabsToShow?.map((tab, idx) => (
+										<NavItem
 											className={classnames({ current: activeTab === tab.id })}
-											onClick={() => {
-												toggleTab(tab.id);
-											}}
-											disabled={!(passedSteps || []).includes(tab.id)}
 										>
-											<span className="number">{idx + 1}.</span> {tab.title}
-										</NavLink>
-									</NavItem>
-								))}
-							</ul>
-						</div>
-						<div className="content clearfix">
-							<TabContent activeTab={activeTab} className="body">
-								{tabsData?.map((tab) => (
-									<TabPane tabId={tab.id}>{tab.component}</TabPane>
-								))}
-							</TabContent>
-						</div>
-						<div className="actions clearfix">
-							<ul>
-								<li
-									className={activeTab === 1 ? 'previous disabled' : 'previous'}
-								>
-									<Button
-										disabled={activeTab === 1}
-										onClick={() => {
-											toggleTab(activeTab - 1);
-										}}
+											<NavLink
+												className={classnames({
+													current: activeTab === tab.id,
+												})}
+												onClick={() => {
+													toggleTab(tab.id);
+												}}
+												disabled={!(passedSteps || []).includes(tab.id)}
+											>
+												<span className="number">{idx + 1}</span> {tab.title}
+											</NavLink>
+										</NavItem>
+									))}
+								</ul>
+							</div>
+							<div className="content clearfix">
+								<TabContent activeTab={activeTab} className="body">
+									{tabsData?.map((tab) => (
+										<TabPane tabId={tab.id}>{tab.component}</TabPane>
+									))}
+								</TabContent>
+							</div>
+							<div className="actions clearfix">
+								<ul>
+									<li
+										className={
+											activeTab === 1 ? 'previous disabled' : 'previous'
+										}
 									>
-										Previous
-									</Button>
-								</li>
-								<li
-									className={
-										activeTab === tabsData?.length ? 'next disabled' : 'next'
-									}
-								>
-									<Button
-										disabled={activeTab === tabsData?.length || isNextDisabled}
-										onClick={() => {
-											onNextClick(activeTab);
-										}}
+										<Button
+											disabled={activeTab === 1 || isPrevDisabled}
+											onClick={() => {
+												toggleTab(activeTab - 1);
+											}}
+										>
+											Previous
+										</Button>
+									</li>
+									<li
+										className={
+											activeTab === tabsData?.length ? 'next disabled' : 'next'
+										}
 									>
-										Next
-									</Button>
-								</li>
-							</ul>
+										<Button
+											disabled={
+												activeTab === tabsData?.length || isNextDisabled
+											}
+											onClick={() => {
+												onNextClick(activeTab);
+											}}
+										>
+											Next
+										</Button>
+									</li>
+								</ul>
+							</div>
 						</div>
-					</div>
-				</CardBody>
-			</Card>
-		</Col>
-	</Row>
-);
+					</CardBody>
+				</Card>
+			</Col>
+		</Row>
+	);
+};
 
 StepFormTabs.defaultProps = {
 	isNextDisabled: false,
+	isPrevDisabled: false,
 };
 
 StepFormTabs.propTypes = {
@@ -107,6 +122,7 @@ StepFormTabs.propTypes = {
 	).isRequired,
 	onNextClick: PropTypes.func.isRequired,
 	isNextDisabled: PropTypes.bool,
+	isPrevDisabled: PropTypes.bool,
 };
 
 export default StepFormTabs;

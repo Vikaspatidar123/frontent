@@ -14,7 +14,7 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-const TabsPage = ({ activeTab, tabsData, toggle }) => (
+const TabsPage = ({ activeTab, tabsData, toggle, disableTabSwitching }) => (
 	<div>
 		<Row>
 			<Col>
@@ -31,6 +31,7 @@ const TabsPage = ({ activeTab, tabsData, toggle }) => (
 											onClick={() => {
 												toggle(tab.id);
 											}}
+											disabled={disableTabSwitching}
 										>
 											{tab.title}
 										</NavLink>
@@ -62,6 +63,10 @@ const TabsPage = ({ activeTab, tabsData, toggle }) => (
 	</div>
 );
 
+TabsPage.defaultProps = {
+	disableTabSwitching: false,
+};
+
 TabsPage.propTypes = {
 	tabsData: PropTypes.arrayOf(
 		PropTypes.objectOf(
@@ -71,6 +76,7 @@ TabsPage.propTypes = {
 	activeTab: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 		.isRequired,
 	toggle: PropTypes.func.isRequired,
+	disableTabSwitching: PropTypes.bool,
 };
 
 export default TabsPage;

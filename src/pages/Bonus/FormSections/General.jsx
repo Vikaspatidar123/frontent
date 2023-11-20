@@ -21,11 +21,17 @@ const General = ({
 	setNextPressed,
 	setAllFields,
 	setSelectedBonus,
+	setLangContent,
 }) => {
 	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
 	const handleSubmit = (values) => {
 		setAllFields((prev) => ({ ...prev, ...values }));
 		setActiveTab(2);
+		setLangContent((prev) => ({
+			promoTitle: { ...prev.promoTitle, EN: values.promotionTitle },
+			terms: { ...prev.terms, EN: values.termCondition },
+			desc: { ...prev.desc, EN: values.description },
+		}));
 	};
 
 	const { formFields, setFormFields, validation } = useForm({
