@@ -11,6 +11,9 @@ import {
 	EDIT_WAGERING_TEMPLATE_DETAILS,
 	EDIT_WAGERING_TEMPLATE_DETAILS_SUCCESS,
 	EDIT_WAGERING_TEMPLATE_DETAILS_FAIL,
+	GET_ALL_SA_WAGERING_TEMPLATES,
+	GET_ALL_SA_WAGERING_TEMPLATES_SUCCESS,
+	GET_ALL_SA_WAGERING_TEMPLATES_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -26,6 +29,9 @@ const INIT_STATE = {
 	editWageringTemplateDetailLoading: false,
 	editWageringTemplateDetailError: null,
 	editWageringTemplateDetailSuccess: false,
+	allSAWageringTemplates: null,
+	getAllSAWageringTemplatesLoading: false,
+	getAllSAWageringTemplatesError: false,
 };
 
 const WageringTemplate = (state = INIT_STATE, { type, payload } = {}) => {
@@ -114,6 +120,27 @@ const WageringTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				editWageringTemplateDetailError: payload,
 				editWageringTemplateDetailLoading: true,
 				editWageringTemplateDetailSuccess: false,
+			};
+
+		case GET_ALL_SA_WAGERING_TEMPLATES:
+			return {
+				...state,
+				getAllSAWageringTemplatesLoading: true,
+			};
+
+		case GET_ALL_SA_WAGERING_TEMPLATES_SUCCESS:
+			return {
+				...state,
+				getAllSAWageringTemplatesLoading: false,
+				allSAWageringTemplates: payload,
+				getAllSAWageringTemplatesError: null,
+			};
+
+		case GET_ALL_SA_WAGERING_TEMPLATES_FAIL:
+			return {
+				...state,
+				getAllSAWageringTemplatesError: payload,
+				getAllSAWageringTemplatesLoading: false,
 			};
 
 		default:
