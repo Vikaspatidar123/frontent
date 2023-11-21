@@ -5,6 +5,7 @@ import {
 	permissionIcons,
 	permissionLabel,
 } from '../../../constants/permissions';
+import checkIcon from '../../../assets/images/small/check.svg';
 
 const Permissions = ({ details }) => (
 	<Row>
@@ -36,7 +37,7 @@ const Permissions = ({ details }) => (
 															</p>
 															<img
 																width={16}
-																src="/src/assets/images/small/check.svg"
+																src={checkIcon}
 																className="check-img"
 																alt="Check"
 															/>
