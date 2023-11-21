@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { CustomInputField } from '../../helpers/customForms';
 import { showToastr } from '../../utils/helpers';
 import { permissionIcons, permissionLabel } from '../../constants/permissions';
+import { initialValueInstance } from './formDetails';
 
 const PermissionForm = ({
 	values,
@@ -101,12 +102,17 @@ const PermissionForm = ({
 
 PermissionForm.defaultProps = {
 	isEdit: false,
+	values: {},
+	// adminDetails : {},
+	// superAdminUser : {},
 };
 
 PermissionForm.propTypes = {
-	values: PropTypes.objectOf.isRequired,
-	adminDetails: PropTypes.objectOf.isRequired,
-	superAdminUser: PropTypes.objectOf.isRequired,
+	values: PropTypes.shape(initialValueInstance),
+	adminDetails: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+		.isRequired,
+	superAdminUser: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+		.isRequired,
 	validation: PropTypes.objectOf.isRequired,
 	isEdit: PropTypes.bool,
 };

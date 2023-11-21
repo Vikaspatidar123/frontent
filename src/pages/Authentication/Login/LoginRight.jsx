@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -247,6 +248,11 @@ Login.defaultProps = {
 
 Login.propTypes = {
 	navigate: PropTypes.func,
-	router: PropTypes.objectOf,
-	// history: PropTypes.objectOf,
+	router: PropTypes.shape({
+		location: PropTypes.shape({
+			pathname: PropTypes.string.isRequired,
+			search: PropTypes.string.isRequired,
+		}).isRequired,
+		navigate: PropTypes.func.isRequired,
+	}),
 };

@@ -24,14 +24,14 @@ const Authmiddleware = ({ children, location }) => {
 	return children;
 };
 
-Authmiddleware.defaultState = {
+Authmiddleware.defaultProps = {
 	children: <div />,
 	location: '',
 };
 
 Authmiddleware.propTypes = {
-	children: PropTypes.element.isRequired,
-	location: PropTypes.string.isRequired,
+	children: PropTypes.element,
+	location: PropTypes.string,
 };
 
 export default Authmiddleware;

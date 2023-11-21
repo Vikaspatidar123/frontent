@@ -140,7 +140,7 @@ FormPage.defaultProps = {
 };
 
 FormPage.propTypes = {
-	validation: PropTypes.objectOf,
+	validation: PropTypes.objectOf(PropTypes.string),
 	leftFormFields: PropTypes.arrayOf.isRequired,
 	rightFormFields: PropTypes.arrayOf.isRequired,
 	staticFormFields: PropTypes.arrayOf,
