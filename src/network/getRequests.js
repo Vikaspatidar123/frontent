@@ -193,6 +193,8 @@ const getBonusCurrenciesConvertAmount = ({
 			currencyFields
 		)}&currentCurrencyCode=${currencyCode}&tenantIds=${tenantIds}`
 	);
+const getSuperAdminAllWageringTemplate = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/wagering-template/all`);
 
 export {
 	getAllCurrencies,
@@ -249,4 +251,5 @@ export {
 	getEmailTemplate,
 	getSportsMatchesDetailApi,
 	getBonusCurrenciesConvertAmount,
+	getSuperAdminAllWageringTemplate,
 };
