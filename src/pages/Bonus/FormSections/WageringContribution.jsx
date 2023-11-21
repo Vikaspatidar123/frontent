@@ -18,19 +18,19 @@ const columns = [
 	{
 		Header: 'NAME',
 		accessor: 'name',
-		filterable: true,
+		disableSortBy: true,
 		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
 	},
 	{
 		Header: 'RTP',
 		accessor: 'rtp',
-		filterable: true,
+		disableSortBy: true,
 		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
 	},
 	{
 		Header: 'WAGERING CONTRIBUTION',
 		accessor: 'contribution',
-		filterable: true,
+		disableSortBy: true,
 		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
 	},
 ];
