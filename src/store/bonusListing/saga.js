@@ -7,10 +7,19 @@ import {
 	getBonusDetailsFail,
 	updateSABonusStatusSuccess,
 	updateSABonusStatusFail,
+	getBonusCurrencyConversionsSuccess,
+	getBonusCurrencyConversionsFail,
 } from './actions';
-import { GET_BONUS_DETAILS_DATA, UPDATE_SA_BONUS_STATUS } from './actionTypes';
+import {
+	GET_BONUS_CURRENCY_CONVERSION,
+	GET_BONUS_DETAILS_DATA,
+	UPDATE_SA_BONUS_STATUS,
+} from './actionTypes';
 
-import { getAllBonus } from '../../network/getRequests';
+import {
+	getAllBonus,
+	getBonusCurrenciesConvertAmount,
+} from '../../network/getRequests';
 import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { showToastr, clearEmptyProperty } from '../../utils/helpers';
 
@@ -65,9 +74,28 @@ function* updateSABonusStatusWorker(action) {
 	}
 }
 
+function* getBonusCurrencyConversionsWorker(action) {
+	try {
+		let payload = action && action.payload;
+		payload = clearEmptyProperty(payload);
+		const { data } = yield getBonusCurrenciesConvertAmount(payload);
+		yield put(getBonusCurrencyConversionsSuccess(data?.data?.currenciesAmount));
+	} catch (error) {
+		yield put(
+			getBonusCurrencyConversionsFail(
+				error?.response?.data?.errors[0]?.description
+			)
+		);
+	}
+}
+
 export function* watchBonusData() {
 	yield takeLatest(GET_BONUS_DETAILS_DATA, getBonusListingWorker);
 	yield takeLatest(UPDATE_SA_BONUS_STATUS, updateSABonusStatusWorker);
+	yield takeLatest(
+		GET_BONUS_CURRENCY_CONVERSION,
+		getBonusCurrencyConversionsWorker
+	);
 }
 
 function* BonusDetailsSaga() {

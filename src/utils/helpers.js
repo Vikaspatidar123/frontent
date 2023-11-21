@@ -37,7 +37,6 @@ const clearEmptyProperty = (payload = {}) =>
 		)
 	);
 
-
 const getDateDaysAgo = (days) => {
 	const now = new Date();
 	now.setDate(now.getDate() - days);
@@ -54,4 +53,11 @@ const formatDateYMD = (date) => {
 
 	return [year, month, day].join('-');
 };
-export { safeStringify, showToastr, getDateDaysAgo, formatDateYMD, clearEmptyProperty };
+
+export {
+	safeStringify,
+	showToastr,
+	getDateDaysAgo,
+	formatDateYMD,
+	clearEmptyProperty,
+};
