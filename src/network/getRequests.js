@@ -1,3 +1,4 @@
+import { safeStringify } from '../utils/helpers';
 import { getRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
@@ -182,6 +183,17 @@ const getSportsMatchesDetailApi = ({ matchId = '' }) =>
 		`${VITE_APP_API_URL}/api/admin/sportsbook/match-markets?matchId=${matchId}`
 	);
 
+const getBonusCurrenciesConvertAmount = ({
+	currencyFields,
+	currencyCode,
+	tenantIds,
+}) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/bonus/convert-amount?currencyFields=${safeStringify(
+			currencyFields
+		)}&currentCurrencyCode=${currencyCode}&tenantIds=${tenantIds}`
+	);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -236,4 +248,5 @@ export {
 	getEmailTypes,
 	getEmailTemplate,
 	getSportsMatchesDetailApi,
+	getBonusCurrenciesConvertAmount,
 };

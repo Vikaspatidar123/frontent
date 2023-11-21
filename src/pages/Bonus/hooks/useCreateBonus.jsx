@@ -4,13 +4,17 @@ import General from '../FormSections/General';
 import { modules } from '../../../constants/permissions';
 import Languages from '../FormSections/Languages';
 import { getSiteConfiguration } from '../../../network/getRequests';
+import Currencies from '../FormSections/Currency';
+import { getCreateBonusInitialValues } from '../formDetails';
 
 const useCreateBonus = () => {
 	const navigate = useNavigate();
 	const [activeLangTab, setActiveLangTab] = useState('');
 	const [selectedBonus, setSelectedBonus] = useState('deposit');
-	const [activeTab, setActiveTab] = useState(1);
-	const [allFields, setAllFields] = useState({});
+	const [activeTab, setActiveTab] = useState(3);
+	const [allFields, setAllFields] = useState(
+		getCreateBonusInitialValues() || {}
+	);
 	const [langList, setLangList] = useState({});
 	const [nextPressed, setNextPressed] = useState('');
 	const [langContent, setLangContent] = useState({
@@ -110,13 +114,23 @@ const useCreateBonus = () => {
 					isNext={nextPressed === 2}
 					setNextPressed={setNextPressed}
 					setActiveTab={setActiveTab}
+					setAllFields={setAllFields}
 				/>
 			),
 		},
 		{
 			id: 3,
 			title: 'Currency',
-			component: <div />,
+			component: (
+				<Currencies
+					setActiveTab={setActiveTab}
+					setNextPressed={setNextPressed}
+					setAllFields={setAllFields}
+					allFields={allFields}
+					selectedBonus={selectedBonus}
+					isNext={nextPressed === 3}
+				/>
+			),
 			isHidden: ['promotion'].includes(selectedBonus),
 		},
 		{

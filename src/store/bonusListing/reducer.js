@@ -5,6 +5,9 @@ import {
 	UPDATE_SA_BONUS_STATUS,
 	UPDATE_SA_BONUS_STATUS_SUCCESS,
 	UPDATE_SA_BONUS_STATUS_FAIL,
+	GET_BONUS_CURRENCY_CONVERSION,
+	GET_BONUS_CURRENCY_CONVERSION_SUCCESS,
+	GET_BONUS_CURRENCY_CONVERSION_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -14,6 +17,16 @@ const INIT_STATE = {
 	isUpdateSABonusStatusLoading: false,
 	isUpdateSABonusStatusError: null,
 	isUpdateSABonusStatusSuccess: false,
+	bonusCurrencies: {
+		EUR: {
+			maxBonusThreshold: '',
+			minDeposit: '',
+			maxWinAmount: '',
+			zeroOutThreshold: '',
+			minBalance: '',
+			joiningAmount: '',
+		},
+	},
 };
 
 const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -59,6 +72,27 @@ const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				isUpdateSABonusStatusLoading: false,
 				isUpdateSABonusStatusError: payload,
 				isUpdateSABonusStatusSuccess: false,
+			};
+
+		case GET_BONUS_CURRENCY_CONVERSION:
+			return {
+				...state,
+				isLoading: false,
+			};
+
+		case GET_BONUS_CURRENCY_CONVERSION_SUCCESS:
+			return {
+				...state,
+				isLoading: true,
+				bonusCurrencies: payload,
+				error: null,
+			};
+
+		case GET_BONUS_CURRENCY_CONVERSION_FAIL:
+			return {
+				...state,
+				error: payload,
+				isLoading: true,
 			};
 
 		default:

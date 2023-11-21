@@ -25,4 +25,14 @@ const bonusTypes = [
 	{ label: 'PROMOTION', value: 'promotion', id: 3 },
 ];
 
-export { types, bonusTypes, daysOfWeek };
+const convertAmountOptions = [
+	{ label: 'Max Bonus Claimed', value: 'maxBonusThreshold' },
+	{ label: 'Min Deposit', value: 'minDeposit' },
+	{ label: 'Max Win Amount', value: 'maxWinAmount' },
+	{ label: 'Zero Out Threshold', value: 'zeroOutThreshold' },
+	{ label: 'Min Wallet Balance', value: 'minBalance' },
+	{ label: 'Max Allowed Balance', value: 'minBalanceCash' },
+	{ label: 'Joining Bonus', value: 'joiningAmount' },
+];
+
+export { types, bonusTypes, daysOfWeek, convertAmountOptions };
