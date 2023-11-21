@@ -4,12 +4,13 @@ import General from '../FormSections/General';
 import { modules } from '../../../constants/permissions';
 import Languages from '../FormSections/Languages';
 import { getSiteConfiguration } from '../../../network/getRequests';
+import WageringContribution from '../FormSections/WageringContribution';
 
 const useCreateBonus = () => {
 	const navigate = useNavigate();
 	const [activeLangTab, setActiveLangTab] = useState('');
 	const [selectedBonus, setSelectedBonus] = useState('deposit');
-	const [activeTab, setActiveTab] = useState(1);
+	const [activeTab, setActiveTab] = useState(4);
 	const [allFields, setAllFields] = useState({});
 	const [langList, setLangList] = useState({});
 	const [nextPressed, setNextPressed] = useState('');
@@ -122,7 +123,14 @@ const useCreateBonus = () => {
 		{
 			id: 4,
 			title: 'Wagering Contribution',
-			component: <div />,
+			component: (
+				<WageringContribution
+					isNext={nextPressed === 4}
+					setNextPressed={setNextPressed}
+					setActiveTab={setActiveTab}
+					setAllFields={setAllFields}
+				/>
+			),
 			isHidden: ['promotion'].includes(selectedBonus),
 		},
 		{

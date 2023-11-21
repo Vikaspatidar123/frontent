@@ -182,6 +182,9 @@ const getSportsMatchesDetailApi = ({ matchId = '' }) =>
 		`${VITE_APP_API_URL}/api/admin/sportsbook/match-markets?matchId=${matchId}`
 	);
 
+const getSuperAdminAllWageringTemplate = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/wagering-template/all`);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -236,4 +239,5 @@ export {
 	getEmailTypes,
 	getEmailTemplate,
 	getSportsMatchesDetailApi,
+	getSuperAdminAllWageringTemplate,
 };
