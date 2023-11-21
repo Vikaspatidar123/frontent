@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 
 // Add staff and edit staff
 const getInitialValues = (defaultValue) => ({
@@ -12,6 +13,17 @@ const getInitialValues = (defaultValue) => ({
 	permission: defaultValue?.userPermission?.permission || {},
 	group: defaultValue?.group || null,
 });
+const initialValueInstance = {
+	email: PropTypes.string,
+	password: PropTypes.string,
+	adminUsername: PropTypes.string,
+	firstName: PropTypes.string,
+	lastName: PropTypes.string,
+	role: PropTypes.string,
+	adminId: PropTypes.string,
+	permission: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+	group: PropTypes.string,
+};
 
 const validationSchema = (isEdit) =>
 	Yup.object({
@@ -149,4 +161,5 @@ export {
 	staticFiltersFields,
 	filterValues,
 	filterValidationSchema,
+	initialValueInstance,
 };

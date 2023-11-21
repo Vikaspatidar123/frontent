@@ -13,6 +13,7 @@ const CrudSection = ({ title, buttonList }) => {
 				<div className="flex-shrink-0">
 					{buttonList.map(({ link, handleClick, label, module, operation }) => (
 						<Link
+							key={link}
 							hidden={!isGranted(module, operation)}
 							to={link}
 							onClick={handleClick}
@@ -29,7 +30,15 @@ const CrudSection = ({ title, buttonList }) => {
 
 CrudSection.propTypes = {
 	title: PropTypes.string.isRequired,
-	buttonList: PropTypes.arrayOf.isRequired,
+	buttonList: PropTypes.arrayOf(
+		PropTypes.shape({
+			label: PropTypes.string,
+			handleClick: PropTypes.func,
+			link: PropTypes.string,
+			module: PropTypes.string,
+			operation: PropTypes.string,
+		})
+	).isRequired,
 };
 
 export default CrudSection;

@@ -151,10 +151,14 @@ const SidebarContent = ({ t }) => {
 							return null;
 						}
 						if (nav?.isSeparator) {
-							return <li className="menu-title">{nav.title} </li>;
+							return (
+								<li className="menu-title" key={nav?.id}>
+									{nav.title}{' '}
+								</li>
+							);
 						}
 						return (
-							<li>
+							<li key={nav?.id}>
 								<Link to={nav.link} className={nav.linkClass}>
 									<i className={nav.iconName} />
 									<span className={nav.spanClass}>{t(nav.label)}</span>
@@ -162,7 +166,7 @@ const SidebarContent = ({ t }) => {
 								{nav?.subMenu?.length && (
 									<ul className="sub-menu">
 										{nav?.subMenu?.map((sub) => (
-											<li>
+											<li key={sub?.link}>
 												<Link to={sub.link}>{t(sub.label)}</Link>
 											</li>
 										))}

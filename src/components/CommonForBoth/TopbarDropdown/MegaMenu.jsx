@@ -24,12 +24,12 @@ const MegaMenu = () => {
 					<Col sm={12}>
 						<Row>
 							{getMegaMenuElement()?.map((nav) => (
-								<Col md={2}>
+								<Col md={2} key={nav.label}>
 									<h5 className="font-size-14 mt-0">{nav?.label}</h5>
 									{nav?.subMenu?.length && (
 										<ul className="list-unstyled megamenu-list">
 											{nav?.subMenu?.map((sub) => (
-												<li>
+												<li key={sub.link}>
 													<Link to={sub.link}>{sub.label}</Link>
 												</li>
 											))}
