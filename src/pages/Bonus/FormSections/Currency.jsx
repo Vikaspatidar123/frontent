@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import React, { useEffect } from 'react';
-import { Col, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { CustomInputField } from '../../../helpers/customForms';
 import { getBonusCurrencyConversions } from '../../../store/actions';
@@ -120,18 +120,16 @@ const Currencies = ({
 
 	return (
 		<>
-			<Row>
-				<Col
-					sm={1}
-					className="d-flex kustify-content-center align-items-center"
-				>
-					<button
+			<Row className="d-flex justify-content-end align-items-end mb-2">
+				<Col sm={1}>
+					<Button
 						type="submit"
 						className="float-right"
 						onClick={() => fetchData()}
+						title="Fetch Currency"
 					>
-						getValues
-					</button>
+						<i className="dripicons-dots-3" />
+					</Button>
 				</Col>
 			</Row>
 			{validation &&
