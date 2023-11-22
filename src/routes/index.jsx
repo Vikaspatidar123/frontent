@@ -49,6 +49,7 @@ import CreateEmailTemplate from '../pages/EmailTemplate/CreateEmailTemplate';
 import EditEmailTemplate from '../pages/EmailTemplate/EditEmailTemplate';
 import SportsMatchDetail from '../pages/SportsMatchDetail';
 import LoginRight from '../pages/Authentication/Login/LoginRight';
+import ViewRestrictedGames from '../pages/ViewRestrictedGames';
 
 const authProtectedRoutes = [
 	{ path: '/', component: <DashboardView /> },
@@ -67,6 +68,10 @@ const authProtectedRoutes = [
 		component: <CasinoAddGames />,
 	},
 	{ path: '/countries', component: <CountriesList /> },
+	{
+		path: '/countries/restricted-games/:countryId',
+		component: <ViewRestrictedGames />,
+	},
 	{ path: '/users', component: <PlayersList /> },
 
 	{ path: '/cms', component: <Cms /> },

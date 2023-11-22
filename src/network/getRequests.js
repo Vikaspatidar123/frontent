@@ -196,6 +196,12 @@ const getBonusCurrenciesConvertAmount = ({
 const getSuperAdminAllWageringTemplate = () =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/wagering-template/all`);
 
+const getRestrictedItems = (data) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/country/restricted-items`, data);
+
+const getUnrestrictedItems = (data) =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/country/unrestricted-items`, data);
+
 export {
 	getAllCurrencies,
 	getAdminRole,
@@ -252,4 +258,6 @@ export {
 	getSportsMatchesDetailApi,
 	getBonusCurrenciesConvertAmount,
 	getSuperAdminAllWageringTemplate,
+	getRestrictedItems,
+	getUnrestrictedItems,
 };
