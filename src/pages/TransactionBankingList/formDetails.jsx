@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import moment from 'moment';
 import { statusType, transactionType } from './constants';
 
 const staticFiltersFields = () => [
@@ -55,12 +56,15 @@ const staticFiltersFields = () => [
 	},
 ];
 
+const startDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
+const endDate = new Date(); // Do not define it inside filterValue function
+
 const filterValues = () => ({
 	paymentProvider: '',
 	status: null,
 	actioneeType: null,
-	startDate: null,
-	endDate: null,
+	startDate,
+	endDate,
 	currencyCode: null,
 	transactionType: null,
 });
