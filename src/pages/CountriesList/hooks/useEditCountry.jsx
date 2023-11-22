@@ -2,7 +2,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useMemo } from 'react';
 
-import { useNavigate } from 'react-router-dom';
 import {
 	getInitialValues,
 	staticFormFields,
@@ -22,7 +21,6 @@ import useCountriesListing from './useCountriesListing';
 
 const useEditCountry = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const {
 		editCountriesLoading: isEditCountryLoading,
 		editCountriesSuccess: isEditCountrySuccess,
@@ -90,10 +88,6 @@ const useEditCountry = () => {
 		if (isEditCountrySuccess) setIsOpen(false);
 	}, [isEditCountrySuccess]);
 
-	const handleBlockedCountriesClick = (countryId) => {
-		navigate(`restricted-games/${countryId}`);
-	};
-
 	const columns = useMemo(
 		() => [
 			{
@@ -137,7 +131,6 @@ const useEditCountry = () => {
 						row={cell.row}
 						handleEditClick={handleEditClick}
 						handleStatus={handleStatus}
-						handleBlockedCountriesClick={handleBlockedCountriesClick}
 					/>
 				),
 			},

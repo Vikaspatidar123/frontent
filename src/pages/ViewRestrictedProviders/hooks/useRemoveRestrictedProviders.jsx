@@ -7,22 +7,24 @@ import {
 	fetchRestrictedItemsStart,
 	removeRestrictedItemsStart,
 } from '../../../store/actions';
-import { KeyValueCell, Status, OperatorStatus } from '../GamesListCol';
+import { KeyValueCell, Status } from '../GamesListCol';
 import { showToastr } from '../../../utils/helpers';
 
-const useRemoveRestrictedGame = () => {
+const useRemoveRestrictedProviders = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { countryId } = useParams();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [removeGamesCurrentPage, setRemoveGamesCurrentPage] = useState(1);
-	const [removeGamesItemsPerPage, setRemoveGamesItemsPerPage] = useState(10);
-	const [selectedGames, setSelectedGames] = useState([]);
+	const [removeProvidersCurrentPage, setRemoveProvidersCurrentPage] =
+		useState(1);
+	const [removeProvidersItemsPerPage, setRemoveProvidersItemsPerPage] =
+		useState(10);
+	const [selectedProviders, setSelectedProviders] = useState([]);
 
 	const {
-		restrictedItems: restrictedGames,
-		restrictedItemsLoading: restrictedGamesLoading,
+		restrictedItems: restrictedProviders,
+		restrictedItemsLoading: restrictedProvidersLoading,
 	} = useSelector((state) => state.Countries);
 
 	useEffect(() => {
@@ -31,7 +33,7 @@ const useRemoveRestrictedGame = () => {
 				countryId,
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				type: 'games',
+				type: 'providers',
 				search: '',
 			})
 		);
@@ -41,44 +43,50 @@ const useRemoveRestrictedGame = () => {
 		setItemsPerPage(value);
 	};
 
-	const handleAddGame = (row) => {
-		setSelectedGames((prevData) => {
-			if (!prevData.find((game) => game.casinoGameId === row.casinoGameId)) {
+	const handleAddProvider = (row) => {
+		setSelectedProviders((prevData) => {
+			if (
+				!prevData.find(
+					(provider) => provider.casinoProviderId === row.casinoProviderId
+				)
+			) {
 				return [...prevData, row];
 			}
 			showToastr({
-				message: 'Game already added',
+				message: 'Provider already added',
 				type: 'error',
 			});
 			return prevData;
 		});
 	};
 
-	const handleRemoveGame = (casinoGameId) => {
-		setSelectedGames((prevData) =>
-			prevData.filter((game) => game.casinoGameId !== casinoGameId)
+	const handleRemoveProvider = (casinoProviderId) => {
+		setSelectedProviders((prevData) =>
+			prevData.filter(
+				(provider) => provider.casinoProviderId !== casinoProviderId
+			)
 		);
 	};
 
-	const onChangeRemoveGamesRowsPerPage = (value) => {
-		setRemoveGamesItemsPerPage(value);
+	const onChangeRemoveProvidersRowsPerPage = (value) => {
+		setRemoveProvidersItemsPerPage(value);
 	};
 
-	const removeRestrictedGames = () => {
-		const itemIds = selectedGames?.map((g) => g.casinoGameId);
+	const removeRestrictedProviders = () => {
+		const itemIds = selectedProviders?.map((g) => g.casinoProviderId);
 		dispatch(
 			removeRestrictedItemsStart({
-				data: { type: 'games', itemIds, countryId: Number(countryId) },
+				data: { type: 'providers', itemIds, countryId: Number(countryId) },
 				navigate,
 			})
 		);
 	};
 
-	const restrictedGamescolumns = useMemo(
+	const restrictedProviderscolumns = useMemo(
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'casinoGameId',
+				accessor: 'casinoProviderId',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -96,33 +104,29 @@ const useRemoveRestrictedGame = () => {
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
-				Header: 'OPERATOR STATUS',
-				accessor: 'operatorStatus',
-				filterable: true,
-				disableSortBy: true,
-				Cell: ({ cell }) => <OperatorStatus value={cell.value} />,
-			},
-			{
 				Header: 'ACTIONS',
 				accessor: '',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
-					const casinoGameId = cell?.row?.original?.casinoGameId;
+					const casinoProviderId = cell?.row?.original?.casinoProviderId;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
-							<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+							<li data-bs-toggle="tooltip" data-bs-placement="top">
 								<Button
 									type="button"
 									className="btn btn-sm btn-soft-success"
 									onClick={(e) => {
 										e.preventDefault();
-										handleAddGame(cell?.row?.original);
+										handleAddProvider(cell?.row?.original);
 									}}
 								>
-									<i className="mdi mdi-plus-box" id={`plus-${casinoGameId}`} />
+									<i
+										className="mdi mdi-plus-box"
+										id={`plus-${casinoProviderId}`}
+									/>
 									<UncontrolledTooltip
 										placement="top"
-										target={`plus-${casinoGameId}`}
+										target={`plus-${casinoProviderId}`}
 									>
 										Add this Game
 									</UncontrolledTooltip>
@@ -136,11 +140,11 @@ const useRemoveRestrictedGame = () => {
 		[]
 	);
 
-	const removeGamescolumns = useMemo(
+	const removeProviderscolumns = useMemo(
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'casinoGameId',
+				accessor: 'casinoProviderId',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -158,18 +162,11 @@ const useRemoveRestrictedGame = () => {
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
-				Header: 'OPERATOR STATUS',
-				accessor: 'operatorStatus',
-				filterable: true,
-				disableSortBy: true,
-				Cell: ({ cell }) => <OperatorStatus value={cell.value} />,
-			},
-			{
 				Header: 'ACTIONS',
 				accessor: '',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
-					const casinoGameId = cell?.row?.original?.casinoGameId;
+					const casinoProviderId = cell?.row?.original?.casinoProviderId;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
@@ -178,16 +175,16 @@ const useRemoveRestrictedGame = () => {
 									className="btn btn-sm btn-soft-danger"
 									onClick={(e) => {
 										e.preventDefault();
-										handleRemoveGame(casinoGameId);
+										handleRemoveProvider(casinoProviderId);
 									}}
 								>
 									<i
 										className="mdi mdi-minus-box"
-										id={`minus-${casinoGameId}`}
+										id={`minus-${casinoProviderId}`}
 									/>
 									<UncontrolledTooltip
 										placement="top"
-										target={`minus-${casinoGameId}`}
+										target={`minus-${casinoProviderId}`}
 									>
 										Remove this Game
 									</UncontrolledTooltip>
@@ -206,20 +203,20 @@ const useRemoveRestrictedGame = () => {
 		setCurrentPage,
 		itemsPerPage,
 		setItemsPerPage,
-		removeGamesCurrentPage,
-		setRemoveGamesCurrentPage,
-		removeGamesItemsPerPage,
-		setRemoveGamesItemsPerPage,
-		restrictedGamescolumns,
-		removeGamescolumns,
-		restrictedGamesList: restrictedGames?.rows || [],
-		totalGamesCount: restrictedGames?.count || 0,
-		restrictedGamesLoading,
+		removeProvidersCurrentPage,
+		setRemoveProvidersCurrentPage,
+		removeProvidersItemsPerPage,
+		setRemoveProvidersItemsPerPage,
+		restrictedProviderscolumns,
+		removeProviderscolumns,
+		restrictedProvidersList: restrictedProviders?.rows || [],
+		totalProvidersCount: restrictedProviders?.count || 0,
+		restrictedProvidersLoading,
 		onChangeRowsPerPage,
-		onChangeRemoveGamesRowsPerPage,
-		selectedGames,
-		removeRestrictedGames,
+		onChangeRemoveProvidersRowsPerPage,
+		selectedProviders,
+		removeRestrictedProviders,
 	};
 };
 
-export default useRemoveRestrictedGame;
+export default useRemoveRestrictedProviders;

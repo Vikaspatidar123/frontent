@@ -6,10 +6,10 @@ import {
 	EDIT_COUNTRIES_START,
 	FETCH_COUNTRIES_START,
 	UPDATE_COUNTRIES_STATUS_START,
-	FETCH_RESTRICTED_GAMES_START,
-	FETCH_UNRESTRICTED_GAMES_START,
-	REMOVE_RESTRICTED_GAMES_START,
-	ADD_RESTRICTED_GAMES_START,
+	FETCH_RESTRICTED_ITEMS_START,
+	FETCH_UNRESTRICTED_ITEMS_START,
+	REMOVE_RESTRICTED_ITEMS_START,
+	ADD_RESTRICTED_ITEMS_START,
 } from './actionTypes';
 
 import {
@@ -19,14 +19,14 @@ import {
 	updateCountryStatusFail,
 	editCountryFail,
 	editCountrySuccess,
-	fetchRestrictedGamesSuccess,
-	fetchRestrictedGamesFail,
-	fetchUnrestrictedGamesSuccess,
-	fetchUnrestrictedGamesFail,
-	removeRestrictedGamesSuccess,
-	removeRestrictedGamesFail,
-	addRestrictedGamesSuccess,
-	addRestrictedGamesFail,
+	fetchRestrictedItemsSuccess,
+	fetchRestrictedItemsFail,
+	fetchUnrestrictedItemsSuccess,
+	fetchUnrestrictedItemsFail,
+	removeRestrictedItemsSuccess,
+	removeRestrictedItemsFail,
+	addRestrictedItemsSuccess,
+	addRestrictedItemsFail,
 } from './actions';
 
 import {
@@ -121,12 +121,12 @@ function* getRestrictedItemsWorker(action) {
 
 		if (payload.type === 'games') {
 			yield put(
-				fetchRestrictedGamesSuccess(data?.data?.restrictedItems?.games)
+				fetchRestrictedItemsSuccess(data?.data?.restrictedItems?.games)
 			);
 		} else {
-			// yield put(
-			// 	getRestrictedItemsSuccess(data?.data?.restrictedItems?.providers)
-			// );
+			yield put(
+				fetchRestrictedItemsSuccess(data?.data?.restrictedItems?.providers)
+			);
 		}
 	} catch (e) {
 		showToastr({
@@ -134,7 +134,7 @@ function* getRestrictedItemsWorker(action) {
 			type: 'error',
 		});
 
-		yield put(fetchRestrictedGamesFail());
+		yield put(fetchRestrictedItemsFail());
 	}
 }
 
@@ -146,12 +146,12 @@ function* getUnRestrictedItemsWorker(action) {
 
 		if (payload.type === 'games') {
 			yield put(
-				fetchUnrestrictedGamesSuccess(data?.data?.restrictedItems?.games)
+				fetchUnrestrictedItemsSuccess(data?.data?.restrictedItems?.games)
 			);
 		} else {
-			// yield put(
-			// 	getUnRestrictedItemsSuccess(data?.data?.restrictedItems?.providers)
-			// );
+			yield put(
+				fetchUnrestrictedItemsSuccess(data?.data?.restrictedItems?.providers)
+			);
 		}
 	} catch (e) {
 		showToastr({
@@ -159,7 +159,7 @@ function* getUnRestrictedItemsWorker(action) {
 			type: 'error',
 		});
 
-		yield put(fetchUnrestrictedGamesFail());
+		yield put(fetchUnrestrictedItemsFail());
 	}
 }
 
@@ -174,7 +174,7 @@ function* removeRestrictedItemsWorker(action) {
 			type: 'success',
 		});
 
-		yield put(removeRestrictedGamesSuccess());
+		yield put(removeRestrictedItemsSuccess());
 
 		navigate('/countries');
 	} catch (e) {
@@ -183,7 +183,7 @@ function* removeRestrictedItemsWorker(action) {
 			type: 'error',
 		});
 
-		yield put(removeRestrictedGamesFail());
+		yield put(removeRestrictedItemsFail());
 	}
 }
 
@@ -198,7 +198,7 @@ function* addRestrictedItemsWorker(action) {
 			type: 'success',
 		});
 
-		yield put(addRestrictedGamesSuccess());
+		yield put(addRestrictedItemsSuccess());
 
 		navigate('/countries');
 	} catch (e) {
@@ -207,7 +207,7 @@ function* addRestrictedItemsWorker(action) {
 			type: 'error',
 		});
 
-		yield put(addRestrictedGamesFail());
+		yield put(addRestrictedItemsFail());
 	}
 }
 
@@ -215,10 +215,10 @@ function* countriesSaga() {
 	yield takeEvery(FETCH_COUNTRIES_START, fetchCountries);
 	yield takeEvery(UPDATE_COUNTRIES_STATUS_START, updateCountryStatusWorker);
 	yield takeEvery(EDIT_COUNTRIES_START, editCountryWorker);
-	yield takeEvery(FETCH_RESTRICTED_GAMES_START, getRestrictedItemsWorker);
-	yield takeEvery(FETCH_UNRESTRICTED_GAMES_START, getUnRestrictedItemsWorker);
-	yield takeEvery(REMOVE_RESTRICTED_GAMES_START, removeRestrictedItemsWorker);
-	yield takeEvery(ADD_RESTRICTED_GAMES_START, addRestrictedItemsWorker);
+	yield takeEvery(FETCH_RESTRICTED_ITEMS_START, getRestrictedItemsWorker);
+	yield takeEvery(FETCH_UNRESTRICTED_ITEMS_START, getUnRestrictedItemsWorker);
+	yield takeEvery(REMOVE_RESTRICTED_ITEMS_START, removeRestrictedItemsWorker);
+	yield takeEvery(ADD_RESTRICTED_ITEMS_START, addRestrictedItemsWorker);
 }
 
 export default countriesSaga;

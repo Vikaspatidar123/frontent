@@ -8,18 +8,18 @@ import {
 	EDIT_COUNTRIES_START,
 	EDIT_COUNTRIES_FAIL,
 	EDIT_COUNTRIES_SUCCESS,
-	FETCH_RESTRICTED_GAMES_START,
-	FETCH_RESTRICTED_GAMES_FAIL,
-	FETCH_RESTRICTED_GAMES_SUCCESS,
-	FETCH_UNRESTRICTED_GAMES_START,
-	FETCH_UNRESTRICTED_GAMES_FAIL,
-	FETCH_UNRESTRICTED_GAMES_SUCCESS,
-	REMOVE_RESTRICTED_GAMES_START,
-	REMOVE_RESTRICTED_GAMES_FAIL,
-	REMOVE_RESTRICTED_GAMES_SUCCESS,
-	ADD_RESTRICTED_GAMES_START,
-	ADD_RESTRICTED_GAMES_FAIL,
-	ADD_RESTRICTED_GAMES_SUCCESS,
+	FETCH_RESTRICTED_ITEMS_START,
+	FETCH_RESTRICTED_ITEMS_FAIL,
+	FETCH_RESTRICTED_ITEMS_SUCCESS,
+	FETCH_UNRESTRICTED_ITEMS_START,
+	FETCH_UNRESTRICTED_ITEMS_FAIL,
+	FETCH_UNRESTRICTED_ITEMS_SUCCESS,
+	REMOVE_RESTRICTED_ITEMS_START,
+	REMOVE_RESTRICTED_ITEMS_FAIL,
+	REMOVE_RESTRICTED_ITEMS_SUCCESS,
+	ADD_RESTRICTED_ITEMS_START,
+	ADD_RESTRICTED_ITEMS_FAIL,
+	ADD_RESTRICTED_ITEMS_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
@@ -32,18 +32,18 @@ const initialState = {
 	editCountriesSuccess: false,
 	editCountriesError: null,
 	editCountriesLoading: false,
-	restrictedGames: null,
-	restrictedGamesError: null,
-	restrictedGamesLoading: false,
-	unrestrictedGames: null,
-	unrestrictedGamesError: null,
-	unrestrictedGamesLoading: false,
-	removeRestrictedGames: false,
-	removeRestrictedGamesError: null,
-	removeRestrictedGamesLoading: false,
-	addRestrictedCountries: false,
-	addRestrictedCountriesError: null,
-	addRestrictedCountriesLoading: false,
+	restrictedItems: null,
+	restrictedItemsError: null,
+	restrictedItemsLoading: false,
+	unrestrictedItems: null,
+	unrestrictedItemsError: null,
+	unrestrictedItemsLoading: false,
+	removeRestrictedItems: false,
+	removeRestrictedItemsError: null,
+	removeRestrictedItemsLoading: false,
+	addRestrictedItems: false,
+	addRestrictedItemsError: null,
+	addRestrictedItemsLoading: false,
 };
 
 const countriesReducer = (state = initialState, { type, payload } = {}) => {
@@ -104,81 +104,81 @@ const countriesReducer = (state = initialState, { type, payload } = {}) => {
 				editCountriesSuccess: true,
 				editCountriesError: false,
 			};
-		case FETCH_RESTRICTED_GAMES_START:
+		case FETCH_RESTRICTED_ITEMS_START:
 			return {
 				...state,
-				restrictedGamesLoading: true,
+				restrictedItemsLoading: true,
 			};
-		case FETCH_RESTRICTED_GAMES_FAIL:
+		case FETCH_RESTRICTED_ITEMS_FAIL:
 			return {
 				...state,
-				restrictedGamesLoading: false,
-				restrictedGamesError: payload,
-				restrictedGames: null,
+				restrictedItemsLoading: false,
+				restrictedItemsError: payload,
+				restrictedItems: null,
 			};
-		case FETCH_RESTRICTED_GAMES_SUCCESS:
+		case FETCH_RESTRICTED_ITEMS_SUCCESS:
 			return {
 				...state,
-				restrictedGamesLoading: false,
-				restrictedGames: payload,
-				restrictedGamesError: null,
+				restrictedItemsLoading: false,
+				restrictedItems: payload,
+				restrictedItemsError: null,
 			};
-		case FETCH_UNRESTRICTED_GAMES_START:
+		case FETCH_UNRESTRICTED_ITEMS_START:
 			return {
 				...state,
-				unrestrictedGamesLoading: true,
+				unrestrictedItemsLoading: true,
 			};
-		case FETCH_UNRESTRICTED_GAMES_FAIL:
+		case FETCH_UNRESTRICTED_ITEMS_FAIL:
 			return {
 				...state,
-				unrestrictedGamesLoading: false,
-				unrestrictedGamesError: payload,
-				unrestrictedGames: null,
+				unrestrictedItemsLoading: false,
+				unrestrictedItemsError: payload,
+				unrestrictedItems: null,
 			};
-		case FETCH_UNRESTRICTED_GAMES_SUCCESS:
+		case FETCH_UNRESTRICTED_ITEMS_SUCCESS:
 			return {
 				...state,
-				unrestrictedGamesLoading: false,
-				unrestrictedGames: payload,
-				unrestrictedGamesError: null,
+				unrestrictedItemsLoading: false,
+				unrestrictedItems: payload,
+				unrestrictedItemsError: null,
 			};
-		case REMOVE_RESTRICTED_GAMES_START:
+		case REMOVE_RESTRICTED_ITEMS_START:
 			return {
 				...state,
-				removeRestrictedGamesLoading: true,
+				removeRestrictedItemsLoading: true,
 			};
-		case REMOVE_RESTRICTED_GAMES_FAIL:
+		case REMOVE_RESTRICTED_ITEMS_FAIL:
 			return {
 				...state,
-				removeRestrictedGamesLoading: false,
-				removeRestrictedGamesError: payload,
-				removeRestrictedGames: false,
+				removeRestrictedItemsLoading: false,
+				removeRestrictedItemsError: payload,
+				removeRestrictedItems: false,
 			};
-		case REMOVE_RESTRICTED_GAMES_SUCCESS:
+		case REMOVE_RESTRICTED_ITEMS_SUCCESS:
 			return {
 				...state,
-				removeRestrictedGamesLoading: false,
-				removeRestrictedGames: true,
-				removeRestrictedGamesError: null,
+				removeRestrictedItemsLoading: false,
+				removeRestrictedItems: true,
+				removeRestrictedItemsError: null,
 			};
-		case ADD_RESTRICTED_GAMES_START:
+		case ADD_RESTRICTED_ITEMS_START:
 			return {
 				...state,
-				addRestrictedCountriesLoading: true,
+				addRestrictedItemsLoading: true,
 			};
-		case ADD_RESTRICTED_GAMES_FAIL:
+		case ADD_RESTRICTED_ITEMS_FAIL:
 			return {
 				...state,
-				addRestrictedCountriesLoading: false,
-				addRestrictedCountriesError: payload,
-				addRestrictedCountries: false,
+				addRestrictedItemsLoading: false,
+				addRestrictedItemsError: payload,
+				addRestrictedItems: false,
 			};
-		case ADD_RESTRICTED_GAMES_SUCCESS:
+		case ADD_RESTRICTED_ITEMS_SUCCESS:
 			return {
 				...state,
-				addRestrictedCountriesLoading: false,
-				addRestrictedCountries: true,
-				addRestrictedCountriesError: null,
+				addRestrictedItemsLoading: false,
+				addRestrictedItems: true,
+				addRestrictedItemsError: null,
 			};
 		default:
 			return { ...state };

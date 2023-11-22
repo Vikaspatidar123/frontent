@@ -8,18 +8,18 @@ import {
 	EDIT_COUNTRIES_START,
 	EDIT_COUNTRIES_SUCCESS,
 	EDIT_COUNTRIES_FAIL,
-	FETCH_RESTRICTED_GAMES_START,
-	FETCH_RESTRICTED_GAMES_FAIL,
-	FETCH_RESTRICTED_GAMES_SUCCESS,
-	FETCH_UNRESTRICTED_GAMES_START,
-	FETCH_UNRESTRICTED_GAMES_FAIL,
-	FETCH_UNRESTRICTED_GAMES_SUCCESS,
-	REMOVE_RESTRICTED_GAMES_START,
-	REMOVE_RESTRICTED_GAMES_FAIL,
-	REMOVE_RESTRICTED_GAMES_SUCCESS,
-	ADD_RESTRICTED_GAMES_START,
-	ADD_RESTRICTED_GAMES_FAIL,
-	ADD_RESTRICTED_GAMES_SUCCESS,
+	FETCH_RESTRICTED_ITEMS_START,
+	FETCH_RESTRICTED_ITEMS_FAIL,
+	FETCH_RESTRICTED_ITEMS_SUCCESS,
+	FETCH_UNRESTRICTED_ITEMS_START,
+	FETCH_UNRESTRICTED_ITEMS_FAIL,
+	FETCH_UNRESTRICTED_ITEMS_SUCCESS,
+	REMOVE_RESTRICTED_ITEMS_START,
+	REMOVE_RESTRICTED_ITEMS_FAIL,
+	REMOVE_RESTRICTED_ITEMS_SUCCESS,
+	ADD_RESTRICTED_ITEMS_START,
+	ADD_RESTRICTED_ITEMS_FAIL,
+	ADD_RESTRICTED_ITEMS_SUCCESS,
 } from './actionTypes';
 
 export const fetchCountriesStart = (payload) => ({
@@ -67,62 +67,62 @@ export const editCountryFail = (payload) => ({
 	payload,
 });
 
-export const fetchRestrictedGamesStart = (payload) => ({
-	type: FETCH_RESTRICTED_GAMES_START,
+export const fetchRestrictedItemsStart = (payload) => ({
+	type: FETCH_RESTRICTED_ITEMS_START,
 	payload,
 });
 
-export const fetchRestrictedGamesSuccess = (payload) => ({
-	type: FETCH_RESTRICTED_GAMES_SUCCESS,
+export const fetchRestrictedItemsSuccess = (payload) => ({
+	type: FETCH_RESTRICTED_ITEMS_SUCCESS,
 	payload,
 });
 
-export const fetchRestrictedGamesFail = (payload) => ({
-	type: FETCH_RESTRICTED_GAMES_FAIL,
+export const fetchRestrictedItemsFail = (payload) => ({
+	type: FETCH_RESTRICTED_ITEMS_FAIL,
 	payload,
 });
 
-export const fetchUnrestrictedGamesStart = (payload) => ({
-	type: FETCH_UNRESTRICTED_GAMES_START,
+export const fetchUnrestrictedItemsStart = (payload) => ({
+	type: FETCH_UNRESTRICTED_ITEMS_START,
 	payload,
 });
 
-export const fetchUnrestrictedGamesSuccess = (payload) => ({
-	type: FETCH_UNRESTRICTED_GAMES_SUCCESS,
+export const fetchUnrestrictedItemsSuccess = (payload) => ({
+	type: FETCH_UNRESTRICTED_ITEMS_SUCCESS,
 	payload,
 });
 
-export const fetchUnrestrictedGamesFail = (payload) => ({
-	type: FETCH_UNRESTRICTED_GAMES_FAIL,
+export const fetchUnrestrictedItemsFail = (payload) => ({
+	type: FETCH_UNRESTRICTED_ITEMS_FAIL,
 	payload,
 });
 
-export const removeRestrictedGamesStart = (payload) => ({
-	type: REMOVE_RESTRICTED_GAMES_START,
+export const removeRestrictedItemsStart = (payload) => ({
+	type: REMOVE_RESTRICTED_ITEMS_START,
 	payload,
 });
 
-export const removeRestrictedGamesSuccess = (payload) => ({
-	type: REMOVE_RESTRICTED_GAMES_SUCCESS,
+export const removeRestrictedItemsSuccess = (payload) => ({
+	type: REMOVE_RESTRICTED_ITEMS_SUCCESS,
 	payload,
 });
 
-export const removeRestrictedGamesFail = (payload) => ({
-	type: REMOVE_RESTRICTED_GAMES_FAIL,
+export const removeRestrictedItemsFail = (payload) => ({
+	type: REMOVE_RESTRICTED_ITEMS_FAIL,
 	payload,
 });
 
-export const addRestrictedGamesStart = (payload) => ({
-	type: ADD_RESTRICTED_GAMES_START,
+export const addRestrictedItemsStart = (payload) => ({
+	type: ADD_RESTRICTED_ITEMS_START,
 	payload,
 });
 
-export const addRestrictedGamesSuccess = (payload) => ({
-	type: ADD_RESTRICTED_GAMES_SUCCESS,
+export const addRestrictedItemsSuccess = (payload) => ({
+	type: ADD_RESTRICTED_ITEMS_SUCCESS,
 	payload,
 });
 
-export const addRestrictedGamesFail = (payload) => ({
-	type: ADD_RESTRICTED_GAMES_FAIL,
+export const addRestrictedItemsFail = (payload) => ({
+	type: ADD_RESTRICTED_ITEMS_FAIL,
 	payload,
 });

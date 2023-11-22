@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import {
-	addRestrictedGamesStart,
-	fetchUnrestrictedGamesStart,
+	addRestrictedItemsStart,
+	fetchUnrestrictedItemsStart,
 } from '../../../store/actions';
 import { KeyValueCell, Status, OperatorStatus } from '../GamesListCol';
 import { showToastr } from '../../../utils/helpers';
@@ -20,13 +20,14 @@ const useAddRestrictedGame = () => {
 	const [addGamesItemsPerPage, setAddGamesItemsPerPage] = useState(10);
 	const [selectedGames, setSelectedGames] = useState([]);
 
-	const { unrestrictedGames, unrestrictedGamesLoading } = useSelector(
-		(state) => state.Countries
-	);
+	const {
+		unrestrictedItems: unrestrictedGames,
+		unrestrictedItemsLoading: unrestrictedGamesLoading,
+	} = useSelector((state) => state.Countries);
 
 	useEffect(() => {
 		dispatch(
-			fetchUnrestrictedGamesStart({
+			fetchUnrestrictedItemsStart({
 				countryId,
 				limit: itemsPerPage,
 				pageNo: currentPage,
@@ -48,13 +49,12 @@ const useAddRestrictedGame = () => {
 		setSelectedGames((prevData) => {
 			if (!prevData.find((game) => game.casinoGameId === row.casinoGameId)) {
 				return [...prevData, row];
-			} 
-				showToastr({
-					message: 'Game already added',
-					type: 'error',
-				});
-				return prevData;
-			
+			}
+			showToastr({
+				message: 'Game already added',
+				type: 'error',
+			});
+			return prevData;
 		});
 	};
 
@@ -67,7 +67,7 @@ const useAddRestrictedGame = () => {
 	const addRestrictedGames = () => {
 		const itemIds = selectedGames?.map((g) => g.casinoGameId);
 		dispatch(
-			addRestrictedGamesStart({
+			addRestrictedItemsStart({
 				data: { type: 'games', itemIds, countryId },
 				navigate,
 			})
