@@ -1,15 +1,18 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-// import PropTypes from 'prop-types'
-// import { useDispatch } from 'react-redux';
-
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCreateBonus from './hooks/useCreateBonus';
 import StepFormTabs from '../../components/Common/StepFormTabs';
 
 const CreateBonus = () => {
-	const { tabData, toggleTab, activeTab, onNextClick, isNextDisabled } =
-		useCreateBonus();
+	const {
+		tabData,
+		toggleTab,
+		activeTab,
+		onNextClick,
+		isNextDisabled,
+		createBonusLoading,
+	} = useCreateBonus();
 
 	return (
 		<div className="page-content">
@@ -31,14 +34,14 @@ const CreateBonus = () => {
 					onNextClick={onNextClick}
 					isNextDisabled={isNextDisabled}
 					isPrevDisabled={isNextDisabled}
+					submitButtonText="Create Bonus"
+					submitButtonLoading={createBonusLoading}
 				/>
 			</Container>
 		</div>
 	);
 };
 
-CreateBonus.propTypes = {
-	// t: PropTypes.func.isRequired,
-};
+CreateBonus.propTypes = {};
 
 export default CreateBonus;

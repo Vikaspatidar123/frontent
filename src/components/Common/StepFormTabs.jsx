@@ -22,9 +22,11 @@ const StepFormTabs = ({
 	onNextClick,
 	isNextDisabled,
 	isPrevDisabled,
+	submitButtonText,
+	submitButtonLoading,
 }) => {
 	const tabsToShow = useMemo(
-		() => tabsData.filter((tab) => !tab.isHidden),
+		() => tabsData.filter((tab) => !tab.isHidden) || [],
 		[tabsData]
 	);
 	const currentTabIndex = useMemo(
@@ -71,7 +73,11 @@ const StepFormTabs = ({
 								<ul>
 									<li>
 										<Button
-											disabled={currentTabIndex === 0 || isPrevDisabled}
+											disabled={
+												currentTabIndex === 0 ||
+												isPrevDisabled ||
+												submitButtonLoading
+											}
 											onClick={() =>
 												toggleTab(
 													currentTabIndex !== 0
@@ -85,19 +91,22 @@ const StepFormTabs = ({
 									</li>
 									<li>
 										<Button
-											disabled={
-												currentTabIndex === tabsToShow?.length || isNextDisabled
-											}
+											disabled={isNextDisabled || submitButtonLoading}
 											onClick={() => {
 												onNextClick(
 													activeTab,
-													currentTabIndex !== tabsToShow?.length
+													currentTabIndex !== tabsToShow.length - 1
 														? tabsToShow[currentTabIndex + 1].id
-														: ''
+														: 'submit'
 												);
 											}}
 										>
-											Next
+											{submitButtonLoading && (
+												<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
+											)}
+											{currentTabIndex === tabsToShow.length - 1
+												? submitButtonText || 'Submit'
+												: 'Next'}
 										</Button>
 									</li>
 								</ul>
@@ -113,6 +122,8 @@ const StepFormTabs = ({
 StepFormTabs.defaultProps = {
 	isNextDisabled: false,
 	isPrevDisabled: false,
+	submitButtonText: '',
+	submitButtonLoading: false,
 };
 
 StepFormTabs.propTypes = {
@@ -128,6 +139,8 @@ StepFormTabs.propTypes = {
 	onNextClick: PropTypes.func.isRequired,
 	isNextDisabled: PropTypes.bool,
 	isPrevDisabled: PropTypes.bool,
+	submitButtonText: PropTypes.string,
+	submitButtonLoading: PropTypes.bool,
 };
 
 export default StepFormTabs;

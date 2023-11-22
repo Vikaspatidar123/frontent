@@ -98,6 +98,9 @@ import UserDetails from './userDetails/reducer';
 // Restricted Countries
 import RestrictedCountries from './restrictedCountries/reducer';
 
+// Create Update Bonus
+import CreateUpdateBonus from './createUpdateBonus/reducer';
+
 const rootReducer = combineReducers({
 	AdminRoles,
 	Countries,
@@ -134,6 +137,7 @@ const rootReducer = combineReducers({
 	UserDetails,
 	RestrictedCountries,
 	Dashboard,
+	CreateUpdateBonus,
 });
 
 export default rootReducer;

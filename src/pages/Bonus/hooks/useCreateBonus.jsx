@@ -1,23 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import General from '../FormSections/General';
 import { modules } from '../../../constants/permissions';
 import Languages from '../FormSections/Languages';
 import { getSiteConfiguration } from '../../../network/getRequests';
 import Currencies from '../FormSections/Currency';
-import { getCreateBonusInitialValues } from '../formDetails';
 import WageringContribution from '../FormSections/WageringContribution';
 import Games from '../FormSections/Games';
 import BonusCountry from '../FormSections/BonusCountry';
+import { createBonus, resetCreateBonus } from '../../../store/actions';
+import { formatDateYMD, safeStringify } from '../../../utils/helpers';
 
 const useCreateBonus = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [activeLangTab, setActiveLangTab] = useState('');
 	const [selectedBonus, setSelectedBonus] = useState('deposit');
-	const [activeTab, setActiveTab] = useState('currency');
-	const [allFields, setAllFields] = useState(
-		getCreateBonusInitialValues() || {}
-	);
+	const [activeTab, setActiveTab] = useState('general');
+	const [allFields, setAllFields] = useState({});
 	const [langList, setLangList] = useState({});
 	const [nextPressed, setNextPressed] = useState({});
 	const [langContent, setLangContent] = useState({
@@ -26,6 +27,17 @@ const useCreateBonus = () => {
 		terms: {},
 	});
 	const [selectedCountries, setSelectedCountries] = useState([]);
+	const { createBonusSuccess, createBonusLoading } = useSelector(
+		(state) => state.CreateUpdateBonus
+	);
+
+	useEffect(() => {
+		if (createBonusSuccess) {
+			navigate('/bonus');
+			dispatch(resetCreateBonus());
+		}
+	}, [createBonusSuccess]);
+
 	const checkAllEmptyCondition = () =>
 		(langContent?.promoTitle?.[activeLangTab] === '' ||
 			langContent?.promoTitle?.[activeLangTab] === undefined) &&
@@ -71,6 +83,32 @@ const useCreateBonus = () => {
 	const onNextClick = (current, next) => {
 		setNextPressed({ currentTab: current, nextTab: next });
 	};
+
+	// final create api call
+	useEffect(() => {
+		if (nextPressed.nextTab === 'submit') {
+			dispatch(
+				createBonus({
+					...allFields,
+					promotionTitle: safeStringify(langContent?.promoTitle),
+					description: safeStringify(langContent?.desc),
+					termCondition: safeStringify(langContent?.terms),
+					validFrom: formatDateYMD(allFields.validFrom),
+					validTo: formatDateYMD(allFields.validTo),
+					wageringTemplateId: allFields.selectedTemplateId,
+					wageringRequirementType: [true, 'true'].includes(
+						allFields.wageringRequirementType
+					)
+						? 'bonus'
+						: 'bonusdeposit',
+					other: safeStringify({
+						countries: selectedCountries,
+						showBonusValidity: allFields.showBonusValidity,
+					}),
+				})
+			);
+		}
+	}, [nextPressed]);
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
@@ -183,6 +221,7 @@ const useCreateBonus = () => {
 		allFields,
 		langContent,
 		isNextDisabled,
+		createBonusLoading,
 	};
 };
 

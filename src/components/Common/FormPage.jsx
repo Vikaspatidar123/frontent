@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Col, Row, Form, Card } from 'reactstrap';
+import { Col, Row, Form, Card, UncontrolledTooltip } from 'reactstrap';
 import { getField } from '../../helpers/customForms';
 
 const FormPage = ({
@@ -74,11 +74,20 @@ const FormPage = ({
 								<>
 									{field?.isNewRow && <div className="row" />}
 									<Col
+										id={`field-${field.name}`}
 										{...(field?.fieldColOptions || colOptions)}
 										className="mb-3"
 									>
 										{getField(field, validation)}
 									</Col>
+									{!!field.tooltipContent && (
+										<UncontrolledTooltip
+											placement="bottom"
+											target={`field-${field.name}`}
+										>
+											{field.tooltipContent}
+										</UncontrolledTooltip>
+									)}
 								</>
 							)
 					)}
