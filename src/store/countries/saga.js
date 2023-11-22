@@ -6,7 +6,12 @@ import {
 	EDIT_COUNTRIES_START,
 	FETCH_COUNTRIES_START,
 	UPDATE_COUNTRIES_STATUS_START,
+	FETCH_RESTRICTED_GAMES_START,
+	FETCH_UNRESTRICTED_GAMES_START,
+	REMOVE_RESTRICTED_GAMES_START,
+	ADD_RESTRICTED_GAMES_START,
 } from './actionTypes';
+
 import {
 	fetchCountriesFail,
 	fetchCountriesSuccess,
@@ -14,12 +19,30 @@ import {
 	updateCountryStatusFail,
 	editCountryFail,
 	editCountrySuccess,
+	fetchRestrictedGamesSuccess,
+	fetchRestrictedGamesFail,
+	fetchUnrestrictedGamesSuccess,
+	fetchUnrestrictedGamesFail,
+	removeRestrictedGamesSuccess,
+	removeRestrictedGamesFail,
+	addRestrictedGamesSuccess,
+	addRestrictedGamesFail,
 } from './actions';
-import { getCountries } from '../../network/getRequests';
+
+import {
+	getCountries,
+	getRestrictedItems,
+	getUnrestrictedItems,
+} from '../../network/getRequests';
+
 import {
 	editCountryDetails,
 	superAdminViewToggleStatus,
+	addRestrictedItems,
 } from '../../network/putRequests';
+
+import { deleteRestrictedItems } from '../../network/deleteRequests';
+
 import { showToastr } from '../../utils/helpers';
 
 function* fetchCountries({ payload }) {
@@ -90,10 +113,112 @@ function* editCountryWorker(action) {
 	}
 }
 
+function* getRestrictedItemsWorker(action) {
+	try {
+		const { payload } = action;
+
+		const { data } = yield getRestrictedItems(payload);
+
+		if (payload.type === 'games') {
+			yield put(
+				fetchRestrictedGamesSuccess(data?.data?.restrictedItems?.games)
+			);
+		} else {
+			// yield put(
+			// 	getRestrictedItemsSuccess(data?.data?.restrictedItems?.providers)
+			// );
+		}
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(fetchRestrictedGamesFail());
+	}
+}
+
+function* getUnRestrictedItemsWorker(action) {
+	try {
+		const { payload } = action;
+
+		const { data } = yield getUnrestrictedItems(payload);
+
+		if (payload.type === 'games') {
+			yield put(
+				fetchUnrestrictedGamesSuccess(data?.data?.restrictedItems?.games)
+			);
+		} else {
+			// yield put(
+			// 	getUnRestrictedItemsSuccess(data?.data?.restrictedItems?.providers)
+			// );
+		}
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(fetchUnrestrictedGamesFail());
+	}
+}
+
+function* removeRestrictedItemsWorker(action) {
+	try {
+		const { data, navigate } = action && action.payload;
+
+		yield deleteRestrictedItems(data);
+
+		showToastr({
+			message: 'Restricted Items Deleted Successfully',
+			type: 'success',
+		});
+
+		yield put(removeRestrictedGamesSuccess());
+
+		navigate('/countries');
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(removeRestrictedGamesFail());
+	}
+}
+
+function* addRestrictedItemsWorker(action) {
+	try {
+		const { data, navigate } = action && action.payload;
+
+		yield addRestrictedItems(data);
+
+		showToastr({
+			message: 'Restricted Items Added Successfully',
+			type: 'success',
+		});
+
+		yield put(addRestrictedGamesSuccess());
+
+		navigate('/countries');
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(addRestrictedGamesFail());
+	}
+}
+
 function* countriesSaga() {
 	yield takeEvery(FETCH_COUNTRIES_START, fetchCountries);
 	yield takeEvery(UPDATE_COUNTRIES_STATUS_START, updateCountryStatusWorker);
 	yield takeEvery(EDIT_COUNTRIES_START, editCountryWorker);
+	yield takeEvery(FETCH_RESTRICTED_GAMES_START, getRestrictedItemsWorker);
+	yield takeEvery(FETCH_UNRESTRICTED_GAMES_START, getUnRestrictedItemsWorker);
+	yield takeEvery(REMOVE_RESTRICTED_GAMES_START, removeRestrictedItemsWorker);
+	yield takeEvery(ADD_RESTRICTED_GAMES_START, addRestrictedItemsWorker);
 }
 
 export default countriesSaga;

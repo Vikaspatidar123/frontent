@@ -134,6 +134,9 @@ const detachOddsVariationApi = (data) =>
 const updateCompanyOddApi = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/custom-odds`, data);
 
+const addRestrictedItems = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/country/restricted`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -174,4 +177,5 @@ export {
 	updateOddsVariationApi,
 	detachOddsVariationApi,
 	updateCompanyOddApi,
+	addRestrictedItems,
 };
