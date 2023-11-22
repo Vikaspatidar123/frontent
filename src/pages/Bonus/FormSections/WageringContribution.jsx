@@ -36,7 +36,7 @@ const columns = [
 ];
 
 const WageringContribution = ({
-	isNext,
+	nextPressed,
 	setActiveTab,
 	setNextPressed,
 	setAllFields,
@@ -53,15 +53,15 @@ const WageringContribution = ({
 	} = useSelector((state) => state.WageringTemplate);
 
 	useEffect(() => {
-		if (isNext) {
+		if (nextPressed.currentTab === 'wageringContribution') {
 			setAllFields((prev) => ({
 				...prev,
 				selectedTemplateId: selectedTemplate,
 			}));
-			setActiveTab(4);
-			setNextPressed('');
+			setActiveTab(nextPressed.nextTab);
+			setNextPressed({});
 		}
-	}, [isNext]);
+	}, [nextPressed]);
 
 	useEffect(() => {
 		dispatch(getAllSAWageringTemplates());
