@@ -2,39 +2,16 @@
 import React from 'react';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({
-	row,
-	handleStatus,
-	handleEditClick,
-	handleBlockedCountriesClick,
-}) => {
+const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 	const { isGranted } = usePermission();
 	const active = row?.original?.status;
 	const countryId = row?.original?.countryId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-				<Button
-					className="btn btn-sm btn-soft-primary"
-					type="button"
-					onClick={(e) => {
-						e.preventDefault();
-						handleBlockedCountriesClick(countryId);
-					}}
-				>
-					<i className="mdi mdi-cancel" id={`viewtooltip-${countryId}`} />
-					<UncontrolledTooltip
-						placement="top"
-						target={`viewtooltip-${countryId}`}
-					>
-						View Blocked Games
-					</UncontrolledTooltip>
-				</Button>
-			</li>
-
 			<li>
 				{active ? (
 					<Button
@@ -98,6 +75,39 @@ const ActionButtons = ({
 				</Button>
 			</li>
 
+			<li data-bs-toggle="tooltip" data-bs-placement="top">
+				<Link
+					to={`restricted-games/${countryId}`}
+					className="btn btn-sm btn-soft-warning"
+				>
+					<i className="mdi mdi-cancel" id={`viewtooltip-${countryId}`} />
+					<UncontrolledTooltip
+						placement="top"
+						target={`viewtooltip-${countryId}`}
+					>
+						View Blocked Games
+					</UncontrolledTooltip>
+				</Link>
+			</li>
+
+			<li data-bs-toggle="tooltip" data-bs-placement="top">
+				<Link
+					to={`restricted-providers/${countryId}`}
+					className="btn btn-sm btn-soft-primary"
+				>
+					<i
+						className="mdi mdi-cancel"
+						id={`viewBlockedProviders-${countryId}`}
+					/>
+					<UncontrolledTooltip
+						placement="top"
+						target={`viewBlockedProviders-${countryId}`}
+					>
+						View Blocked Providers
+					</UncontrolledTooltip>
+				</Link>
+			</li>
+
 			{/* <li>
 				<Link to="/" className="btn btn-sm btn-soft-danger">
 					<i className="mdi mdi-delete-outline" id="deletetooltip" />
@@ -114,7 +124,6 @@ ActionButtons.propTypes = {
 	handleStatus: PropTypes.func.isRequired,
 	row: PropTypes.objectOf.isRequired,
 	handleEditClick: PropTypes.func.isRequired,
-	handleBlockedCountriesClick: PropTypes.func.isRequired,
 };
 
 export default ActionButtons;

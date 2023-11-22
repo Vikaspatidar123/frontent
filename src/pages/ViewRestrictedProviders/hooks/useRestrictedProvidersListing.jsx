@@ -3,17 +3,17 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchRestrictedItemsStart } from '../../../store/actions';
-import { KeyValueCell, Status, OperatorStatus } from '../GamesListCol';
+import { KeyValueCell, Status } from '../GamesListCol';
 
-const useRestrictedGamesListing = () => {
+const useRestrictedProvidersListing = () => {
 	const dispatch = useDispatch();
 	const { countryId } = useParams();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 
 	const {
-		restrictedItems: restrictedGames,
-		restrictedItemsLoading: restrictedGamesLoading,
+		restrictedItems: restrictedProviders,
+		restrictedGamesLoading: restrictedProvidersLoading,
 	} = useSelector((state) => state.Countries);
 
 	useEffect(() => {
@@ -22,7 +22,7 @@ const useRestrictedGamesListing = () => {
 				countryId,
 				limit: itemsPerPage,
 				pageNo: currentPage,
-				type: 'games',
+				type: 'providers',
 				search: '',
 			})
 		);
@@ -35,7 +35,7 @@ const useRestrictedGamesListing = () => {
 	const columns = useMemo(() => [
 		{
 			Header: 'ID',
-			accessor: 'casinoGameId',
+			accessor: 'casinoProviderId',
 			filterable: true,
 			Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 		},
@@ -52,13 +52,6 @@ const useRestrictedGamesListing = () => {
 			disableSortBy: true,
 			Cell: ({ cell }) => <Status value={cell.value} />,
 		},
-		{
-			Header: 'OPERATOR STATUS',
-			accessor: 'operatorStatus',
-			filterable: true,
-			disableSortBy: true,
-			Cell: ({ cell }) => <OperatorStatus value={cell.value} />,
-		},
 	]);
 
 	return {
@@ -67,11 +60,11 @@ const useRestrictedGamesListing = () => {
 		itemsPerPage,
 		setItemsPerPage,
 		columns,
-		restrictedGamesList: restrictedGames?.rows || [],
-		totalGamesCount: restrictedGames?.count || 0,
-		restrictedGamesLoading,
+		restrictedProvidersList: restrictedProviders?.rows || [],
+		totalProvidersCount: restrictedProviders?.count || 0,
+		restrictedProvidersLoading,
 		onChangeRowsPerPage,
 	};
 };
 
-export default useRestrictedGamesListing;
+export default useRestrictedProvidersListing;
