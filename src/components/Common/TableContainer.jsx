@@ -33,6 +33,7 @@ const TableContainer = ({
 	hideHeader,
 	tbodyHeight,
 	cellPadding,
+	isLongTable = false,
 }) => {
 	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
 	const tableHeaderClass = useSelector(
@@ -89,7 +90,11 @@ const TableContainer = ({
 
 	return (
 		<>
-			<div className="table-responsive react-table">
+			<div
+				className={`table-responsive react-table ${
+					isLongTable && 'scrollable'
+				}`}
+			>
 				<Table {...getTableProps()} className={tableClass} id="generic-table">
 					{!hideHeader && (
 						<thead
@@ -251,6 +256,7 @@ TableContainer.defaultProps = {
 	changeRowsPerPageCallback: () => {},
 	tbodyHeight: '',
 	cellPadding: '',
+	isLongTable: false,
 };
 
 TableContainer.propTypes = {
@@ -279,6 +285,7 @@ TableContainer.propTypes = {
 	changeRowsPerPageCallback: PropTypes.func,
 	tbodyHeight: PropTypes.string,
 	cellPadding: PropTypes.string,
+	isLongTable: PropTypes.bool,
 };
 
 export default TableContainer;

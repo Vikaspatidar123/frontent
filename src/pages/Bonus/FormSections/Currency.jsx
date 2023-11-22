@@ -20,10 +20,11 @@ const Currencies = ({
 }) => {
 	const dispatch = useDispatch();
 	const [nextTab, setNextTab] = useState('');
+	const [isNextButtonActive, setNextButtonActive] = useState(false);
 	const { bonusCurrencies } = useSelector((state) => state.AllBonusDetails);
 
 	const handleSubmit = ({ values, nextTabId }) => {
-		setAllFields((prev) => ({ ...prev, currency: values }));
+		setAllFields((prev) => ({ ...prev, ...values }));
 		setActiveTab(nextTabId);
 	};
 
@@ -32,22 +33,25 @@ const Currencies = ({
 		onSubmitEntry: (values) => handleSubmit({ values, nextTabId: nextTab }),
 	});
 
-	useEffect(
-		() => () => {
-			const isAnyErrors = document.getElementById('error-container');
-
+	useEffect(() => {
+		const isAnyErrors = document.getElementById('error-container');
+		if (nextPressed.currentTab === 'currency') {
 			if (typeof isAnyErrors !== 'undefined' && isAnyErrors != null) {
 				showToastr({
 					message: 'Please fill every required field',
 					type: 'error',
 				});
-			} else if (nextPressed.currentTab === 'currency') {
+			} else if (!isNextButtonActive) {
+				showToastr({
+					message: 'Please generate currency convirsons',
+					type: 'error',
+				});
+			} else {
 				setNextTab(nextPressed.nextTab);
 				setNextPressed({});
 			}
-		},
-		[nextPressed]
-	);
+		}
+	}, [nextPressed]);
 
 	useEffect(() => {
 		if (nextTab) {
@@ -92,6 +96,7 @@ const Currencies = ({
 			} else if (zeroOutThreshold === '' && allFields.bonusType !== 'balance') {
 				showToastr({ message: 'Enter Zero Out Threshold', type: 'error' });
 			} else {
+				setNextButtonActive(true);
 				dispatch(
 					getBonusCurrencyConversions({
 						currencyFields: {
@@ -109,6 +114,7 @@ const Currencies = ({
 			if (joiningAmount === '') {
 				showToastr({ message: 'Enter Joining Amount ', type: 'error' });
 			} else {
+				setNextButtonActive(true);
 				dispatch(
 					getBonusCurrencyConversions({
 						currencyFields: {
@@ -126,6 +132,7 @@ const Currencies = ({
 		) {
 			showToastr({ message: 'Enter Zero Out Threshold', type: 'error' });
 		} else {
+			setNextButtonActive(true);
 			dispatch(
 				getBonusCurrencyConversions({
 					currencyFields: {
