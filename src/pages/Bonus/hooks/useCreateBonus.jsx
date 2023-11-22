@@ -98,6 +98,7 @@ const useCreateBonus = () => {
 					validFrom: formatDateYMD(allFields.validFrom),
 					validTo: formatDateYMD(allFields.validTo),
 					wageringTemplateId: allFields.selectedTemplateId,
+					gameIds: selectedGames,
 					wageringRequirementType: [true, 'true'].includes(
 						allFields.wageringRequirementType
 					)
