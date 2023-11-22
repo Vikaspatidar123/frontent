@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Row } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,6 +16,8 @@ const Currencies = ({
 	setActiveTab,
 	nextPressed,
 	setNextPressed,
+	bonusTypeChanged,
+	setBonusTypeChanged,
 }) => {
 	const dispatch = useDispatch();
 	const [nextTab, setNextTab] = useState('');
@@ -162,7 +163,7 @@ const Currencies = ({
 						onClick={() => fetchData()}
 						title="Fetch Currency"
 					>
-						<i className="dripicons-dots-3" />
+						<i className="dripicons-swap d-flex" />
 					</Button>
 				</Col>
 			</Row>

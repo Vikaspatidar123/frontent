@@ -25,6 +25,15 @@ const generalStepInitialValues = () => ({
 	bonusImage: null,
 	quantity: 1,
 	betLevel: 1,
+	timePeriod: '1',
+	currency: {
+		EUR: {
+			maxBonusThreshold: '',
+			minDeposit: '',
+			maxWinAmount: '',
+			zeroOutThreshold: '',
+		},
+	},
 });
 
 const getCreateBonusInitialValues = () => ({

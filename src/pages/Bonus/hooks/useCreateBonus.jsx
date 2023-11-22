@@ -15,6 +15,8 @@ import { formatDateYMD, safeStringify } from '../../../utils/helpers';
 const useCreateBonus = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [selectedGames, setSelectedGames] = useState([]);
+	const [bonusTypeChanged, setBonusTypeChanged] = useState(false);
 	const [activeLangTab, setActiveLangTab] = useState('');
 	const [selectedBonus, setSelectedBonus] = useState('deposit');
 	const [activeTab, setActiveTab] = useState('general');
@@ -138,6 +140,9 @@ const useCreateBonus = () => {
 					setAllFields={setAllFields}
 					setSelectedBonus={setSelectedBonus}
 					setLangContent={setLangContent}
+					setSelectedCountries={setSelectedCountries}
+					setSelectedGames={setSelectedGames}
+					setBonusTypeChanged={setBonusTypeChanged}
 				/>
 			),
 		},
@@ -170,6 +175,8 @@ const useCreateBonus = () => {
 					allFields={allFields}
 					selectedBonus={selectedBonus}
 					nextPressed={nextPressed}
+					bonusTypeChanged={bonusTypeChanged}
+					setBonusTypeChanged={setBonusTypeChanged}
 				/>
 			),
 			isHidden: ['promotion'].includes(selectedBonus),
@@ -196,6 +203,8 @@ const useCreateBonus = () => {
 					setNextPressed={setNextPressed}
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
+					selectedGames={selectedGames}
+					setSelectedGames={setSelectedGames}
 				/>
 			),
 			isHidden: ['promotion', 'deposit'].includes(selectedBonus),
