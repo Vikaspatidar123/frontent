@@ -128,7 +128,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 			handleClick: handleDownload,
 			link: '#!',
 			tooltip: 'Download as CSV',
-			icon: <i className="mdi mdi-file-download-outline font-size" />,
+			icon: <i className="mdi mdi-file-download-outline" />,
 			module: modules.CasinoManagement,
 			operation: 'R',
 		},

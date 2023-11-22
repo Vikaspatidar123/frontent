@@ -15,6 +15,15 @@ const TransactionBankingList = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		currentPage,
 		setCurrentPage,
 		totalTransactionBankingCount,
@@ -23,16 +32,8 @@ const TransactionBankingList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useTransactionBankingListing({});
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
+		buttonList,
+	} = useTransactionBankingListing('', filterValidation.values);
 
 	return (
 		<div className="page-content">
@@ -43,7 +44,10 @@ const TransactionBankingList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Transactions Banking" />
+							<CrudSection
+								buttonList={buttonList}
+								title="Transactions Banking"
+							/>
 							<CardBody>
 								<Filters
 									validation={filterValidation}

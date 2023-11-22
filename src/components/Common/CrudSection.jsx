@@ -24,10 +24,12 @@ const CrudSection = ({ title, buttonList }) => {
 							<>
 								<Link
 									key={link}
-									hidden={!isGranted(module, operation)}
+									hidden={module && operation && !isGranted(module, operation)}
 									to={link}
 									onClick={handleClick}
-									className="btn btn-primary me-1"
+									className={`btn btn-primary me-1 ${
+										icon ? 'icon-button-padding' : ''
+									}`}
 									id={`id-${label}`}
 								>
 									{label}

@@ -1,8 +1,6 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
+import PropTypes from 'prop-types';
 import TableContainer from '../../components/Common/TableContainer';
 import useTransactionBankingListing from '../TransactionBankingList/hooks/useTransactionBankingListing';
 import useTransactionFilters from './hooks/useTransactionFilters';
@@ -18,7 +16,7 @@ const Transactions = ({ userId }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useTransactionBankingListing({ userId });
+	} = useTransactionBankingListing(userId);
 
 	const {
 		toggleAdvance,
@@ -61,6 +59,14 @@ const Transactions = ({ userId }) => {
 			</Card>
 		</Container>
 	);
+};
+
+Transactions.defaultProps = {
+	userId: '',
+};
+
+Transactions.propTypes = {
+	userId: PropTypes.string,
 };
 
 export default Transactions;
