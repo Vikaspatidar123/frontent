@@ -36,6 +36,7 @@ const General = ({
 			validTo: values.endDate,
 		}));
 		setActiveTab(values.nextTab);
+		window.scrollTo(0, 0);
 		setLangContent((prev) => ({
 			promoTitle: { ...prev.promoTitle, EN: values.promotionTitle },
 			terms: { ...prev.terms, EN: values.termCondition },

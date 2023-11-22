@@ -92,6 +92,7 @@ const Games = ({
 				selectedGames,
 			}));
 			setActiveTab(nextPressed.nextTab);
+			window.scrollTo(0, 0);
 			setNextPressed('');
 		}
 	}, [nextPressed]);

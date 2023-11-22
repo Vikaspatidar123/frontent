@@ -59,6 +59,7 @@ const WageringContribution = ({
 				selectedTemplateId: selectedTemplate,
 			}));
 			setActiveTab(nextPressed.nextTab);
+			window.scrollTo(0, 0);
 			setNextPressed({});
 		}
 	}, [nextPressed]);

@@ -16,8 +16,8 @@ const Currencies = ({
 	setActiveTab,
 	nextPressed,
 	setNextPressed,
-	// bonusTypeChanged,
-	// setBonusTypeChanged,
+	bonusTypeChanged,
+	setBonusTypeChanged,
 }) => {
 	const dispatch = useDispatch();
 	const [nextTab, setNextTab] = useState('');
@@ -25,14 +25,22 @@ const Currencies = ({
 	const { bonusCurrencies } = useSelector((state) => state.AllBonusDetails);
 
 	const handleSubmit = ({ values, nextTabId }) => {
-		setAllFields((prev) => ({ ...prev, ...values }));
+		setAllFields((prev) => ({ ...prev, currency: values }));
 		setActiveTab(nextTabId);
+		window.scrollTo(0, 0);
 	};
 
 	const { validation } = useForm({
 		initialValues: getCreateBonusInitialValues()?.currency,
 		onSubmitEntry: (values) => handleSubmit({ values, nextTabId: nextTab }),
 	});
+
+	useEffect(() => {
+		if (bonusTypeChanged) {
+			setBonusTypeChanged(false);
+			validation.resetForm();
+		}
+	}, [bonusTypeChanged]);
 
 	useEffect(() => {
 		const isAnyErrors = document.getElementById('error-container');
@@ -44,7 +52,7 @@ const Currencies = ({
 				});
 			} else if (!isNextButtonActive) {
 				showToastr({
-					message: 'Please generate currency convirsons',
+					message: 'Please generate currency conversions',
 					type: 'error',
 				});
 			} else {
@@ -210,7 +218,7 @@ const Currencies = ({
 
 							return (
 								currKey !== 'minBonusThreshold' &&
-								hide && (
+								!hide && (
 									<Col
 										className="px-1 text-center"
 										key={`currencyCols ${currIndex + 1}`}

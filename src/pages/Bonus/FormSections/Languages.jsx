@@ -65,6 +65,7 @@ const Languages = ({
 	useEffect(() => {
 		if (nextPressed.currentTab === 'languages') {
 			setActiveTab(nextPressed.nextTab);
+			window.scrollTo(0, 0);
 			setNextPressed({});
 		}
 	}, [nextPressed]);
