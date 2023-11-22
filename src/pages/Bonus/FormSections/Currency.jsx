@@ -16,8 +16,8 @@ const Currencies = ({
 	setActiveTab,
 	nextPressed,
 	setNextPressed,
-	bonusTypeChanged,
-	setBonusTypeChanged,
+	// bonusTypeChanged,
+	// setBonusTypeChanged,
 }) => {
 	const dispatch = useDispatch();
 	const [nextTab, setNextTab] = useState('');
@@ -209,7 +209,8 @@ const Currencies = ({
 							}
 
 							return (
-								currKey !== 'minBonusThreshold' && (
+								currKey !== 'minBonusThreshold' &&
+								hide && (
 									<Col
 										className="px-1 text-center"
 										key={`currencyCols ${currIndex + 1}`}
