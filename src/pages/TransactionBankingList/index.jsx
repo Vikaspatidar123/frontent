@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-// import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';
@@ -16,6 +15,15 @@ const TransactionBankingList = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
+	} = useFilters();
+
+	const {
 		currentPage,
 		setCurrentPage,
 		totalTransactionBankingCount,
@@ -24,16 +32,8 @@ const TransactionBankingList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useTransactionBankingListing({});
-
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
+		buttonList,
+	} = useTransactionBankingListing('', filterValidation.values);
 
 	return (
 		<div className="page-content">
@@ -44,7 +44,10 @@ const TransactionBankingList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Transactions Banking" />
+							<CrudSection
+								buttonList={buttonList}
+								title="Transactions Banking"
+							/>
 							<CardBody>
 								<Filters
 									validation={filterValidation}

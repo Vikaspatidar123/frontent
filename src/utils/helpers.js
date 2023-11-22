@@ -54,10 +54,37 @@ const formatDateYMD = (date) => {
 	return [year, month, day].join('-');
 };
 
+const downloadFileInSameWindow = (url) => {
+	const element = document.createElement('a');
+	element.setAttribute('href', url);
+
+	element.style.display = 'none';
+	document.body.appendChild(element);
+
+	element.click();
+	document.body.removeChild(element);
+
+	showToastr({ message: 'File downloaded successfully', type: 'success' });
+};
+
+const downloadFileInNewWindow = (url) => {
+	const downloadWindow = window.open(
+		url,
+		'download-file',
+		'width=700,height=700'
+	);
+	setTimeout(() => {
+		downloadWindow.close();
+		showToastr({ message: 'File downloaded successfully', type: 'success' });
+	}, 4000);
+};
+
 export {
 	safeStringify,
 	showToastr,
 	getDateDaysAgo,
 	formatDateYMD,
 	clearEmptyProperty,
+	downloadFileInSameWindow,
+	downloadFileInNewWindow,
 };

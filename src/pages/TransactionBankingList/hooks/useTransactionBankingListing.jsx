@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { fetchTransactionBankingStart } from '../../../store/actions';
 import { statusType, transactionType, walletType } from '../constants';
-import { getDateTime } from '../../../helpers/dateFormatter';
+import { formatDateYMD, getDateTime } from '../../../helpers/dateFormatter';
 import {
 	ActionType,
 	Actionee,
@@ -15,8 +16,14 @@ import {
 	Status,
 	TransactionId,
 } from '../TransactionBankingCol';
+import { downloadFileInNewWindow } from '../../../utils/helpers';
+import { getAccessToken } from '../../../network/storageUtils';
 
-const useTransactionBankingListing = ({ userId }) => {
+// import { modules } from '../../../constants/permissions';
+
+const { VITE_APP_API_URL } = import.meta.env;
+
+const useTransactionBankingListing = (userId, filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -47,6 +54,7 @@ const useTransactionBankingListing = ({ userId }) => {
 				limit: itemsPerPage,
 				pageNo: currentPage,
 				userId: userId || '',
+				...filterValues,
 			})
 		);
 	}, [currentPage, itemsPerPage]);
@@ -136,6 +144,31 @@ const useTransactionBankingListing = ({ userId }) => {
 		[]
 	);
 
+	const handleDownload = () =>
+		downloadFileInNewWindow(
+			`${VITE_APP_API_URL}/api/admin/transactions?csvDownload=true&limit=${itemsPerPage}&pageNo=${currentPage}&actioneeType=${
+				filterValues.actioneeType || ''
+			}&startDate=${formatDateYMD(
+				filterValues.startDate || moment().subtract(1, 'month').utc().toDate()
+			)}&endDate=${formatDateYMD(
+				filterValues.endDate || new Date()
+			)}&currencyCode=${filterValues.currencyCode || ''}&transactionType=${
+				filterValues.transactionType || ''
+			}&adminId=${''}&paymentProvider=${
+				filterValues.paymentProvider
+			}&token=${getAccessToken()}`
+		);
+
+	const buttonList = useMemo(() => [
+		{
+			label: '',
+			handleClick: handleDownload,
+			link: '#!',
+			tooltip: 'Download as CSV',
+			icon: <i className="mdi mdi-file-download-outline" />,
+		},
+	]);
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -145,6 +178,7 @@ const useTransactionBankingListing = ({ userId }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		buttonList,
 	};
 };
 

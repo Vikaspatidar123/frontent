@@ -24,7 +24,7 @@ const TableContainer = ({
 	isPagination,
 	theadClass,
 	tbodyClass,
-	totalPageCount,
+	totalPageCount = 1,
 	isManualPagination,
 	onChangePagination,
 	isLoading = false,
@@ -239,7 +239,6 @@ const TableContainer = ({
 };
 
 TableContainer.defaultProps = {
-	preGlobalFilteredRows: [],
 	hideHeader: false,
 	tableClass: '',
 	paginationDiv: '',
@@ -255,7 +254,6 @@ TableContainer.defaultProps = {
 };
 
 TableContainer.propTypes = {
-	preGlobalFilteredRows: PropTypes.arrayOf,
 	hideHeader: PropTypes.bool,
 	columns: PropTypes.arrayOf(
 		PropTypes.shape({
