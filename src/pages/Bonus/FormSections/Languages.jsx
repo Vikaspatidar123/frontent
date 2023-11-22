@@ -58,16 +58,16 @@ const Languages = ({
 	langContent,
 	setLangContent,
 	disableTabSwitching,
-	isNext,
+	nextPressed,
 	setNextPressed,
 	setActiveTab,
 }) => {
 	useEffect(() => {
-		if (isNext) {
-			setActiveTab(3);
-			setNextPressed('');
+		if (nextPressed.currentTab === 'languages') {
+			setActiveTab(nextPressed.nextTab);
+			setNextPressed({});
 		}
-	}, [isNext]);
+	}, [nextPressed]);
 
 	const toggle = (id) => !disableTabSwitching && setActiveLangTab(id);
 

@@ -27,6 +27,10 @@ const StepFormTabs = ({
 		() => tabsData.filter((tab) => !tab.isHidden),
 		[tabsData]
 	);
+	const currentTabIndex = useMemo(
+		() => tabsToShow.findIndex((tab) => tab.id === activeTab),
+		[tabsToShow, activeTab]
+	);
 
 	return (
 		<Row>
@@ -46,7 +50,7 @@ const StepFormTabs = ({
 													current: activeTab === tab.id,
 												})}
 												onClick={() => {
-													toggleTab(tab.id);
+													// toggleTab(tab.id);
 												}}
 												disabled={!(passedSteps || []).includes(tab.id)}
 											>
@@ -58,38 +62,39 @@ const StepFormTabs = ({
 							</div>
 							<div className="content clearfix">
 								<TabContent activeTab={activeTab} className="body">
-									{tabsData?.map((tab) => (
+									{tabsToShow?.map((tab) => (
 										<TabPane tabId={tab.id}>{tab.component}</TabPane>
 									))}
 								</TabContent>
 							</div>
 							<div className="actions clearfix">
 								<ul>
-									<li
-										className={
-											activeTab === 1 ? 'previous disabled' : 'previous'
-										}
-									>
+									<li>
 										<Button
-											disabled={activeTab === 1 || isPrevDisabled}
-											onClick={() => {
-												toggleTab(activeTab - 1);
-											}}
+											disabled={currentTabIndex === 0 || isPrevDisabled}
+											onClick={() =>
+												toggleTab(
+													currentTabIndex !== 0
+														? tabsToShow[currentTabIndex - 1].id
+														: ''
+												)
+											}
 										>
 											Previous
 										</Button>
 									</li>
-									<li
-										className={
-											activeTab === tabsData?.length ? 'next disabled' : 'next'
-										}
-									>
+									<li>
 										<Button
 											disabled={
-												activeTab === tabsData?.length || isNextDisabled
+												currentTabIndex === tabsToShow?.length || isNextDisabled
 											}
 											onClick={() => {
-												onNextClick(activeTab);
+												onNextClick(
+													activeTab,
+													currentTabIndex !== tabsToShow?.length
+														? tabsToShow[currentTabIndex + 1].id
+														: ''
+												);
 											}}
 										>
 											Next

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Row } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { CustomInputField } from '../../../helpers/customForms';
@@ -15,19 +15,36 @@ const Currencies = ({
 	allFields,
 	setAllFields,
 	setActiveTab,
+	nextPressed,
+	setNextPressed,
 }) => {
 	const dispatch = useDispatch();
+	const [nextTab, setNextTab] = useState('');
 	const { bonusCurrencies } = useSelector((state) => state.AllBonusDetails);
 
-	const handleSubmit = (values) => {
+	const handleSubmit = ({ values, nextTabId }) => {
 		setAllFields((prev) => ({ ...prev, ...values }));
-		setActiveTab(2);
+		setActiveTab(nextTabId);
 	};
 
 	const { validation } = useForm({
 		initialValues: getCreateBonusInitialValues()?.currency,
-		onSubmitEntry: handleSubmit,
+		onSubmitEntry: (values) => handleSubmit({ values, nextTabId: nextTab }),
 	});
+
+	useEffect(() => {
+		if (nextPressed.currentTab === 'currency') {
+			setNextTab(nextPressed.nextTab);
+			setNextPressed({});
+		}
+	}, [nextPressed]);
+
+	useEffect(() => {
+		if (nextTab) {
+			validation.submitForm();
+			setNextTab('');
+		}
+	}, [nextTab]);
 
 	const fetchData = async () => {
 		const code = Object.keys(validation?.values)?.[0];
@@ -159,10 +176,7 @@ const Currencies = ({
 								selectedBonus === 'cashfreespins'
 							) {
 								hide =
-									allFields?.isSticky === 'true' || allFields?.isSticky
-										? currKey !== 'maxWinAmount' &&
-										  currKey !== 'zeroOutThreshold'
-										: currKey !== 'maxWinAmount';
+									currKey !== 'maxWinAmount' && currKey !== 'zeroOutThreshold';
 							} else {
 								hide = currKey === 'joiningAmount' || currKey === 'minBalance';
 							}

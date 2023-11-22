@@ -16,7 +16,7 @@ import { generalFormSchema } from '../Validation/schema';
 
 const General = ({
 	isLoading,
-	isNext,
+	nextPressed,
 	setActiveTab,
 	setNextPressed,
 	setAllFields,
@@ -26,7 +26,7 @@ const General = ({
 	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
 	const handleSubmit = (values) => {
 		setAllFields((prev) => ({ ...prev, ...values }));
-		setActiveTab(2);
+		setActiveTab(values.nextTab);
 		setLangContent((prev) => ({
 			promoTitle: { ...prev.promoTitle, EN: values.promotionTitle },
 			terms: { ...prev.terms, EN: values.termCondition },
@@ -42,11 +42,12 @@ const General = ({
 	});
 
 	useEffect(() => {
-		if (isNext) {
+		if (nextPressed.currentTab === 'general') {
+			validation.setFieldValue('nextTab', nextPressed.nextTab);
 			validation.submitForm();
-			setNextPressed('');
+			setNextPressed({});
 		}
-	}, [isNext]);
+	}, [nextPressed]);
 
 	const handleBonusTypeChange = (e, type) => {
 		e?.preventDefault();

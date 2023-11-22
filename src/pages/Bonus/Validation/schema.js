@@ -77,10 +77,11 @@ const generalFormSchema = () =>
 					}
 					return false;
 				},
-				then: Yup.number()
-					.min(1, 'Minimum value must be 1')
-					.required('Bet Level Required')
-					.integer('Only Integer Values Allowed'),
+				then: (schema) =>
+					schema
+						.min(1, 'Minimum value must be 1')
+						.required('Bet Level Required')
+						.integer('Only Integer Values Allowed'),
 			})
 			.nullable(),
 		termCondition: Yup.string()

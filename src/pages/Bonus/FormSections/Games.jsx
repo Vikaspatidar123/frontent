@@ -65,7 +65,7 @@ const columnsArray = ({ selectedGames, toggleSelectGame }) => [
 	},
 ];
 
-const Games = ({ isNext, setAllFields, setActiveTab, setNextPressed }) => {
+const Games = ({ nextPressed, setAllFields, setActiveTab, setNextPressed }) => {
 	const dispatch = useDispatch();
 	const [selectedGames, setSelectedGames] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -80,15 +80,15 @@ const Games = ({ isNext, setAllFields, setActiveTab, setNextPressed }) => {
 	}, []);
 
 	useEffect(() => {
-		if (isNext) {
+		if (nextPressed.currentTab === 'games') {
 			setAllFields((prev) => ({
 				...prev,
 				selectedGames,
 			}));
-			setActiveTab(4);
+			setActiveTab(nextPressed.nextTab);
 			setNextPressed('');
 		}
-	}, [isNext]);
+	}, [nextPressed]);
 
 	const providerOptions = useMemo(() => {
 		if (casinoProvidersData) {
