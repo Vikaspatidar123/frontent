@@ -32,12 +32,22 @@ const Currencies = ({
 		onSubmitEntry: (values) => handleSubmit({ values, nextTabId: nextTab }),
 	});
 
-	useEffect(() => {
-		if (nextPressed.currentTab === 'currency') {
-			setNextTab(nextPressed.nextTab);
-			setNextPressed({});
-		}
-	}, [nextPressed]);
+	useEffect(
+		() => () => {
+			const isAnyErrors = document.getElementById('error-container');
+
+			if (typeof isAnyErrors !== 'undefined' && isAnyErrors != null) {
+				showToastr({
+					message: 'Please fill every required field',
+					type: 'error',
+				});
+			} else if (nextPressed.currentTab === 'currency') {
+				setNextTab(nextPressed.nextTab);
+				setNextPressed({});
+			}
+		},
+		[nextPressed]
+	);
 
 	useEffect(() => {
 		if (nextTab) {
@@ -163,6 +173,15 @@ const Currencies = ({
 						</Col>
 						{Object.keys(validation?.values[key]).map((currKey, currIndex) => {
 							let hide = false;
+							let validationError = false;
+							if (
+								currKey !== 'minBalance' &&
+								!validation?.values[key][currKey]
+							) {
+								validationError = true;
+							} else {
+								validationError = false;
+							}
 
 							if (selectedBonus === 'wagering') {
 								hide =
@@ -211,6 +230,15 @@ const Currencies = ({
 											type="number"
 											required
 										/>
+										{validationError && (
+											<span
+												value={`[${key}][${currKey}]`}
+												id="error-container"
+												className="text-danger"
+											>
+												Required *
+											</span>
+										)}
 									</Col>
 								)
 							);

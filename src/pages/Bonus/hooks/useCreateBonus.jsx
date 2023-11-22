@@ -8,12 +8,13 @@ import Currencies from '../FormSections/Currency';
 import { getCreateBonusInitialValues } from '../formDetails';
 import WageringContribution from '../FormSections/WageringContribution';
 import Games from '../FormSections/Games';
+import BonusCountry from '../FormSections/BonusCountry';
 
 const useCreateBonus = () => {
 	const navigate = useNavigate();
 	const [activeLangTab, setActiveLangTab] = useState('');
 	const [selectedBonus, setSelectedBonus] = useState('deposit');
-	const [activeTab, setActiveTab] = useState('general');
+	const [activeTab, setActiveTab] = useState('currency');
 	const [allFields, setAllFields] = useState(
 		getCreateBonusInitialValues() || {}
 	);
@@ -24,7 +25,7 @@ const useCreateBonus = () => {
 		desc: {},
 		terms: {},
 	});
-
+	const [selectedCountries, setSelectedCountries] = useState([]);
 	const checkAllEmptyCondition = () =>
 		(langContent?.promoTitle?.[activeLangTab] === '' ||
 			langContent?.promoTitle?.[activeLangTab] === undefined) &&
@@ -164,7 +165,12 @@ const useCreateBonus = () => {
 		{
 			id: 'countries',
 			title: 'Countries',
-			component: <div />,
+			component: (
+				<BonusCountry
+					selectedCountries={selectedCountries}
+					setSelectedCountries={setSelectedCountries}
+				/>
+			),
 		},
 	];
 
