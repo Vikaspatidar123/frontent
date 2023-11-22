@@ -22,9 +22,10 @@ const StepFormTabs = ({
 	onNextClick,
 	isNextDisabled,
 	isPrevDisabled,
+	submitButtonText,
 }) => {
 	const tabsToShow = useMemo(
-		() => tabsData.filter((tab) => !tab.isHidden),
+		() => tabsData.filter((tab) => !tab.isHidden) || [],
 		[tabsData]
 	);
 	const currentTabIndex = useMemo(
@@ -85,19 +86,19 @@ const StepFormTabs = ({
 									</li>
 									<li>
 										<Button
-											disabled={
-												currentTabIndex === tabsToShow?.length || isNextDisabled
-											}
+											disabled={isNextDisabled}
 											onClick={() => {
 												onNextClick(
 													activeTab,
-													currentTabIndex !== tabsToShow?.length
+													currentTabIndex !== tabsToShow.length - 1
 														? tabsToShow[currentTabIndex + 1].id
-														: ''
+														: 'submit'
 												);
 											}}
 										>
-											Next
+											{currentTabIndex === tabsToShow.length - 1
+												? submitButtonText || 'Submit'
+												: 'Next'}
 										</Button>
 									</li>
 								</ul>
@@ -113,6 +114,7 @@ const StepFormTabs = ({
 StepFormTabs.defaultProps = {
 	isNextDisabled: false,
 	isPrevDisabled: false,
+	submitButtonText: '',
 };
 
 StepFormTabs.propTypes = {
@@ -128,6 +130,7 @@ StepFormTabs.propTypes = {
 	onNextClick: PropTypes.func.isRequired,
 	isNextDisabled: PropTypes.bool,
 	isPrevDisabled: PropTypes.bool,
+	submitButtonText: PropTypes.string,
 };
 
 export default StepFormTabs;

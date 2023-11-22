@@ -1,8 +1,5 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-// import PropTypes from 'prop-types'
-// import { useDispatch } from 'react-redux';
-
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCreateBonus from './hooks/useCreateBonus';
 import StepFormTabs from '../../components/Common/StepFormTabs';
@@ -31,14 +28,13 @@ const CreateBonus = () => {
 					onNextClick={onNextClick}
 					isNextDisabled={isNextDisabled}
 					isPrevDisabled={isNextDisabled}
+					submitButtonText="Create Bonus"
 				/>
 			</Container>
 		</div>
 	);
 };
 
-CreateBonus.propTypes = {
-	// t: PropTypes.func.isRequired,
-};
+CreateBonus.propTypes = {};
 
 export default CreateBonus;

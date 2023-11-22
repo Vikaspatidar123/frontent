@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import {
-	getCreateBonusInitialValues,
 	generalStaticFormFields,
 	typeDepositAdditionalFields,
 	typeFreeSpinAdditionalFields,
 	commonFields,
+	generalStepInitialValues,
+	generalStaticFormFieldsWithoutPercent,
 } from '../formDetails';
 import FormPage from '../../../components/Common/FormPage';
 import Spinners from '../../../components/Common/Spinner';
@@ -25,7 +26,12 @@ const General = ({
 }) => {
 	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
 	const handleSubmit = (values) => {
-		setAllFields((prev) => ({ ...prev, ...values }));
+		setAllFields((prev) => ({
+			...prev,
+			...values,
+			validFrom: values.startDate,
+			validTo: values.endDate,
+		}));
 		setActiveTab(values.nextTab);
 		setLangContent((prev) => ({
 			promoTitle: { ...prev.promoTitle, EN: values.promotionTitle },
@@ -35,9 +41,8 @@ const General = ({
 	};
 
 	const { formFields, setFormFields, validation } = useForm({
-		initialValues: getCreateBonusInitialValues(),
+		initialValues: generalStepInitialValues(),
 		validationSchema: generalFormSchema(),
-		// staticFormFields: generalStaticFormFields(),
 		onSubmitEntry: handleSubmit,
 	});
 
@@ -51,6 +56,8 @@ const General = ({
 
 	const handleBonusTypeChange = (e, type) => {
 		e?.preventDefault();
+		validation.setFieldValue('visibleInPromotions', false);
+		validation.setFieldValue('validOnDays', []);
 		const bonusType = e?.target?.value || type;
 		setSelectedBonus(bonusType);
 		switch (bonusType) {
@@ -74,7 +81,7 @@ const General = ({
 				break;
 			case 'freespins':
 				setFormFields([
-					...generalStaticFormFields(),
+					...generalStaticFormFieldsWithoutPercent(),
 					{
 						name: 'bonusType',
 						fieldType: 'select',
@@ -92,7 +99,7 @@ const General = ({
 				break;
 			case 'promotion':
 				setFormFields([
-					...generalStaticFormFields(),
+					...generalStaticFormFieldsWithoutPercent(),
 					{
 						name: 'bonusType',
 						fieldType: 'select',
@@ -123,22 +130,18 @@ const General = ({
 			validation.values.bonusType !== 'promotion'
 		) {
 			const copyArray = [...formFields];
-			copyArray.splice(
-				validation.values.bonusType === 'freespins' ? 12 : 11,
-				0,
-				{
-					name: 'validOnDays',
-					fieldType: 'radioGroupMulti',
-					label: 'Valid On Days',
-					optionList: daysOfWeek.map(({ label, value, id }) => ({
-						optionLabel: label,
-						value,
-						id,
-					})),
-					fieldColOptions: { lg: 12 },
-					isNewRow: true,
-				}
-			);
+			copyArray.splice(11, 0, {
+				name: 'validOnDays',
+				fieldType: 'radioGroupMulti',
+				label: 'Valid On Days',
+				optionList: daysOfWeek.map(({ label, value, id }) => ({
+					optionLabel: label,
+					value,
+					id,
+				})),
+				fieldColOptions: { lg: 12 },
+				isNewRow: true,
+			});
 			setFormFields(copyArray);
 			setIsDaysFieldAdded(true);
 		} else if (isDaysFieldAdded) {
@@ -148,7 +151,7 @@ const General = ({
 			setFormFields(copyArray);
 			setIsDaysFieldAdded(false);
 		}
-	}, [validation.values.visibleInPromotions, validation.values.bonusType]);
+	}, [validation.values.visibleInPromotions]);
 
 	useEffect(() => {
 		if (validation.values.isSticky === 'true') {

@@ -3,19 +3,27 @@ import moment from 'moment';
 import { bonusTypes } from './constants';
 
 const currentDate = moment().toDate();
+const nextDayDate = moment().add('days', 1).toDate();
 
-// complete this
 const generalStepInitialValues = () => ({
 	promotionTitle: '',
-	bonusType: 'deposit',
+	depositBonusPercent: 1,
 	//  change to ValidFrom and validTo
 	startDate: currentDate,
-	endDate: currentDate,
-	termCondition: '',
-	quantity: 1,
+	endDate: nextDayDate,
+	bonusType: 'deposit',
 	wageringMultiplier: 1,
+	isSticky: false,
+	wageringRequirementType: true,
 	daysToClear: 1,
-	wageringRequirementType: 1,
+	isActive: false,
+	visibleInPromotions: false,
+	showBonusValidity: true,
+	validOnDays: [],
+	termCondition: '',
+	description: '',
+	bonusImage: null,
+	quantity: 1,
 	betLevel: 1,
 });
 
@@ -24,7 +32,7 @@ const getCreateBonusInitialValues = () => ({
 	bonusType: 'deposit',
 	//  change to ValidFrom and validTo
 	startDate: currentDate,
-	endDate: currentDate,
+	endDate: nextDayDate,
 	termCondition: '',
 	quantity: 1,
 	wageringMultiplier: 1,
@@ -73,6 +81,24 @@ const createBonusValidationSchema = () => ({
 	// ]
 });
 
+const generalStaticFormFieldsWithoutPercent = () => [
+	{
+		name: 'promotionTitle',
+		fieldType: 'textField',
+		type: '',
+		label: 'Promotion Title',
+		placeholder: 'Promotion Title',
+	},
+	{
+		name: 'ranges',
+		fieldType: 'dateRangeSelector',
+		label: 'Bonus Validity',
+		placeholder: 'Select Range',
+		minDate: moment().utc().startOf('day').toDate(),
+		maxDate: moment().add(100, 'years').utc().toDate(),
+	},
+];
+
 const generalStaticFormFields = () => [
 	{
 		name: 'promotionTitle',
@@ -104,16 +130,19 @@ const commonFields = () => [
 		fieldType: 'toggle',
 		label: 'Active',
 		isNewRow: true,
+		tooltipContent: 'If True Status is Active else In-Active',
 	},
 	{
 		name: 'visibleInPromotions',
 		fieldType: 'toggle',
 		label: 'Visible in Promotions',
+		tooltipContent: 'If true visible in promotions else not',
 	},
 	{
 		name: 'showBonusValidity',
 		fieldType: 'toggle',
 		label: 'Hide Validity',
+		tooltipContent: 'If true bonus validity will be hidden to user',
 	},
 	{
 		name: 'termCondition',
@@ -314,4 +343,5 @@ export {
 	typeFreeSpinAdditionalFields,
 	commonFields,
 	generalStepInitialValues,
+	generalStaticFormFieldsWithoutPercent,
 };
