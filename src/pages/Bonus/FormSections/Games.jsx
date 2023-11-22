@@ -65,9 +65,15 @@ const columnsArray = ({ selectedGames, toggleSelectGame }) => [
 	},
 ];
 
-const Games = ({ nextPressed, setAllFields, setActiveTab, setNextPressed }) => {
+const Games = ({
+	nextPressed,
+	setAllFields,
+	setActiveTab,
+	setNextPressed,
+	selectedGames,
+	setSelectedGames,
+}) => {
 	const dispatch = useDispatch();
-	const [selectedGames, setSelectedGames] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [searchText, setSearchText] = useState('');

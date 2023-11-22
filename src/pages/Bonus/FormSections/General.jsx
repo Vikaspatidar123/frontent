@@ -23,6 +23,8 @@ const General = ({
 	setAllFields,
 	setSelectedBonus,
 	setLangContent,
+	setSelectedCountries,
+	setSelectedGames,
 }) => {
 	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
 	const handleSubmit = (values) => {
@@ -56,8 +58,11 @@ const General = ({
 
 	const handleBonusTypeChange = (e, type) => {
 		e?.preventDefault();
+		setSelectedCountries([]);
+		setSelectedGames([]);
 		validation.setFieldValue('visibleInPromotions', false);
 		validation.setFieldValue('validOnDays', []);
+		validation.setFieldValue('wageringRequirementType', true);
 		const bonusType = e?.target?.value || type;
 		setSelectedBonus(bonusType);
 		switch (bonusType) {
