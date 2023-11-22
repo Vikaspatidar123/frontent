@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsTransactionListing from './hooks/useSportsTransactionListing';
@@ -13,6 +12,7 @@ import Filters from '../../components/Common/Filters';
 
 const SportsTransactionList = ({ t }) => {
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		toggleAdvance,
@@ -38,10 +38,12 @@ const SportsTransactionList = ({ t }) => {
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				<Breadcrumb
-					title={t('Reports')}
-					breadcrumbItem={t('Sports Transactions')}
-				/>
+				{showBreadcrumb && (
+					<Breadcrumb
+						title={t('Reports')}
+						breadcrumbItem={t('Sports Transactions')}
+					/>
+				)}
 				<Row>
 					<Col lg="12">
 						<Card>

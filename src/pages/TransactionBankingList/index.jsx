@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-// import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/TableContainer';

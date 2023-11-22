@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CardBody } from 'reactstrap';
+import { CardBody, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
 import usePermission from './Hooks/usePermission';
 
@@ -11,17 +11,36 @@ const CrudSection = ({ title, buttonList }) => {
 			<div className="d-flex align-items-center">
 				<h5 className="mb-0 card-title flex-grow-1">{title}</h5>
 				<div className="flex-shrink-0">
-					{buttonList.map(({ link, handleClick, label, module, operation }) => (
-						<Link
-							key={link}
-							hidden={!isGranted(module, operation)}
-							to={link}
-							onClick={handleClick}
-							className="btn btn-primary me-1"
-						>
-							{label}
-						</Link>
-					))}
+					{buttonList.map(
+						({
+							link,
+							handleClick,
+							label,
+							module,
+							operation,
+							tooltip,
+							icon,
+						}) => (
+							<>
+								<Link
+									key={link}
+									hidden={!isGranted(module, operation)}
+									to={link}
+									onClick={handleClick}
+									className="btn btn-primary me-1"
+									id={`id-${label}`}
+								>
+									{label}
+									{icon}
+								</Link>
+								{tooltip && (
+									<UncontrolledTooltip placement="top" target={`id-${label}`}>
+										{tooltip}
+									</UncontrolledTooltip>
+								)}
+							</>
+						)
+					)}
 				</div>
 			</div>
 		</CardBody>

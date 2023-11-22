@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { fetchCasinoTransactionsStart } from '../../../store/actions';
-import { getDateTime } from '../../../helpers/dateFormatter';
+import { getDateTime, formatDateYMD } from '../../../helpers/dateFormatter';
 import { statusType } from '../constants';
 import {
 	ActionType,
@@ -14,6 +15,11 @@ import {
 	Status,
 	UserEmail,
 } from '../CasinoTransactionsListCol';
+import { modules } from '../../../constants/permissions';
+import { getAccessToken } from '../../../network/storageUtils';
+import { downloadFileInNewWindow } from '../../../utils/helpers';
+
+const { VITE_APP_API_URL } = import.meta.env;
 
 const useCasinoTransactionsListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -104,6 +110,30 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		[]
 	);
 
+	const handleDownload = () =>
+		downloadFileInNewWindow(`${VITE_APP_API_URL}/api/admin/casino/transactions?csvDownload=true
+    &limit=${itemsPerPage}&pageNo=${currentPage}&startDate=${formatDateYMD(
+			filterValues.startDate || moment().subtract(1, 'month').utc().toDate()
+		)}&endDate=${formatDateYMD(
+			filterValues.endDate || new Date()
+		)}&currencyCode=${filterValues.currencyCode || ''}&transactionType=${
+			filterValues.transactionType || ''
+		}&email=${filterValues.email || ''}&adminId=${''}&token=${
+			getAccessToken() || ''
+		}`);
+
+	const buttonList = useMemo(() => [
+		{
+			label: '',
+			handleClick: handleDownload,
+			link: '#!',
+			tooltip: 'Download as CSV',
+			icon: <i className="mdi mdi-file-download-outline font-size" />,
+			module: modules.CasinoManagement,
+			operation: 'R',
+		},
+	]);
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -113,6 +143,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		buttonList,
 	};
 };
 

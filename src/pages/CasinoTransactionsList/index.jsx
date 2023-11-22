@@ -32,6 +32,7 @@ const CasinoTransactionsList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		buttonList,
 	} = useCasinoTransactionsListing(filterValidation.values);
 
 	return (
@@ -43,7 +44,10 @@ const CasinoTransactionsList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Casino Transactions" />
+							<CrudSection
+								buttonList={buttonList}
+								title="Casino Transactions"
+							/>
 							<CardBody>
 								<Filters
 									validation={filterValidation}
