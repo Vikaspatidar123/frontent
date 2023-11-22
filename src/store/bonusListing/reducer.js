@@ -23,8 +23,6 @@ const INIT_STATE = {
 			minDeposit: '',
 			maxWinAmount: '',
 			zeroOutThreshold: '',
-			minBalance: '',
-			joiningAmount: '',
 		},
 	},
 };

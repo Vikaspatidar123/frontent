@@ -34,8 +34,6 @@ const getCreateBonusInitialValues = () => ({
 			minDeposit: '',
 			maxWinAmount: '',
 			zeroOutThreshold: '',
-			minBalance: '',
-			joiningAmount: '',
 		},
 	},
 	providers: '',
