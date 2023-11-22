@@ -23,7 +23,7 @@ const Currencies = ({
 	const { bonusCurrencies } = useSelector((state) => state.AllBonusDetails);
 
 	const handleSubmit = ({ values, nextTabId }) => {
-		setAllFields((prev) => ({ ...prev, ...values }));
+		setAllFields((prev) => ({ ...prev, currency: values }));
 		setActiveTab(nextTabId);
 	};
 

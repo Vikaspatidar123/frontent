@@ -23,6 +23,7 @@ const StepFormTabs = ({
 	isNextDisabled,
 	isPrevDisabled,
 	submitButtonText,
+	submitButtonLoading,
 }) => {
 	const tabsToShow = useMemo(
 		() => tabsData.filter((tab) => !tab.isHidden) || [],
@@ -72,7 +73,11 @@ const StepFormTabs = ({
 								<ul>
 									<li>
 										<Button
-											disabled={currentTabIndex === 0 || isPrevDisabled}
+											disabled={
+												currentTabIndex === 0 ||
+												isPrevDisabled ||
+												submitButtonLoading
+											}
 											onClick={() =>
 												toggleTab(
 													currentTabIndex !== 0
@@ -86,7 +91,7 @@ const StepFormTabs = ({
 									</li>
 									<li>
 										<Button
-											disabled={isNextDisabled}
+											disabled={isNextDisabled || submitButtonLoading}
 											onClick={() => {
 												onNextClick(
 													activeTab,
@@ -96,6 +101,9 @@ const StepFormTabs = ({
 												);
 											}}
 										>
+											{submitButtonLoading && (
+												<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
+											)}
 											{currentTabIndex === tabsToShow.length - 1
 												? submitButtonText || 'Submit'
 												: 'Next'}
@@ -115,6 +123,7 @@ StepFormTabs.defaultProps = {
 	isNextDisabled: false,
 	isPrevDisabled: false,
 	submitButtonText: '',
+	submitButtonLoading: false,
 };
 
 StepFormTabs.propTypes = {
@@ -131,6 +140,7 @@ StepFormTabs.propTypes = {
 	isNextDisabled: PropTypes.bool,
 	isPrevDisabled: PropTypes.bool,
 	submitButtonText: PropTypes.string,
+	submitButtonLoading: PropTypes.bool,
 };
 
 export default StepFormTabs;

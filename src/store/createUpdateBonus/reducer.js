@@ -2,6 +2,7 @@ import {
 	CREATE_BONUS,
 	CREATE_BONUS_SUCCESS,
 	CREATE_BONUS_FAIL,
+	RESET_CREATE_BONUS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -34,6 +35,13 @@ const createBonusReducer = (state = INIT_STATE, { type, payload } = {}) => {
 				createBonusLoading: false,
 			};
 
+		case RESET_CREATE_BONUS:
+			return {
+				...state,
+				createBonusSuccess: false,
+				createBonusError: false,
+				createBonusLoading: false,
+			};
 		default:
 			return state;
 	}

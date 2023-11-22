@@ -87,7 +87,9 @@ const addGamesToSubCategory = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/casino/category-games`, data);
 
 const createBonusCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/bonus`, data);
+	postRequest(`${VITE_APP_API_URL}/api/admin/bonus`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
 
 export {
 	createSuperAdminCMS,

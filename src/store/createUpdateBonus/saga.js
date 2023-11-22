@@ -2,6 +2,7 @@
 import { put, takeLatest, all, fork } from 'redux-saga/effects';
 
 // Create Bonus Redux States
+import { serialize } from 'object-to-formdata';
 import { createBonusSuccess, createBonusFail } from './actions';
 import { CREATE_BONUS } from './actionTypes';
 
@@ -12,6 +13,7 @@ function* createBonusWorker(action) {
 	try {
 		let payload = action && action.payload;
 		payload = clearEmptyProperty(payload);
+		payload = serialize(payload);
 		const { data } = yield createBonusCall(payload);
 
 		yield put(createBonusSuccess(data?.data));
