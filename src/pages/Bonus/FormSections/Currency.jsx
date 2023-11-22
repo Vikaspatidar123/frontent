@@ -16,6 +16,8 @@ const Currencies = ({
 	setActiveTab,
 	nextPressed,
 	setNextPressed,
+	bonusTypeChanged,
+	setBonusTypeChanged,
 }) => {
 	const dispatch = useDispatch();
 	const [nextTab, setNextTab] = useState('');
@@ -30,6 +32,13 @@ const Currencies = ({
 		initialValues: getCreateBonusInitialValues()?.currency,
 		onSubmitEntry: (values) => handleSubmit({ values, nextTabId: nextTab }),
 	});
+
+	useEffect(() => {
+		if (bonusTypeChanged) {
+			setBonusTypeChanged(false);
+			validation.resetForm();
+		}
+	}, [bonusTypeChanged]);
 
 	useEffect(
 		() => () => {
