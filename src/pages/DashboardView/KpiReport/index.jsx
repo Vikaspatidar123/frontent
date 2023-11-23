@@ -27,6 +27,7 @@ const KpiReport = (props) => {
 		setActiveKpiReportTab,
 		kPIReportColumn,
 		kPIReport,
+		exportReport,
 	} = props;
 	return (
 		<Col xl="12">
@@ -50,6 +51,7 @@ const KpiReport = (props) => {
 							<button
 								type="button"
 								className="btn btn-primary dashboard-export-btn"
+								onClick={exportReport}
 							>
 								Export Details
 								<i className="bx bx-download align-baseline ms-1" />
@@ -140,6 +142,7 @@ KpiReport.propTypes = {
 	setActiveKpiReportTab: PropTypes.func,
 	kPIReportColumn: PropTypes.arrayOf,
 	kPIReport: PropTypes.arrayOf,
+	exportReport: PropTypes.func.isRequired,
 };
 KpiReport.defaultProps = {
 	activeKpiReportTab: PropTypes.string,

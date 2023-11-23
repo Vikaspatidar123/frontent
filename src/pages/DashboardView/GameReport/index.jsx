@@ -26,6 +26,7 @@ const GameReport = (props) => {
 		setActiveGameReportTab,
 		gameReportColumn,
 		gameReport,
+		exportReport,
 	} = props;
 
 	return (
@@ -50,6 +51,7 @@ const GameReport = (props) => {
 							<button
 								type="button"
 								className="btn btn-primary dashboard-export-btn"
+								onClick={exportReport}
 							>
 								Export Details
 								<i className="bx bx-download align-baseline ms-1" />
@@ -136,6 +138,7 @@ GameReport.propTypes = {
 	setActiveGameReportTab: PropTypes.func,
 	gameReportColumn: PropTypes.arrayOf,
 	gameReport: PropTypes.arrayOf,
+	exportReport: PropTypes.func.isRequired,
 };
 GameReport.defaultProps = {
 	activeGameReportTab: PropTypes.string,

@@ -4,11 +4,17 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import { getAccessToken } from '../../../network/storageUtils';
 import {
 	getLivePlayerInfoStart,
 	getDemographicStart,
 } from '../../../store/dashboardView/actions';
-import { formatDateYMD, getDateDaysAgo } from '../../../utils/helpers';
+import {
+	formatDateYMD,
+	getDateDaysAgo,
+	downloadFileInNewWindow,
+} from '../../../utils/helpers';
 import { countryFilter } from '../../../utils/countryFilter';
 import {
 	CustomDate,
@@ -46,6 +52,8 @@ import {
 	SIGNUPS,
 } from '../DemographicReport/DemoGraphCol';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+
+const { VITE_APP_API_URL } = import.meta.env;
 
 const useDashboardView = () => {
 	const dispatch = useDispatch();
@@ -179,6 +187,51 @@ const useDashboardView = () => {
 				colors: ['#fff'],
 			},
 		},
+	};
+
+	const exportReport = () => {
+		downloadFileInNewWindow(
+			`${VITE_APP_API_URL}/api/admin/report/demographic?startDate=${
+				formatDateYMD(demoGraphState.map((a) => a.startDate)) ||
+				moment().subtract(1, 'month').utc().toDate()
+			}&endDate=${
+				formatDateYMD(demoGraphState.map((a) => a.startDate)) || new Date()
+			}&dateOptions=${demoDateOptions}&csvDownload=true&token=${getAccessToken()}`
+		);
+	};
+
+	// FIXME: update the date range after real time implementation
+	const exportKPISummaryReport = () => {
+		downloadFileInNewWindow(
+			`${VITE_APP_API_URL}/api/admin/report/kpi-summary?tab=${activeKpiSummTab}startDate=${
+				formatDateYMD(demoGraphState.map((a) => a.startDate)) ||
+				moment().subtract(1, 'month').utc().toDate()
+			}&endDate=${
+				formatDateYMD(demoGraphState.map((a) => a.startDate)) || new Date()
+			}&csvDownload=true&token=${getAccessToken()}`
+		);
+	};
+	// FIXME: update the date range after real time implementation
+	const exportKPIReport = () => {
+		downloadFileInNewWindow(
+			`${VITE_APP_API_URL}/api/admin/report/kpi?tab=${activeKpiReportTab}&dateOptions=${demoDateOptions}&customStartDate=${
+				formatDateYMD(demoGraphState.map((a) => a.startDate)) ||
+				moment().subtract(1, 'month').utc().toDate()
+			}&customEndDate=${
+				formatDateYMD(demoGraphState.map((a) => a.startDate)) || new Date()
+			}&csvDownload=true&token=${getAccessToken()}`
+		);
+	};
+	// FIXME: update the date range after real time implementation
+	const exportGameReport = () => {
+		downloadFileInNewWindow(
+			`${VITE_APP_API_URL}/api/admin/report/kpi?tab=${activeKpiReportTab}&dateOptions=${demoDateOptions}&customStartDate=${
+				formatDateYMD(demoGraphState.map((a) => a.startDate)) ||
+				moment().subtract(1, 'month').utc().toDate()
+			}&customEndDate=${
+				formatDateYMD(demoGraphState.map((a) => a.startDate)) || new Date()
+			}&csvDownload=true&token=${getAccessToken()}`
+		);
 	};
 
 	const kPISummaryColumn = useMemo(
@@ -400,6 +453,10 @@ const useDashboardView = () => {
 		setDemoDateOptions,
 		isDemographicLoading,
 		loggedInOptions,
+		exportReport,
+		exportGameReport,
+		exportKPIReport,
+		exportKPISummaryReport,
 	};
 };
 
