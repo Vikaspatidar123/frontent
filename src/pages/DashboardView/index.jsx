@@ -96,6 +96,10 @@ const DashboardView = ({ t }) => {
 		setDemoDateOptions,
 		isDemographicLoading,
 		loggedInOptions,
+		exportReport,
+		exportGameReport,
+		exportKPIReport,
+		exportKPISummaryReport,
 	} = useDashboardView();
 	return (
 		<div className="page-content">
@@ -128,6 +132,7 @@ const DashboardView = ({ t }) => {
 								demoDateOptions={demoDateOptions}
 								setDemoDateOptions={setDemoDateOptions}
 								isDemographicLoading={isDemographicLoading}
+								exportReport={exportReport}
 							/>
 						</Row>
 					</Col>
@@ -140,6 +145,7 @@ const DashboardView = ({ t }) => {
 								setActiveKpiSummTab={setActiveKpiSummTab}
 								kPISummaryColumn={kPISummaryColumn}
 								kPISummary={kPISummary}
+								exportReport={exportKPISummaryReport}
 							/>
 						</Row>
 					</Col>
@@ -150,6 +156,7 @@ const DashboardView = ({ t }) => {
 								setActiveKpiReportTab={setActiveKpiReportTab}
 								kPIReportColumn={kPIReportColumn}
 								kPIReport={kPIReport}
+								exportReport={exportKPIReport}
 							/>
 						</Row>
 					</Col>
@@ -160,6 +167,7 @@ const DashboardView = ({ t }) => {
 								setActiveGameReportTab={setActiveGameReportTab}
 								gameReportColumn={gameReportColumn}
 								gameReport={gameReport}
+								exportReport={exportGameReport}
 							/>
 						</Row>
 					</Col>
