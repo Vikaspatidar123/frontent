@@ -3,8 +3,11 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchLanguageManagementStart } from '../../../store/actions';
 import { English, Keys } from '../LanguageManagementCol';
+import { downloadFileInNewWindow } from '../../../utils/helpers';
+import { getAccessToken } from '../../../network/storageUtils';
 
 const itemsPerPage = 10;
+const { VITE_APP_API_URL } = import.meta.env;
 
 const useLanguageManagementListing = () => {
 	const dispatch = useDispatch();
@@ -63,6 +66,21 @@ const useLanguageManagementListing = () => {
 		[]
 	);
 
+	const handleDownload = () =>
+		downloadFileInNewWindow(
+			`${VITE_APP_API_URL}/api/admin/language/support-keys?csvDownload=true&token=${getAccessToken()}`
+		);
+
+	const buttonList = useMemo(() => [
+		{
+			label: '',
+			handleClick: handleDownload,
+			link: '#!',
+			tooltip: 'Download as Xls',
+			icon: <i className="mdi mdi-file-download-outline" />,
+		},
+	]);
+
 	return {
 		searchText,
 		setSearchText,
@@ -73,6 +91,7 @@ const useLanguageManagementListing = () => {
 		formattedLanguageManagement,
 		itemsPerPage,
 		columns,
+		buttonList,
 	};
 };
 
