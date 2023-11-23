@@ -40,6 +40,7 @@ const WageringContribution = ({
 	setActiveTab,
 	setNextPressed,
 	setAllFields,
+	bonusDetails,
 }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
@@ -51,6 +52,12 @@ const WageringContribution = ({
 		SAWageringTemplateLoading,
 		SAWageringTemplate,
 	} = useSelector((state) => state.WageringTemplate);
+
+	useEffect(() => {
+		if (bonusDetails) {
+			setSelectedTemplate(bonusDetails?.wageringTemplateId);
+		}
+	}, [bonusDetails]);
 
 	useEffect(() => {
 		if (nextPressed.currentTab === 'wageringContribution') {

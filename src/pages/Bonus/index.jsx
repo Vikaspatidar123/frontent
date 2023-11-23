@@ -10,7 +10,7 @@ import useBonusListing from './hooks/useBonusListing';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
-import useCreateBonus from './hooks/useCreateBonus';
+import useButtonList from './hooks/useButtonList';
 
 const BonusDetail = () => {
 	// meta title
@@ -37,7 +37,7 @@ const BonusDetail = () => {
 		columns,
 	} = useBonusListing(filterValidation.values);
 
-	const { buttonList } = useCreateBonus();
+	const { buttonList } = useButtonList();
 
 	return (
 		<div className="page-content">

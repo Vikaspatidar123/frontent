@@ -1,18 +1,25 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import General from '../FormSections/General';
-import { modules } from '../../../constants/permissions';
 import Languages from '../FormSections/Languages';
 import { getSiteConfiguration } from '../../../network/getRequests';
 import Currencies from '../FormSections/Currency';
 import WageringContribution from '../FormSections/WageringContribution';
 import Games from '../FormSections/Games';
 import BonusCountry from '../FormSections/BonusCountry';
-import { createBonus, resetCreateBonus } from '../../../store/actions';
+import {
+	createBonus,
+	getUserBonusDetails,
+	getUserBonusDetailsReset,
+	resetCreateBonus,
+	resetUpdateBonus,
+	updateBonus,
+} from '../../../store/actions';
 import { formatDateYMD, safeStringify } from '../../../utils/helpers';
 
-const useCreateBonus = () => {
+const useCreateBonus = ({ isEdit }) => {
+	const { bonusId } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [selectedGames, setSelectedGames] = useState([]);
@@ -29,9 +36,38 @@ const useCreateBonus = () => {
 		terms: {},
 	});
 	const [selectedCountries, setSelectedCountries] = useState([]);
-	const { createBonusSuccess, createBonusLoading } = useSelector(
-		(state) => state.CreateUpdateBonus
+	const {
+		createBonusSuccess,
+		createBonusLoading,
+		updateBonusSuccess,
+		updateBonusLoading,
+	} = useSelector((state) => state.CreateUpdateBonus);
+	const { bonusDetails, getBonusDetailsLoading } = useSelector(
+		(state) => state.UserDetails
 	);
+
+	useEffect(() => {
+		if (bonusId) {
+			dispatch(
+				getUserBonusDetails({
+					bonusId,
+				})
+			);
+		}
+		return () => dispatch(getUserBonusDetailsReset());
+	}, [bonusId]);
+
+	useEffect(() => {
+		if (bonusDetails) {
+			setSelectedCountries(bonusDetails?.other?.countries);
+			setSelectedGames(bonusDetails?.gameIds);
+			setLangContent({
+				promoTitle: bonusDetails?.promotionTitle,
+				terms: bonusDetails?.termCondition,
+				desc: bonusDetails?.description,
+			});
+		}
+	}, [bonusDetails]);
 
 	useEffect(() => {
 		if (createBonusSuccess) {
@@ -39,6 +75,13 @@ const useCreateBonus = () => {
 			dispatch(resetCreateBonus());
 		}
 	}, [createBonusSuccess]);
+
+	useEffect(() => {
+		if (updateBonusSuccess) {
+			navigate('/bonus');
+			dispatch(resetUpdateBonus());
+		}
+	}, [updateBonusSuccess]);
 
 	const checkAllEmptyCondition = () =>
 		(langContent?.promoTitle?.[activeLangTab] === '' ||
@@ -89,44 +132,44 @@ const useCreateBonus = () => {
 	// final create api call
 	useEffect(() => {
 		if (nextPressed.nextTab === 'submit') {
-			dispatch(
-				createBonus({
-					...allFields,
-					promotionTitle: safeStringify(langContent?.promoTitle),
-					description: safeStringify(langContent?.desc),
-					termCondition: safeStringify(langContent?.terms),
-					validFrom: formatDateYMD(allFields.validFrom),
-					validTo: formatDateYMD(allFields.validTo),
-					wageringTemplateId: allFields.selectedTemplateId,
-					gameIds: selectedGames,
-					wageringRequirementType: [true, 'true'].includes(
-						allFields.wageringRequirementType
-					)
-						? 'bonus'
-						: 'bonusdeposit',
-					other: safeStringify({
-						countries: selectedCountries,
-						showBonusValidity: allFields.showBonusValidity,
-					}),
-				})
-			);
+			if (isEdit) {
+				dispatch(
+					updateBonus({
+						...allFields,
+						bonusId,
+						promotionTitle: safeStringify(langContent?.promoTitle),
+						description: safeStringify(langContent?.desc),
+						termCondition: safeStringify(langContent?.terms),
+						validFrom: formatDateYMD(allFields.validFrom),
+						validTo: formatDateYMD(allFields.validTo),
+						wageringTemplateId: allFields.selectedTemplateId,
+						gameIds: selectedGames,
+						other: safeStringify({
+							countries: selectedCountries,
+							showBonusValidity: allFields.showBonusValidity,
+						}),
+					})
+				);
+			} else {
+				dispatch(
+					createBonus({
+						...allFields,
+						promotionTitle: safeStringify(langContent?.promoTitle),
+						description: safeStringify(langContent?.desc),
+						termCondition: safeStringify(langContent?.terms),
+						validFrom: formatDateYMD(allFields.validFrom),
+						validTo: formatDateYMD(allFields.validTo),
+						wageringTemplateId: allFields.selectedTemplateId,
+						gameIds: selectedGames,
+						other: safeStringify({
+							countries: selectedCountries,
+							showBonusValidity: allFields.showBonusValidity,
+						}),
+					})
+				);
+			}
 		}
 	}, [nextPressed]);
-
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		navigate('/bonus/create');
-	};
-
-	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleAddClick,
-			link: '#!',
-			module: modules.Bonus,
-			operation: 'C',
-		},
-	]);
 
 	const tabData = [
 		{
@@ -134,6 +177,7 @@ const useCreateBonus = () => {
 			title: 'General',
 			component: (
 				<General
+					isLoading={getBonusDetailsLoading}
 					activeTab={activeTab}
 					nextPressed={nextPressed}
 					setActiveTab={setActiveTab}
@@ -144,6 +188,7 @@ const useCreateBonus = () => {
 					setSelectedCountries={setSelectedCountries}
 					setSelectedGames={setSelectedGames}
 					setBonusTypeChanged={setBonusTypeChanged}
+					bonusDetails={bonusDetails}
 				/>
 			),
 		},
@@ -178,9 +223,11 @@ const useCreateBonus = () => {
 					nextPressed={nextPressed}
 					bonusTypeChanged={bonusTypeChanged}
 					setBonusTypeChanged={setBonusTypeChanged}
+					bonusDetails={bonusDetails}
 				/>
 			),
-			isHidden: ['promotion'].includes(selectedBonus),
+			isHidden:
+				['promotion'].includes(selectedBonus) || bonusDetails?.claimedCount,
 		},
 		{
 			id: 'wageringContribution',
@@ -191,9 +238,11 @@ const useCreateBonus = () => {
 					setNextPressed={setNextPressed}
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
+					bonusDetails={bonusDetails}
 				/>
 			),
-			isHidden: ['promotion'].includes(selectedBonus),
+			isHidden:
+				['promotion'].includes(selectedBonus) || bonusDetails?.claimedCount,
 		},
 		{
 			id: 'games',
@@ -208,7 +257,9 @@ const useCreateBonus = () => {
 					setSelectedGames={setSelectedGames}
 				/>
 			),
-			isHidden: ['promotion', 'deposit'].includes(selectedBonus),
+			isHidden:
+				['promotion', 'deposit'].includes(selectedBonus) ||
+				bonusDetails?.claimedCount,
 		},
 		{
 			id: 'countries',
@@ -226,12 +277,12 @@ const useCreateBonus = () => {
 		tabData,
 		toggleTab,
 		activeTab,
-		buttonList,
 		onNextClick,
 		allFields,
 		langContent,
 		isNextDisabled,
 		createBonusLoading,
+		updateBonusLoading,
 	};
 };
 

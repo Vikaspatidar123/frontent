@@ -4,21 +4,21 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCreateBonus from './hooks/useCreateBonus';
 import StepFormTabs from '../../components/Common/StepFormTabs';
 
-const CreateBonus = () => {
+const EditBonus = () => {
 	const {
 		tabData,
 		toggleTab,
 		activeTab,
 		onNextClick,
 		isNextDisabled,
-		createBonusLoading,
-	} = useCreateBonus({ isEdit: false });
+		updateBonusLoading,
+	} = useCreateBonus({ isEdit: true });
 
 	return (
 		<div className="page-content">
 			<Breadcrumbs
 				title="Bonus"
-				breadcrumbItem="Create"
+				breadcrumbItem="Edit"
 				titleLink="/bonus"
 				leftTitle={
 					<>
@@ -34,14 +34,14 @@ const CreateBonus = () => {
 					onNextClick={onNextClick}
 					isNextDisabled={isNextDisabled}
 					isPrevDisabled={isNextDisabled}
-					submitButtonText="Create Bonus"
-					submitButtonLoading={createBonusLoading}
+					submitButtonText="Update Bonus"
+					submitButtonLoading={updateBonusLoading}
 				/>
 			</Container>
 		</div>
 	);
 };
 
-CreateBonus.propTypes = {};
+EditBonus.propTypes = {};
 
-export default CreateBonus;
+export default EditBonus;

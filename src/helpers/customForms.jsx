@@ -341,7 +341,17 @@ export const CustomTextEditor = ({
 		value ? prepareDraft(value) : EditorState.createEmpty()
 	);
 
+	// for prefilling values
+	// useEffect(() => {
+	//   if (value && isFirst) {
+	//     // debugger
+	//     isFirst.current = false
+	//     setEditorState(prepareDraft(value))
+	//   }
+	// }, [value])
+
 	const onEditorStateChange = (editorStateIns) => {
+		setEditorState(editorStateIns);
 		const forFormik = draftToHtml(
 			convertToRaw(editorStateIns.getCurrentContent())
 		);
@@ -366,7 +376,7 @@ export const CustomTextEditor = ({
 				toolbarClassName="toolbarClassName"
 				wrapperClassName="wrapperClassName"
 				editorClassName="editorClassName"
-				editorState={editorState} // Controlled will create issue after conversion
+				editorState={editorState}
 				onEditorStateChange={onEditorStateChange}
 			/>
 			{isError && errorMsg ? (
@@ -402,6 +412,7 @@ export const getField = (
 		adornmentText,
 		namesArray,
 		isRequired,
+		defaultValue,
 		...rest
 	},
 	validation
@@ -581,6 +592,7 @@ export const getField = (
 		case 'textEditor':
 			return (
 				<CustomTextEditor
+					defaultValue={defaultValue}
 					label={label}
 					name={name}
 					placeholder={placeholder}
