@@ -189,6 +189,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setSelectedGames={setSelectedGames}
 					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
+					isEdit={isEdit}
 				/>
 			),
 		},
@@ -283,6 +284,7 @@ const useCreateBonus = ({ isEdit }) => {
 		isNextDisabled,
 		createBonusLoading,
 		updateBonusLoading,
+		getBonusDetailsLoading,
 	};
 };
 
