@@ -29,6 +29,8 @@ const General = ({
 	bonusDetails,
 }) => {
 	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
+	const [isInitialFieldRendered, setIsInitialFieldsRendered] = useState(false);
+
 	const handleSubmit = (values) => {
 		setAllFields((prev) => ({
 			...prev,
@@ -132,6 +134,7 @@ const General = ({
 			default:
 				break;
 		}
+		setIsInitialFieldsRendered(true);
 	};
 
 	useEffect(() => {
@@ -139,33 +142,37 @@ const General = ({
 	}, [bonusDetails]);
 
 	useEffect(() => {
-		if (
-			validation.values.visibleInPromotions &&
-			validation.values.bonusType !== 'promotion'
-		) {
-			const copyArray = [...formFields];
-			copyArray.splice(11, 0, {
-				name: 'validOnDays',
-				fieldType: 'radioGroupMulti',
-				label: 'Valid On Days',
-				optionList: daysOfWeek.map(({ label, value, id }) => ({
-					optionLabel: label,
-					value,
-					id,
-				})),
-				fieldColOptions: { lg: 12 },
-				isNewRow: true,
-			});
-			setFormFields(copyArray);
-			setIsDaysFieldAdded(true);
-		} else if (isDaysFieldAdded) {
-			const copyArray = formFields.filter(
-				(field) => field.name !== 'validOnDays'
-			);
-			setFormFields(copyArray);
-			setIsDaysFieldAdded(false);
+		if (isInitialFieldRendered) {
+			if (
+				validation.values.visibleInPromotions &&
+				validation.values.bonusType !== 'promotion'
+			) {
+				const copyArray = [...formFields];
+				copyArray.splice(11, 0, {
+					name: 'validOnDays',
+					fieldType: 'radioGroupMulti',
+					label: 'Valid On Days',
+					optionList: daysOfWeek.map(({ label, value, id }) => ({
+						optionLabel: label,
+						value,
+						id,
+					})),
+					fieldColOptions: { lg: 12 },
+					isNewRow: true,
+					isDisabled: bonusDetails?.claimedCount,
+				});
+				setFormFields(copyArray);
+				setIsDaysFieldAdded(true);
+			} else if (isDaysFieldAdded) {
+				const copyArray = formFields.filter(
+					(field) => field.name !== 'validOnDays'
+				);
+				setFormFields(copyArray);
+				validation.setFieldValue('validOnDays', []);
+				setIsDaysFieldAdded(false);
+			}
 		}
-	}, [validation.values.visibleInPromotions]);
+	}, [validation.values.visibleInPromotions, isInitialFieldRendered]);
 
 	useEffect(() => {
 		if (['true', true].includes(validation.values.isSticky)) {

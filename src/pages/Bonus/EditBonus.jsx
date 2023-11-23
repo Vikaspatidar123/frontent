@@ -3,6 +3,7 @@ import { Container } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCreateBonus from './hooks/useCreateBonus';
 import StepFormTabs from '../../components/Common/StepFormTabs';
+import Spinners from '../../components/Common/Spinner';
 
 const EditBonus = () => {
 	const {
@@ -12,6 +13,7 @@ const EditBonus = () => {
 		onNextClick,
 		isNextDisabled,
 		updateBonusLoading,
+		getBonusDetailsLoading,
 	} = useCreateBonus({ isEdit: true });
 
 	return (
@@ -27,16 +29,23 @@ const EditBonus = () => {
 				}
 			/>
 			<Container fluid>
-				<StepFormTabs
-					activeTab={activeTab}
-					tabsData={tabData}
-					toggleTab={toggleTab}
-					onNextClick={onNextClick}
-					isNextDisabled={isNextDisabled}
-					isPrevDisabled={isNextDisabled}
-					submitButtonText="Update Bonus"
-					submitButtonLoading={updateBonusLoading}
-				/>
+				{getBonusDetailsLoading ? (
+					<Spinners
+						color="primary"
+						className="position-absolute top-50 start-50"
+					/>
+				) : (
+					<StepFormTabs
+						activeTab={activeTab}
+						tabsData={tabData}
+						toggleTab={toggleTab}
+						onNextClick={onNextClick}
+						isNextDisabled={isNextDisabled}
+						isPrevDisabled={isNextDisabled}
+						submitButtonText="Update Bonus"
+						submitButtonLoading={updateBonusLoading}
+					/>
+				)}
 			</Container>
 		</div>
 	);
