@@ -51,14 +51,6 @@ const General = ({
 		onSubmitEntry: handleSubmit,
 	});
 
-	console.log('BONUSVALUES', validation.values, bonusDetails);
-
-	// useEffect(() => {
-	//   if (bonusDetails) {
-	//     validation.setFieldValue('description', bonusDetails?.description?.EN)
-	//   }
-	// }, [bonusDetails])
-
 	useEffect(() => {
 		if (nextPressed.currentTab === 'general') {
 			validation.setFieldValue('nextTab', nextPressed.nextTab);
@@ -78,7 +70,6 @@ const General = ({
 			validation.setFieldValue('wageringRequirementType', 'bonus');
 		}
 		const bonusType = e?.target?.value || type;
-		console.log('BONUSTYPECHANGED', bonusType);
 		setSelectedBonus(bonusType);
 		switch (bonusType) {
 			case 'deposit':

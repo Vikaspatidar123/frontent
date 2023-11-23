@@ -171,8 +171,6 @@ const useCreateBonus = ({ isEdit }) => {
 		}
 	}, [nextPressed]);
 
-	console.log('BONUSDETAILS', bonusDetails);
-
 	const tabData = [
 		{
 			id: 'general',
