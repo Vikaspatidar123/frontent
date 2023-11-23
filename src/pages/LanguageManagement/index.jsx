@@ -12,8 +12,12 @@ const LanguageManagementList = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const { isLanguageManagementLoading, formattedLanguageManagement, columns } =
-		useLanguageManagementListing();
+	const {
+		isLanguageManagementLoading,
+		formattedLanguageManagement,
+		columns,
+		buttonList,
+	} = useLanguageManagementListing();
 
 	return (
 		<div className="page-content">
@@ -27,7 +31,10 @@ const LanguageManagementList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Languages Management" />
+							<CrudSection
+								buttonList={buttonList}
+								title="Languages Management"
+							/>
 							<CardBody>
 								<TableContainer
 									isLoading={isLanguageManagementLoading}
