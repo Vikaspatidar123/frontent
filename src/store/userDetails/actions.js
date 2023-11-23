@@ -19,6 +19,7 @@ import {
 	GET_ALL_BONUS_SUCCESS,
 	GET_BONUS_DETAILS,
 	GET_BONUS_DETAILS_FAIL,
+	GET_BONUS_DETAILS_RESET,
 	GET_BONUS_DETAILS_SUCCESS,
 	GET_DUPLICATE_USERS,
 	GET_DUPLICATE_USERS_FAIL,
@@ -279,6 +280,11 @@ export const getUserBonusDetailsSuccess = (payload) => ({
 
 export const getUserBonusDetailsFail = (payload) => ({
 	type: GET_BONUS_DETAILS_FAIL,
+	payload,
+});
+
+export const getUserBonusDetailsReset = (payload) => ({
+	type: GET_BONUS_DETAILS_RESET,
 	payload,
 });
 

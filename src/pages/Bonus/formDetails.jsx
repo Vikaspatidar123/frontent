@@ -5,27 +5,27 @@ import { bonusTypes } from './constants';
 const currentDate = moment().toDate();
 const nextDayDate = moment().add('days', 1).toDate();
 
-const generalStepInitialValues = () => ({
-	promotionTitle: '',
-	depositBonusPercent: 1,
+const generalStepInitialValues = ({ bonusDetails }) => ({
+	promotionTitle: bonusDetails?.promotionTitle?.EN || '',
+	depositBonusPercent: bonusDetails?.depositBonusPercent || 1,
 	//  change to ValidFrom and validTo
-	startDate: currentDate,
-	endDate: nextDayDate,
-	bonusType: 'deposit',
-	wageringMultiplier: 1,
-	isSticky: false,
-	wageringRequirementType: true,
-	daysToClear: 1,
-	isActive: false,
-	visibleInPromotions: false,
-	showBonusValidity: true,
-	validOnDays: [],
-	termCondition: '',
-	description: '',
-	bonusImage: null,
-	quantity: 1,
-	betLevel: 1,
-	timePeriod: '1',
+	startDate: bonusDetails?.validFrom || currentDate,
+	endDate: bonusDetails?.validTo || nextDayDate,
+	bonusType: bonusDetails?.bonusType || 'deposit',
+	wageringMultiplier: bonusDetails?.wageringMultiplier || 1,
+	isSticky: bonusDetails?.isSticky || false,
+	wageringRequirementType: bonusDetails?.wageringRequirementType || 'bonus',
+	daysToClear: bonusDetails?.daysToClear || 1,
+	isActive: bonusDetails?.isActive || false,
+	visibleInPromotions: bonusDetails?.visibleInPromotions || false,
+	showBonusValidity: bonusDetails?.other?.showBonusValidity || true,
+	validOnDays: bonusDetails?.validOnDays || [],
+	termCondition: bonusDetails?.termCondition?.EN || '',
+	description: bonusDetails?.description?.EN || '',
+	bonusImage: bonusDetails?.imageUrl || null,
+	quantity: bonusDetails?.quantity || 1,
+	betLevel: bonusDetails?.other?.betLevel || 1,
+	timePeriod: bonusDetails?.other?.timePeriod || '1',
 	currency: {
 		EUR: {
 			maxBonusThreshold: '',
@@ -90,7 +90,7 @@ const createBonusValidationSchema = () => ({
 	// ]
 });
 
-const generalStaticFormFieldsWithoutPercent = () => [
+const generalStaticFormFieldsWithoutPercent = (isDisabled) => [
 	{
 		name: 'promotionTitle',
 		fieldType: 'textField',
@@ -105,10 +105,11 @@ const generalStaticFormFieldsWithoutPercent = () => [
 		placeholder: 'Select Range',
 		minDate: moment().utc().startOf('day').toDate(),
 		maxDate: moment().add(100, 'years').utc().toDate(),
+		isDisabled,
 	},
 ];
 
-const generalStaticFormFields = () => [
+const generalStaticFormFields = (isDisabled) => [
 	{
 		name: 'promotionTitle',
 		fieldType: 'textField',
@@ -122,6 +123,7 @@ const generalStaticFormFields = () => [
 		type: 'number',
 		label: 'Bonus Percentage',
 		placeholder: 'Bonus Percentage',
+		isDisabled,
 	},
 	{
 		name: 'ranges',
@@ -130,21 +132,24 @@ const generalStaticFormFields = () => [
 		placeholder: 'Select Range',
 		minDate: moment().utc().startOf('day').toDate(),
 		maxDate: moment().add(100, 'years').utc().toDate(),
+		isDisabled,
 	},
 ];
 
-const commonFields = () => [
+const commonFields = (isDisabled) => [
 	{
 		name: 'isActive',
 		fieldType: 'toggle',
 		label: 'Active',
 		isNewRow: true,
+		isDisabled,
 		tooltipContent: 'If True Status is Active else In-Active',
 	},
 	{
 		name: 'visibleInPromotions',
 		fieldType: 'toggle',
 		label: 'Visible in Promotions',
+		isDisabled,
 		tooltipContent: 'If true visible in promotions else not',
 	},
 	{
@@ -182,19 +187,21 @@ const commonFields = () => [
 	},
 ];
 
-const typeDepositAdditionalFields = () => [
+const typeDepositAdditionalFields = (isDisabled) => [
 	{
 		name: 'wageringMultiplier',
 		fieldType: 'textField',
 		type: 'number',
 		label: 'Wagering Multiplier',
 		placeholder: 'Wagering Multiplier',
+		isDisabled,
 	},
 	{
 		name: 'isSticky',
 		fieldType: 'select',
 		label: 'Is Sticky',
 		placeholder: 'Is Sticky',
+		isDisabled,
 		optionList: [
 			{
 				id: 1,
@@ -218,12 +225,12 @@ const typeDepositAdditionalFields = () => [
 			{
 				id: 1,
 				optionLabel: 'Bonus',
-				value: true,
+				value: 'bonus',
 			},
 			{
 				id: 2,
 				optionLabel: 'Bonus+Deposit',
-				value: false,
+				value: 'bonusdeposit',
 			},
 		],
 	},
@@ -233,11 +240,12 @@ const typeDepositAdditionalFields = () => [
 		type: 'number',
 		label: 'Days to Clear',
 		placeholder: 'Days to Clear',
+		isDisabled,
 	},
-	...commonFields(),
+	...commonFields(isDisabled),
 ];
 
-const typeFreeSpinAdditionalFields = () => [
+const typeFreeSpinAdditionalFields = (isDisabled) => [
 	{
 		name: 'quantity',
 		fieldType: 'textField',
@@ -262,12 +270,12 @@ const typeFreeSpinAdditionalFields = () => [
 			{
 				id: 1,
 				optionLabel: 'Bonus',
-				value: true,
+				value: 'bonus',
 			},
 			{
 				id: 2,
 				optionLabel: 'Bonus+Deposit',
-				value: false,
+				value: 'bonusdeposit',
 			},
 		],
 	},
@@ -284,8 +292,9 @@ const typeFreeSpinAdditionalFields = () => [
 		type: 'number',
 		label: 'Bet Level',
 		placeholder: 'Bet Level',
+		isDisabled,
 	},
-	...commonFields(),
+	...commonFields(isDisabled),
 ];
 
 // Filters

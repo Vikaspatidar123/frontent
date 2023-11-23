@@ -137,6 +137,11 @@ const updateCompanyOddApi = (data) =>
 const addRestrictedItems = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/country/restricted`, data);
 
+const updateBonusCall = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/bonus`, data, {
+		'Content-Type': 'multipart/form-data',
+	});
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -178,4 +183,5 @@ export {
 	detachOddsVariationApi,
 	updateCompanyOddApi,
 	addRestrictedItems,
+	updateBonusCall,
 };
