@@ -24,7 +24,7 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const useCreateCurrency = () => {
 	const dispatch = useDispatch();
-	const { isGranted } = usePermission();
+	const { isGranted, permissions } = usePermission();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const {
 		isCreateCurrencyLoading,
@@ -175,7 +175,7 @@ const useCreateCurrency = () => {
 				),
 			},
 		],
-		[]
+		[permissions]
 	);
 
 	return {

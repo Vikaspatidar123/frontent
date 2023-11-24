@@ -8,7 +8,7 @@ import usePermission from '../../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../../constants/permissions';
 
 const useAggregatorList = (handleStatus) => {
-	const { isGranted } = usePermission();
+	const { isGranted, permissions } = usePermission();
 	const columns = useMemo(
 		() => [
 			// {
@@ -92,7 +92,7 @@ const useAggregatorList = (handleStatus) => {
 				},
 			},
 		],
-		[]
+		[permissions]
 	);
 	return columns;
 };
