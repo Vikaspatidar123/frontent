@@ -9,6 +9,7 @@ const LoyaltyFormPage = ({
 	submitLabel,
 	isSubmitLoading,
 	deleteLevel,
+	bonusDetails,
 }) => (
 	<Card className="p-3">
 		<Row>
@@ -51,7 +52,10 @@ const LoyaltyFormPage = ({
 														</div>
 													)}
 													<div className="w-100">
-														{getField(field, validation)}
+														{getField(
+															{ ...field, isDisabled: bonusDetails },
+															validation
+														)}
 													</div>
 												</div>
 											</Col>
@@ -65,6 +69,7 @@ const LoyaltyFormPage = ({
 											onClick={() => {
 												deleteLevel();
 											}}
+											disabled={bonusDetails}
 										>
 											<i className="mdi mdi-delete" id="deletetooltip" />
 											<UncontrolledTooltip
@@ -88,7 +93,7 @@ const LoyaltyFormPage = ({
 							<button
 								type="submit"
 								className="btn btn-primary waves-effect waves-light"
-								disabled={isSubmitLoading}
+								disabled={isSubmitLoading || bonusDetails}
 							>
 								{submitLabel}
 							</button>
@@ -106,6 +111,7 @@ LoyaltyFormPage.defaultProps = {
 	isSubmitLoading: false,
 	formFields: [],
 	deleteLevel: () => {},
+	bonusDetails: {},
 };
 
 LoyaltyFormPage.propTypes = {
@@ -114,6 +120,7 @@ LoyaltyFormPage.propTypes = {
 	submitLabel: PropTypes.string,
 	isSubmitLoading: PropTypes.bool,
 	deleteLevel: PropTypes.func,
+	bonusDetails: PropTypes.objectOf,
 };
 
 export default LoyaltyFormPage;

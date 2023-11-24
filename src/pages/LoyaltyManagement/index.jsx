@@ -12,7 +12,7 @@ import LoyaltyFormPage from './LoyaltyFormPage';
 import CrudSection from '../../components/Common/CrudSection';
 import Spinners from '../../components/Common/Spinner';
 
-const LoyaltyManagement = () => {
+const LoyaltyManagement = ({ bonusDetails }) => {
 	// meta title
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
@@ -26,7 +26,7 @@ const LoyaltyManagement = () => {
 	} = useLoyalty();
 
 	return (
-		<div className="page-content">
+		<div className={`${!bonusDetails && 'page-content'}`}>
 			<Container fluid>
 				{showBreadcrumb && (
 					<Breadcrumb
@@ -37,7 +37,9 @@ const LoyaltyManagement = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Loyalty Level" />
+							{!bonusDetails && (
+								<CrudSection buttonList={buttonList} title="Loyalty Level" />
+							)}
 							{loyaltyLevelLoading ? (
 								<Spinners />
 							) : (
@@ -47,6 +49,7 @@ const LoyaltyManagement = () => {
 									submitLabel="Submit"
 									isSubmitLoading={loyaltyLevelLoading}
 									deleteLevel={deleteLevel}
+									bonusDetails={bonusDetails}
 								/>
 							)}
 						</Card>

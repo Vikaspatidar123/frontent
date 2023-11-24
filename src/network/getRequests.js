@@ -202,7 +202,13 @@ const getRestrictedItems = (data) =>
 const getUnrestrictedItems = (data) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/country/unrestricted-items`, data);
 
+const getBonus = ({ bonusId, userBonusId }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/bonus/detail?bonusId=${bonusId}&userBonusId=${userBonusId}`
+	);
+
 export {
+	getBonus,
 	getAllCurrencies,
 	getAdminRole,
 	getCountries,

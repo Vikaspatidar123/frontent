@@ -9,19 +9,27 @@ import {
 	updateSABonusStatusFail,
 	getBonusCurrencyConversionsSuccess,
 	getBonusCurrencyConversionsFail,
+	getBonusSuccess,
+	getBonusFailure,
+	deleteBonusComplete,
+	deleteBonusFailure,
 } from './actions';
 import {
+	DELETE_BONUS_START,
 	GET_BONUS_CURRENCY_CONVERSION,
 	GET_BONUS_DETAILS_DATA,
+	GET_BONUS_START,
 	UPDATE_SA_BONUS_STATUS,
 } from './actionTypes';
 
 import {
 	getAllBonus,
+	getBonus,
 	getBonusCurrenciesConvertAmount,
 } from '../../network/getRequests';
 import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { showToastr, clearEmptyProperty } from '../../utils/helpers';
+import { deleteBonus } from '../../network/deleteRequests';
 
 function* getBonusListingWorker(action) {
 	try {
@@ -89,7 +97,47 @@ function* getBonusCurrencyConversionsWorker(action) {
 	}
 }
 
+function* getBonusStartWorker(action) {
+	try {
+		const { bonusId, userBonusId = '' } = action && action.payload;
+		const { data } = yield getBonus({ bonusId, userBonusId });
+		yield put(getBonusSuccess(data?.data?.bonusDetails));
+	} catch (error) {
+		showToastr({
+			message: error?.response?.data?.errors[0]?.description || error.message,
+			type: 'error',
+		});
+		yield put(getBonusFailure(error?.response?.data?.errors[0]?.description));
+	}
+}
+
+function* deleteBonusWorker(action) {
+	try {
+		const { data, handleClose } = action && action.payload;
+		const { balanceBonus, bonusId } = data;
+		const resData = yield deleteBonus({ bonusId, balanceBonus });
+		yield put(deleteBonusComplete());
+		showToastr({
+			message: resData?.data?.data?.message,
+			type: 'success',
+		});
+		if (handleClose) {
+			handleClose();
+		}
+	} catch (error) {
+		showToastr({
+			message: error?.response?.data?.errors[0]?.description || error.message,
+			type: 'error',
+		});
+		yield put(
+			deleteBonusFailure(error?.response?.data?.errors[0]?.description)
+		);
+	}
+}
+
 export function* watchBonusData() {
+	yield takeLatest(GET_BONUS_START, getBonusStartWorker);
+	yield takeLatest(DELETE_BONUS_START, deleteBonusWorker);
 	yield takeLatest(GET_BONUS_DETAILS_DATA, getBonusListingWorker);
 	yield takeLatest(UPDATE_SA_BONUS_STATUS, updateSABonusStatusWorker);
 	yield takeLatest(

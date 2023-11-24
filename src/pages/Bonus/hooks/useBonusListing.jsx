@@ -1,7 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getBonusDetails, updateSABonusStatus } from '../../../store/actions';
+import { useNavigate } from 'react-router-dom';
+import {
+	deleteBonusStart,
+	getBonusDetails,
+	getBonusStart,
+	updateSABonusStatus,
+} from '../../../store/actions';
 import { formatDate } from '../../../utils/dateFormatter';
 import { safeStringify } from '../../../utils/helpers';
 import { types } from '../constants';
@@ -17,12 +23,15 @@ import {
 import ActionButtons from '../ActionButtons';
 
 const useBonusListing = (filterValues = {}) => {
-	const { bonusDetails, isLoading } = useSelector(
-		(state) => state.AllBonusDetails
-	);
+	const { bonusDetails, isLoading, gameBonusDetail, isDeleteBonusLoading } =
+		useSelector((state) => state.AllBonusDetails);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const [isDeleteConfirmationOpen, setDeleteConfirmation] = useState(false);
+	const [deleteBonusId, setDeleteBonusId] = useState('');
+	const [bonusName, setBonusName] = useState('');
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
@@ -107,6 +116,38 @@ const useBonusListing = (filterValues = {}) => {
 		);
 	};
 
+	const handleClose = () => {
+		setDeleteConfirmation(false);
+		setDeleteBonusId('');
+		setBonusName('');
+		fetchData();
+	};
+
+	const handleDelete = (props) => {
+		const { bonusId, title } = props;
+		setDeleteConfirmation(true);
+		setDeleteBonusId(bonusId);
+		setBonusName(title);
+		dispatch(getBonusStart({ bonusId }));
+	};
+
+	const bonusDeleteHandler = () => {
+		dispatch(
+			deleteBonusStart({
+				data: {
+					bonusId: deleteBonusId,
+					balanceBonus: gameBonusDetail?.balanceBonus,
+				},
+				handleClose,
+			})
+		);
+	};
+
+	const handleView = (props) => {
+		const { bonusId } = props;
+		navigate(`/bonus/${bonusId}`);
+	};
+
 	const columns = useMemo(
 		() => [
 			{
@@ -158,7 +199,12 @@ const useBonusListing = (filterValues = {}) => {
 				disableSortBy: true,
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<ActionButtons row={cell.row} handleStatus={handleStatus} />
+					<ActionButtons
+						row={cell.row}
+						handleStatus={handleStatus}
+						handleView={handleView}
+						handleDelete={handleDelete}
+					/>
 				),
 			},
 		],
@@ -175,6 +221,11 @@ const useBonusListing = (filterValues = {}) => {
 		setPage,
 		onChangeRowsPerPage,
 		columns,
+		isDeleteConfirmationOpen,
+		setDeleteConfirmation,
+		bonusDeleteHandler,
+		bonusName,
+		isDeleteBonusLoading,
 	};
 };
 

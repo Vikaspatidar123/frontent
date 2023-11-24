@@ -5,7 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ row: { original }, handleStatus }) => {
+const ActionButtons = ({
+	row: { original },
+	handleStatus,
+	handleDelete,
+	handleView,
+}) => {
 	const navigate = useNavigate();
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
@@ -60,22 +65,42 @@ const ActionButtons = ({ row: { original }, handleStatus }) => {
 			</li>
 
 			<li>
-				<Button className="btn btn-sm btn-soft-info" onClick={handleEdit}>
-					<i className="mdi mdi-pencil-outline" id="edittooltip" />
-					<UncontrolledTooltip placement="top" target="edittooltip">
+				<Button
+					className="btn btn-sm btn-soft-info"
+					id="editToolTip"
+					onClick={handleEdit}
+				>
+					<i className="mdi mdi-pencil-outline" />
+					<UncontrolledTooltip placement="top" target="editToolTip">
 						Edit
 					</UncontrolledTooltip>
 				</Button>
 			</li>
+			<li>
+				<Button
+					className="btn btn-sm btn-soft-info"
+					id="viewToolTip"
+					onClick={() => handleView(original)}
+				>
+					<i className="mdi mdi-eye-outline" />
+					<UncontrolledTooltip placement="top" target="viewToolTip">
+						View
+					</UncontrolledTooltip>
+				</Button>
+			</li>
 
-			{/* <li>
-				<Link to="#" className="btn btn-sm btn-soft-danger">
-					<i className="mdi mdi-delete-outline" id="deletetooltip" />
-					<UncontrolledTooltip placement="top" target="deletetooltip">
+			<li>
+				<Button
+					id="deleteToolTip"
+					className="btn btn-sm btn-soft-danger"
+					onClick={() => handleDelete(original)}
+				>
+					<i className="mdi mdi-delete-outline" />
+					<UncontrolledTooltip placement="top" target="deleteToolTip">
 						Delete
 					</UncontrolledTooltip>
-				</Link>
-			</li> */}
+				</Button>
+			</li>
 		</ul>
 	);
 };
@@ -88,6 +113,8 @@ ActionButtons.propTypes = {
 		}).isRequired,
 	}).isRequired,
 	handleStatus: PropTypes.func.isRequired,
+	handleDelete: PropTypes.func.isRequired,
+	handleView: PropTypes.func.isRequired,
 };
 
 export default ActionButtons;

@@ -23,6 +23,9 @@ const deleteSABanners = ({ bannerType }) =>
 const deleteRestrictedItems = (data) =>
 	deleteRequest(`${VITE_APP_API_URL}/api/admin/country/restricted-items`, data);
 
+const deleteBonus = (data) =>
+	deleteRequest(`${VITE_APP_API_URL}/api/admin/bonus`, data);
+
 export {
 	deleteFromGallery,
 	removeRestrictedCountriesCall,
@@ -31,4 +34,5 @@ export {
 	deleteCasinoGames,
 	deleteSABanners,
 	deleteRestrictedItems,
+	deleteBonus,
 };

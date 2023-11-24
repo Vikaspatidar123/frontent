@@ -26,6 +26,8 @@ const ModalView = (props) => {
 		firstBtnClass,
 		secondBtnClass,
 		isLoading = false,
+		isHandleSubmit,
+		isDisabled = false,
 	} = props;
 	return (
 		<Modal
@@ -63,7 +65,10 @@ const ModalView = (props) => {
 						<Button
 							className={secondBtnClass || 'btn-primary'}
 							type="submit"
-							onClick={handleSubmit ? handleSubmit(submitHandler) : handleClick}
+							disabled={isDisabled}
+							onClick={
+								isHandleSubmit ? handleSubmit(submitHandler) : handleClick
+							}
 						>
 							{secondBtnName}
 						</Button>
@@ -95,6 +100,8 @@ ModalView.defaultProps = {
 	firstBtnClass: '',
 	secondBtnClass: '',
 	isLoading: false,
+	isHandleSubmit: false,
+	isDisabled: false,
 };
 
 ModalView.propTypes = {
@@ -118,5 +125,7 @@ ModalView.propTypes = {
 	firstBtnClass: PropTypes.string,
 	secondBtnClass: PropTypes.string,
 	isLoading: PropTypes.bool,
+	isHandleSubmit: PropTypes.bool,
+	isDisabled: PropTypes.bool,
 };
 export default ModalView;

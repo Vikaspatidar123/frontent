@@ -8,12 +8,19 @@ import {
 	GET_BONUS_CURRENCY_CONVERSION,
 	GET_BONUS_CURRENCY_CONVERSION_SUCCESS,
 	GET_BONUS_CURRENCY_CONVERSION_FAIL,
+	GET_BONUS_START,
+	GET_BONUS_SUCCESS,
+	GET_BONUS__FAIL,
+	DELETE_BONUS_START,
+	DELETE_BONUS_FAIL,
+	DELETE_BONUS_COMPLETE,
 } from './actionTypes';
 
 const INIT_STATE = {
 	bonusDetails: null,
 	error: null,
 	isLoading: true,
+	isBonusDetailsLoading: false,
 	isUpdateSABonusStatusLoading: false,
 	isUpdateSABonusStatusError: null,
 	isUpdateSABonusStatusSuccess: false,
@@ -25,6 +32,7 @@ const INIT_STATE = {
 			zeroOutThreshold: '',
 		},
 	},
+	gameBonusDetail: null,
 };
 
 const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -91,6 +99,46 @@ const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				error: payload,
 				isLoading: true,
+			};
+
+		case GET_BONUS_START:
+			return {
+				...state,
+				isBonusDetailsLoading: true,
+			};
+
+		case GET_BONUS_SUCCESS:
+			return {
+				...state,
+				gameBonusDetail: payload,
+				error: null,
+				isBonusDetailsLoading: false,
+			};
+
+		case GET_BONUS__FAIL:
+			return {
+				...state,
+				error: payload,
+				isBonusDetailsLoading: false,
+			};
+
+		case DELETE_BONUS_START:
+			return {
+				...state,
+				isDeleteBonusLoading: true,
+			};
+
+		case DELETE_BONUS_COMPLETE:
+			return {
+				...state,
+				isDeleteBonusLoading: false,
+			};
+
+		case DELETE_BONUS_FAIL:
+			return {
+				...state,
+				error: payload,
+				isDeleteBonusLoading: false,
 			};
 
 		default:
