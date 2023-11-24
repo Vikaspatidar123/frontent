@@ -796,3 +796,42 @@ aside.EmojiPickerReact.epr-main {
 		}
 	}
 }
+
+body[data-bs-theme='dark'] {
+	.drag-table--heading {
+		background-color: #32394e;
+		border: 1px solid #32394e;
+	}
+}
+
+.drag-table--header {
+	div[data-rbd-droppable-id='list'] {
+		padding: 0;
+	}
+
+	.drag-table--heading {
+		font-weight: 600;
+		padding: 0.75rem 0.75rem;
+		background-color: #eff2f7;
+		border: 1px solid rgb(215, 218, 222);
+
+		&:nth-child(1),
+		&:nth-child(2) {
+			border-right: 0;
+		}
+	}
+
+	.drag-table {
+		margin: 0.5rem 0 0 0;
+		box-shadow: 0 0px 3px rgba(0, 0, 0, 0.2);
+
+		.drag-table--detail {
+			padding: 0.75rem 0.75rem;
+			color: var(--bs-emphasis-color);
+
+			&:nth-child(1) {
+				font-weight: bold;
+			}
+		}
+	}
+}

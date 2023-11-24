@@ -136,6 +136,13 @@ const useCreateCategory = () => {
 			module: modules.CasinoManagement,
 			operation: 'C',
 		},
+		{
+			label: 'Reorder',
+			handleClick: '',
+			link: 'reorder',
+			module: modules.CasinoManagement,
+			operation: 'U',
+		},
 	]);
 
 	return {

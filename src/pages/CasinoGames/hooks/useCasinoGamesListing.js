@@ -9,6 +9,7 @@ import {
 	updateSACasinoGamesStatusStart,
 	deleteCasinoGamesStart,
 } from '../../../store/actions';
+import { modules } from '../../../constants/permissions';
 
 const useCasinoGamesListings = (filterValues = {}) => {
 	const [page, setPage] = useState(1);
@@ -40,7 +41,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 				})
 			);
 		}
-	}, []);
+	}, [itemsPerPage]);
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
@@ -54,7 +55,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		casinoProvidersData?.rows.find((val) => val.casinoProviderId === id)?.name;
 
 	const formattedCasinoGames = useMemo(() => {
-		if (casinoGames) {
+		if (casinoGames?.rows?.length) {
 			return casinoGames?.rows.map((item) => ({
 				...item,
 				providerName: getProviderName(item?.casinoProviderId),
@@ -63,7 +64,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 			}));
 		}
 		return [];
-	}, [casinoGames]);
+	}, [casinoGames, casinoProvidersData, casinoSubCategoryDetails]);
 
 	const fetchData = () => {
 		dispatch(
@@ -116,6 +117,16 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		dispatch(updateCasinoIsFeaturedStart(data));
 	};
 
+	const buttonList = useMemo(() => [
+		{
+			label: 'Reorder',
+			handleClick: '',
+			link: 'reorder',
+			module: modules.CasinoManagement,
+			operation: 'U',
+		},
+	]);
+
 	return {
 		casinoGames,
 		formattedCasinoGames,
@@ -128,6 +139,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		handleStatus,
 		toggleIsFeaturedGames,
 		handleDeleteItem,
+		buttonList,
 	};
 };
 

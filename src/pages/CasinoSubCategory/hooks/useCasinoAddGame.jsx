@@ -6,7 +6,7 @@ import {
 	addGameToSubCategoryStart,
 	getCasinoGamesStart,
 } from '../../../store/actions';
-import { modules } from '../../../constants/permissions';
+import { showToastr } from '../../../utils/helpers';
 
 const useCasinoAddGame = () => {
 	const dispatch = useDispatch();
@@ -52,6 +52,10 @@ const useCasinoAddGame = () => {
 			if (!prevData.find((game) => game.casinoGameId === row.casinoGameId)) {
 				return [...prevData, row];
 			}
+			showToastr({
+				message: 'Game already added',
+				type: 'error',
+			});
 			return prevData;
 		});
 	};
@@ -84,16 +88,6 @@ const useCasinoAddGame = () => {
 		}
 	};
 
-	const buttonList = useMemo(() => [
-		{
-			label: 'Submit',
-			handleClick: handleSubmitClick,
-			link: '#!',
-			module: modules.CasinoManagement,
-			operation: 'C',
-		},
-	]);
-
 	return {
 		limit,
 		setLimit,
@@ -108,12 +102,12 @@ const useCasinoAddGame = () => {
 		handleAddGame,
 		newGamesData,
 		handleRemoveGame,
-		buttonList,
 		newGamepageNo,
 		setNewGamepageNo,
 		newGameItemsPerPage,
 		setNewGameItemsPerPage,
 		onChangeNewGameTableRowsPerPage,
+		handleSubmitClick,
 	};
 };
 

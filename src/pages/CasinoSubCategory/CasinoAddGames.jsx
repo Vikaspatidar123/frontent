@@ -3,6 +3,7 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import {
+	Button,
 	Card,
 	CardBody,
 	Col,
@@ -10,7 +11,7 @@ import {
 	Row,
 	UncontrolledTooltip,
 } from 'reactstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { projectName } from '../../constants/config';
 
 import TableContainer from '../../components/Common/TableContainer';
@@ -22,7 +23,12 @@ import { CasinoGameId, Name, DeviceType } from './CasinoSubCategory';
 const CasinoAddGames = () => {
 	// meta title
 	document.title = projectName;
-	const { gameSubCategoryId } = useParams();
+	const { state } = useLocation();
+
+	const { gameCategoryName, isGlobal } = state || {
+		gameCategoryName: '',
+		isGlobal: true,
+	};
 
 	const {
 		pageNo,
@@ -35,11 +41,11 @@ const CasinoAddGames = () => {
 		handleAddGame,
 		newGamesData,
 		handleRemoveGame,
-		buttonList,
 		newGameItemsPerPage,
 		newGamepageNo,
 		setNewGamepageNo,
 		onChangeNewGameTableRowsPerPage,
+		handleSubmitClick,
 	} = useCasinoAddGame();
 
 	const columns = useMemo(
@@ -74,7 +80,7 @@ const CasinoAddGames = () => {
 							<li>
 								<Link
 									to="#"
-									className="btn btn-sm btn-soft-primary"
+									className="btn btn-sm btn-soft-success"
 									onClick={(e) => handleAddGame(e, cell?.row?.original)}
 								>
 									<i className="mdi mdi-plus-box" id={`plus-${casinoGameId}`} />
@@ -126,7 +132,7 @@ const CasinoAddGames = () => {
 							<li>
 								<Link
 									to="#"
-									className="btn btn-sm btn-soft-primary"
+									className="btn btn-sm btn-soft-danger"
 									onClick={(e) => handleRemoveGame(e, casinoGameId)}
 								>
 									<i
@@ -156,11 +162,19 @@ const CasinoAddGames = () => {
 					<Col lg="12">
 						<Card>
 							<CrudSection
-								buttonList={buttonList}
-								title={`Add Games: ${gameSubCategoryId}`}
+								buttonList={[]}
+								title={`Add Games: ${gameCategoryName}`}
 							/>
-							<div className="mx-4 pt-2">
+							<div className="mx-4 pt-3 d-flex justify-content-between">
 								<h5>Games you add will appear here</h5>
+								<Button
+									type="button"
+									disabled={isGlobal}
+									className="btn btn-sm btn-success font-size-14"
+									onClick={handleSubmitClick}
+								>
+									Submit
+								</Button>
 							</div>
 							<CardBody>
 								<TableContainer
