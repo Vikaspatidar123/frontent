@@ -192,9 +192,17 @@ const useCreateSubCategory = () => {
 		dispatch(getCasinoCategoryDetailStart({ limit: '', pageNo: '', name: '' }));
 	}, []);
 
-	const handleAddGameClick = (e, gameSubCategoryId) => {
+	const handleAddGameClick = ({
+		e,
+		gameSubCategoryId,
+		gameCategoryName,
+		isGlobal,
+	}) => {
 		e.preventDefault();
-		navigate(`addGames/${gameSubCategoryId}`);
+
+		navigate(`addGames/${gameSubCategoryId}`, {
+			state: { gameCategoryName, isGlobal },
+		});
 	};
 
 	const buttonList = useMemo(() => [
@@ -204,6 +212,13 @@ const useCreateSubCategory = () => {
 			link: '#!',
 			module: modules.CasinoManagement,
 			operation: 'C',
+		},
+		{
+			label: 'Reorder',
+			handleClick: '',
+			link: 'reorder',
+			module: modules.CasinoManagement,
+			operation: 'U',
 		},
 	]);
 
@@ -260,6 +275,7 @@ const useCreateSubCategory = () => {
 				Cell: ({ cell }) => {
 					const status = cell?.row?.original?.isActive;
 					const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
+					const gameCategoryName = cell?.row?.original?.nameEN;
 					const isGlobal = cell?.row?.original?.isGlobal;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
@@ -361,10 +377,17 @@ const useCreateSubCategory = () => {
 							<li>
 								<Button
 									type="button"
-									hidden={!isGranted(modules.CasinoManagement, 'U')}
+									hidden={!isGranted(modules.CasinoManagement, 'T') || isGlobal}
 									disabled={isGlobal}
 									className="btn btn-sm btn-soft-primary"
-									onClick={(e) => handleAddGameClick(e, gameSubCategoryId)}
+									onClick={(e) =>
+										handleAddGameClick({
+											e,
+											gameSubCategoryId,
+											gameCategoryName,
+											isGlobal,
+										})
+									}
 								>
 									<i
 										className="mdi mdi-plus-one"

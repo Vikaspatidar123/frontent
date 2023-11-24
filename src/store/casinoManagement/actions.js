@@ -53,6 +53,16 @@ import {
 	DELETE_CASINO_GAMES_START,
 	DELETE_CASINO_GAMES_SUCCESS,
 	DELETE_CASINO_GAMES_FAIL,
+	REORDER_CASINO_CATEGORY_START,
+	REORDER_CASINO_CATEGORY_SUCCESS,
+	REORDER_CASINO_CATEGORY_FAIL,
+	REORDER_CASINO_SUB_CATEGORY_START,
+	REORDER_CASINO_SUB_CATEGORY_SUCCESS,
+	REORDER_CASINO_SUB_CATEGORY_FAIL,
+	REORDER_CASINO_GAMES_START,
+	REORDER_CASINO_GAMES_SUCCESS,
+	REORDER_CASINO_GAMES_FAIL,
+	RESET_CASINO_STATE,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -321,4 +331,53 @@ export const deleteCasinoGamesSuccess = (payload) => ({
 export const deleteCasinoGamesFail = (payload) => ({
 	type: DELETE_CASINO_GAMES_FAIL,
 	payload,
+});
+
+export const reorderCasinoCategoryStart = (payload) => ({
+	type: REORDER_CASINO_CATEGORY_START,
+	payload,
+});
+
+export const reorderCasinoCategorySuccess = (payload) => ({
+	type: REORDER_CASINO_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const reorderCasinoCategoryFail = (payload) => ({
+	type: REORDER_CASINO_CATEGORY_FAIL,
+	payload,
+});
+
+export const reorderCasinoSubCategoryStart = (payload) => ({
+	type: REORDER_CASINO_SUB_CATEGORY_START,
+	payload,
+});
+
+export const reorderCasinoSubCategorySuccess = (payload) => ({
+	type: REORDER_CASINO_SUB_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const reorderCasinoSubCategoryFail = (payload) => ({
+	type: REORDER_CASINO_SUB_CATEGORY_FAIL,
+	payload,
+});
+
+export const reorderCasinoGamesStart = (payload) => ({
+	type: REORDER_CASINO_GAMES_START,
+	payload,
+});
+
+export const reorderCasinoGamesSuccess = (payload) => ({
+	type: REORDER_CASINO_GAMES_SUCCESS,
+	payload,
+});
+
+export const reorderCasinoGamesFail = (payload) => ({
+	type: REORDER_CASINO_GAMES_FAIL,
+	payload,
+});
+
+export const resetCasinoState = () => ({
+	type: RESET_CASINO_STATE,
 });

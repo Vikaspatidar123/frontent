@@ -54,6 +54,16 @@ import {
 	DELETE_CASINO_GAMES_START,
 	DELETE_CASINO_GAMES_SUCCESS,
 	DELETE_CASINO_GAMES_FAIL,
+	REORDER_CASINO_CATEGORY_START,
+	REORDER_CASINO_CATEGORY_SUCCESS,
+	REORDER_CASINO_CATEGORY_FAIL,
+	REORDER_CASINO_SUB_CATEGORY_START,
+	REORDER_CASINO_SUB_CATEGORY_SUCCESS,
+	REORDER_CASINO_SUB_CATEGORY_FAIL,
+	REORDER_CASINO_GAMES_START,
+	REORDER_CASINO_GAMES_SUCCESS,
+	REORDER_CASINO_GAMES_FAIL,
+	RESET_CASINO_STATE,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -110,6 +120,15 @@ const INIT_STATE = {
 	isDeleteCasinoGamesSuccess: false,
 	isDeleteCasinoGamesError: null,
 	isDeleteCasinoGamesLoading: false,
+	isReorderCasinoCategorySuccess: false,
+	isReorderCasinoCategoryError: null,
+	isReorderCasinoCategoryLoading: false,
+	isReorderCasinoSubCategorySuccess: false,
+	isReorderCasinoSubCategoryError: null,
+	isReorderCasinoSubCategoryLoading: false,
+	isReorderCasinoGamesSuccess: false,
+	isReorderCasinoGamesError: null,
+	isReorderCasinoGamesLoading: false,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -516,6 +535,83 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isDeleteCasinoGamesLoading: false,
 				isDeleteCasinoGamesSuccess: false,
 				isDeleteCasinoGamesError: payload,
+			};
+
+		case REORDER_CASINO_CATEGORY_START:
+			return {
+				...state,
+				isReorderCasinoCategoryLoading: true,
+				isReorderCasinoCategorySuccess: false,
+				isReorderCasinoCategoryError: null,
+			};
+
+		case REORDER_CASINO_CATEGORY_SUCCESS:
+			return {
+				...state,
+				isReorderCasinoCategoryLoading: false,
+				isReorderCasinoCategorySuccess: true,
+				isReorderCasinoCategoryError: null,
+			};
+
+		case REORDER_CASINO_CATEGORY_FAIL:
+			return {
+				...state,
+				isReorderCasinoCategoryLoading: false,
+				isReorderCasinoCategorySuccess: false,
+				isReorderCasinoCategoryError: payload,
+			};
+
+		case REORDER_CASINO_SUB_CATEGORY_START:
+			return {
+				...state,
+				isReorderCasinoSubCategoryLoading: true,
+				isReorderCasinoSubCategorySuccess: false,
+				isReorderCasinoSubCategoryError: null,
+			};
+
+		case REORDER_CASINO_SUB_CATEGORY_SUCCESS:
+			return {
+				...state,
+				isReorderCasinoSubCategoryLoading: false,
+				isReorderCasinoSubCategorySuccess: true,
+				isReorderCasinoSubCategoryError: null,
+			};
+
+		case REORDER_CASINO_SUB_CATEGORY_FAIL:
+			return {
+				...state,
+				isReorderCasinoSubCategoryLoading: false,
+				isReorderCasinoSubCategorySuccess: false,
+				isReorderCasinoSubCategoryError: payload,
+			};
+
+		case REORDER_CASINO_GAMES_START:
+			return {
+				...state,
+				isReorderCasinoGamesLoading: true,
+				isReorderCasinoGamesSuccess: false,
+				isReorderCasinoGamesError: null,
+			};
+
+		case REORDER_CASINO_GAMES_SUCCESS:
+			return {
+				...state,
+				isReorderCasinoGamesLoading: false,
+				isReorderCasinoGamesSuccess: true,
+				isReorderCasinoGamesError: null,
+			};
+
+		case REORDER_CASINO_GAMES_FAIL:
+			return {
+				...state,
+				isReorderCasinoGamesLoading: false,
+				isReorderCasinoGamesSuccess: false,
+				isReorderCasinoGamesError: payload,
+			};
+
+		case RESET_CASINO_STATE:
+			return {
+				...INIT_STATE,
 			};
 
 		default:

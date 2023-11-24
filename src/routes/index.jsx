@@ -51,8 +51,11 @@ import SportsMatchDetail from '../pages/SportsMatchDetail';
 import LoginRight from '../pages/Authentication/Login/LoginRight';
 import ViewRestrictedGames from '../pages/ViewRestrictedGames';
 import ViewRestrictedProviders from '../pages/ViewRestrictedProviders';
+import ReorderCategories from '../pages/CasinoCategory/ReorderCategories';
 import BonusPreview from '../pages/Bonus/BonusView';
 import EditBonus from '../pages/Bonus/EditBonus';
+import ReorderSubCategory from '../pages/CasinoSubCategory/components/ReorderSubCategory';
+import ReorderGames from '../pages/CasinoGames/components/ReorderGames';
 
 const authProtectedRoutes = [
 	{ path: '/', component: <DashboardView /> },
@@ -65,7 +68,9 @@ const authProtectedRoutes = [
 	{ path: '/staff/edit/:adminUserId', component: <EditAdmin /> },
 
 	{ path: '/categories', component: <CasinoCategory /> },
+	{ path: '/categories/reorder', component: <ReorderCategories /> },
 	{ path: '/sub-categories', component: <CasinoSubCategory /> },
+	{ path: '/sub-categories/reorder', component: <ReorderSubCategory /> },
 	{
 		path: '/sub-categories/addGames/:gameSubCategoryId',
 		component: <CasinoAddGames />,
@@ -104,6 +109,7 @@ const authProtectedRoutes = [
 	{ path: '/withdraw-request', component: <WithdrawRequestsList /> },
 	{ path: '/casino-providers', component: <CasinoProviders /> },
 	{ path: '/casino-games', component: <CasinoGames /> },
+	{ path: '/casino-games/reorder', component: <ReorderGames /> },
 	{ path: '/banner-management', component: <BannerManagement /> },
 	{ path: '/matches', component: <SportsMatchesList /> },
 	{ path: '/match/:matchId', component: <SportsMatchDetail /> },

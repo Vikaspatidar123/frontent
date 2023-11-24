@@ -137,10 +137,19 @@ const updateCompanyOddApi = (data) =>
 const addRestrictedItems = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/country/restricted`, data);
 
+const updateCategoryReOrder = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/order-category`, data);
+
 const updateBonusCall = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/bonus`, data, {
 		'Content-Type': 'multipart/form-data',
 	});
+
+const updateSubCategoryReOrder = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/order-sub-category`, data);
+
+const updateReorderGames = ({ data }) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/casino/order-casino-games`, data);
 
 export {
 	updateSuperAdminUser,
@@ -183,5 +192,8 @@ export {
 	detachOddsVariationApi,
 	updateCompanyOddApi,
 	addRestrictedItems,
+	updateCategoryReOrder,
 	updateBonusCall,
+	updateSubCategoryReOrder,
+	updateReorderGames,
 };
