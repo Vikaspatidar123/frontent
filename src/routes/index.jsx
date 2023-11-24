@@ -51,6 +51,7 @@ import SportsMatchDetail from '../pages/SportsMatchDetail';
 import LoginRight from '../pages/Authentication/Login/LoginRight';
 import ViewRestrictedGames from '../pages/ViewRestrictedGames';
 import ViewRestrictedProviders from '../pages/ViewRestrictedProviders';
+import BonusPreview from '../pages/Bonus/BonusView';
 
 const authProtectedRoutes = [
 	{ path: '/', component: <DashboardView /> },
@@ -85,6 +86,7 @@ const authProtectedRoutes = [
 	{ path: '/cms/details/:cmsPageId', component: <CMSDetails /> },
 	{ path: '/casino-aggregators', component: <CasinoAggregators /> },
 	{ path: '/bonus', component: <BonusDetail /> },
+	{ path: '/bonus/:bonusId', component: <BonusPreview /> },
 	{ path: '/bonus/create', component: <CreateBonus /> },
 	{ path: '/languages', component: <LanguageList /> },
 	{ path: '/currencies', component: <CurrencyList /> },

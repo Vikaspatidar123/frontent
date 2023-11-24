@@ -35,4 +35,54 @@ const convertAmountOptions = [
 	{ label: 'Joining Bonus', value: 'joiningAmount' },
 ];
 
-export { types, bonusTypes, daysOfWeek, convertAmountOptions };
+const checkLabels = (bonusType) => {
+	if (
+		['freespins', 'cashfreespins', 'balance', 'deposit', 'promotion'].includes(
+			bonusType
+		)
+	) {
+		return [
+			{
+				label: 'Active',
+				value: 'isActive',
+				message: 'If True Status is Active else In-Active',
+			},
+			{
+				label: 'Visible In Promotions',
+				value: 'visibleInPromotions',
+				message: 'If true visible in promotion else not',
+			},
+		];
+	}
+	return [
+		{
+			label: 'Active',
+			value: 'isActive',
+			message: 'If True Status is Active else In-Active',
+		},
+	];
+};
+
+const daysLabels = [
+	'Monday',
+	'Tuesday',
+	'Wednesday',
+	'Thursday',
+	'Friday',
+	'Saturday',
+	'Sunday',
+];
+const wageringRequirementType = [
+	{ label: 'BONUS', value: 'bonus', id: 1 },
+	{ label: 'BONUS+DEPOSIT', value: 'bonusdeposit', id: 2 },
+];
+
+export {
+	types,
+	bonusTypes,
+	daysOfWeek,
+	convertAmountOptions,
+	checkLabels,
+	daysLabels,
+	wageringRequirementType,
+};

@@ -8,6 +8,12 @@ import {
 	GET_BONUS_CURRENCY_CONVERSION,
 	GET_BONUS_CURRENCY_CONVERSION_SUCCESS,
 	GET_BONUS_CURRENCY_CONVERSION_FAIL,
+	GET_BONUS_START,
+	GET_BONUS_SUCCESS,
+	GET_BONUS__FAIL,
+	DELETE_BONUS_START,
+	DELETE_BONUS_FAIL,
+	DELETE_BONUS_COMPLETE,
 } from './actionTypes';
 
 export const getBonusDetailsSuccess = (payload) => ({
@@ -52,5 +58,31 @@ export const getBonusCurrencyConversionsSuccess = (payload) => ({
 
 export const getBonusCurrencyConversionsFail = (payload) => ({
 	type: GET_BONUS_CURRENCY_CONVERSION_FAIL,
+	payload,
+});
+
+export const getBonusStart = (payload) => ({
+	type: GET_BONUS_START,
+	payload,
+});
+export const getBonusSuccess = (payload) => ({
+	type: GET_BONUS_SUCCESS,
+	payload,
+});
+export const getBonusFailure = (payload) => ({
+	type: GET_BONUS__FAIL,
+	payload,
+});
+
+export const deleteBonusStart = (payload) => ({
+	type: DELETE_BONUS_START,
+	payload,
+});
+export const deleteBonusComplete = (payload) => ({
+	type: DELETE_BONUS_COMPLETE,
+	payload,
+});
+export const deleteBonusFailure = (payload) => ({
+	type: DELETE_BONUS_FAIL,
 	payload,
 });

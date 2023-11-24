@@ -4,7 +4,12 @@ import { Button, UncontrolledTooltip } from 'reactstrap';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ row: { original }, handleStatus }) => {
+const ActionButtons = ({
+	row: { original },
+	handleStatus,
+	handleDelete,
+	handleView,
+}) => {
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
 	const bonusId = original?.bonusId;
@@ -55,28 +60,32 @@ const ActionButtons = ({ row: { original }, handleStatus }) => {
 					</Button>
 				)}
 			</li>
-			{/*
+
 			<li>
-				<Link
-					to="#"
+				<Button
 					className="btn btn-sm btn-soft-info"
-					// onClick={(e) => handleEdit(e, original)}
+					id="viewToolTip"
+					onClick={() => handleView(original)}
 				>
-					<i className="mdi mdi-pencil-outline" id="edittooltip" />
-					<UncontrolledTooltip placement="top" target="edittooltip">
-						Edit
+					<i className="mdi mdi-eye-outline" />
+					<UncontrolledTooltip placement="top" target="viewToolTip">
+						View
 					</UncontrolledTooltip>
-				</Link>
+				</Button>
 			</li>
 
 			<li>
-				<Link to="#" className="btn btn-sm btn-soft-danger">
-					<i className="mdi mdi-delete-outline" id="deletetooltip" />
-					<UncontrolledTooltip placement="top" target="deletetooltip">
+				<Button
+					id="deleteToolTip"
+					className="btn btn-sm btn-soft-danger"
+					onClick={() => handleDelete(original)}
+				>
+					<i className="mdi mdi-delete-outline" />
+					<UncontrolledTooltip placement="top" target="deleteToolTip">
 						Delete
 					</UncontrolledTooltip>
-				</Link>
-			</li> */}
+				</Button>
+			</li>
 		</ul>
 	);
 };
@@ -89,6 +98,8 @@ ActionButtons.propTypes = {
 		}).isRequired,
 	}).isRequired,
 	handleStatus: PropTypes.func.isRequired,
+	handleDelete: PropTypes.func.isRequired,
+	handleView: PropTypes.func.isRequired,
 };
 
 export default ActionButtons;
