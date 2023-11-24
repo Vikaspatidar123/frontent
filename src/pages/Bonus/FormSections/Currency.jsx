@@ -18,6 +18,7 @@ const Currencies = ({
 	setNextPressed,
 	bonusTypeChanged,
 	setBonusTypeChanged,
+	bonusDetails,
 }) => {
 	const dispatch = useDispatch();
 	const [nextTab, setNextTab] = useState('');
@@ -34,6 +35,13 @@ const Currencies = ({
 		initialValues: getCreateBonusInitialValues()?.currency,
 		onSubmitEntry: (values) => handleSubmit({ values, nextTabId: nextTab }),
 	});
+
+	useEffect(() => {
+		if (bonusDetails) {
+			validation.setValues(bonusDetails.currency);
+			setNextButtonActive(true);
+		}
+	}, [bonusDetails]);
 
 	useEffect(() => {
 		if (bonusTypeChanged) {
@@ -158,7 +166,9 @@ const Currencies = ({
 	};
 
 	useEffect(() => {
-		validation.setValues(bonusCurrencies);
+		if (bonusCurrencies) {
+			validation.setValues(bonusCurrencies);
+		}
 	}, [bonusCurrencies]);
 
 	return (

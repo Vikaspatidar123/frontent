@@ -12,7 +12,7 @@ const CreateBonus = () => {
 		onNextClick,
 		isNextDisabled,
 		createBonusLoading,
-	} = useCreateBonus();
+	} = useCreateBonus({ isEdit: false });
 
 	return (
 		<div className="page-content">

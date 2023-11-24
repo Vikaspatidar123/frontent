@@ -15,6 +15,7 @@ const DemographicReport = (props) => {
 		demoDateOptions,
 		setDemoDateOptions,
 		isDemographicLoading,
+		exportReport,
 	} = props;
 	return (
 		<Col xl="12">
@@ -38,7 +39,8 @@ const DemographicReport = (props) => {
 							<button
 								type="button"
 								id="demograph-export-tool"
-								className="btn btn-sm btn-primary "
+								className="btn btn-sm btn-primary"
+								onClick={exportReport}
 							>
 								<i className="bx bx-download align-baseline" />
 							</button>
@@ -77,6 +79,7 @@ DemographicReport.propTypes = {
 	setDemoDateOptions: PropTypes.func,
 	isDemographicLoading: PropTypes.bool,
 	demoGrapFormatedData: PropTypes.arrayOf,
+	exportReport: PropTypes.func.isRequired,
 };
 DemographicReport.defaultProps = {
 	demoGraphOptions: PropTypes.arrayOf,

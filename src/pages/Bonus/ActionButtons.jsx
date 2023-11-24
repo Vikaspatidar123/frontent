@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, UncontrolledTooltip } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
@@ -10,9 +11,11 @@ const ActionButtons = ({
 	handleDelete,
 	handleView,
 }) => {
+	const navigate = useNavigate();
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
 	const bonusId = original?.bonusId;
+	const handleEdit = () => navigate(`/bonus/edit/${bonusId}`);
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -61,6 +64,18 @@ const ActionButtons = ({
 				)}
 			</li>
 
+			<li>
+				<Button
+					className="btn btn-sm btn-soft-info"
+					id="editToolTip"
+					onClick={handleEdit}
+				>
+					<i className="mdi mdi-pencil-outline" />
+					<UncontrolledTooltip placement="top" target="editToolTip">
+						Edit
+					</UncontrolledTooltip>
+				</Button>
+			</li>
 			<li>
 				<Button
 					className="btn btn-sm btn-soft-info"

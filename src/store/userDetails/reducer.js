@@ -19,6 +19,7 @@ import {
 	GET_ALL_BONUS_SUCCESS,
 	GET_BONUS_DETAILS,
 	GET_BONUS_DETAILS_FAIL,
+	GET_BONUS_DETAILS_RESET,
 	GET_BONUS_DETAILS_SUCCESS,
 	GET_DUPLICATE_USERS,
 	GET_DUPLICATE_USERS_FAIL,
@@ -113,7 +114,7 @@ const INIT_STATE = {
 	bonusList: [],
 	getAllBonusError: false,
 	getBonusDetailsLoading: false,
-	bonusDetails: [],
+	bonusDetails: null,
 	getBonusDetailsError: false,
 	issueBonusLoading: false,
 	issueBonusSuccess: false,
@@ -451,6 +452,14 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				getBonusDetailsLoading: false,
 				bonusDetails: payload,
 				getBonusDetailsError: null,
+			};
+
+		case GET_BONUS_DETAILS_RESET:
+			return {
+				...state,
+				getBonusDetailsLoading: false,
+				bonusDetails: null,
+				getBonusDetailsError: false,
 			};
 
 		case GET_BONUS_DETAILS_FAIL:

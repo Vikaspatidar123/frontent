@@ -27,6 +27,7 @@ const KpiSummary = (props) => {
 		setActiveKpiSummTab,
 		kPISummaryColumn,
 		kPISummary,
+		exportReport,
 	} = props;
 	const lastDate = new Date();
 
@@ -57,6 +58,7 @@ const KpiSummary = (props) => {
 							<button
 								type="button"
 								className="btn btn-primary dashboard-export-btn"
+								onClick={exportReport}
 							>
 								Export Details
 								<i className="bx bx-download align-baseline ms-1" />
@@ -166,6 +168,7 @@ KpiSummary.propTypes = {
 	setActiveKpiSummTab: PropTypes.func,
 	kPISummaryColumn: PropTypes.arrayOf,
 	kPISummary: PropTypes.arrayOf,
+	exportReport: PropTypes.func.isRequired,
 };
 KpiSummary.defaultProps = {
 	activeKpiSummTab: PropTypes.string,
