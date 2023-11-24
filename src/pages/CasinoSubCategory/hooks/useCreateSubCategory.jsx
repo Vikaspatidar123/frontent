@@ -37,7 +37,7 @@ const useCreateSubCategory = () => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { isGranted } = usePermission();
+	const { isGranted, permissions } = usePermission();
 	const [langState, setLangState] = useState({ EN: '' });
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 
@@ -383,7 +383,7 @@ const useCreateSubCategory = () => {
 				},
 			},
 		],
-		[]
+		[permissions]
 	);
 
 	return {
