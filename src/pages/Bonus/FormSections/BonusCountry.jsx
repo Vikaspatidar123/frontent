@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
 import { CustomInputField } from '../../../helpers/customForms';
-import { fetchCountriesStart } from '../../../store/actions';
 import Spinners from '../../../components/Common/Spinner';
 import TableContainer from '../../../components/Common/TableContainer';
 
@@ -72,17 +71,9 @@ const tableColumns = ({
 ];
 
 const BonusCountry = ({ selectedCountries, setSelectedCountries }) => {
-	const dispatch = useDispatch();
 	const [search, setSearch] = useState('');
 	const [myCountries, setMyCountries] = useState([]);
-
 	const { countries, loading } = useSelector((state) => state.Countries);
-
-	useEffect(() => {
-		if (countries?.length !== myCountries?.length) {
-			dispatch(fetchCountriesStart());
-		}
-	}, []);
 
 	const setCountries = () => {
 		if (countries?.length) {

@@ -10,6 +10,8 @@ import Games from '../FormSections/Games';
 import BonusCountry from '../FormSections/BonusCountry';
 import {
 	createBonus,
+	fetchCountriesStart,
+	getAllSAWageringTemplates,
 	getUserBonusDetails,
 	getUserBonusDetailsReset,
 	resetCreateBonus,
@@ -68,6 +70,14 @@ const useCreateBonus = ({ isEdit }) => {
 			});
 		}
 	}, [bonusDetails]);
+
+	useEffect(() => {
+		dispatch(getAllSAWageringTemplates());
+	}, []);
+
+	useEffect(() => {
+		dispatch(fetchCountriesStart());
+	}, []);
 
 	useEffect(() => {
 		if (createBonusSuccess) {

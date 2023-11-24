@@ -2,10 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row } from 'reactstrap';
-import {
-	getAllSAWageringTemplates,
-	getWageringTemplateDetail,
-} from '../../../store/actions';
+import { getWageringTemplateDetail } from '../../../store/actions';
 import {
 	CustomInputField,
 	CustomSelectField,
@@ -71,10 +68,6 @@ const WageringContribution = ({
 			setNextPressed({});
 		}
 	}, [nextPressed]);
-
-	useEffect(() => {
-		dispatch(getAllSAWageringTemplates());
-	}, []);
 
 	const wageringTemplateOptions = useMemo(() => {
 		if (allSAWageringTemplates?.length) {
