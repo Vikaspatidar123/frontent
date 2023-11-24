@@ -2,10 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row } from 'reactstrap';
-import {
-	getAllSAWageringTemplates,
-	getWageringTemplateDetail,
-} from '../../../store/actions';
+import { getWageringTemplateDetail } from '../../../store/actions';
 import {
 	CustomInputField,
 	CustomSelectField,
@@ -41,6 +38,7 @@ const WageringContribution = ({
 	setNextPressed,
 	setAllFields,
 	bonusDetails,
+	isEdit,
 }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
@@ -71,10 +69,6 @@ const WageringContribution = ({
 		}
 	}, [nextPressed]);
 
-	useEffect(() => {
-		dispatch(getAllSAWageringTemplates());
-	}, []);
-
 	const wageringTemplateOptions = useMemo(() => {
 		if (allSAWageringTemplates?.length) {
 			return allSAWageringTemplates.map((template) => ({
@@ -86,10 +80,10 @@ const WageringContribution = ({
 	}, [allSAWageringTemplates]);
 
 	useEffect(() => {
-		if (allSAWageringTemplates?.length) {
+		if (allSAWageringTemplates?.length && !isEdit) {
 			setSelectedTemplate(allSAWageringTemplates[0].wageringTemplateId);
 		}
-	}, [allSAWageringTemplates]);
+	}, [allSAWageringTemplates, isEdit]);
 
 	useEffect(() => {
 		if (selectedTemplate) {

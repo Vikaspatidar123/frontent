@@ -188,14 +188,16 @@ export const CustomRangeSelector = ({
 			options={{
 				mode: 'range',
 				dateFormat,
+				minDate,
+				maxDate,
 			}}
 			onChange={(date) => {
 				validation.setFieldValue('startDate', date[0]);
 				validation.setFieldValue('endDate', date[1]);
 			}}
 			monthsShown={2}
-			maxDate={maxDate}
-			minDate={minDate}
+			// maxDate={maxDate}
+			// minDate={minDate}
 			{...props}
 		/>
 		{/* {label && <Label for={name}>{label}</Label>}
@@ -340,15 +342,6 @@ export const CustomTextEditor = ({
 	const [editorState, setEditorState] = useState(
 		value ? prepareDraft(value) : EditorState.createEmpty()
 	);
-
-	// for prefilling values
-	// useEffect(() => {
-	//   if (value && isFirst) {
-	//     // debugger
-	//     isFirst.current = false
-	//     setEditorState(prepareDraft(value))
-	//   }
-	// }, [value])
 
 	const onEditorStateChange = (editorStateIns) => {
 		setEditorState(editorStateIns);

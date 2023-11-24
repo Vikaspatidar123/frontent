@@ -11,7 +11,7 @@ import {
 } from './actions';
 import { CREATE_BONUS, UPDATE_BONUS } from './actionTypes';
 
-import { clearEmptyProperty } from '../../utils/helpers';
+import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 import { createBonusCall } from '../../network/postRequests';
 import { updateBonusCall } from '../../network/putRequests';
 
@@ -22,6 +22,10 @@ function* createBonusWorker(action) {
 		payload = serialize(payload);
 		const { data } = yield createBonusCall(payload);
 
+		showToastr({
+			message: `Bonus Created Successfully`,
+			type: 'success',
+		});
 		yield put(createBonusSuccess(data?.data));
 	} catch (error) {
 		yield put(
@@ -29,6 +33,10 @@ function* createBonusWorker(action) {
 				error?.response?.data?.errors[0]?.description || error.message
 			)
 		);
+		showToastr({
+			message: error?.response?.data?.errors[0]?.description || error.message,
+			type: 'error',
+		});
 	}
 }
 
@@ -39,6 +47,10 @@ function* updateBonusWorker(action) {
 		payload = serialize(payload);
 		const { data } = yield updateBonusCall(payload);
 
+		showToastr({
+			message: `Bonus Updated Successfully`,
+			type: 'success',
+		});
 		yield put(updateBonusSuccess(data?.data));
 	} catch (error) {
 		yield put(
@@ -46,6 +58,10 @@ function* updateBonusWorker(action) {
 				error?.response?.data?.errors[0]?.description || error.message
 			)
 		);
+		showToastr({
+			message: error?.response?.data?.errors[0]?.description || error.message,
+			type: 'error',
+		});
 	}
 }
 
