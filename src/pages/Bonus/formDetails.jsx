@@ -187,7 +187,7 @@ const commonFields = (isDisabled) => [
 	},
 ];
 
-const typeDepositAdditionalFields = (isDisabled) => [
+const typeDepositAdditionalFields = (isDisabled, isStickyCallback) => [
 	{
 		name: 'wageringMultiplier',
 		fieldType: 'textField',
@@ -202,6 +202,7 @@ const typeDepositAdditionalFields = (isDisabled) => [
 		label: 'Is Sticky',
 		placeholder: 'Is Sticky',
 		isDisabled,
+		callBack: isStickyCallback,
 		optionList: [
 			{
 				id: 1,

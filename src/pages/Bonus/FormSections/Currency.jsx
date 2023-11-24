@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Row } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { CustomInputField } from '../../../helpers/customForms';
-import { getBonusCurrencyConversions } from '../../../store/actions';
+import {
+	getBonusCurrencyConversions,
+	resetBonusCurrencyConversion,
+} from '../../../store/actions';
 import { convertAmountOptions } from '../constants';
 import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -23,7 +26,9 @@ const Currencies = ({
 	const dispatch = useDispatch();
 	const [nextTab, setNextTab] = useState('');
 	const [isNextButtonActive, setNextButtonActive] = useState(false);
-	const { bonusCurrencies } = useSelector((state) => state.AllBonusDetails);
+	const { bonusCurrencies, bonusCurrenciesFetched } = useSelector(
+		(state) => state.AllBonusDetails
+	);
 
 	const handleSubmit = ({ values, nextTabId }) => {
 		setAllFields((prev) => ({ ...prev, currency: values }));
@@ -166,10 +171,11 @@ const Currencies = ({
 	};
 
 	useEffect(() => {
-		if (bonusCurrencies) {
+		if (bonusCurrenciesFetched) {
 			validation.setValues(bonusCurrencies);
+			dispatch(resetBonusCurrencyConversion());
 		}
-	}, [bonusCurrencies]);
+	}, [bonusCurrenciesFetched]);
 
 	return (
 		<>

@@ -240,6 +240,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
 					bonusDetails={bonusDetails}
+					isEdit={isEdit}
 				/>
 			),
 			isHidden:

@@ -61,8 +61,16 @@ const General = ({
 		}
 	}, [nextPressed]);
 
+	const isStickyChangeCallback = (e) => {
+		validation.setFieldValue(
+			'wageringRequirementType',
+			e.target.value === 'true' ? 'bonusdeposit' : 'bonus'
+		);
+	};
+
 	const handleBonusTypeChange = (e, type, firstRender = false) => {
 		e?.preventDefault();
+		const bonusType = e?.target?.value || type;
 		if (!firstRender) {
 			setBonusTypeChanged(true);
 			setSelectedCountries([]);
@@ -70,8 +78,12 @@ const General = ({
 			validation.setFieldValue('visibleInPromotions', false);
 			validation.setFieldValue('validOnDays', []);
 			validation.setFieldValue('wageringRequirementType', 'bonus');
+			if (bonusType === 'freespins') {
+				validation.setFieldValue('isSticky', true);
+			} else {
+				validation.setFieldValue('isSticky', false);
+			}
 		}
-		const bonusType = e?.target?.value || type;
 		setSelectedBonus(bonusType);
 		switch (bonusType) {
 			case 'deposit':
@@ -90,7 +102,10 @@ const General = ({
 						})),
 						isDisabled: !!bonusDetails,
 					},
-					...typeDepositAdditionalFields(bonusDetails?.claimedCount),
+					...typeDepositAdditionalFields(
+						bonusDetails?.claimedCount,
+						isStickyChangeCallback
+					),
 				]);
 				break;
 			case 'freespins':
@@ -173,14 +188,6 @@ const General = ({
 			}
 		}
 	}, [validation.values.visibleInPromotions, isInitialFieldRendered]);
-
-	useEffect(() => {
-		if (['true', true].includes(validation.values.isSticky)) {
-			validation.setFieldValue('wageringRequirementType', 'bonusdeposit');
-		} else {
-			validation.setFieldValue('wageringRequirementType', 'bonus');
-		}
-	}, [validation.values.isSticky]);
 
 	return (
 		<Row>
