@@ -17,7 +17,15 @@ const useButtonList = () => {
 			module: modules.Bonus,
 			operation: 'C',
 		},
+		{
+			label: 'Reorder',
+			handleClick: '',
+			link: 'reorder',
+			module: modules.Bonus,
+			operation: 'U',
+		},
 	]);
+
 	return {
 		buttonList,
 	};

@@ -13,13 +13,17 @@ import {
 	getBonusFailure,
 	deleteBonusComplete,
 	deleteBonusFailure,
+	reorderBonusSuccess,
+	reorderBonusFailure,
 } from './actions';
+
 import {
 	DELETE_BONUS_START,
 	GET_BONUS_CURRENCY_CONVERSION,
 	GET_BONUS_DETAILS_DATA,
 	GET_BONUS_START,
 	UPDATE_SA_BONUS_STATUS,
+	REORDER_BONUS_START,
 } from './actionTypes';
 
 import {
@@ -27,7 +31,10 @@ import {
 	getBonus,
 	getBonusCurrenciesConvertAmount,
 } from '../../network/getRequests';
-import { superAdminViewToggleStatus } from '../../network/putRequests';
+import {
+	superAdminViewToggleStatus,
+	reorderBonus,
+} from '../../network/putRequests';
 import { showToastr, clearEmptyProperty } from '../../utils/helpers';
 import { deleteBonus } from '../../network/deleteRequests';
 
@@ -135,6 +142,32 @@ function* deleteBonusWorker(action) {
 	}
 }
 
+function* updateReorderBonusWorker(action) {
+	try {
+		const { data, navigate } = action && action.payload;
+
+		yield reorderBonus(data);
+
+		showToastr({
+			message: 'Bonus Reorder succesfully',
+			type: 'success',
+		});
+
+		yield put(reorderBonusSuccess());
+
+		if (navigate) {
+			navigate('/bonus');
+		}
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+
+		yield put(reorderBonusFailure(e?.response?.data?.errors[0]?.description));
+	}
+}
+
 export function* watchBonusData() {
 	yield takeLatest(GET_BONUS_START, getBonusStartWorker);
 	yield takeLatest(DELETE_BONUS_START, deleteBonusWorker);
@@ -144,6 +177,7 @@ export function* watchBonusData() {
 		GET_BONUS_CURRENCY_CONVERSION,
 		getBonusCurrencyConversionsWorker
 	);
+	yield takeLatest(REORDER_BONUS_START, updateReorderBonusWorker);
 }
 
 function* BonusDetailsSaga() {

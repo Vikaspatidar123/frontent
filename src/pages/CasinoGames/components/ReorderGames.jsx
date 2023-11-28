@@ -6,21 +6,31 @@ import CrudSection from '../../../components/Common/CrudSection';
 import ReorderComponent from '../../ReorderCategories';
 import { CustomSelectField } from '../../../helpers/customForms';
 import useReorderGames from '../hooks/useReorderGames';
+import TableContainer from '../../../components/Common/TableContainer';
 
 const ReorderGames = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
 		state,
+		page,
+		setPage,
+		columns,
 		setState,
+		games,
+		setGames,
 		buttonList,
+		itemsPerPage,
 		formattedState,
 		selectedCategory,
 		setSelectedCategory,
-		casinoCategoryDetails,
-		casinoSubCategoryDetails,
+		onChangeRowsPerPage,
 		selectedSubCategory,
+		isCasinoGamesLoading,
+		casinoCategoryDetails,
 		setSelectedSubCategory,
+		casinoSubCategoryDetails,
+		totalCount,
 	} = useReorderGames();
 
 	return (
@@ -49,6 +59,7 @@ const ReorderGames = () => {
 										isClearable
 										type="select"
 										onChange={(e) => {
+											setGames({ rows: [], count: 0 });
 											setState({ rows: [], count: 0 });
 											setSelectedCategory(e.target.value);
 										}}
@@ -77,7 +88,11 @@ const ReorderGames = () => {
 											value={selectedSubCategory}
 											isClearable
 											type="select"
-											onChange={(e) => setSelectedSubCategory(e.target.value)}
+											onChange={(e) => {
+												setGames({ rows: [], count: 0 });
+												setState({ rows: [], count: 0 });
+												setSelectedSubCategory(e.target.value);
+											}}
 											key="my_unique_select_key_SubCategory"
 											options={
 												<>
@@ -99,29 +114,54 @@ const ReorderGames = () => {
 							</Row>
 						</CardBody>
 					</Card>
-					<Card>
-						<CardBody>
-							{selectedCategory && selectedSubCategory ? (
+				</Row>
+				<Row lg={12}>
+					<Col lg={6}>
+						<Card>
+							<CardBody>
+								<TableContainer
+									columns={columns}
+									data={games?.rows}
+									isPagination
+									customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={totalCount}
+									isManualPagination
+									onChangePagination={setPage}
+									currentPage={page}
+									isLoading={!isCasinoGamesLoading}
+									changeRowsPerPageCallback={onChangeRowsPerPage}
+								/>
+							</CardBody>
+						</Card>
+					</Col>
+					<Col lg={6}>
+						<Card>
+							<CardBody>
 								<Row className="drag-table--header">
-									{['ORDER ID', 'GAME NAME (ID)'].map((key) => (
+									{['ORDER ID', 'GAME NAME (ID)', 'ACTIONS'].map((key) => (
 										<Col key={key} className="drag-table--heading">
 											{key}
 										</Col>
 									))}
-									<ReorderComponent
-										formattedState={formattedState}
-										state={state}
-										setState={setState}
-									/>
+									{selectedCategory && selectedSubCategory ? (
+										<ReorderComponent
+											formattedState={formattedState}
+											state={state}
+											setState={setState}
+										/>
+									) : (
+										<p className="text-center text-danger mt-3">
+											{' '}
+											Select Category & Sub Category First{' '}
+										</p>
+									)}
 								</Row>
-							) : (
-								<p className="text-center text-danger mt-3">
-									{' '}
-									Select Category & Sub Category First{' '}
-								</p>
-							)}
-						</CardBody>
-					</Card>
+							</CardBody>
+						</Card>
+					</Col>
 				</Row>
 			</div>
 		</div>

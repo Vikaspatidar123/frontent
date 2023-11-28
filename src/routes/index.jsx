@@ -56,6 +56,7 @@ import BonusPreview from '../pages/Bonus/BonusView';
 import EditBonus from '../pages/Bonus/EditBonus';
 import ReorderSubCategory from '../pages/CasinoSubCategory/components/ReorderSubCategory';
 import ReorderGames from '../pages/CasinoGames/components/ReorderGames';
+import ReorderBonus from '../pages/Bonus/ReorderBonus';
 
 const authProtectedRoutes = [
 	{ path: '/', component: <DashboardView /> },
@@ -92,6 +93,7 @@ const authProtectedRoutes = [
 	{ path: '/cms/details/:cmsPageId', component: <CMSDetails /> },
 	{ path: '/casino-aggregators', component: <CasinoAggregators /> },
 	{ path: '/bonus', component: <BonusDetail /> },
+	{ path: '/bonus/reorder', component: <ReorderBonus /> },
 	{ path: '/bonus/:bonusId', component: <BonusPreview /> },
 	{ path: '/bonus/create', component: <CreateBonus /> },
 	{ path: '/bonus/edit/:bonusId', component: <EditBonus /> },
