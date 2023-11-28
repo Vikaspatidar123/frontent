@@ -157,6 +157,18 @@ const updateReview = ({ data }) =>
 const reorderBonus = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/bonus/order`, data);
 
+const uploadImageApi = (data) =>
+	putRequest(
+		`${VITE_APP_API_URL}/api/admin/sportsbook/upload-thumbnails`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
+const primaryEmailTemplate = (data) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/email/mark-primary`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -204,4 +216,6 @@ export {
 	updateReorderGames,
 	updateReview,
 	reorderBonus,
+	uploadImageApi,
+	primaryEmailTemplate,
 };

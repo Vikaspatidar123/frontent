@@ -26,6 +26,8 @@ import {
 	updateEmailTemplateFail,
 	deleteEmailTemplateSuccess,
 	deleteEmailTemplateFail,
+	makeEmailTemplatePrimarySuccess,
+	makeEmailTemplatePrimaryFail,
 } from './actions';
 
 import {
@@ -40,6 +42,7 @@ import {
 	GET_EMAIL_TEMPLATE,
 	UPDATE_EMAIL_TEMPLATE,
 	DELETE_EMAIL_TEMPLATE,
+	MAKE_EMAIL_TEMPLATE_PRIMARY,
 } from './actionTypes';
 
 import {
@@ -54,7 +57,11 @@ import {
 	createEmailTemplate,
 } from '../../network/postRequests';
 
-import { uploadGallery, updateEmailTemplate } from '../../network/putRequests';
+import {
+	uploadGallery,
+	updateEmailTemplate,
+	primaryEmailTemplate,
+} from '../../network/putRequests';
 import {
 	deleteFromGallery,
 	deleteEmailTemplate,
@@ -270,6 +277,26 @@ function* deleteTemplateWorker(action) {
 	}
 }
 
+function* primaryEmailTemplateWorker(action) {
+	try {
+		const { data } = action && action.payload;
+		yield primaryEmailTemplate(data);
+
+		showToastr({
+			message: 'Template Updated Successfully',
+			type: 'success',
+		});
+
+		yield put(makeEmailTemplatePrimarySuccess());
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+		yield put(makeEmailTemplatePrimaryFail());
+	}
+}
+
 export function* getEmailTemplateWatcher() {
 	yield takeLatest(GET_ALL_EMAIL_TEMPLATES, getAllEmailTemplatesWorker);
 	yield takeLatest(GET_IMAGE_GALLERY, getImageGalleryWorker);
@@ -282,6 +309,7 @@ export function* getEmailTemplateWatcher() {
 	yield takeLatest(GET_EMAIL_TEMPLATE, getemailTemplateWorker);
 	yield takeLatest(UPDATE_EMAIL_TEMPLATE, updateEmailTemplateWorker);
 	yield takeLatest(DELETE_EMAIL_TEMPLATE, deleteTemplateWorker);
+	yield takeLatest(MAKE_EMAIL_TEMPLATE_PRIMARY, primaryEmailTemplateWorker);
 }
 
 function* EmailTemplateSaga() {

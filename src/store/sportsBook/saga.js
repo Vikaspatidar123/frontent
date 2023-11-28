@@ -19,6 +19,8 @@ import {
 	updateOdsVariationSuccess,
 	deatechOdsVariationFail,
 	deatechOdsVariationSuccess,
+	uploadImageSuccess,
+	uploadImageFail,
 } from './actions';
 import {
 	GET_SPORTS_LIST,
@@ -29,6 +31,7 @@ import {
 	DETACH_ODDSVARIATION_START,
 	UPDATE_ODDSVARIATION_START,
 	GET_SPORTS_MATCHESDETAIL_START,
+	UPLOAD_IMAGE_START,
 } from './actionTypes';
 
 import {
@@ -43,6 +46,7 @@ import {
 	updateCompanyOddApi,
 	updateOddsVariationApi,
 	updateStatus,
+	uploadImageApi,
 } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 
@@ -228,6 +232,24 @@ function* updateCompanyOddWorker(action) {
 	}
 }
 
+function* uploadImageWorker(action) {
+	try {
+		const { data } = yield uploadImageApi(action.payload);
+
+		showToastr({
+			message: data?.data?.message,
+			type: 'success',
+		});
+		yield put(uploadImageSuccess(action.payload));
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+		yield put(uploadImageFail());
+	}
+}
+
 export function* sportsListingWatcher() {
 	yield takeLatest(GET_SPORTS_LIST, sportsListingWorker);
 }
@@ -263,6 +285,10 @@ export function* updateCompanyOddWatcher() {
 	yield takeLatest(UPDATE_COMPANYODD_START, updateCompanyOddWorker);
 }
 
+export function* uploadImageWatcher() {
+	yield takeLatest(UPLOAD_IMAGE_START, uploadImageWorker);
+}
+
 function* sportsBookSaga() {
 	yield all([fork(sportsListingWatcher)]);
 	yield all([fork(sportsCountriesWatcher)]);
@@ -272,6 +298,7 @@ function* sportsBookSaga() {
 	yield all([fork(updateOddsVariationWatcher)]);
 	yield all([fork(detachOddsVariationWatcher)]);
 	yield all([fork(updateCompanyOddWatcher)]);
+	yield all([fork(uploadImageWatcher)]);
 }
 
 export default sportsBookSaga;

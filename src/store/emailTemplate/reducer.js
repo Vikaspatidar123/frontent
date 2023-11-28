@@ -33,6 +33,9 @@ import {
 	DELETE_EMAIL_TEMPLATE,
 	DELETE_EMAIL_TEMPLATE_SUCCESS,
 	DELETE_EMAIL_TEMPLATE_FAIL,
+	MAKE_EMAIL_TEMPLATE_PRIMARY_SUCCESS,
+	MAKE_EMAIL_TEMPLATE_PRIMARY_FAIL,
+	MAKE_EMAIL_TEMPLATE_PRIMARY,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -71,6 +74,9 @@ const INIT_STATE = {
 	deleteEmailTemplate: false,
 	deleteEmailTemplateLoading: false,
 	deleteEmailTemplateError: null,
+	makeEmailTemplatePrimary: false,
+	makeEmailTemplatePrimaryLoading: false,
+	makeEmailTemplatePrimaryError: null,
 };
 
 const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
@@ -310,6 +316,27 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				deleteEmailTemplateLoading: false,
 				deleteEmailTemplateError: payload,
 				deleteEmailTemplate: false,
+			};
+
+		case MAKE_EMAIL_TEMPLATE_PRIMARY:
+			return {
+				...state,
+				makeEmailTemplatePrimaryLoading: true,
+			};
+
+		case MAKE_EMAIL_TEMPLATE_PRIMARY_SUCCESS:
+			return {
+				...state,
+				makeEmailTemplatePrimaryLoading: false,
+				makeEmailTemplatePrimary: true,
+			};
+
+		case MAKE_EMAIL_TEMPLATE_PRIMARY_FAIL:
+			return {
+				...state,
+				makeEmailTemplatePrimaryLoading: false,
+				makeEmailTemplatePrimaryError: payload,
+				makeEmailTemplatePrimary: false,
 			};
 
 		default:

@@ -24,6 +24,9 @@ import {
 	GET_SPORTS_MATCHESDETAIL_FAILURE,
 	GET_SPORTS_MATCHESDETAIL_SUCCESS,
 	GET_SPORTS_MATCHESDETAIL_START,
+	UPLOAD_IMAGE_START,
+	UPLOAD_IMAGE_SUCCESS,
+	UPLOAD_IMAGE_FAILURE,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -44,6 +47,9 @@ const INIT_STATE = {
 	isdeatechOdsVariationLoading: false,
 	isUpdateCompanyOdsLoading: false,
 	matchOdsDetails: null,
+	isUploadImageLoading: false,
+	uploadImageError: null,
+	uploadImageSuccess: false,
 };
 
 const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
@@ -238,6 +244,30 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				isSportsMatchDetailsLoading: true,
+			};
+
+		case UPLOAD_IMAGE_START:
+			return {
+				...state,
+				isUploadImageLoading: true,
+				uploadImageSuccess: false,
+				updateStatusError: null,
+			};
+
+		case UPLOAD_IMAGE_SUCCESS:
+			return {
+				...state,
+				isUploadImageLoading: false,
+				uploadImageSuccess: true,
+				updateStatusError: null,
+			};
+
+		case UPLOAD_IMAGE_FAILURE:
+			return {
+				...state,
+				isUploadImageLoading: false,
+				uploadImageError: payload,
+				updateStatusError: null,
 			};
 
 		default:

@@ -9,6 +9,8 @@ import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
+import Modal from '../../components/Common/Modal';
+import ImageUploader from '../ImageUploader';
 
 const SportsListing = () => {
 	// meta title
@@ -28,11 +30,14 @@ const SportsListing = () => {
 		formattedSportsList,
 		isSportsListLoading,
 		totalSportsListCount,
+		showUploadModal,
+		setShowUploadModal,
 		page,
 		setPage,
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		sportId,
 	} = useSportsListing(filterValidation.values);
 
 	return (
@@ -73,6 +78,16 @@ const SportsListing = () => {
 						</Card>
 					</Col>
 				</Row>
+				<Modal
+					openModal={showUploadModal}
+					toggleModal={() => setShowUploadModal(!showUploadModal)}
+					headerTitle="Upload an Image (30x30 pixels)"
+					secondBtnName="Upload"
+					className="modal-dialog modal-lg"
+					hideFooter
+				>
+					<ImageUploader sportId={sportId} code="SPORT" />
+				</Modal>
 			</Container>
 		</div>
 	);

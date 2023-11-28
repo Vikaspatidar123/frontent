@@ -8,6 +8,8 @@ import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
+import Modal from '../../components/Common/Modal';
+import ImageUploader from '../ImageUploader';
 
 const SportsCountriesListing = () => {
 	// meta title
@@ -32,6 +34,9 @@ const SportsCountriesListing = () => {
 		itemsPerPage,
 		columns,
 		onChangeRowsPerPage,
+		showUploadModal,
+		setShowUploadModal,
+		countryId,
 	} = useSportsCountriesListing(filterValidation.values);
 
 	return (
@@ -72,6 +77,16 @@ const SportsCountriesListing = () => {
 						</Card>
 					</Col>
 				</Row>
+				<Modal
+					openModal={showUploadModal}
+					toggleModal={() => setShowUploadModal(!showUploadModal)}
+					headerTitle="Upload an Image (30x30 pixels)"
+					secondBtnName="Upload"
+					className="modal-dialog modal-lg"
+					hideFooter
+				>
+					<ImageUploader countryId={countryId} code="COUNTRY" />
+				</Modal>
 			</Container>
 		</div>
 	);

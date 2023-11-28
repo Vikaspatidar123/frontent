@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ row: { original }, handleStatus }) => {
+const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
 	const sportId = original?.sportId;
@@ -46,12 +46,29 @@ const ActionButtons = ({ row: { original }, handleStatus }) => {
 					</Button>
 				)}
 			</li>
+
+			<li>
+				<Button
+					hidden={!isGranted(modules.SportbookManagement, 'U')}
+					className="btn btn-sm btn-soft-primary"
+					onClick={(e) => {
+						e.preventDefault();
+						handleUpload(sportId);
+					}}
+				>
+					<i className="mdi mdi-upload" id={`upload-${sportId}`} />
+					<UncontrolledTooltip placement="top" target={`upload-${sportId}`}>
+						Upload Icon
+					</UncontrolledTooltip>
+				</Button>
+			</li>
 		</ul>
 	);
 };
 
 ActionButtons.propTypes = {
 	handleStatus: PropTypes.func.isRequired,
+	handleUpload: PropTypes.func.isRequired,
 	row: PropTypes.shape({
 		original: PropTypes.shape({
 			isActive: PropTypes.bool,
