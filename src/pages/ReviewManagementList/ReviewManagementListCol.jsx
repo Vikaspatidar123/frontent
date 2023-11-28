@@ -11,8 +11,6 @@ const Description = ({ value }) =>
 
 const Rating = ({ value }) => value ?? '-';
 
-const Actions = ({ value }) => value ?? '';
-
 const Status = ({ value }) => {
 	switch (value) {
 		case 'Active':
@@ -36,4 +34,4 @@ Status.propTypes = {
 	value: PropTypes.string.isRequired,
 };
 
-export { Status, UserName, Actions, Id, Description, Rating };
+export { Status, UserName, Id, Description, Rating };

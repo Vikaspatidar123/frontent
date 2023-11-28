@@ -4,15 +4,19 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import {
 	CREATE_REVIEW_START,
 	FETCH_REVIEW_MANAGEMENT_START,
+	UPDATE_REVIEW_START,
 } from './actionTypes';
 import {
 	createReviewFail,
 	createReviewSuccess,
 	fetchReviewManagementFail,
 	fetchReviewManagementSuccess,
+	updateReviewSuccess,
+	updateReviewFail,
 } from './actions';
 import { getReviewManagement } from '../../network/getRequests';
 import { createReview } from '../../network/postRequests';
+import { updateReview } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 
 function* fetchReviewManagement(action) {
@@ -49,9 +53,32 @@ function* createReviewWorker(action) {
 	}
 }
 
+function* updateReviewWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield updateReview({ data });
+
+		yield put(updateReviewSuccess());
+
+		showToastr({
+			message: `Review Updated Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(updateReviewFail());
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
 function* reviewManagementSaga() {
 	yield takeEvery(FETCH_REVIEW_MANAGEMENT_START, fetchReviewManagement);
 	yield takeEvery(CREATE_REVIEW_START, createReviewWorker);
+	yield takeEvery(UPDATE_REVIEW_START, updateReviewWorker);
 }
 
 export default reviewManagementSaga;

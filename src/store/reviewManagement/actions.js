@@ -5,6 +5,9 @@ import {
 	CREATE_REVIEW_FAIL,
 	CREATE_REVIEW_START,
 	CREATE_REVIEW_SUCCESS,
+	UPDATE_REVIEW_START,
+	UPDATE_REVIEW_FAIL,
+	UPDATE_REVIEW_SUCCESS,
 } from './actionTypes';
 
 export const fetchReviewManagementStart = (payload) => ({
@@ -34,5 +37,20 @@ export const createReviewFail = (payload) => ({
 
 export const createReviewStart = (payload) => ({
 	type: CREATE_REVIEW_START,
+	payload,
+});
+
+export const updateReviewSuccess = (payload) => ({
+	type: UPDATE_REVIEW_SUCCESS,
+	payload,
+});
+
+export const updateReviewFail = (payload) => ({
+	type: UPDATE_REVIEW_FAIL,
+	payload,
+});
+
+export const updateReviewStart = (payload) => ({
+	type: UPDATE_REVIEW_START,
 	payload,
 });
