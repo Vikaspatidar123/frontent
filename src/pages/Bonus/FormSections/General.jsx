@@ -88,7 +88,10 @@ const General = ({
 		switch (bonusType) {
 			case 'deposit':
 				setFormFields([
-					...generalStaticFormFields(bonusDetails?.claimedCount),
+					...generalStaticFormFields(
+						bonusDetails?.claimedCount,
+						bonusDetails ? [bonusDetails.validFrom, bonusDetails.validTo] : []
+					),
 					{
 						name: 'bonusType',
 						fieldType: 'select',
@@ -110,7 +113,10 @@ const General = ({
 				break;
 			case 'freespins':
 				setFormFields([
-					...generalStaticFormFieldsWithoutPercent(bonusDetails?.claimedCount),
+					...generalStaticFormFieldsWithoutPercent(
+						bonusDetails?.claimedCount,
+						bonusDetails ? [bonusDetails.validFrom, bonusDetails.validTo] : []
+					),
 					{
 						name: 'bonusType',
 						fieldType: 'select',
@@ -129,7 +135,10 @@ const General = ({
 				break;
 			case 'promotion':
 				setFormFields([
-					...generalStaticFormFieldsWithoutPercent(bonusDetails?.claimedCount),
+					...generalStaticFormFieldsWithoutPercent(
+						bonusDetails?.claimedCount,
+						bonusDetails ? [bonusDetails.validFrom, bonusDetails.validTo] : []
+					),
 					{
 						name: 'bonusType',
 						fieldType: 'select',
