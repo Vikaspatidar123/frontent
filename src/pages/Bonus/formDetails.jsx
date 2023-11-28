@@ -90,7 +90,10 @@ const createBonusValidationSchema = () => ({
 	// ]
 });
 
-const generalStaticFormFieldsWithoutPercent = (isDisabled) => [
+const generalStaticFormFieldsWithoutPercent = (
+	isDisabled,
+	presetDates = []
+) => [
 	{
 		name: 'promotionTitle',
 		fieldType: 'textField',
@@ -103,13 +106,17 @@ const generalStaticFormFieldsWithoutPercent = (isDisabled) => [
 		fieldType: 'dateRangeSelector',
 		label: 'Bonus Validity',
 		placeholder: 'Select Range',
-		minDate: moment().utc().startOf('day').toDate(),
-		maxDate: moment().add(100, 'years').utc().toDate(),
+		minDate: presetDates.length
+			? moment(presetDates[0]).utc().startOf('day').toDate()
+			: moment().utc().startOf('day').toDate(),
+		maxDate: presetDates.length
+			? moment(presetDates[1]).add(100, 'years').utc().toDate()
+			: moment().add(100, 'years').utc().toDate(),
 		isDisabled,
 	},
 ];
 
-const generalStaticFormFields = (isDisabled) => [
+const generalStaticFormFields = (isDisabled, presetDates = []) => [
 	{
 		name: 'promotionTitle',
 		fieldType: 'textField',
@@ -130,8 +137,12 @@ const generalStaticFormFields = (isDisabled) => [
 		fieldType: 'dateRangeSelector',
 		label: 'Bonus Validity',
 		placeholder: 'Select Range',
-		minDate: moment().utc().startOf('day').toDate(),
-		maxDate: moment().add(100, 'years').utc().toDate(),
+		minDate: presetDates.length
+			? moment(presetDates[0]).utc().startOf('day').toDate()
+			: moment().utc().startOf('day').toDate(),
+		maxDate: presetDates.length
+			? moment(presetDates[1]).add(100, 'years').utc().toDate()
+			: moment().add(100, 'years').utc().toDate(),
 		isDisabled,
 	},
 ];
