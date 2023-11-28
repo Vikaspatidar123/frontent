@@ -33,6 +33,9 @@ import {
 	DELETE_EMAIL_TEMPLATE,
 	DELETE_EMAIL_TEMPLATE_SUCCESS,
 	DELETE_EMAIL_TEMPLATE_FAIL,
+	MAKE_EMAIL_TEMPLATE_PRIMARY_SUCCESS,
+	MAKE_EMAIL_TEMPLATE_PRIMARY_FAIL,
+	MAKE_EMAIL_TEMPLATE_PRIMARY,
 } from './actionTypes';
 
 export const getAllEmailTemplatesSuccess = (payload) => ({
@@ -202,5 +205,20 @@ export const deleteEmailTemplateFail = (payload) => ({
 
 export const deleteEmailTemplate = (payload) => ({
 	type: DELETE_EMAIL_TEMPLATE,
+	payload,
+});
+
+export const makeEmailTemplatePrimarySuccess = (payload) => ({
+	type: MAKE_EMAIL_TEMPLATE_PRIMARY_SUCCESS,
+	payload,
+});
+
+export const makeEmailTemplatePrimaryFail = (payload) => ({
+	type: MAKE_EMAIL_TEMPLATE_PRIMARY_FAIL,
+	payload,
+});
+
+export const makeEmailTemplatePrimary = (payload) => ({
+	type: MAKE_EMAIL_TEMPLATE_PRIMARY,
 	payload,
 });

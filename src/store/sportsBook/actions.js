@@ -23,6 +23,9 @@ import {
 	GET_SPORTS_MATCHESDETAIL_FAILURE,
 	GET_SPORTS_MATCHESDETAIL_SUCCESS,
 	GET_SPORTS_MATCHESDETAIL_START,
+	UPLOAD_IMAGE_START,
+	UPLOAD_IMAGE_SUCCESS,
+	UPLOAD_IMAGE_FAILURE,
 } from './actionTypes';
 
 export const getSportsListSuccess = (payload) => ({
@@ -132,5 +135,20 @@ export const updateCompanyOddSuccess = (payload) => ({
 });
 export const updateCompanyOddFail = (payload) => ({
 	type: UPDATE_COMPANYODD_FAILURE,
+	payload,
+});
+
+export const uploadImageStart = (payload) => ({
+	type: UPLOAD_IMAGE_START,
+	payload,
+});
+
+export const uploadImageSuccess = (payload) => ({
+	type: UPLOAD_IMAGE_SUCCESS,
+	payload,
+});
+
+export const uploadImageFail = (payload) => ({
+	type: UPLOAD_IMAGE_FAILURE,
 	payload,
 });

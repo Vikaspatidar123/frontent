@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-shadow */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSportsList, updateStatusStart } from '../../../store/actions';
@@ -7,11 +8,12 @@ import { SportId, SportName, Status, Icon } from '../sportsListCol';
 import ActionButtons from '../ActionButtons';
 
 const useSportsListing = (filterValues = {}) => {
-	const { sportsListInfo, isSportsListLoading } = useSelector(
-		(state) => state.SportsList
-	);
+	const { sportsListInfo, isSportsListLoading, uploadImageSuccess } =
+		useSelector((state) => state.SportsList);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
+	const [showUploadModal, setShowUploadModal] = useState(false);
+	const [sportId, setSportId] = useState('');
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -42,6 +44,17 @@ const useSportsListing = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [page, itemsPerPage]);
+
+	useEffect(() => {
+		if (uploadImageSuccess) {
+			setShowUploadModal(false);
+		}
+	}, [uploadImageSuccess]);
+
+	const handleUpload = (sportId) => {
+		setSportId(sportId);
+		setShowUploadModal(true);
+	};
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
@@ -80,7 +93,7 @@ const useSportsListing = (filterValues = {}) => {
 			},
 			{
 				Header: 'ICON',
-				accessor: 'icons',
+				accessor: 'icon',
 				disableFilters: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => <Icon value={cell.value} />,
@@ -91,7 +104,11 @@ const useSportsListing = (filterValues = {}) => {
 				disableFilters: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => (
-					<ActionButtons row={cell.row} handleStatus={handleStatus} />
+					<ActionButtons
+						row={cell.row}
+						handleStatus={handleStatus}
+						handleUpload={handleUpload}
+					/>
 				),
 			},
 		],
@@ -108,6 +125,9 @@ const useSportsListing = (filterValues = {}) => {
 		handleStatus,
 		onChangeRowsPerPage,
 		columns,
+		showUploadModal,
+		setShowUploadModal,
+		sportId,
 	};
 };
 

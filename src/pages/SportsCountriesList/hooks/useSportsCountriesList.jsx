@@ -11,12 +11,13 @@ import {
 import ActionButtons from '../ActionButtons';
 
 const useSportsCountriesListing = (filterValues = {}) => {
-	const { sportsCountries, isSportsCountriesLoading } = useSelector(
-		(state) => state.SportsList
-	);
-	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const { sportsCountries, isSportsCountriesLoading, uploadImageSuccess } =
+		useSelector((state) => state.SportsList);
 
+	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
+	const [showUploadModal, setShowUploadModal] = useState(false);
+	const [countryId, setCountryId] = useState('');
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -44,6 +45,17 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		);
 	};
 
+	useEffect(() => {
+		if (uploadImageSuccess) {
+			setShowUploadModal(false);
+		}
+	}, [uploadImageSuccess]);
+
+	const handleUpload = (sportId) => {
+		setCountryId(sportId);
+		setShowUploadModal(true);
+	};
+
 	const handleStatus = (e, props) => {
 		e.preventDefault();
 		const { active, countryId: sportCountryId } = props;
@@ -60,7 +72,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [itemsPerPage, page]);
+	}, [itemsPerPage, page, uploadImageSuccess]);
 
 	const columns = useMemo(
 		() => [
@@ -78,7 +90,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 			},
 			{
 				Header: 'ICON',
-				accessor: 'icons',
+				accessor: 'icon',
 				disableFilters: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => <Icon value={cell.value} />,
@@ -96,7 +108,11 @@ const useSportsCountriesListing = (filterValues = {}) => {
 				disableFilters: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => (
-					<ActionButtons row={cell.row} handleStatus={handleStatus} />
+					<ActionButtons
+						row={cell.row}
+						handleStatus={handleStatus}
+						handleUpload={handleUpload}
+					/>
 				),
 			},
 		],
@@ -113,6 +129,9 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		handleStatus,
 		onChangeRowsPerPage,
 		columns,
+		showUploadModal,
+		setShowUploadModal,
+		countryId,
 	};
 };
 
