@@ -38,7 +38,7 @@ const useBonusListing = (filterValues = {}) => {
 	};
 
 	const formattedBonusDetails = useMemo(() => {
-		if (bonusDetails) {
+		if (bonusDetails?.rows?.length) {
 			return bonusDetails?.rows.map((bonus) => {
 				const {
 					promotionTitle,
