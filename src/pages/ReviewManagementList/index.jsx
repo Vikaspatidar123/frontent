@@ -26,6 +26,18 @@ const ReviewManagementList = () => {
 	} = useFilters();
 
 	const {
+		isOpen,
+		setIsOpen,
+		formFields,
+		header,
+		validation,
+		isCreateReviewLoading,
+		isUpdateReviewLoading,
+		buttonList,
+		handleEditClick,
+	} = useCreateReview();
+
+	const {
 		currentPage,
 		setCurrentPage,
 		totalReviewManagementCount,
@@ -34,17 +46,10 @@ const ReviewManagementList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-	} = useReviewManagementListing(filterValidation.values);
-
-	const {
-		isOpen,
-		setIsOpen,
-		formFields,
-		header,
-		validation,
-		isCreateReviewLoading,
-		buttonList,
-	} = useCreateReview();
+	} = useReviewManagementListing({
+		formValues: filterValidation.values,
+		handleEditClick,
+	});
 
 	return (
 		<div className="page-content">
@@ -93,7 +98,7 @@ const ReviewManagementList = () => {
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
-					isSubmitLoading={isCreateReviewLoading}
+					isSubmitLoading={isCreateReviewLoading || isUpdateReviewLoading}
 				/>
 			</Container>
 		</div>

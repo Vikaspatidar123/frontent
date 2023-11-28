@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
-	userName: defaultValue?.username || '',
+	userName: defaultValue?.userName || '',
 	description: defaultValue?.description || '',
 	rating: defaultValue?.rating || 1,
 	status: defaultValue?.status || false,

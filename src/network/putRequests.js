@@ -151,6 +151,9 @@ const updateSubCategoryReOrder = (data) =>
 const updateReorderGames = ({ data }) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/casino/order-casino-games`, data);
 
+const updateReview = ({ data }) =>
+	putRequest(`${VITE_APP_API_URL}/api/admin/review`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -196,4 +199,5 @@ export {
 	updateBonusCall,
 	updateSubCategoryReOrder,
 	updateReorderGames,
+	updateReview,
 };

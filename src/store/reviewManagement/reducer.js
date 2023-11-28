@@ -5,6 +5,9 @@ import {
 	CREATE_REVIEW_FAIL,
 	CREATE_REVIEW_START,
 	CREATE_REVIEW_SUCCESS,
+	UPDATE_REVIEW_START,
+	UPDATE_REVIEW_FAIL,
+	UPDATE_REVIEW_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
@@ -14,6 +17,9 @@ const initialState = {
 	isCreateReviewError: false,
 	isCreateReviewSuccess: false,
 	isCreateReviewLoading: false,
+	isUpdateReviewError: null,
+	isUpdateReviewSuccess: false,
+	isUpdateReviewLoading: false,
 };
 
 const reviewManagementReducer = (
@@ -58,6 +64,27 @@ const reviewManagementReducer = (
 				isCreateReviewError: payload,
 				isCreateReviewLoading: false,
 				isCreateReviewSuccess: false,
+			};
+		case UPDATE_REVIEW_START:
+			return {
+				...state,
+				isUpdateReviewLoading: true,
+				isUpdateReviewSuccess: false,
+				isUpdateReviewError: null,
+			};
+		case UPDATE_REVIEW_SUCCESS:
+			return {
+				...state,
+				isUpdateReviewLoading: false,
+				isUpdateReviewSuccess: true,
+				isUpdateReviewError: null,
+			};
+		case UPDATE_REVIEW_FAIL:
+			return {
+				...state,
+				isUpdateReviewError: payload,
+				isUpdateReviewLoading: false,
+				isUpdateReviewSuccess: false,
 			};
 		default:
 			return { ...state };
