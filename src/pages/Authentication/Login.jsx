@@ -48,11 +48,13 @@ const Login = (props) => {
 		enableReinitialize: true,
 
 		initialValues: {
-			user: '',
+			emailOrUsername: '',
 			password: '',
 		},
 		validationSchema: Yup.object({
-			user: Yup.string().required('Please Enter Your Username or Email'),
+			emailOrUsername: Yup.string().required(
+				'Please Enter Your Username or Email'
+			),
 			password: Yup.string().required('Please Enter Your Password'),
 		}),
 		onSubmit: (values) => {
@@ -130,22 +132,23 @@ const Login = (props) => {
 											<div className="mb-3">
 												<Label className="form-label">Email</Label>
 												<Input
-													name="user"
+													name="emailOrUsername"
 													className="form-control"
 													placeholder="Enter username or email"
-													type="user"
 													onChange={validation.handleChange}
 													onBlur={validation.handleBlur}
-													value={validation.values.user || ''}
+													value={validation.values.emailOrUsername || ''}
 													invalid={
 														!!(
-															validation.touched.user && validation.errors.user
+															validation.touched.emailOrUsername &&
+															validation.errors.emailOrUsername
 														)
 													}
 												/>
-												{validation.touched.user && validation.errors.user ? (
+												{validation.touched.emailOrUsername &&
+												validation.errors.emailOrUsername ? (
 													<FormFeedback type="invalid">
-														{validation.errors.user}
+														{validation.errors.emailOrUsername}
 													</FormFeedback>
 												) : null}
 											</div>
