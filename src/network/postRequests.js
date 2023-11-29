@@ -1,9 +1,10 @@
 import { postRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
+const API_NAMESPACE = '/api/v1';
 
 const superAdminLogin = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/v1/admin/login`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/login`, data);
 
 const createCurrency = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/currency`, data);
