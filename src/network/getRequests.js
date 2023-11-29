@@ -2,6 +2,7 @@ import { safeStringify } from '../utils/helpers';
 import { getRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
+const API_NAMESPACE = '/api/v1';
 
 const getCasinoCategoryListing = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/casino/categories`, payload);
@@ -18,10 +19,10 @@ const getLanguages = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/language`, payload);
 
 const getCountries = (payload) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/country/list`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/country/list`, payload);
 
 const getAllCasinoProviders = (payload) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/casino/providers`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/provider`, payload);
 
 const getAdminRole = () => getRequest(`${VITE_APP_API_URL}/api/admin/roles`);
 
@@ -34,13 +35,13 @@ const getAllAdmins = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin`, payload);
 
 const getPermissionDetails = () =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/details`);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/details`);
 
 const getPlayers = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/user/all`, payload);
 
 const getAllCms = (payload) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/cms`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, payload);
 
 const getAggregators = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/casino/aggregators`, payload);
@@ -57,10 +58,10 @@ const getAllCasinoGames = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/casino/games`, payload);
 
 const getAllBonus = (payload) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/bonus`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, payload);
 
 const getBonusDetails = (payload) =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/bonus/detail`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/detail`, payload);
 
 const getCurrencies = ({ pageNo, limit }) =>
 	getRequest(
@@ -163,7 +164,7 @@ const getCMSDynamicKeys = () =>
 
 const getCmsByPageId = ({ cmsPageId }) =>
 	getRequest(
-		`${VITE_APP_API_URL}/api/admin/cms/details?cmsPageId=${cmsPageId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}/cms/details?cmsPageId=${cmsPageId}`
 	);
 
 const getDuplicateUsers = (payload) =>
@@ -207,9 +208,9 @@ const getRestrictedItems = (data) =>
 const getUnrestrictedItems = (data) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin/country/unrestricted-items`, data);
 
-const getBonus = ({ bonusId, userBonusId }) =>
+const getBonus = ({ bonusId }) =>
 	getRequest(
-		`${VITE_APP_API_URL}/api/admin/bonus/detail?bonusId=${bonusId}&userBonusId=${userBonusId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/detail?bonusId=${bonusId}`
 	);
 
 const getSiteDetailApi = () =>

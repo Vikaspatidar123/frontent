@@ -1,6 +1,7 @@
 import { putRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
+const API_NAMESPACE = '/api/v1';
 
 const updateSuperAdminUser = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/`, data);
@@ -81,7 +82,7 @@ const updateWageringTemplate = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, data);
 
 const updateSuperAdminCMS = (data) =>
-	putRequest(`${VITE_APP_API_URL}/api/admin/cms`, data);
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, data);
 
 const verifyPlayerEmail = (data) =>
 	putRequest(`${VITE_APP_API_URL}/api/admin/user/verify-email`, data);

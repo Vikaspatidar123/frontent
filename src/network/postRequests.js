@@ -16,7 +16,7 @@ const createAggregator = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/casino/aggregator`, data);
 
 const createCasinoProvider = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/casino/provider`, data, {
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/provider`, data, {
 		'Content-Type': 'multipart/form-data',
 	});
 
@@ -64,7 +64,7 @@ const disableUserSession = (data) =>
 	postRequest(`${VITE_APP_API_URL}/api/admin/user/session-time`, data);
 
 const createSuperAdminCMS = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/cms`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, data);
 
 const updateMatchFeaturedTemplate = (data) =>
 	postRequest(
