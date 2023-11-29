@@ -100,6 +100,8 @@ const DashboardView = ({ t }) => {
 		exportGameReport,
 		exportKPIReport,
 		exportKPISummaryReport,
+		isRefresh,
+		setIsRefresh,
 	} = useDashboardView();
 	return (
 		<div className="page-content">
@@ -133,6 +135,8 @@ const DashboardView = ({ t }) => {
 								setDemoDateOptions={setDemoDateOptions}
 								isDemographicLoading={isDemographicLoading}
 								exportReport={exportReport}
+								isRefresh={isRefresh}
+								setIsRefresh={setIsRefresh}
 							/>
 						</Row>
 					</Col>

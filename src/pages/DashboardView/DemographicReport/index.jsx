@@ -1,4 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
@@ -16,7 +18,10 @@ const DemographicReport = (props) => {
 		setDemoDateOptions,
 		isDemographicLoading,
 		exportReport,
+		isRefresh,
+		setIsRefresh,
 	} = props;
+
 	return (
 		<Col xl="12">
 			<Card>
@@ -49,7 +54,25 @@ const DemographicReport = (props) => {
 							</UncontrolledTooltip>
 						</div>
 					</div>
-					<h4 className="card-title mb-3">Demographic Report</h4>
+
+					<div className="d-flex align-items-center">
+						<h4 className="card-title font-size-16">Demographic Report</h4>
+						<i
+							className="mdi mdi-refresh mx-2 font-size-20 mb-1"
+							style={{ cursor: 'pointer' }}
+							id="refresh"
+							onClick={() => setIsRefresh(!isRefresh)}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter') {
+									setIsRefresh(!isRefresh);
+								}
+							}}
+							tabIndex="0"
+						/>
+						<UncontrolledTooltip placement="top" target="refresh">
+							Refresh
+						</UncontrolledTooltip>
+					</div>
 
 					<Row>
 						<Col xl="4">
@@ -80,7 +103,10 @@ DemographicReport.propTypes = {
 	isDemographicLoading: PropTypes.bool,
 	demoGrapFormatedData: PropTypes.arrayOf,
 	exportReport: PropTypes.func.isRequired,
+	isRefresh: PropTypes.bool,
+	setIsRefresh: PropTypes.func,
 };
+
 DemographicReport.defaultProps = {
 	demoGraphOptions: PropTypes.arrayOf,
 	demoGraphicData: PropTypes.arrayOf,
@@ -89,5 +115,7 @@ DemographicReport.defaultProps = {
 	setDemoDateOptions: PropTypes.func,
 	isDemographicLoading: PropTypes.bool,
 	demoGrapFormatedData: PropTypes.arrayOf,
+	isRefresh: PropTypes.bool,
+	setIsRefresh: PropTypes.func,
 };
 export default DemographicReport;

@@ -77,6 +77,7 @@ const useDashboardView = () => {
 	const [loggedInOptions, setLoggedInOptions] = useState({});
 	const [demoDateOptions, setDemoDateOptions] = useState('yeartodate');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
+	const [isRefresh, setIsRefresh] = useState(false);
 
 	const [activeKpiSummTab, setActiveKpiSummTab] = useState('banking');
 	const [activeKpiReportTab, setActiveKpiReportTab] = useState('game');
@@ -120,7 +121,7 @@ const useDashboardView = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [demoDateOptions]);
+	}, [demoDateOptions, isRefresh]);
 
 	useEffect(() => {
 		if (demoGraphicData) formatDataHandler(demoGraphicData);
@@ -457,6 +458,8 @@ const useDashboardView = () => {
 		exportGameReport,
 		exportKPIReport,
 		exportKPISummaryReport,
+		isRefresh,
+		setIsRefresh,
 	};
 };
 
