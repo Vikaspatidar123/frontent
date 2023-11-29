@@ -1,19 +1,19 @@
 import { postRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
-const API_NAMESPACE = '/api/v1';
+const API_NAMESPACE = '/api/v1/admin';
 
 const superAdminLogin = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/login`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/login`, data);
 
 const createCurrency = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/currency`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/currency`, data);
 
 const addSuperAdminUser = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/`, data);
 
 const createAggregator = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/casino/aggregator`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/aggregator`, data);
 
 const createCasinoProvider = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/provider`, data, {
@@ -21,74 +21,83 @@ const createCasinoProvider = (data) =>
 	});
 
 const createReview = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/review`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/review`, data);
 
 const createBetSettings = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/sportsbook/bet-settings`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/bet-settings`,
+		data
+	);
 
 const createSABanners = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/banner`, data, {
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/banner`, data, {
 		'Content-Type': 'multipart/form-data',
 	});
 
 const createCasinoCategory = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/casino/category`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category`, data);
 
 const createKYCLabels = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/document-label`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/document-label`, data);
 
 const createCasinoSubCategory = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/casino/sub-category`, data, {
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/sub-category`, data, {
 		'Content-Type': 'multipart/form-data',
 	});
 
 const createUserCommentEntry = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/user/comment`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/comment`, data);
 
 const createWageringTemplate = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/wagering-template`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template`, data);
 
 const resetUserLimitCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/user/daily-limit`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/daily-limit`, data);
 
 const resetDepositLimitCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/user/deposit-limit`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/deposit-limit`, data);
 
 const resetLossLimitCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/user/loss-limit`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/loss-limit`, data);
 
 const disableUserCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/user/disable-until`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/disable-until`, data);
 
 const disableUserSession = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/user/session-time`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/session-time`, data);
 
 const createSuperAdminCMS = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, data);
 
 const updateMatchFeaturedTemplate = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}/api/admin/sportsbook/featured-matches`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/featured-matches`,
 		data
 	);
 
 const issueBonus = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/bonus/issue`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/issue`, data);
 
 const testEmailTemplateEndPoint = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/email/test`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email/test`, data);
 
 const createEmailTemplate = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/email`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email`, data);
 
 const isCasinoFeaturedService = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/casino/featured-games`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino/featured-games`,
+		data
+	);
 
 const addGamesToSubCategory = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/casino/category-games`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category-games`,
+		data
+	);
 
 const createBonusCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}/api/admin/bonus`, data, {
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, data, {
 		'Content-Type': 'multipart/form-data',
 	});
 
