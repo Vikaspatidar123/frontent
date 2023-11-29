@@ -32,6 +32,7 @@ const useReorderGames = () => {
 	const [selectedSubCategory, setSelectedSubCategory] = useState('');
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const [search, setSearch] = useState('');
 
 	const fetchData = () => {
 		dispatch(
@@ -70,14 +71,14 @@ const useReorderGames = () => {
 					limit: itemsPerPage,
 					pageNo: page,
 					casinoCategoryId: selectedSubCategory,
-					search: '',
+					search,
 					isActive: '',
 					selectedProvider: '',
 					reorder: 'true',
 				})
 			);
 		}
-	}, [selectedSubCategory, itemsPerPage, page]);
+	}, [selectedSubCategory, itemsPerPage, page, search]);
 
 	const formattedGames = useMemo(() => {
 		let formattedData = [];
@@ -97,9 +98,12 @@ const useReorderGames = () => {
 	useEffect(() => {
 		if (formattedGames && formattedGames?.rows?.length) {
 			if (state?.rows) {
-				const filteredArray = formattedGames?.rows?.filter((item) => !state?.rows.find(
-						(common) => common.casinoGameId === item.casinoGameId
-					));
+				const filteredArray = formattedGames?.rows?.filter(
+					(item) =>
+						!state?.rows.find(
+							(common) => common.casinoGameId === item.casinoGameId
+						)
+				);
 				setGames({ rows: filteredArray, count: formattedGames?.count });
 			} else {
 				setGames({ rows: formattedGames?.rows, count: formattedGames?.count });
@@ -256,6 +260,8 @@ const useReorderGames = () => {
 		page,
 		setPage,
 		setState,
+		search,
+		setSearch,
 		games,
 		setGames,
 		buttonList,
