@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { CardBody, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
@@ -21,7 +21,7 @@ const CrudSection = ({ title, buttonList }) => {
 							tooltip,
 							icon,
 						}) => (
-							<>
+							<Fragment key={link}>
 								<Link
 									key={link}
 									hidden={module && operation && !isGranted(module, operation)}
@@ -40,7 +40,7 @@ const CrudSection = ({ title, buttonList }) => {
 										{tooltip}
 									</UncontrolledTooltip>
 								)}
-							</>
+							</Fragment>
 						)
 					)}
 				</div>
