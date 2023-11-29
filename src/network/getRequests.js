@@ -28,7 +28,7 @@ const getAllCasinoProviders = (payload) =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/provider`, payload);
 
 const getAdminRole = () =>
-  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/roles`);
+  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/roles`);
 
 const getAdminChildren = ({ superAdminId, superRoleId }) =>
   getRequest(
@@ -39,7 +39,7 @@ const getAllAdmins = (payload) =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}`, payload);
 
 const getPermissionDetails = () =>
-  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/details`);
+  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/details`);
 
 const getPlayers = (payload) =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/all`, payload);
@@ -145,7 +145,7 @@ const getEmailTemplates = () =>
 
 const getAdminDetails = (adminId) =>
   getRequest(
-    `${VITE_APP_API_URL}${API_NAMESPACE}/details?adminUserId=${adminId}`
+    `${VITE_APP_API_URL}${API_NAMESPACE}/admin/details?adminUserId=${adminId}`
   );
 
 const getDocumentLabelCall = (userId) =>
