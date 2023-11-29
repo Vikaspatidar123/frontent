@@ -207,6 +207,9 @@ const getBonus = ({ bonusId, userBonusId }) =>
 		`${VITE_APP_API_URL}/api/admin/bonus/detail?bonusId=${bonusId}&userBonusId=${userBonusId}`
 	);
 
+const getSiteDetailApi = () =>
+	getRequest(`${VITE_APP_API_URL}/api/admin/site-details`);
+
 export {
 	getBonus,
 	getAllCurrencies,
@@ -266,4 +269,5 @@ export {
 	getSuperAdminAllWageringTemplate,
 	getRestrictedItems,
 	getUnrestrictedItems,
+	getSiteDetailApi,
 };

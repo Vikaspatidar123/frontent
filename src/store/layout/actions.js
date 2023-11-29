@@ -12,6 +12,9 @@ import {
 	CHANGE_LAYOUT_MODE,
 	SET_TABLE_HEADER_THEME,
 	SET_BREADCRUMB,
+	GET_SITE_DETAILS,
+	GET_SITE_DETAILS_SUCCESS,
+	GET_SITE_DETAILS_FAIL,
 } from './actionTypes';
 
 export const changeLayout = (layout) => ({
@@ -77,4 +80,19 @@ export const setTableHeaderClass = (className) => ({
 export const setBreadcrumb = (value) => ({
 	type: SET_BREADCRUMB,
 	payload: value,
+});
+
+export const getSiteDetailsSuccess = (payload) => ({
+	type: GET_SITE_DETAILS_SUCCESS,
+	payload,
+});
+
+export const getSiteDetailsFail = (payload) => ({
+	type: GET_SITE_DETAILS_FAIL,
+	payload,
+});
+
+export const getSiteDetails = (payload) => ({
+	type: GET_SITE_DETAILS,
+	payload,
 });

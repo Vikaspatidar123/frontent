@@ -1,6 +1,6 @@
 // @flow
 import { all, call, fork, takeEvery, put } from 'redux-saga/effects';
-
+import { getSiteDetailApi } from '../../network/getRequests';
 import {
 	CHANGE_LAYOUT,
 	CHANGE_LAYOUT_WIDTH,
@@ -10,9 +10,14 @@ import {
 	CHANGE_TOPBAR_THEME,
 	SHOW_RIGHT_SIDEBAR,
 	CHANGE_LAYOUT_MODE,
+	GET_SITE_DETAILS,
 } from './actionTypes';
 
-import { changeSidebarType as changeSidebarTypeAction } from './actions';
+import {
+	changeSidebarType as changeSidebarTypeAction,
+	getSiteDetailsSuccess,
+	getSiteDetailsFail,
+} from './actions';
 
 /**
  * Changes the body attribute
@@ -185,6 +190,20 @@ function* showRightSidebar() {
 		// console.log(error);
 	}
 }
+/**
+ * Get site details
+ */
+function* getSiteDetailsWorker(action) {
+	const payload = action && action.payload;
+	try {
+		const { data } = yield getSiteDetailApi(payload);
+		yield put(getSiteDetailsSuccess(data.data.siteDetails.value));
+	} catch (error) {
+		yield put(
+			getSiteDetailsFail(error?.response?.data?.errors[0]?.description)
+		);
+	}
+}
 
 /**
  * Watchers
@@ -221,6 +240,9 @@ export function* watchSChangeLayoutMode() {
 	yield takeEvery(CHANGE_LAYOUT_MODE, changeLayoutMode);
 }
 
+export function* getSiteDetailsWatcher() {
+	yield takeEvery(GET_SITE_DETAILS, getSiteDetailsWorker);
+}
 function* LayoutSaga() {
 	yield all([
 		fork(watchSChangeLayoutMode),
@@ -231,6 +253,7 @@ function* LayoutSaga() {
 		fork(watchChangeLeftSidebarType),
 		fork(watchShowRightSidebar),
 		fork(watchChangeTopbarTheme),
+		fork(getSiteDetailsWatcher),
 	]);
 }
 

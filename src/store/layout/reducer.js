@@ -13,6 +13,8 @@ import {
 	CHANGE_LAYOUT_MODE,
 	SET_TABLE_HEADER_THEME,
 	SET_BREADCRUMB,
+	GET_SITE_DETAILS_SUCCESS,
+	GET_SITE_DETAILS_FAIL,
 } from './actionTypes';
 
 // constants
@@ -42,6 +44,8 @@ const INIT_STATE = {
 	leftMenu: false,
 	tableHeaderClass: tableHeaderClass.GREY,
 	showBreadcrumb: false,
+	error: null,
+	isLoading: true,
 };
 
 const Layout = (state = INIT_STATE, { type, payload } = {}) => {
@@ -110,6 +114,18 @@ const Layout = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				showBreadcrumb: payload,
+			};
+
+		case GET_SITE_DETAILS_SUCCESS:
+			return {
+				...state,
+				...payload,
+				error: null,
+			};
+		case GET_SITE_DETAILS_FAIL:
+			return {
+				...state,
+				error: payload,
 			};
 		default:
 			return state;

@@ -26,3 +26,8 @@ export const SET_TABLE_HEADER_THEME = 'SET_TABLE_HEADER_THEME';
 
 // Set show breadcrumb
 export const SET_BREADCRUMB = 'SET_BREADCRUMB';
+
+// Get site details
+export const GET_SITE_DETAILS = 'GET_SITE_DETAILS';
+export const GET_SITE_DETAILS_SUCCESS = 'GET_SITE_DETAILS_SUCCESS';
+export const GET_SITE_DETAILS_FAIL = 'GET_SITE_DETAILS_FAIL';
