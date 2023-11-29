@@ -10,7 +10,7 @@ const createCurrency = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/currency`, data);
 
 const addSuperAdminUser = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`, data);
 
 const createAggregator = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/aggregator`, data);

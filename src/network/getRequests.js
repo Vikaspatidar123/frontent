@@ -36,7 +36,7 @@ const getAdminChildren = ({ superAdminId, superRoleId }) =>
   );
 
 const getAllAdmins = (payload) =>
-  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}`, payload);
+  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`, payload);
 
 const getPermissionDetails = () =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/details`);
