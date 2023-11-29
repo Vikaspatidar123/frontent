@@ -76,7 +76,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 				accessor: ({ fullName }) => (
 					<div className="avatar-xs">
 						<span className="avatar-title rounded-circle">
-							{fullName.charAt(0)}
+							{fullName?.charAt(0)?.toUpperCase()}
 						</span>
 					</div>
 				),
@@ -97,7 +97,12 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 				Header: 'Email',
 				accessor: 'email',
 				filterable: true,
-				Cell: ({ cell }) => <Email cell={cell} />,
+				Cell: ({ cell }) => (
+					<Email
+						value={cell.value}
+						adminUserId={cell?.row?.original?.adminUserId}
+					/>
+				),
 			},
 			{
 				Header: 'Role',
