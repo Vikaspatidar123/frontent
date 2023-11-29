@@ -3,12 +3,12 @@ const Colors = {
 };
 
 const colorOptions = [
-	'success',
-	'danger',
-	'warning',
-	'info',
-	'secondary',
-	'primary',
+	'bg-gradient',
+	'bg-danger',
+	'bg-warning',
+	'bg-info',
+	'bg-secondary',
+	'bg-primary',
 ];
 
 let lastColor = null;
