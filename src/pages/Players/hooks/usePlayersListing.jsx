@@ -12,6 +12,7 @@ import {
 	Status,
 	UserName,
 } from '../PlayersListCol';
+import { getRandomColor } from '../../../helpers/common';
 
 const usePlayersListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -23,6 +24,24 @@ const usePlayersListing = (filterValues = {}) => {
 
 	const columns = useMemo(
 		() => [
+			{
+				Header: '#',
+				disableFilters: true,
+				filterable: true,
+				disableSortBy: true,
+				accessor: (prop) => {
+					const { fullName, randomColor } = prop;
+					return (
+						<div className="avatar-xs">
+							<span
+								className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
+							>
+								{fullName.charAt(0).toUpperCase()}
+							</span>
+						</div>
+					);
+				},
+			},
 			{
 				Header: 'Player Id',
 				accessor: 'userId',
@@ -87,14 +106,16 @@ const usePlayersListing = (filterValues = {}) => {
 	const formattedPlayers = useMemo(() => {
 		const formattedValues = [];
 		if (players) {
-			players.rows.map((player) =>
-				formattedValues.push({
+			return players?.rows.map((player) => {
+				const randomColor = getRandomColor();
+				return {
 					...player,
 					fullName: `${player.firstName} ${player.lastName}`,
 					status: player.isActive ? 'Active' : 'In-Active',
 					isInternal: player.isInternalUser ? 'YES' : 'NO',
-				})
-			);
+					randomColor,
+				};
+			});
 		}
 		return formattedValues;
 	}, [players]);
