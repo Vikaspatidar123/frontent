@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row } from 'reactstrap';
@@ -16,19 +15,19 @@ const columns = [
 		Header: 'GAME ID',
 		disableSortBy: true,
 		accessor: 'casinoGameId',
-		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
+		Cell: (cell) => <KeyValueCell cell={cell} />,
 	},
 	{
 		Header: 'NAME',
 		disableSortBy: true,
 		accessor: 'name',
-		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
+		Cell: (cell) => <KeyValueCell cell={cell} />,
 	},
 	{
 		Header: 'PROVIDER',
 		disableSortBy: true,
 		accessor: 'providerName',
-		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
+		Cell: (cell) => <KeyValueCell cell={cell} />,
 	},
 ];
 
@@ -111,7 +110,6 @@ const Games = () => {
 					isPagination
 					customPageSize={itemsPerPage}
 					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
 					totalPageCount={casinoGames?.count}

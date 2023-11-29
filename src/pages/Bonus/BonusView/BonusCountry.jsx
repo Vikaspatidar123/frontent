@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Col, Container, Row } from 'reactstrap';
 import { fetchCountriesStart } from '../../../store/actions';
 import Spinners from '../../../components/Common/Spinner';
@@ -70,6 +70,14 @@ const BonusCountry = ({ bonusCountryData }) => {
 			</Row>
 		</Container>
 	);
+};
+
+BonusCountry.defaultProps = {
+	bonusCountryData: {},
+};
+
+BonusCountry.propTypes = {
+	bonusCountryData: PropTypes.objectOf,
 };
 
 export default BonusCountry;

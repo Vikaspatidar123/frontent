@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 import { getWageringTemplateDetail } from '../../../store/actions';
 import TableContainer from '../../../components/Common/TableContainer';
@@ -12,19 +12,19 @@ const columns = [
 		Header: 'NAME',
 		accessor: 'name',
 		disableSortBy: true,
-		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
+		Cell: (cell) => <KeyValueCell cell={cell} />,
 	},
 	{
 		Header: 'RTP',
 		accessor: 'rtp',
 		disableSortBy: true,
-		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
+		Cell: (cell) => <KeyValueCell cell={cell} />,
 	},
 	{
 		Header: 'WAGERING CONTRIBUTION',
 		accessor: 'contribution',
 		disableSortBy: true,
-		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
+		Cell: (cell) => <KeyValueCell cell={cell} />,
 	},
 ];
 
@@ -84,6 +84,14 @@ const WageringContribution = ({ wageringId }) => {
 			</Col>
 		</Row>
 	);
+};
+
+WageringContribution.defaultProps = {
+	wageringId: {},
+};
+
+WageringContribution.propTypes = {
+	wageringId: PropTypes.number,
 };
 
 export default WageringContribution;
