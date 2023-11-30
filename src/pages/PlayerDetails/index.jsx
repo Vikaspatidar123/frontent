@@ -143,6 +143,7 @@ const PlayerDetailsPage = ({ t }) => {
 					leftTitle={leftTitle}
 					title={t('Player')}
 					breadcrumbItem={t('Player Details')}
+					showBackButton
 				/>
 				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
 			</Container>

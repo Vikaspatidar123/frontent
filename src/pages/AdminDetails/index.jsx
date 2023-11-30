@@ -51,6 +51,7 @@ const AdminDetails = ({ t }) => {
 			<Container fluid onLoad={isAdminLoading}>
 				<Breadcrumbs
 					showRightInfo={false}
+					showBackButton
 					breadcrumbItem={`${adminDetails?.AdminRole?.name}: ${adminDetails.firstName} ${adminDetails.lastName}`}
 				/>
 				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />

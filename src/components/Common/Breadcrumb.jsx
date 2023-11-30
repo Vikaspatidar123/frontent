@@ -10,20 +10,38 @@ const Breadcrumb = ({
 	breadcrumbItem,
 	leftTitle,
 	showRightInfo = true,
+	showBackButton,
 }) => {
 	const navigate = useNavigate();
+	const onBackClick = () => navigate(-1);
+
 	return (
 		<Row>
 			<Col xs="12">
 				<div className="page-title-box d-flex align-items-center justify-content-between">
-					<h4
-						className="mb-0 ms-2 font-size-18"
-						role="presentation"
-						style={{ cursor: `${titleLink ? 'pointer' : ''}` }}
-						onClick={titleLink ? () => navigate(titleLink) : null}
-					>
-						{leftTitle || breadcrumbItem}
-					</h4>
+					<div className="d-flex align-items-center">
+						{showBackButton && (
+							<h4
+								className="mb-0 ms-2 font-size-16"
+								role="presentation"
+								style={{ cursor: 'pointer' }}
+								onClick={onBackClick}
+							>
+								<>
+									<i className="fas fa-angle-left" />
+									{leftTitle || breadcrumbItem ? '' : 'Back'}
+								</>
+							</h4>
+						)}
+						<h4
+							className="mb-0 ms-2 font-size-18"
+							role="presentation"
+							style={{ cursor: `${titleLink ? 'pointer' : ''}` }}
+							onClick={titleLink ? () => navigate(titleLink) : null}
+						>
+							{leftTitle || breadcrumbItem}
+						</h4>
+					</div>
 					{showRightInfo && (
 						<div className="page-title-right">
 							<ol className="breadcrumb m-0">
@@ -47,6 +65,7 @@ Breadcrumb.defaultProps = {
 	itemLink: '',
 	leftTitle: '',
 	showRightInfo: true,
+	showBackButton: false,
 };
 
 Breadcrumb.propTypes = {
@@ -56,6 +75,7 @@ Breadcrumb.propTypes = {
 	itemLink: PropTypes.string,
 	leftTitle: PropTypes.string,
 	showRightInfo: PropTypes.bool,
+	showBackButton: PropTypes.bool,
 };
 
 export default Breadcrumb;

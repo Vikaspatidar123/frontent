@@ -1,12 +1,15 @@
 import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { isEmpty } from 'lodash';
+import { useSelector } from 'react-redux';
 import CrudSection from '../../components/Common/CrudSection';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsMatchDetail from './hooks/useSportsMatchDetail';
 import AccordianMatchDetails from './components/AccordianMatchDetails';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 
 const SportsMatchDetail = () => {
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 	const {
 		columns,
 		matchId,
@@ -31,6 +34,13 @@ const SportsMatchDetail = () => {
 
 	return (
 		<div className="page-content">
+			{showBreadcrumb && (
+				<Breadcrumb
+					title="Sports Matches"
+					breadcrumbItem="Market Details"
+					showBackButton
+				/>
+			)}
 			<Container fluid>
 				<Row>
 					<Col lg="12">

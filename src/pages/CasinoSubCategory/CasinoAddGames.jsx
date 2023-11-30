@@ -12,6 +12,7 @@ import {
 	UncontrolledTooltip,
 } from 'reactstrap';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { projectName } from '../../constants/config';
 
 import TableContainer from '../../components/Common/TableContainer';
@@ -19,10 +20,12 @@ import CrudSection from '../../components/Common/CrudSection';
 import useCasinoAddGame from './hooks/useCasinoAddGame';
 
 import { CasinoGameId, Name, DeviceType } from './CasinoSubCategory';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 
 const CasinoAddGames = () => {
 	// meta title
 	document.title = projectName;
+	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 	const { state } = useLocation();
 
 	const { gameCategoryName, isGlobal } = state || {
@@ -157,6 +160,13 @@ const CasinoAddGames = () => {
 
 	return (
 		<div className="page-content">
+			{showBreadcrumb && (
+				<Breadcrumb
+					title="Casino Management"
+					breadcrumbItem="Add Games"
+					showBackButton
+				/>
+			)}
 			<Container fluid>
 				<Row>
 					<Col lg="12">
