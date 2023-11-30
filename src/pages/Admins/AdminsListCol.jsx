@@ -9,10 +9,8 @@ const AdminUserID = ({ value }) => (
 
 const FullName = ({ value }) => value ?? '';
 
-const Email = ({ cell }) => (
-	<Link to={`/staff/details/${cell?.row?.original?.adminUserId}`}>
-		{cell.value ?? ''}
-	</Link>
+const Email = ({ value, adminUserId }) => (
+	<Link to={`/staff/details/${adminUserId}`}>{value ?? ''}</Link>
 );
 
 const Role = ({ value }) => value ?? '';
@@ -35,14 +33,8 @@ Status.propTypes = {
 };
 
 Email.propTypes = {
-	cell: PropTypes.shape({
-		value: PropTypes.string.isRequired,
-		row: PropTypes.shape({
-			original: PropTypes.shape({
-				adminUserId: PropTypes.string.isRequired,
-			}).isRequired,
-		}).isRequired,
-	}).isRequired,
+	value: PropTypes.bool.isRequired,
+	adminUserId: PropTypes.number.isRequired,
 };
 
 export { AdminUserID, Email, FullName, Role, Group, Status };

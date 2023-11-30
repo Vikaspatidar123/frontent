@@ -14,6 +14,7 @@ import {
 } from '../AdminsListCol';
 import ActionButtons from '../ActionButtons';
 import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
+import { getRandomColor } from '../../../helpers/common';
 
 const useAdmin = (handleEdit, filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -29,10 +30,14 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 
 	const formattedAdminDetails = useMemo(() => {
 		if (adminDetails) {
-			return adminDetails?.rows.map((admin) => ({
-				...admin,
-				fullName: `${admin.firstName} ${admin.lastName}`,
-			}));
+			return adminDetails?.rows.map((admin) => {
+				const randomColor = getRandomColor();
+				return {
+					...admin,
+					fullName: `${admin.firstName} ${admin.lastName}`,
+					randomColor,
+				};
+			});
 		}
 		return [];
 	}, [adminDetails]);
@@ -73,13 +78,18 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 				disableFilters: true,
 				filterable: true,
 				disableSortBy: true,
-				accessor: ({ fullName }) => (
-					<div className="avatar-xs">
-						<span className="avatar-title rounded-circle">
-							{fullName.charAt(0)}
-						</span>
-					</div>
-				),
+				accessor: (prop) => {
+					const { fullName, randomColor } = prop;
+					return (
+						<div className="avatar-xs">
+							<span
+								className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
+							>
+								{fullName?.charAt(0)?.toUpperCase()}
+							</span>
+						</div>
+					);
+				},
 			},
 			{
 				Header: 'ID',
@@ -97,7 +107,12 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 				Header: 'Email',
 				accessor: 'email',
 				filterable: true,
-				Cell: ({ cell }) => <Email cell={cell} />,
+				Cell: ({ cell }) => (
+					<Email
+						value={cell.value}
+						adminUserId={cell?.row?.original?.adminUserId}
+					/>
+				),
 			},
 			{
 				Header: 'Role',

@@ -1,4 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -157,11 +158,18 @@ const Header = (props) => {
 	);
 };
 
+Header.defaultProps = {
+	showRightSidebar: false,
+	showRightSidebarAction: () => {},
+	leftMenu: false,
+	toggleLeftmenu: () => {},
+};
+
 Header.propTypes = {
-	showRightSidebar: PropTypes.bool.isRequired,
-	showRightSidebarAction: PropTypes.func.isRequired,
-	leftMenu: PropTypes.bool.isRequired,
-	toggleLeftmenu: PropTypes.func.isRequired,
+	showRightSidebar: PropTypes.bool,
+	showRightSidebarAction: PropTypes.func,
+	leftMenu: PropTypes.bool,
+	toggleLeftmenu: PropTypes.func,
 };
 
 const mapStatetoProps = (state) => {

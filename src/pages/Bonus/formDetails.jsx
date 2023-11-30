@@ -3,7 +3,7 @@ import moment from 'moment';
 import { bonusTypes } from './constants';
 
 const currentDate = moment().toDate();
-const nextDayDate = moment().add('days', 1).toDate();
+const nextDayDate = moment().add(1, 'days').toDate();
 
 const generalStepInitialValues = ({ bonusDetails }) => ({
 	promotionTitle: bonusDetails?.promotionTitle?.EN || '',

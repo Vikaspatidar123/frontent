@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 import {
 	useTable,
 	useGlobalFilter,
@@ -24,7 +24,7 @@ const TableContainer = ({
 	isPagination,
 	theadClass,
 	tbodyClass,
-	totalPageCount = 1,
+	totalPageCount,
 	isManualPagination,
 	onChangePagination,
 	isLoading = false,
@@ -257,6 +257,7 @@ TableContainer.defaultProps = {
 	tbodyHeight: '',
 	cellPadding: '',
 	isLongTable: false,
+	totalPageCount: 1,
 };
 
 TableContainer.propTypes = {
@@ -264,7 +265,11 @@ TableContainer.propTypes = {
 	columns: PropTypes.arrayOf(
 		PropTypes.shape({
 			Header: PropTypes.string,
-			accessor: PropTypes.string,
+			accessor: oneOfType([
+				PropTypes.string,
+				PropTypes.element,
+				PropTypes.func,
+			]),
 			filterable: PropTypes.bool,
 			Cell: PropTypes.func,
 		})
@@ -277,7 +282,7 @@ TableContainer.propTypes = {
 	isPagination: PropTypes.bool,
 	theadClass: PropTypes.string,
 	tbodyClass: PropTypes.string,
-	totalPageCount: PropTypes.number.isRequired,
+	totalPageCount: PropTypes.number,
 	isManualPagination: PropTypes.bool,
 	onChangePagination: PropTypes.func,
 	isLoading: PropTypes.bool.isRequired,

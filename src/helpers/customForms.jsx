@@ -439,7 +439,6 @@ export const getField = (
 					label={label}
 					name={name}
 					isMulti={multiple}
-					isClearable
 					type="select"
 					onChange={(e) => {
 						if (multiple) {

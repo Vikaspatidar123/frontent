@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Flatpickr from 'react-flatpickr';
@@ -13,6 +14,7 @@ import {
 	TabContent,
 	TabPane,
 	InputGroup,
+	UncontrolledTooltip,
 } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -60,12 +62,26 @@ const KpiSummary = (props) => {
 								className="btn btn-primary dashboard-export-btn"
 								onClick={exportReport}
 							>
-								Export Details
+								Export Details{' '}
 								<i className="bx bx-download align-baseline ms-1" />
 							</button>
 						</div>
 					</div>
-					<h4 className="card-title mb-4">KPI Summary</h4>
+
+					<div className="d-flex align-items-center">
+						<h4 className="card-title font-size-16 mb-3">KPI Summary</h4>
+						<i
+							className="mdi mdi-refresh mx-2 font-size-20 mb-3"
+							style={{ cursor: 'pointer' }}
+							id="refresh"
+							// onClick={}
+							// onKeyDown={}
+							tabIndex="0"
+						/>
+						<UncontrolledTooltip placement="top" target="refresh">
+							Refresh
+						</UncontrolledTooltip>
+					</div>
 
 					<Nav pills className="bg-light rounded" role="tablist">
 						<NavItem>

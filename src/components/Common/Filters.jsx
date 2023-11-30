@@ -11,7 +11,7 @@ import {
 	// Input,
 	UncontrolledTooltip,
 } from 'reactstrap';
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 import { getField } from '../../helpers/customForms';
 // import { experienceData, jobType } from '../../common/data';
 
@@ -38,7 +38,13 @@ const Filters = ({
 								{filterFields?.map(
 									(field) =>
 										!field?.isHide && (
-											<Col xxl={2} lg={4} md={4} sm={6}>
+											<Col
+												xxl={2}
+												lg={4}
+												md={4}
+												sm={6}
+												key={field?.name || field?.label}
+											>
 												<div className="position-relative">
 													{getField(field, validation)}
 												</div>
@@ -174,11 +180,20 @@ const Filters = ({
 Filters.defaultProps = {
 	// isAdvanceOpen: false,
 	isFilterChanged: true,
+	validation: {},
 };
 
 Filters.propTypes = {
 	filterFields: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
-	validation: PropTypes.objectOf.isRequired,
+	validation: PropTypes.objectOf(
+		oneOfType([
+			PropTypes.object,
+			PropTypes.func,
+			PropTypes.bool,
+			PropTypes.number,
+			PropTypes.string,
+		])
+	),
 	actionButtons: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
 	// isAdvanceOpen: PropTypes.bool,
 	isFilterChanged: PropTypes.bool,

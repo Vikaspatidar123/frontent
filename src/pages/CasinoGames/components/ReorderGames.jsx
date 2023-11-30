@@ -1,10 +1,16 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Row } from 'reactstrap';
+import { Card, CardBody, Col, Row, UncontrolledTooltip } from 'reactstrap';
 import Breadcrumb from '../../../components/Common/Breadcrumb';
 import CrudSection from '../../../components/Common/CrudSection';
 import ReorderComponent from '../../ReorderCategories';
-import { CustomSelectField } from '../../../helpers/customForms';
+import {
+	CustomInputField,
+	CustomSelectField,
+} from '../../../helpers/customForms';
 import useReorderGames from '../hooks/useReorderGames';
 import TableContainer from '../../../components/Common/TableContainer';
 
@@ -17,6 +23,8 @@ const ReorderGames = () => {
 		setPage,
 		columns,
 		setState,
+		search,
+		setSearch,
 		games,
 		setGames,
 		buttonList,
@@ -51,7 +59,7 @@ const ReorderGames = () => {
 						/>
 						<CardBody>
 							<Row lg={12}>
-								<Col lg={6}>
+								<Col lg={4}>
 									<CustomSelectField
 										label="Category"
 										name="category"
@@ -59,6 +67,7 @@ const ReorderGames = () => {
 										isClearable
 										type="select"
 										onChange={(e) => {
+											setSearch('');
 											setGames({ rows: [], count: 0 });
 											setState({ rows: [], count: 0 });
 											setSelectedCategory(e.target.value);
@@ -81,7 +90,7 @@ const ReorderGames = () => {
 									/>
 								</Col>
 								{selectedCategory && (
-									<Col lg={6}>
+									<Col lg={4}>
 										<CustomSelectField
 											label="Sub Category"
 											name="subCategory"
@@ -90,6 +99,8 @@ const ReorderGames = () => {
 											type="select"
 											onChange={(e) => {
 												setGames({ rows: [], count: 0 });
+												setSelectedSubCategory('');
+												setSearch('');
 												setState({ rows: [], count: 0 });
 												setSelectedSubCategory(e.target.value);
 											}}
@@ -109,6 +120,41 @@ const ReorderGames = () => {
 												</>
 											}
 										/>
+									</Col>
+								)}
+								{selectedSubCategory && games && (
+									<Col lg={4}>
+										<label className="control-label" htmlFor="search">
+											Search
+										</label>
+										<div className="d-flex align-items-center">
+											<CustomInputField
+												id="search"
+												name="search"
+												type="text"
+												onChange={(e) => {
+													setGames({ rows: [], count: 0 });
+													setSearch(e.target.value);
+												}}
+												placeholder="Search Games"
+												validate={{ required: { value: true } }}
+												value={search}
+											/>
+											<i
+												className="mdi mdi-refresh mx-2"
+												id="refresh"
+												onClick={() => setSearch('')}
+												onKeyDown={(event) => {
+													if (event.key === 'Enter') {
+														setSearch('');
+													}
+												}}
+												tabIndex="0"
+											/>
+										</div>
+										<UncontrolledTooltip placement="top" target="refresh">
+											Refresh
+										</UncontrolledTooltip>
 									</Col>
 								)}
 							</Row>
