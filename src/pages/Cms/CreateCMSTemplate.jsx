@@ -24,6 +24,8 @@ import { showToastr } from '../../utils/helpers';
 import { useSelector, useDispatch } from 'react-redux';
 import { getImageGallery, deleteImageGallery } from '../../store/actions';
 
+const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
+
 const safeStringify = (object) =>
 	JSON.stringify(object)?.replace(/</g, '\\u003c');
 
@@ -107,7 +109,7 @@ const CreateCMSTemplate = ({
 							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
 								<div className="p-2">
 									<CopyToClipboard
-										text={`https://gammastack-casino.s3.amazonaws.com/${f.fileName}`}
+										text={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
 										onCopy={() => {
 											setShowGallery(false);
 											showToastr({
@@ -122,7 +124,7 @@ const CreateCMSTemplate = ({
 											width="250"
 											className="rounded me-2 bg-light"
 											alt={f.name}
-											src={`https://gammastack-casino.s3.amazonaws.com/${f.fileName}`}
+											src={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
 										/>
 									</CopyToClipboard>
 									<Col className="position-absolute top-0 end-0">
