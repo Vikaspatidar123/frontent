@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-nested-ternary */
 
 import React from 'react';
 import { Badge, Card, Col, Row } from 'reactstrap';
+import PropTypes from 'prop-types';
 import Parser from 'html-react-parser';
 import { checkLabels, daysLabels, wageringRequirementType } from '../constants';
 import { formatDateYMD } from '../../../utils/helpers';
@@ -319,5 +319,13 @@ const GeneralDetails = ({ bonusDetail }) => (
 		</Col>
 	</Row>
 );
+
+GeneralDetails.defaultProps = {
+	bonusDetail: {},
+};
+
+GeneralDetails.propTypes = {
+	bonusDetail: PropTypes.objectOf,
+};
 
 export default GeneralDetails;
