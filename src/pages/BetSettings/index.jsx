@@ -199,10 +199,11 @@ const BetSettings = () => {
 					toggle={() => setIsOpen((prev) => !prev)}
 					header={header}
 					validation={validation}
-					formFields={formFields}
+					responsiveFormFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
 					isSubmitLoading={isCreateBetSettingsLoading}
+					className="modal-dialog modal-lg"
 				/>
 			</Container>
 		</div>

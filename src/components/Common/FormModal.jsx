@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -8,6 +9,7 @@ import {
 	ModalBody,
 	Form,
 	Spinner,
+	UncontrolledTooltip,
 } from 'reactstrap';
 import { getField } from '../../helpers/customForms';
 
@@ -22,8 +24,11 @@ const FormModal = ({
 	customColClasses,
 	customComponent,
 	isSubmitLoading,
+	colOptions,
+	responsiveFormFields,
+	className,
 }) => (
-	<Modal isOpen={isOpen} toggle={toggle}>
+	<Modal isOpen={isOpen} toggle={toggle} className={className}>
 		<ModalHeader toggle={toggle} tag="h4">
 			{header}
 		</ModalHeader>
@@ -49,6 +54,32 @@ const FormModal = ({
 										<Col className={`col-12 mb-3 ${customColClasses}`}>
 											{getField(field, validation)}
 										</Col>
+									)
+							)}
+						</Row>
+						{/* Responsive/customizable column forms */}
+						<Row className="justify-content-start">
+							{responsiveFormFields?.map(
+								(field) =>
+									!field?.isHide && (
+										<>
+											{field?.isNewRow && <div className="row" />}
+											<Col
+												id={`field-${field.name}`}
+												{...(field?.fieldColOptions || colOptions)}
+												className="mb-3"
+											>
+												{getField(field, validation)}
+											</Col>
+											{!!field.tooltipContent && (
+												<UncontrolledTooltip
+													placement="bottom"
+													target={`field-${field.name}`}
+												>
+													{field.tooltipContent}
+												</UncontrolledTooltip>
+											)}
+										</>
 									)
 							)}
 						</Row>
@@ -88,6 +119,9 @@ FormModal.defaultProps = {
 	customColClasses: '',
 	customComponent: <div />,
 	isSubmitLoading: false,
+	className: '',
+	colOptions: { xs: 12, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 },
+	responsiveFormFields: [],
 };
 
 FormModal.propTypes = {
@@ -101,6 +135,9 @@ FormModal.propTypes = {
 	customColClasses: PropTypes.string,
 	customComponent: PropTypes.element,
 	isSubmitLoading: PropTypes.bool,
+	colOptions: PropTypes.objectOf,
+	responsiveFormFields: PropTypes.arrayOf,
+	className: PropTypes.string,
 };
 
 export default FormModal;

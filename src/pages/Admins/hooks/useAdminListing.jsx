@@ -83,7 +83,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 					return (
 						<div className="avatar-xs">
 							<span
-								className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
+								className={`avatar-title rounded-circle ${randomColor} text-${randomColor}`}
 							>
 								{fullName?.charAt(0)?.toUpperCase()}
 							</span>

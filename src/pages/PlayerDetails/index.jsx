@@ -97,9 +97,22 @@ const PlayerDetailsPage = ({ t }) => {
 		},
 		{
 			id: 5,
-			title: 'Bet History',
-			component: <BetHistory userId={playerId} />,
-			isHidden: !isGranted(modules.Transactions, 'R'),
+			title: 'History', // Combined dropdown for Bet and Sports Betting History
+			isDropdown: true,
+			dropdownItems: [
+				{
+					id: 1,
+					title: 'Bet History',
+					component: <BetHistory userId={playerId} />,
+					isHidden: !isGranted(modules.Transactions, 'R'),
+				},
+				{
+					id: 2,
+					title: 'Sports Betting History',
+					component: <SportsBettingHistory userId={playerId} />,
+					isHidden: !isGranted(modules.Transactions, 'R'),
+				},
+			],
 		},
 		{
 			id: 6,

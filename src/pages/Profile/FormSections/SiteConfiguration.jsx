@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable array-callback-return */
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 import {
 	adminSiteConfigSchema,
@@ -49,7 +48,7 @@ const SiteConfig = ({
 	useEffect(() => {
 		if (details && details[1]?.value?.languages) {
 			const selectedArray = [];
-			Object.keys(details[1]?.value?.languages).map((key) => {
+			Object.keys(details[1]?.value?.languages).forEach((key) => {
 				const label = {};
 				label.label = details[1]?.value?.languages[key];
 				label.value = key;
@@ -163,6 +162,28 @@ const SiteConfig = ({
 	);
 };
 
-SiteConfig.defaultProps = {};
+SiteConfig.defaultProps = {
+	details: [],
+	languageData: {},
+	editableSiteConfig: false,
+	setEditableSiteConfig: () => {},
+	updateSiteConfiguration: () => {},
+	isLanguageDataLoading: false,
+};
+
+SiteConfig.propTypes = {
+	details: PropTypes.arrayOf(
+		PropTypes.objectOf(
+			PropTypes.oneOfType([PropTypes.number, PropTypes.node, PropTypes.string])
+		)
+	),
+	languageData: PropTypes.objectOf(
+		PropTypes.oneOfType([PropTypes.number, PropTypes.node, PropTypes.string])
+	),
+	editableSiteConfig: PropTypes.bool,
+	setEditableSiteConfig: PropTypes.func,
+	updateSiteConfiguration: PropTypes.func,
+	isLanguageDataLoading: PropTypes.bool,
+};
 
 export default SiteConfig;
