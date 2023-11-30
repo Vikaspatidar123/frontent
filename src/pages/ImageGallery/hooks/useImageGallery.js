@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	getImageGallery,
@@ -18,7 +18,8 @@ import { showToastr } from '../../../utils/helpers';
 const useImageGallery = () => {
 	const dispatch = useDispatch();
 	const { isGranted } = usePermission();
-
+	const [showUpload, setShowUpload] = useState(false);
+	const [isUploading, setIsUploading] = useState(false);
 	const { imageGallery, imageGalleryLoading } = useSelector(
 		(state) => state.EmailTemplate
 	);
@@ -28,6 +29,7 @@ const useImageGallery = () => {
 	}, []);
 
 	function handleAcceptedFiles(values) {
+		setIsUploading(true);
 		const { initialstate } = values;
 		dispatch(
 			uploadImageGallery({
@@ -58,7 +60,6 @@ const useImageGallery = () => {
 					formattedSize: formatBytes(file.size),
 				})
 			);
-
 			validation.setFieldValue('initialstate', formattedFiles[0]);
 		} else {
 			showToastr({
@@ -68,11 +69,25 @@ const useImageGallery = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (validation.values.initialstate) {
-			validation.submitForm();
-		}
-	}, [validation.values.initialstate]);
+	const handleClear = () => {
+		validation.resetForm(getInitialValues());
+	};
+
+	const handleAddClick = () => {
+		handleClear();
+		setShowUpload(true);
+		setIsUploading(false);
+	};
+
+	const buttonList = useMemo(() => [
+		{
+			label: 'Upload',
+			handleClick: handleAddClick,
+			link: '#!',
+			module: modules.Admins,
+			operation: 'C',
+		},
+	]);
 
 	return {
 		imageGallery,
@@ -80,6 +95,11 @@ const useImageGallery = () => {
 		handleFileUpload,
 		deleteImage,
 		validation,
+		buttonList,
+		showUpload,
+		setShowUpload,
+		isUploading,
+		handleClear,
 	};
 };
 

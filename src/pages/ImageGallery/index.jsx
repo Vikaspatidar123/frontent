@@ -1,29 +1,28 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 
 import {
 	Row,
 	Col,
 	Card,
-	Form,
 	CardBody,
 	Container,
 	UncontrolledTooltip,
 	Button,
 } from 'reactstrap';
-import Dropzone from 'react-dropzone';
 
 // Breadcrumb
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
 import { projectName } from '../../constants/config';
 
-import { showToastr } from '../../utils/helpers';
 import useImageGallery from './hooks/useImageGallery';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
+import CrudSection from '../../components/Common/CrudSection';
+import ModalView from '../../components/Common/Modal';
+import ImageUploader from '../../components/Common/ImageUploader';
+
+const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
 const ImageGallery = () => {
 	// meta title
@@ -35,6 +34,11 @@ const ImageGallery = () => {
 		handleFileUpload,
 		deleteImage,
 		validation,
+		buttonList,
+		showUpload,
+		setShowUpload,
+		isUploading,
+		handleClear,
 	} = useImageGallery();
 
 	return (
@@ -42,101 +46,86 @@ const ImageGallery = () => {
 			{isGranted(modules.ImageGallery, 'R') && (
 				<Container fluid>
 					<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
-
 					<Row>
 						<Col>
-							<Card>
+							<Card className="bg-white">
+								<CrudSection buttonList={buttonList} title="Images" />
 								<CardBody>
-									<Form onSubmit={validation.handleSubmit}>
-										<Dropzone onDrop={handleFileUpload}>
-											{({ getRootProps, getInputProps }) => (
-												<div className="dropzone">
-													<div
-														className="dz-message needsclick mt-2"
-														{...getRootProps()}
-													>
-														<input {...getInputProps()} />
-														<div className="mb-3">
-															<i className="display-4 text-muted bx bxs-cloud-upload" />
-														</div>
-														<h4>Drop files here or click to upload.</h4>
-														<div className="text-center mt-4">
-															<button
-																type="button"
-																className="btn btn-primary "
-															>
-																Upload Files
-															</button>
+									<div
+										className="d-flex justify-content-start flex-wrap gap-3 dropzone-previews mt-3"
+										id="file-previews"
+									>
+										<Row className="justify-content-start">
+											{imageGalleryLoading ? (
+												<Spinners
+													color="primary"
+													className="position-absolute top-0 start-50"
+												/>
+											) : (
+												imageGallery.map((f) => (
+													<div className="col-sm-4 col-md-3 col-lg-2 p-0 mb-4">
+														<div
+															key={`${f?.fileName}-file`}
+															className="bg-transparent h-100 align-items-center dz-processing dz-image-preview dz-success dz-complete"
+														>
+															<div className="img-parent h-100 position-relative ">
+																<img
+																	data-dz-thumbnail=""
+																	className="rounded bg-light h-100"
+																	alt={f.name}
+																	src={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
+																/>
+																<Col className="trash-btn position-absolute top-0 end-0">
+																	<Button
+																		hidden={
+																			!isGranted(modules.ImageGallery, 'D')
+																		}
+																		className="btn btn-sm btn-soft-danger"
+																		onClick={() => deleteImage(f)}
+																	>
+																		<i
+																			className="mdi mdi-delete-outline"
+																			id="deletetooltip"
+																		/>
+																		<UncontrolledTooltip
+																			placement="top"
+																			target="deletetooltip"
+																		>
+																			Delete
+																		</UncontrolledTooltip>
+																	</Button>
+																</Col>
+															</div>
 														</div>
 													</div>
-												</div>
+												))
 											)}
-										</Dropzone>
-										{validation.touched.initialstate &&
-										validation.errors.initialstate
-											? showToastr({
-													message: validation.errors.initialstate,
-													type: 'error',
-											  })
-											: ''}
-										<div
-											className="d-flex justify-content-start flex-wrap gap-3 dropzone-previews mt-3"
-											id="file-previews"
-										>
-											<Row className="justify-content-start">
-												{imageGalleryLoading ? (
-													<Spinners
-														color="primary"
-														className="position-absolute top-0 start-50"
-													/>
-												) : (
-													imageGallery.map((f, i) => (
-														<Col>
-															<Card
-																key={`${i}-file`}
-																className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
-															>
-																<div className="p-2">
-																	<img
-																		data-dz-thumbnail=""
-																		height="200"
-																		width="250"
-																		className="rounded me-2 bg-light"
-																		alt={f.name}
-																		src={`https://gammastack-casino.s3.amazonaws.com/${f.fileName}`}
-																	/>
-																	<Col className="position-absolute top-0 end-0">
-																		<Button
-																			hidden={
-																				!isGranted(modules.ImageGallery, 'D')
-																			}
-																			className="btn btn-sm btn-soft-danger"
-																			onClick={() => deleteImage(f)}
-																		>
-																			<i
-																				className="mdi mdi-delete-outline"
-																				id="deletetooltip"
-																			/>
-																			<UncontrolledTooltip
-																				placement="top"
-																				target="deletetooltip"
-																			>
-																				Delete
-																			</UncontrolledTooltip>
-																		</Button>
-																	</Col>
-																</div>
-															</Card>
-														</Col>
-													))
-												)}
-											</Row>
-										</div>
-									</Form>
+										</Row>
+									</div>
 								</CardBody>
 							</Card>
 						</Col>
 					</Row>
+					<ModalView
+						openModal={showUpload}
+						toggleModal={() => setShowUpload((prev) => !prev)}
+						headerTitle="Upload an Image"
+						secondBtnName="Upload"
+						className="modal-dialog modal-lg"
+						hideFooter
+					>
+						<ImageUploader
+							validateImage={handleFileUpload}
+							handleSubmit={validation.handleSubmit}
+							error={
+								validation.touched.initialstate &&
+								validation.errors.initialstate
+							}
+							uploadedFile={validation.values.initialstate}
+							isUploading={isUploading}
+							handleClear={handleClear}
+						/>
+					</ModalView>
 				</Container>
 			)}
 		</div>

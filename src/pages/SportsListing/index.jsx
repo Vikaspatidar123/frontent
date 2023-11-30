@@ -10,7 +10,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import Modal from '../../components/Common/Modal';
-import ImageUploader from '../ImageUploader';
+import IconUploader from '../IconUploader';
 
 const SportsListing = () => {
 	// meta title
@@ -86,7 +86,7 @@ const SportsListing = () => {
 					className="modal-dialog modal-lg"
 					hideFooter
 				>
-					<ImageUploader sportId={sportId} code="SPORT" />
+					<IconUploader sportId={sportId} code="SPORT" />
 				</Modal>
 			</Container>
 		</div>
