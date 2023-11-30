@@ -18,6 +18,7 @@ import { fetchSportsTransactionStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
 import Filters from '../../components/Common/Filters';
 import useSportBetHistoryFilters from './hooks/useSportBetHistoryFilters';
+import CrudSection from '../../components/Common/CrudSection';
 
 const SportsBettingHistory = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -120,6 +121,7 @@ const SportsBettingHistory = ({ userId }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
+				<CrudSection buttonList={[]} title="Sport Betting History" />
 				<CardBody>
 					<Filters
 						validation={filterValidation}

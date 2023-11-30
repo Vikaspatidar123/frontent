@@ -406,6 +406,7 @@ export const getField = (
 		namesArray,
 		isRequired,
 		defaultValue,
+		customThumbnailBackground,
 		...rest
 	},
 	validation
@@ -569,7 +570,10 @@ export const getField = (
 					/>
 					{showThumbnail && validation.values[name] && (
 						<img
-							style={{ marginTop: 10 }}
+							style={{
+								marginTop: 10,
+								backgroundColor: customThumbnailBackground,
+							}}
 							width={100}
 							src={
 								typeof validation.values[name] === 'string'

@@ -19,6 +19,7 @@ import { getDateTime } from '../../utils/dateFormatter';
 import { statusType } from '../CasinoTransactionsList/constants';
 import Filters from '../../components/Common/Filters';
 import useBetHistoryFilters from './hooks/useBetHistoryFilters';
+import CrudSection from '../../components/Common/CrudSection';
 
 const BetHistory = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -121,6 +122,7 @@ const BetHistory = ({ userId }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
+				<CrudSection buttonList={[]} title="Bet History" />
 				<CardBody>
 					<Filters
 						validation={filterValidation}
