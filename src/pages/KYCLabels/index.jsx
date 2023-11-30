@@ -131,7 +131,9 @@ const KYCLabels = () => {
 																)}{' '}
 																<Button
 																	hidden={isGranted(modules.KYCLabels, 'U')}
-																	onClick={(e) => onClickEditButton(e, label)}
+																	onClick={(e) =>
+																		onClickEditButton(e, label?.[0])
+																	}
 																	className="btn btn-sm btn-soft-info"
 																>
 																	<i
