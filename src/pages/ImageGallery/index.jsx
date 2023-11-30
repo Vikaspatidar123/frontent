@@ -68,14 +68,14 @@ const ImageGallery = () => {
 															key={`${f?.fileName}-file`}
 															className="bg-transparent h-100 align-items-center dz-processing dz-image-preview dz-success dz-complete"
 														>
-															<div className="img-parent h-100">
+															<div className="img-parent h-100 position-relative ">
 																<img
 																	data-dz-thumbnail=""
 																	className="rounded bg-light h-100"
 																	alt={f.name}
 																	src={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
 																/>
-																<Col className="trash-btn position-absolute top-0">
+																<Col className="trash-btn position-absolute top-0 end-0">
 																	<Button
 																		hidden={
 																			!isGranted(modules.ImageGallery, 'D')
