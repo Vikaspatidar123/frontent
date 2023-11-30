@@ -140,6 +140,7 @@ const useCreateWageringTemplate = () => {
 		validation?.values?.search,
 		itemsPerPage,
 		page,
+		isCasinoGamesLoading,
 	]);
 
 	const handleCreateClick = (e) => {

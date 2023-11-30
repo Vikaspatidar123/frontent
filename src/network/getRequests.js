@@ -58,6 +58,7 @@ const getSuperAdminWageringTemplateDetail = (payload) =>
 
 const getSuperAdminWageringTemplate = (payload) =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template`, payload);
+
 const getAllCasinoGames = (payload) =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/games`, payload);
 
