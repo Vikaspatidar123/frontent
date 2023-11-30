@@ -34,6 +34,7 @@ const ViewRestrictedGames = () => {
 				<Breadcrumb
 					title="Site Configurations"
 					breadcrumbItem="View Restricted Games"
+					showBackButton
 				/>
 			)}
 			<Container fluid>

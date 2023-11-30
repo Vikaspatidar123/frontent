@@ -47,7 +47,8 @@ const ReorderGames = () => {
 				{showBreadcrumb && (
 					<Breadcrumb
 						title="Casino Management"
-						breadcrumbItem="Reorder Category"
+						breadcrumbItem="Reorder Games"
+						showBackButton
 					/>
 				)}
 
@@ -55,7 +56,7 @@ const ReorderGames = () => {
 					<Card>
 						<CrudSection
 							buttonList={state.count ? buttonList : []}
-							title="Casino Sub Categories Reorder"
+							title="Casino Games Reorder"
 						/>
 						<CardBody>
 							<Row lg={12}>

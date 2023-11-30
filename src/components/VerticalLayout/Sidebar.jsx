@@ -29,9 +29,9 @@ const Sidebar = () => {
 						<h4 className="text-wrap my-2 text-muted">
 							{superAdminUser?.firstName}
 						</h4>
-						<h6 className="text-wrap my-2 text-muted">
+						{/* <h6 className="text-wrap my-2 text-muted">
 							{superAdminUser?.email}
-						</h6>
+						</h6> */}
 					</span>
 				</Link>
 			</div>

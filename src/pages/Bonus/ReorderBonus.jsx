@@ -26,7 +26,8 @@ const ReorderBonus = () => {
 				{showBreadcrumb && (
 					<Breadcrumb
 						title="Bonus Management"
-						breadcrumbItem="Reorder Category"
+						breadcrumbItem="Reorder Bonus"
+						showBackButton
 					/>
 				)}
 

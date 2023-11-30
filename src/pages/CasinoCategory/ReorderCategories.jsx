@@ -25,6 +25,7 @@ const ReorderCategories = () => {
 					<Breadcrumb
 						title="Casino Management"
 						breadcrumbItem="Reorder Category"
+						showBackButton
 					/>
 				)}
 

@@ -33,7 +33,8 @@ const ViewRestrictedProviders = () => {
 			{showBreadcrumb && (
 				<Breadcrumb
 					title="Site Configurations"
-					breadcrumbItem="View Restricted Games"
+					breadcrumbItem="View Restricted Providers"
+					showBackButton
 				/>
 			)}
 			<Container fluid>
