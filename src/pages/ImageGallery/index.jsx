@@ -48,7 +48,7 @@ const ImageGallery = () => {
 					<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
 					<Row>
 						<Col>
-							<Card>
+							<Card className="bg-white">
 								<CrudSection buttonList={buttonList} title="Images" />
 								<CardBody>
 									<div
@@ -63,21 +63,19 @@ const ImageGallery = () => {
 												/>
 											) : (
 												imageGallery.map((f) => (
-													<Col>
-														<Card
+													<div className="col-sm-4 col-md-3 col-lg-2 p-0 mb-4">
+														<div
 															key={`${f?.fileName}-file`}
-															className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
+															className="bg-transparent h-100 align-items-center dz-processing dz-image-preview dz-success dz-complete"
 														>
-															<div className="p-2">
+															<div className="img-parent h-100">
 																<img
 																	data-dz-thumbnail=""
-																	height="200"
-																	width="250"
-																	className="rounded me-2 bg-light"
+																	className="rounded bg-light h-100"
 																	alt={f.name}
 																	src={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
 																/>
-																<Col className="position-absolute top-0 end-0">
+																<Col className="trash-btn position-absolute top-0">
 																	<Button
 																		hidden={
 																			!isGranted(modules.ImageGallery, 'D')
@@ -98,8 +96,8 @@ const ImageGallery = () => {
 																	</Button>
 																</Col>
 															</div>
-														</Card>
-													</Col>
+														</div>
+													</div>
 												))
 											)}
 										</Row>
