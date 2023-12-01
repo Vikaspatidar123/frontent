@@ -2,6 +2,7 @@ import {
 	FETCH_TRANSACTION_BANKING_FAIL,
 	FETCH_TRANSACTION_BANKING_START,
 	FETCH_TRANSACTION_BANKING_SUCCESS,
+	RESET_TRANSACTION_BANKING_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -31,6 +32,13 @@ const transactionBankingReducer = (
 				...state,
 				loading: false,
 				transactionBanking: payload,
+			};
+		case RESET_TRANSACTION_BANKING_DATA:
+			return {
+				...state,
+				loading: false,
+				error: '',
+				transactionBanking: null,
 			};
 		default:
 			return state;

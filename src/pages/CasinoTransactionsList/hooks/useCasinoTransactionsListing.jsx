@@ -2,7 +2,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-import { fetchCasinoTransactionsStart } from '../../../store/actions';
+import {
+	fetchCasinoTransactionsStart,
+	resetCasinoTransactionsData,
+} from '../../../store/actions';
 import { getDateTime, formatDateYMD } from '../../../helpers/dateFormatter';
 import { statusType } from '../constants';
 import {
@@ -37,6 +40,9 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 			})
 		);
 	}, [currentPage, itemsPerPage]);
+
+	// resetting casino transactions listing redux state
+	useEffect(() => () => dispatch(resetCasinoTransactionsData()), []);
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);

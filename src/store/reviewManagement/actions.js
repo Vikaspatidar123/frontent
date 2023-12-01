@@ -8,6 +8,7 @@ import {
 	UPDATE_REVIEW_START,
 	UPDATE_REVIEW_FAIL,
 	UPDATE_REVIEW_SUCCESS,
+	RESET_REVIEW_MANAGEMENT_DATA,
 } from './actionTypes';
 
 export const fetchReviewManagementStart = (payload) => ({
@@ -23,6 +24,11 @@ export const fetchReviewManagementSuccess = (payload) => ({
 export const fetchReviewManagementFail = (history) => ({
 	type: FETCH_REVIEW_MANAGEMENT_FAIL,
 	payload: { history },
+});
+
+export const resetReviewManagementData = (payload) => ({
+	type: RESET_REVIEW_MANAGEMENT_DATA,
+	payload,
 });
 
 export const createReviewSuccess = (payload) => ({

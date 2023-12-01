@@ -2,6 +2,7 @@ import {
 	FETCH_SPORTS_TRANSACTION_FAIL,
 	FETCH_SPORTS_TRANSACTION_START,
 	FETCH_SPORTS_TRANSACTION_SUCCESS,
+	RESET_SPORTS_TRANSACTION_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -31,6 +32,13 @@ const sportsTransactionReducer = (
 				...state,
 				loading: false,
 				sportsTransaction: payload,
+			};
+		case RESET_SPORTS_TRANSACTION_DATA:
+			return {
+				...state,
+				loading: false,
+				sportsTransaction: null,
+				error: '',
 			};
 		default:
 			return { ...state };

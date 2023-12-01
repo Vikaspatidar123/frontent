@@ -2,7 +2,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-import { fetchTransactionBankingStart } from '../../../store/actions';
+import {
+	fetchTransactionBankingStart,
+	resetTransactionBankingData,
+} from '../../../store/actions';
 import { statusType, transactionType, walletType } from '../constants';
 import { formatDateYMD, getDateTime } from '../../../helpers/dateFormatter';
 import {
@@ -58,6 +61,9 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 			})
 		);
 	}, [currentPage, itemsPerPage]);
+
+	// resetting transactions listing redux state
+	useEffect(() => () => dispatch(resetTransactionBankingData()), []);
 
 	const formattedTransactionBanking = useMemo(() => {
 		const formattedValues = [];

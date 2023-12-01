@@ -8,6 +8,7 @@ import {
 	UPDATE_REVIEW_START,
 	UPDATE_REVIEW_FAIL,
 	UPDATE_REVIEW_SUCCESS,
+	RESET_REVIEW_MANAGEMENT_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -43,6 +44,13 @@ const reviewManagementReducer = (
 				...state,
 				loading: false,
 				reviewManagement: payload,
+			};
+		case RESET_REVIEW_MANAGEMENT_DATA:
+			return {
+				...state,
+				loading: false,
+				reviewManagement: null,
+				error: '',
 			};
 		case CREATE_REVIEW_START:
 			return {

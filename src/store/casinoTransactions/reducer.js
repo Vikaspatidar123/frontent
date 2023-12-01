@@ -2,6 +2,7 @@ import {
 	FETCH_CASINO_TRANSACTIONS_FAIL,
 	FETCH_CASINO_TRANSACTIONS_START,
 	FETCH_CASINO_TRANSACTIONS_SUCCESS,
+	RESET_CASINO_TRANSACTIONS_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -31,6 +32,13 @@ const casinoTransactionsReducer = (
 				...state,
 				loading: false,
 				casinoTransactions: payload,
+			};
+		case RESET_CASINO_TRANSACTIONS_DATA:
+			return {
+				...state,
+				loading: false,
+				casinoTransactions: null,
+				error: '',
 			};
 		default:
 			return { ...state };

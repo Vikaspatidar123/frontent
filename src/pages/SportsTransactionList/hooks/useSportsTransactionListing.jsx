@@ -2,7 +2,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSportsTransactionStart } from '../../../store/actions';
+import {
+	fetchSportsTransactionStart,
+	resetSportsTransactionsData,
+} from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
 import {
 	ActionTypes,
@@ -34,6 +37,9 @@ const useSportsTransactionListing = (filterValues = {}) => {
 			})
 		);
 	}, [currentPage, itemsPerPage]);
+
+	// resetting sports transactions listing redux state
+	useEffect(() => () => dispatch(resetSportsTransactionsData()), []);
 
 	const formattedSportsTransaction = useMemo(() => {
 		const formattedValues = [];
