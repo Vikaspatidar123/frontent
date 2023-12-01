@@ -27,6 +27,7 @@ import {
 	DELETE_SA_BANNERS_SUCCESS,
 	DELETE_SA_BANNERS_FAIL,
 	RESET_DOCUMENT_LABELS,
+	RESET_SA_BANNERS_DATA,
 } from './actionTypes';
 
 export const getSABanners = (payload) => ({
@@ -41,6 +42,11 @@ export const getSABannersSuccess = (payload) => ({
 
 export const getSABannersFail = (payload) => ({
 	type: GET_SA_BANNERS_FAIL,
+	payload,
+});
+
+export const resetSABannersData = (payload) => ({
+	type: RESET_SA_BANNERS_DATA,
 	payload,
 });
 

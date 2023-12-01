@@ -63,6 +63,10 @@ import {
 	REORDER_CASINO_GAMES_SUCCESS,
 	REORDER_CASINO_GAMES_FAIL,
 	RESET_CASINO_STATE,
+	RESET_CASINO_PROVIDERS_DATA,
+	RESET_CASINO_CATEGORY_DATA,
+	RESET_CASINO_SUB_CATEGORY_DATA,
+	RESET_CASINO_GAMES,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -77,6 +81,11 @@ export const getCasinoProvidersDataFailure = (payload) => ({
 
 export const getCasinoProvidersDataStart = (payload) => ({
 	type: GET_CASINO_PROVIDERS_DATA,
+	payload,
+});
+
+export const resetCasinoProvidersData = (payload) => ({
+	type: RESET_CASINO_PROVIDERS_DATA,
 	payload,
 });
 
@@ -95,6 +104,11 @@ export const getCasinoCategoryDetailStart = (payload) => ({
 	payload,
 });
 
+export const resetCasinoCategoryData = (payload) => ({
+	type: RESET_CASINO_CATEGORY_DATA,
+	payload,
+});
+
 export const getCasinoSubCategoryDetailSuccess = (payload) => ({
 	type: GET_CASINO_SUB_CATEGORY_DATA_SUCCESS,
 	payload,
@@ -110,6 +124,11 @@ export const getCasinoSubCategoryDetailStart = (payload) => ({
 	payload,
 });
 
+export const resetCasinoSubCategoryData = (payload) => ({
+	type: RESET_CASINO_SUB_CATEGORY_DATA,
+	payload,
+});
+
 export const getCasinoGamesSuccess = (payload) => ({
 	type: GET_CASINO_GAMES_SUCCESS,
 	payload,
@@ -122,6 +141,11 @@ export const getCasinoGamesFailure = (payload) => ({
 
 export const getCasinoGamesStart = (payload) => ({
 	type: GET_CASINO_GAMES,
+	payload,
+});
+
+export const resetCasinoGamesData = (payload) => ({
+	type: RESET_CASINO_GAMES,
 	payload,
 });
 

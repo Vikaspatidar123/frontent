@@ -8,6 +8,7 @@ import {
 	UPDATE_AGGREGATORS_STATUS_START,
 	UPDATE_AGGREGATORS_STATUS_FAIL,
 	UPDATE_AGGREGATORS_STATUS_SUCCESS,
+	RESET_AGGREGATORS_DATA,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -42,6 +43,14 @@ const AggregatorsReducer = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				aggregatorsData: payload,
 				loading: false,
+			};
+
+		case RESET_AGGREGATORS_DATA:
+			return {
+				...state,
+				aggregatorsData: [],
+				loading: true,
+				error: {},
 			};
 
 		case CREATE_AGGREGATORS_START:

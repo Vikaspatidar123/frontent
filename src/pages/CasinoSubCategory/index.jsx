@@ -8,7 +8,10 @@ import TableContainer from '../../components/Common/TableContainer';
 import { projectName } from '../../constants/config';
 
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import { getCasinoSubCategoryDetailStart } from '../../store/actions';
+import {
+	getCasinoSubCategoryDetailStart,
+	resetCasinoSubCategoryData,
+} from '../../store/actions';
 import CrudSection from '../../components/Common/CrudSection';
 import useCreateSubCategory from './hooks/useCreateSubCategory';
 import FormModal from '../../components/Common/FormModal';
@@ -97,6 +100,9 @@ const GetCasinoSubCategoryDetail = () => {
 	useEffect(() => {
 		fetchData();
 	}, [itemsPerPage, page, active, isFilterChanged]);
+
+	// resetting sub categories list redux state
+	useEffect(() => () => dispatch(resetCasinoSubCategoryData()), []);
 
 	return (
 		<div className="page-content">

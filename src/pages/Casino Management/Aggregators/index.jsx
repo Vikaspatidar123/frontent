@@ -9,7 +9,10 @@ import TableContainer from '../../../components/Common/TableContainer';
 
 // import components
 import Breadcrumb from '../../../components/Common/Breadcrumb';
-import { getAggregatorsList } from '../../../store/actions';
+import {
+	getAggregatorsList,
+	resetAggregatorsList,
+} from '../../../store/actions';
 
 // redux
 import { projectName } from '../../../constants/config';
@@ -72,6 +75,9 @@ const CasinoAggregators = () => {
 	useEffect(() => {
 		if (isCreateAggregatorSuccess) fetchData();
 	}, [isCreateAggregatorSuccess]);
+
+	// resetting aggregator list redux state
+	useEffect(() => () => dispatch(resetAggregatorsList()), []);
 
 	return (
 		<div className="page-content">

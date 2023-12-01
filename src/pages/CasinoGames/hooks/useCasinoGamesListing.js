@@ -8,6 +8,7 @@ import {
 	updateCasinoIsFeaturedStart,
 	updateSACasinoGamesStatusStart,
 	deleteCasinoGamesStart,
+	resetCasinoGamesData,
 } from '../../../store/actions';
 import { modules } from '../../../constants/permissions';
 
@@ -79,6 +80,9 @@ const useCasinoGamesListings = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [itemsPerPage, page]);
+
+	// resetting casino games list redux state
+	useEffect(() => () => dispatch(resetCasinoGamesData()), []);
 
 	useEffect(() => {
 		if (isEditCasinoGamesSuccess || isDeleteCasinoGamesSuccess) fetchData();

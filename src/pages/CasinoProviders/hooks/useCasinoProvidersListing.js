@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	getCasinoProvidersDataStart,
+	resetCasinoProvidersData,
 	updateCasinoStatusStart,
 } from '../../../store/actions';
 
@@ -34,6 +35,9 @@ const useCasinoProvidersListing = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [limit, page, itemsPerPage]);
+
+	// resetting providers list redux state
+	useEffect(() => () => dispatch(resetCasinoProvidersData()), []);
 
 	useEffect(() => {
 		if (isCreateProviderSuccess || isEditProviderSuccess) fetchData();

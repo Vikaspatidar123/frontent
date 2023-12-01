@@ -8,6 +8,7 @@ import {
 	UPDATE_AGGREGATORS_STATUS_START,
 	UPDATE_AGGREGATORS_STATUS_FAIL,
 	UPDATE_AGGREGATORS_STATUS_SUCCESS,
+	RESET_AGGREGATORS_DATA,
 } from './actionTypes';
 
 export const getAggregatorsList = (data) => ({
@@ -23,6 +24,11 @@ export const getAggregatorsListSuccess = (data) => ({
 export const getAggregatorsListFailure = (error) => ({
 	type: GET_AGGREGATORS_FAILURE,
 	payload: error,
+});
+
+export const resetAggregatorsList = (payload) => ({
+	type: RESET_AGGREGATORS_DATA,
+	payload,
 });
 
 export const createAggregatorSuccess = (payload) => ({
