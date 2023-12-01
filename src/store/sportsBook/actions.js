@@ -26,6 +26,10 @@ import {
 	UPLOAD_IMAGE_START,
 	UPLOAD_IMAGE_SUCCESS,
 	UPLOAD_IMAGE_FAILURE,
+	RESET_SPORTS_LIST,
+	RESET_SPORTS_COUNTRIES,
+	RESET_SPORTS_TOURNAMENT_LIST,
+	RESET_SPORTS_MATCHESDETAIL_DATA,
 } from './actionTypes';
 
 export const getSportsListSuccess = (payload) => ({
@@ -40,6 +44,11 @@ export const getSportsListFail = (payload) => ({
 
 export const getSportsList = (payload) => ({
 	type: GET_SPORTS_LIST,
+	payload,
+});
+
+export const resetSportsList = (payload) => ({
+	type: RESET_SPORTS_LIST,
 	payload,
 });
 
@@ -58,6 +67,11 @@ export const getSportsCountries = (payload) => ({
 	payload,
 });
 
+export const resetSportsCountries = (payload) => ({
+	type: RESET_SPORTS_COUNTRIES,
+	payload,
+});
+
 export const getSportsTournamentListSuccess = (payload) => ({
 	type: GET_SPORTS_TOURNAMENT_LIST_SUCCESS,
 	payload,
@@ -70,6 +84,11 @@ export const getSportsTournamentListFail = (payload) => ({
 
 export const getSportsTournamentList = (payload) => ({
 	type: GET_SPORTS_TOURNAMENT_LIST,
+	payload,
+});
+
+export const resetSportsTournamentList = (payload) => ({
+	type: RESET_SPORTS_TOURNAMENT_LIST,
 	payload,
 });
 
@@ -92,12 +111,19 @@ export const getSportsMatchDetailStart = (payload) => ({
 	type: GET_SPORTS_MATCHESDETAIL_START,
 	payload,
 });
+
 export const getSportsMatchDetailSuccess = (payload) => ({
 	type: GET_SPORTS_MATCHESDETAIL_SUCCESS,
 	payload,
 });
+
 export const getSportsMatchDetailFail = (payload) => ({
 	type: GET_SPORTS_MATCHESDETAIL_FAILURE,
+	payload,
+});
+
+export const resetSportsMatchDetailData = (payload) => ({
+	type: RESET_SPORTS_MATCHESDETAIL_DATA,
 	payload,
 });
 

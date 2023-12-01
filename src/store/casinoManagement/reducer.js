@@ -64,6 +64,10 @@ import {
 	REORDER_CASINO_GAMES_SUCCESS,
 	REORDER_CASINO_GAMES_FAIL,
 	RESET_CASINO_STATE,
+	RESET_CASINO_PROVIDERS_DATA,
+	RESET_CASINO_CATEGORY_DATA,
+	RESET_CASINO_SUB_CATEGORY_DATA,
+	RESET_CASINO_GAMES,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -154,6 +158,14 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isCasinoProvidersDataLoading: true,
 			};
 
+		case RESET_CASINO_PROVIDERS_DATA:
+			return {
+				...state,
+				casinoProvidersData: null,
+				casinoProvidersDataError: null,
+				isCasinoProvidersDataLoading: true,
+			};
+
 		case GET_CASINO_CATEGORY_DATA:
 			return {
 				...state,
@@ -173,6 +185,14 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				casinoCategoryDetailsError: payload,
 				iscasinoCategoryDetailsLoading: true,
+			};
+
+		case RESET_CASINO_CATEGORY_DATA:
+			return {
+				...state,
+				iscasinoCategoryDetailsLoading: true,
+				casinoCategoryDetails: null,
+				casinoCategoryDetailsError: null,
 			};
 
 		case GET_CASINO_SUB_CATEGORY_DATA:
@@ -196,6 +216,14 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				iscasinoSubCategoryDetailsLoading: true,
 			};
 
+		case RESET_CASINO_SUB_CATEGORY_DATA:
+			return {
+				...state,
+				iscasinoSubCategoryDetailsLoading: true,
+				casinoSubCategoryDetails: null,
+				casinoSubCategoryDetailsError: null,
+			};
+
 		case GET_CASINO_GAMES:
 			return {
 				...state,
@@ -214,6 +242,14 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				casinoGamesError: payload,
+				isCasinoGamesLoading: true,
+			};
+
+		case RESET_CASINO_GAMES:
+			return {
+				...state,
+				casinoGames: null,
+				casinoGamesError: null,
 				isCasinoGamesLoading: true,
 			};
 

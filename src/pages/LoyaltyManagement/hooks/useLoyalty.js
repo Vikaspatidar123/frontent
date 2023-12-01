@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
 	getLoyaltyLevel,
+	resetLoyaltyLevelData,
 	updateLoyaltyLevel,
 } from '../../../store/superAdminSettings/actions';
 import { staticFormFields, loyaltyLevelSchema } from '../formDetails';
@@ -24,6 +25,9 @@ const useLoyalty = (isTenant, tenant) => {
 	useEffect(() => {
 		dispatch(getLoyaltyLevel());
 	}, []);
+
+	// resetting loyalty levels redux state
+	useEffect(() => () => dispatch(resetLoyaltyLevelData()), []);
 
 	useEffect(() => {
 		const newLoyaltyLevel = [];

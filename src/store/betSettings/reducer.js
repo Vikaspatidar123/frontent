@@ -8,6 +8,7 @@ import {
 	EDIT_BET_SETTINGS_START,
 	EDIT_BET_SETTINGS_SUCCESS,
 	EDIT_BET_SETTINGS_FAIL,
+	RESET_BET_SETTINGS_DATA,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -42,6 +43,14 @@ const BetSettings = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				error: payload,
+				isLoading: true,
+			};
+
+		case RESET_BET_SETTINGS_DATA:
+			return {
+				...state,
+				betSettingsList: null,
+				error: null,
 				isLoading: true,
 			};
 

@@ -2,7 +2,11 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSportsList, updateStatusStart } from '../../../store/actions';
+import {
+	getSportsList,
+	resetSportsList,
+	updateStatusStart,
+} from '../../../store/actions';
 
 import { SportId, SportName, Status, Icon } from '../sportsListCol';
 import ActionButtons from '../ActionButtons';
@@ -44,6 +48,9 @@ const useSportsListing = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [page, itemsPerPage]);
+
+	// resetting sports listing redux state
+	useEffect(() => () => dispatch(resetSportsList()), []);
 
 	useEffect(() => {
 		if (uploadImageSuccess) {

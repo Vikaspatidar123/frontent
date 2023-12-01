@@ -4,6 +4,7 @@ import {
 	FETCH_SPORTS_MATCHES_FAIL,
 	FETCH_SPORTS_MATCHES_START,
 	FETCH_SPORTS_MATCHES_SUCCESS,
+	RESET_SPORTS_MATCHES_DATA,
 	UPDATE_SPORTS_FEATURED_MATCHES_FAIL,
 	UPDATE_SPORTS_FEATURED_MATCHES_START,
 	UPDATE_SPORTS_FEATURED_MATCHES_SUCCESS,
@@ -35,6 +36,13 @@ const sportsMatchesReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loading: false,
 				sportsMatches: payload,
+			};
+		case RESET_SPORTS_MATCHES_DATA:
+			return {
+				...state,
+				loading: false,
+				sportsMatches: null,
+				error: '',
 			};
 		case UPDATE_SPORTS_FEATURED_MATCHES_START:
 			return {

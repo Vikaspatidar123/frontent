@@ -27,6 +27,8 @@ import {
 	DELETE_SA_BANNERS_SUCCESS,
 	DELETE_SA_BANNERS_FAIL,
 	RESET_DOCUMENT_LABELS,
+	RESET_SA_BANNERS_DATA,
+	RESET_LOYALTY_LEVEL_DATA,
 } from './actionTypes';
 
 export const getSABanners = (payload) => ({
@@ -41,6 +43,11 @@ export const getSABannersSuccess = (payload) => ({
 
 export const getSABannersFail = (payload) => ({
 	type: GET_SA_BANNERS_FAIL,
+	payload,
+});
+
+export const resetSABannersData = (payload) => ({
+	type: RESET_SA_BANNERS_DATA,
 	payload,
 });
 
@@ -136,6 +143,11 @@ export const getLoyaltyLevelSuccess = (payload) => ({
 
 export const getLoyaltyLevelFail = (payload) => ({
 	type: GET_LOYALTY_LEVEL_FAIL,
+	payload,
+});
+
+export const resetLoyaltyLevelData = (payload) => ({
+	type: RESET_LOYALTY_LEVEL_DATA,
 	payload,
 });
 

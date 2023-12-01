@@ -1,6 +1,10 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteSABannersStart, getSABanners } from '../../../store/actions';
+import {
+	deleteSABannersStart,
+	getSABanners,
+	resetSABannersData,
+} from '../../../store/actions';
 
 const useBannerManagement = () => {
 	const dispatch = useDispatch();
@@ -42,6 +46,9 @@ const useBannerManagement = () => {
 	useEffect(() => {
 		fetchData();
 	}, [selectedClient, selectedPortal]);
+
+	// resetting banner list redux state
+	useEffect(() => () => dispatch(resetSABannersData()), []);
 
 	const onClickDelete = (bannerType) => {
 		dispatch(deleteSABannersStart({ bannerType }));

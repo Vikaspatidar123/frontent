@@ -7,6 +7,7 @@ import { showToastr } from '../../../utils/helpers';
 import {
 	deatechOdsVariationStart,
 	getSportsMatchDetailStart,
+	resetSportsMatchDetailData,
 	updateOdsVariationStart,
 } from '../../../store/actions';
 import columns from '../components/SportsMatchDeatilsListCol';
@@ -33,6 +34,9 @@ const useSportsMatchDetail = () => {
 			dispatch(getSportsMatchDetailStart({ matchId }));
 		}
 	}, [matchId]);
+
+	// resetting match details redux state
+	useEffect(() => () => dispatch(resetSportsMatchDetailData()), []);
 
 	const handleChange = (item) => {
 		setMarketDetail({

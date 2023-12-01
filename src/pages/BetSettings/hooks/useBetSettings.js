@@ -1,6 +1,10 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getBetSettingsData, getSportsList } from '../../../store/actions';
+import {
+	getBetSettingsData,
+	getSportsList,
+	resetBetSettingsData,
+} from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 
 const useBetSettings = () => {
@@ -55,6 +59,9 @@ const useBetSettings = () => {
 	useEffect(() => {
 		fetchData();
 	}, [page, itemsPerPage]);
+
+	// resetting bet settings redux state
+	useEffect(() => () => dispatch(resetBetSettingsData()), []);
 
 	useEffect(() => {
 		if (isCreateBetSettingsSuccess || isEditBetSettingsSuccess) fetchData();

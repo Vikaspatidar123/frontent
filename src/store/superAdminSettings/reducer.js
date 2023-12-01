@@ -27,6 +27,8 @@ import {
 	DELETE_SA_BANNERS_SUCCESS,
 	DELETE_SA_BANNERS_FAIL,
 	RESET_DOCUMENT_LABELS,
+	RESET_SA_BANNERS_DATA,
+	RESET_LOYALTY_LEVEL_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -80,6 +82,14 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				...state,
 				SABannersloading: false,
 				SABannersError: true,
+			};
+
+		case RESET_SA_BANNERS_DATA:
+			return {
+				...state,
+				SABannersloading: false,
+				SABanners: null,
+				SABannersError: null,
 			};
 
 		case GET_DOCUMENT_LABEL:
@@ -218,6 +228,14 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loyaltyLevelLoading: false,
 				loyaltyLevelError: true,
+			};
+
+		case RESET_LOYALTY_LEVEL_DATA:
+			return {
+				...state,
+				loyaltyLevelLoading: false,
+				loyaltyLevel: null,
+				loyaltyLevelError: null,
 			};
 
 		case UPDATE_LOYALTY_LEVEL:

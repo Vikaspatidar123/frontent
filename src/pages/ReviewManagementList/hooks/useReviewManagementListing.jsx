@@ -2,7 +2,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, UncontrolledTooltip } from 'reactstrap';
-import { fetchReviewManagementStart } from '../../../store/actions';
+import {
+	fetchReviewManagementStart,
+	resetReviewManagementData,
+} from '../../../store/actions';
 import {
 	Description,
 	Id,
@@ -41,6 +44,9 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 	useEffect(() => {
 		fetchData();
 	}, [currentPage, itemsPerPage]);
+
+	// resetting review management redux state
+	useEffect(() => () => dispatch(resetReviewManagementData()), []);
 
 	const formattedReviewManagement = useMemo(() => {
 		const formattedValues = [];

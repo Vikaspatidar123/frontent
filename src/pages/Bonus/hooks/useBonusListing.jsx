@@ -6,6 +6,7 @@ import {
 	deleteBonusStart,
 	getBonusDetails,
 	getBonusStart,
+	resetBonusDetails,
 	updateSABonusStatus,
 } from '../../../store/actions';
 import { formatDate } from '../../../utils/dateFormatter';
@@ -103,6 +104,9 @@ const useBonusListing = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [page, itemsPerPage]);
+
+	// resetting bonus listing redux state
+	useEffect(() => () => dispatch(resetBonusDetails()), []);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();

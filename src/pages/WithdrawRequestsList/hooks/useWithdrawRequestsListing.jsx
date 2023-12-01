@@ -2,7 +2,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchWithdrawRequestsStart } from '../../../store/actions';
+import {
+	fetchWithdrawRequestsStart,
+	resetWithdrawRequestsData,
+} from '../../../store/actions';
 import { formatDateYMD } from '../../../helpers/dateFormatter';
 import {
 	ActionableType,
@@ -38,6 +41,9 @@ const useWithdrawRequestsListing = (formValues = {}) => {
 			})
 		);
 	}, [currentPage, itemsPerPage]);
+
+	// resetting withdraw listing redux state
+	useEffect(() => () => dispatch(resetWithdrawRequestsData()), []);
 
 	const formattedWithdrawRequests = useMemo(() => {
 		const formattedValues = [];

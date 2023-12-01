@@ -27,6 +27,10 @@ import {
 	UPLOAD_IMAGE_START,
 	UPLOAD_IMAGE_SUCCESS,
 	UPLOAD_IMAGE_FAILURE,
+	RESET_SPORTS_LIST,
+	RESET_SPORTS_COUNTRIES,
+	RESET_SPORTS_TOURNAMENT_LIST,
+	RESET_SPORTS_MATCHESDETAIL_DATA,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -47,6 +51,7 @@ const INIT_STATE = {
 	isdeatechOdsVariationLoading: false,
 	isUpdateCompanyOdsLoading: false,
 	matchOdsDetails: null,
+	isSportsMatchDetailsError: null,
 	isUploadImageLoading: false,
 	uploadImageError: null,
 	uploadImageSuccess: false,
@@ -75,6 +80,14 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 				isSportsListLoading: true,
 			};
 
+		case RESET_SPORTS_LIST:
+			return {
+				...state,
+				sportsListError: null,
+				sportsListInfo: null,
+				isSportsListLoading: true,
+			};
+
 		case GET_SPORTS_COUNTRIES:
 			return {
 				...state,
@@ -96,6 +109,14 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 				isSportsCountriesLoading: true,
 			};
 
+		case RESET_SPORTS_COUNTRIES:
+			return {
+				...state,
+				isSportsCountriesLoading: true,
+				sportsCountries: null,
+				sportsCountriesError: null,
+			};
+
 		case GET_SPORTS_TOURNAMENT_LIST:
 			return {
 				...state,
@@ -115,6 +136,14 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				sportsTournamentListError: payload,
 				SportsTournamentListLoading: true,
+			};
+
+		case RESET_SPORTS_TOURNAMENT_LIST:
+			return {
+				...state,
+				isSportsTournamentListLoading: true,
+				sportsTournamentList: null,
+				sportsTournamentListError: null,
 			};
 
 		case UPDATE_STATUS_START:
@@ -231,6 +260,7 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				isSportsMatchDetailsLoading: false,
+				isSportsMatchDetailsError: payload,
 			};
 
 		case GET_SPORTS_MATCHESDETAIL_SUCCESS:
@@ -244,6 +274,14 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				isSportsMatchDetailsLoading: true,
+			};
+
+		case RESET_SPORTS_MATCHESDETAIL_DATA:
+			return {
+				...state,
+				isSportsMatchDetailsLoading: false,
+				matchOdsDetails: null,
+				isSportsMatchDetailsError: null,
 			};
 
 		case UPLOAD_IMAGE_START:

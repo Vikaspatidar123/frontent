@@ -8,6 +8,8 @@ import {
 	FETCH_UNRESTRICTED_COUNTRIES_FAIL,
 	FETCH_UNRESTRICTED_COUNTRIES_START,
 	FETCH_UNRESTRICTED_COUNTRIES_SUCCESS,
+	RESET_RESTRICTED_COUNTRIES_DATA,
+	RESET_UNRESTRICTED_COUNTRIES_DATA,
 } from './actionTypes';
 
 export const fetchRestrictedCountriesStart = (payload) => ({
@@ -25,6 +27,11 @@ export const fetchRestrictedCountriesFail = (payload) => ({
 	payload,
 });
 
+export const resetRestrictedCountriesData = (payload) => ({
+	type: RESET_RESTRICTED_COUNTRIES_DATA,
+	payload,
+});
+
 export const fetchUnrestrictedCountriesStart = (payload) => ({
 	type: FETCH_UNRESTRICTED_COUNTRIES_START,
 	payload,
@@ -37,6 +44,11 @@ export const fetchUnrestrictedCountriesSuccess = (payload) => ({
 
 export const fetchUnrestrictedCountriesFail = (payload) => ({
 	type: FETCH_UNRESTRICTED_COUNTRIES_FAIL,
+	payload,
+});
+
+export const resetUnrestrictedCountriesData = (payload) => ({
+	type: RESET_UNRESTRICTED_COUNTRIES_DATA,
 	payload,
 });
 

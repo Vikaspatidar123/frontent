@@ -2,6 +2,7 @@ import {
 	FETCH_WITHDRAW_REQUESTS_FAIL,
 	FETCH_WITHDRAW_REQUESTS_START,
 	FETCH_WITHDRAW_REQUESTS_SUCCESS,
+	RESET_WITHDRAW_REQUESTS_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -31,6 +32,13 @@ const withdrawRequestsReducer = (
 				...state,
 				loading: false,
 				withdrawRequests: payload,
+			};
+		case RESET_WITHDRAW_REQUESTS_DATA:
+			return {
+				...state,
+				loading: false,
+				withdrawRequests: null,
+				error: '',
 			};
 		default:
 			return { ...state };

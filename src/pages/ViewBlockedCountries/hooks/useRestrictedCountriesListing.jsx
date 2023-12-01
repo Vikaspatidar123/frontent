@@ -2,7 +2,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchRestrictedCountriesStart } from '../../../store/actions';
+import {
+	fetchRestrictedCountriesStart,
+	resetRestrictedCountriesData,
+	resetUnrestrictedCountriesData,
+} from '../../../store/actions';
 import { KeyValueCell } from '../RestrictedCountriesListCol';
 
 const useRestrictedCountriesListing = () => {
@@ -29,6 +33,15 @@ const useRestrictedCountriesListing = () => {
 			})
 		);
 	}, [id, currentPage, itemsPerPage]);
+
+	// resetting countries list redux state
+	useEffect(
+		() => () => {
+			dispatch(resetUnrestrictedCountriesData());
+			dispatch(resetRestrictedCountriesData());
+		},
+		[]
+	);
 
 	const columns = useMemo(() => [
 		{

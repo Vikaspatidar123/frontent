@@ -2,7 +2,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSportsMarketsStart } from '../../../store/actions';
+import {
+	fetchSportsMarketsStart,
+	resetSportsMarketsData,
+} from '../../../store/actions';
 import { Id, Name } from '../SportsMarketsListCol';
 
 const useSportsMarketsListing = (filterValues = {}) => {
@@ -26,6 +29,9 @@ const useSportsMarketsListing = (filterValues = {}) => {
 			})
 		);
 	}, [currentPage, itemsPerPage]);
+
+	// resetting match details redux state
+	useEffect(() => () => dispatch(resetSportsMarketsData()), []);
 
 	const formattedSportsMarkets = useMemo(() => {
 		const formattedValues = [];
