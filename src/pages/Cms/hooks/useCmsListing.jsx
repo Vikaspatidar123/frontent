@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
 	getAllCmsDetails,
+	resetAllCmsDetails,
 	updateSaCmsStatus,
 } from '../../../store/cms/actions';
 import { CmsPageId, Title, Slug, Portal, Status } from '../CmsListCol';
@@ -71,6 +72,9 @@ const useCmsListing = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [limit, selectedClient, page, itemsPerPage]);
+
+	// resetting cms list redux state
+	useEffect(() => () => dispatch(resetAllCmsDetails()), []);
 
 	const columns = useMemo(
 		() => [

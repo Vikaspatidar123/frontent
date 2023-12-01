@@ -26,6 +26,7 @@ import {
 	DELETE_SA_BANNERS_START,
 	DELETE_SA_BANNERS_SUCCESS,
 	DELETE_SA_BANNERS_FAIL,
+	RESET_DOCUMENT_LABELS,
 } from './actionTypes';
 
 const initialState = {
@@ -101,6 +102,15 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				documentLabelsLoading: false,
 				documentLabelsError: true,
 			};
+
+		case RESET_DOCUMENT_LABELS:
+			return {
+				...state,
+				documentLabels: null,
+				documentLabelsLoading: false,
+				documentLabelsError: false,
+			};
+
 		case CREATE_SA_BANNERS_START:
 			return {
 				...state,

@@ -8,6 +8,7 @@ import {
 	EDIT_CURRENCIES_START,
 	EDIT_CURRENCIES_SUCCESS,
 	EDIT_CURRENCIES_FAIL,
+	RESET_CURRENCIES_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -29,18 +30,29 @@ const currenciesReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loading: true,
 			};
+
 		case FETCH_CURRENCIES_FAIL:
 			return {
 				...state,
 				loading: false,
 				error: true,
 			};
+
 		case FETCH_CURRENCIES_SUCCESS:
 			return {
 				...state,
 				loading: false,
 				currencies: payload,
 			};
+
+		case RESET_CURRENCIES_DATA:
+			return {
+				...state,
+				loading: false,
+				currencies: null,
+				error: '',
+			};
+
 		case CREATE_CURRENCIES_START:
 			return {
 				...state,

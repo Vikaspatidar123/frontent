@@ -8,6 +8,7 @@ import {
 	getEmailTemplate,
 	getLanguagesStart,
 	deleteEmailTemplate,
+	resetAllEmailTemplates,
 } from '../../../store/actions';
 import { CustomSelectField } from '../../../helpers/customForms';
 
@@ -35,6 +36,9 @@ const useEmailTemplate = () => {
 		dispatch(getAllEmailTemplates());
 		dispatch(getLanguagesStart());
 	};
+
+	// resetting email templates redux state
+	useEffect(() => () => dispatch(resetAllEmailTemplates()), []);
 
 	useEffect(() => {
 		if (emailTemplate) {

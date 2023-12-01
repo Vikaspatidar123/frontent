@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	fetchCountriesStart,
+	resetCountriesData,
 	updateCountryStatusStart,
 } from '../../../store/actions';
 
@@ -27,6 +28,9 @@ const useCountriesListing = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [currentPage, itemsPerPage]);
+
+	// resetting country list redux state
+	useEffect(() => () => dispatch(resetCountriesData()), []);
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);

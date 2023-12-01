@@ -4,6 +4,7 @@ import {
 	getImageGallery,
 	uploadImageGallery,
 	deleteImageGallery,
+	resetImageGallery,
 } from '../../../store/actions';
 import {
 	validationSchema,
@@ -27,6 +28,9 @@ const useImageGallery = () => {
 	useEffect(() => {
 		dispatch(getImageGallery());
 	}, []);
+
+	// resetting image gallery redux state
+	useEffect(() => () => dispatch(resetImageGallery()), []);
 
 	function handleAcceptedFiles(values) {
 		setIsUploading(true);

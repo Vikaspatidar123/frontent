@@ -8,6 +8,7 @@ import {
 	EDIT_CURRENCIES_SUCCESS,
 	EDIT_CURRENCIES_FAIL,
 	EDIT_CURRENCIES_START,
+	RESET_CURRENCIES_DATA,
 } from './actionTypes';
 
 export const fetchCurrenciesStart = (payload) => ({
@@ -22,6 +23,11 @@ export const fetchCurrenciesSuccess = (currencies) => ({
 
 export const fetchCurrenciesFail = (history) => ({
 	type: FETCH_CURRENCIES_FAIL,
+	payload: { history },
+});
+
+export const resetCurrenciesData = (history) => ({
+	type: RESET_CURRENCIES_DATA,
 	payload: { history },
 });
 

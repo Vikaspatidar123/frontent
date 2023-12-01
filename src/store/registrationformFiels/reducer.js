@@ -5,6 +5,7 @@ import {
 	UPDATE_REGISTRATION_FIELDS,
 	UPDATE_REGISTRATION_FIELDS_SUCCESS,
 	UPDATE_REGISTRATION_FIELDS_FAIL,
+	RESET_REGISTRATION_FIELDS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -37,6 +38,14 @@ const FormFields = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				error: payload,
 				isformFieldsLoading: false,
+			};
+
+		case RESET_REGISTRATION_FIELDS:
+			return {
+				...state,
+				isformFieldsLoading: false,
+				formFields: null,
+				error: null,
 			};
 
 		case UPDATE_REGISTRATION_FIELDS:

@@ -46,6 +46,7 @@ import {
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
+	RESET_USER_DETAILS,
 	RESET_USER_LIMIT,
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
@@ -85,6 +86,11 @@ export const getUserDetailsFail = (payload) => ({
 
 export const getUserDetails = (payload) => ({
 	type: GET_USER_DETAILS,
+	payload,
+});
+
+export const resetUserDetails = (payload) => ({
+	type: RESET_USER_DETAILS,
 	payload,
 });
 

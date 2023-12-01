@@ -36,6 +36,8 @@ import {
 	MAKE_EMAIL_TEMPLATE_PRIMARY_SUCCESS,
 	MAKE_EMAIL_TEMPLATE_PRIMARY_FAIL,
 	MAKE_EMAIL_TEMPLATE_PRIMARY,
+	RESET_ALL_EMAIL_TEMPLATES,
+	RESET_IMAGE_GALLERY,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -100,7 +102,16 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				emailTemplateloading: false,
-				emailTemplateError: payload,
+				emailTemplateError: null,
+			};
+
+		case RESET_ALL_EMAIL_TEMPLATES:
+			return {
+				...state,
+				emailTemplateloading: false,
+				emailTemplates: [],
+				templateCount: 0,
+				emailTemplateOrder: [],
 			};
 
 		case GET_IMAGE_GALLERY:
@@ -114,6 +125,7 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				imageGalleryloading: false,
 				imageGallery: payload,
+				imageGalleryError: null,
 			};
 
 		case GET_IMAGE_GALLERY_FAIL:
@@ -121,6 +133,14 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				imageGalleryloading: false,
 				imageGalleryError: payload,
+			};
+
+		case RESET_IMAGE_GALLERY:
+			return {
+				...state,
+				imageGalleryloading: false,
+				imageGallery: [],
+				imageGalleryError: null,
 			};
 
 		case UPLOAD_IMAGE_GALLERY:

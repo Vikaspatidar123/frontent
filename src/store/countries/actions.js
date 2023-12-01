@@ -20,6 +20,9 @@ import {
 	ADD_RESTRICTED_ITEMS_START,
 	ADD_RESTRICTED_ITEMS_FAIL,
 	ADD_RESTRICTED_ITEMS_SUCCESS,
+	RESET_COUNTRIES_DATA,
+	RESET_RESTRICTED_ITEMS_DATA,
+	RESET_UNRESTRICTED_ITEMS_DATA,
 } from './actionTypes';
 
 export const fetchCountriesStart = (payload) => ({
@@ -35,6 +38,11 @@ export const fetchCountriesSuccess = (countries) => ({
 export const fetchCountriesFail = (history) => ({
 	type: FETCH_COUNTRIES_FAIL,
 	payload: { history },
+});
+
+export const resetCountriesData = (payload) => ({
+	type: RESET_COUNTRIES_DATA,
+	payload,
 });
 
 export const updateCountryStatusStart = (payload) => ({
@@ -79,6 +87,16 @@ export const fetchRestrictedItemsSuccess = (payload) => ({
 
 export const fetchRestrictedItemsFail = (payload) => ({
 	type: FETCH_RESTRICTED_ITEMS_FAIL,
+	payload,
+});
+
+export const resetRestrictedItemsData = (payload) => ({
+	type: RESET_RESTRICTED_ITEMS_DATA,
+	payload,
+});
+
+export const resetUnrestrictedItemsData = (payload) => ({
+	type: RESET_UNRESTRICTED_ITEMS_DATA,
 	payload,
 });
 

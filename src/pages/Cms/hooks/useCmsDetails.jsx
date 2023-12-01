@@ -10,6 +10,7 @@ import {
 	getLanguagesStart,
 	getCmsDynamicKeys,
 	getCmsByPageId,
+	resetCmsByPageIdData,
 } from '../../../store/actions';
 
 import {
@@ -44,6 +45,9 @@ const useCmsDetail = () => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
 		dispatch(getCmsDynamicKeys());
 	}, []);
+
+	// resetting cms details redux state
+	useEffect(() => () => dispatch(resetCmsByPageIdData()), []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
 		header: `View CMS ${cmsPageId}`,

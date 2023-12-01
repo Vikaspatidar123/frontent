@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container } from 'reactstrap';
 import TabsPage from '../../components/Common/TabsPage';
 import RestrictedGames from './components/RestrictedGames';
 import AddRestrictedGames from './components/AddRestrictedGames';
 import RemoveRestrictedGames from './components/RemoveRestrictedGames';
 import Breadcrumb from '../../components/Common/Breadcrumb';
+import {
+	resetRestrictedItemsData,
+	resetUnrestrictedItemsData,
+} from '../../store/actions';
 
 const ViewRestrictedGames = () => {
+	const dispatch = useDispatch();
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 	const [activeTab, setActiveTab] = useState(1);
 	const tabData = [
@@ -27,6 +32,15 @@ const ViewRestrictedGames = () => {
 			component: <RemoveRestrictedGames />,
 		},
 	];
+
+	// resetting restricted and unrestricted list redux state
+	useEffect(
+		() => () => {
+			dispatch(resetRestrictedItemsData());
+			dispatch(resetUnrestrictedItemsData());
+		},
+		[]
+	);
 
 	return (
 		<div className="page-content">

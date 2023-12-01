@@ -58,7 +58,6 @@ const Status = ({ value }) => {
 };
 
 UserName.propTypes = {
-	onClickPlayer: PropTypes.func.isRequired,
 	cell: PropTypes.shape({
 		value: PropTypes.string.isRequired,
 		row: PropTypes.shape({

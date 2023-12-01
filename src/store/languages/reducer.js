@@ -2,6 +2,7 @@ import {
 	FETCH_LANGUAGES_FAIL,
 	FETCH_LANGUAGES_START,
 	FETCH_LANGUAGES_SUCCESS,
+	RESET_LANGUAGES_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -28,6 +29,13 @@ const languagesReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loading: false,
 				languages: payload,
+			};
+		case RESET_LANGUAGES_DATA:
+			return {
+				...state,
+				loading: false,
+				languages: null,
+				error: '',
 			};
 		default:
 			return { ...state };

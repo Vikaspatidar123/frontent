@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getDocumentLabel } from '../../../store/actions';
+import { getDocumentLabel, resetDocumentLabels } from '../../../store/actions';
 import languageCode from '../constants';
 
 const useKYCLables = () => {
@@ -39,6 +39,9 @@ const useKYCLables = () => {
 	useEffect(() => {
 		fetchData();
 	}, []);
+
+	// resetting kyc labels redux state
+	useEffect(() => () => dispatch(resetDocumentLabels()), []);
 
 	useEffect(() => {
 		if (isCreateKYCLabelsSuccess || isEditKYCLabelsSuccess) fetchData();
