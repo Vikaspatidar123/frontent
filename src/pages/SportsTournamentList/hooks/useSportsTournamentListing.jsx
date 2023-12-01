@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSportsTournamentList } from '../../../store/actions';
+import {
+	getSportsTournamentList,
+	resetSportsTournamentList,
+} from '../../../store/actions';
 import {
 	TournamentId,
 	TournamentName,
@@ -41,6 +44,9 @@ const useSportsTounamentListing = (filterValues = {}) => {
 			})
 		);
 	}, [page, itemsPerPage]);
+
+	// resetting sports tournaments redux state
+	useEffect(() => () => dispatch(resetSportsTournamentList()), []);
 
 	const columns = useMemo(() => [
 		{

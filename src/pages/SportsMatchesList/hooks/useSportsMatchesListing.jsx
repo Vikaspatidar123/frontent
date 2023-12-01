@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	fetchSportsMatchesStart,
+	resetSportsMatchesData,
 	updateFeaturedMatchStart,
 } from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
@@ -43,6 +44,9 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			})
 		);
 	}, [currentPage, itemsPerPage]);
+
+	// resetting sports matches redux state
+	useEffect(() => () => dispatch(resetSportsMatchesData()), []);
 
 	const formattedSportsMatches = useMemo(() => {
 		const formattedValues = [];

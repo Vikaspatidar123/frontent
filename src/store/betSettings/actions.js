@@ -8,6 +8,7 @@ import {
 	EDIT_BET_SETTINGS_SUCCESS,
 	EDIT_BET_SETTINGS_FAIL,
 	EDIT_BET_SETTINGS_START,
+	RESET_BET_SETTINGS_DATA,
 } from './actionTypes';
 
 export const getBetSettingsDataSuccess = (payload) => ({
@@ -22,6 +23,10 @@ export const getBetSettingsDataFail = (payload) => ({
 
 export const getBetSettingsData = () => ({
 	type: GET_BET_SETTINGS_DATA,
+});
+
+export const resetBetSettingsData = () => ({
+	type: RESET_BET_SETTINGS_DATA,
 });
 
 export const createBetSettingsSuccess = (payload) => ({

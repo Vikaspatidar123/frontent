@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSportsCountries, updateStatusStart } from '../../../store/actions';
+import {
+	getSportsCountries,
+	resetSportsCountries,
+	updateStatusStart,
+} from '../../../store/actions';
 import {
 	CountryId,
 	CountryName,
@@ -73,6 +77,9 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [itemsPerPage, page, uploadImageSuccess]);
+
+	// resetting sports countries redux state
+	useEffect(() => () => dispatch(resetSportsCountries()), []);
 
 	const columns = useMemo(
 		() => [
