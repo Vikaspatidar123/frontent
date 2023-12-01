@@ -101,8 +101,10 @@ const usePlayersListing = (filterValues = {}) => {
 				...filterValues,
 			})
 		);
-		return () => dispatch(resetPlayersData());
 	}, [currentPage, itemsPerPage]);
+
+	// resetting players list redux state
+	useEffect(() => () => dispatch(resetPlayersData()), []);
 
 	const formattedPlayers = useMemo(() => {
 		const formattedValues = [];

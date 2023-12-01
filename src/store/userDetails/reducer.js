@@ -46,6 +46,7 @@ import {
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
+	RESET_USER_DETAILS,
 	RESET_USER_LIMIT,
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
@@ -167,6 +168,9 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				userDetailsError: payload,
 				userDetailsLoading: true,
 			};
+
+		case RESET_USER_DETAILS:
+			return INIT_STATE;
 
 		case GET_USER_DOCUMENTS:
 			return {
