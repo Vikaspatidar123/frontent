@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchLanguagesStart } from '../../../store/actions';
+import {
+	fetchLanguagesStart,
+	resetLanguagesData,
+} from '../../../store/actions';
 import { Id, LanguageCode, LanguageName } from '../LanguageListCol';
 
 const useLanguageListing = (filterValues = {}) => {
@@ -25,6 +28,9 @@ const useLanguageListing = (filterValues = {}) => {
 			})
 		);
 	}, [currentPage, itemsPerPage]);
+
+	// resetting language list redux state
+	useEffect(() => () => dispatch(resetLanguagesData()), []);
 
 	const formattedLanguages = useMemo(() => {
 		const formattedValues = [];

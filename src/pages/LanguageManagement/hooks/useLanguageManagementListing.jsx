@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchLanguageManagementStart } from '../../../store/actions';
+import {
+	fetchLanguageManagementStart,
+	resetLanguageManagementData,
+} from '../../../store/actions';
 import { English, Keys } from '../LanguageManagementCol';
 import { downloadFileInNewWindow } from '../../../utils/helpers';
 import { getAccessToken } from '../../../network/storageUtils';
@@ -25,6 +28,9 @@ const useLanguageManagementListing = () => {
 			})
 		);
 	}, [currentPage, searchText]);
+
+	// resetting lang management redux state
+	useEffect(() => () => dispatch(resetLanguageManagementData()), []);
 
 	const formattedLanguageManagement = useMemo(() => {
 		const formattedValues = [];

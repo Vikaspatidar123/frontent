@@ -5,6 +5,7 @@ import {
 	UPDATE_REGISTRATION_FIELDS,
 	UPDATE_REGISTRATION_FIELDS_SUCCESS,
 	UPDATE_REGISTRATION_FIELDS_FAIL,
+	RESET_REGISTRATION_FIELDS,
 } from './actionTypes';
 
 export const getRegistrationFieldsSuccess = (payload) => ({
@@ -19,6 +20,11 @@ export const getRegistrationFieldsFail = (payload) => ({
 
 export const getRegistrationFields = (payload) => ({
 	type: GET_REGISTRATION_FIELDS,
+	payload,
+});
+
+export const resetRegistrationFields = (payload) => ({
+	type: RESET_REGISTRATION_FIELDS,
 	payload,
 });
 

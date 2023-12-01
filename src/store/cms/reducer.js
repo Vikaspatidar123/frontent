@@ -17,6 +17,8 @@ import {
 	UPDATE_SA_CMS,
 	UPDATE_SA_CMS_SUCCESS,
 	UPDATE_SA_CMS_FAIL,
+	RESET_ALL_CMS_DATA,
+	RESET_CMS_BY_PAGE_ID,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -60,6 +62,14 @@ const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				error: payload,
+				isLoading: true,
+			};
+
+		case RESET_ALL_CMS_DATA:
+			return {
+				...state,
+				cmsDetails: null,
+				error: null,
 				isLoading: true,
 			};
 
@@ -148,6 +158,14 @@ const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				cmsByPageIdLoading: false,
 				cmsByPageId: payload,
+				cmsByPageIdError: null,
+			};
+
+		case RESET_CMS_BY_PAGE_ID:
+			return {
+				...state,
+				cmsByPageIdLoading: false,
+				cmsByPageId: null,
 				cmsByPageIdError: null,
 			};
 

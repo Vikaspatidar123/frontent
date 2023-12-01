@@ -20,6 +20,9 @@ import {
 	ADD_RESTRICTED_ITEMS_START,
 	ADD_RESTRICTED_ITEMS_FAIL,
 	ADD_RESTRICTED_ITEMS_SUCCESS,
+	RESET_COUNTRIES_DATA,
+	RESET_RESTRICTED_ITEMS_DATA,
+	RESET_UNRESTRICTED_ITEMS_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -64,6 +67,13 @@ const countriesReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loading: false,
 				countries: payload,
+			};
+		case RESET_COUNTRIES_DATA:
+			return {
+				...state,
+				loading: false,
+				countries: null,
+				error: '',
 			};
 		case UPDATE_COUNTRIES_STATUS_START:
 			return {
@@ -122,6 +132,20 @@ const countriesReducer = (state = initialState, { type, payload } = {}) => {
 				restrictedItemsLoading: false,
 				restrictedItems: payload,
 				restrictedItemsError: null,
+			};
+		case RESET_RESTRICTED_ITEMS_DATA:
+			return {
+				...state,
+				restrictedItemsLoading: false,
+				restrictedItems: null,
+				restrictedItemsError: null,
+			};
+		case RESET_UNRESTRICTED_ITEMS_DATA:
+			return {
+				...state,
+				unrestrictedItemsLoading: false,
+				unrestrictedItems: null,
+				unrestrictedItemsError: null,
 			};
 		case FETCH_UNRESTRICTED_ITEMS_START:
 			return {

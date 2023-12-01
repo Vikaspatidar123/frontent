@@ -11,6 +11,7 @@ import {
 	getCmsDynamicKeys,
 	getCmsByPageId,
 	updateSaCms,
+	resetCmsByPageIdData,
 } from '../../../store/actions';
 
 import {
@@ -63,6 +64,9 @@ const useEditCms = () => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
 		dispatch(getCmsDynamicKeys());
 	}, []);
+
+	// resetting cms details redux state
+	useEffect(() => () => dispatch(resetCmsByPageIdData()), []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
 		header: `Edit CMS ${cmsPageId}`,

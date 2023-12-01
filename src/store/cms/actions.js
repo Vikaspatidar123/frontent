@@ -17,6 +17,8 @@ import {
 	UPDATE_SA_CMS,
 	UPDATE_SA_CMS_SUCCESS,
 	UPDATE_SA_CMS_FAIL,
+	RESET_ALL_CMS_DATA,
+	RESET_CMS_BY_PAGE_ID,
 } from './actionTypes';
 
 export const getAllCmsDetailsSuccess = (payload) => ({
@@ -31,6 +33,11 @@ export const getAllCmsDetailsFail = (payload) => ({
 
 export const getAllCmsDetails = (payload) => ({
 	type: GET_ALL_CMS_DATA,
+	payload,
+});
+
+export const resetAllCmsDetails = (payload) => ({
+	type: RESET_ALL_CMS_DATA,
 	payload,
 });
 
@@ -91,6 +98,11 @@ export const getCmsByPageIdFail = (payload) => ({
 
 export const getCmsByPageId = (payload) => ({
 	type: GET_CMS_BY_PAGE_ID,
+	payload,
+});
+
+export const resetCmsByPageIdData = (payload) => ({
+	type: RESET_CMS_BY_PAGE_ID,
 	payload,
 });
 

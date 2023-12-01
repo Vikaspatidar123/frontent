@@ -10,6 +10,7 @@ import {
 	getDynamicKeys,
 	getEmailTemplate,
 	updateEmailTemplate,
+	resetEmailTemplate,
 } from '../../../store/actions';
 
 import {
@@ -44,6 +45,9 @@ const useEditEmailTemplate = () => {
 			dispatch(getEmailTemplate(emailTemplateId));
 		}
 	}, [emailTemplateId]);
+
+	// resetting email template details redux state
+	useEffect(() => () => dispatch(resetEmailTemplate()), []);
 
 	const getTemplateKeys = (template) => {
 		const mainKeys = [];

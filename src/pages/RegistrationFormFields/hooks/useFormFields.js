@@ -11,6 +11,7 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 
 import {
 	getRegistrationFields,
+	resetRegistrationFields,
 	updateRegistrationFields,
 } from '../../../store/actions';
 
@@ -28,6 +29,9 @@ const useFormFields = () => {
 	useEffect(() => {
 		dispatch(getRegistrationFields());
 	}, []);
+
+	// resetting registration fields redux state
+	useEffect(() => () => dispatch(resetRegistrationFields()), []);
 
 	const callback = (e, name) => {
 		validation.setFieldValue(name, !e.target.checked ? 2 : 0);

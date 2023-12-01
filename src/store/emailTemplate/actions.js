@@ -36,6 +36,8 @@ import {
 	MAKE_EMAIL_TEMPLATE_PRIMARY_SUCCESS,
 	MAKE_EMAIL_TEMPLATE_PRIMARY_FAIL,
 	MAKE_EMAIL_TEMPLATE_PRIMARY,
+	RESET_ALL_EMAIL_TEMPLATES,
+	RESET_IMAGE_GALLERY,
 } from './actionTypes';
 
 export const getAllEmailTemplatesSuccess = (payload) => ({
@@ -53,6 +55,11 @@ export const getAllEmailTemplates = (payload) => ({
 	payload,
 });
 
+export const resetAllEmailTemplates = (payload) => ({
+	type: RESET_ALL_EMAIL_TEMPLATES,
+	payload,
+});
+
 export const getImageGallerySuccess = (payload) => ({
 	type: GET_IMAGE_GALLERY_SUCCESS,
 	payload,
@@ -65,6 +72,11 @@ export const getImageGalleryFail = (payload) => ({
 
 export const getImageGallery = (payload) => ({
 	type: GET_IMAGE_GALLERY,
+	payload,
+});
+
+export const resetImageGallery = (payload) => ({
+	type: RESET_IMAGE_GALLERY,
 	payload,
 });
 

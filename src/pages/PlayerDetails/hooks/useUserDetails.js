@@ -18,7 +18,7 @@ const useUserDetails = ({ userId }) => {
 		dispatch(getDuplicateUsers({ userId, limit: 10, pageNo: 1 }));
 	}, []);
 
-	// resetting players list redux state
+	// resetting player details redux state
 	useEffect(
 		() => () => {
 			dispatch(resetUserDetails());
