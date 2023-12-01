@@ -18,6 +18,7 @@ import {
 	REORDER_BONUS_START,
 	REORDER_BONUS_SUCCESS,
 	REORDER_BONUS_FAIL,
+	RESET_BONUS_DETAILS_DATA,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -64,6 +65,14 @@ const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				error: payload,
 				isLoading: true,
+			};
+
+		case RESET_BONUS_DETAILS_DATA:
+			return {
+				...state,
+				isLoading: true,
+				bonusDetails: null,
+				error: null,
 			};
 
 		case UPDATE_SA_BONUS_STATUS:

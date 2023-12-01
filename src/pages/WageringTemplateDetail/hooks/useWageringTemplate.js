@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getWageringTemplateDetails } from '../../../store/wageringTemplate/actions';
+import {
+	getWageringTemplateDetails,
+	resetWageringTemplateDetail,
+} from '../../../store/wageringTemplate/actions';
 
 const useWageringTemplate = (filterValues = {}) => {
 	const { wageringTemplateDetail, wageringTemplateDetailLoading } = useSelector(
@@ -27,6 +30,9 @@ const useWageringTemplate = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [itemsPerPage, page]);
+
+	// resetting wagering templates redux state
+	useEffect(() => () => dispatch(resetWageringTemplateDetail()), []);
 
 	return {
 		wageringTemplateDetail,

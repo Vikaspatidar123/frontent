@@ -14,6 +14,8 @@ import {
 	GET_ALL_SA_WAGERING_TEMPLATES_SUCCESS,
 	GET_ALL_SA_WAGERING_TEMPLATES,
 	GET_ALL_SA_WAGERING_TEMPLATES_FAIL,
+	RESET_WAGERING_TEMPLATE_DETAIL,
+	RESET_WAGERING_TEMPLATE_DETAIL_DATA,
 } from './actionTypes';
 
 export const getWageringTemplateDetailsSuccess = (payload) => ({
@@ -41,8 +43,18 @@ export const getWageringTemplateDetailFail = (payload) => ({
 	payload,
 });
 
+export const resetWageringTemplateDetail = (payload) => ({
+	type: RESET_WAGERING_TEMPLATE_DETAIL,
+	payload,
+});
+
 export const getWageringTemplateDetail = (payload) => ({
 	type: GET_WAGERING_TEMPLATE_DETAIL,
+	payload,
+});
+
+export const resetWageringTemplateDetailData = (payload) => ({
+	type: RESET_WAGERING_TEMPLATE_DETAIL_DATA,
 	payload,
 });
 

@@ -6,7 +6,12 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import { projectName } from '../../constants/config';
 import useEditWageringTemplate from './hooks/useEditWageringTemplate';
 import FormPage from '../../components/Common/FormPage';
-import { getWageringTemplateDetail } from '../../store/actions';
+import {
+	getWageringTemplateDetail,
+	resetCasinoGamesData,
+	resetCasinoProvidersData,
+	resetWageringTemplateDetailData,
+} from '../../store/actions';
 import { getInitialValues } from './formDetails';
 
 const editWageringTemplate = () => {
@@ -43,6 +48,16 @@ const editWageringTemplate = () => {
 			validation.setValues(getInitialValues(SAWageringTemplate));
 		}
 	}, [SAWageringTemplate, SAWageringTemplateLoading]);
+
+	// resetting redux state
+	useEffect(
+		() => () => {
+			dispatch(resetCasinoProvidersData());
+			dispatch(resetCasinoGamesData());
+			dispatch(resetWageringTemplateDetailData());
+		},
+		[]
+	);
 
 	return (
 		<div className="page-content">

@@ -18,6 +18,7 @@ import {
 	REORDER_BONUS_START,
 	REORDER_BONUS_SUCCESS,
 	REORDER_BONUS_FAIL,
+	RESET_BONUS_DETAILS_DATA,
 } from './actionTypes';
 
 export const getBonusDetailsSuccess = (payload) => ({
@@ -32,6 +33,11 @@ export const getBonusDetailsFail = (payload) => ({
 
 export const getBonusDetails = (payload) => ({
 	type: GET_BONUS_DETAILS_DATA,
+	payload,
+});
+
+export const resetBonusDetails = (payload) => ({
+	type: RESET_BONUS_DETAILS_DATA,
 	payload,
 });
 

@@ -14,6 +14,8 @@ import {
 	GET_ALL_SA_WAGERING_TEMPLATES,
 	GET_ALL_SA_WAGERING_TEMPLATES_SUCCESS,
 	GET_ALL_SA_WAGERING_TEMPLATES_FAIL,
+	RESET_WAGERING_TEMPLATE_DETAIL,
+	RESET_WAGERING_TEMPLATE_DETAIL_DATA,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -57,6 +59,14 @@ const WageringTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				SAWageringTemplateError: payload,
 			};
 
+		case RESET_WAGERING_TEMPLATE_DETAIL:
+			return {
+				...state,
+				SAWageringTemplateLoading: false,
+				SAWageringTemplate: null,
+				SAWageringTemplateError: null,
+			};
+
 		case GET_WAGERING_TEMPLATE_DETAILS:
 			return {
 				...state,
@@ -68,6 +78,14 @@ const WageringTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				wageringTemplateDetailLoading: false,
 				wageringTemplateDetail: payload,
+				wageringTemplateDetailError: null,
+			};
+
+		case RESET_WAGERING_TEMPLATE_DETAIL_DATA:
+			return {
+				...state,
+				wageringTemplateDetailLoading: false,
+				wageringTemplateDetail: null,
 				wageringTemplateDetailError: null,
 			};
 
