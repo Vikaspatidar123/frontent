@@ -6,7 +6,10 @@ import { useParams } from 'react-router-dom';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useActions from './hooks/useActions';
 import FormPage from '../../components/Common/FormPage';
-import { getPermissionsStart } from '../../store/auth/permissionDetails/actions';
+import {
+	getPermissionsStart,
+	resetAdminDetails,
+} from '../../store/auth/permissionDetails/actions';
 import {
 	resetLinearProgress,
 	showLinearProgress,
@@ -30,6 +33,9 @@ const EditAdmin = () => {
 	useEffect(() => {
 		dispatch(getPermissionsStart(Number(adminUserId)));
 	}, []);
+
+	// resetting admin details redux state
+	useEffect(() => () => dispatch(resetAdminDetails()), []);
 
 	useEffect(() => {
 		if (adminDetails && !isAdminLoading) {

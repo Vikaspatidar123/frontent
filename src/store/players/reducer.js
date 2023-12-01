@@ -2,6 +2,7 @@ import {
 	FETCH_PLAYERS_FAIL,
 	FETCH_PLAYERS_START,
 	FETCH_PLAYERS_SUCCESS,
+	RESET_PLAYERS_DATA,
 } from './actionTypes';
 
 const initialState = {
@@ -28,6 +29,13 @@ const playersReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loading: false,
 				players: payload,
+			};
+		case RESET_PLAYERS_DATA:
+			return {
+				...state,
+				loading: false,
+				players: null,
+				error: '',
 			};
 		default:
 			return { ...state };

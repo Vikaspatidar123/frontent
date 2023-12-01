@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPlayersStart } from '../../../store/actions';
+import { fetchPlayersStart, resetPlayersData } from '../../../store/actions';
 import {
 	Action,
 	Email,
@@ -101,6 +101,7 @@ const usePlayersListing = (filterValues = {}) => {
 				...filterValues,
 			})
 		);
+		return () => dispatch(resetPlayersData());
 	}, [currentPage, itemsPerPage]);
 
 	const formattedPlayers = useMemo(() => {

@@ -5,7 +5,10 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TabsPage from '../../components/Common/TabsPage';
 import Permissions from '../Profile/FormSections/Permissions';
-import { getPermissionsStart } from '../../store/auth/permissionDetails/actions';
+import {
+	getPermissionsStart,
+	resetAdminDetails,
+} from '../../store/auth/permissionDetails/actions';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 // eslint-disable-next-line import/no-unresolved
 import OverView from './Overview';
@@ -24,6 +27,9 @@ const AdminDetails = ({ t }) => {
 	useEffect(() => {
 		dispatch(getPermissionsStart(Number(adminUserId)));
 	}, []);
+
+	// resetting admin details redux state
+	useEffect(() => () => dispatch(resetAdminDetails()), []);
 
 	const tabData = [
 		{

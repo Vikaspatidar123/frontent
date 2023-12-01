@@ -8,6 +8,7 @@ import {
 	UPDATE_SUPER_ADMIN_USER,
 	UPDATE_SUPER_ADMIN_USER_SUCCESS,
 	UPDATE_SUPER_ADMIN_USER_FAIL,
+	RESET_ADMINS_DATA,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -43,6 +44,14 @@ const getAllAdmins = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				error: payload,
 				isLoading: true,
+			};
+
+		case RESET_ADMINS_DATA:
+			return {
+				...state,
+				error: payload,
+				isLoading: null,
+				adminDetails: null,
 			};
 
 		case ADD_SUPER_ADMIN_USER:

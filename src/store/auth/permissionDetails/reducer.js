@@ -5,6 +5,7 @@ import {
 	SUPER_ADMIN_START,
 	SUPER_ADMIN_SUCCESS,
 	SUPER_ADMIN_FAIL,
+	RESET_ADMIN_DETAILS,
 } from './actionTypes';
 
 const initialState = {
@@ -28,6 +29,9 @@ const permissionDetails = (state = initialState, { type, payload } = {}) => {
 			};
 		case PERMISSIONS_ERROR:
 			return { ...state, error: payload, isAdminLoading: false };
+
+		case RESET_ADMIN_DETAILS:
+			return { ...state, adminDetails: '' };
 
 		case SUPER_ADMIN_START:
 			return { ...state, isSuperAdminLoading: true };

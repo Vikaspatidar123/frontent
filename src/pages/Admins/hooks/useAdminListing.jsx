@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { getAdminDetails } from '../../../store/actions';
+import { getAdminDetails, resetAdminsData } from '../../../store/actions';
 import {
 	AdminUserID,
 	Email,
@@ -69,6 +69,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 
 	useEffect(() => {
 		if (location.pathname === '/staff') fetchData();
+		return () => dispatch(resetAdminsData());
 	}, [page, orderBy, sort, location, itemsPerPage]);
 
 	const columns = useMemo(

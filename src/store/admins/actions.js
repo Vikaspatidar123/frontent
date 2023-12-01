@@ -8,6 +8,7 @@ import {
 	UPDATE_SUPER_ADMIN_USER_SUCCESS,
 	UPDATE_SUPER_ADMIN_USER_FAIL,
 	UPDATE_SUPER_ADMIN_USER,
+	RESET_ADMINS_DATA,
 } from './actionTypes';
 
 export const getAdminDetailsSuccess = (payload) => ({
@@ -22,6 +23,11 @@ export const getAdminDetailsFail = (payload) => ({
 
 export const getAdminDetails = (payload) => ({
 	type: GET_ADMINS_DATA,
+	payload,
+});
+
+export const resetAdminsData = (payload) => ({
+	type: RESET_ADMINS_DATA,
 	payload,
 });
 
