@@ -1,14 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import withRouter from "./Common/withRouter";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Navigate } from 'react-router-dom';
+import withRouter from './Common/withRouter';
+import { getAccessToken } from '../network/storageUtils';
 
-const NonAuthLayout = (props) => {
-  return <React.Fragment>{props.children}</React.Fragment>;
+const NonAuthLayout = ({ children }) => {
+	const accessToken = getAccessToken();
+
+	if (accessToken) {
+		return <Navigate to={{ pathname: '/dashboard' }} />;
+	}
+	return children;
 };
 
 NonAuthLayout.propTypes = {
-  children: PropTypes.any,
-  location: PropTypes.object,
+	children: PropTypes.element.isRequired,
 };
 
 export default withRouter(NonAuthLayout);
