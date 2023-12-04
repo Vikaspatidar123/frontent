@@ -76,7 +76,7 @@ const uploadGallery = (data) =>
   });
 
 const updateSAUserStatusCall = (data) =>
-  putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/status`, data);
+  putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/status`, data);
 
 const markUserAsInternal = (data) =>
   putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/internal`, data);

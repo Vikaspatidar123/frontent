@@ -200,7 +200,7 @@ function* getSiteDetailsWorker(action) {
 		yield put(getSiteDetailsSuccess(data.data.siteDetails.value));
 	} catch (error) {
 		yield put(
-			getSiteDetailsFail(error?.response?.data?.errors[0]?.description)
+			getSiteDetailsFail(error?.response?.data?.errors[0]?.description || null)
 		);
 	}
 }

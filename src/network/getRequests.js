@@ -82,7 +82,7 @@ const getBetSettings = () =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/bet-settings`);
 
 const getTransactionBanking = (payload) =>
-  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/transactions`, payload);
+  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/transactions`, payload);
 
 const getSportsList = (payload) =>
   payload?.isAllListing
@@ -96,7 +96,7 @@ const getSportsList = (payload) =>
     );
 
 const getReviewManagement = (payload) =>
-  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/review`, payload);
+  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/review`, payload);
 
 const getCountriesList = (payload) =>
   getRequest(
@@ -151,7 +151,7 @@ const getAdminDetails = (adminId) =>
 
 const getDocumentLabelCall = (userId) =>
   getRequest(
-    `${VITE_APP_API_URL}${API_NAMESPACE}/document-label?userId=${userId}`
+    `${VITE_APP_API_URL}${API_NAMESPACE}/admin/document-label?userId=${userId}`
   );
 
 const getUserDocument = (payload) =>
@@ -164,7 +164,7 @@ const getSiteConfiguration = (data) =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/site-information`, data);
 
 const getGlobalRegistration = () =>
-  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/global-registration`);
+  getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/global-registration`);
 
 const getloyaltyLevel = () =>
   getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/loyalty-level`);

@@ -51,6 +51,8 @@ const BannerManagement = () => {
 	const { formattedSABanners, SABannersloading, onClickDelete } =
 		useBannerManagement();
 
+	console.log(SABannersloading);
+
 	const {
 		isOpen,
 		setIsOpen,
@@ -89,7 +91,7 @@ const BannerManagement = () => {
 									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									isLoading={SABannersloading}
+									isLoading={false}
 								/>
 							</CardBody>
 						</Card>
