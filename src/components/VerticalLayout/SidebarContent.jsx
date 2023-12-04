@@ -18,7 +18,6 @@ const SidebarContent = ({ t }) => {
 	const ref = useRef();
 	const path = useLocation();
 	const { isGranted } = usePermission();
-
 	function scrollElement(item) {
 		if (item) {
 			const currentPosition = item.offsetTop;
@@ -165,11 +164,16 @@ const SidebarContent = ({ t }) => {
 								</Link>
 								{nav?.subMenu?.length && (
 									<ul className="sub-menu">
-										{nav?.subMenu?.map((sub) => (
-											<li key={sub?.link}>
-												<Link to={sub.link}>{t(sub.label)}</Link>
-											</li>
-										))}
+										{nav?.subMenu?.map((sub) => {
+											if (sub?.module && !isGranted(sub.module, 'R')) {
+												return null;
+											}
+											return (
+												<li key={sub?.link}>
+													<Link to={sub.link}>{t(sub.label)}</Link>
+												</li>
+											);
+										})}
 									</ul>
 								)}
 							</li>
