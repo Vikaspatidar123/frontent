@@ -21,16 +21,26 @@ const useImageGallery = () => {
 	const { isGranted } = usePermission();
 	const [showUpload, setShowUpload] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
-	const { imageGallery, imageGalleryLoading } = useSelector(
-		(state) => state.EmailTemplate
-	);
+	const {
+		imageGallery,
+		imageGalleryLoading,
+		uploadGallery: uploadGallerySuccess,
+	} = useSelector((state) => state.EmailTemplate);
 
 	useEffect(() => {
 		dispatch(getImageGallery());
 	}, []);
 
-	// resetting image gallery redux state
-	useEffect(() => () => dispatch(resetImageGallery()), []);
+	useEffect(() => {
+		if (uploadGallerySuccess) {
+			setShowUpload(false);
+			setIsUploading(false);
+		}
+
+		return () => {
+			dispatch(resetImageGallery()); // resetting image gallery redux state
+		};
+	}, [uploadGallerySuccess]);
 
 	function handleAcceptedFiles(values) {
 		setIsUploading(true);

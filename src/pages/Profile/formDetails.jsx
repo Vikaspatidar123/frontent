@@ -212,6 +212,7 @@ const leftStaticSiteConfigFormFields = (editableSiteConfig) => [
 		placeholder: 'Enter Site Logo',
 		showThumbnail: true,
 		customThumbnailBackground: '#1A1D29',
+		customPadding: '8px',
 	},
 ];
 

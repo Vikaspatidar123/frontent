@@ -15,8 +15,12 @@ import {
 import ActionButtons from '../ActionButtons';
 
 const useSportsCountriesListing = (filterValues = {}) => {
-	const { sportsCountries, isSportsCountriesLoading, uploadImageSuccess } =
-		useSelector((state) => state.SportsList);
+	const {
+		sportsCountries,
+		isSportsCountriesLoading,
+		uploadImageSuccess,
+		isUploadImageLoading,
+	} = useSelector((state) => state.SportsList);
 
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
@@ -139,6 +143,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		showUploadModal,
 		setShowUploadModal,
 		countryId,
+		isUploadImageLoading,
 	};
 };
 

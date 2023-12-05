@@ -285,6 +285,7 @@ export const CustomToggleButton = ({
 	...rest
 }) => (
 	<span
+		style={{ pointerEvents: disabled ? 'none' : 'auto' }}
 		className={`form-check form-switch ${switchSizeClass || 'form-switch-md'} ${
 			containerClass || 'mb-3 mt-3'
 		}`}
@@ -407,6 +408,7 @@ export const getField = (
 		isRequired,
 		defaultValue,
 		customThumbnailBackground,
+		customPadding,
 		...rest
 	},
 	validation
@@ -573,6 +575,7 @@ export const getField = (
 							style={{
 								marginTop: 10,
 								backgroundColor: customThumbnailBackground,
+								padding: customPadding,
 							}}
 							width={100}
 							src={

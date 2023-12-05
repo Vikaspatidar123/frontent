@@ -28,7 +28,12 @@ const FormModal = ({
 	responsiveFormFields,
 	className,
 }) => (
-	<Modal isOpen={isOpen} toggle={toggle} className={className}>
+	<Modal
+		isOpen={isOpen}
+		toggle={toggle}
+		className={className}
+		backdrop="static"
+	>
 		<ModalHeader toggle={toggle} tag="h4">
 			{header}
 		</ModalHeader>

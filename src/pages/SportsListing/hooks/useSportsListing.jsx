@@ -12,8 +12,12 @@ import { SportId, SportName, Status, Icon } from '../sportsListCol';
 import ActionButtons from '../ActionButtons';
 
 const useSportsListing = (filterValues = {}) => {
-	const { sportsListInfo, isSportsListLoading, uploadImageSuccess } =
-		useSelector((state) => state.SportsList);
+	const {
+		sportsListInfo,
+		isSportsListLoading,
+		uploadImageSuccess,
+		isUploadImageLoading,
+	} = useSelector((state) => state.SportsList);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [showUploadModal, setShowUploadModal] = useState(false);
@@ -134,6 +138,7 @@ const useSportsListing = (filterValues = {}) => {
 		columns,
 		showUploadModal,
 		setShowUploadModal,
+		isUploadImageLoading,
 		sportId,
 	};
 };

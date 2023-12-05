@@ -5,7 +5,7 @@ import { uploadImageStart } from '../../store/sportsBook/actions';
 import { showToastr } from '../../utils/helpers';
 import ImageUploader from '../../components/Common/ImageUploader';
 
-const IconUploader = ({ sportId, countryId, code }) => {
+const IconUploader = ({ sportId, countryId, code, isUploading }) => {
 	const dispatch = useDispatch();
 	const [uploadedFile, setUploadedFile] = useState(null);
 	const [error, setError] = useState('');
@@ -49,6 +49,8 @@ const IconUploader = ({ sportId, countryId, code }) => {
 			handleSubmit={handleSubmit}
 			error={error}
 			uploadedFile={uploadedFile}
+			isUploading={isUploading}
+			handleClear={() => setUploadedFile(null)}
 		/>
 	);
 };
@@ -57,12 +59,14 @@ IconUploader.defaultProps = {
 	sportId: null,
 	countryId: null,
 	code: null,
+	isUploading: false,
 };
 
 IconUploader.propTypes = {
 	sportId: PropTypes.string,
 	countryId: PropTypes.string,
 	code: PropTypes.string,
+	isUploading: PropTypes.bool,
 };
 
 export default IconUploader;

@@ -170,7 +170,7 @@ const SelfExclusionCard = ({ limit, userId }) => {
 					</div>
 				</Form>
 			</div>
-			<Modal isOpen={isResetLimit.open} toggle={toggle}>
+			<Modal isOpen={isResetLimit.open} toggle={toggle} backdrop="static">
 				<ModalHeader toggle={toggle} tag="h4">
 					Are you sure you want to reset {limit?.label}?
 				</ModalHeader>

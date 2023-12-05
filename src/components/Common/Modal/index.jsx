@@ -38,6 +38,7 @@ const ModalView = (props) => {
 			className={className}
 			size={size}
 			centered={center}
+			backdrop="static"
 		>
 			{isLoading ? (
 				<Spinners />
