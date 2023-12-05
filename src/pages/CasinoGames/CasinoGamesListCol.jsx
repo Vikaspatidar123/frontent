@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import React, { useState } from 'react';
-import { Button, Badge } from 'reactstrap';
+import React from 'react';
+import { Badge } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import DivLoader from '../../components/Common/Loader/divLoader';
 import { CustomToggleButton } from '../../helpers/customForms';
+import ImageCell from '../../components/Common/ImageCell';
 
 const CasinoGameId = ({ value }) => (
 	<Link to="/#" className="text-body fw-bold">
@@ -23,30 +23,8 @@ const Rtp = ({ value }) => value ?? '';
 
 const SubCategory = ({ value }) => value ?? '';
 
-const ThumbnailUrl = ({ value }) => {
-	const [isFits, setIsFits] = useState(false);
-	return (
-		<>
-			{isFits ? (
-				<Lightbox
-					mainSrc={value}
-					enableZoom={false}
-					onCloseRequest={() => {
-						setIsFits(!isFits);
-					}}
-				/>
-			) : null}
+const ThumbnailUrl = ({ value }) => <ImageCell imgSrc={value} />;
 
-			<Button
-				color="link"
-				className="btn btn-link waves-effect"
-				onClick={() => setIsFits(true)}
-			>
-				{value ? 'View Here' : ''}
-			</Button>
-		</>
-	);
-};
 const DeviceType = ({ value }) => value ?? '';
 
 const Status = ({ value }) =>
