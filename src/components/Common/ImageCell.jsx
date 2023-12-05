@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-const ImageCell = ({ imgSrc, imgAltText, cellImageCustomWidth }) => {
+const ImageCell = ({ imgSrc, cellImageCustomWidth }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [imageHasError, setImageHasError] = useState(false);
 	const toggle = () => setIsModalOpen((prev) => !prev);
@@ -15,9 +15,11 @@ const ImageCell = ({ imgSrc, imgAltText, cellImageCustomWidth }) => {
 
 	return (
 		<span
-			className={!imageHasError ? 'imageCellContent' : ''}
-			role="presentation"
+			tabIndex={0}
+			role="button"
 			onClick={!imageHasError && toggle}
+			onKeyDown={!imageHasError && toggle}
+			className={!imageHasError ? 'imageCellContent' : ''}
 		>
 			{isModalOpen && (
 				<Modal isOpen={isModalOpen} toggle={toggle}>
@@ -31,17 +33,19 @@ const ImageCell = ({ imgSrc, imgAltText, cellImageCustomWidth }) => {
 							justifyContent: 'center',
 						}}
 					>
-						<img style={{ maxWidth: '100%' }} src={imgSrc} alt={imgAltText} />
+						<img style={{ maxWidth: '100%' }} src={imgSrc} alt="thumbnail" />
 					</ModalBody>
 				</Modal>
 			)}
-			{!imageHasError && (
+			{!imageHasError ? (
 				<img
 					src={imgSrc}
 					onError={() => setImageHasError(true)}
-					alt={imgAltText}
+					alt="thumbnail"
 					style={{ maxWidth: cellImageCustomWidth }}
 				/>
+			) : (
+				'-'
 			)}
 		</span>
 	);
@@ -49,13 +53,11 @@ const ImageCell = ({ imgSrc, imgAltText, cellImageCustomWidth }) => {
 
 ImageCell.defaultProps = {
 	cellImageCustomWidth: 50,
-	imgAltText: 'thumbnail',
 };
 
 ImageCell.propTypes = {
 	imgSrc: PropTypes.string.isRequired,
 	cellImageCustomWidth: PropTypes.number,
-	imgAltText: PropTypes.string,
 };
 
 export default ImageCell;
