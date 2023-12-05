@@ -1,7 +1,11 @@
-import { put, takeEvery, all, fork } from 'redux-saga/effects';
+import { put, takeEvery, all, fork, delay } from 'redux-saga/effects';
 
 // Crypto Redux States
-import { GET_LIVE_PLAYER_START, GET_DEMOGRAPHIC_START } from './actionTypes';
+import {
+	GET_LIVE_PLAYER_START,
+	GET_DEMOGRAPHIC_START,
+	GET_KPI_REPORT_START,
+} from './actionTypes';
 import {
 	getLivePlayerInfoStart,
 	getLivePlayerInfoSuccess,
@@ -9,8 +13,12 @@ import {
 	getDemographicStart,
 	getDemographicSuccess,
 	getDemographicFail,
+	// getKpiReportStart,
+	getKpiReportSuccess,
+	getKpiReportFail,
 } from './actions';
 import { showToastr } from '../../utils/helpers';
+import { kpiReportConstant } from './config/kpiReport';
 import {
 	getDashboardLiveInfoService,
 	getDashboardDemoGraphicService,
@@ -46,9 +54,24 @@ function* getDemoGraphicData(action) {
 	}
 }
 
+function* getKpiData() {
+	try {
+		// yield getKpiReportStart();
+		yield delay(500);
+		yield put(getKpiReportSuccess(kpiReportConstant));
+	} catch (e) {
+		yield put(getKpiReportFail());
+		showToastr({
+			message: 'Json Load Error',
+			type: 'error',
+		});
+	}
+}
+
 export function* watchDashboardViewData() {
 	yield takeEvery(GET_LIVE_PLAYER_START, getLivePlayerData);
 	yield takeEvery(GET_DEMOGRAPHIC_START, getDemoGraphicData);
+	yield takeEvery(GET_KPI_REPORT_START, getKpiData);
 }
 
 function* dashboardSaga() {

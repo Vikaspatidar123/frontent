@@ -3,20 +3,20 @@
 // import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 
-const ProviderName = ({ cell }) => cell.value ?? '';
+const ProviderName = ({ cell }) => cell;
 
-const GGR = ({ cell }) => cell.value ?? '';
+const GGR = ({ cell }) => cell;
 
-const DELTAGGR = ({ cell }) => cell.value ?? '';
+const DELTAGGR = ({ cell }) => cell;
 
-const REALBET = ({ cell }) => cell.value ?? '';
+const REALBET = ({ cell }) => cell;
 
-const REALWIN = ({ cell }) => cell.value ?? '';
+const REALWIN = ({ cell }) => cell;
 
-const BONUSWIN = ({ cell }) => cell.value ?? '';
-const BONUSGGR = ({ cell }) => cell.value ?? '';
-const TOTALBETS = ({ cell }) => cell.value ?? '';
-const DELTATOTALBETS = ({ cell }) => cell.value ?? '';
+const BONUSWIN = ({ cell }) => cell;
+const BONUSGGR = ({ cell }) => cell;
+const TOTALBETS = ({ cell }) => cell;
+const DELTATOTALBETS = ({ cell }) => cell;
 
 export {
 	ProviderName,

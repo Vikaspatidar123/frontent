@@ -1,75 +1,32 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import {
-	Container,
-	Row,
-	Col,
-	//   Button,
-	//   Card,
-	//   CardBody,
-} from 'reactstrap';
-
-// import classNames from 'classnames'
+import React, { lazy, Suspense } from 'react';
+import { Container, Row, Col } from 'reactstrap';
 
 // import Charts
 import { withTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { createSelector } from 'reselect';
 import { projectName } from '../../constants/config';
-// import StackedColumnChart from './StackedColumnChart'
-
-// import action
-// import { getChartsData as onGetChartsData } from '../../store/actions'
 
 // Pages Components
 import WelcomeComp from './WelcomeComp';
-// import MonthlyEarning from './MonthlyEarning'
-// import SocialSource from './SocialSource'
-// import TopCities from './TopCities'
-// import LatestTranaction from './LatestTranaction'
 
 // Import Breadcrumb
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useDashboardView from './hooks/useDashboardView';
 import LivePlayerReports from './LivePlayerReports';
 import DemographicReport from './DemographicReport';
-import KpiSummary from './KpiSummary';
-import KpiReport from './KpiReport';
-import GameReport from './GameReport';
+// import KpiSummary from './KpiSummary';
+// import KpiReport from './KpiReport';
+// import GameReport from './GameReport';
 import LoggedInPlayer from './LoggedInPlayer';
 
 import './dashboard.scss';
+// import DivLoader from '../../components/Common/Loader/divLoader';
+
+const KpiSummary = lazy(() => import('./KpiSummary'));
+const KpiReport = lazy(() => import('./KpiReport'));
+const GameReport = lazy(() => import('./GameReport'));
 
 const DashboardView = ({ t }) => {
-	// const [activeKpiSummTab, setActiveKpiSummTab] = useState('banking');
-	//   const dispatch = useDispatch()
-
-	const selectDashboardState = (state) => state.Dashboard;
-	const DashboardProperties = createSelector(
-		selectDashboardState,
-		(dashboard) => ({
-			chartsData: dashboard.chartsData,
-		})
-	);
-
-	const { chartsData } = useSelector(DashboardProperties);
-
-	//   const [periodData, setPeriodData] = useState([])
-	//   const [periodType, setPeriodType] = useState('yearly')
-
-	useEffect(() => {
-		// setPeriodData(chartsData)
-	}, [chartsData]);
-
-	//   const onChangeChartPeriod = (pType) => {
-	//     setPeriodType(pType)
-	//     dispatch(onGetChartsData(pType))
-	//   }
-
-	//   useEffect(() => {
-	//     // dispatch(onGetChartsData('yearly'))
-	//   }, [dispatch])
-
 	// meta title
 	document.title = projectName;
 
@@ -102,6 +59,7 @@ const DashboardView = ({ t }) => {
 		exportKPISummaryReport,
 		isRefresh,
 		setIsRefresh,
+		isKpiReportLoading,
 	} = useDashboardView();
 	return (
 		<div className="page-content">
@@ -144,35 +102,42 @@ const DashboardView = ({ t }) => {
 				<Row>
 					<Col xl="12">
 						<Row>
-							<KpiSummary
-								activeKpiSummTab={activeKpiSummTab}
-								setActiveKpiSummTab={setActiveKpiSummTab}
-								kPISummaryColumn={kPISummaryColumn}
-								kPISummary={kPISummary}
-								exportReport={exportKPISummaryReport}
-							/>
+							<Suspense>
+								<KpiSummary
+									activeKpiSummTab={activeKpiSummTab}
+									setActiveKpiSummTab={setActiveKpiSummTab}
+									kPISummaryColumn={kPISummaryColumn}
+									kPISummary={kPISummary}
+									exportReport={exportKPISummaryReport}
+								/>
+							</Suspense>
 						</Row>
 					</Col>
 					<Col xl="12">
 						<Row>
-							<KpiReport
-								activeKpiReportTab={activeKpiReportTab}
-								setActiveKpiReportTab={setActiveKpiReportTab}
-								kPIReportColumn={kPIReportColumn}
-								kPIReport={kPIReport}
-								exportReport={exportKPIReport}
-							/>
+							<Suspense>
+								<KpiReport
+									activeKpiReportTab={activeKpiReportTab}
+									setActiveKpiReportTab={setActiveKpiReportTab}
+									kPIReportColumn={kPIReportColumn}
+									kPIReport={kPIReport}
+									exportReport={exportKPIReport}
+									isKpiReportLoading={isKpiReportLoading}
+								/>
+							</Suspense>
 						</Row>
 					</Col>
 					<Col xl="12">
 						<Row>
-							<GameReport
-								activeGameReportTab={activeGameReportTab}
-								setActiveGameReportTab={setActiveGameReportTab}
-								gameReportColumn={gameReportColumn}
-								gameReport={gameReport}
-								exportReport={exportGameReport}
-							/>
+							<Suspense>
+								<GameReport
+									activeGameReportTab={activeGameReportTab}
+									setActiveGameReportTab={setActiveGameReportTab}
+									gameReportColumn={gameReportColumn}
+									gameReport={gameReport}
+									exportReport={exportGameReport}
+								/>{' '}
+							</Suspense>
 						</Row>
 					</Col>
 				</Row>

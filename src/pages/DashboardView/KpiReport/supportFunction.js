@@ -11,5 +11,14 @@ export const objectToarrayKpiReport = (data, type) => {
 		};
 		newItemInfo.push(dataToPush);
 	}
-	return newItemInfo || [];
+	if (dataInfo) {
+		return {
+			data: newItemInfo || [],
+			lengthValue: newItemInfo.length || 0,
+		};
+	}
+	return {
+		data: [],
+		lengthValue: 0,
+	};
 };

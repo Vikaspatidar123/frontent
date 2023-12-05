@@ -9,6 +9,7 @@ import { getAccessToken } from '../../../network/storageUtils';
 import {
 	getLivePlayerInfoStart,
 	getDemographicStart,
+	getKpiReportStart,
 } from '../../../store/dashboardView/actions';
 import {
 	formatDateYMD,
@@ -65,6 +66,7 @@ const useDashboardView = () => {
 		kPIReport,
 		gameReport,
 		isDemographicLoading,
+		isKpiReportLoading,
 	} = useSelector((state) => state.DashboardViewInfo);
 
 	const [demoGraphState, setDemoGraphState] = useState([
@@ -116,7 +118,12 @@ const useDashboardView = () => {
 
 	useEffect(() => {
 		dispatch(getLivePlayerInfoStart());
+		dispatch(getKpiReportStart());
 		fetchData();
+		return () => {
+			// Dispatch an action to reset Redux state here
+			dispatch({ type: 'RESET_DASHBOARD_STATE' });
+		};
 	}, []);
 
 	useEffect(() => {
@@ -241,107 +248,110 @@ const useDashboardView = () => {
 				Header: 'DATA',
 				accessor: 'rowName',
 				filterable: true,
-				Cell: ({ cell }) => <RowName cell={cell} />,
+				Cell: ({ cell }) => <RowName cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'TODAY',
 				accessor: 'today',
 				filterable: true,
-				Cell: ({ cell }) => <Today cell={cell} />,
+				Cell: ({ cell }) => <Today cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'YESTERDAY',
 				accessor: 'yesterday',
 				filterable: true,
-				Cell: ({ cell }) => <Yesterday cell={cell} />,
+				Cell: ({ cell }) => <Yesterday cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'MONTH TO DATE',
 				accessor: 'monthToDate',
 				filterable: true,
-				// Cell: ({ cell }) => <Role cell={cell} />,
+				// Cell: ({ cell }) => <Role cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'CUSTOM DATE',
 				accessor: 'customDate',
 				filterable: true,
-				Cell: ({ cell }) => <CustomDate cell={cell} />,
+				Cell: ({ cell }) => <CustomDate cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'DELTA',
 				accessor: 'delta',
 				disableFilters: true,
-				Cell: ({ cell }) => <Delta cell={cell} />,
+				Cell: ({ cell }) => <Delta cell={cell?.value || ''} />,
 			},
 		],
 		[]
 	);
 
-	const kPIReportColumn = useMemo(
-		() => [
-			{
-				Header: 'PROVIDER/CLIENT',
-				accessor: 'provider',
-				filterable: true,
-				Cell: ({ cell }) => <ProviderName cell={cell} />,
-			},
-			{
-				Header: 'GGR',
-				accessor: 'GGR',
-				filterable: true,
-				Cell: ({ cell }) => <GGR cell={cell} />,
-			},
-			{
-				Header: 'DELTA GGR',
-				accessor: 'deltaGGR',
-				filterable: true,
-				Cell: ({ cell }) => <DELTAGGR cell={cell} />,
-			},
-			{
-				Header: 'REAL BET',
-				accessor: 'realBet',
-				filterable: true,
-				Cell: ({ cell }) => <REALBET cell={cell} />,
-			},
-			{
-				Header: 'REAL WIN',
-				accessor: 'realWin',
-				filterable: true,
-				Cell: ({ cell }) => <REALWIN cell={cell} />,
-			},
-			{
-				Header: 'BONUS Bet',
-				accessor: 'bonusBet',
-				disableFilters: true,
-				Cell: ({ cell }) => <BONUSWIN cell={cell} />,
-			},
-			{
-				Header: 'BONUS WIN',
-				accessor: 'bonusWin',
-				disableFilters: true,
-				Cell: ({ cell }) => <BONUSWIN cell={cell} />,
-			},
-			{
-				Header: 'BONUS GGR',
-				accessor: 'bonusGGR',
-				disableFilters: true,
-				Cell: ({ cell }) => <BONUSGGR cell={cell} />,
-			},
-			{
-				Header: 'TOTAL BETS',
-				accessor: 'totalBets',
-				disableFilters: true,
-				Cell: ({ cell }) => <TOTALBETS cell={cell} />,
-			},
-			{
-				Header: 'DELTA TOTAL BETS',
-				accessor: 'deltaTotalBets',
-				disableFilters: true,
-				Cell: ({ cell }) => <DELTATOTALBETS cell={cell} />,
-			},
-		],
-		[]
-	);
+	const kPIReportColumn = useMemo(() => {
+		if (Object.keys(kPIReport).length > 0) {
+			return [
+				{
+					Header: 'PROVIDER/CLIENT',
+					accessor: 'provider',
+					filterable: true,
+					Cell: ({ cell }) => <ProviderName cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'GGR',
+					accessor: 'GGR',
+					filterable: true,
+					Cell: ({ cell }) => <GGR cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'DELTA GGR',
+					accessor: 'deltaGGR',
+					filterable: true,
+					Cell: ({ cell }) => <DELTAGGR cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'REAL BET',
+					accessor: 'realBet',
+					filterable: true,
+					Cell: ({ cell }) => <REALBET cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'REAL WIN',
+					accessor: 'realWin',
+					filterable: true,
+					Cell: ({ cell }) => <REALWIN cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'BONUS Bet',
+					accessor: 'bonusBet',
+					disableFilters: true,
+					Cell: ({ cell }) => <BONUSWIN cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'BONUS WIN',
+					accessor: 'bonusWin',
+					disableFilters: true,
+					Cell: ({ cell }) => <BONUSWIN cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'BONUS GGR',
+					accessor: 'bonusGGR',
+					disableFilters: true,
+					Cell: ({ cell }) => <BONUSGGR cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'TOTAL BETS',
+					accessor: 'totalBets',
+					disableFilters: true,
+					Cell: ({ cell }) => <TOTALBETS cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'DELTA TOTAL BETS',
+					accessor: 'deltaTotalBets',
+					disableFilters: true,
+					Cell: ({ cell }) => <DELTATOTALBETS cell={cell?.value || '0'} />,
+				},
+			];
+		}
+
+		return [];
+	});
 
 	const gameReportColumn = useMemo(
 		() => [
@@ -349,49 +359,49 @@ const useDashboardView = () => {
 				Header: 'ID',
 				accessor: 'id',
 				filterable: true,
-				Cell: ({ cell }) => <IdValue cell={cell} />,
+				Cell: ({ cell }) => <IdValue cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'name',
 				filterable: true,
-				Cell: ({ cell }) => <NAME cell={cell} />,
+				Cell: ({ cell }) => <NAME cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'NUMBER OF ROUNDS',
 				accessor: 'roundCount',
 				filterable: true,
-				Cell: ({ cell }) => <NUMBEROFROUNDS cell={cell} />,
+				Cell: ({ cell }) => <NUMBEROFROUNDS cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'NUMBER OF PLAYER',
 				accessor: 'playerCount',
 				filterable: true,
-				Cell: ({ cell }) => <NUMBERFPLAYER cell={cell} />,
+				Cell: ({ cell }) => <NUMBERFPLAYER cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'TOTAL BETS',
 				accessor: 'totalBet',
 				filterable: true,
-				Cell: ({ cell }) => <TOTALBETSGAME cell={cell} />,
+				Cell: ({ cell }) => <TOTALBETSGAME cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'TOTAL WINS',
 				accessor: 'totalWin',
 				disableFilters: true,
-				Cell: ({ cell }) => <TOTALWINS cell={cell} />,
+				Cell: ({ cell }) => <TOTALWINS cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'GAME REVENUE',
 				accessor: 'GGR',
 				disableFilters: true,
-				Cell: ({ cell }) => <GAMEREVENUE cell={cell} />,
+				Cell: ({ cell }) => <GAMEREVENUE cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'PAYOUT',
 				accessor: 'payout',
 				disableFilters: true,
-				Cell: ({ cell }) => <PAYOUT cell={cell} />,
+				Cell: ({ cell }) => <PAYOUT cell={cell?.value || ''} />,
 			},
 		],
 		[]
@@ -460,6 +470,7 @@ const useDashboardView = () => {
 		exportKPISummaryReport,
 		isRefresh,
 		setIsRefresh,
+		isKpiReportLoading,
 	};
 };
 

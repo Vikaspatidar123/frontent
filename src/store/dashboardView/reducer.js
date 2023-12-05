@@ -5,9 +5,13 @@ import {
 	GET_DEMOGRAPHIC_START,
 	GET_DEMOGRAPHIC_SUCCESS,
 	GET_DEMOGRAPHIC_FAIL,
+	GET_KPI_REPORT_START,
+	GET_KPI_REPORT_SUCCESS,
+	GET_KPI_REPORT_FAIL,
+	RESET_DASHBOARD_STATE,
 } from './actionTypes';
 import { gameContant } from './config/gameReport';
-import { kpiReportConstant } from './config/kpiReport';
+// import { kpiReportConstant } from './config/kpiReport';
 
 import { kpiConstant } from './config/kpisummary';
 
@@ -17,7 +21,9 @@ const INIT_STATE = {
 	isDemographicLoading: false,
 	demoGraphicData: [],
 	kPISummary: kpiConstant,
-	kPIReport: kpiReportConstant,
+	kPIReport: {},
+	// kPIReport: kpiReportConstant,
+	isKpiReportLoading: false,
 	gameReport: gameContant,
 };
 
@@ -63,6 +69,28 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 				isDemographicLoading: false,
 				demoGraphicData: [],
 			};
+		case GET_KPI_REPORT_START:
+			return {
+				...state,
+				isKpiReportLoading: true,
+				kPIReport: {},
+			};
+
+		case GET_KPI_REPORT_SUCCESS:
+			return {
+				...state,
+				isKpiReportLoading: false,
+				kPIReport: payload,
+			};
+
+		case GET_KPI_REPORT_FAIL:
+			return {
+				...state,
+				isKpiReportLoading: false,
+				kPIReport: {},
+			};
+		case RESET_DASHBOARD_STATE:
+			return INIT_STATE;
 		default:
 			return state;
 	}

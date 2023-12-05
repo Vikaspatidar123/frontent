@@ -17,7 +17,7 @@ import classnames from 'classnames';
 // Simple bar
 import SimpleBar from 'simplebar-react';
 import TableContainer from '../../../components/Common/TableContainer';
-import { tableCustomClass } from '../../../constants/config';
+// import { tableCustomClass } from '../../../constants/config';
 import { objectToarrayKpiReport } from './supportFunction';
 import { dateConstants } from '../constant';
 
@@ -28,6 +28,7 @@ const KpiReport = (props) => {
 		kPIReportColumn,
 		kPIReport,
 		exportReport,
+		isKpiReportLoading,
 	} = props;
 	return (
 		<Col xl="12">
@@ -93,40 +94,42 @@ const KpiReport = (props) => {
 						<TabPane tabId="game">
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
-									columns={kPIReportColumn || []}
-									data={objectToarrayKpiReport(kPIReport, 'game')}
-									isGlobalFilter={false}
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass="kpiTableWrap"
-									// theadClass={theadClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									pageCount={1}
-									customPageSize={
-										objectToarrayKpiReport(kPIReport, 'game').length
+									isLoading={isKpiReportLoading}
+									columns={kPIReportColumn}
+									data={
+										objectToarrayKpiReport(
+											JSON.parse(JSON.stringify(kPIReport)),
+											'game'
+										).data || []
 									}
-									// tbodyHeight="300"
-									// isLoading={!isLoading}
+									isGlobalFilter={false}
+									customPageSize={
+										objectToarrayKpiReport(
+											JSON.parse(JSON.stringify(kPIReport)),
+											'game'
+										)?.lengthValue || 300
+									}
 								/>
 							</SimpleBar>
 						</TabPane>
 						<TabPane tabId="provider">
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
+									isLoading={isKpiReportLoading}
 									columns={kPIReportColumn || []}
-									data={objectToarrayKpiReport(kPIReport, 'provider')}
-									isGlobalFilter
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass={tbodyClass}
-									// theadClass={theadClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									customPageSize={
-										objectToarrayKpiReport(kPIReport, 'provider')?.length
+									data={
+										objectToarrayKpiReport(
+											JSON.parse(JSON.stringify(kPIReport)),
+											'provider'
+										).data || []
 									}
-									// isLoading={!isLoading}
+									isGlobalFilter={false}
+									customPageSize={
+										objectToarrayKpiReport(
+											JSON.parse(JSON.stringify(kPIReport)),
+											'provider'
+										)?.lengthValue || 300
+									}
 									// tbodyHeight="300"
 								/>
 							</SimpleBar>
@@ -142,6 +145,7 @@ KpiReport.propTypes = {
 	setActiveKpiReportTab: PropTypes.func,
 	kPIReportColumn: PropTypes.arrayOf,
 	kPIReport: PropTypes.arrayOf,
+	isKpiReportLoading: PropTypes.bool,
 	exportReport: PropTypes.func.isRequired,
 };
 KpiReport.defaultProps = {
@@ -149,6 +153,7 @@ KpiReport.defaultProps = {
 	setActiveKpiReportTab: PropTypes.func,
 	kPIReportColumn: PropTypes.arrayOf,
 	kPIReport: PropTypes.arrayOf,
+	isKpiReportLoading: PropTypes.bool,
 };
 
 export default KpiReport;
