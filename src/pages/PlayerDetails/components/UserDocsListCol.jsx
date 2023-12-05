@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import Lightbox from 'react-image-lightbox';
-import { Button } from 'reactstrap';
+import React from 'react';
 import PropTypes from 'prop-types';
+import ImageCell from '../../../components/Common/ImageCell';
 
 const statusMapper = (value) => {
 	switch (value) {
@@ -25,30 +24,7 @@ const ActionAt = ({ value }) => value ?? '-';
 const Status = ({ value }) => (value ? statusMapper(value) : '-');
 const Action = ({ value }) => (value ? statusMapper(value) : '-');
 
-const ThumbnailUrl = ({ value }) => {
-	const [isFits, setisFits] = useState(false);
-	return (
-		<>
-			{isFits ? (
-				<Lightbox
-					mainSrc={value}
-					enableZoom={false}
-					onCloseRequest={() => {
-						setisFits(!isFits);
-					}}
-				/>
-			) : null}
-
-			<Button
-				color="link"
-				className="btn btn-link waves-effect"
-				onClick={() => setisFits(true)}
-			>
-				{value ? 'View Here' : ''}
-			</Button>
-		</>
-	);
-};
+const ThumbnailUrl = ({ value }) => <ImageCell imgSrc={value} />;
 
 ThumbnailUrl.propTypes = {
 	value: PropTypes.string.isRequired,

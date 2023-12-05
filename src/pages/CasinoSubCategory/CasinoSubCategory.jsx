@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Button, Badge } from 'reactstrap';
+import React from 'react';
+import { Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import ImageCell from '../../components/Common/ImageCell';
 
 const CasinoGameId = ({ value }) => (
 	<Link to="/#" className="text-body">
@@ -24,30 +24,7 @@ const Name = ({ value }) => value ?? '';
 
 const GameCategory = ({ value }) => value ?? '';
 
-const ImageUrl = ({ value }) => {
-	const [isFits, setIsFits] = useState(false);
-	return (
-		<>
-			{isFits ? (
-				<Lightbox
-					mainSrc={value}
-					enableZoom={false}
-					onCloseRequest={() => {
-						setIsFits(!isFits);
-					}}
-				/>
-			) : null}
-
-			<Button
-				color="link"
-				className="btn btn-link waves-effect"
-				onClick={() => setIsFits(true)}
-			>
-				View Image
-			</Button>
-		</>
-	);
-};
+const ImageUrl = ({ value }) => <ImageCell imgSrc={value} />;
 
 const Status = ({ value }) =>
 	value ?? '' ? (
