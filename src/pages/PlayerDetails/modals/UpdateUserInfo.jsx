@@ -171,6 +171,7 @@ const UpdateUserInfo = ({ show, header, toggle }) => {
 				submitLabel="Submit"
 				customColClasses="col-sm-6"
 				isSubmitLoading={depositToOtherLoading}
+				className="modal-dialog modal-lg"
 			/>
 		</div>
 	);

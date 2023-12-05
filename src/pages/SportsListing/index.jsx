@@ -38,6 +38,7 @@ const SportsListing = () => {
 		onChangeRowsPerPage,
 		columns,
 		sportId,
+		isUploadImageLoading,
 	} = useSportsListing(filterValidation.values);
 
 	return (
@@ -86,7 +87,11 @@ const SportsListing = () => {
 					className="modal-dialog modal-lg"
 					hideFooter
 				>
-					<IconUploader sportId={sportId} code="SPORT" />
+					<IconUploader
+						sportId={sportId}
+						code="SPORT"
+						isUploading={isUploadImageLoading}
+					/>
 				</Modal>
 			</Container>
 		</div>

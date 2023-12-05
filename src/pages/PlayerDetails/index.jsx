@@ -98,47 +98,40 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 5,
 			title: 'History', // Combined dropdown for Bet and Sports Betting History
+			isHidden: !isGranted(modules.Transactions, 'R'),
 			isDropdown: true,
 			dropdownItems: [
 				{
 					id: 1,
 					title: 'Bet History',
 					component: <BetHistory userId={playerId} />,
-					isHidden: !isGranted(modules.Transactions, 'R'),
 				},
 				{
 					id: 2,
 					title: 'Sports Betting History',
 					component: <SportsBettingHistory userId={playerId} />,
-					isHidden: !isGranted(modules.Transactions, 'R'),
 				},
 			],
 		},
 		{
 			id: 6,
-			title: 'Sports Betting History',
-			component: <SportsBettingHistory userId={playerId} />,
-			isHidden: !isGranted(modules.Transactions, 'R'),
-		},
-		{
-			id: 7,
 			title: 'Transactions',
 			component: <Transactions userId={playerId} />,
 			isHidden: !isGranted(modules.Transactions, 'R'),
 		},
 		{
-			id: 8,
+			id: 7,
 			title: 'KYC Settings',
 			component: <KYCSettings userDetails={userDetails} userId={playerId} />,
 		},
 		{
-			id: 9,
+			id: 8,
 			title: 'Bonuses',
 			component: <YourBonuses userId={playerId} />,
 			isHidden: !isGranted(modules.Bonus, 'R'),
 		},
 		{
-			id: 10,
+			id: 9,
 			title: 'Notes',
 			component: <Notes userId={playerId} />,
 			isHidden: !isGranted(modules.UserComment, 'R'),

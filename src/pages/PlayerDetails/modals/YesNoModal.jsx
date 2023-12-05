@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 
 const YesNoModal = ({ show, content, handleYes, handleClose }) => {
 	const toggle = () => {
@@ -8,22 +8,24 @@ const YesNoModal = ({ show, content, handleYes, handleClose }) => {
 	};
 
 	return (
-		<Modal isOpen={show} toggle={toggle}>
+		<Modal isOpen={show} toggle={toggle} backdrop="static">
 			<ModalHeader toggle={toggle} tag="h4">
 				{content}
 			</ModalHeader>
 			<ModalBody>
-				<Button
+				<button
+					type="button"
+					className="btn btn-success"
 					onClick={() => {
 						handleYes();
 						handleClose();
 					}}
 				>
 					Yes
-				</Button>
-				<Button className="mx-2" onClick={toggle}>
+				</button>
+				<button type="button" className="mx-2 btn btn-warning" onClick={toggle}>
 					No
-				</Button>
+				</button>
 			</ModalBody>
 		</Modal>
 	);

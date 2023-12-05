@@ -27,7 +27,7 @@ const Dropdown = ({ tab, selectedDropdown, setSelectedDropdown, toggle }) => (
 		</DropdownToggle>
 		<DropdownMenu>
 			{tab?.dropdownItems.map((item) =>
-				tab?.isHidden ? null : (
+				item?.isHidden ? null : (
 					<DropdownItem
 						key={item?.id}
 						active={selectedDropdown}
@@ -53,7 +53,8 @@ const TabsPage = ({ activeTab, tabsData, toggle, disableTabSwitching }) => {
 					<Card>
 						<CardBody>
 							<Nav pills className="navtab-bg tab-max-width">
-								{tabsData?.map((tab) => tab.isDropdown ? (
+								{tabsData?.map((tab) =>
+									tab?.isHidden ? null : tab?.isDropdown ? (
 										<Dropdown
 											id={`dropdown-${tab.id}`}
 											tab={tab}
@@ -61,7 +62,7 @@ const TabsPage = ({ activeTab, tabsData, toggle, disableTabSwitching }) => {
 											setSelectedDropdown={setSelectedDropdown}
 											toggle={toggle}
 										/>
-									) : tab?.isHidden ? null : (
+									) : (
 										<NavItem key={tab.id}>
 											<NavLink
 												id={`tab-${tab.id}`}
@@ -86,7 +87,8 @@ const TabsPage = ({ activeTab, tabsData, toggle, disableTabSwitching }) => {
 												</UncontrolledTooltip>
 											)}
 										</NavItem>
-									))}
+									)
+								)}
 							</Nav>
 						</CardBody>
 					</Card>
@@ -99,12 +101,12 @@ const TabsPage = ({ activeTab, tabsData, toggle, disableTabSwitching }) => {
 							<Row>
 								<Col sm="12">
 									<Col sm="12">
-											{
-												tab.dropdownItems.find(
-													(item) => item.id === selectedDropdown
-												)?.component
-											}
-										</Col>
+										{
+											tab.dropdownItems.find(
+												(item) => item.id === selectedDropdown
+											)?.component
+										}
+									</Col>
 								</Col>
 							</Row>
 						) : (

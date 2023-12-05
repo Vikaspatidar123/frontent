@@ -37,6 +37,7 @@ const SportsCountriesListing = () => {
 		showUploadModal,
 		setShowUploadModal,
 		countryId,
+		isUploadImageLoading,
 	} = useSportsCountriesListing(filterValidation.values);
 
 	return (
@@ -85,7 +86,11 @@ const SportsCountriesListing = () => {
 					className="modal-dialog modal-lg"
 					hideFooter
 				>
-					<IconUploader countryId={countryId} code="COUNTRY" />
+					<IconUploader
+						countryId={countryId}
+						code="COUNTRY"
+						isUploading={isUploadImageLoading}
+					/>
 				</Modal>
 			</Container>
 		</div>
