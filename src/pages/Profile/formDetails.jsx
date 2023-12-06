@@ -2,6 +2,7 @@
 /* eslint-disable func-names */
 
 import * as Yup from 'yup';
+import React from 'react';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
@@ -161,26 +162,59 @@ const rightStaticAdminFormFields = (isEditable) => [
 	},
 ];
 
-const staticPasswordFormFields = [
-	{
-		name: 'password',
-		fieldType: 'textField',
-		type: 'password',
-		label: 'OLD PASSWORD',
-	},
-	{
-		name: 'newPassword',
-		fieldType: 'textField',
-		type: 'password',
-		label: 'NEW PASSWORD',
-	},
-	{
-		name: 'confirmPassword',
-		fieldType: 'textField',
-		type: 'password',
-		label: 'CONFIRM PASSWORD',
-	},
-];
+const staticPasswordFormFields = (passwordShow, setPasswordShow) => {
+	const { oldPassword, newPassword, confirmPassword } = passwordShow;
+	return [
+		{
+			name: 'password',
+			fieldType: 'password',
+			type: oldPassword ? 'text' : 'password',
+			label: 'OLD PASSWORD',
+			icon: oldPassword ? (
+				<i className="mdi mdi-eye-outline" />
+			) : (
+				<i className="mdi mdi-eye-off-outline" />
+			),
+			callBack: () =>
+				setPasswordShow((prev) => ({
+					...prev,
+					oldPassword: !prev.oldPassword,
+				})),
+		},
+		{
+			name: 'newPassword',
+			fieldType: 'password',
+			type: newPassword ? 'text' : 'password',
+			label: 'NEW PASSWORD',
+			icon: newPassword ? (
+				<i className="mdi mdi-eye-outline" />
+			) : (
+				<i className="mdi mdi-eye-off-outline" />
+			),
+			callBack: () =>
+				setPasswordShow((prev) => ({
+					...prev,
+					newPassword: !prev.newPassword,
+				})),
+		},
+		{
+			name: 'confirmPassword',
+			fieldType: 'password',
+			type: confirmPassword ? 'text' : 'password',
+			label: 'CONFIRM PASSWORD',
+			icon: confirmPassword ? (
+				<i className="mdi mdi-eye-outline" />
+			) : (
+				<i className="mdi mdi-eye-off-outline" />
+			),
+			callBack: () =>
+				setPasswordShow((prev) => ({
+					...prev,
+					confirmPassword: !prev.confirmPassword,
+				})),
+		},
+	];
+};
 
 const leftStaticSiteConfigFormFields = (editableSiteConfig) => [
 	{

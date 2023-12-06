@@ -406,6 +406,7 @@ export const getField = (
 		adornmentText,
 		namesArray,
 		isRequired,
+		icon,
 		defaultValue,
 		customThumbnailBackground,
 		customPadding,
@@ -848,6 +849,37 @@ export const getField = (
 					</InputGroup>
 				</>
 			);
+		case 'password':
+			return (
+				<>
+					{label && <Label for={name}>{label}</Label>}
+					<InputGroup>
+						<Input
+							type={type}
+							name={name}
+							placeholder={placeholder}
+							value={validation?.values?.[name]}
+							onChange={validation.handleChange}
+							onBlur={validation.handleBlur}
+							invalid={
+								!!(validation.touched?.[name] && validation.errors?.[name])
+							}
+						/>
+						<InputGroupText
+							className="password-btn btn btn-primary font-size-14"
+							onClick={() => callBack()}
+						>
+							{icon}
+						</InputGroupText>
+					</InputGroup>
+					{validation.touched?.[name] && validation.errors?.[name] ? (
+						<FormFeedback type="invalid" className="d-block">
+							{validation.touched?.[name] && validation.errors?.[name]}
+						</FormFeedback>
+					) : null}
+				</>
+			);
+
 		case 'phone':
 			return (
 				<>
