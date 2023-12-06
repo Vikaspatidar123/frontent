@@ -79,7 +79,6 @@ const AccordianMatchDetails = ({
 			);
 		}
 	};
-
 	return (
 		<div>
 			<Accordion open={open} toggle={toggle}>
@@ -186,6 +185,10 @@ const AccordianMatchDetails = ({
 													<td style={{ width: '5%' }}>{index + 1}</td>
 													<td style={{ width: '25%' }}>
 														{value?.providerOutcomeId}
+														{item?.markets?.marketId === '209' &&
+														value?.specialBetValue
+															? ` (${value?.specialBetValue})`
+															: ''}
 													</td>
 													<td style={{ width: '20%' }}>{value?.odd}</td>
 													<td style={{ width: '20%' }}>{value?.customOdd}</td>

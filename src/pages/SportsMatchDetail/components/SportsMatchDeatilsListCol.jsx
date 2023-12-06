@@ -6,7 +6,7 @@ const Id = ({ cell }) => (cell.value ? cell.value : '');
 
 const Title = ({ cell }) =>
 	cell?.row?.original
-		? `${cell?.row?.original.teams?.[0]?.team?.teamName?.[0]?.name} VS ${cell?.row?.original.teams?.[0]?.team?.teamName?.[1]?.name}`
+		? `${cell?.row?.original.teams?.[0]?.team?.teamName?.[0]?.name} VS ${cell?.row?.original.teams?.[1]?.team?.teamName?.[1]?.name}`
 		: '-';
 
 const Tournament = ({ cell }) =>
