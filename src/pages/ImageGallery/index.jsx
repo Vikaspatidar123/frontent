@@ -73,7 +73,7 @@ const ImageGallery = () => {
 																	data-dz-thumbnail=""
 																	className="rounded bg-light h-100"
 																	alt={f.name}
-																	src={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
+																	src={`${VITE_APP_AWS_GALLERY_URL}${f.fileName}`}
 																/>
 																<Col className="trash-btn position-absolute top-0 end-0">
 																	<Button
