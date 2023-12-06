@@ -35,7 +35,10 @@ const BonusCountry = ({ bonusCountryData }) => {
 		if (countries?.length) {
 			const country = [];
 			countries.forEach(({ name, code }) => {
-				if (bonusCountryData?.includes(code)) {
+				if (
+					Array.isArray(bonusCountryData) &&
+					bonusCountryData?.includes(code)
+				) {
 					country.push({ name, code });
 				}
 			});

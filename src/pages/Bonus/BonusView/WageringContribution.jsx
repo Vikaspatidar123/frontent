@@ -87,7 +87,7 @@ const WageringContribution = ({ wageringId }) => {
 };
 
 WageringContribution.defaultProps = {
-	wageringId: {},
+	wageringId: '',
 };
 
 WageringContribution.propTypes = {
