@@ -147,6 +147,8 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				uploadGalleryloading: true,
+				uploadGallery: false,
+				uploadGalleryError: null,
 			};
 
 		case UPLOAD_IMAGE_GALLERY_SUCCESS:

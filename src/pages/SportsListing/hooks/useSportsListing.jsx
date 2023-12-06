@@ -51,7 +51,7 @@ const useSportsListing = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [page, itemsPerPage]);
+	}, [page, itemsPerPage, uploadImageSuccess]);
 
 	// resetting sports listing redux state
 	useEffect(() => () => dispatch(resetSportsList()), []);

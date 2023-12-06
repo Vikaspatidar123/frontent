@@ -53,7 +53,10 @@ const LoyaltyFormPage = ({
 													)}
 													<div className="w-100">
 														{getField(
-															{ ...field, isDisabled: bonusDetails },
+															{
+																...field,
+																isDisabled: field?.disabled || bonusDetails,
+															},
 															validation
 														)}
 													</div>
@@ -111,7 +114,7 @@ LoyaltyFormPage.defaultProps = {
 	isSubmitLoading: false,
 	formFields: [],
 	deleteLevel: () => {},
-	bonusDetails: {},
+	bonusDetails: null,
 };
 
 LoyaltyFormPage.propTypes = {
