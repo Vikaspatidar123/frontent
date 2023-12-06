@@ -14,6 +14,7 @@ import {
 } from '../../../store/superAdminSettings/actions';
 import { staticFormFields, loyaltyLevelSchema } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
+import { modules } from '../../../constants/permissions';
 
 const useLoyalty = (isTenant, tenant) => {
 	const dispatch = useDispatch();
@@ -73,7 +74,7 @@ const useLoyalty = (isTenant, tenant) => {
 	});
 
 	const addLevels = () => {
-		const { loyaltyLevel } = validation?.values;
+		const { loyaltyLevel } = validation?.values || {};
 		const lastLevel = loyaltyLevel?.[loyaltyLevel.length - 1]?.level;
 		setMyLevels([
 			...loyaltyLevel,
@@ -87,8 +88,8 @@ const useLoyalty = (isTenant, tenant) => {
 	};
 
 	const deleteLevel = () => {
-		const { loyaltyLevel } = validation?.values;
-		setMyLevels(loyaltyLevel.slice(0, loyaltyLevel?.length - 1));
+		const { loyaltyLevel } = validation?.values || {};
+		setMyLevels(loyaltyLevel?.slice(0, loyaltyLevel?.length - 1));
 	};
 
 	const buttonList = useMemo(() => [
@@ -96,6 +97,8 @@ const useLoyalty = (isTenant, tenant) => {
 			label: 'Add Levels',
 			handleClick: addLevels,
 			link: '#!',
+			module: modules.LoyaltyManagement,
+			operation: 'U',
 		},
 	]);
 
@@ -106,7 +109,7 @@ const useLoyalty = (isTenant, tenant) => {
 					name: `loyaltyLevel[${index}].level`,
 					placeholder: 'Level',
 					fieldType: 'loyaltyRangeField',
-					isDisabled: true,
+					disabled: true,
 					levelIndex: index,
 					levelFieldName: 'level',
 				},
