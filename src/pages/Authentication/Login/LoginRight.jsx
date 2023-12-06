@@ -159,7 +159,11 @@ const Login = (props) => {
 															type="button"
 															id="password-addon"
 														>
-															<i className="mdi mdi-eye-outline" />
+															{passwordShow ? (
+																<i className="mdi mdi-eye-outline" />
+															) : (
+																<i className="mdi mdi-eye-off-outline" />
+															)}
 														</button>
 													</div>
 													{validation.touched.password &&

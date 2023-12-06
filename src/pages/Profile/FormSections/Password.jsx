@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Row, Col } from 'reactstrap';
@@ -18,6 +18,11 @@ import {
 
 const Password = ({ loading, isTenant }) => {
 	const dispatch = useDispatch();
+	const [passwordShow, setPasswordShow] = useState({
+		oldPassword: false,
+		newPassword: false,
+		confirmPassword: false,
+	});
 
 	const handleSubmit = (values) => {
 		dispatch(
@@ -35,12 +40,16 @@ const Password = ({ loading, isTenant }) => {
 		);
 	};
 
-	const { formFields, validation } = useForm({
+	const { formFields, setFormFields, validation } = useForm({
 		initialValues: getPasswordInitialValues(),
 		validationSchema: profilePasswordSchema,
 		onSubmitEntry: handleSubmit,
-		staticFormFields: staticPasswordFormFields,
+		staticFormFields: staticPasswordFormFields(passwordShow, setPasswordShow),
 	});
+
+	useEffect(() => {
+		setFormFields(staticPasswordFormFields(passwordShow, setPasswordShow));
+	}, [passwordShow]);
 
 	return (
 		<Row>
