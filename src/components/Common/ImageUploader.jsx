@@ -55,14 +55,16 @@ const ImageUploader = ({
 					className="btn btn-danger"
 					disabled={!uploadedFile || isUploading || error}
 					onClick={handleClear}
+					hidden={!uploadedFile}
 				>
-					Clear
+					Reset
 				</button>
 				<button
 					type="button"
 					className="btn btn-primary"
 					disabled={!uploadedFile || isUploading || error}
 					onClick={handleSubmit}
+					hidden={!uploadedFile}
 				>
 					{isUploading && (
 						<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
