@@ -98,7 +98,6 @@ function* getImageGalleryWorker() {
 function* uploadImageGalleryWorker(action) {
 	try {
 		const data = action && action.payload;
-		console.log('DATA123', data);
 		yield uploadGallery(objectToFormData(data));
 		yield put(uploadImageGallerySuccess());
 

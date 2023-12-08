@@ -45,7 +45,6 @@ const useImageGallery = () => {
 	function handleAcceptedFiles(values) {
 		setIsUploading(true);
 		const { initialstate } = values;
-		console.log('UPLOADING', initialstate.name);
 		dispatch(
 			uploadImageGallery({
 				name: initialstate.name,
