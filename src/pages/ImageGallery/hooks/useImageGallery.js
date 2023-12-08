@@ -45,6 +45,7 @@ const useImageGallery = () => {
 	function handleAcceptedFiles(values) {
 		setIsUploading(true);
 		const { initialstate } = values;
+		console.log('UPLOADING', initialstate.name);
 		dispatch(
 			uploadImageGallery({
 				name: initialstate.name,
@@ -97,7 +98,6 @@ const useImageGallery = () => {
 		{
 			label: 'Upload',
 			handleClick: handleAddClick,
-			link: '#!',
 			module: modules.Admins,
 			operation: 'C',
 		},
