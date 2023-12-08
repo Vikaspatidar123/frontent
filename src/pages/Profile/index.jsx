@@ -20,19 +20,21 @@ import SiteConfig from './FormSections/SiteConfiguration';
 import Password from './FormSections/Password';
 import Permissions from './FormSections/Permissions';
 import TabsPage from '../../components/Common/TabsPage';
+import HierarchyTree from './HierarchyTree';
 
 const ProfilePage = ({ t }) => {
 	// meta title
 	document.title = projectName;
 
-	const [activeTab, setactiveTab] = useState('1');
+	const [activeTab, setActiveTab] = useState('1');
 	const [editable, setEditable] = useState(true);
 	const [editableSiteConfig, setEditableSiteConfig] = useState(true);
 	const [details, setDetails] = useState([]);
+	const isTenant = false;
 
 	const toggle = (tab) => {
 		if (activeTab !== tab) {
-			setactiveTab(tab);
+			setActiveTab(tab);
 		}
 	};
 	const { superAdminUser, isSuperAdminLoading } = useSelector(
@@ -51,7 +53,7 @@ const ProfilePage = ({ t }) => {
 		dispatch(
 			updateProfileStart({
 				data,
-				isTenant: false,
+				isTenant,
 			})
 		);
 	};
@@ -60,7 +62,7 @@ const ProfilePage = ({ t }) => {
 		dispatch(
 			updateSiteConfigurationStart({
 				data,
-				isTenant: false,
+				isTenant,
 			})
 		);
 		setEditableSiteConfig(false);
@@ -87,7 +89,7 @@ const ProfilePage = ({ t }) => {
 			component: (
 				<Overview
 					details={superAdminUser}
-					isTenant={false}
+					isTenant={isTenant}
 					isEditable={editable}
 					setIsEditable={setEditable}
 					updateData={updateData}
@@ -113,7 +115,7 @@ const ProfilePage = ({ t }) => {
 			id: '3',
 			title: 'Reset Password',
 			component: (
-				<Password loading={resetProfilePasswordLoading} isTenant={false} />
+				<Password loading={resetProfilePasswordLoading} isTenant={isTenant} />
 			),
 		},
 		{
@@ -121,7 +123,21 @@ const ProfilePage = ({ t }) => {
 			title: 'Permissions',
 			component: <Permissions details={superAdminUser} />,
 		},
-		// { id: '5', title: 'Tree', component: <CardText>default2</CardText> },
+		{
+			id: '5',
+			title: 'Tree',
+			component: !isTenant && superAdminUser && superAdminUser?.adminUserId && (
+				<HierarchyTree
+					adminDetails={{
+						name: `${superAdminUser?.firstName} ${superAdminUser?.lastName}`,
+						id: superAdminUser?.adminUserId,
+						children: [],
+						isInitial: true,
+						data: { superRoleId: superAdminUser?.adminRoleId },
+					}}
+				/>
+			),
+		},
 	];
 	return (
 		<div className="page-content">

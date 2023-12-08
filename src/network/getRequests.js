@@ -25,6 +25,11 @@ const getAllCasinoProviders = (payload) =>
 
 const getAdminRole = () => getRequest(`${VITE_APP_API_URL}/api/admin/roles`);
 
+const getAdminChildren = ({ superAdminId, superRoleId }) =>
+	getRequest(
+		`${VITE_APP_API_URL}/api/admin/childs?adminId=${superAdminId}&adminRoleId=${superRoleId}`
+	);
+
 const getAllAdmins = (payload) =>
 	getRequest(`${VITE_APP_API_URL}/api/admin`, payload);
 
@@ -270,4 +275,5 @@ export {
 	getRestrictedItems,
 	getUnrestrictedItems,
 	getSiteDetailApi,
+	getAdminChildren,
 };

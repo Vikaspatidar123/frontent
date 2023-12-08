@@ -26,7 +26,7 @@ import adminUserWatcher from './adminUser/saga';
 import SportsMarkets from './sportsMarkets/saga';
 import EmailTemplateSaga from './emailTemplate/saga';
 import WageringTemplateDetailsSaga from './wageringTemplate/saga';
-import ProfileDataSaga from './Profile/saga';
+import ProfileDataSaga from './profile/saga';
 import GlobalRegistrationSaga from './registrationformFiels/saga';
 import DashboardViewSaga from './dashboardView/saga';
 import UserDetailsSaga from './userDetails/saga';

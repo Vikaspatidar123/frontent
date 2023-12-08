@@ -29,14 +29,17 @@ function* updateProfileWorker(action) {
 
 		yield put(updateProfileSuccess());
 
-		yield put(
-			showToastr({
-				message: `Profile Updated Successfully`,
-				type: 'success',
-			})
-		);
+		showToastr({
+			message: `Profile Updated Successfully`,
+			type: 'success',
+		});
 	} catch (e) {
 		yield put(updateProfileFail(e?.response?.data?.errors[0]?.description));
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 
@@ -46,16 +49,20 @@ function* updateSiteConfigurationWorker(action) {
 		yield updateSiteConfiguration(objectToFormData(data));
 
 		yield put(updateSiteConfigurationSuccess());
-		yield put(
-			showToastr({
-				message: `Site Configuration Updated Successfully`,
-				type: 'success',
-			})
-		);
+
+		showToastr({
+			message: `Site Configuration Updated Successfully`,
+			type: 'success',
+		});
 	} catch (e) {
 		yield put(
 			updateSiteConfigurationFail(e?.response?.data?.errors[0]?.description)
 		);
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
 	}
 }
 
