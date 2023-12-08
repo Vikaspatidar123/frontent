@@ -75,7 +75,7 @@ export * from './emailTemplate/actions';
 export * from './wageringTemplate/actions';
 
 // PROFILE UPDATE
-export * from './Profile/actions';
+export * from './profile/actions';
 
 // Global Registration
 export * from './registrationformFiels/actions';

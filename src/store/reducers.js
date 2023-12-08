@@ -84,7 +84,7 @@ import WageringTemplate from './wageringTemplate/reducer';
 import ProgressLoading from './progressLoading/reducer';
 
 // PROFILE UPDATE
-import ProfileData from './Profile/reducer';
+import ProfileData from './profile/reducer';
 
 // global registration
 import FormFields from './registrationformFiels/reducer';

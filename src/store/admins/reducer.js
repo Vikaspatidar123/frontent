@@ -8,6 +8,9 @@ import {
 	UPDATE_SUPER_ADMIN_USER,
 	UPDATE_SUPER_ADMIN_USER_SUCCESS,
 	UPDATE_SUPER_ADMIN_USER_FAIL,
+	GET_ADMIN_CHILDREN_SUCCESS,
+	GET_ADMIN_CHILDREN_FAIL,
+	GET_ADMIN_CHILDREN,
 	RESET_ADMINS_DATA,
 } from './actionTypes';
 
@@ -21,6 +24,9 @@ const INIT_STATE = {
 	isUpdateSuperUserError: false,
 	isUpdateSuperUserSuccess: false,
 	isUpdateSuperUserLoading: false,
+	adminChildren: null,
+	adminChildrenError: null,
+	adminChildrenLoading: false,
 };
 
 const getAllAdmins = (state = INIT_STATE, { type, payload } = {}) => {
@@ -96,6 +102,26 @@ const getAllAdmins = (state = INIT_STATE, { type, payload } = {}) => {
 				isUpdateSuperUserError: payload,
 				isUpdateSuperUserLoading: false,
 				isUpdateSuperUserSuccess: false,
+			};
+
+		case GET_ADMIN_CHILDREN:
+			return {
+				...state,
+				adminChildrenLoading: true,
+			};
+
+		case GET_ADMIN_CHILDREN_SUCCESS:
+			return {
+				...state,
+				adminChildrenLoading: false,
+				adminChildren: payload,
+			};
+
+		case GET_ADMIN_CHILDREN_FAIL:
+			return {
+				...state,
+				adminChildrenLoading: false,
+				adminChildrenError: payload,
 			};
 		default:
 			return { ...state };

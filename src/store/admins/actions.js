@@ -8,6 +8,9 @@ import {
 	UPDATE_SUPER_ADMIN_USER_SUCCESS,
 	UPDATE_SUPER_ADMIN_USER_FAIL,
 	UPDATE_SUPER_ADMIN_USER,
+	GET_ADMIN_CHILDREN_SUCCESS,
+	GET_ADMIN_CHILDREN_FAIL,
+	GET_ADMIN_CHILDREN,
 	RESET_ADMINS_DATA,
 } from './actionTypes';
 
@@ -58,5 +61,20 @@ export const updateSuperAdminUserFail = (payload) => ({
 
 export const updateSuperAdminUserStart = (payload) => ({
 	type: UPDATE_SUPER_ADMIN_USER,
+	payload,
+});
+
+export const getAdminChildrenSuccess = (payload) => ({
+	type: GET_ADMIN_CHILDREN_SUCCESS,
+	payload,
+});
+
+export const getAdminChildrenFail = (payload) => ({
+	type: GET_ADMIN_CHILDREN_FAIL,
+	payload,
+});
+
+export const getAdminChildren = (payload) => ({
+	type: GET_ADMIN_CHILDREN,
 	payload,
 });
