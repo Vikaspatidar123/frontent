@@ -1,6 +1,7 @@
 import React from 'react';
 import { Badge } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { currencyTypes } from './constants';
 
 const Id = ({ value }) => value ?? '';
 
@@ -22,7 +23,10 @@ const ExchangeRate = ({ value }) => value ?? '';
 
 const LoyaltyPoints = ({ value }) => value ?? '';
 
-const Type = ({ value }) => (value === 1 ? 'Fiat' : 'Crypto');
+const Type = ({ value }) =>
+	value
+		? currencyTypes.find((currency) => currency.value === value)?.optionLabel
+		: '';
 
 const Actions = () => <i className="dripicons-dots-3" />;
 

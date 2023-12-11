@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { currencyTypes } from './constants';
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
@@ -6,7 +7,7 @@ const getInitialValues = (defaultValue) => ({
 	symbol: defaultValue?.symbol || '',
 	exchangeRate: defaultValue?.exchangeRate || '',
 	loyaltyPoint: defaultValue?.loyaltyPoint || '',
-	type: defaultValue?.type || 0,
+	type: defaultValue?.type || 'fiat',
 });
 
 const validationSchema = () =>
@@ -31,7 +32,7 @@ const validationSchema = () =>
 			.typeError('Loyalty Point must be a number')
 			.positive('Loyalty Point must be Greater Than Zero')
 			.required('Loyalty Point cannot be Empty'),
-		type: Yup.number().required('Type cannot be Empty'),
+		type: Yup.string().required('Type cannot be Empty'),
 	});
 
 const staticFormFields = [
@@ -70,18 +71,7 @@ const staticFormFields = [
 		fieldType: 'select',
 		label: 'Type',
 		placeholder: 'Enter type',
-		optionList: [
-			{
-				id: 1,
-				optionLabel: 'Crypto',
-				value: 2,
-			},
-			{
-				id: 2,
-				optionLabel: 'Fiat',
-				value: 1,
-			},
-		],
+		optionList: currencyTypes,
 	},
 ];
 

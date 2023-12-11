@@ -11,14 +11,7 @@ import {
 } from '../formDetails';
 import { createCurrencyStart, editCurrencyStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	Code,
-	ExchangeRate,
-	Id,
-	LoyaltyPoints,
-	Name,
-	Type,
-} from '../CurrencyListCol';
+import { Code, Id, Name, Type } from '../CurrencyListCol';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { formPageTitle } from '../../../components/Common/constants';
@@ -41,8 +34,8 @@ const useCreateCurrency = () => {
 			createCurrencyStart({
 				data: {
 					...values,
-					type: Number(values.type),
-					isPrimary: false,
+					type: values.type,
+					isActive: false,
 				},
 			})
 		);
@@ -54,9 +47,8 @@ const useCreateCurrency = () => {
 				data: {
 					...values,
 					loyaltyPoint: values.loyaltyPoint.toString(),
-					type: Number(values.type),
-					isPrimary: false,
-					currencyId: isEdit.selectedRow.currencyId,
+					type: values.type,
+					currencyId: Number(isEdit.selectedRow.id),
 				},
 			})
 		);
@@ -128,7 +120,7 @@ const useCreateCurrency = () => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'currencyId',
+				accessor: 'id',
 				// filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -144,18 +136,18 @@ const useCreateCurrency = () => {
 				// filterable: true,
 				Cell: ({ cell }) => <Code value={cell.value} />,
 			},
-			{
-				Header: 'EXCHANGE RATES',
-				accessor: 'exchangeRate',
-				// filterable: true,
-				Cell: ({ cell }) => <ExchangeRate value={cell.value} />,
-			},
-			{
-				Header: 'LOYALTY POINTS',
-				accessor: 'loyaltyPoint',
-				// filterable: true,
-				Cell: ({ cell }) => <LoyaltyPoints value={cell.value} />,
-			},
+			// {
+			//   Header: 'EXCHANGE RATES',
+			//   accessor: 'exchangeRate',
+			//   // filterable: true,
+			//   Cell: ({ cell }) => <ExchangeRate value={cell.value} />,
+			// },
+			// {
+			//   Header: 'LOYALTY POINTS',
+			//   accessor: 'loyaltyPoint',
+			//   // filterable: true,
+			//   Cell: ({ cell }) => <LoyaltyPoints value={cell.value} />,
+			// },
 			{
 				Header: 'TYPE',
 				accessor: 'type',
