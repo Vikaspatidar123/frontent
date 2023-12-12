@@ -28,4 +28,24 @@ const rowsPerPageOptions = [
 
 const defaultPageSize = 10;
 
-export { rowsPerPageOptions, defaultPageSize };
+const formPageTitle = {
+	staff: 'STAFF_DETAIL_FORM',
+	user: 'PLAYER_DETAIL_FORM',
+	kyc: 'KYC_DETAIL_FORM',
+	currencies: 'CURRENCY_DETAIL_FORM',
+	countries: 'COUNTRY_DETAIL_FORM',
+	cms: 'CMS_DETAIL_FORM',
+	crm: 'EMAIL_TEMPLATE_DETAIL_FORM',
+	aggregators: 'AGGREGATORS_DETAIL_FORM',
+	providers: 'PROVIDERS_DETAIL_FORM',
+	categories: 'CATEGORIES_DETAIL_FORM',
+	subCategories: 'SUB_CATEGORIES_DETAIL_FORM',
+	games: 'GAMES_DETAIL_FORM',
+	bannerManagement: 'BANNER_MANAGEMENT_DETAIL_FORM',
+	wageringTemplate: 'WAGERING_TEMPLATE_DETAIL_FORM',
+	bonusManagement: 'BONUS_MANAGEMENT_DETAIL_FORM',
+	reviewManagement: 'REVIEW_MANAGEMENT_DETAIL_FORM',
+	betSettings: 'BET_SETTINGS_DETAIL_FORM',
+};
+
+export { rowsPerPageOptions, defaultPageSize, formPageTitle };

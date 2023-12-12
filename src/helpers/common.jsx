@@ -3,7 +3,6 @@ const Colors = {
 };
 
 const colorOptions = [
-	'bg-gradient',
 	'bg-danger',
 	'bg-warning',
 	'bg-info',
