@@ -4,9 +4,9 @@ import { currencyTypes } from './constants';
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
 	code: defaultValue?.code || '',
-	symbol: defaultValue?.symbol || '',
-	exchangeRate: defaultValue?.exchangeRate || '',
-	loyaltyPoint: defaultValue?.loyaltyPoint || '',
+	// symbol: defaultValue?.symbol || '',
+	// exchangeRate: defaultValue?.exchangeRate || '',
+	// loyaltyPoint: defaultValue?.loyaltyPoint || '',
 	type: defaultValue?.type || 'fiat',
 });
 
@@ -21,17 +21,17 @@ const validationSchema = () =>
 			.matches(/^[aA-zZ\s]+$/, 'Enter only alphabets')
 			.max(3, 'Code Cannot be of more than 3 characters')
 			.required('Code cannot be Empty'),
-		symbol: Yup.string()
-			.max(5, 'Symbol Cannot be of more than 5 characters')
-			.required('Symbol cannot be Empty'),
-		exchangeRate: Yup.number('Only enter numbers')
-			.typeError('Exchange rate must be a number')
-			.positive('Exchange rate must be a positive number')
-			.required('Exchange Rate cannot be Empty'),
-		loyaltyPoint: Yup.number('Only enter numbers')
-			.typeError('Loyalty Point must be a number')
-			.positive('Loyalty Point must be Greater Than Zero')
-			.required('Loyalty Point cannot be Empty'),
+		// symbol: Yup.string()
+		//   .max(5, 'Symbol Cannot be of more than 5 characters')
+		//   .required('Symbol cannot be Empty'),
+		// exchangeRate: Yup.number('Only enter numbers')
+		//   .typeError('Exchange rate must be a number')
+		//   .positive('Exchange rate must be a positive number')
+		//   .required('Exchange Rate cannot be Empty'),
+		// loyaltyPoint: Yup.number('Only enter numbers')
+		//   .typeError('Loyalty Point must be a number')
+		//   .positive('Loyalty Point must be Greater Than Zero')
+		//   .required('Loyalty Point cannot be Empty'),
 		type: Yup.string().required('Type cannot be Empty'),
 	});
 
@@ -54,18 +54,18 @@ const staticFormFields = [
 		label: 'Symbol',
 		placeholder: 'Enter currency symbol',
 	},
-	{
-		name: 'exchangeRate',
-		fieldType: 'textField',
-		label: 'Exchange Rate (with base currency Euro)',
-		placeholder: 'Enter currency exchange rate',
-	},
-	{
-		name: 'loyaltyPoint',
-		fieldType: 'textField',
-		label: 'Loyalty Point',
-		placeholder: 'Enter loyalty point',
-	},
+	// {
+	//   name: 'exchangeRate',
+	//   fieldType: 'textField',
+	//   label: 'Exchange Rate (with base currency Euro)',
+	//   placeholder: 'Enter currency exchange rate',
+	// },
+	// {
+	//   name: 'loyaltyPoint',
+	//   fieldType: 'textField',
+	//   label: 'Loyalty Point',
+	//   placeholder: 'Enter loyalty point',
+	// },
 	{
 		name: 'type',
 		fieldType: 'select',

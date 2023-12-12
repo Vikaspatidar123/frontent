@@ -44,7 +44,7 @@ const usePlayersListing = (filterValues = {}) => {
 			},
 			{
 				Header: 'Player Id',
-				accessor: 'userId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <PlayerId value={cell.value} />,
 			},

@@ -50,7 +50,7 @@ const PlayerDetailsPage = ({ t }) => {
 			depositToOtherSuccess ||
 			updateUserInfoSuccess
 		) {
-			dispatch(getUserDetails({ userId: playerId }));
+			dispatch(getUserDetails({ id: playerId }));
 			dispatch(resetUserLimitData());
 		}
 	}, [

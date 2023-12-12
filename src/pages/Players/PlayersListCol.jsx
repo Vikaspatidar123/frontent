@@ -9,9 +9,7 @@ const PlayerId = ({ value }) => value ?? '';
 
 const UserName = ({ cell }) =>
 	cell.value ? (
-		<Link to={`/player-details/${cell?.row?.original?.userId}`}>
-			{cell.value}
-		</Link>
+		<Link to={`/player-details/${cell?.row?.original?.id}`}>{cell.value}</Link>
 	) : (
 		''
 	);
@@ -28,18 +26,18 @@ const Action = ({ cell }) => (
 	<ul className="list-unstyled hstack gap-1 mb-0">
 		<li data-bs-toggle="tooltip" data-bs-placement="top">
 			<Link
-				to={`/player-details/${cell?.row?.original?.userId}`}
+				to={`/player-details/${cell?.row?.original?.id}`}
 				className="btn btn-sm btn-soft-primary"
 			>
 				<i
 					className="mdi mdi-eye-outline"
-					id={`view-tooltip-${cell?.row?.original?.userId}`}
+					id={`view-tooltip-${cell?.row?.original?.id}`}
 				/>
 			</Link>
 		</li>
 		<UncontrolledTooltip
 			placement="top"
-			target={`view-tooltip-${cell?.row?.original?.userId}`}
+			target={`view-tooltip-${cell?.row?.original?.id}`}
 		>
 			View
 		</UncontrolledTooltip>
@@ -62,7 +60,7 @@ UserName.propTypes = {
 		value: PropTypes.string.isRequired,
 		row: PropTypes.shape({
 			original: PropTypes.shape({
-				userId: PropTypes.string.isRequired,
+				id: PropTypes.string.isRequired,
 			}).isRequired,
 		}).isRequired,
 	}).isRequired,
@@ -73,7 +71,7 @@ Action.propTypes = {
 		value: PropTypes.string.isRequired,
 		row: PropTypes.shape({
 			original: PropTypes.shape({
-				userId: PropTypes.string.isRequired,
+				id: PropTypes.string.isRequired,
 			}).isRequired,
 		}).isRequired,
 	}).isRequired,
