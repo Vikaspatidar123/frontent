@@ -10,6 +10,8 @@ import {
 	resetLinearProgress,
 	showLinearProgress,
 } from '../../store/progressLoading/actions';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const AddAdmin = () => {
 	const dispatch = useDispatch();
@@ -20,6 +22,9 @@ const AddAdmin = () => {
 		leftFormFields,
 		rightFormFields,
 		isAddSuperUserLoading,
+		showModal,
+		setShowModal,
+		navigate,
 	} = useActions();
 
 	useEffect(() => {
@@ -35,12 +40,13 @@ const AddAdmin = () => {
 			<Breadcrumbs
 				title="Staff"
 				breadcrumbItem="Add"
-				titleLink="/staff"
 				leftTitle={
 					<>
 						<i className="fas fa-angle-left" /> Back
 					</>
 				}
+				values={validation?.values}
+				setShowModal={setShowModal}
 			/>
 			<Container fluid>
 				<FormPage
@@ -54,6 +60,14 @@ const AddAdmin = () => {
 					isSubmitLoading={isAddSuperUserLoading}
 				/>
 			</Container>
+			<ConfirmationModal
+				openModal={showModal}
+				setOpenModal={setShowModal}
+				values={validation?.values}
+				className="modal-dialog-centered"
+				navigate={navigate}
+				pageType={formPageTitle.staff}
+			/>
 		</div>
 	);
 };

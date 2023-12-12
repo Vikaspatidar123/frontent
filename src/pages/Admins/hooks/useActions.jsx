@@ -26,6 +26,8 @@ import {
 import useAdminListing from './useAdminListing';
 import { showToastr } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const useActions = (isEditPage, filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -42,6 +44,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 	} = useSelector((state) => state.AllAdmins);
 	const [customComponent, setCustomComponent] = useState();
 	const [isEdit, setIsEdit] = useState(isEditPage || false);
+	const [showModal, setShowModal] = useState(false);
 
 	const handleStaffSubmit = (values) => {
 		if (
@@ -260,6 +263,15 @@ const useActions = (isEditPage, filterValues = {}) => {
 		}
 	}, [adminDetails, isAdminLoading]);
 
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.staff)) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.staff))
+			);
+			validation.setValues(values);
+		}
+	}, []);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -281,6 +293,9 @@ const useActions = (isEditPage, filterValues = {}) => {
 		isAdminLoading,
 		adminDetails,
 		onChangeRowsPerPage,
+		showModal,
+		setShowModal,
+		navigate,
 	};
 };
 

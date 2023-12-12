@@ -34,8 +34,7 @@ import { getAllAdmins, getAdminChildren } from '../../network/getRequests';
 import { addSuperAdminUser } from '../../network/postRequests';
 import { updateSuperAdminUser } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
-
-const getAdminState = (state) => state.AllAdmins;
+import { formPageTitle } from '../../components/Common/constants';
 
 function* getAdminsDetail(action) {
 	try {
@@ -61,6 +60,7 @@ function* addSuperAdminUserWorker(action) {
 		});
 
 		yield put(addSuperAdminUserSuccess());
+		window.localStorage.removeItem(formPageTitle.staff);
 
 		if (navigate) yield navigate('/staff');
 	} catch (e) {
@@ -100,7 +100,7 @@ function* updateSuperAdminUserWorker(action) {
 function* getAdminChildrenWorker(action) {
 	try {
 		const { superAdminId, superRoleId } = action && action.payload;
-		const { adminChildren } = yield select(getAdminState);
+		const { adminChildren } = yield select((state) => state.AllAdmins);
 
 		const addChildrenToAdmin = (newAdminChildren, id, children) => {
 			if (newAdminChildren?.id === id) {
@@ -118,11 +118,11 @@ function* getAdminChildrenWorker(action) {
 
 		const newAdminChildren = cloneDeep(adminChildren);
 		const children = data?.data?.adminDetails?.map((item) => ({
-				id: item.adminUserId,
-				name: `${item.firstName || ''} (${item.childCount})`,
-				children: [],
-				data: item,
-			}));
+			id: item.adminUserId,
+			name: `${item.firstName || ''} (${item.childCount})`,
+			children: [],
+			data: item,
+		}));
 		yield addChildrenToAdmin(newAdminChildren, superAdminId, children);
 
 		yield put(getAdminChildrenSuccess(newAdminChildren));

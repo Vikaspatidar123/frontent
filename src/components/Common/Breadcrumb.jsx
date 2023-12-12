@@ -1,4 +1,5 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import { Row, Col, BreadcrumbItem } from 'reactstrap';
@@ -11,9 +12,20 @@ const Breadcrumb = ({
 	leftTitle,
 	showRightInfo = true,
 	showBackButton,
+	values,
+	setShowModal,
 }) => {
 	const navigate = useNavigate();
-	const onBackClick = () => navigate(-1);
+	const onBackClick = () => {
+		const hasFilledValues = Object.values(values).some(
+			(value) => !isEmpty(value)
+		);
+		if (hasFilledValues) {
+			setShowModal(true);
+		} else {
+			navigate(-1);
+		}
+	};
 
 	return (
 		<Row>
@@ -37,7 +49,9 @@ const Breadcrumb = ({
 							className="mb-0 ms-2 font-size-18"
 							role="presentation"
 							style={{ cursor: `${titleLink ? 'pointer' : ''}` }}
-							onClick={titleLink ? () => navigate(titleLink) : null}
+							onClick={
+								titleLink ? () => navigate(titleLink) : onBackClick ?? null
+							}
 						>
 							{leftTitle || breadcrumbItem}
 						</h4>
@@ -66,6 +80,8 @@ Breadcrumb.defaultProps = {
 	leftTitle: '',
 	showRightInfo: true,
 	showBackButton: false,
+	setShowModal: () => {},
+	values: {},
 };
 
 Breadcrumb.propTypes = {
@@ -76,6 +92,8 @@ Breadcrumb.propTypes = {
 	leftTitle: PropTypes.string,
 	showRightInfo: PropTypes.bool,
 	showBackButton: PropTypes.bool,
+	setShowModal: PropTypes.func,
+	values: PropTypes.objectOf(),
 };
 
 export default Breadcrumb;
