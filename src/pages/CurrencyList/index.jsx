@@ -10,6 +10,8 @@ import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
 import useCreateCurrency from './hooks/useCreateCurrency';
 import CrudSection from '../../components/Common/CrudSection';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const CurrencyList = () => {
 	document.title = projectName;
@@ -35,6 +37,9 @@ const CurrencyList = () => {
 		buttonList,
 		columns,
 		isEditCurrencyLoading,
+		showModal,
+		setShowModal,
+		isEdit,
 	} = useCreateCurrency();
 
 	return (
@@ -73,13 +78,22 @@ const CurrencyList = () => {
 				</Row>
 				<FormModal
 					isOpen={isOpen}
-					toggle={() => setIsOpen((prev) => !prev)}
+					setIsOpen={setIsOpen}
+					showConfirmationModal={showModal}
+					setShowConfirmationModal={setShowModal}
+					isEditOpen={isEdit.open}
 					header={header}
 					validation={validation}
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
 					isSubmitLoading={isCreateCurrencyLoading || isEditCurrencyLoading}
+				/>
+				<ConfirmationModal
+					openModal={showModal}
+					setOpenModal={setShowModal}
+					validation={validation}
+					pageType={formPageTitle.currencies}
 				/>
 			</Container>
 		</div>

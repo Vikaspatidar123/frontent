@@ -52,6 +52,7 @@ import {
 } from '../../network/putRequests';
 
 import { deleteSABanners } from '../../network/deleteRequests';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* getAllSABannersWorker(action) {
 	try {
@@ -111,6 +112,7 @@ function* createKYCLabelsWorker(action) {
 			type: 'success',
 		});
 
+		window.localStorage.removeItem(formPageTitle.kyc);
 		yield put(createKYCLabelsSuccess());
 	} catch (e) {
 		yield put(createKYCLabelsFail());

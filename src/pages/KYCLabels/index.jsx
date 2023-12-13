@@ -27,6 +27,8 @@ import FormModal from '../../components/Common/FormModal';
 import useCreateKYCLabels from './hooks/useCreateKYCLabels';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const columns = [
 	{
@@ -66,7 +68,7 @@ const KYCLabels = () => {
 
 	const {
 		isOpen,
-		setIsOpen,
+		toggleFormModal,
 		formFields,
 		header,
 		validation,
@@ -74,6 +76,8 @@ const KYCLabels = () => {
 		buttonList,
 		onClickEditButton,
 		isEditKYCLabelsLoading,
+		showModal,
+		setShowModal,
 	} = useCreateKYCLabels();
 
 	return (
@@ -176,7 +180,7 @@ const KYCLabels = () => {
 								)}
 								<FormModal
 									isOpen={isOpen}
-									toggle={() => setIsOpen((prev) => !prev)}
+									toggle={toggleFormModal}
 									header={header}
 									validation={validation}
 									formFields={formFields}
@@ -185,6 +189,12 @@ const KYCLabels = () => {
 									isSubmitLoading={
 										isCreateKYCLabelsLoading || isEditKYCLabelsLoading
 									}
+								/>
+								<ConfirmationModal
+									openModal={showModal}
+									setOpenModal={setShowModal}
+									validation={validation}
+									pageType={formPageTitle.kyc}
 								/>
 							</CardBody>
 						</Card>

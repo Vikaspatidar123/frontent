@@ -15,6 +15,8 @@ import useCreateProvider from './hooks/useCreateProvider';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const CasinoProviders = () => {
 	// meta title
@@ -49,6 +51,9 @@ const CasinoProviders = () => {
 		buttonList,
 		columns,
 		isEditProviderLoading,
+		isEdit,
+		showModal,
+		setShowModal,
 	} = useCreateProvider();
 
 	return (
@@ -96,13 +101,22 @@ const CasinoProviders = () => {
 				</Row>
 				<FormModal
 					isOpen={isOpen}
-					toggle={() => setIsOpen((prev) => !prev)}
+					setIsOpen={setIsOpen}
+					showConfirmationModal={showModal}
+					setShowConfirmationModal={setShowModal}
+					isEditOpen={isEdit?.open}
 					header={header}
 					validation={validation}
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
 					isSubmitLoading={isCreateProviderLoading || isEditProviderLoading}
+				/>
+				<ConfirmationModal
+					openModal={showModal}
+					setOpenModal={setShowModal}
+					validation={validation}
+					pageType={formPageTitle.providers}
 				/>
 			</Container>
 		</div>

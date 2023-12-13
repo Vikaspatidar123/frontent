@@ -1,5 +1,6 @@
+/* eslint-disable no-use-before-define */
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import useForm from '../../../../components/Common/Hooks/useFormModal';
 import {
 	getInitialValues,
@@ -11,9 +12,12 @@ import {
 	updateAggregatorStatusStart,
 } from '../../../../store/actions';
 import { modules } from '../../../../constants/permissions';
+import { formPageTitle } from '../../../../components/Common/constants';
+import { decryptCredentials } from '../../../../network/storageUtils';
 
 const useCreateAggregator = () => {
 	const dispatch = useDispatch();
+	const [showModal, setShowModal] = useState(false);
 
 	const { isCreateAggregatorLoading, aggregatorsData } = useSelector(
 		(state) => state.AggregatorsReducer
@@ -27,6 +31,7 @@ const useCreateAggregator = () => {
 				},
 			})
 		);
+		validation.resetForm();
 	};
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
@@ -70,6 +75,15 @@ const useCreateAggregator = () => {
 		},
 	]);
 
+	useEffect(() => {
+		if (window.localStorage.getItem(formPageTitle.aggregators && isOpen)) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.aggregators))
+			);
+			validation.setValues(values);
+		}
+	}, [isOpen]);
+
 	return {
 		isOpen,
 		setFormFields,
@@ -80,6 +94,8 @@ const useCreateAggregator = () => {
 		buttonList,
 		isCreateAggregatorLoading,
 		handleStatus,
+		showModal,
+		setShowModal,
 	};
 };
 

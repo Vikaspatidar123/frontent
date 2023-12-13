@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-expressions */
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { isEmpty } from 'lodash';
 import {
 	getInitialValues,
 	staticFormFields,
@@ -13,10 +15,13 @@ import {
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateKYCLabels = () => {
 	const dispatch = useDispatch();
 	const [langState, setLangState] = useState({ EN: '' });
+	const [showModal, setShowModal] = useState(false);
 	const [isEditPage, setIsEditPage] = useState({
 		open: false,
 		selectedRow: '',
@@ -153,6 +158,29 @@ const useCreateKYCLabels = () => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
 	}, []);
 
+	useEffect(() => {
+		if (
+			window.localStorage.getItem(formPageTitle.kyc) &&
+			!isEditPage.open &&
+			isOpen
+		) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.kyc))
+			);
+			validation.setValues(values);
+		}
+	}, [isOpen]);
+
+	const toggleFormModal = () => {
+		if (!isEditPage.open) {
+			const hasFilledValues = Object.values(validation.values).some(
+				(value) => !isEmpty(value) && !isEmpty(value?.EN)
+			);
+			hasFilledValues && setShowModal(!showModal);
+		}
+		setIsOpen((prev) => !prev);
+	};
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -164,6 +192,9 @@ const useCreateKYCLabels = () => {
 		isCreateKYCLabelsLoading,
 		onClickEditButton,
 		isEditKYCLabelsLoading,
+		showModal,
+		setShowModal,
+		toggleFormModal,
 	};
 };
 

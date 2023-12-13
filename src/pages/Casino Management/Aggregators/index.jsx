@@ -20,6 +20,8 @@ import useAggregatorList from './hooks/useAggregatorList';
 import useCreateAggregator from './hooks/useCreateAggregator';
 import CrudSection from '../../../components/Common/CrudSection';
 import FormModal from '../../../components/Common/FormModal';
+import { formPageTitle } from '../../../components/Common/constants';
+import ConfirmationModal from '../../../components/Common/ConfirmationModal';
 
 const CasinoAggregators = () => {
 	// meta title
@@ -46,6 +48,8 @@ const CasinoAggregators = () => {
 	const {
 		isOpen,
 		setIsOpen,
+		showModal,
+		setShowModal,
 		header,
 		validation,
 		formFields,
@@ -116,13 +120,22 @@ const CasinoAggregators = () => {
 				</Row>
 				<FormModal
 					isOpen={isOpen}
-					toggle={() => setIsOpen((prev) => !prev)}
+					setIsOpen={setIsOpen}
+					showConfirmationModal={showModal}
+					setShowConfirmationModal={setShowModal}
+					isEditOpen={false}
 					header={header}
 					validation={validation}
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
 					isSubmitLoading={isCreateAggregatorLoading}
+				/>
+				<ConfirmationModal
+					openModal={showModal}
+					setOpenModal={setShowModal}
+					validation={validation}
+					pageType={formPageTitle.aggregators}
 				/>
 			</Container>
 		</div>

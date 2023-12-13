@@ -79,6 +79,20 @@ const downloadFileInNewWindow = (url) => {
 	}, 4000);
 };
 
+const dataURLtoBlob = (dataURL) => {
+	const byteString = atob(dataURL.split(',')[1]);
+	const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+
+	const arrayBuffer = new ArrayBuffer(byteString.length);
+	const intArray = new Uint8Array(arrayBuffer);
+
+	for (let i = 0; i < byteString.length; i += 1) {
+		intArray[i] = byteString.charCodeAt(i);
+	}
+
+	return new Blob([arrayBuffer], { type: mimeString });
+};
+
 export {
 	safeStringify,
 	showToastr,
@@ -87,4 +101,5 @@ export {
 	clearEmptyProperty,
 	downloadFileInSameWindow,
 	downloadFileInNewWindow,
+	dataURLtoBlob,
 };
