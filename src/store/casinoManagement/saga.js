@@ -239,6 +239,8 @@ function* createCasinoCategoryWorker(action) {
 			type: 'success',
 		});
 
+		window.localStorage.removeItem(formPageTitle.categories);
+
 		yield put(createCasinoCategorySuccess());
 	} catch (e) {
 		yield put(createCasinoCategoryFailure());
@@ -280,6 +282,8 @@ function* createCasinoSubCategoryWorker(action) {
 			message: `Sub Category Created Successfully`,
 			type: 'success',
 		});
+
+		window.localStorage.removeItem(formPageTitle.subCategories);
 
 		yield put(createCasinoSubCategorySuccess());
 	} catch (e) {

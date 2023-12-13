@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, UncontrolledTooltip } from 'reactstrap';
 
+import { isEmpty } from 'lodash';
 import {
 	getInitialValues,
 	staticFormFields,
@@ -31,6 +34,9 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
+import { dataURLtoBlob } from '../../../utils/helpers';
 
 const useCreateSubCategory = () => {
 	const [page, setPage] = useState(1);
@@ -39,6 +45,7 @@ const useCreateSubCategory = () => {
 	const navigate = useNavigate();
 	const { isGranted, permissions } = usePermission();
 	const [langState, setLangState] = useState({ EN: '' });
+	const [showModal, setShowModal] = useState(false);
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 
 	const {
@@ -231,6 +238,45 @@ const useCreateSubCategory = () => {
 				search: '',
 			})
 		);
+	};
+
+	useEffect(() => {
+		if (
+			window.localStorage.getItem(formPageTitle.subCategories) &&
+			!isEdit.open &&
+			isOpen
+		) {
+			const storedValues = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.subCategories))
+			);
+
+			if (storedValues?.subcategoryImage?.thumbnail) {
+				const base64Content = storedValues.subcategoryImage?.thumbnail;
+				const blob = dataURLtoBlob(base64Content);
+
+				storedValues.subcategoryImage = new File(
+					[blob],
+					storedValues.subcategoryImage.name,
+					{
+						type: blob.type,
+					}
+				);
+			}
+
+			validation.setValues(storedValues);
+		}
+	}, [isOpen]);
+
+	const toggleFormModal = () => {
+		if (!isEdit.open) {
+			const hasFilledValues = Object.values(validation.values).some((value) =>
+				value instanceof File
+					? value.size > 0
+					: !isEmpty(value) && !isEmpty(value?.EN)
+			);
+			hasFilledValues && setShowModal(!showModal);
+		}
+		setIsOpen((prev) => !prev);
 	};
 
 	const columns = useMemo(
@@ -427,6 +473,9 @@ const useCreateSubCategory = () => {
 		setPage,
 		itemsPerPage,
 		setItemsPerPage,
+		toggleFormModal,
+		showModal,
+		setShowModal,
 	};
 };
 

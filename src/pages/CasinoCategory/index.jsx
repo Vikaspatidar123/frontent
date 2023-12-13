@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Row, Card, CardBody } from 'reactstrap';
@@ -12,6 +13,8 @@ import FormModal from '../../components/Common/FormModal';
 import useCreateCategory from './hooks/useCreateCategory';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
@@ -47,6 +50,9 @@ const GetCasinoCategoryDetails = () => {
 		buttonList,
 		onClickEdit,
 		isEditCategoryLoading,
+		showModal,
+		setShowModal,
+		toggleFormModal,
 	} = useCreateCategory();
 
 	const columns = useCasinoCategoryColumn({ handleStatus, onClickEdit });
@@ -92,7 +98,7 @@ const GetCasinoCategoryDetails = () => {
 								/>
 								<FormModal
 									isOpen={isOpen}
-									toggle={() => setIsOpen((prev) => !prev)}
+									toggle={toggleFormModal}
 									header={header}
 									validation={validation}
 									formFields={formFields}
@@ -101,6 +107,12 @@ const GetCasinoCategoryDetails = () => {
 									isSubmitLoading={
 										isCreateCategoryLoading || isEditCategoryLoading
 									}
+								/>
+								<ConfirmationModal
+									openModal={showModal}
+									setOpenModal={setShowModal}
+									validation={validation}
+									pageType={formPageTitle.categories}
 								/>
 							</CardBody>
 						</Card>
