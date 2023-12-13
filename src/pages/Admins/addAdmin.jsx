@@ -63,8 +63,7 @@ const AddAdmin = () => {
 			<ConfirmationModal
 				openModal={showModal}
 				setOpenModal={setShowModal}
-				values={validation?.values}
-				className="modal-dialog-centered"
+				validation={validation}
 				navigate={navigate}
 				pageType={formPageTitle.staff}
 			/>

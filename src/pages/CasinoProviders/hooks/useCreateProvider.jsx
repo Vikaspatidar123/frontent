@@ -23,10 +23,14 @@ import ActionButtons from '../ActionButtons';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import useCasinoProvidersListing from './useCasinoProvidersListing';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
+import { dataURLtoBlob } from '../../../utils/helpers';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
+	const [showModal, setShowModal] = useState(false);
 	const { aggregatorsData } = useSelector((state) => state.AggregatorsReducer);
 	const {
 		isCreateProviderLoading,
@@ -134,6 +138,29 @@ const useCreateProvider = () => {
 		},
 	]);
 
+	useEffect(() => {
+		if (
+			window.localStorage.getItem(formPageTitle.providers) &&
+			!isEdit.open &&
+			isOpen
+		) {
+			const storedValues = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.providers))
+			);
+
+			if (storedValues?.thumbnail?.thumbnail) {
+				const base64Content = storedValues.thumbnail?.thumbnail;
+				const blob = dataURLtoBlob(base64Content);
+
+				storedValues.thumbnail = new File([blob], storedValues.thumbnail.name, {
+					type: blob.type,
+				});
+			}
+
+			validation.setValues(storedValues);
+		}
+	}, [isOpen]);
+
 	const columns = useMemo(
 		() => [
 			{
@@ -191,6 +218,9 @@ const useCreateProvider = () => {
 		onClickEdit,
 		isEditProviderLoading,
 		columns,
+		showModal,
+		setShowModal,
+		isEdit,
 	};
 };
 

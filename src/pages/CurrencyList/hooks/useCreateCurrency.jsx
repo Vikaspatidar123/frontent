@@ -21,10 +21,13 @@ import {
 } from '../CurrencyListCol';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateCurrency = () => {
 	const dispatch = useDispatch();
 	const { isGranted, permissions } = usePermission();
+	const [showModal, setShowModal] = useState(false);
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const {
 		isCreateCurrencyLoading,
@@ -108,6 +111,19 @@ const useCreateCurrency = () => {
 		setIsOpen((prev) => !prev);
 	};
 
+	useEffect(() => {
+		if (
+			window.localStorage.getItem(formPageTitle.currencies) &&
+			!isEdit.open &&
+			isOpen
+		) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.currencies))
+			);
+			validation.setValues(values);
+		}
+	}, [isOpen]);
+
 	const columns = useMemo(
 		() => [
 			{
@@ -189,6 +205,9 @@ const useCreateCurrency = () => {
 		buttonList,
 		columns,
 		isEditCurrencyLoading,
+		showModal,
+		setShowModal,
+		isEdit,
 	};
 };
 

@@ -18,6 +18,7 @@ import { getCurrencies } from '../../network/getRequests';
 import { createCurrency } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import { updateCurrency } from '../../network/putRequests';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* fetchCurrencies({ payload }) {
 	try {
@@ -38,6 +39,8 @@ function* createCurrencyWorker(action) {
 			message: `Currency Created Successfully`,
 			type: 'success',
 		});
+
+		window.localStorage.removeItem(formPageTitle.currencies);
 
 		yield put(createCurrencySuccess());
 	} catch (e) {

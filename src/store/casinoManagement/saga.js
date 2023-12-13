@@ -104,6 +104,7 @@ import {
 } from '../../network/deleteRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* getCasinoCategoryWorker(action) {
 	const payload = action && action.payload;
@@ -194,6 +195,7 @@ function* createCasinoProviderWorker(action) {
 			message: `Provider Created Successfully`,
 			type: 'success',
 		});
+		window.localStorage.removeItem(formPageTitle.providers);
 
 		yield put(createCasinoProvidersSuccess());
 	} catch (e) {
