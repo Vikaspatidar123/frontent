@@ -1,4 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, Row } from 'reactstrap';
@@ -24,21 +26,31 @@ const ConfirmationModal = (props) => {
 	};
 
 	const handleYesClick = () => {
-		if (validation?.values?.thumbnail instanceof File) {
-			const { name, type } = validation?.values?.thumbnail || {};
+		let fileKey;
+
+		// Iterate through keys of validation.values and check if any key has value of type File
+		for (const key in validation?.values) {
+			if (validation?.values[key] instanceof File) {
+				fileKey = key;
+				break;
+			}
+		}
+
+		if (fileKey) {
+			const { name, type } = validation?.values[fileKey] || {};
 			let values = {};
 			const reader = new FileReader();
-			reader.readAsDataURL(validation?.values?.thumbnail);
+			reader.readAsDataURL(validation?.values[fileKey]);
 			reader.onload = () => {
 				values = {
 					...validation?.values,
-					thumbnail: {
+					[fileKey]: {
 						name,
 						type,
 						thumbnail: reader.result,
 					},
 				};
-				if (Object.keys(values).length > 0 && values?.thumbnail) {
+				if (Object.keys(values).length > 0 && values[fileKey]) {
 					window.localStorage.setItem(
 						pageType,
 						encryptCredentials(JSON.stringify(values))

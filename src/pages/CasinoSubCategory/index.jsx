@@ -1,5 +1,4 @@
-/* eslint-disable */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,6 +16,8 @@ import useCreateSubCategory from './hooks/useCreateSubCategory';
 import FormModal from '../../components/Common/FormModal';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const GetCasinoSubCategoryDetail = () => {
 	// meta title
@@ -25,7 +26,6 @@ const GetCasinoSubCategoryDetail = () => {
 
 	const {
 		isOpen,
-		setIsOpen,
 		formFields,
 		header,
 		validation,
@@ -38,6 +38,9 @@ const GetCasinoSubCategoryDetail = () => {
 		setPage,
 		itemsPerPage,
 		setItemsPerPage,
+		showModal,
+		setShowModal,
+		toggleFormModal,
 	} = useCreateSubCategory();
 
 	const {
@@ -149,7 +152,7 @@ const GetCasinoSubCategoryDetail = () => {
 							</CardBody>
 							<FormModal
 								isOpen={isOpen}
-								toggle={() => setIsOpen((prev) => !prev)}
+								toggle={toggleFormModal}
 								header={header}
 								validation={validation}
 								formFields={formFields}
@@ -158,6 +161,12 @@ const GetCasinoSubCategoryDetail = () => {
 								isSubmitLoading={
 									isCreateSubCategoryLoading || isEditSubCategoryLoading
 								}
+							/>
+							<ConfirmationModal
+								openModal={showModal}
+								setOpenModal={setShowModal}
+								validation={validation}
+								pageType={formPageTitle.subCategories}
 							/>
 						</Card>
 					</Col>
