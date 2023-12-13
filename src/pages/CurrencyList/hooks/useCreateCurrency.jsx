@@ -11,7 +11,7 @@ import {
 } from '../formDetails';
 import { createCurrencyStart, editCurrencyStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { Code, Id, Name, Type } from '../CurrencyListCol';
+import { Code, ExchangeRate, Id, Name, Type } from '../CurrencyListCol';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { formPageTitle } from '../../../components/Common/constants';
@@ -136,12 +136,12 @@ const useCreateCurrency = () => {
 				// filterable: true,
 				Cell: ({ cell }) => <Code value={cell.value} />,
 			},
-			// {
-			//   Header: 'EXCHANGE RATES',
-			//   accessor: 'exchangeRate',
-			//   // filterable: true,
-			//   Cell: ({ cell }) => <ExchangeRate value={cell.value} />,
-			// },
+			{
+				Header: 'EXCHANGE RATES',
+				accessor: 'exchangeRate',
+				// filterable: true,
+				Cell: ({ cell }) => <ExchangeRate value={cell.value} />,
+			},
 			// {
 			//   Header: 'LOYALTY POINTS',
 			//   accessor: 'loyaltyPoint',

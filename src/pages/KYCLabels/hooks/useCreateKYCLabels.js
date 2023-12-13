@@ -119,8 +119,8 @@ const useCreateKYCLabels = () => {
 	useEffect(() => {
 		if (languageData?.rows?.length) {
 			const langOptions = languageData.rows.map((r) => ({
-				id: r.languageId,
-				optionLabel: r.languageName,
+				id: r.id,
+				optionLabel: r.name,
 				value: r.code,
 			}));
 

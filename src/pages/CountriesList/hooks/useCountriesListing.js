@@ -43,7 +43,7 @@ const useCountriesListing = (filterValues = {}) => {
 				formattedValues.push({
 					...country,
 					countryName: country.name,
-					language: country.language.languageName,
+					language: country.language?.name,
 					countryCode: country.code,
 				})
 			);

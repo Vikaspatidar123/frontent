@@ -19,15 +19,15 @@ const useKYCLables = () => {
 
 	const formattedDocumentLabels = useMemo(() => {
 		if (documentLabels) {
-			setExpanded(documentLabels[0]?.documentLabelId);
-			return documentLabels.map((label) => {
-				const language = Object.keys(label.name);
+			setExpanded(documentLabels.rows?.[0]?.id);
+			return documentLabels.rows?.map((label) => {
+				const language = Object.keys(JSON.parse(label.name));
 				return [
 					{
 						...label,
 						languageData: language?.map((lan) => ({
 							language: `${languageCode[lan]} ${lan}`,
-							labelName: label.name[lan],
+							labelName: JSON.parse(label.name)[lan],
 						})),
 					},
 				];

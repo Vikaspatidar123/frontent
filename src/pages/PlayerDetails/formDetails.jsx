@@ -128,7 +128,7 @@ const userSchema = () =>
 	});
 
 const getInitialValuesUpdateUser = (defaultValue) => ({
-	userId: defaultValue?.userId,
+	userId: defaultValue?.id,
 	firstName: defaultValue?.firstName,
 	lastName: defaultValue?.lastName,
 	username: defaultValue?.username,
