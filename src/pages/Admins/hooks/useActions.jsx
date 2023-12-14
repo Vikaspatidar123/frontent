@@ -225,9 +225,6 @@ const useActions = (isEditPage, filterValues = {}) => {
 				})
 			);
 		}
-	}, []);
-
-	useEffect(() => {
 		if (!isEmpty(roles) && !isEmpty(groups) && !isEmpty(allAdminList))
 			setCustomFields();
 	}, [
