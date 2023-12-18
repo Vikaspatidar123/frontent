@@ -9,9 +9,7 @@ import {
 	getInitialValues,
 	validationSchema,
 } from '../formDetails';
-import { getRolesStart } from '../../../store/auth/roles/actions';
 import PermissionForm from '../permissionForm';
-import { getAllGroupsStart } from '../../../store/adminUser/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	resetLinearProgress,
@@ -210,17 +208,17 @@ const useActions = (isEditPage, filterValues = {}) => {
 
 	useEffect(() => {
 		if (isEmpty(roles)) {
-			dispatch(getRolesStart());
+			// dispatch(getRolesStart());
 		}
 		if (isEmpty(groups)) {
-			dispatch(getAllGroupsStart());
+			// dispatch(getAllGroupsStart());
 		}
 		if (isEmpty(allAdminList)) {
 			dispatch(
 				getAdminDetails({
 					limit: itemsPerPage,
 					pageNo: page,
-					orderBy: 'adminUserId',
+					// orderBy: 'adminUserId',
 					sort: 'desc',
 				})
 			);

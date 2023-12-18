@@ -5,7 +5,7 @@ import { fetchPlayersStart, resetPlayersData } from '../../../store/actions';
 import {
 	Action,
 	Email,
-	IsInternal,
+	// IsInternal,
 	KycStatus,
 	PhoneNumber,
 	PlayerId,
@@ -78,11 +78,11 @@ const usePlayersListing = (filterValues = {}) => {
 				accessor: 'kycStatus',
 				Cell: ({ cell }) => <KycStatus value={cell.value} />,
 			},
-			{
-				Header: 'Is Internal',
-				accessor: 'isInternal',
-				Cell: ({ cell }) => <IsInternal value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Is Internal',
+			// 	accessor: 'isInternal',
+			// 	Cell: ({ cell }) => <IsInternal value={cell.value} />,
+			// },
 			{
 				Header: 'Action',
 				accessor: '',

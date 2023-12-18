@@ -38,7 +38,7 @@ const createCasinoCategory = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category`, data);
 
 const createKYCLabels = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/document-label`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/document-label`, data);
 
 const createCasinoSubCategory = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/sub-category`, data, {

@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card, Col, Container, Row, Spinner } from 'reactstrap';
 import useEditLimits from './hooks/useEditLimits';
 import SingleLimitCard from './components/SingleLimitCard';
@@ -9,6 +9,10 @@ import SelfExclusionCard from './components/SelfExclusionCard';
 
 const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 	const { limitLabels, userLimits } = useEditLimits({ userDetails });
+	const currencyCode = useMemo(
+		() => userDetails?.wallets?.[0]?.currency?.code,
+		[userDetails]
+	);
 
 	return (
 		<Container fluid>
@@ -25,7 +29,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 							<Col md={4}>
 								<SingleLimitCard
 									limit={limit}
-									currencyCode={userDetails?.currencyCode}
+									currencyCode={currencyCode}
 									userId={userId}
 								/>
 							</Col>
@@ -77,7 +81,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 									portal: userLimits?.selfExclusionType,
 								}}
 								userId={userId}
-								currencyCode={userDetails?.currencyCode}
+								currencyCode={currencyCode}
 							/>
 						</Col>
 					</Row>

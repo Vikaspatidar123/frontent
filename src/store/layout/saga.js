@@ -1,6 +1,5 @@
 // @flow
 import { all, call, fork, takeEvery, put } from 'redux-saga/effects';
-import { getSiteDetailApi } from '../../network/getRequests';
 import {
 	CHANGE_LAYOUT,
 	CHANGE_LAYOUT_WIDTH,
@@ -18,6 +17,7 @@ import {
 	getSiteDetailsSuccess,
 	getSiteDetailsFail,
 } from './actions';
+import { getSiteDetailApi } from '../../network/getRequests';
 
 /**
  * Changes the body attribute

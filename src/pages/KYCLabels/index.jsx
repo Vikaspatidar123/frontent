@@ -98,8 +98,8 @@ const KYCLabels = () => {
 									/>
 								) : (
 									formattedDocumentLabels?.map((label) => {
-										const labelId = label[0].documentLabelId;
-										const { isRequired, languageData } = label[0];
+										const labelId = label[0].id;
+										const { required, languageData } = label[0];
 										return (
 											<div
 												className="accordion mb-2 left-accordion-arrow"
@@ -124,7 +124,7 @@ const KYCLabels = () => {
 														>
 															<h5 className="font-size-14 d-inline-flex align-items-center gap-2 mb-0 fw-bolder margin-left">
 																Label {labelId}
-																{isRequired ? (
+																{required ? (
 																	<span className="text-success">
 																		(Required)
 																	</span>
@@ -142,11 +142,11 @@ const KYCLabels = () => {
 																>
 																	<i
 																		className="mdi mdi-pencil-outline"
-																		id={`edit-tooltip-${label?.[0]?.documentLabelId}`}
+																		id={`edit-tooltip-${label?.[0]?.id}`}
 																	/>
 																	<UncontrolledTooltip
 																		placement="top"
-																		target={`edit-tooltip-${label?.[0]?.documentLabelId}`}
+																		target={`edit-tooltip-${label?.[0]?.id}`}
 																	>
 																		Edit
 																	</UncontrolledTooltip>

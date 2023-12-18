@@ -59,7 +59,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 			getAdminDetails({
 				limit: itemsPerPage,
 				pageNo: page,
-				orderBy,
+				// orderBy,
 				sort,
 				adminRoleId: adminDetails?.adminRoleId,
 				...filterValues,

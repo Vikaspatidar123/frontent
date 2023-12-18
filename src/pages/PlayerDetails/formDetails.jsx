@@ -127,25 +127,28 @@ const userSchema = () =>
 		countryCode: Yup.string().nullable(),
 	});
 
-const getInitialValuesUpdateUser = (defaultValue) => ({
-	userId: defaultValue?.id,
-	firstName: defaultValue?.firstName,
-	lastName: defaultValue?.lastName,
-	username: defaultValue?.username,
-	email: defaultValue?.email,
-	countryCode: defaultValue?.countryCode,
-	address: defaultValue?.address,
-	city: defaultValue?.city,
-	zipCode: defaultValue?.zipCode,
-	dateOfBirth: formatDateYMD(defaultValue?.dateOfBirth),
-	gender: defaultValue?.gender,
-	currencyCode: defaultValue?.currencyCode,
-	phoneCode: defaultValue?.phoneCode || '',
-	phone: defaultValue?.phone || '',
-	preferredLanguage: defaultValue?.preferredLanguage || '',
-	newsLetter: defaultValue?.newsLetter || false,
-	sms: defaultValue?.sms || false,
-});
+const getInitialValuesUpdateUser = (defaultValue) => {
+	const address = defaultValue?.addresses?.[0];
+	return {
+		userId: defaultValue?.id,
+		firstName: defaultValue?.firstName,
+		lastName: defaultValue?.lastName,
+		username: defaultValue?.username,
+		email: defaultValue?.email,
+		countryCode: address?.countryCode,
+		address: address?.address,
+		city: address?.city,
+		zipCode: address?.zipCode,
+		dateOfBirth: formatDateYMD(defaultValue?.dateOfBirth),
+		gender: defaultValue?.gender,
+		currencyCode: defaultValue?.currencyCode,
+		phoneCode: defaultValue?.phoneCode || '',
+		phone: defaultValue?.phone || '',
+		preferredLanguage: defaultValue?.preferredLanguage || '',
+		newsLetter: defaultValue?.newsLetter || false,
+		sms: defaultValue?.sms || false,
+	};
+};
 
 const passwordValidation = () =>
 	Yup.object().shape({

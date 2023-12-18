@@ -7,6 +7,7 @@ const useUserOverview = ({ user }) => {
 	const { playerId } = useParams();
 	const showStyle = (data) => (data ? 'text-success' : 'text-danger');
 	const printData = (data) => (data ? 'Yes' : 'No');
+	const address = user?.addresses?.[0];
 	const basicInfo = [
 		{ label: 'ID', value: playerId },
 		{ label: 'Email', value: user?.email },
@@ -52,9 +53,9 @@ const useUserOverview = ({ user }) => {
 		{ label: 'Phone Number', value: user?.phone },
 		{
 			label: 'Address',
-			value: `${user?.address}, ${user?.city}, ${user?.zipCode}`,
+			value: `${address?.address}, ${address?.city}, ${address?.zipCode}`,
 		},
-		{ label: 'Country Code', value: user?.countryCode },
+		{ label: 'Country Code', value: address?.countryCode },
 		{
 			label: 'NewsLetter',
 			value: user?.newsLetter ? 'True' : 'False',

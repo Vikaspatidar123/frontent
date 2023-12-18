@@ -18,13 +18,13 @@ const staticFiltersFields = () => [
 		label: '',
 		placeholder: 'Search by email, name or group',
 	},
-	{
-		name: 'affiliateName',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by Affiliate',
-	},
+	// {
+	// 	name: 'affiliateName',
+	// 	fieldType: 'textField',
+	// 	type: 'search',
+	// 	label: '',
+	// 	placeholder: 'Search by Affiliate',
+	// },
 	{
 		name: 'userId',
 		fieldType: 'textField',
@@ -61,7 +61,7 @@ const staticFiltersFields = () => [
 const filterValues = () => ({
 	search: '',
 	kycStatus: null,
-	affiliateName: '',
+	// affiliateName: '',
 	startDate: null,
 	endDate: null,
 	userId: '',
@@ -74,7 +74,7 @@ const filterValidationSchema = () =>
 	Yup.object({
 		search: Yup.string().nullable(),
 		kycStatus: Yup.string().nullable(),
-		affiliateName: Yup.string().nullable(),
+		// affiliateName: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
 		userId: Yup.string().nullable(),

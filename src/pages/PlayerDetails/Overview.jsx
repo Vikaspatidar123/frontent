@@ -176,8 +176,8 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 										</ColumnContainer>
 									)} */}
 									{(isGranted(modules.Users, 'EV') ||
-										userDetails?.isEmailVerified) && (
-										<ColumnContainer hidden={userDetails?.isEmailVerified}>
+										userDetails?.emailVerified) && (
+										<ColumnContainer hidden={userDetails?.emailVerified}>
 											<Button
 												className="actionButton w-100"
 												variant="outline-success"

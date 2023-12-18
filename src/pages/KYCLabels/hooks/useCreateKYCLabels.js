@@ -37,7 +37,10 @@ const useCreateKYCLabels = () => {
 	const handleCreateKYCLabels = (values) => {
 		dispatch(
 			createKYCLabelsStart({
-				data: { ...values, documentLabelId: '' },
+				data: {
+					name: values?.name?.EN,
+					required: values?.isRequired,
+				},
 			})
 		);
 	};
@@ -90,19 +93,19 @@ const useCreateKYCLabels = () => {
 
 	useEffect(() => {
 		setIsOpen(false);
-	}, [documentLabels?.length]);
+	}, [documentLabels?.rows?.length]);
 
 	useEffect(() => {
 		if (isEditKYCLabelsSuccess) setIsOpen(false);
 	}, [isEditKYCLabelsSuccess]);
 
-	const onChangeLanguage = (e) => {
-		validation.setValues((prev) => ({
-			...prev,
-			name: { ...prev.name, [e.target.value]: '' },
-		}));
-		setLangState((prev) => ({ ...prev, [e.target.value]: '' }));
-	};
+	// const onChangeLanguage = (e) => {
+	//   validation.setValues((prev) => ({
+	//     ...prev,
+	//     name: { ...prev.name, [e.target.value]: '' },
+	//   }));
+	//   setLangState((prev) => ({ ...prev, [e.target.value]: '' }));
+	// };
 
 	const onRemoveLanguage = (e) => {
 		validation.setValues((prev) => {
@@ -118,21 +121,20 @@ const useCreateKYCLabels = () => {
 
 	useEffect(() => {
 		if (languageData?.rows?.length) {
-			const langOptions = languageData.rows.map((r) => ({
-				id: r.id,
-				optionLabel: r.name,
-				value: r.code,
-			}));
+			// const langOptions = languageData.rows.map((r) => ({
+			//   id: r.id,
+			//   optionLabel: r.name,
+			//   value: r.code,
+			// }));
 
 			setFormFields([
-				{
-					// name: 'language',
-					fieldType: 'select',
-					label: 'Language',
-					placeholder: 'Select Language',
-					optionList: langOptions,
-					callBack: onChangeLanguage,
-				},
+				// {
+				//   fieldType: 'select',
+				//   label: 'Language',
+				//   placeholder: 'Select Language',
+				//   optionList: langOptions,
+				//   callBack: onChangeLanguage,
+				// },
 				{
 					name: 'name',
 					label: 'KYCLabels Name',

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAccessToken } from '../network/storageUtils';
-import { getRolesStart } from '../store/auth/roles/actions';
 import { getSuperAdminStart } from '../store/auth/permissionDetails/actions';
-import { getSiteDetails } from '../store/actions';
 
 const Authmiddleware = ({ children, location }) => {
 	const accessToken = getAccessToken();
@@ -13,10 +11,10 @@ const Authmiddleware = ({ children, location }) => {
 
 	useEffect(() => {
 		if (accessToken) {
-			dispatch(getRolesStart());
-			// dispatch(getTenantRoleStart())
 			dispatch(getSuperAdminStart());
-			dispatch(getSiteDetails());
+			// dispatch(getRolesStart());
+			// dispatch(getTenantRoleStart())
+			// dispatch(getSiteDetails());
 		}
 	}, []);
 

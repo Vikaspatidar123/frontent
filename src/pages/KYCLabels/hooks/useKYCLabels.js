@@ -21,13 +21,15 @@ const useKYCLables = () => {
 		if (documentLabels) {
 			setExpanded(documentLabels.rows?.[0]?.id);
 			return documentLabels.rows?.map((label) => {
-				const language = Object.keys(JSON.parse(label.name));
+				// const language = Object.keys(label.name);
+				const language = ['EN'];
 				return [
 					{
 						...label,
 						languageData: language?.map((lan) => ({
 							language: `${languageCode[lan]} ${lan}`,
-							labelName: JSON.parse(label.name)[lan],
+							// labelName: label.name[lan],
+							labelName: label.name,
 						})),
 					},
 				];
