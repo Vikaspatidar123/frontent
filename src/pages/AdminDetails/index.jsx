@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TabsPage from '../../components/Common/TabsPage';
-import Permissions from '../Profile/FormSections/Permissions';
+// import Permissions from '../Profile/FormSections/Permissions';
 import {
 	getPermissionsStart,
 	resetAdminDetails,
@@ -37,11 +37,11 @@ const AdminDetails = ({ t }) => {
 			title: 'Overview',
 			component: <OverView details={adminDetails} t={t} />,
 		},
-		{
-			id: '2',
-			title: 'Permissions',
-			component: <Permissions details={adminDetails} />,
-		},
+		// {
+		// 	id: '2',
+		// 	title: 'Permissions',
+		// 	component: <Permissions details={adminDetails} />,
+		// },
 	];
 
 	const toggle = (tab) => {
@@ -58,7 +58,7 @@ const AdminDetails = ({ t }) => {
 				<Breadcrumbs
 					showRightInfo={false}
 					showBackButton
-					breadcrumbItem={`${adminDetails?.AdminRole?.name}: ${adminDetails.firstName} ${adminDetails.lastName}`}
+					breadcrumbItem={`${adminDetails?.adminRole?.name}: ${adminDetails.firstName} ${adminDetails.lastName}`}
 				/>
 				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
 			</Container>

@@ -26,6 +26,7 @@ import { showToastr } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import { getRolesStart } from '../../../store/auth/roles/actions';
 
 const useActions = (isEditPage, filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -107,7 +108,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 	const handleEdit = (e, row) => {
 		e.preventDefault();
 		setIsEdit(true);
-		navigate(`edit/${row.adminUserId}`);
+		navigate(`edit/${row.id}`);
 		// setHeader('Edit Staff');
 		dispatch(showLinearProgress());
 	};
@@ -141,7 +142,11 @@ const useActions = (isEditPage, filterValues = {}) => {
 	]);
 
 	const setCustomFields = () => {
-		if (roles?.length && groups?.length && allAdminList.rows?.length) {
+		if (
+			roles?.length &&
+			// groups?.length &&
+			allAdminList.rows?.length
+		) {
 			let customField = {};
 
 			const roleOptions = roles
@@ -152,17 +157,17 @@ const useActions = (isEditPage, filterValues = {}) => {
 					value: r.name,
 				}));
 
-			const groupOptions = groups
-				.filter((r) => r)
-				.map((g) => ({
-					id: g,
-					label: g,
-					value: g,
-				}));
+			// const groupOptions = groups
+			//   .filter((r) => r)
+			//   .map((g) => ({
+			//     id: g,
+			//     label: g,
+			//     value: g,
+			//   }));
 
 			const adminOptions = allAdminList?.rows?.map((ad) => ({
 				optionLabel: `${ad.firstName} ${ad.lastName}`,
-				value: ad.adminUserId,
+				value: ad.id,
 			}));
 
 			if (validation?.values?.role === 'Manager') {
@@ -179,15 +184,15 @@ const useActions = (isEditPage, filterValues = {}) => {
 
 			setRightFormFields([
 				...rightStaticFormFields(isEdit),
-				{
-					name: 'group',
-					fieldType: 'creatableSingleSelect',
-					label: 'Group',
-					optionList: groupOptions,
-					callBack: (option) => {
-						validation.setFieldValue('group', option.value);
-					},
-				},
+				// {
+				//   name: 'group',
+				//   fieldType: 'creatableSingleSelect',
+				//   label: 'Group',
+				//   optionList: groupOptions,
+				//   callBack: (option) => {
+				//     validation.setFieldValue('group', option.value);
+				//   },
+				// },
 				isEdit ? {} : customField,
 			]);
 
@@ -208,7 +213,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 
 	useEffect(() => {
 		if (isEmpty(roles)) {
-			// dispatch(getRolesStart());
+			dispatch(getRolesStart());
 		}
 		if (isEmpty(groups)) {
 			// dispatch(getAllGroupsStart());
@@ -218,20 +223,24 @@ const useActions = (isEditPage, filterValues = {}) => {
 				getAdminDetails({
 					limit: itemsPerPage,
 					pageNo: page,
-					// orderBy: 'adminUserId',
+					orderBy: 'id',
 					sort: 'desc',
 				})
 			);
 		}
-		if (!isEmpty(roles) && !isEmpty(groups) && !isEmpty(allAdminList))
+		if (
+			!isEmpty(roles) &&
+			// !isEmpty(groups) &&
+			!isEmpty(allAdminList)
+		)
 			setCustomFields();
 	}, [
 		roles,
-		groups,
+		// groups,
 		validation?.values?.role,
 		isEdit,
 		allAdminList,
-		validation?.values?.group,
+		// validation?.values?.group,
 	]);
 
 	useEffect(() => {

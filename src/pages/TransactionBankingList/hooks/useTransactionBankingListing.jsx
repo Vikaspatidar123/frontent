@@ -77,11 +77,11 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 							: `-${transaction.amount} ${transaction.currencyCode}`,
 					status: statusType.find(
 						(status) => status.value === transaction.status
-					).label,
+					)?.label,
 					actionType: `${
 						transactionType.find(
 							(type) => type.value === transaction.transactionType
-						).label
+						)?.label
 					} ${handleWalletType({
 						type: transaction.transactionType,
 						amountType: transaction.amountType,

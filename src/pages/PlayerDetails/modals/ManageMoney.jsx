@@ -71,9 +71,9 @@ const ManageMoney = ({ show, header, toggle }) => {
 						? parseFloat(values?.addAmount.toFixed(2))
 						: parseFloat(values?.addAmount?.toFixed(2)) * -1,
 				walletType: values?.walletType === 'cash' ? 'CASH' : 'NONCASH',
-				userId: playerId,
-				// currencyId: ,
-				// walletId: ,
+				userId: Number(playerId),
+				currencyId: Number(userDetails?.wallets?.[0]?.currencyId),
+				walletId: Number(userDetails?.wallets?.[0]?.id),
 			})
 		);
 	};

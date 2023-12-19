@@ -24,7 +24,7 @@ const useFilters = () => {
 			getAdminDetails({
 				limit: itemsPerPage,
 				pageNo: 1,
-				orderBy: 'adminUserId',
+				orderBy: 'id',
 				sort: 'desc',
 				...values,
 			})

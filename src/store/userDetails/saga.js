@@ -348,7 +348,7 @@ function* depositToOtherWorker(action) {
 		yield put(depositToOtherSuccess(data?.data?.bonus));
 		showToastr({
 			message:
-				payload.addAmount > 0
+				payload.amount > 0
 					? `Deposit Successful`
 					: 'Amount Removed from Wallet Successful',
 			type: 'success',

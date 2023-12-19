@@ -98,8 +98,7 @@ const KYCLabels = () => {
 									/>
 								) : (
 									formattedDocumentLabels?.map((label) => {
-										const labelId = label[0].id;
-										const { required, languageData } = label[0];
+										const { required, languageData, id: labelId } = label[0];
 										return (
 											<div
 												className="accordion mb-2 left-accordion-arrow"
@@ -142,11 +141,11 @@ const KYCLabels = () => {
 																>
 																	<i
 																		className="mdi mdi-pencil-outline"
-																		id={`edit-tooltip-${label?.[0]?.id}`}
+																		id={`edit-tooltip-${labelId}`}
 																	/>
 																	<UncontrolledTooltip
 																		placement="top"
-																		target={`edit-tooltip-${label?.[0]?.id}`}
+																		target={`edit-tooltip-${labelId}`}
 																	>
 																		Edit
 																	</UncontrolledTooltip>

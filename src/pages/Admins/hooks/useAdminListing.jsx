@@ -9,8 +9,8 @@ import {
 	Email,
 	FullName,
 	Status,
-	Role,
-	Group,
+	// Role,
+	// Group,
 } from '../AdminsListCol';
 import ActionButtons from '../ActionButtons';
 import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
@@ -24,7 +24,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 		(state) => state.AllAdmins
 	);
 	const [page, setPage] = useState(1);
-	const [orderBy, setOrderBy] = useState('adminUserId');
+	const [orderBy, setOrderBy] = useState('id');
 	const [sort, setSort] = useState('desc');
 	const [name, setName] = useState();
 
@@ -49,7 +49,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 			updateSuperAdminStatusStart({
 				code: 'ADMIN',
 				status: !isActive,
-				adminId: adminUserId,
+				adminId: Number(adminUserId),
 			})
 		);
 	};
@@ -59,7 +59,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 			getAdminDetails({
 				limit: itemsPerPage,
 				pageNo: page,
-				// orderBy,
+				orderBy,
 				sort,
 				adminRoleId: adminDetails?.adminRoleId,
 				...filterValues,
@@ -94,7 +94,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 			},
 			{
 				Header: 'ID',
-				accessor: 'adminUserId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <AdminUserID value={cell.value} />,
 			},
@@ -109,24 +109,21 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 				accessor: 'email',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<Email
-						value={cell.value}
-						adminUserId={cell?.row?.original?.adminUserId}
-					/>
+					<Email value={cell.value} adminUserId={cell?.row?.original?.id} />
 				),
 			},
-			{
-				Header: 'Role',
-				accessor: 'adminRoleId',
-				filterable: true,
-				Cell: ({ cell }) => <Role value={cell.value} />,
-			},
-			{
-				Header: 'Group',
-				accessor: 'group',
-				filterable: true,
-				Cell: ({ cell }) => <Group value={cell.value} />,
-			},
+			// {
+			//   Header: 'Role',
+			//   accessor: 'adminRoleId',
+			//   filterable: true,
+			//   Cell: ({ cell }) => <Role value={cell.value} />,
+			// },
+			// {
+			//   Header: 'Group',
+			//   accessor: 'group',
+			//   filterable: true,
+			//   Cell: ({ cell }) => <Group value={cell.value} />,
+			// },
 			{
 				Header: 'Status',
 				accessor: 'isActive',

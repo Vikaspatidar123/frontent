@@ -5,7 +5,7 @@ const { VITE_APP_API_URL } = import.meta.env;
 const API_NAMESPACE = '/api/v1';
 
 const getCasinoCategoryListing = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/categories`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category`, payload);
 
 const getCasinoSubCategoryListing = (payload) =>
 	getRequest(

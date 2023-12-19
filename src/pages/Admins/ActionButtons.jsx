@@ -7,7 +7,7 @@ import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({ handleEdit, row, handleStatus }) => {
 	const active = row?.original?.isActive;
-	const adminUserId = row?.original?.adminUserId;
+	const adminUserId = row?.original?.id;
 	const { isGranted } = usePermission();
 
 	return (

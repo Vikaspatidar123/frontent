@@ -38,8 +38,8 @@ const useCreateKYCLabels = () => {
 		dispatch(
 			createKYCLabelsStart({
 				data: {
+					...values,
 					name: values?.name?.EN,
-					required: values?.isRequired,
 				},
 			})
 		);
@@ -50,7 +50,8 @@ const useCreateKYCLabels = () => {
 			editKYCLabelsStart({
 				data: {
 					...values,
-					documentLabelId: isEditPage.selectedRow?.documentLabelId,
+					name: values?.name?.EN,
+					documentLabelId: Number(isEditPage.selectedRow?.id),
 				},
 			})
 		);
@@ -78,8 +79,10 @@ const useCreateKYCLabels = () => {
 		e.preventDefault();
 		e.stopPropagation();
 		setIsEditPage({ open: true, selectedRow });
-		setHeader(`Edit KYC Labels : Label ${selectedRow.documentLabelId}`);
-		validation.setValues(getInitialValues(selectedRow));
+		setHeader(`Edit KYC Labels : Label ${selectedRow.id}`);
+		validation.setValues(
+			getInitialValues({ ...selectedRow, name: { EN: selectedRow.name } })
+		);
 		setIsOpen((prev) => !prev);
 	};
 
