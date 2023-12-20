@@ -52,7 +52,6 @@ const makeRequest = async (
 		data,
 		headers,
 		params,
-		withCredentials: true,
 	});
 };
 

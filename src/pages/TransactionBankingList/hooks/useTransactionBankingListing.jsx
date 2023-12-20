@@ -71,10 +71,10 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 			transactionBanking.rows.map((transaction) =>
 				formattedValues.push({
 					...transaction,
-					amountWithCurr:
-						transaction.amount >= 0
-							? `${transaction.amount} ${transaction.currencyCode}`
-							: `-${transaction.amount} ${transaction.currencyCode}`,
+					amountWithCurr: transaction.amount,
+					// transaction.amount >= 0
+					// 	? `${transaction.amount} ${transaction.currencyCode}`
+					// 	: `-${transaction.amount} ${transaction.currencyCode}`,
 					status: statusType.find(
 						(status) => status.value === transaction.status
 					)?.label,
@@ -97,7 +97,7 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'transactionBankingId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},

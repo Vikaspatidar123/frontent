@@ -73,7 +73,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 						...values,
 						password: Buffer.from(values.password).toString('base64'),
 						adminId: values.adminId ? Number(values.adminId) : adminDetails.id,
-						superAdminId: Number(adminDetails?.id),
+						superAdminId: Number(superAdminUser?.id),
 					},
 					navigate,
 				})
@@ -170,6 +170,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 			}));
 
 			if (validation?.values?.role === 'Manager') {
+				validation.setFieldValue('adminRoleId', 3);
 				customField = {
 					name: 'adminId',
 					fieldType: 'select',
@@ -179,6 +180,8 @@ const useActions = (isEditPage, filterValues = {}) => {
 					callBack: handleAdminSelect,
 					isDisabled: isEdit,
 				};
+			} else if (validation?.values?.role === 'Admin') {
+				validation.setFieldValue('adminRoleId', 2);
 			}
 
 			setRightFormFields([
@@ -192,7 +195,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 				//     validation.setFieldValue('group', option.value);
 				//   },
 				// },
-				isEdit ? {} : customField,
+				// isEdit ? {} : customField,
 			]);
 
 			setLeftFormFields([
@@ -205,7 +208,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 					optionList: roleOptions,
 					isDisabled: isEdit,
 				},
-				isEdit ? customField : {},
+				customField,
 			]);
 		}
 	};

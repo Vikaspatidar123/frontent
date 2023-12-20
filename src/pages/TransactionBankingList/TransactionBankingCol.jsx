@@ -9,9 +9,7 @@ const PaymentProvider = ({ value }) => value ?? 'NA';
 
 const Amount = ({ value }) =>
 	value ? (
-		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
-			{value}
-		</div>
+		<div className={value < 0 ? 'text-danger' : 'text-success'}>{value}</div>
 	) : (
 		'-'
 	);

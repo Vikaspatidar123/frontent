@@ -11,7 +11,6 @@ const getInitialValues = (defaultValue) => ({
 	role: defaultValue?.adminRole?.name || null,
 	adminId: defaultValue?.parentId || null,
 	permission: defaultValue?.permissions?.[0]?.permission || {},
-	group: defaultValue?.group || null,
 });
 const initialValueInstance = {
 	email: PropTypes.string,
@@ -22,7 +21,6 @@ const initialValueInstance = {
 	role: PropTypes.string,
 	adminId: PropTypes.string,
 	permission: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-	group: PropTypes.string,
 };
 
 const validationSchema = (isEdit) =>
@@ -67,6 +65,7 @@ const validationSchema = (isEdit) =>
 			.min(8)
 			.max(100)
 			.required('User Name Required'),
+		adminRoleId: Yup.number().required('Admin role id is required'),
 		// group: Yup.string()
 		//   .min(3, 'Group Name must be atleast 3 characters')
 		//   .max(200)
@@ -74,7 +73,7 @@ const validationSchema = (isEdit) =>
 		//   .required('Group Name Required'),
 	});
 
-const leftStaticFormFields = (isEdit) => [
+const leftStaticFormFields = () => [
 	{
 		name: 'username',
 		fieldType: 'textField',
@@ -86,14 +85,6 @@ const leftStaticFormFields = (isEdit) => [
 		fieldType: 'textField',
 		label: 'First Name',
 		placeholder: 'Enter first name',
-	},
-	{
-		name: 'password',
-		fieldType: 'textField',
-		label: 'Password',
-		placeholder: 'Enter password',
-		isPassword: true, // for showing visibility (if needed)
-		isHide: isEdit,
 	},
 ];
 
@@ -110,6 +101,14 @@ const rightStaticFormFields = (isEdit) => [
 		fieldType: 'textField',
 		label: 'Last Name',
 		placeholder: 'Enter last name',
+	},
+	{
+		name: 'password',
+		fieldType: 'textField',
+		label: 'Password',
+		placeholder: 'Enter password',
+		isPassword: true, // for showing visibility (if needed)
+		isHide: isEdit,
 	},
 ];
 
