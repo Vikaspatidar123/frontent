@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import moment from 'moment';
-import { statusType, transactionType } from './constants';
+import { statusType, LEDGER_TYPES, LEDGER_PURPOSE } from './constants';
 
 const staticFiltersFields = () => [
 	{
@@ -8,28 +8,39 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Transaction type',
-		optionList: transactionType.map(({ value, label }) => ({
+		optionList: LEDGER_TYPES.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
 		})),
 	},
 	{
-		name: 'actioneeType',
+		name: 'ledgerPurpose',
 		fieldType: 'select',
 		label: '',
-		placeholder: 'Actionee Type',
-		optionList: [
-			{
-				value: 'user',
-				optionLabel: 'User',
-			},
-			{
-				value: 'admin',
-				optionLabel: 'Admin',
-			},
-		],
+		placeholder: 'Ledger Purpose',
+		optionList: LEDGER_PURPOSE.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
 	},
+	// {
+	// 	name: 'actioneeType',
+	// 	fieldType: 'select',
+	// 	label: '',
+	// 	placeholder: 'Actionee Type',
+	// 	optionList: [
+	// 		{
+	// 			value: 'user',
+	// 			optionLabel: 'User',
+	// 		},
+	// 		{
+	// 			value: 'admin',
+	// 			optionLabel: 'Admin',
+	// 		},
+	// 	],
+	// },
 	{
 		name: 'status',
 		fieldType: 'select',
@@ -42,11 +53,11 @@ const staticFiltersFields = () => [
 		})),
 	},
 	{
-		name: 'paymentProvider',
+		name: 'actineeName',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
-		placeholder: 'Search by payment provider',
+		placeholder: 'Search by Actionee',
 	},
 	{
 		name: 'ranges',
@@ -62,10 +73,10 @@ const endDate = new Date(); // Do not define it inside filterValue function
 const filterValues = () => ({
 	paymentProvider: '',
 	status: null,
-	actioneeType: null,
+	// actioneeType: null,
 	startDate,
 	endDate,
-	currencyCode: null,
+	currency: null,
 	transactionType: null,
 });
 
@@ -73,10 +84,10 @@ const filterValidationSchema = () =>
 	Yup.object({
 		paymentProvider: Yup.string().nullable(),
 		status: Yup.string().nullable(),
-		actioneeType: Yup.string().nullable(),
+		// actioneeType: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
-		currencyCode: Yup.string().nullable(),
+		currency: Yup.string().nullable(),
 		transactionType: Yup.string().nullable(),
 	});
 

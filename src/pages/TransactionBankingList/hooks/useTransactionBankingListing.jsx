@@ -6,18 +6,16 @@ import {
 	fetchTransactionBankingStart,
 	resetTransactionBankingData,
 } from '../../../store/actions';
-import { statusType, transactionType, walletType } from '../constants';
+import { LEDGER_TYPES, statusType } from '../constants';
 import { formatDateYMD, getDateTime } from '../../../helpers/dateFormatter';
 import {
-	ActionType,
+	Purpose,
 	Actionee,
-	ActioneeType,
+	TransactionType,
 	Amount,
 	CreatedAt,
 	Id,
-	PaymentProvider,
 	Status,
-	TransactionId,
 } from '../TransactionBankingCol';
 import { downloadFileInNewWindow } from '../../../utils/helpers';
 import { getAccessToken } from '../../../network/storageUtils';
@@ -37,19 +35,19 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		setItemsPerPage(value);
 	};
 
-	const handleWalletType = ({ type, amountType }) => {
-		if (
-			[
-				'addMoney',
-				'removeMoney',
-				'addMoneyInternal',
-				'removeMoneyInternal',
-			]?.includes(type)
-		) {
-			return `(${walletType[amountType]})`;
-		}
-		return '';
-	};
+	// const handleWalletType = ({ type, amountType }) => {
+	//   if (
+	//     [
+	//       'addMoney',
+	//       'removeMoney',
+	//       'addMoneyInternal',
+	//       'removeMoneyInternal',
+	//     ]?.includes(type)
+	//   ) {
+	//     return `(${walletType[amountType]})`;
+	//   }
+	//   return '';
+	// };
 
 	useEffect(() => {
 		dispatch(
@@ -72,21 +70,22 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				formattedValues.push({
 					...transaction,
 					amountWithCurr: transaction.amount,
-					// transaction.amount >= 0
-					// 	? `${transaction.amount} ${transaction.currencyCode}`
-					// 	: `-${transaction.amount} ${transaction.currencyCode}`,
+					currencyCode: transaction?.wallet?.currency?.code,
 					status: statusType.find(
-						(status) => status.value === transaction.status
+						(status) => status.value === transaction?.transaction?.status
 					)?.label,
-					actionType: `${
-						transactionType.find(
-							(type) => type.value === transaction.transactionType
-						)?.label
-					} ${handleWalletType({
-						type: transaction.transactionType,
-						amountType: transaction.amountType,
-					})}`,
+					// actionType: `${transactionType.find(
+					//   (type) => type.value === transaction.transactionType
+					// )?.label
+					//   } ${handleWalletType({
+					//     type: transaction.transactionType,
+					//     amountType: transaction.amountType,
+					//   })}`,
+					actionee: transaction?.transaction?.adminUser?.email,
 					createdAt: getDateTime(transaction.createdAt),
+					transactionType: LEDGER_TYPES.find(
+						(trans) => trans.value === transaction?.type
+					)?.label,
 				})
 			);
 		}
@@ -101,40 +100,45 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
-			{
-				Header: 'Transaction Id',
-				accessor: 'paymentTransactionId',
-				filterable: true,
-				Cell: ({ cell }) => <TransactionId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Transaction Id',
+			// 	accessor: 'paymentTransactionId',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <TransactionId value={cell.value} />,
+			// },
 			{
 				Header: 'Actionee',
-				accessor: 'actioneeEmail',
+				accessor: 'actionee',
 				filterable: true,
 				Cell: ({ cell }) => <Actionee value={cell.value} />,
 			},
-			{
-				Header: 'Payment Provider',
-				accessor: 'paymentProvider',
-				filterable: true,
-				Cell: ({ cell }) => <PaymentProvider value={cell.value} />,
-			},
+			// {
+			//   Header: 'Payment Provider',
+			//   accessor: 'paymentProvider',
+			//   filterable: true,
+			//   Cell: ({ cell }) => <PaymentProvider value={cell.value} />,
+			// },
 			{
 				Header: 'Amount',
 				accessor: 'amountWithCurr',
 				filterable: true,
-				Cell: ({ cell }) => <Amount value={cell.value} />,
+				Cell: ({ cell }) => (
+					<Amount
+						value={cell.value}
+						currencyCode={cell?.row?.original?.currencyCode}
+					/>
+				),
 			},
 			{
-				Header: 'Action Type',
-				accessor: 'actionType',
+				Header: 'Purpose',
+				accessor: 'purpose',
 				filterable: true,
-				Cell: ({ cell }) => <ActionType value={cell.value} />,
+				Cell: ({ cell }) => <Purpose value={cell.value} />,
 			},
 			{
-				Header: 'Actionee Type',
-				accessor: 'actioneeType',
-				Cell: ({ cell }) => <ActioneeType value={cell.value} />,
+				Header: 'Transaction Type',
+				accessor: 'transactionType',
+				Cell: ({ cell }) => <TransactionType value={cell.value} />,
 			},
 			{
 				Header: 'Status',
