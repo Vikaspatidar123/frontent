@@ -11,6 +11,8 @@ import { convertAmountOptions } from '../constants';
 import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getCreateBonusInitialValues } from '../formDetails';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const Currencies = ({
 	selectedBonus,
@@ -22,6 +24,7 @@ const Currencies = ({
 	bonusTypeChanged,
 	setBonusTypeChanged,
 	bonusDetails,
+	setExistingFilledFields,
 }) => {
 	const dispatch = useDispatch();
 	const [nextTab, setNextTab] = useState('');
@@ -81,6 +84,28 @@ const Currencies = ({
 			setNextTab('');
 		}
 	}, [nextTab]);
+
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.bonusManagement)) {
+			const storedValues = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.bonusManagement))
+			);
+
+			validation.setValues(storedValues.currency);
+			if (Object.keys(storedValues.currency).length > 1) {
+				setNextButtonActive(true);
+			}
+		}
+	}, []);
+
+	useEffect(() => {
+		if (validation?.values) {
+			setExistingFilledFields((prev) => ({
+				...prev,
+				currency: validation?.values,
+			}));
+		}
+	}, [validation?.values]);
 
 	const fetchData = async () => {
 		const code = Object.keys(validation?.values)?.[0];

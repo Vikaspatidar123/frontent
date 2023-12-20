@@ -8,12 +8,16 @@ import {
 	commonFields,
 	generalStepInitialValues,
 	generalStaticFormFieldsWithoutPercent,
+	generalStepInitialValuesFromLocalStorage,
 } from '../formDetails';
 import FormPage from '../../../components/Common/FormPage';
 import Spinners from '../../../components/Common/Spinner';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { bonusTypes, daysOfWeek } from '../constants';
 import { generalFormSchema } from '../Validation/schema';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
+import { dataURLtoBlob } from '../../../utils/helpers';
 
 const General = ({
 	isLoading,
@@ -27,6 +31,8 @@ const General = ({
 	setSelectedGames,
 	setBonusTypeChanged,
 	bonusDetails,
+	existingFilledFields,
+	setExistingFilledFields,
 }) => {
 	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
 	const [isInitialFieldRendered, setIsInitialFieldsRendered] = useState(false);
@@ -83,6 +89,16 @@ const General = ({
 			} else {
 				validation.setFieldValue('isSticky', false);
 			}
+			setExistingFilledFields({
+				...existingFilledFields,
+				bonusType,
+				selectedCountries: [],
+				visibleInPromotions: false,
+				validOnDays: [],
+				wageringRequirementType: 'bonus',
+				isSticky: bonusType === 'freespins',
+			});
+			window.localStorage.removeItem(formPageTitle.bonusManagement);
 		}
 		setSelectedBonus(bonusType);
 		switch (bonusType) {
@@ -197,6 +213,49 @@ const General = ({
 			}
 		}
 	}, [validation.values.visibleInPromotions, isInitialFieldRendered]);
+
+	useEffect(() => {
+		if (existingFilledFields) {
+			setExistingFilledFields((prev) => ({
+				...prev,
+				...validation.values,
+			}));
+		}
+	}, [validation.values]);
+
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.bonusManagement)) {
+			const storedValues = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.bonusManagement))
+			);
+			if (storedValues?.bonusImage?.thumbnail) {
+				const base64Content = storedValues.bonusImage?.thumbnail;
+				const blob = dataURLtoBlob(base64Content);
+
+				storedValues.bonusImage = new File(
+					[blob],
+					storedValues.bonusImage.name,
+					{
+						type: blob.type,
+					}
+				);
+			}
+			validation.setValues(
+				generalStepInitialValuesFromLocalStorage(storedValues)
+			);
+		}
+	}, []);
+
+	// useEffect(() => {
+	// 	if (localStorage.getItem(formPageTitle.bonusManagement)) {
+	// 		const storedValues = JSON.parse(
+	// 			decryptCredentials(localStorage.getItem(formPageTitle.bonusManagement))
+	// 		);
+	// 		if (!isEqual(storedValues?.bonusType, validation.values?.bonusType)) {
+	// 			handleBonusTypeChange(null, storedValues?.bonusType);
+	// 		}
+	// 	}
+	// }, [validation.values?.bonusType]);
 
 	return (
 		<Row>

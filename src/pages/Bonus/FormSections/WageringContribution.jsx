@@ -8,6 +8,7 @@ import {
 	CustomSelectField,
 } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/TableContainer';
+import { formPageTitle } from '../../../components/Common/constants';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
@@ -39,12 +40,13 @@ const WageringContribution = ({
 	setAllFields,
 	bonusDetails,
 	isEdit,
+	selectedTemplate,
+	setSelectedTemplate,
 }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [searchText, setSearchText] = useState('');
-	const [selectedTemplate, setSelectedTemplate] = useState('');
 	const {
 		allSAWageringTemplates,
 		SAWageringTemplateLoading,
@@ -80,7 +82,11 @@ const WageringContribution = ({
 	}, [allSAWageringTemplates]);
 
 	useEffect(() => {
-		if (allSAWageringTemplates?.length && !isEdit) {
+		if (
+			allSAWageringTemplates?.length &&
+			!isEdit &&
+			!localStorage.getItem(formPageTitle.bonusManagement)
+		) {
 			setSelectedTemplate(allSAWageringTemplates[0].wageringTemplateId);
 		}
 	}, [allSAWageringTemplates, isEdit]);

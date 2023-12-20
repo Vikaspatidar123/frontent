@@ -5,13 +5,25 @@ import CrudSection from '../../components/Common/CrudSection';
 import { projectName } from '../../constants/config';
 import useCreateCms from './hooks/useCreateCms';
 import FormPage from '../../components/Common/FormPage';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const CreateCMS = () => {
 	// Set meta title
 	document.title = projectName;
 
-	const { header, validation, formFields, galleryList, customComponent } =
-		useCreateCms();
+	const {
+		header,
+		validation,
+		formFields,
+		galleryList,
+		customComponent,
+		showModal,
+		setShowModal,
+		navigate,
+		existingFilledFields,
+		onBackClick,
+	} = useCreateCms();
 
 	return (
 		<div className="page-content">
@@ -19,12 +31,12 @@ const CreateCMS = () => {
 				<Breadcrumbs
 					title="CMS"
 					breadcrumbItem="Create"
-					titleLink="/cms"
 					leftTitle={
 						<>
 							<i className="fas fa-angle-left" /> Back
 						</>
 					}
+					callBack={onBackClick}
 				/>
 				<Row>
 					<Col lg="12">
@@ -38,6 +50,13 @@ const CreateCMS = () => {
 								submitLabel="Submit"
 								customColClasses=""
 								isSubmitLoading={false}
+							/>
+							<ConfirmationModal
+								openModal={showModal}
+								setOpenModal={setShowModal}
+								validation={existingFilledFields}
+								navigate={navigate}
+								pageType={formPageTitle.cms}
 							/>
 						</Card>
 					</Col>

@@ -69,6 +69,7 @@ import {
 import { showToastr } from '../../utils/helpers';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { emailDynamicOptions } from '../../pages/EmailTemplate/Constant';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* getAllEmailTemplatesWorker(action) {
 	try {
@@ -201,6 +202,8 @@ function* createEmailTemplateWorker(action) {
 			message: 'Template Created Successfully',
 			type: 'success',
 		});
+
+		window.localStorage.removeItem(formPageTitle.crm);
 
 		yield put(createEmailTemplateSuccess());
 		if (navigate) {

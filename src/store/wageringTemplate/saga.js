@@ -29,6 +29,7 @@ import {
 } from '../../network/getRequests';
 import { createWageringTemplate } from '../../network/postRequests';
 import { updateWageringTemplate } from '../../network/putRequests';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* getWageringTemplateDetailWorker(action) {
 	try {
@@ -59,6 +60,8 @@ function* createWageringTemplateWorker(action) {
 			message: `Created Wagering Template Successfully`,
 			type: 'success',
 		});
+
+		window.localStorage.removeItem(formPageTitle.wageringTemplate);
 
 		yield put(createWageringTemplateDetailsSuccess());
 

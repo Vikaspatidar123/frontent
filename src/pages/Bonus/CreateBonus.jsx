@@ -3,6 +3,8 @@ import { Container } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCreateBonus from './hooks/useCreateBonus';
 import StepFormTabs from '../../components/Common/StepFormTabs';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const CreateBonus = () => {
 	const {
@@ -12,19 +14,29 @@ const CreateBonus = () => {
 		onNextClick,
 		isNextDisabled,
 		createBonusLoading,
+		showModal,
+		setShowModal,
+		onBackClick,
+		existingFilledFields,
+		navigate,
 	} = useCreateBonus({ isEdit: false });
+
+	const validation = {
+		values: existingFilledFields,
+	};
 
 	return (
 		<div className="page-content">
 			<Breadcrumbs
 				title="Bonus"
 				breadcrumbItem="Create"
-				titleLink="/bonus"
+				// titleLink="/bonus"
 				leftTitle={
 					<>
 						<i className="fas fa-angle-left" /> Back
 					</>
 				}
+				callBack={onBackClick}
 			/>
 			<Container fluid>
 				<StepFormTabs
@@ -36,6 +48,13 @@ const CreateBonus = () => {
 					isPrevDisabled={isNextDisabled}
 					submitButtonText="Create Bonus"
 					submitButtonLoading={createBonusLoading}
+				/>
+				<ConfirmationModal
+					openModal={showModal}
+					setOpenModal={setShowModal}
+					validation={validation}
+					navigate={navigate}
+					pageType={formPageTitle.bonusManagement}
 				/>
 			</Container>
 		</div>

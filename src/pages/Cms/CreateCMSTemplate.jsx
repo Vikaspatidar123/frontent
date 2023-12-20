@@ -23,6 +23,8 @@ import { showToastr } from '../../utils/helpers';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getImageGallery, deleteImageGallery } from '../../store/actions';
+import { decryptCredentials } from '../../network/storageUtils';
+import { formPageTitle } from '../../components/Common/constants';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
@@ -62,6 +64,16 @@ const CreateCMSTemplate = ({
 			setSelectedTab(tab?.title);
 		}
 	}, [activeTab]);
+
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.cms)) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.cms))
+			);
+			setData(values?.content?.EN);
+			setLabel(values?.title?.EN);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (cmsByPageId?.content?.[selectedTab]) {

@@ -21,7 +21,7 @@ const CheckboxInput = ({ cell, selectedGames, toggleSelectGame }) => (
 			type="checkbox"
 			containerClass="false"
 			className="form-check-input"
-			checked={selectedGames.includes(
+			checked={selectedGames?.includes(
 				cell?.row?.original?.casinoGameId?.toString()
 			)}
 			switchSizeClass="form-switch-sm"

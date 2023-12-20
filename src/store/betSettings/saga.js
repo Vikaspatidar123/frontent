@@ -19,6 +19,7 @@ import { getBetSettings } from '../../network/getRequests';
 import { createBetSettings } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import { editBetSettings } from '../../network/putRequests';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* betSettingsWorker() {
 	try {
@@ -41,6 +42,8 @@ function* createBetSettingsWorker(action) {
 			message: `BetSettings Created Successfully`,
 			type: 'success',
 		});
+
+		window.localStorage.removeItem(formPageTitle.betSettings);
 
 		yield put(createBetSettingsSuccess());
 	} catch (e) {

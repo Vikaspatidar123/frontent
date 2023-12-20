@@ -22,6 +22,9 @@ import useEmailTemplate from './useEmailTemplate';
 import { showToastr } from '../../../utils/helpers';
 import CreateTemplate from '../CreateTemplate';
 import { modules } from '../../../constants/permissions';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
+import { isEmpty } from 'lodash';
 
 const useCreateEmailTemplate = () => {
 	const navigate = useNavigate();
@@ -31,6 +34,8 @@ const useCreateEmailTemplate = () => {
 	const [template, setTemplate] = useState('');
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
+	const [existingFilledFields, setExistingFilledFields] = useState([]);
+	const [showModal, setShowModal] = useState(false);
 
 	const { emailTemplateOrder } = useEmailTemplate();
 
@@ -178,6 +183,40 @@ const useCreateEmailTemplate = () => {
 		},
 	]);
 
+	useEffect(() => {
+		setExistingFilledFields({
+			...existingFilledFields,
+			values: {
+				...validation.values,
+				template: template,
+			},
+		});
+	}, [validation.values, template]);
+
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.crm)) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.crm))
+			);
+			validation.setValues({
+				label: values?.label,
+				type: parseInt(values?.type),
+			});
+			setTemplate(values?.template);
+		}
+	}, []);
+
+	const onBackClick = () => {
+		const hasFilledValues = Object.values(existingFilledFields?.values).some(
+			(value) => !isEmpty(value)
+		);
+		if (hasFilledValues) {
+			setShowModal(true);
+		} else {
+			navigate('/email-templates');
+		}
+	};
+
 	return {
 		validation,
 		buttonList,
@@ -190,6 +229,11 @@ const useCreateEmailTemplate = () => {
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,
+		showModal,
+		setShowModal,
+		navigate,
+		existingFilledFields,
+		onBackClick,
 	};
 };
 

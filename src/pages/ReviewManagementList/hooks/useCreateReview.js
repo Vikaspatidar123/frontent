@@ -10,16 +10,19 @@ import {
 import { createReviewStart, updateReviewStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateReview = () => {
 	const dispatch = useDispatch();
 	const {
 		isCreateReviewLoading,
+		isCreateReviewSuccess,
 		isUpdateReviewLoading,
 		isUpdateReviewSuccess,
-		reviewManagement,
 	} = useSelector((state) => state.ReviewManagement);
 
+	const [showModal, setShowModal] = useState(false);
 	const [isEdit, setIsEdit] = useState({ open: false, reviewId: '' });
 
 	const handleSubmitReview = (values) => {
@@ -81,8 +84,10 @@ const useCreateReview = () => {
 	};
 
 	useEffect(() => {
-		setIsOpen(false);
-	}, [reviewManagement?.count]);
+		if (isCreateReviewSuccess) {
+			setIsOpen(false);
+		}
+	}, [isCreateReviewSuccess]);
 
 	useEffect(() => {
 		if (isUpdateReviewSuccess) {
@@ -101,6 +106,19 @@ const useCreateReview = () => {
 		},
 	]);
 
+	useEffect(() => {
+		if (
+			window.localStorage.getItem(formPageTitle.reviewManagement) &&
+			!isEdit.open &&
+			isOpen
+		) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.reviewManagement))
+			);
+			validation.setValues(values);
+		}
+	}, [isOpen]);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -112,6 +130,9 @@ const useCreateReview = () => {
 		isUpdateReviewLoading,
 		buttonList,
 		handleEditClick,
+		showModal,
+		setShowModal,
+		isEdit,
 	};
 };
 
