@@ -41,7 +41,7 @@ const HierarchyTree = ({ adminDetails }) => {
 					collapsible={false}
 					separation={{ siblings: 1.3, nonSiblings: 2 }}
 					onNodeClick={(e) => {
-						getChildren(e?.data?.id, e.data?.data?.adminRoleId);
+						getChildren(e?.data?.id, e.data?.data?.superRoleId);
 					}}
 					renderCustomNodeElement={({ nodeDatum, onNodeClick }) => (
 						<NodeLabel nodeDatum={nodeDatum} onNodeClick={onNodeClick} />

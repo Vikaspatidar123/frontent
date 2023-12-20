@@ -61,7 +61,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 				updateSuperAdminUserStart({
 					data: {
 						...values,
-						adminUserId: adminDetails?.adminUserId,
+						adminUserId: Number(adminDetails?.id),
 					},
 					navigate,
 				})
@@ -72,9 +72,8 @@ const useActions = (isEditPage, filterValues = {}) => {
 					data: {
 						...values,
 						password: Buffer.from(values.password).toString('base64'),
-						adminId: values.adminId
-							? Number(values.adminId)
-							: adminDetails.adminUserId,
+						adminId: values.adminId ? Number(values.adminId) : adminDetails.id,
+						superAdminId: Number(adminDetails?.id),
 					},
 					navigate,
 				})

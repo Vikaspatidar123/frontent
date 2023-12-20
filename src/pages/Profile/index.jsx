@@ -160,11 +160,11 @@ const ProfilePage = ({ t }) => {
 		{
 			id: '5',
 			title: 'Tree',
-			component: !isTenant && superAdminUser && superAdminUser?.adminUserId && (
+			component: !isTenant && superAdminUser && superAdminUser?.id && (
 				<HierarchyTree
 					adminDetails={{
 						name: `${superAdminUser?.firstName} ${superAdminUser?.lastName}`,
-						id: superAdminUser?.adminUserId,
+						id: superAdminUser?.id,
 						children: [],
 						isInitial: true,
 						data: { superRoleId: superAdminUser?.adminRoleId },

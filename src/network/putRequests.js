@@ -4,13 +4,13 @@ const { VITE_APP_API_URL } = import.meta.env;
 const API_NAMESPACE = '/api/v1';
 
 const updateSuperAdminUser = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/`, data);
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`, data);
 
 const updateAdmin = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/`, data); // No use
 
 const updateProfile = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/profile`, data);
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/profile`, data);
 
 const updateSiteConfiguration = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/site-information`, data, {
@@ -18,7 +18,7 @@ const updateSiteConfiguration = (data) =>
 	});
 
 const resetProfilePassword = ({ data }) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/change-password`, data);
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/change-password`, data);
 
 const superAdminViewToggleStatus = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/status`, data);

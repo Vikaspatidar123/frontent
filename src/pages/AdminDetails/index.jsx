@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TabsPage from '../../components/Common/TabsPage';
-// import Permissions from '../Profile/FormSections/Permissions';
+import Permissions from '../Profile/FormSections/Permissions';
 import {
 	getPermissionsStart,
 	resetAdminDetails,
@@ -37,11 +37,11 @@ const AdminDetails = ({ t }) => {
 			title: 'Overview',
 			component: <OverView details={adminDetails} t={t} />,
 		},
-		// {
-		// 	id: '2',
-		// 	title: 'Permissions',
-		// 	component: <Permissions details={adminDetails} />,
-		// },
+		{
+			id: '2',
+			title: 'Permissions',
+			component: <Permissions details={adminDetails} />,
+		},
 	];
 
 	const toggle = (tab) => {

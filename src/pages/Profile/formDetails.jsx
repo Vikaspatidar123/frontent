@@ -92,10 +92,10 @@ const getAdminInitialValues = (details, isTenant) => ({
 	firstName: details?.firstName,
 	lastName: details?.lastName,
 	email: details?.email,
-	adminUsername: details?.adminUsername || '',
+	username: details?.username || '',
 	phone: isTenant ? details?.phone : '',
 	role:
-		details?.AdminRole?.name === 'Super Admin'
+		details?.adminRole?.name === 'Superadmin'
 			? 'Admin'
 			: details?.SuperadminRole?.name,
 	agentName: details?.agentName || '',
@@ -154,7 +154,7 @@ const rightStaticAdminFormFields = (isEditable) => [
 		placeholder: 'Enter Last Name',
 	},
 	{
-		name: 'adminUsername',
+		name: 'username',
 		fieldType: 'textField',
 		label: 'User Name',
 		isDisabled: true,

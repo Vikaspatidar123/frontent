@@ -9,7 +9,7 @@ import {
 	Email,
 	FullName,
 	Status,
-	// Role,
+	Role,
 	// Group,
 } from '../AdminsListCol';
 import ActionButtons from '../ActionButtons';
@@ -36,6 +36,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 					...admin,
 					fullName: `${admin.firstName} ${admin.lastName}`,
 					randomColor,
+					roleName: admin?.adminRole?.name,
 				};
 			});
 		}
@@ -112,12 +113,12 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 					<Email value={cell.value} adminUserId={cell?.row?.original?.id} />
 				),
 			},
-			// {
-			//   Header: 'Role',
-			//   accessor: 'adminRoleId',
-			//   filterable: true,
-			//   Cell: ({ cell }) => <Role value={cell.value} />,
-			// },
+			{
+				Header: 'Role',
+				accessor: 'roleName',
+				filterable: true,
+				Cell: ({ cell }) => <Role value={cell.value} />,
+			},
 			// {
 			//   Header: 'Group',
 			//   accessor: 'group',

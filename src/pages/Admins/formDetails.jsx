@@ -5,18 +5,18 @@ import PropTypes from 'prop-types';
 const getInitialValues = (defaultValue) => ({
 	email: defaultValue?.email || '',
 	password: '',
-	adminUsername: defaultValue?.adminUsername || '',
+	username: defaultValue?.username || '',
 	firstName: defaultValue?.firstName || '',
 	lastName: defaultValue?.lastName || '',
-	role: defaultValue?.AdminRole?.name || null,
+	role: defaultValue?.adminRole?.name || null,
 	adminId: defaultValue?.parentId || null,
-	permission: defaultValue?.userPermission?.permission || {},
+	permission: defaultValue?.permissions?.[0]?.permission || {},
 	group: defaultValue?.group || null,
 });
 const initialValueInstance = {
 	email: PropTypes.string,
 	password: PropTypes.string,
-	adminUsername: PropTypes.string,
+	username: PropTypes.string,
 	firstName: PropTypes.string,
 	lastName: PropTypes.string,
 	role: PropTypes.string,
@@ -62,21 +62,21 @@ const validationSchema = (isEdit) =>
 		// 	then: Yup.string().required('Parent Admin is required').nullable(),
 		// 	otherwise: Yup.string().nullable(),
 		// }),
-		adminUsername: Yup.string()
+		username: Yup.string()
 			.matches(/^[A-Za-z]+$/, 'Only Alphabets Allowed')
 			.min(8)
 			.max(100)
 			.required('User Name Required'),
-		group: Yup.string()
-			.min(3, 'Group Name must be atleast 3 characters')
-			.max(200)
-			.matches(/^[A-Za-z0-9 ]+$/, 'Only Alphabets, Numbers and Space Allowed')
-			.required('Group Name Required'),
+		// group: Yup.string()
+		//   .min(3, 'Group Name must be atleast 3 characters')
+		//   .max(200)
+		//   .matches(/^[A-Za-z0-9 ]+$/, 'Only Alphabets, Numbers and Space Allowed')
+		//   .required('Group Name Required'),
 	});
 
 const leftStaticFormFields = (isEdit) => [
 	{
-		name: 'adminUsername',
+		name: 'username',
 		fieldType: 'textField',
 		label: 'Username',
 		placeholder: 'Enter username',
