@@ -5,6 +5,7 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { isEmpty, isEqual } from 'lodash';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
@@ -16,23 +17,28 @@ import {
 	getInitialValues,
 	createCmsNewSchema,
 	staticFormFields,
+	initialData,
 } from '../formDetails';
 import CreateCMSTemplate from '../CreateCMSTemplate';
 
 import { showToastr } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateCms = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [customComponent, setCustomComponent] = useState();
 	const [showGallery, setShowGallery] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { cmsDynamicKeys } = useSelector((state) => state.AllCms);
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
+	const [existingFilledFields, setExistingFilledFields] = useState({});
 
 	const formSubmitHandler = (values) => {
 		if (title[selectedTab] === '' || content[selectedTab] === '') {
@@ -91,6 +97,17 @@ const useCreateCms = () => {
 		);
 	}, [languageData, title, content, showGallery, selectedTab]);
 
+	useEffect(() => {
+		setExistingFilledFields({
+			...existingFilledFields,
+			values: {
+				...validation.values,
+				title,
+				content,
+			},
+		});
+	}, [title, content, validation?.values]);
+
 	const handleCreateClick = (e) => {
 		e.preventDefault();
 		navigate('create');
@@ -118,6 +135,37 @@ const useCreateCms = () => {
 		},
 	]);
 
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.cms)) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.cms))
+			);
+			validation.setValues({
+				category: values?.category,
+				title: values?.title?.EN || '',
+				content: values?.content?.EN || '',
+				slug: values?.slug || '',
+				isActive: values?.isActive || false,
+				language: values?.language || '',
+			});
+
+			setTitle({ EN: values?.title?.EN || '' });
+			setContent({ EN: values?.content?.EN || '' });
+		}
+	}, []);
+
+	const onBackClick = () => {
+		if (!isEmpty(existingFilledFields)) {
+			const existingFilledFieldsCopy = existingFilledFields?.values;
+			const isDataEqual = isEqual(existingFilledFieldsCopy, initialData);
+			if (!isDataEqual) {
+				setShowModal(true);
+			} else {
+				navigate('/cms');
+			}
+		}
+	};
+
 	return {
 		header,
 		validation,
@@ -134,6 +182,11 @@ const useCreateCms = () => {
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,
+		showModal,
+		setShowModal,
+		navigate,
+		existingFilledFields,
+		onBackClick,
 	};
 };
 

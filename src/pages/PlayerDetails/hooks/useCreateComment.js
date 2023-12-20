@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -8,12 +8,15 @@ import {
 } from '../formDetails';
 import { createUserComment } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateComment = ({ userId }) => {
 	const dispatch = useDispatch();
 	const { createUserCommentsLoading, userComments, createUserCommentsSuccess } =
 		useSelector((state) => state.UserDetails);
 
+	const [showModal, setShowModal] = useState(false);
 	const handleCreateComment = (values) => {
 		dispatch(
 			createUserComment({
@@ -25,7 +28,7 @@ const useCreateComment = ({ userId }) => {
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
 		useForm({
-			header: 'Add Comment',
+			header: 'Add Note',
 			initialValues: getInitialValues(),
 			validationSchema,
 			staticFormFields,
@@ -53,6 +56,15 @@ const useCreateComment = ({ userId }) => {
 		},
 	]);
 
+	useEffect(() => {
+		if (window.localStorage.getItem(formPageTitle.notes) && isOpen) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.notes))
+			);
+			validation.setValues(values);
+		}
+	}, [isOpen]);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -62,6 +74,8 @@ const useCreateComment = ({ userId }) => {
 		setFormFields,
 		isCreateCommentLoading: createUserCommentsLoading,
 		buttonList,
+		showModal,
+		setShowModal,
 	};
 };
 

@@ -4,6 +4,8 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import { projectName } from '../../constants/config';
 import useCreateWageringTemplate from './hooks/useCreateWagringTemplate';
 import FormPage from '../../components/Common/FormPage';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const CreateWageringTemplate = () => {
 	// Set meta title
@@ -15,6 +17,10 @@ const CreateWageringTemplate = () => {
 		rightFormFields,
 		customComponent,
 		createWageringTemplateDetailLoading,
+		showModal,
+		setShowModal,
+		navigate,
+		existingFilledData,
 	} = useCreateWageringTemplate();
 
 	return (
@@ -23,12 +29,13 @@ const CreateWageringTemplate = () => {
 				<Breadcrumbs
 					title="Wagering Template"
 					breadcrumbItem="Create"
-					titleLink="/wagering-template"
 					leftTitle={
 						<>
 							<i className="fas fa-angle-left" /> Back
 						</>
 					}
+					values={validation.values}
+					setShowModal={setShowModal}
 				/>
 				<Row>
 					<Col lg="12">
@@ -41,6 +48,13 @@ const CreateWageringTemplate = () => {
 							submitLabel="Submit"
 							customColClasses=""
 							isSubmitLoading={createWageringTemplateDetailLoading}
+						/>
+						<ConfirmationModal
+							openModal={showModal}
+							setOpenModal={setShowModal}
+							navigate={navigate}
+							validation={existingFilledData}
+							pageType={formPageTitle.wageringTemplate}
 						/>
 					</Col>
 				</Row>

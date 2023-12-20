@@ -13,11 +13,13 @@ import {
 	Select,
 } from './WageringTemplateListCol';
 
-const columns = (handleChange) => [
+const columns = (handleChange, selectedId) => [
 	{
 		Header: 'SELECT',
 		accessor: 'checkField',
-		Cell: ({ cell }) => <Select cell={cell} handleChange={handleChange} />,
+		Cell: ({ cell }) => (
+			<Select cell={cell} handleChange={handleChange} selectedId={selectedId} />
+		),
 	},
 	{
 		Header: 'NAME',
@@ -45,6 +47,7 @@ const CasinoGamesForm = ({
 	casinoGames,
 	validation,
 	wageringTemplateDetail,
+	selectedId,
 	setSelectedId,
 	onChangeRowsPerPage,
 	itemsPerPage,
@@ -77,12 +80,14 @@ const CasinoGamesForm = ({
 
 	const handleChange = (e, cell) => {
 		if (e.target.checked) {
-			setSelectedId((prevSelectedId) => [
-				...prevSelectedId,
-				{
-					casinoGameId: cell?.row?.original?.casinoGameId,
-				},
-			]);
+			setSelectedId((prevSelectedId) => {
+				return [
+					...prevSelectedId,
+					{
+						casinoGameId: cell?.row?.original?.casinoGameId,
+					},
+				];
+			});
 		} else {
 			setSelectedId((prevSelectedId) =>
 				prevSelectedId.filter(
@@ -97,7 +102,7 @@ const CasinoGamesForm = ({
 	return (
 		<Container fluid>
 			<TableContainer
-				columns={columns(handleChange)}
+				columns={columns(handleChange, selectedId)}
 				data={formattedCasinoGames}
 				isPagination
 				customPageSize={itemsPerPage}

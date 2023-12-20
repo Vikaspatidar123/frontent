@@ -18,6 +18,7 @@ import { getReviewManagement } from '../../network/getRequests';
 import { createReview } from '../../network/postRequests';
 import { updateReview } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* fetchReviewManagement(action) {
 	try {
@@ -41,6 +42,8 @@ function* createReviewWorker(action) {
 			message: `Review Created Successfully`,
 			type: 'success',
 		});
+
+		window.localStorage.removeItem(formPageTitle.reviewManagement);
 
 		yield put(createReviewSuccess());
 	} catch (e) {

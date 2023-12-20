@@ -6,13 +6,24 @@ import CrudSection from '../../components/Common/CrudSection';
 import { projectName } from '../../constants/config';
 import FormPage from '../../components/Common/FormPage';
 import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const CreateEmailTemplate = () => {
 	// Set meta title
 	document.title = projectName;
 
-	const { galleryList, validation, formFields, customComponent } =
-		useCreateEmailTemplate();
+	const {
+		galleryList,
+		validation,
+		formFields,
+		customComponent,
+		showModal,
+		setShowModal,
+		navigate,
+		existingFilledFields,
+		onBackClick,
+	} = useCreateEmailTemplate();
 
 	return (
 		<div className="page-content">
@@ -20,12 +31,12 @@ const CreateEmailTemplate = () => {
 				<Breadcrumbs
 					title="Email Template"
 					breadcrumbItem="Create"
-					titleLink="/email-templates"
 					leftTitle={
 						<>
 							<i className="fas fa-angle-left" /> Back
 						</>
 					}
+					callBack={onBackClick}
 				/>
 				<Row>
 					<Col lg="12">
@@ -41,6 +52,13 @@ const CreateEmailTemplate = () => {
 								submitLabel="Submit"
 								customColClasses=""
 								isSubmitLoading={false}
+							/>
+							<ConfirmationModal
+								openModal={showModal}
+								setOpenModal={setShowModal}
+								validation={existingFilledFields}
+								navigate={navigate}
+								pageType={formPageTitle.crm}
 							/>
 						</Card>
 					</Col>
