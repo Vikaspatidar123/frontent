@@ -27,9 +27,9 @@ const useSportsTounamentListing = (filterValues = {}) => {
 		if (sportsTournamentList) {
 			return sportsTournamentList?.rows?.map((item) => ({
 				...item,
-				tournamentName: item?.tournamentName[0]?.name,
-				countryName: item?.country?.countryName[0]?.name,
-				sportName: item.sports?.sportName[0].name,
+				tournamentName: item?.name,
+				countryName: item?.location?.name,
+				sportName: item.sport?.name,
 			}));
 		}
 		return [];
@@ -51,7 +51,7 @@ const useSportsTounamentListing = (filterValues = {}) => {
 	const columns = useMemo(() => [
 		{
 			Header: 'ID',
-			accessor: 'tournamentId',
+			accessor: 'id',
 			filterable: true,
 			Cell: ({ cell }) => <TournamentId value={cell.value} />,
 		},

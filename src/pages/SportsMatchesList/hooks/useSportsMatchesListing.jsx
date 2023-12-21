@@ -54,10 +54,10 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			sportsMatches.rows.map((match) =>
 				formattedValues.push({
 					...match,
-					title: `${match?.teams?.[0]?.team?.teamName?.[0]?.name} vs ${match?.teams?.[1]?.team?.teamName?.[0]?.name}`,
-					tournamentName: match.tournaments.tournamentName[0].name,
-					sportName: match.sportCountry.sport.sportName[0].name,
-					startDate: getDateTime(match.matchDate),
+					title: `${match?.eventParticipants?.[0]?.participant?.name} vs ${match?.eventParticipants?.[1]?.participant?.name}`,
+					tournamentName: match?.league?.name,
+					sportName: match?.league?.sport?.name,
+					startDate: getDateTime(match.startDate),
 				})
 			);
 		}
@@ -66,8 +66,8 @@ const useSportsMatchesListing = (filterValues = {}) => {
 	const toggleIsFeatured = (event, cell) => {
 		const data = {
 			isFeatured: (!event.target.checked).toString(),
-			providerMatchId: cell.row.original.providerMatchId,
-			matchId: cell.row.original.matchId,
+			providerMatchId: cell.row.original.providerId,
+			matchId: cell.row.original.id,
 		};
 		dispatch(updateFeaturedMatchStart(data));
 	};
@@ -76,7 +76,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'IS FEATURED',
-				accessor: 'isFeatured',
+				accessor: 'bettingEnabled',
 				disableSortBy: true,
 				Cell: ({ cell }) => (
 					<IsFeatured
@@ -89,7 +89,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			},
 			{
 				Header: 'Id',
-				accessor: 'matchId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
