@@ -162,7 +162,7 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 							>
 								Set
 							</Button>
-							{limit.value && (
+							{!!limit.value && (
 								<>
 									<i
 										className="mdi mdi-refresh"

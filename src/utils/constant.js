@@ -24,3 +24,16 @@ export const limitConstants = [
 	{ label: '45', value: 45 },
 	{ label: '50', value: 50 },
 ];
+
+export const userLimitTypes = {
+	selfExclusion: 'self_exclusion',
+	dailyBetLimit: 'daily_bet_limit',
+	weeklyBetLimit: 'weekly_bet_limit',
+	monthlyBetLimit: 'monthly_bet_limit',
+	dailyLossLimit: 'daily_loss_limit',
+	weeklyLossLimit: 'weekly_loss_limit',
+	monthlyLossLimit: 'monthly_loss_limit',
+	dailyDepositLimit: 'daily_deposit_limit',
+	weeklyDepositLimit: 'weekly_deposit_limit',
+	monthlyDepositLimit: 'monthly_deposit_limit',
+};

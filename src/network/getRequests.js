@@ -30,9 +30,9 @@ const getAllCasinoProviders = (payload) =>
 const getAdminRole = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/roles`);
 
-const getAdminChildren = ({ superAdminId, superRoleId }) =>
+const getAdminChildren = ({ superAdminId }) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/childs?adminId=${superAdminId}&adminRoleId=${superRoleId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/childs?adminId=${superAdminId}`
 	);
 
 const getAllAdmins = (payload) =>
@@ -106,7 +106,7 @@ const getCountriesList = (payload) =>
 
 const getSportsTransaction = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/transactions`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}/sports/transactions`,
 		payload
 	);
 
@@ -164,7 +164,7 @@ const getSiteConfiguration = (data) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/site-information`, data);
 
 const getGlobalRegistration = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/global-registration`);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/global-registration`);
 
 const getloyaltyLevel = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/loyalty-level`);

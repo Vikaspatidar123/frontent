@@ -1,51 +1,58 @@
+import { userLimitTypes } from '../../../utils/constant';
+
 const useEditLimits = ({ userDetails }) => {
-	const { userLimit: userLimits } = userDetails || {};
+	const { userLimits } = userDetails || [];
+
+	const findLimitValue = (key) => {
+		const limit = userLimits?.find((limits) => limits.key === key);
+		return limit?.value ? limit?.value : 0;
+	};
 
 	const limitLabels = [
 		{
 			label: 'Daily Wager Limit',
-			value: userLimits?.dailyBetLimit,
+			value: findLimitValue(userLimitTypes.dailyBetLimit),
 			minimum: 0,
 		},
 		{
 			label: 'Weekly Wager Limit',
-			value: userLimits?.weeklyBetLimit,
-			minimum: userLimits?.dailyBetLimit,
+			value: findLimitValue(userLimitTypes.weeklyBetLimit),
+			minimum: findLimitValue(userLimitTypes.dailyBetLimit),
 		},
 		{
 			label: 'Monthly Wager Limit',
-			value: userLimits?.monthlyBetLimit,
-			minimum: userLimits?.weeklyBetLimit,
+			value: findLimitValue(userLimitTypes.monthlyBetLimit),
+			minimum: findLimitValue(userLimitTypes.weeklyBetLimit),
 		},
 		{
 			label: 'Daily Deposit Limit',
-			value: userLimits?.dailyDepositLimit,
+			value: findLimitValue(userLimitTypes.dailyDepositLimit),
 			minimum: 0,
 		},
 		{
 			label: 'Weekly Deposit Limit',
-			value: userLimits?.weeklyDepositLimit,
-			minimum: userLimits?.dailyDepositLimit,
+			value: findLimitValue(userLimitTypes.weeklyDepositLimit),
+			minimum: findLimitValue(userLimitTypes.dailyDepositLimit),
 		},
 		{
 			label: 'Monthly Deposit Limit',
-			value: userLimits?.monthlyDepositLimit,
-			minimum: userLimits?.weeklyDepositLimit,
+			value: findLimitValue(userLimitTypes.monthlyDepositLimit),
+			minimum: findLimitValue(userLimitTypes.weeklyDepositLimit),
 		},
 		{
 			label: 'Daily Loss Limit',
-			value: userLimits?.dailyLossLimit,
+			value: findLimitValue(userLimitTypes.dailyLossLimit),
 			minimum: 0,
 		},
 		{
 			label: 'Weekly Loss Limit',
-			value: userLimits?.weeklyLossLimit,
-			minimum: userLimits?.dailyLossLimit,
+			value: findLimitValue(userLimitTypes.weeklyLossLimit),
+			minimum: findLimitValue(userLimitTypes.dailyLossLimit),
 		},
 		{
 			label: 'Monthly Loss Limit',
-			value: userLimits?.monthlyLossLimit,
-			minimum: userLimits?.weeklyLossLimit,
+			value: findLimitValue(userLimitTypes.monthlyLossLimit),
+			minimum: findLimitValue(userLimitTypes.weeklyLossLimit),
 		},
 	];
 
