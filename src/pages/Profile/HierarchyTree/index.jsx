@@ -12,12 +12,11 @@ const HierarchyTree = ({ adminDetails }) => {
 	const dispatch = useDispatch();
 	const { adminChildren } = useSelector((state) => state.AllAdmins);
 
-	const getChildren = async (id, superRoleId) => {
+	const getChildren = async (id) => {
 		dispatch(
 			getAdminChildren({
 				superAdminId: id,
 				parentAdmin: adminDetails.name,
-				superRoleId,
 			})
 		);
 	};
@@ -41,7 +40,7 @@ const HierarchyTree = ({ adminDetails }) => {
 					collapsible={false}
 					separation={{ siblings: 1.3, nonSiblings: 2 }}
 					onNodeClick={(e) => {
-						getChildren(e?.data?.id, e.data?.data?.superRoleId);
+						getChildren(e?.data?.id);
 					}}
 					renderCustomNodeElement={({ nodeDatum, onNodeClick }) => (
 						<NodeLabel nodeDatum={nodeDatum} onNodeClick={onNodeClick} />

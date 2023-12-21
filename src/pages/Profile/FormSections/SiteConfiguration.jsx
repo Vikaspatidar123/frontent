@@ -24,14 +24,14 @@ const SiteConfig = ({
 }) => {
 	const [formLanguage, setFormLanguage] = useState([]);
 	const languageOptions =
-		languageData?.rows?.map(({ code, languageName }) => ({
+		languageData?.rows?.map(({ code, name }) => ({
 			value: code,
-			label: languageName,
+			label: name,
 		})) || [];
 
 	const handleSubmit = (values) => {
 		const label = {};
-		if (values?.lang) {
+		if (values?.lang.length) {
 			languageOptions?.forEach((language) => {
 				if (values?.lang.some((item) => item.label === language.label)) {
 					label[language.value] = language.label;
