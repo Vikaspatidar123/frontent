@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer';
 import { isEmpty } from 'lodash';
 import {
@@ -29,10 +29,11 @@ import { decryptCredentials } from '../../../network/storageUtils';
 import { getRolesStart } from '../../../store/auth/roles/actions';
 
 const useActions = (isEditPage, filterValues = {}) => {
+	const location = useLocation();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const roles = useSelector((state) => state.AdminRoles.roles);
-	const groups = useSelector((state) => state.AdminUser.groups);
+	// const groups = useSelector((state) => state.AdminUser.groups);
 	const { adminDetails, superAdminUser, isAdminLoading } = useSelector(
 		(state) => state.PermissionDetails
 	);
@@ -152,7 +153,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 				.filter((r) => r.name !== 'Super Admin')
 				.map((r) => ({
 					id: r.adminRoleId,
-					optionLabel: r.name,
+					optionLabel: r.label,
 					value: r.name,
 				}));
 
@@ -180,7 +181,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 					callBack: handleAdminSelect,
 					isDisabled: isEdit,
 				};
-			} else if (validation?.values?.role === 'Admin') {
+			} else if (validation?.values?.role === 'admin') {
 				validation.setFieldValue('adminRoleId', 2);
 			}
 
@@ -195,7 +196,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 				//     validation.setFieldValue('group', option.value);
 				//   },
 				// },
-				// isEdit ? {} : customField,
+				isEdit ? customField : {},
 			]);
 
 			setLeftFormFields([
@@ -208,28 +209,32 @@ const useActions = (isEditPage, filterValues = {}) => {
 					optionList: roleOptions,
 					isDisabled: isEdit,
 				},
-				customField,
+				isEdit ? {} : customField,
 			]);
 		}
 	};
 
 	useEffect(() => {
-		if (isEmpty(roles)) {
-			dispatch(getRolesStart());
+		if (
+			location.pathname === '/staff/add' ||
+			location.pathname?.includes('/staff/edit')
+		) {
+			if (isEmpty(roles)) {
+				dispatch(getRolesStart());
+			}
+
+			if (isEmpty(allAdminList)) {
+				dispatch(
+					getAdminDetails({
+						limit: itemsPerPage,
+						pageNo: page,
+						orderBy: 'id',
+						sort: 'desc',
+					})
+				);
+			}
 		}
-		if (isEmpty(groups)) {
-			// dispatch(getAllGroupsStart());
-		}
-		if (isEmpty(allAdminList)) {
-			dispatch(
-				getAdminDetails({
-					limit: itemsPerPage,
-					pageNo: page,
-					orderBy: 'id',
-					sort: 'desc',
-				})
-			);
-		}
+
 		if (
 			!isEmpty(roles) &&
 			// !isEmpty(groups) &&
@@ -246,7 +251,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 	]);
 
 	useEffect(() => {
-		// if(validation?.values?.role === 'Admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
+		// if(validation?.values?.role === 'admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
 		setCustomComponent(
 			<PermissionForm
 				values={validation.values}
