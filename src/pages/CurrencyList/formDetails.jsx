@@ -10,6 +10,15 @@ const getInitialValues = (defaultValue) => ({
 	type: defaultValue?.type || 'fiat',
 });
 
+const initialData = {
+	name: '',
+	code: '',
+	symbol: '',
+	exchangeRate: '',
+	loyaltyPoint: '',
+	type: 'fiat',
+};
+
 const validationSchema = () =>
 	Yup.object().shape({
 		name: Yup.string()
@@ -75,4 +84,4 @@ const staticFormFields = [
 	},
 ];
 
-export { validationSchema, getInitialValues, staticFormFields };
+export { validationSchema, getInitialValues, staticFormFields, initialData };

@@ -9,7 +9,7 @@ const Name = ({ cell }) =>
 	cell.value ? (
 		<>
 			{cell.value}{' '}
-			{cell.row.original.isPrimary && (
+			{cell.row.original.default && (
 				<Badge className="bg-success">Primary</Badge>
 			)}
 		</>
@@ -37,7 +37,7 @@ Name.propTypes = {
 		value: PropTypes.string.isRequired,
 		row: PropTypes.shape({
 			original: PropTypes.shape({
-				isPrimary: PropTypes.bool.isRequired,
+				default: PropTypes.bool.isRequired,
 			}).isRequired,
 		}).isRequired,
 	}).isRequired,

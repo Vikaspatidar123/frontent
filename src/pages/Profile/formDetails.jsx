@@ -21,11 +21,11 @@ const adminSiteConfigSchema = Yup.object().shape({
 		.email('Invalid Email')
 		.max(50)
 		.required('Email Required'),
-	sendgridEmail: Yup.string()
-		.email('Invalid sendgridEmail')
-		.max(50)
-		.required('sendgridEmail Required'),
-	sendgridKey: Yup.string().required('sendgridKey Required'),
+	// sendgridEmail: Yup.string()
+	// 	.email('Invalid sendgridEmail')
+	// 	.max(50)
+	// 	.required('sendgridEmail Required'),
+	// sendgridKey: Yup.string().required('sendgridKey Required'),
 	logo: Yup.mixed()
 		.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
 			typeof value === 'string'
@@ -37,7 +37,7 @@ const adminSiteConfigSchema = Yup.object().shape({
 				? true
 				: value && ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type)
 		),
-	lang: Yup.mixed().required('Language Required'),
+	// lang: Yup.mixed().required('Language Required'),
 });
 
 const adminProfileSchema = Yup.object().shape({
@@ -108,16 +108,16 @@ const getPasswordInitialValues = () => ({
 	confirmPassword: '',
 });
 
-const getSiteConfigInitialValues = (details, formLanguage) => ({
+const getSiteConfigInitialValues = (details) => ({
 	name: details[1]?.value.name || '',
 	url: details[1]?.value.url || '',
 	supportEmail: details[1]?.value.supportEmail || '',
-	sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
-	sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
+	// sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
+	// sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
 	logo: details[1]?.value?.logo
 		? `${VITE_APP_AWS_GALLERY_URL}/${details[1]?.value?.logo}`
 		: null,
-	lang: formLanguage || null,
+	// lang: formLanguage || null,
 	maintenance: !!details[1]?.value.maintenance,
 });
 
@@ -231,13 +231,13 @@ const leftStaticSiteConfigFormFields = (editableSiteConfig) => [
 		isDisabled: editableSiteConfig,
 		placeholder: 'Enter Support Email Address',
 	},
-	{
-		name: 'sendgridKey',
-		fieldType: 'textField',
-		label: 'Send grid Api Key',
-		isDisabled: editableSiteConfig,
-		placeholder: 'Enter Send grid Api Key',
-	},
+	// {
+	// 	name: 'sendgridKey',
+	// 	fieldType: 'textField',
+	// 	label: 'Send grid Api Key',
+	// 	isDisabled: editableSiteConfig,
+	// 	placeholder: 'Enter Send grid Api Key',
+	// },
 	{
 		name: 'logo',
 		fieldType: 'file',
@@ -258,13 +258,13 @@ const rightStaticSiteConfigFormFields = (editableSiteConfig) => [
 		isDisabled: editableSiteConfig,
 		placeholder: 'Enter Site Url',
 	},
-	{
-		name: 'sendgridEmail',
-		fieldType: 'textField',
-		label: 'Send grid Email',
-		isDisabled: editableSiteConfig,
-		placeholder: 'Enter Send grid Email',
-	},
+	// {
+	// 	name: 'sendgridEmail',
+	// 	fieldType: 'textField',
+	// 	label: 'Send grid Email',
+	// 	isDisabled: editableSiteConfig,
+	// 	placeholder: 'Enter Send grid Email',
+	// },
 ];
 
 export {
