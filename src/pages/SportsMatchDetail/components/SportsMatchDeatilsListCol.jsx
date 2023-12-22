@@ -6,18 +6,14 @@ const Id = ({ cell }) => (cell.value ? cell.value : '');
 
 const Title = ({ cell }) =>
 	cell?.row?.original
-		? `${cell?.row?.original.teams?.[0]?.team?.teamName?.[0]?.name} VS ${cell?.row?.original.teams?.[1]?.team?.teamName?.[1]?.name}`
+		? `${cell?.row?.original.eventParticipants?.[0]?.participant?.name} VS ${cell?.row?.original.eventParticipants?.[1]?.participant?.name}`
 		: '-';
 
 const Tournament = ({ cell }) =>
-	cell?.row?.original
-		? cell?.row?.original.tournaments?.tournamentName?.[0]?.name
-		: '-';
+	cell?.row?.original ? cell?.row?.original.league?.name : '-';
 
 const Sport = ({ cell }) =>
-	cell?.row?.original
-		? cell?.row?.original.sportCountry?.sport?.sportName?.[0]?.name
-		: '-';
+	cell?.row?.original ? cell?.row?.original.league?.sport?.name : '-';
 
 const Featured = ({ cell }) =>
 	cell?.value ? (
@@ -40,7 +36,7 @@ const StartDate = ({ cell }) => (cell?.value ? getDateTime(cell?.value) : '-');
 const columns = [
 	{
 		Header: 'ID',
-		accessor: 'matchId',
+		accessor: 'id',
 		filterable: false,
 		Cell: ({ cell }) => <Id cell={cell} />,
 	},
@@ -79,7 +75,7 @@ const columns = [
 	},
 	{
 		Header: 'Start Date',
-		accessor: 'matchDate',
+		accessor: 'startDate',
 		filterable: false,
 		Cell: ({ cell }) => <StartDate cell={cell} />,
 	},

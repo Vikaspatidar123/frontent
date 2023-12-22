@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { isEqual } from 'lodash';
 import { useParams } from 'react-router-dom';
 import {
 	transactionFilterValidationSchema,
@@ -9,7 +9,7 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
-	fetchCurrenciesStart,
+	// fetchCurrenciesStart,
 	fetchTransactionBankingStart,
 } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
@@ -19,7 +19,7 @@ const useTransactionFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const { currencies } = useSelector((state) => state.Currencies);
+	// const { currencies } = useSelector((state) => state.Currencies);
 	const { playerId } = useParams();
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
@@ -40,7 +40,7 @@ const useTransactionFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields, setFormFields } = useForm({
+	const { validation, formFields } = useForm({
 		initialValues: transactionFilterValues(),
 		validationSchema: transactionFilterValidationSchema(),
 		// onSubmitEntry: handleFilter,
@@ -56,31 +56,31 @@ const useTransactionFilters = () => {
 		validation.resetForm(initialValues);
 	};
 
-	useEffect(() => {
-		if (isEmpty(currencies)) {
-			dispatch(
-				fetchCurrenciesStart({
-					// limit: itemsPerPage,
-					// pageNo: page,
-				})
-			);
-		} else {
-			const currencyField = currencies?.rows?.map((row) => ({
-				optionLabel: row.name,
-				value: row.code,
-			}));
-			setFormFields([
-				{
-					name: 'currencyCode',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Select a currency',
-					optionList: currencyField,
-				},
-				...transactionFiltersFields(),
-			]);
-		}
-	}, [currencies]);
+	// useEffect(() => {
+	// 	if (isEmpty(currencies)) {
+	// 		dispatch(
+	// 			fetchCurrenciesStart({
+	// 				// limit: itemsPerPage,
+	// 				// pageNo: page,
+	// 			})
+	// 		);
+	// 	} else {
+	// 		const currencyField = currencies?.rows?.map((row) => ({
+	// 			optionLabel: row.name,
+	// 			value: row.code,
+	// 		}));
+	// 		setFormFields([
+	// 			{
+	// 				name: 'currencyCode',
+	// 				fieldType: 'select',
+	// 				label: '',
+	// 				placeholder: 'Select a currency',
+	// 				optionList: currencyField,
+	// 			},
+	// 			...transactionFiltersFields(),
+	// 		]);
+	// 	}
+	// }, [currencies]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {

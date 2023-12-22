@@ -40,7 +40,7 @@ const IsFeatured = ({ cell, toggleIsFeatured }) => {
 						containerClass="false"
 						type="checkbox"
 						className="form-check-input"
-						checked={cell.value.toString() === 'true'}
+						checked={cell?.value?.toString() === 'true'}
 						switchSizeClass="form-switch-sm"
 						onClick={(e) => toggleIsFeatured(e, cell)}
 					/>
@@ -62,18 +62,18 @@ const Action = ({ row: { original } }) => (
 	<ul className="list-unstyled hstack gap-1 mb-0">
 		<li data-bs-toggle="tooltip" data-bs-placement="top">
 			<Link
-				to={`/match/${original?.matchId}`}
+				to={`/match/${original?.id}`}
 				className="btn btn-sm btn-soft-primary"
 			>
 				<i
 					className="mdi mdi-eye-outline"
-					id={`view-tooltip-${original?.matchId}`}
+					id={`view-tooltip-${original?.id}`}
 				/>
 			</Link>
 		</li>
 		<UncontrolledTooltip
 			placement="top"
-			target={`view-tooltip-${original?.matchId}`}
+			target={`view-tooltip-${original?.id}`}
 		>
 			Match Detail
 		</UncontrolledTooltip>

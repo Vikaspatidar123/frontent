@@ -70,10 +70,7 @@ const createSuperAdminCMS = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, data);
 
 const updateMatchFeaturedTemplate = (data) =>
-	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/featured-matches`,
-		data
-	);
+	postRequest(`${VITE_APP_API_URL}admin/sportsbook/addFeatured`, data);
 
 const issueBonus = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/issue`, data);

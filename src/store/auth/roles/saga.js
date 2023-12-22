@@ -15,18 +15,21 @@ export function* getRoles() {
 			{
 				adminRoleId: 1,
 				name: 'Super Admin',
+				label: 'Super Admin',
 				abbr: null,
 				level: 1,
 			},
 			{
 				adminRoleId: 2,
-				name: 'Admin',
+				name: 'admin',
+				label: 'Admin',
 				abbr: null,
 				level: 2,
 			},
 			{
 				adminRoleId: 3,
 				name: 'Manager',
+				label: 'Manager',
 				abbr: null,
 				level: 3,
 			},

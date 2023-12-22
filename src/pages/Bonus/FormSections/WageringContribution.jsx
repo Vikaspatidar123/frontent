@@ -70,8 +70,8 @@ const WageringContribution = ({
 	}, [nextPressed]);
 
 	const wageringTemplateOptions = useMemo(() => {
-		if (allSAWageringTemplates?.length) {
-			return allSAWageringTemplates.map((template) => ({
+		if (allSAWageringTemplates?.rows?.length) {
+			return allSAWageringTemplates.rows.map((template) => ({
 				optionLabel: template.name,
 				value: template.wageringTemplateId,
 			}));

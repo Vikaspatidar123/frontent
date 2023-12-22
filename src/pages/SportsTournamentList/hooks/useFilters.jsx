@@ -94,13 +94,13 @@ const useFilters = () => {
 	useEffect(() => {
 		if (!isEmpty(sportsCountries) && !isEmpty(sportsListInfo)) {
 			const countryList = sportsCountries?.rows?.map((row) => ({
-				optionLabel: row.countryName[0].name,
-				value: row.providerCountryId,
+				optionLabel: row?.name,
+				value: row?.id,
 			}));
 
 			const sportList = sportsListInfo?.rows?.map((row) => ({
-				optionLabel: row.sportName[0].name,
-				value: row.providerSportId,
+				optionLabel: row?.name,
+				value: row?.id,
 			}));
 
 			setFormFields([

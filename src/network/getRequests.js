@@ -79,7 +79,7 @@ const getLanguageManagement = ({ language = '' }) =>
 	);
 
 const getBetSettings = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/bet-settings`);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/bet-settings`);
 
 const getTransactionBanking = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/transactions`, payload);
@@ -87,22 +87,16 @@ const getTransactionBanking = (payload) =>
 const getSportsList = (payload) =>
 	payload?.isAllListing
 		? getRequest(
-				`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/sport?listing=all`,
+				`${VITE_APP_API_URL}${API_NAMESPACE}/sports/sport?listing=all`,
 				payload
 		  )
-		: getRequest(
-				`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/sport`,
-				payload
-		  );
+		: getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/sport`, payload);
 
 const getReviewManagement = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/review`, payload);
 
 const getCountriesList = (payload) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/countries`,
-		payload
-	);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/countries`, payload);
 
 const getSportsTransaction = (payload) =>
 	getRequest(
@@ -111,10 +105,7 @@ const getSportsTransaction = (payload) =>
 	);
 
 const getTournamentsList = (payload) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/tournaments`,
-		payload
-	);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/tournaments`, payload);
 
 const getCasinoTransactions = (payload) =>
 	getRequest(
@@ -134,10 +125,10 @@ const getAllSABanners = ({ limit, pageNo }) =>
 	);
 
 const getSportsMatches = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/matches`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/matches`, payload);
 
 const getSportsMarkets = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/markets`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/markets`, payload);
 const getAllGroups = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/all-group`);
 
@@ -214,7 +205,7 @@ const getEmailTemplate = (emailTemplateId) =>
 
 const getSportsMatchesDetailApi = ({ matchId = '' }) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/match-markets?matchId=${matchId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}/sports/match-markets?matchId=${matchId}`
 	);
 
 const getBonusCurrenciesConvertAmount = ({
@@ -248,7 +239,7 @@ const getBonus = ({ bonusId, userBonusId }) =>
 	);
 
 const getSiteDetailApi = () =>
-	getRequest(`${VITE_APP_API_URL}/api/admin/site-details`);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/site-details`);
 
 export {
 	getBonus,

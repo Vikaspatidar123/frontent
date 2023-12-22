@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
 import { formatDateYMD } from '../../utils/helpers';
 import {
+	LEDGER_TYPES,
 	statusType as casinoStatusType,
-	transactionType,
 } from '../CasinoTransactionsList/constants';
 import { statusType } from '../TransactionBankingList/constants';
 import { bonusStatus, bonusTypes } from './constants';
@@ -41,7 +41,7 @@ const limitsSchema = ({ minimum, currLabel, label }) =>
 			.positive('Limit must be positive number')
 			.integer('Limit must be an integer')
 			.min(
-				minimum + 1,
+				parseInt(minimum, 10) + 1,
 				`${currLabel} Must Be Greater Than ${label} (${minimum})`
 			)
 			.required('Limit Required'),
@@ -168,7 +168,7 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Transaction Type',
-		optionList: transactionType.map(({ value, label }) => ({
+		optionList: LEDGER_TYPES.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
@@ -250,7 +250,7 @@ const transactionFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Transaction type',
-		optionList: transactionType.map(({ value, label }) => ({
+		optionList: LEDGER_TYPES.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,

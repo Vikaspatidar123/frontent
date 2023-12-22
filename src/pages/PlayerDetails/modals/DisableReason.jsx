@@ -45,9 +45,8 @@ const DisableReason = ({ show, handleClose, markUserStatusInactive, name }) => {
 			description: '',
 		},
 		onSubmitEntry: (values, { resetForm }) => {
-			markUserStatusInactive();
-			resetForm();
 			markUserStatusInactive(values);
+			resetForm();
 			handleClose();
 		},
 		staticFormFields,

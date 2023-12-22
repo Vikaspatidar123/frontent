@@ -66,8 +66,8 @@ const useFilters = () => {
 	useEffect(() => {
 		if (!isEmpty(sportsListInfo)) {
 			const sportList = sportsListInfo?.rows?.map((row) => ({
-				optionLabel: row.sportName[0].name,
-				value: row.providerSportId,
+				optionLabel: row?.name,
+				value: row?.id,
 			}));
 
 			setFormFields([

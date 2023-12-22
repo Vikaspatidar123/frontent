@@ -7,7 +7,7 @@ import { modules } from '../../constants/permissions';
 const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
-	const sportId = original?.sportId;
+	const sportId = original?.id;
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -72,7 +72,7 @@ ActionButtons.propTypes = {
 	row: PropTypes.shape({
 		original: PropTypes.shape({
 			isActive: PropTypes.bool,
-			sportId: PropTypes.number,
+			id: PropTypes.number,
 		}),
 	}).isRequired,
 };
