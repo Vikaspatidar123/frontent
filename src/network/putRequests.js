@@ -40,7 +40,10 @@ const updateCurrency = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/currency`, data);
 
 const editCountryDetails = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/country/kyc-method`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/country/update-country`,
+		data
+	);
 
 const editCasinoCategory = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category`, data);

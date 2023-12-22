@@ -67,7 +67,7 @@ function* updateCountryStatusWorker(action) {
 
 		const { countries } = yield select((state) => state.Countries);
 		const updatedCountries = countries?.rows?.map((country) => {
-			if (country?.countryId === payload.countryId) {
+			if (country?.id === payload.countryId) {
 				country.status = payload.status;
 			}
 			return country;
