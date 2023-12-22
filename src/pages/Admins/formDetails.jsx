@@ -9,7 +9,7 @@ const getInitialValues = (defaultValue) => ({
 	firstName: defaultValue?.firstName || '',
 	lastName: defaultValue?.lastName || '',
 	role: defaultValue?.adminRole?.name || null,
-	adminId: defaultValue?.parentId || null,
+	adminId: defaultValue?.parentAdminId || null,
 	permission: defaultValue?.permissions?.[0]?.permission || {},
 });
 const initialValueInstance = {
