@@ -291,6 +291,7 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				updateUserTagsLoading: false,
 				updateUserTagsSuccess: false,
 				updateUserTagsError: false,
+				updateSAUserStatusSuccess: false,
 			};
 
 		case DISABLE_USER:

@@ -39,7 +39,7 @@ const useSportsMarketsListing = (filterValues = {}) => {
 			sportsMarkets.rows.map((market) =>
 				formattedValues.push({
 					...market,
-					name: market.marketName[0].name,
+					name: market?.name,
 				})
 			);
 		}
@@ -50,7 +50,7 @@ const useSportsMarketsListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'marketId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},

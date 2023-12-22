@@ -4,8 +4,8 @@ import React, { useMemo } from 'react';
 import { Card, Col, Container, Row, Spinner } from 'reactstrap';
 import useEditLimits from './hooks/useEditLimits';
 import SingleLimitCard from './components/SingleLimitCard';
-import LimitCard from './components/LimitCard';
 import SelfExclusionCard from './components/SelfExclusionCard';
+import { userLimitTypes } from '../../utils/constant';
 
 const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 	const { limitLabels, userLimits } = useEditLimits({ userDetails });
@@ -34,7 +34,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 								/>
 							</Col>
 						))}
-						<Col>
+						{/* <Col>
 							<LimitCard
 								limit={{
 									placeholder: 'Enter Days',
@@ -62,12 +62,13 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 								}}
 								userId={userId}
 							/>
-						</Col>
-						<Col>
+						</Col> */}
+						<Col lg={4}>
 							<SelfExclusionCard
 								limit={{
 									label: 'Self Exclusion',
 									type: 'SELF_EXCLUSION',
+									key: userLimitTypes.selfExclusion,
 									days: userLimits?.isSelfExclusionPermanent
 										? -1
 										: userLimits?.selfExclusion

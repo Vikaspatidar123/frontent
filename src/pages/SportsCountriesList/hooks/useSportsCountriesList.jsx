@@ -36,7 +36,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		if (sportsCountries) {
 			return sportsCountries?.rows?.map((item) => ({
 				...item,
-				countryName: item.countryName[0].name,
+				countryName: item.name,
 				icons: '-',
 			}));
 		}
@@ -89,7 +89,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'countryId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <CountryId value={cell.value} />,
 			},
