@@ -135,7 +135,7 @@ const useDashboardView = () => {
 	}, [demoGraphicData]);
 
 	useEffect(() => {
-		if (livePlayerData?.deviceLoggedIn) {
+		if (livePlayerData?.deviceLoggedIn?.length) {
 			const apexsaleschartColors = getChartColorsArray(
 				'["--bs-primary", "--bs-success", "--bs-danger"]'
 			);
