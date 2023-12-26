@@ -56,7 +56,7 @@ const staticFiltersFields = () => [
 	{
 		name: 'search',
 		fieldType: 'textField',
-		type: 'search',
+		// type: 'search',
 		label: '',
 		placeholder: 'Search by provider',
 	},

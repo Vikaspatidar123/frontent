@@ -29,6 +29,8 @@ import PhoneInput from 'react-phone-input-2';
 import { showToastr } from '../utils/helpers';
 import { countryMasks } from '../pages/PlayerDetails/constants';
 
+const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
+
 export const CustomInputField = ({
 	type,
 	name,
@@ -63,6 +65,7 @@ export const CustomInputField = ({
 			placeholder={placeholder}
 			min={min}
 			max={max}
+			autoComplete="new-password"
 			{...props}
 		/>
 		{isError && errorMsg ? (
@@ -580,8 +583,11 @@ export const getField = (
 							}}
 							width={100}
 							src={
+								// eslint-disable-next-line no-nested-ternary
 								typeof validation.values[name] === 'string'
-									? validation.values[name]
+									? validation.values[name]?.includes('http')
+										? validation.values[name]
+										: `${VITE_APP_AWS_GALLERY_URL}${validation.values[name]}`
 									: URL.createObjectURL(validation.values[name])
 							}
 							alt="Not found"

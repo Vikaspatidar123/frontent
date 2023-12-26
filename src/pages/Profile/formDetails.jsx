@@ -115,7 +115,7 @@ const getSiteConfigInitialValues = (details) => ({
 	// sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
 	// sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
 	logo: details[1]?.value?.logo
-		? `${VITE_APP_AWS_GALLERY_URL}/${details[1]?.value?.logo}`
+		? `${VITE_APP_AWS_GALLERY_URL}${details[1]?.value?.logo}`
 		: null,
 	// lang: formLanguage || null,
 	maintenance: !!details[1]?.value.maintenance,
