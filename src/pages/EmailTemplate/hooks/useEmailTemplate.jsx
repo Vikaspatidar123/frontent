@@ -114,9 +114,13 @@ const useEmailTemplate = () => {
 		setIsView(true);
 	};
 
-	const handleDeleteClick = (e, emailTemplateId, type) => {
+	const handleDeleteClick = (e, emailTemplateId) => {
 		e.preventDefault();
-		dispatch(deleteEmailTemplate({ emailTemplateId, type }));
+		dispatch(
+			deleteEmailTemplate({
+				emailTemplateId: Number(emailTemplateId),
+			})
+		);
 	};
 
 	return {

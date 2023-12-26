@@ -141,6 +141,7 @@ const useCreateWageringTemplate = () => {
 		itemsPerPage,
 		page,
 		isCasinoGamesLoading,
+		selectedId,
 	]);
 
 	const handleCreateClick = (e) => {
