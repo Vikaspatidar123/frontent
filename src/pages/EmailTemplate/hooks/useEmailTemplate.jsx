@@ -59,11 +59,11 @@ const useEmailTemplate = () => {
 									</option>
 									{languageData?.count &&
 										languageData?.rows?.map(
-											({ languageName, code }) =>
+											({ name, code }) =>
 												code !== 'EN' &&
 												emailTemplate?.templateCode?.[code] !== undefined && (
 													<option key={code} value={code}>
-														{languageName}
+														{name}
 													</option>
 												)
 										)}
@@ -74,7 +74,7 @@ const useEmailTemplate = () => {
 					<div
 						className="d-flex p-2"
 						dangerouslySetInnerHTML={{
-							__html: emailTemplate?.templateCode?.[language],
+							__html: emailTemplate?.[0].templateCode?.[language],
 						}}
 					/>
 				</>

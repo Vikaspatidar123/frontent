@@ -13,7 +13,7 @@ const ActionButtons = ({
 }) => {
 	const { isGranted } = usePermission();
 	const status = row?.original?.isActive;
-	const cmsPageId = row?.original?.cmsPageId;
+	const id = row?.original?.id;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
@@ -21,7 +21,7 @@ const ActionButtons = ({
 					hidden={!isGranted(modules.CMS, 'U')}
 					type="button"
 					className="btn btn-sm btn-soft-info"
-					onClick={(e) => handleEditClick(e, cmsPageId)}
+					onClick={(e) => handleEditClick(e, id)}
 				>
 					<i className="mdi mdi-pencil-outline" id="edittooltip" />
 					<UncontrolledTooltip placement="top" target="edittooltip">
@@ -34,7 +34,7 @@ const ActionButtons = ({
 				<Button
 					hidden={!isGranted(modules.CMS, 'R')}
 					className="btn btn-sm btn-soft-primary"
-					onClick={(e) => handleViewClick(e, cmsPageId)}
+					onClick={(e) => handleViewClick(e, id)}
 				>
 					<i className="mdi mdi-eye-outline" id="viewtooltip" />
 					<UncontrolledTooltip placement="top" target="viewtooltip">
@@ -51,18 +51,12 @@ const ActionButtons = ({
 						onClick={(e) =>
 							handleStatus(e, {
 								status,
-								cmsPageId,
+								id,
 							})
 						}
 					>
-						<i
-							className="mdi mdi-close-thick"
-							id={`activetooltip-${cmsPageId}`}
-						/>
-						<UncontrolledTooltip
-							placement="top"
-							target={`activetooltip-${cmsPageId}`}
-						>
+						<i className="mdi mdi-close-thick" id={`activetooltip-${id}`} />
+						<UncontrolledTooltip placement="top" target={`activetooltip-${id}`}>
 							Set Inactive
 						</UncontrolledTooltip>
 					</Button>
@@ -73,18 +67,12 @@ const ActionButtons = ({
 						onClick={(e) =>
 							handleStatus(e, {
 								status,
-								cmsPageId,
+								id,
 							})
 						}
 					>
-						<i
-							className="mdi mdi-check-circle"
-							id={`activetooltip-${cmsPageId}`}
-						/>
-						<UncontrolledTooltip
-							placement="top"
-							target={`activetooltip-${cmsPageId}`}
-						>
+						<i className="mdi mdi-check-circle" id={`activetooltip-${id}`} />
+						<UncontrolledTooltip placement="top" target={`activetooltip-${id}`}>
 							Set Active
 						</UncontrolledTooltip>
 					</Button>

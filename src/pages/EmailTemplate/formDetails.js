@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
 
 const getInitialValues = (emailTemplate) => ({
-	label: emailTemplate?.label || '',
-	type: emailTemplate?.type || 0,
+	label: emailTemplate?.[0]?.label || '',
+	type: emailTemplate?.[0]?.type || 0,
 });
 
 const getTestEmailInitialValues = () => ({
