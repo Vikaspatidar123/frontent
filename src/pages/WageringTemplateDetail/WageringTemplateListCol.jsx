@@ -13,7 +13,7 @@ const WageringContribution = ({ cell }) => `${cell.value} %` ?? '';
 
 const CustomValues = ({ cell }) => `${cell.value} %` ?? '';
 
-const Select = ({ cell, handleChange }) => (
+const Select = ({ cell, handleChange, selectedId }) => (
 	<CustomSwitchButton
 		labelClassName="form-check-label"
 		htmlFor="customRadioInline1"
@@ -21,7 +21,17 @@ const Select = ({ cell, handleChange }) => (
 		id="customRadioInline1"
 		name="select"
 		inputClassName="form-check-input"
-		onChange={(e) => handleChange(e, cell)}
+		checked={
+			!!selectedId?.find(
+				(id) => id.casinoGameId === cell.row.original.casinoGameId
+			)
+		}
+		value={
+			!!selectedId?.find(
+				(id) => id.casinoGameId === cell.row.original.casinoGameId
+			)
+		}
+		onClick={(e) => handleChange(e, cell)}
 	/>
 );
 

@@ -1,63 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import { projectName } from '../../constants/config';
 import useEditWageringTemplate from './hooks/useEditWageringTemplate';
 import FormPage from '../../components/Common/FormPage';
-import {
-	getWageringTemplateDetail,
-	resetCasinoGamesData,
-	resetCasinoProvidersData,
-	resetWageringTemplateDetailData,
-} from '../../store/actions';
-import { getInitialValues } from './formDetails';
 
 const editWageringTemplate = () => {
 	// Set meta title
 	document.title = projectName;
-	const { wageringTemplateId } = useParams();
-	const [page] = useState();
-	const dispatch = useDispatch();
 
-	const {
-		validation,
-		leftFormFields,
-		rightFormFields,
-		customComponent,
-		SAWageringTemplate,
-		itemsPerPage,
-		SAWageringTemplateLoading,
-	} = useEditWageringTemplate();
-
-	useEffect(() => {
-		dispatch(
-			getWageringTemplateDetail({
-				wageringTemplateId: Number(wageringTemplateId),
-				providerId: '',
-				limit: itemsPerPage,
-				pageNo: page,
-				search: '',
-			})
-		);
-	}, [itemsPerPage, page]);
-
-	useEffect(() => {
-		if (SAWageringTemplate && !SAWageringTemplateLoading) {
-			validation.setValues(getInitialValues(SAWageringTemplate));
-		}
-	}, [SAWageringTemplate, SAWageringTemplateLoading]);
-
-	// resetting redux state
-	useEffect(
-		() => () => {
-			dispatch(resetCasinoProvidersData());
-			dispatch(resetCasinoGamesData());
-			dispatch(resetWageringTemplateDetailData());
-		},
-		[]
-	);
+	const { validation, leftFormFields, rightFormFields, customComponent } =
+		useEditWageringTemplate();
 
 	return (
 		<div className="page-content">
