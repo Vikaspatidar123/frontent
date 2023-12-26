@@ -13,6 +13,8 @@ import ActionButtons from './ActionButtons';
 import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
 import useCreateBanner from './hooks/useCreateBanner';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const computeColumns = ({ onClickEdit, onClickDelete }) => [
 	{
@@ -63,6 +65,9 @@ const BannerManagement = () => {
 		buttonList,
 		isEditBannerLoading,
 		onClickEdit,
+		isEdit,
+		showModal,
+		setShowModal,
 	} = useCreateBanner();
 
 	const columns = useMemo(
@@ -99,13 +104,22 @@ const BannerManagement = () => {
 				</Row>
 				<FormModal
 					isOpen={isOpen}
-					toggle={() => setIsOpen((prev) => !prev)}
+					setIsOpen={setIsOpen}
+					showConfirmationModal={showModal}
+					setShowConfirmationModal={setShowModal}
+					isEditOpen={isEdit?.open}
 					header={header}
 					validation={validation}
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
 					isSubmitLoading={isCreateBannerLoading || isEditBannerLoading}
+				/>
+				<ConfirmationModal
+					openModal={showModal}
+					setOpenModal={setShowModal}
+					validation={validation}
+					pageType={formPageTitle.bannerManagement}
 				/>
 			</Container>
 		</div>

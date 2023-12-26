@@ -14,9 +14,11 @@ const Breadcrumb = ({
 	showBackButton,
 	values,
 	setShowModal,
+	callBack,
 }) => {
 	const navigate = useNavigate();
 	const onBackClick = () => {
+		if (!titleLink && !values && !callBack) return;
 		const hasFilledValues = Object.values(values).some(
 			(value) => !isEmpty(value)
 		);
@@ -48,9 +50,11 @@ const Breadcrumb = ({
 						<h4
 							className="mb-0 ms-2 font-size-18"
 							role="presentation"
-							style={{ cursor: `${titleLink ? 'pointer' : ''}` }}
+							style={{
+								cursor: `${titleLink || values || callBack ? 'pointer' : ''}`,
+							}}
 							onClick={
-								titleLink ? () => navigate(titleLink) : onBackClick ?? null
+								titleLink ? () => navigate(titleLink) : callBack || onBackClick
 							}
 						>
 							{leftTitle || breadcrumbItem}
@@ -81,7 +85,8 @@ Breadcrumb.defaultProps = {
 	showRightInfo: true,
 	showBackButton: false,
 	setShowModal: () => {},
-	values: {},
+	values: null,
+	callBack: undefined,
 };
 
 Breadcrumb.propTypes = {
@@ -94,6 +99,7 @@ Breadcrumb.propTypes = {
 	showBackButton: PropTypes.bool,
 	setShowModal: PropTypes.func,
 	values: PropTypes.objectOf(),
+	callBack: PropTypes.func,
 };
 
 export default Breadcrumb;

@@ -80,12 +80,14 @@ const CasinoGamesForm = ({
 
 	const handleChange = (e, cell) => {
 		if (e.target.checked) {
-			setSelectedId((prevSelectedId) => [
-				...prevSelectedId,
-				{
-					casinoGameId: cell?.row?.original?.casinoGameId,
-				},
-			]);
+			setSelectedId((prevSelectedId) => {
+				return [
+					...prevSelectedId,
+					{
+						casinoGameId: cell?.row?.original?.casinoGameId,
+					},
+				];
+			});
 		} else {
 			setSelectedId((prevSelectedId) =>
 				prevSelectedId.filter(

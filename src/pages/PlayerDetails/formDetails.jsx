@@ -29,9 +29,9 @@ const staticFormFields = [
 	{
 		name: 'comment',
 		fieldType: 'textField',
-		label: 'Comment',
+		label: 'Note',
 		required: true,
-		placeholder: 'Enter Comment',
+		placeholder: 'Enter Note',
 	},
 ];
 

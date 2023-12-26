@@ -91,6 +91,8 @@ function* createSABannersWorker(action) {
 			type: 'success',
 		});
 
+		window.localStorage.removeItem(formPageTitle.bannerManagement);
+
 		yield put(createSABannersSuccess());
 	} catch (e) {
 		yield put(createSABannersFail());

@@ -12,14 +12,18 @@ import {
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateBetSettings = () => {
 	const dispatch = useDispatch();
+	const [showModal, setShowModal] = useState(false);
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const {
 		isCreateBetSettingsLoading,
 		betSettingsList,
 		isEditBetSettingsSuccess,
+		isCreateBetSettingsSuccess,
 	} = useSelector((state) => state.BetSettings);
 	const { sportsListInfo } = useSelector((state) => state.SportsList);
 
@@ -77,8 +81,9 @@ const useCreateBetSettings = () => {
 	}, [betSettingsList?.length]);
 
 	useEffect(() => {
-		if (isEditBetSettingsSuccess) setIsOpen(false);
-	}, [isEditBetSettingsSuccess]);
+		if (isEditBetSettingsSuccess || isCreateBetSettingsSuccess)
+			setIsOpen(false);
+	}, [isEditBetSettingsSuccess, isCreateBetSettingsSuccess]);
 
 	useEffect(() => {
 		if (sportsListInfo?.rows?.length) {
@@ -111,6 +116,19 @@ const useCreateBetSettings = () => {
 		},
 	]);
 
+	useEffect(() => {
+		if (
+			window.localStorage.getItem(formPageTitle.betSettings) &&
+			!isEdit.open &&
+			isOpen
+		) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.betSettings))
+			);
+			validation.setValues(values);
+		}
+	}, [isOpen]);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -121,6 +139,9 @@ const useCreateBetSettings = () => {
 		buttonList,
 		isCreateBetSettingsLoading,
 		onClickEdit,
+		showModal,
+		setShowModal,
+		isEdit,
 	};
 };
 

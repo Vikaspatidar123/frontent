@@ -17,6 +17,7 @@ import { getAggregators } from '../../network/getRequests';
 import { createAggregator } from '../../network/postRequests';
 import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* getAggregatorsWorker(action) {
 	try {
@@ -45,6 +46,8 @@ function* createAggregatorWorker(action) {
 			message: `Aggregator Created Successfully`,
 			type: 'success',
 		});
+
+		window.localStorage.removeItem(formPageTitle.aggregators);
 
 		yield put(createAggregatorSuccess());
 	} catch (e) {

@@ -106,6 +106,7 @@ import {
 	verifyPlayerEmail,
 	verifyUserDocument,
 } from '../../network/putRequests';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* getUserDetailsWorker(action) {
 	try {
@@ -156,6 +157,12 @@ function* createUserCommentWorker(action) {
 		const payload = action && action.payload;
 		const { data } = yield createUserCommentEntry(payload);
 
+		showToastr({
+			message: `Note Added Successfully`,
+			type: 'success',
+		});
+
+		window.localStorage.removeItem(formPageTitle.notes);
 		yield put(createUserCommentSuccess(data?.data?.comment));
 	} catch (e) {
 		yield put(createUserCommentFail(e.message));

@@ -11,6 +11,8 @@ import FormModal from '../../components/Common/FormModal';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { formPageTitle } from '../../components/Common/constants';
 
 const ReviewManagementList = () => {
 	document.title = projectName;
@@ -35,6 +37,9 @@ const ReviewManagementList = () => {
 		isUpdateReviewLoading,
 		buttonList,
 		handleEditClick,
+		showModal,
+		setShowModal,
+		isEdit,
 	} = useCreateReview();
 
 	const {
@@ -92,13 +97,22 @@ const ReviewManagementList = () => {
 				</Row>
 				<FormModal
 					isOpen={isOpen}
-					toggle={() => setIsOpen((prev) => !prev)}
+					setIsOpen={setIsOpen}
+					showConfirmationModal={showModal}
+					setShowConfirmationModal={setShowModal}
+					isEditOpen={isEdit.open}
 					header={header}
 					validation={validation}
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
 					isSubmitLoading={isCreateReviewLoading || isUpdateReviewLoading}
+				/>
+				<ConfirmationModal
+					openModal={showModal}
+					setOpenModal={setShowModal}
+					validation={validation}
+					pageType={formPageTitle.reviewManagement}
 				/>
 			</Container>
 		</div>

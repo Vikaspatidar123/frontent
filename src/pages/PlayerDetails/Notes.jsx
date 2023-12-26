@@ -13,6 +13,8 @@ import CrudSection from '../../components/Common/CrudSection';
 import useCommentFilter from './hooks/useCommentFilter';
 import Filters from '../../components/Common/Filters';
 import CommentActionButtons from './CommentActions';
+import { formPageTitle } from '../../components/Common/constants';
+import ConfirmationModal from '../../components/Common/ConfirmationModal';
 
 const Notes = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -141,6 +143,8 @@ const Notes = ({ userId }) => {
 		validation,
 		isCreateCommentLoading,
 		buttonList,
+		showModal,
+		setShowModal,
 	} = useCreateComment({ userId });
 
 	return (
@@ -175,13 +179,22 @@ const Notes = ({ userId }) => {
 				</CardBody>
 				<FormModal
 					isOpen={isOpen}
-					toggle={() => setIsOpen((prev) => !prev)}
+					setIsOpen={setIsOpen}
+					showConfirmationModal={showModal}
+					setShowConfirmationModal={setShowModal}
+					isEditOpen={false}
 					header={header}
 					validation={validation}
 					formFields={formFields}
 					submitLabel="Submit"
 					customColClasses="col-md-12"
 					isSubmitLoading={isCreateCommentLoading}
+				/>
+				<ConfirmationModal
+					openModal={showModal}
+					setOpenModal={setShowModal}
+					validation={validation}
+					pageType={formPageTitle.notes}
 				/>
 			</Card>
 		</Container>

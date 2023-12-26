@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import moment from 'moment';
+import { isEmpty, isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import General from '../FormSections/General';
 import Languages from '../FormSections/Languages';
@@ -19,6 +21,9 @@ import {
 	updateBonus,
 } from '../../../store/actions';
 import { formatDateYMD, safeStringify } from '../../../utils/helpers';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
+import { initialData } from '../formDetails';
 
 const useCreateBonus = ({ isEdit }) => {
 	const { bonusId } = useParams();
@@ -30,6 +35,9 @@ const useCreateBonus = ({ isEdit }) => {
 	const [selectedBonus, setSelectedBonus] = useState('deposit');
 	const [activeTab, setActiveTab] = useState('general');
 	const [allFields, setAllFields] = useState({});
+	const [existingFilledFields, setExistingFilledFields] = useState({});
+	const [showModal, setShowModal] = useState(false);
+	const [selectedTemplate, setSelectedTemplate] = useState('');
 	const [langList, setLangList] = useState({});
 	const [nextPressed, setNextPressed] = useState({});
 	const [langContent, setLangContent] = useState({
@@ -193,6 +201,73 @@ const useCreateBonus = ({ isEdit }) => {
 		}
 	}, [nextPressed]);
 
+	useEffect(() => {
+		setExistingFilledFields((prev) => ({
+			...prev,
+			promotionTitle: langContent?.promoTitle,
+			description: langContent?.desc,
+			termCondition: langContent?.terms,
+		}));
+	}, [langContent]);
+
+	useEffect(() => {
+		setExistingFilledFields((prev) => ({
+			...prev,
+			selectedTemplateId: selectedTemplate,
+		}));
+	}, [selectedTemplate]);
+
+	useEffect(() => {
+		if (selectedGames?.length) {
+			setExistingFilledFields((prev) => ({
+				...prev,
+				selectedGames,
+			}));
+		}
+	}, [selectedGames]);
+
+	useEffect(() => {
+		if (selectedCountries?.length) {
+			setExistingFilledFields((prev) => ({
+				...prev,
+				selectedCountries,
+			}));
+		}
+	}, [selectedCountries]);
+
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.bonusManagement)) {
+			const storedValues = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.bonusManagement))
+			);
+			setSelectedBonus(storedValues?.bonusType);
+			setLangContent({
+				promoTitle: storedValues?.promotionTitle,
+				desc: storedValues?.description,
+				terms: storedValues?.termCondition,
+			});
+			setSelectedGames(storedValues?.selectedGames);
+			setSelectedTemplate(storedValues?.selectedTemplateId);
+			setSelectedCountries(storedValues?.selectedCountries || []);
+		}
+	}, []);
+
+	const onBackClick = () => {
+		if (!isEmpty(existingFilledFields)) {
+			const existingFilledFieldsCopy = {
+				...existingFilledFields,
+				startDate: moment(existingFilledFields?.startDate).format('DD-MM-YYYY'),
+				endDate: moment(existingFilledFields?.endDate).format('DD-MM-YYYY'),
+			};
+			const isDataEqual = isEqual(existingFilledFieldsCopy, initialData);
+			if (!isDataEqual) {
+				setShowModal(true);
+			} else {
+				navigate('/bonus');
+			}
+		}
+	};
+
 	const tabData = [
 		{
 			id: 'general',
@@ -212,6 +287,8 @@ const useCreateBonus = ({ isEdit }) => {
 					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
 					isEdit={isEdit}
+					existingFilledFields={existingFilledFields}
+					setExistingFilledFields={setExistingFilledFields}
 				/>
 			),
 		},
@@ -247,6 +324,8 @@ const useCreateBonus = ({ isEdit }) => {
 					bonusTypeChanged={bonusTypeChanged}
 					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
+					existingFilledFields={existingFilledFields}
+					setExistingFilledFields={setExistingFilledFields}
 				/>
 			),
 			isHidden:
@@ -263,6 +342,8 @@ const useCreateBonus = ({ isEdit }) => {
 					setAllFields={setAllFields}
 					bonusDetails={bonusDetails}
 					isEdit={isEdit}
+					selectedTemplate={selectedTemplate}
+					setSelectedTemplate={setSelectedTemplate}
 				/>
 			),
 			isHidden:
@@ -292,6 +373,8 @@ const useCreateBonus = ({ isEdit }) => {
 				<BonusCountry
 					selectedCountries={selectedCountries}
 					setSelectedCountries={setSelectedCountries}
+					existingFilledFields={existingFilledFields}
+					setExistingFilledFields={setExistingFilledFields}
 				/>
 			),
 		},
@@ -308,6 +391,11 @@ const useCreateBonus = ({ isEdit }) => {
 		createBonusLoading,
 		updateBonusLoading,
 		getBonusDetailsLoading,
+		showModal,
+		setShowModal,
+		onBackClick,
+		existingFilledFields,
+		navigate,
 	};
 };
 

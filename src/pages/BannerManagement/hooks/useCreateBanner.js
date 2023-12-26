@@ -16,9 +16,13 @@ import {
 } from '../../../store/actions';
 import { bannerType } from '../constants';
 import { modules } from '../../../constants/permissions';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
+import { dataURLtoBlob } from '../../../utils/helpers';
 
 const useCreateBanner = () => {
 	const dispatch = useDispatch();
+	const [showModal, setShowModal] = useState(false);
 	const [isEdit, setIsEdit] = useState({ open: false, selectdRow: '' });
 	const [validationConditions, setValidationConditions] = useState({
 		minRequiredWidth: '',
@@ -172,6 +176,29 @@ const useCreateBanner = () => {
 		}
 	}, [validation?.values]);
 
+	useEffect(() => {
+		if (
+			window.localStorage.getItem(formPageTitle.bannerManagement) &&
+			!isEdit.open &&
+			isOpen
+		) {
+			const storedValues = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.bannerManagement))
+			);
+
+			if (storedValues?.thumbnail?.thumbnail) {
+				const base64Content = storedValues.thumbnail?.thumbnail;
+				const blob = dataURLtoBlob(base64Content);
+
+				storedValues.thumbnail = new File([blob], storedValues.thumbnail.name, {
+					type: blob.type,
+				});
+			}
+
+			validation.setValues(storedValues);
+		}
+	}, [isOpen]);
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -184,6 +211,9 @@ const useCreateBanner = () => {
 		isCreateBannerLoading,
 		onClickEdit,
 		isEditBannerLoading,
+		showModal,
+		setShowModal,
+		isEdit,
 	};
 };
 

@@ -137,6 +137,7 @@ const useEditEmailTemplate = () => {
 		staticFormFields: staticFormFields(emailTemplateOrder, isEdit),
 		onSubmitEntry: formSubmitHandler,
 	});
+	console.log('emailTemplate: ', emailTemplate);
 
 	useEffect(() => {
 		if (emailTemplate?.length) {

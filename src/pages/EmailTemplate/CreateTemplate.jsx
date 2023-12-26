@@ -33,6 +33,8 @@ import {
 	getImageGallery,
 	deleteImageGallery,
 } from '../../store/actions';
+import { formPageTitle } from '../../components/Common/constants';
+import { decryptCredentials } from '../../network/storageUtils';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
@@ -69,6 +71,15 @@ const CreateTemplate = ({
 			setData(emailTemplate?.[0]?.templateCode?.EN);
 		}
 	}, [emailTemplate]);
+
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.crm)) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.crm))
+			);
+			setData(values?.template);
+		}
+	}, []);
 
 	const deleteImage = (f) => {
 		const data = {

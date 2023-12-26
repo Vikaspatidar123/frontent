@@ -5,6 +5,36 @@ import { bonusTypes } from './constants';
 const currentDate = moment().toDate();
 const nextDayDate = moment().add(1, 'days').toDate();
 
+const initialData = {
+	promotionTitle: {},
+	depositBonusPercent: 1,
+	startDate: moment().format('DD-MM-YYYY'),
+	endDate: moment().add(1, 'day').format('DD-MM-YYYY'),
+	bonusType: 'deposit',
+	wageringMultiplier: 1,
+	isSticky: false,
+	wageringRequirementType: 'bonus',
+	daysToClear: 1,
+	isActive: false,
+	visibleInPromotions: false,
+	showBonusValidity: true,
+	validOnDays: [],
+	termCondition: {},
+	description: {},
+	bonusImage: null,
+	quantity: 1,
+	betLevel: 1,
+	timePeriod: '1',
+	currency: {
+		EUR: {
+			maxBonusThreshold: '',
+			minDeposit: '',
+			maxWinAmount: '',
+			zeroOutThreshold: '',
+		},
+	},
+	selectedTemplateId: 1,
+};
 const generalStepInitialValues = ({ bonusDetails }) => ({
 	promotionTitle: bonusDetails?.promotionTitle?.EN || '',
 	depositBonusPercent: bonusDetails?.depositBonusPercent || 1,
@@ -34,6 +64,29 @@ const generalStepInitialValues = ({ bonusDetails }) => ({
 			zeroOutThreshold: '',
 		},
 	},
+});
+
+const generalStepInitialValuesFromLocalStorage = (values) => ({
+	promotionTitle: values?.promotionTitle?.EN || values?.promotionTitle || '',
+	depositBonusPercent: values?.depositBonusPercent || 1,
+	startDate: values?.startDate || currentDate,
+	endDate: values?.endDate || nextDayDate,
+	bonusType: values?.bonusType || 'deposit',
+	wageringMultiplier: values?.wageringMultiplier || 1,
+	isSticky: values?.isSticky || false,
+	wageringRequirementType: values?.wageringRequirementType || 'bonus',
+	daysToClear: values?.daysToClear || 1,
+	isActive: values?.isActive || false,
+	visibleInPromotions: values?.visibleInPromotions || false,
+	showBonusValidity: values?.other?.showBonusValidity || true,
+	validOnDays: values?.validOnDays || [],
+	termCondition: values?.termCondition?.EN || values?.termCondition || '',
+	description: values?.description?.EN || values?.description || '',
+	bonusImage: values?.bonusImage || null,
+	quantity: values?.quantity || 1,
+	betLevel: values?.betLevel || 1,
+	timePeriod: values?.timePeriod || '1',
+	currency: values?.currency,
 });
 
 const getCreateBonusInitialValues = () => ({
@@ -363,6 +416,7 @@ const filterValidationSchema = () =>
 	});
 
 export {
+	initialData,
 	staticFiltersFields,
 	filterValues,
 	filterValidationSchema,
@@ -374,4 +428,5 @@ export {
 	commonFields,
 	generalStepInitialValues,
 	generalStaticFormFieldsWithoutPercent,
+	generalStepInitialValuesFromLocalStorage,
 };

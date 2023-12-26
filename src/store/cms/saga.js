@@ -38,6 +38,7 @@ import {
 } from '../../network/putRequests';
 import { createSuperAdminCMS } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
+import { formPageTitle } from '../../components/Common/constants';
 
 function* getCmsDetails(action) {
 	const payload = action && action.payload;
@@ -95,6 +96,8 @@ function* createSuperAdminCMSWorker(action) {
 			message: 'CMS Created successfully',
 			type: 'success',
 		});
+
+		window.localStorage.removeItem(formPageTitle.cms);
 
 		yield put(createSaCmsSuccess());
 		if (navigate) {

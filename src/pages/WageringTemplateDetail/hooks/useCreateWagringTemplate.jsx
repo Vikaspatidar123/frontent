@@ -19,6 +19,8 @@ import {
 	leftStaticFormFields,
 	rightStaticFormFields,
 } from '../formDetails';
+import { formPageTitle } from '../../../components/Common/constants';
+import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateWageringTemplate = () => {
 	const navigate = useNavigate();
@@ -28,6 +30,9 @@ const useCreateWageringTemplate = () => {
 	const [customComponent, setCustomComponent] = useState();
 	const { wageringTemplateDetail } = useWageringTemplate();
 	const [selectedId, setSelectedId] = useState([]);
+	const [showModal, setShowModal] = useState(false);
+	const [existingFilledData, setExistingFilledData] = useState({});
+	// console.log('existingFilledData: ', existingFilledData);
 
 	// const [isEdit, setIsEdit] = useState(isEditPage || false);
 
@@ -144,6 +149,30 @@ const useCreateWageringTemplate = () => {
 		selectedId,
 	]);
 
+	useEffect(() => {
+		setExistingFilledData((prev) => ({
+			...prev,
+			values: {
+				...validation?.values,
+				selectedId,
+			},
+		}));
+	}, [validation?.values, selectedId]);
+
+	useEffect(() => {
+		if (localStorage.getItem(formPageTitle.wageringTemplate)) {
+			const values = JSON.parse(
+				decryptCredentials(localStorage.getItem(formPageTitle.wageringTemplate))
+			);
+			validation.setValues({
+				name: values?.name,
+				search: values?.search || '',
+				customValue: values?.customValue || '',
+			});
+			setSelectedId(values?.selectedId || []);
+		}
+	}, []);
+
 	const handleCreateClick = (e) => {
 		e.preventDefault();
 		setHeader('Create');
@@ -175,6 +204,10 @@ const useCreateWageringTemplate = () => {
 		setSelectedId,
 		isCasinoGamesLoading,
 		createWageringTemplateDetailLoading,
+		showModal,
+		setShowModal,
+		existingFilledData,
+		navigate,
 	};
 };
 

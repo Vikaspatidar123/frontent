@@ -56,6 +56,19 @@ const getInitialValues = (cmsData) => ({
 	language: '',
 });
 
+const initialData = {
+	title: {
+		EN: '',
+	},
+	slug: '',
+	content: {
+		EN: '',
+	},
+	category: 1,
+	isActive: true,
+	language: 'EN',
+};
+
 const createCmsNewSchema = Yup.object().shape({
 	title: Yup.string().required('Title for English is required'),
 	slug: Yup.string()
@@ -112,4 +125,5 @@ export {
 	getInitialValues,
 	createCmsNewSchema,
 	staticFormFields,
+	initialData,
 };

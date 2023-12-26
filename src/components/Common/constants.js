@@ -46,6 +46,7 @@ const formPageTitle = {
 	bonusManagement: 'BONUS_MANAGEMENT_DETAIL_FORM',
 	reviewManagement: 'REVIEW_MANAGEMENT_DETAIL_FORM',
 	betSettings: 'BET_SETTINGS_DETAIL_FORM',
+	notes: 'NOTES_DETAIL_FORM',
 };
 
 export { rowsPerPageOptions, defaultPageSize, formPageTitle };
