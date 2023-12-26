@@ -1,5 +1,9 @@
-/* eslint-disable */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-shadow */
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
 	Row,
 	Col,
@@ -13,15 +17,14 @@ import {
 	Button,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import { Link } from 'react-router-dom';
 import TabsPage from '../../components/Common/TabsPage';
 import { CustomInputField } from '../../helpers/customForms';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import Modal from '../../components/Common/Modal';
 import CodeEditor from './CodeEditor';
 import { showToastr } from '../../utils/helpers';
 
-import { useSelector, useDispatch } from 'react-redux';
 import { getImageGallery, deleteImageGallery } from '../../store/actions';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
@@ -40,7 +43,6 @@ const CreateCMSTemplate = ({
 	cmsByPageId,
 	isEdit = false,
 	isView = false,
-	setIsView,
 	showGallery,
 	setShowGallery,
 	selectedTab,
@@ -48,13 +50,105 @@ const CreateCMSTemplate = ({
 }) => {
 	const { imageGallery } = useSelector((state) => state.EmailTemplate);
 	const [imageComponent, setImageComponent] = useState();
-	const [activeTab, setActiveTab] = useState(5);
+	const [activeTab, setActiveTab] = useState(1);
 	const [template, setTemplate] = useState('');
 	const [label, setLabel] = useState('');
 	const [requiredKeyData, setRequiredKeyData] = useState({});
 	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
 	const [data, setData] = useState(cmsByPageId?.content?.[selectedTab] || '');
 	const dispatch = useDispatch();
+
+	const toggleDropdown = (tabId) => {
+		setDrpPrimaryStates((prevState) => ({
+			...prevState,
+			[tabId]: !prevState[tabId],
+		}));
+	};
+
+	const tabData = languageData?.rows?.map((item) => ({
+		id: parseInt(item.id, 10),
+		title: item.code,
+		component: (
+			<Row>
+				<Col className="text-end">
+					<div className="btn-group">
+						<ButtonDropdown
+							isOpen={drpPrimaryStates[item.id] || false}
+							toggle={() => toggleDropdown(item.id)}
+						>
+							<Button id="caret" type="button" color="primary" hidden={isView}>
+								Dynamic Keys
+							</Button>
+							<DropdownToggle caret color="primary" hidden={isView}>
+								<i className="mdi mdi-chevron-down" />
+							</DropdownToggle>
+							<DropdownMenu>
+								{cmsKeys?.dynamicKeys?.map?.((item, index) => (
+									<DropdownItem
+										key={index}
+										onClick={() => {
+											requiredKeyData
+												? setRequiredKeyData({
+														...requiredKeyData,
+														[item]: cmsKeys?.keyDescription[item],
+												  })
+												: setRequiredKeyData({
+														[item]: cmsKeys?.keyDescription[item],
+												  });
+										}}
+									>
+										{`${item} `}
+										{item.required ? '(Required)' : '(Optional)'}
+									</DropdownItem>
+								))}
+							</DropdownMenu>
+						</ButtonDropdown>
+					</div>
+				</Col>
+				<div className="mb-3">
+					<CustomInputField
+						label="Title"
+						name="title"
+						onChange={(e) => {
+							e.preventDefault();
+							setLabel(e.target.value);
+							validation.handleChange(e);
+						}}
+						value={label}
+						onBlur={validation.handleBlur}
+						placeholder="Title"
+						validate={{ required: { value: true } }}
+						invalid={
+							!!(validation?.touched?.title && validation?.errors?.title)
+						}
+						isError
+						errorMsg={validation?.touched?.title && validation?.errors?.title}
+						disabled={isView}
+					/>
+				</div>
+				<Col sm="12">
+					{' '}
+					<Label className="form-label">Content</Label>
+					<span className="text-danger"> *</span>
+					<CodeEditor
+						cmsByPageId={cmsByPageId}
+						dynamicData={safeStringify(requiredKeyData, null, 2)}
+						HTML={data || ''}
+						initial="HTML"
+						mobileQuery={800}
+						height="70vh"
+						setTemplate={setTemplate}
+						themeTransitionSpeed={150}
+						setRequiredKeyData={setRequiredKeyData}
+						selectedTab={activeTab}
+						setTemp={setTemplate}
+						validation={validation}
+						disabled={isView}
+					/>
+				</Col>
+			</Row>
+		),
+	}));
 
 	useEffect(() => {
 		if (activeTab) {
@@ -64,10 +158,15 @@ const CreateCMSTemplate = ({
 	}, [activeTab]);
 
 	useEffect(() => {
-		if (cmsByPageId?.content?.[selectedTab]) {
+		if (
+			cmsByPageId?.content?.[selectedTab] ||
+			cmsByPageId?.title?.[selectedTab]
+		) {
 			setData(cmsByPageId?.content?.[selectedTab]);
+			setTemplate(cmsByPageId?.content?.[selectedTab]);
+			setLabel(cmsByPageId?.title?.[selectedTab]);
 		}
-	}, [cmsByPageId?.content?.[selectedTab]]);
+	}, [cmsByPageId?.content, cmsByPageId?.title]);
 
 	useEffect(() => {
 		if (cmsKeys?.dynamicKeys && Object.keys(cmsKeys?.dynamicKeys)?.length) {
@@ -91,10 +190,10 @@ const CreateCMSTemplate = ({
 	}, [showGallery]);
 
 	const deleteImage = (f) => {
-		const data = {
+		const imgData = {
 			imageUrl: f.fileName,
 		};
-		dispatch(deleteImageGallery(data));
+		dispatch(deleteImageGallery(imgData));
 	};
 
 	useEffect(() => {
@@ -158,128 +257,46 @@ const CreateCMSTemplate = ({
 		}
 	}, [imageGallery]);
 
-	const toggleDropdown = (tabId) => {
-		setDrpPrimaryStates((prevState) => ({
-			...prevState,
-			[tabId]: !prevState[tabId],
-		}));
-	};
-
-	const tabData = languageData?.rows?.map((item) => ({
-		id: item.languageId,
-		title: item.code,
-		component: (
-			<Row>
-				<Col className="text-end">
-					<div className="btn-group">
-						<ButtonDropdown
-							isOpen={drpPrimaryStates[item.languageId] || false}
-							toggle={() => toggleDropdown(item.languageId)}
-						>
-							<Button id="caret" type="button" color="primary" hidden={isView}>
-								Dynamic Keys
-							</Button>
-							<DropdownToggle caret color="primary" hidden={isView}>
-								<i className="mdi mdi-chevron-down" />
-							</DropdownToggle>
-							<DropdownMenu>
-								{cmsKeys?.dynamicKeys?.map?.((item, index) => (
-									<DropdownItem
-										key={index}
-										onClick={() => {
-											requiredKeyData
-												? setRequiredKeyData({
-														...requiredKeyData,
-														[item]: cmsKeys?.keyDescription[item],
-												  })
-												: setRequiredKeyData({
-														[item]: cmsKeys?.keyDescription[item],
-												  });
-										}}
-									>
-										{`${item} `}
-										{item.required ? '(Required)' : '(Optional)'}
-									</DropdownItem>
-								))}
-							</DropdownMenu>
-						</ButtonDropdown>
-					</div>
-				</Col>
-				<div className="mb-3">
-					<CustomInputField
-						label="Title"
-						name="title"
-						onChange={(e) => {
-							e.preventDefault();
-							setLabel(e.target.value);
-							validation.handleChange(e);
-						}}
-						value={validation?.values?.title}
-						onBlur={validation.handleBlur}
-						placeholder="Title"
-						validate={{ required: { value: true } }}
-						invalid={
-							!!(validation?.touched?.title && validation?.errors?.title)
-						}
-						isError
-						errorMsg={validation?.touched?.title && validation?.errors?.title}
-						disabled={isView}
-					/>
-				</div>
-				<Col sm="12">
-					{' '}
-					<Label className="form-label">Content</Label>
-					<span className="text-danger"> *</span>
-					<CodeEditor
-						cmsByPageId={cmsByPageId}
-						dynamicData={safeStringify(requiredKeyData, null, 2)}
-						HTML={data || ''}
-						initial="HTML"
-						mobileQuery={800}
-						height="70vh"
-						setTemplate={setTemplate}
-						themeTransitionSpeed={150}
-						setRequiredKeyData={setRequiredKeyData}
-						selectedTab={activeTab}
-						setTemp={setTemplate}
-						validation={validation}
-						disabled={isView}
-					/>
-				</Col>
-			</Row>
-		),
-	}));
-
 	useEffect(() => {
 		if (activeTab) {
 			const selectedTab = tabData?.find((item) => item.id === activeTab);
-			validation?.setFieldValue('language', selectedTab?.title);
+			if (selectedTab) {
+				validation?.setFieldValue('language', selectedTab?.title);
+			}
 		}
 	}, [activeTab]);
 
 	useEffect(() => {
-		if (activeTab) {
+		if (activeTab && label) {
 			const selectedTab = tabData?.find((item) => item.id === activeTab);
-			setTitle({
-				...title,
-				[selectedTab?.title]: label,
-			});
+			if (selectedTab) {
+				setTitle({
+					...title,
+					[selectedTab?.title]: label,
+				});
+			}
 		}
 	}, [label, activeTab, validation?.values?.title]);
 
 	useEffect(() => {
 		if (activeTab) {
 			const selectedTab = tabData?.find((item) => item.id === activeTab);
-			setContent({
-				...content,
-				[selectedTab?.title]: template,
-			});
+			if (selectedTab && template) {
+				setContent({
+					...content,
+					[selectedTab?.title]: template,
+				});
+				setTemplate('');
+			}
 		}
 	}, [template, activeTab, validation?.values?.content]);
 
 	const toggle = (tab) => {
 		if (!isView && ((title?.EN && content?.EN) || isEdit)) {
 			setActiveTab(tab);
+			setData(content?.[tab]);
+			validation.setFieldValue('title', title?.[tab] || '');
+			setLabel(title?.[tab] || '');
 		} else if (!isView) {
 			showToastr({
 				message:
@@ -296,28 +313,47 @@ const CreateCMSTemplate = ({
 				openModal={showGallery}
 				toggleModal={() => setShowGallery(!showGallery)}
 				headerTitle="Gallery"
-				hideFooter={true}
-				children={imageComponent}
+				hideFooter
 				className="modal-dialog modal-lg"
-			/>
+			>
+				{imageComponent}
+			</Modal>
 		</>
 	);
 };
 
+CreateCMSTemplate.defaultProps = {
+	languageData: {},
+	validation: {},
+	cmsKeys: {},
+	title: {},
+	setTitle: () => {},
+	content: {},
+	setContent: () => {},
+	cmsByPageId: null,
+	isEdit: false,
+	isView: false,
+	showGallery: false,
+	setShowGallery: () => {},
+	selectedTab: 'EN',
+	setSelectedTab: () => {},
+};
+
 CreateCMSTemplate.propTypes = {
-	languageData: PropTypes.object,
-	validation: PropTypes.object,
-	cmsKeys: PropTypes.object,
-	title: PropTypes.object,
+	languageData: PropTypes.objectOf(),
+	validation: PropTypes.objectOf(),
+	cmsKeys: PropTypes.objectOf(),
+	title: PropTypes.objectOf(),
 	setTitle: PropTypes.func,
-	content: PropTypes.object,
+	content: PropTypes.objectOf(),
 	setContent: PropTypes.func,
-	cmsByPageId: PropTypes.object,
+	cmsByPageId: PropTypes.objectOf(),
 	isEdit: PropTypes.bool,
 	isView: PropTypes.bool,
-	setIsView: PropTypes.func,
 	showGallery: PropTypes.bool,
 	setShowGallery: PropTypes.func,
+	selectedTab: PropTypes.string,
+	setSelectedTab: PropTypes.func,
 };
 
 export default CreateCMSTemplate;

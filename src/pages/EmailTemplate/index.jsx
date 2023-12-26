@@ -52,7 +52,7 @@ const EmailTemplate = ({ t }) => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'emailTemplateId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <EmailTemplateId value={cell.value} />,
 			},
@@ -161,7 +161,7 @@ const EmailTemplate = ({ t }) => {
 				<Modal
 					openModal={isView}
 					toggleModal={toggleView}
-					headerTitle={emailTemplate?.label}
+					headerTitle={emailTemplate?.[0]?.label}
 					children={customComponent}
 					className="modal-dialog modal-lg"
 					isLoading={isEmailTemplateLoading}

@@ -94,7 +94,7 @@ const useEditCms = () => {
 				setSelectedTab={setSelectedTab}
 			/>
 		);
-	}, [languageData, title, content, showGallery]);
+	}, [languageData, title, content, showGallery, selectedTab]);
 
 	const handleGalleryClick = (e) => {
 		setShowGallery(true);

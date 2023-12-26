@@ -15,7 +15,7 @@ const ActionButtons = ({
 }) => {
 	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
-	const emailTemplateId = original?.emailTemplateId;
+	const id = original?.id;
 	const type = original?.type;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -28,18 +28,15 @@ const ActionButtons = ({
 						dispatch(
 							makeEmailTemplatePrimary({
 								data: {
-									emailTemplateId,
+									emailTemplateId: parseInt(id, 10),
 									type,
 								},
 							})
 						);
 					}}
 				>
-					<i className="mdi mdi-check-all" id={`primary-${emailTemplateId}`} />
-					<UncontrolledTooltip
-						placement="top"
-						target={`primary-${emailTemplateId}`}
-					>
+					<i className="mdi mdi-check-all" id={`primary-${id}`} />
+					<UncontrolledTooltip placement="top" target={`primary-${id}`}>
 						Make Template Primary
 					</UncontrolledTooltip>
 				</Button>
@@ -48,16 +45,10 @@ const ActionButtons = ({
 			<li data-bs-toggle="tooltip" data-bs-placement="top">
 				<Button
 					className="btn btn-sm btn-soft-primary"
-					onClick={(e) => handleViewClick(e, emailTemplateId)}
+					onClick={(e) => handleViewClick(e, id)}
 				>
-					<i
-						className="mdi mdi-eye-outline"
-						id={`viewtooltip-${emailTemplateId}`}
-					/>
-					<UncontrolledTooltip
-						placement="top"
-						target={`viewtooltip-${emailTemplateId}`}
-					>
+					<i className="mdi mdi-eye-outline" id={`viewtooltip-${id}`} />
+					<UncontrolledTooltip placement="top" target={`viewtooltip-${id}`}>
 						View
 					</UncontrolledTooltip>
 				</Button>
@@ -67,16 +58,10 @@ const ActionButtons = ({
 				<Button
 					hidden={!isGranted(modules.EmailTemplate, 'U')}
 					className="btn btn-sm btn-soft-info"
-					onClick={(e) => handleEditClick(e, emailTemplateId)}
+					onClick={(e) => handleEditClick(e, id)}
 				>
-					<i
-						className="mdi mdi-pencil-outline"
-						id={`edit-${emailTemplateId}`}
-					/>
-					<UncontrolledTooltip
-						placement="top"
-						target={`edit-${emailTemplateId}`}
-					>
+					<i className="mdi mdi-pencil-outline" id={`edit-${id}`} />
+					<UncontrolledTooltip placement="top" target={`edit-${id}`}>
 						Edit
 					</UncontrolledTooltip>
 				</Button>
@@ -86,16 +71,10 @@ const ActionButtons = ({
 				<Button
 					hidden={!isGranted(modules.EmailTemplate, 'D')}
 					className="btn btn-sm btn-soft-danger"
-					onClick={(e) => handleDeleteClick(e, emailTemplateId, type)}
+					onClick={(e) => handleDeleteClick(e, id, type)}
 				>
-					<i
-						className="mdi mdi-delete-outline"
-						id={`delete-${emailTemplateId}`}
-					/>
-					<UncontrolledTooltip
-						placement="top"
-						target={`delete-${emailTemplateId}`}
-					>
+					<i className="mdi mdi-delete-outline" id={`delete-${id}`} />
+					<UncontrolledTooltip placement="top" target={`delete-${id}`}>
 						Delete
 					</UncontrolledTooltip>
 				</Button>
@@ -110,7 +89,7 @@ ActionButtons.propTypes = {
 	handleDeleteClick: PropTypes.func.isRequired,
 	row: PropTypes.shape({
 		original: PropTypes.shape({
-			emailTemplateId: PropTypes.number.isRequired,
+			id: PropTypes.number.isRequired,
 			type: PropTypes.string.isRequired,
 		}).isRequired,
 	}).isRequired,

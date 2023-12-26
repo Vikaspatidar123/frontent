@@ -40,11 +40,18 @@ const filterValidationSchema = () =>
 		search: Yup.string().nullable(),
 	});
 
+const pageCategories = {
+	ABOUT: 'about',
+	OTHERS: 'others',
+	SUPPORT: 'support',
+	RESPONSIBLE_GAMBLING: 'responsible_gambling',
+};
+
 const getInitialValues = (cmsData) => ({
 	title: cmsData ? cmsData?.title?.EN : '',
 	slug: cmsData ? cmsData?.slug : '',
 	content: cmsData ? cmsData?.content?.EN : '',
-	category: cmsData ? cmsData?.category : 1,
+	category: cmsData ? cmsData?.category : 'about',
 	isActive: cmsData ? !!cmsData?.isActive : true,
 	language: '',
 });
@@ -72,12 +79,20 @@ const staticFormFields = (isView) => [
 		isDisabled: isView || false,
 		optionList: [
 			{
-				optionLabel: 'Support Links',
-				value: 1,
+				optionLabel: pageCategories.ABOUT,
+				value: pageCategories.ABOUT,
 			},
 			{
-				optionLabel: 'Other Links',
-				value: 2,
+				optionLabel: pageCategories.OTHERS,
+				value: pageCategories.OTHERS,
+			},
+			{
+				optionLabel: pageCategories.SUPPORT,
+				value: pageCategories.SUPPORT,
+			},
+			{
+				optionLabel: pageCategories.RESPONSIBLE_GAMBLING,
+				value: pageCategories.RESPONSIBLE_GAMBLING,
 			},
 		],
 	},
