@@ -5,7 +5,7 @@ import { isEmpty, isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import General from '../FormSections/General';
 import Languages from '../FormSections/Languages';
-import { getSiteConfiguration } from '../../../network/getRequests';
+// import { getSiteConfiguration } from '../../../network/getRequests';
 import Currencies from '../FormSections/Currency';
 import WageringContribution from '../FormSections/WageringContribution';
 import Games from '../FormSections/Games';
@@ -133,14 +133,26 @@ const useCreateBonus = ({ isEdit }) => {
 	};
 
 	useEffect(() => {
-		async function fetchData() {
-			await getSiteConfiguration().then((res) => {
-				setLangList(res?.data?.data?.siteInformation?.[1]?.value?.languages);
-			});
-		}
-		if (!langList.length) {
-			fetchData();
-		}
+		// async function fetchData () {
+		//   await getSiteConfiguration().then((res) => {
+		//     setLangList(res?.siteInformation?.[1]?.value?.languages);
+		//   });
+		// }
+		// if (!langList.length) {
+		//   fetchData();
+		// }
+		const staticLanguages = {
+			DE: 'German',
+			EN: 'English',
+			ES: 'Spanish',
+			HI: 'Hindi',
+			MS: 'Malay',
+			NO: 'Norwegian',
+			PS: 'Pasto',
+			RO: 'Romanian',
+			RU: 'Russian',
+		};
+		setLangList(staticLanguages);
 	}, []);
 
 	const onNextClick = (current, next) => {

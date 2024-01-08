@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
-import { getSiteConfiguration } from '../../network/getRequests';
+// import { getSiteConfiguration } from '../../network/getRequests';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 
 import { projectName } from '../../constants/config';
@@ -74,12 +74,46 @@ const ProfilePage = ({ t }) => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
-		async function fetchData() {
-			await getSiteConfiguration().then((res) => {
-				setDetails(res?.data?.data?.siteInformation);
-			});
-		}
-		fetchData();
+		// async function fetchData() {
+		// 	await getSiteConfiguration().then((res) => {
+		// 		setDetails(res?.data?.data?.siteInformation);
+		// 	});
+		// }
+		// fetchData();
+		const staticSiteConfiguration = [
+			{
+				key: 'SENDGRID',
+				value: {
+					SENDGRID_EMAIL: 'ppatidar@grepruby.io',
+					SENDGRID_API_KEY:
+						'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',
+				},
+			},
+			{
+				key: 'SITE_INFORMATION',
+				value: {
+					url: 'https://gscore.com/',
+					logo: 'development/site-logo/duv5vdxgmmf/1701784252116.png',
+					name: 'B2C',
+					sport: false,
+					casino: true,
+					languages: {
+						DE: 'German',
+						EN: 'English',
+						ES: 'Spanish',
+						HI: 'Hindi',
+						MS: 'Malay',
+						NO: 'Norwegian',
+						PS: 'Pasto',
+						RO: 'Romanian',
+						RU: 'Russian',
+					},
+					maintenance: false,
+					supportEmail: 'support@gammastack.com',
+				},
+			},
+		];
+		setDetails(staticSiteConfiguration);
 	}, []);
 
 	const tabData = [
@@ -126,11 +160,11 @@ const ProfilePage = ({ t }) => {
 		{
 			id: '5',
 			title: 'Tree',
-			component: !isTenant && superAdminUser && superAdminUser?.adminUserId && (
+			component: !isTenant && superAdminUser && superAdminUser?.id && (
 				<HierarchyTree
 					adminDetails={{
 						name: `${superAdminUser?.firstName} ${superAdminUser?.lastName}`,
-						id: superAdminUser?.adminUserId,
+						id: superAdminUser?.id,
 						children: [],
 						isInitial: true,
 						data: { superRoleId: superAdminUser?.adminRoleId },

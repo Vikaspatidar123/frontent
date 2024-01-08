@@ -54,9 +54,7 @@ const Breadcrumb = ({
 								cursor: `${titleLink || values || callBack ? 'pointer' : ''}`,
 							}}
 							onClick={
-								titleLink
-									? () => navigate(titleLink)
-									: callBack || onBackClick
+								titleLink ? () => navigate(titleLink) : callBack || onBackClick
 							}
 						>
 							{leftTitle || breadcrumbItem}

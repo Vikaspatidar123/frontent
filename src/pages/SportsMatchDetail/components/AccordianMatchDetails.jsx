@@ -132,7 +132,7 @@ const AccordianMatchDetails = ({
 										<b> #{idx + 1}.</b>
 									</Col>
 									<Col className="text-align-center" xs="3">
-										<b> {item?.markets?.marketName[0].name || '-'}</b>
+										<b> {item?.market?.name || '-'}</b>
 									</Col>
 									<Col className="text-align-center" xs="2">
 										<b> Modification Type</b> <br />
@@ -176,21 +176,21 @@ const AccordianMatchDetails = ({
 									</thead>
 
 									<tbody>
-										{item.outcome &&
-											item.outcome.map((value, index) => (
+										{item.outcomes &&
+											item.outcomes.map((value, index) => (
 												<tr
 													className="w-100 text-center"
 													key={`MatchOds ${index + 1}`}
 												>
 													<td style={{ width: '5%' }}>{index + 1}</td>
 													<td style={{ width: '25%' }}>
-														{value?.providerOutcomeId}
-														{item?.markets?.marketId === '209' &&
+														{value?.name}
+														{item?.market?.id === '209' &&
 														value?.specialBetValue
 															? ` (${value?.specialBetValue})`
 															: ''}
 													</td>
-													<td style={{ width: '20%' }}>{value?.odd}</td>
+													<td style={{ width: '20%' }}>{value?.price}</td>
 													<td style={{ width: '20%' }}>{value?.customOdd}</td>
 
 													<td style={{ width: '30%' }}>

@@ -118,7 +118,7 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 				<Row>
 					<Col md={4}>
 						<h6 className="text-center">AVAILABLE BONUSES</h6>
-						{!!bonusList?.length &&
+						{bonusList?.length ? (
 							bonusList?.map((bonus) => (
 								<div key={bonus.bonusId} className="p-2">
 									<CustomSwitchButton
@@ -132,7 +132,10 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 										onClick={() => setSelectedBonus(bonus?.bonusId)}
 									/>
 								</div>
-							))}
+							))
+						) : (
+							<div className="p-2">No Bonuses Available</div>
+						)}
 					</Col>
 					<Col md={8}>
 						<h6 className="text-center">BONUS DETAILS</h6>
@@ -160,11 +163,13 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 							)}
 					</Col>
 				</Row>
-				<div className="d-flex justify-content-end">
-					<Button onClick={() => handleAmountAdd()} className="ml-auto">
-						Add
-					</Button>
-				</div>
+				{bonusDetails && (
+					<div className="d-flex justify-content-end">
+						<Button onClick={() => handleAmountAdd()} className="ml-auto">
+							Add
+						</Button>
+					</div>
+				)}
 			</ModalBody>
 		</Modal>
 	);

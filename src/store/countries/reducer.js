@@ -79,6 +79,8 @@ const countriesReducer = (state = initialState, { type, payload } = {}) => {
 			return {
 				...state,
 				updateCountriesStatusLoading: true,
+				updateCountriesStatus: false,
+				updateCountriesStatusError: null,
 			};
 		case UPDATE_COUNTRIES_STATUS_FAIL:
 			return {
@@ -99,6 +101,8 @@ const countriesReducer = (state = initialState, { type, payload } = {}) => {
 			return {
 				...state,
 				editCountriesLoading: true,
+				editCountriesSuccess: false,
+				editCountriesError: null,
 			};
 		case EDIT_COUNTRIES_FAIL:
 			return {

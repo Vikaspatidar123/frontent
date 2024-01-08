@@ -145,6 +145,7 @@ const useCreateWageringTemplate = () => {
 		validation?.values?.search,
 		itemsPerPage,
 		page,
+		isCasinoGamesLoading,
 		selectedId,
 	]);
 

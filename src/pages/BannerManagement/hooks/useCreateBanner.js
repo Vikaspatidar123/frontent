@@ -104,7 +104,7 @@ const useCreateBanner = () => {
 
 	useEffect(() => {
 		setIsOpen(false);
-	}, [Object.keys(SABanners?.[0]?.value || {}).length]);
+	}, [Object.keys(SABanners?.rows?.[0]?.value || {}).length]);
 
 	useEffect(() => {
 		if (isEditSABannersSuccess) setIsOpen();
@@ -121,11 +121,11 @@ const useCreateBanner = () => {
 	]);
 
 	useEffect(() => {
-		if (SABanners?.length && formFields.length <= 2) {
+		if (SABanners?.rows?.length && formFields.length <= 2) {
 			const arrayToReturn = [];
 			bannerType?.map(({ label, value }) => {
 				let hideData = false;
-				SABanners?.map((item) => {
+				SABanners?.rows?.map((item) => {
 					Object.keys(item?.value).map((key) => {
 						if (key === value) {
 							hideData = true;
@@ -150,7 +150,7 @@ const useCreateBanner = () => {
 				...staticFormFields,
 			]);
 		}
-	}, [SABanners?.length, isEdit]);
+	}, [SABanners?.rows?.length, isEdit]);
 
 	useEffect(() => {
 		if (validation?.values?.bannerType) {

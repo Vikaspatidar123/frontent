@@ -64,8 +64,6 @@ const useEditEmailTemplate = () => {
 	};
 
 	const formSubmitHandler = (values) => {
-		console.log('values: ', values);
-		console.log('template: ', template);
 		if (template) {
 			const allKeys = dynamicKeys?.map((item) => item.key);
 			const requiredKeys = dynamicKeys
@@ -73,7 +71,6 @@ const useEditEmailTemplate = () => {
 				.map((item) => item.key);
 
 			const templateKeys = getTemplateKeys(template);
-			console.log('templateKeys: ', templateKeys);
 			if (templateKeys?.length || requiredKeys?.length) {
 				if (allKeys.some((r) => templateKeys.includes(r))) {
 					if (requiredKeys.every((v) => templateKeys.includes(v))) {
@@ -143,9 +140,9 @@ const useEditEmailTemplate = () => {
 	console.log('emailTemplate: ', emailTemplate);
 
 	useEffect(() => {
-		if (emailTemplate && Object.keys(emailTemplate).length) {
+		if (emailTemplate?.length) {
 			emailTypes &&
-				dispatch(getDynamicKeys({ type: emailTemplate.type, emailTypes }));
+				dispatch(getDynamicKeys({ type: emailTemplate[0].type, emailTypes }));
 			setTemplate(emailTemplate.templateCode);
 		}
 	}, [emailTemplate, emailTypes]);

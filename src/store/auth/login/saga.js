@@ -17,7 +17,7 @@ function* loginUser({ payload: { user, history } }) {
 	try {
 		const encryptedPass = Buffer.from(user.password).toString('base64');
 		const res = yield call(superAdminLogin, {
-			user: user.user,
+			emailOrUsername: user.emailOrUsername,
 			password: encryptedPass,
 		});
 		const {

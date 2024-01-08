@@ -33,44 +33,16 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 	} ${labelArray?.[2]}`;
 	const [isResetLimit, setIsResetLimit] = useState({ open: false, data: '' });
 
-	const getData = ({ limitString, reset, labelString }) => {
-		const timePeriod = labelString?.split(' ')?.[0]?.toLowerCase();
-		const type = labelString?.split(' ')?.[1]?.toLowerCase();
-		let data = {};
-		if (type === 'wager') {
-			data = {
-				userId,
-				dailyLimit: limitString,
-				timePeriod,
-				reset,
-				type,
-			};
-		} else if (type === 'deposit') {
-			data = {
-				userId,
-				depositLimit: limitString,
-				timePeriod,
-				reset,
-				type,
-			};
-		} else {
-			data = {
-				userId,
-				lossLimit: limitString,
-				timePeriod,
-				reset,
-				type,
-			};
-		}
-		return data;
-	};
-
-	const updateLimit = ({ formValues, labelString }) => {
-		const data = getData({
-			limitString: formValues?.limit,
+	const updateLimit = ({ formValues, limitType }) => {
+		const type = limitType?.split('_')?.[1]?.toLowerCase();
+		const data = {
+			userId: parseInt(userId, 10),
+			value: parseInt(formValues?.limit, 10),
+			key: limitType,
 			reset: false,
-			labelString,
-		});
+			type,
+		};
+
 		dispatch(
 			resetUserLimit({
 				...data,
@@ -79,7 +51,7 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 	};
 
 	const onSubmitLimit = (values) => {
-		updateLimit({ formValues: values, labelString: limit.label });
+		updateLimit({ formValues: values, limitType: limit.key });
 	};
 
 	const onResetLimit = () => {
@@ -103,17 +75,20 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 		if (limit.value) {
 			validation.setValues({ limit: limit.value });
 		}
-	}, [limit]);
+	}, []);
 
 	const toggle = () =>
 		setIsResetLimit((prev) => ({ open: !prev.open, data: prev.data }));
 
 	const resetLimit = (labelString) => {
-		const data = getData({
-			limitString: validation.values?.limit,
+		const type = labelString?.split('_')?.[1]?.toLowerCase();
+		const data = {
+			userId: parseInt(userId, 10),
+			value: parseInt(validation.values?.limit, 10),
+			key: labelString,
 			reset: true,
-			labelString,
-		});
+			type,
+		};
 		dispatch(
 			resetUserLimit({
 				...data,
@@ -122,7 +97,8 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 	};
 
 	const handleYes = () => {
-		resetLimit(limit.label);
+		resetLimit(limit.key);
+		setIsResetLimit({ open: false, data: '' });
 	};
 
 	return (
@@ -162,10 +138,11 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 							>
 								Set
 							</Button>
-							{limit.value && (
+							{!!limit.value && (
 								<>
 									<i
 										className="mdi mdi-refresh"
+										style={{ cursor: 'pointer' }}
 										id="refresh"
 										onClick={onResetLimit}
 										onKeyDown={(event) => {

@@ -46,13 +46,13 @@ const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 	const onAddCountry = (cell) => {
 		setSelectedCountriesState((prev) => [...prev, cell]);
 		setUnrestrictedCountriesState((prev) =>
-			prev.filter((country) => country.countryId !== cell.countryId)
+			prev.filter((country) => country.id !== cell.id)
 		);
 	};
 
 	const onRemoveCountry = (cell) => {
 		setSelectedCountriesState((prev) =>
-			prev.filter((country) => country.countryId !== cell.countryId)
+			prev.filter((country) => country.id !== cell.id)
 		);
 		setUnrestrictedCountriesState((prev) => [...prev, cell]);
 	};
@@ -61,7 +61,7 @@ const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'countryId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -94,7 +94,7 @@ const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'countryId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},

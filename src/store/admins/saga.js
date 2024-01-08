@@ -99,7 +99,7 @@ function* updateSuperAdminUserWorker(action) {
 
 function* getAdminChildrenWorker(action) {
 	try {
-		const { superAdminId, superRoleId } = action && action.payload;
+		const { superAdminId } = action && action.payload;
 		const { adminChildren } = yield select((state) => state.AllAdmins);
 
 		const addChildrenToAdmin = (newAdminChildren, id, children) => {
@@ -114,11 +114,11 @@ function* getAdminChildrenWorker(action) {
 			}
 		};
 
-		const { data } = yield getAdminChildren({ superAdminId, superRoleId });
+		const { data } = yield getAdminChildren({ superAdminId });
 
 		const newAdminChildren = cloneDeep(adminChildren);
-		const children = data?.data?.adminDetails?.map((item) => ({
-			id: item.adminUserId,
+		const children = data?.data?.details?.map((item) => ({
+			id: item.id,
 			name: `${item.firstName || ''} (${item.childCount})`,
 			children: [],
 			data: item,

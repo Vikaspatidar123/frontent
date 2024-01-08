@@ -13,6 +13,10 @@ import {
 	getCasinoProvidersDataStart,
 	getCasinoGamesStart,
 	editWageringTemplateDetails,
+	getWageringTemplateDetail,
+	resetCasinoProvidersData,
+	resetCasinoGamesData,
+	resetWageringTemplateDetailData,
 } from '../../../store/actions';
 
 import {
@@ -38,6 +42,18 @@ const useEditWageringTemplate = () => {
 	const { SAWageringTemplate, SAWageringTemplateLoading } = useSelector(
 		(state) => state.WageringTemplate
 	);
+
+	useEffect(() => {
+		dispatch(
+			getWageringTemplateDetail({
+				wageringTemplateId: Number(wageringTemplateId),
+				providerId: '',
+				limit: itemsPerPage,
+				pageNo: page,
+				search: '',
+			})
+		);
+	}, [itemsPerPage, page]);
 
 	const formSubmitHandler = (values) => {
 		const templateData = {
@@ -78,6 +94,28 @@ const useEditWageringTemplate = () => {
 		leftStaticFormFields,
 		rightStaticFormFields,
 	});
+
+	useEffect(() => {
+		if (SAWageringTemplate && !SAWageringTemplateLoading) {
+			validation.setValues(getInitialValues(SAWageringTemplate));
+			const data = Object.keys(SAWageringTemplate?.gameContribution).map(
+				(key) => ({
+					casinoGameId: Number(key),
+				})
+			);
+			setSelectedId(data);
+		}
+	}, [SAWageringTemplate, SAWageringTemplateLoading]);
+
+	// resetting redux state
+	useEffect(
+		() => () => {
+			dispatch(resetCasinoProvidersData());
+			dispatch(resetCasinoGamesData());
+			dispatch(resetWageringTemplateDetailData());
+		},
+		[]
+	);
 
 	useEffect(() => {
 		if (casinoProvidersData) {
@@ -141,6 +179,7 @@ const useEditWageringTemplate = () => {
 		validation?.values?.search,
 		itemsPerPage,
 		page,
+		selectedId,
 	]);
 
 	const handleEditClick = (row) => {

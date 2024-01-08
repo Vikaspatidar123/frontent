@@ -25,7 +25,8 @@ const Overview = ({
 	const handleSubmit = (values) => {
 		updateData({
 			...values,
-			id: details?.adminUserId,
+			adminId: Number(details?.id),
+			adminUserId: Number(details?.permissions?.[0]?.adminUserId),
 		});
 		setIsEditable((prev) => !prev);
 	};
@@ -62,10 +63,10 @@ const Overview = ({
 					firstName: details?.firstName,
 					lastName: details?.lastName,
 					email: details?.email,
-					adminUsername: details?.adminUsername || '',
+					username: details?.username || '',
 					phone: isTenant ? details?.phone : '',
 					role:
-						details?.AdminRole?.name === 'Super Admin'
+						details?.adminRole?.name === 'Superadmin'
 							? 'Admin'
 							: details?.SuperadminRole?.name,
 					agentName: details?.agentName || '',

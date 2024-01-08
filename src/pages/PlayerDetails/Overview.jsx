@@ -161,7 +161,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)}
-									{(isGranted(modules.Users, 'U') ||
+									{/* {(isGranted(modules.Users, 'U') ||
 										userDetails?.tags?.includes('Internal')) && (
 										<ColumnContainer
 											hidden={userDetails?.tags?.includes('Internal')}
@@ -174,10 +174,10 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 												Internal
 											</Button>
 										</ColumnContainer>
-									)}
+									)} */}
 									{(isGranted(modules.Users, 'EV') ||
-										userDetails?.isEmailVerified) && (
-										<ColumnContainer hidden={userDetails?.isEmailVerified}>
+										userDetails?.emailVerified) && (
+										<ColumnContainer hidden={userDetails?.emailVerified}>
 											<Button
 												className="actionButton w-100"
 												variant="outline-success"

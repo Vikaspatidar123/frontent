@@ -97,7 +97,6 @@ const useImageGallery = () => {
 		{
 			label: 'Upload',
 			handleClick: handleAddClick,
-			link: '#!',
 			module: modules.Admins,
 			operation: 'C',
 		},

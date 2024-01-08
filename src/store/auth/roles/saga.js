@@ -1,12 +1,39 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import {
+	// call,
+	put,
+	takeLatest,
+} from 'redux-saga/effects';
 import { ROLES_START } from './actionTypes';
-import { getAdminRole } from '../../../network/getRequests';
+// import { getAdminRole } from '../../../network/getRequests';
 import { getRolesError, getRolesSuccess } from './actions';
 
 export function* getRoles() {
 	try {
-		let roles = yield call(getAdminRole);
-		roles = roles.data.data.roles;
+		// let roles = yield call(getAdminRole);
+		// roles = roles.data.data.roles;
+		const roles = [
+			{
+				adminRoleId: 1,
+				name: 'Super Admin',
+				label: 'Super Admin',
+				abbr: null,
+				level: 1,
+			},
+			{
+				adminRoleId: 2,
+				name: 'admin',
+				label: 'Admin',
+				abbr: null,
+				level: 2,
+			},
+			{
+				adminRoleId: 3,
+				name: 'Manager',
+				label: 'Manager',
+				abbr: null,
+				level: 3,
+			},
+		];
 		yield put(getRolesSuccess(roles));
 	} catch (er) {
 		yield put(getRolesError(`Unable to get roles ${er?.message || ''}`));

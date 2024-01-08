@@ -6,11 +6,7 @@ export const statusType = [
 	{ label: 'RollBack', value: 'rollback' },
 ];
 
-export const transactionType = [
-	{ label: 'All', value: 'all' },
-	{ label: 'Bet', value: 'bet' },
-	{ label: 'Win', value: 'win' },
-	{ label: 'RollBack', value: 'rollback' },
-	{ label: 'Pre RollBack', value: 'rollbackbeforebetwin' },
-	{ label: 'Free Spin', value: 'freespins' },
+export const LEDGER_TYPES = [
+	{ label: 'Debit', value: 'debit' },
+	{ label: 'Credit', value: 'credit' },
 ];

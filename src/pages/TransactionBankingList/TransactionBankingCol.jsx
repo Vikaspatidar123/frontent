@@ -7,10 +7,10 @@ const TransactionId = ({ value }) => value ?? 'NA';
 
 const PaymentProvider = ({ value }) => value ?? 'NA';
 
-const Amount = ({ value }) =>
+const Amount = ({ value, currencyCode }) =>
 	value ? (
-		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
-			{value}
+		<div className={value < 0 ? 'text-danger' : 'text-success'}>
+			{value} {currencyCode}
 		</div>
 	) : (
 		'-'
@@ -18,9 +18,9 @@ const Amount = ({ value }) =>
 
 const Actionee = ({ value }) => value ?? '-';
 
-const ActionType = ({ value }) => value ?? '';
+const Purpose = ({ value }) => value ?? '';
 
-const ActioneeType = ({ value }) => value ?? '-';
+const TransactionType = ({ value }) => value ?? '-';
 
 const Status = ({ value }) => value ?? '';
 
@@ -28,16 +28,17 @@ const CreatedAt = ({ value }) => value ?? '';
 
 Amount.propTypes = {
 	value: PropTypes.string.isRequired,
+	currencyCode: PropTypes.string.isRequired,
 };
 
 export {
-	ActioneeType,
 	Actionee,
-	ActionType,
+	Purpose,
 	Status,
 	CreatedAt,
 	Id,
 	TransactionId,
 	PaymentProvider,
 	Amount,
+	TransactionType,
 };

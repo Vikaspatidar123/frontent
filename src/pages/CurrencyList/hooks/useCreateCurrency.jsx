@@ -4,25 +4,21 @@ import { React, useEffect, useMemo, useState } from 'react';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 // import PropTypes from 'prop-types';
 
+import { isEqual } from 'lodash';
 import {
 	getInitialValues,
+	initialData,
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
 import { createCurrencyStart, editCurrencyStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	Code,
-	ExchangeRate,
-	Id,
-	LoyaltyPoints,
-	Name,
-	Type,
-} from '../CurrencyListCol';
+import { Code, ExchangeRate, Id, Name, Type } from '../CurrencyListCol';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import { currencySymbols } from '../../../utils/constant';
 
 const useCreateCurrency = () => {
 	const dispatch = useDispatch();
@@ -41,8 +37,8 @@ const useCreateCurrency = () => {
 			createCurrencyStart({
 				data: {
 					...values,
-					type: Number(values.type),
-					isPrimary: false,
+					type: values.type,
+					isActive: false,
 				},
 			})
 		);
@@ -54,9 +50,8 @@ const useCreateCurrency = () => {
 				data: {
 					...values,
 					loyaltyPoint: values.loyaltyPoint.toString(),
-					type: Number(values.type),
-					isPrimary: false,
-					currencyId: isEdit.selectedRow.currencyId,
+					type: values.type,
+					currencyId: Number(isEdit.selectedRow.id),
 				},
 			})
 		);
@@ -105,9 +100,17 @@ const useCreateCurrency = () => {
 	]);
 
 	const onClickEdit = (selectedRow) => {
+		const symbol = Object.keys(currencySymbols)?.includes(selectedRow?.code)
+			? currencySymbols[selectedRow.code]
+			: '';
 		setIsEdit({ open: true, selectedRow });
 		setHeader('Edit Currency');
-		validation.setValues(getInitialValues(selectedRow));
+		validation.setValues(
+			getInitialValues({
+				...selectedRow,
+				symbol,
+			})
+		);
 		setIsOpen((prev) => !prev);
 	};
 
@@ -124,11 +127,21 @@ const useCreateCurrency = () => {
 		}
 	}, [isOpen]);
 
+	const toggleFormModal = () => {
+		if (!isEdit.open) {
+			const isDataEqual = isEqual(validation.values, initialData);
+			if (!isDataEqual) {
+				setShowModal(!showModal);
+			}
+		}
+		setIsOpen((prev) => !prev);
+	};
+
 	const columns = useMemo(
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'currencyId',
+				accessor: 'id',
 				// filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -150,12 +163,12 @@ const useCreateCurrency = () => {
 				// filterable: true,
 				Cell: ({ cell }) => <ExchangeRate value={cell.value} />,
 			},
-			{
-				Header: 'LOYALTY POINTS',
-				accessor: 'loyaltyPoint',
-				// filterable: true,
-				Cell: ({ cell }) => <LoyaltyPoints value={cell.value} />,
-			},
+			// {
+			//   Header: 'LOYALTY POINTS',
+			//   accessor: 'loyaltyPoint',
+			//   // filterable: true,
+			//   Cell: ({ cell }) => <LoyaltyPoints value={cell.value} />,
+			// },
 			{
 				Header: 'TYPE',
 				accessor: 'type',
@@ -208,6 +221,7 @@ const useCreateCurrency = () => {
 		showModal,
 		setShowModal,
 		isEdit,
+		toggleFormModal,
 	};
 };
 

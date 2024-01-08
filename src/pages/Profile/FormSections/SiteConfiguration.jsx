@@ -16,31 +16,31 @@ import FormPage from '../../../components/Common/FormPage';
 
 const SiteConfig = ({
 	details,
-	languageData,
+	// languageData,
 	editableSiteConfig,
 	setEditableSiteConfig,
 	updateSiteConfiguration,
 	isLanguageDataLoading,
 }) => {
 	const [formLanguage, setFormLanguage] = useState([]);
-	const languageOptions =
-		languageData?.rows?.map(({ code, languageName }) => ({
-			value: code,
-			label: languageName,
-		})) || [];
+	// const languageOptions =
+	// 	languageData?.rows?.map(({ code, name }) => ({
+	// 		value: code,
+	// 		label: name,
+	// 	})) || [];
 
 	const handleSubmit = (values) => {
-		const label = {};
-		if (values?.lang) {
-			languageOptions?.forEach((language) => {
-				if (values?.lang.some((item) => item.label === language.label)) {
-					label[language.value] = language.label;
-				}
-			});
-		}
+		// const label = {};
+		// if (values?.lang.length) {
+		// 	languageOptions?.forEach((language) => {
+		// 		if (values?.lang.some((item) => item.label === language.label)) {
+		// 			label[language.value] = language.label;
+		// 		}
+		// 	});
+		// }
 		updateSiteConfiguration({
 			...values,
-			lang: label && JSON.stringify(label),
+			// lang: label && JSON.stringify(label),
 		});
 		setEditableSiteConfig(true);
 	};
@@ -77,21 +77,21 @@ const SiteConfig = ({
 			setLeftFormFields(leftStaticSiteConfigFormFields(editableSiteConfig));
 			setRightFormFields([
 				...rightStaticSiteConfigFormFields(editableSiteConfig),
-				{
-					name: 'lang',
-					fieldType: 'select',
-					label: 'Allowed Languages',
-					isDisabled: editableSiteConfig,
-					callBack: (option) => {
-						const isExist = option.find((op) => op.value === 'EN');
-						if (!isExist) {
-							option.unshift({ label: 'English', value: 'EN' });
-						}
-						validation.setFieldValue('lang', option);
-					},
-					multiSelectOption: languageOptions,
-					multiple: true,
-				},
+				// {
+				// 	name: 'lang',
+				// 	fieldType: 'select',
+				// 	label: 'Allowed Languages',
+				// 	isDisabled: editableSiteConfig,
+				// 	callBack: (option) => {
+				// 		const isExist = option.find((op) => op.value === 'EN');
+				// 		if (!isExist) {
+				// 			option.unshift({ label: 'English', value: 'EN' });
+				// 		}
+				// 		validation.setFieldValue('lang', option);
+				// 	},
+				// 	multiSelectOption: languageOptions,
+				// 	multiple: true,
+				// },
 				{
 					name: 'maintenance',
 					fieldType: 'toggle',
@@ -110,21 +110,21 @@ const SiteConfig = ({
 			});
 			setRightFormFields([
 				...rightStaticSiteConfigFormFields(editableSiteConfig),
-				{
-					name: 'lang',
-					fieldType: 'select',
-					label: 'Allowed Languages',
-					isDisabled: editableSiteConfig,
-					callBack: (option) => {
-						const isExist = option.find((op) => op.value === 'EN');
-						if (!isExist) {
-							option.unshift({ label: 'English', value: 'EN' });
-						}
-						validation.setFieldValue('lang', option);
-					},
-					multiSelectOption: languageOptions,
-					multiple: true,
-				},
+				// {
+				// 	name: 'lang',
+				// 	fieldType: 'select',
+				// 	label: 'Allowed Languages',
+				// 	isDisabled: editableSiteConfig,
+				// 	callBack: (option) => {
+				// 		const isExist = option.find((op) => op.value === 'EN');
+				// 		if (!isExist) {
+				// 			option.unshift({ label: 'English', value: 'EN' });
+				// 		}
+				// 		validation.setFieldValue('lang', option);
+				// 	},
+				// 	multiSelectOption: languageOptions,
+				// 	multiple: true,
+				// },
 				{
 					name: 'maintenance',
 					fieldType: 'toggle',
@@ -164,7 +164,7 @@ const SiteConfig = ({
 
 SiteConfig.defaultProps = {
 	details: [],
-	languageData: {},
+	// languageData: {},
 	editableSiteConfig: false,
 	setEditableSiteConfig: () => {},
 	updateSiteConfiguration: () => {},
@@ -177,9 +177,9 @@ SiteConfig.propTypes = {
 			PropTypes.oneOfType([PropTypes.number, PropTypes.node, PropTypes.string])
 		)
 	),
-	languageData: PropTypes.objectOf(
-		PropTypes.oneOfType([PropTypes.number, PropTypes.node, PropTypes.string])
-	),
+	// languageData: PropTypes.objectOf(
+	// 	PropTypes.oneOfType([PropTypes.number, PropTypes.node, PropTypes.string])
+	// ),
 	editableSiteConfig: PropTypes.bool,
 	setEditableSiteConfig: PropTypes.func,
 	updateSiteConfiguration: PropTypes.func,

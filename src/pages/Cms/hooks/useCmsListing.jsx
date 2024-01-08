@@ -49,11 +49,11 @@ const useCmsListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { status, cmsPageId } = props;
+		const { status, id } = props;
 		dispatch(
 			updateSaCmsStatus({
 				code: 'CMS',
-				cmsPageId,
+				cmsPageId: id,
 				status: !status,
 			})
 		);
@@ -80,7 +80,7 @@ const useCmsListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'cmsPageId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <CmsPageId value={cell.value} />,
 			},

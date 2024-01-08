@@ -9,7 +9,7 @@ import { modules } from '../../constants/permissions';
 const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 	const { isGranted } = usePermission();
 	const active = row?.original?.status;
-	const countryId = row?.original?.countryId;
+	const countryId = row?.original?.id;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>

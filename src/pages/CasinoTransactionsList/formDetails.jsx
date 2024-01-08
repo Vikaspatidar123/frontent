@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import moment from 'moment';
-import { transactionType } from './constants';
+import { LEDGER_TYPES } from './constants';
 
 const staticFiltersFields = () => [
 	{
@@ -8,7 +8,7 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Transaction Type',
-		optionList: transactionType.map(({ value, label }) => ({
+		optionList: LEDGER_TYPES.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,

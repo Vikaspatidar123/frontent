@@ -15,16 +15,17 @@ const SelfExclusionCard = ({ limit, userId }) => {
 	const dispatch = useDispatch();
 	const [isResetLimit, setIsResetLimit] = useState({ open: false, data: '' });
 
-	const setDisableUser = ({ formValues, reset, type }) => {
+	const setDisableUser = ({ formValues, reset, type, key }) => {
 		let data = {};
 		if (type === 'SELF_EXCLUSION') {
 			data = {
 				type,
-				userId,
+				key,
+				userId: parseInt(userId, 10),
 				reset,
 				days:
 					formValues?.permanent === 'true' ? -1 : Number(formValues?.days) * 30,
-				portal: formValues?.portal,
+				value: 'temporary',
 			};
 		}
 		dispatch(disableUser(data));
@@ -46,6 +47,7 @@ const SelfExclusionCard = ({ limit, userId }) => {
 				formValues,
 				reset: false,
 				type: 'SELF_EXCLUSION',
+				key: limit.key,
 			}),
 	});
 
@@ -53,11 +55,13 @@ const SelfExclusionCard = ({ limit, userId }) => {
 		let data = {};
 		if (type === 'Self Exclusion') {
 			data = {
-				userId,
+				userId: parseInt(userId, 10),
 				type: 'SELF_EXCLUSION',
+				key: limit.key,
 				portal: 'all',
 				days: 0,
 				reset: true,
+				value: 'temporary',
 			};
 		} else if (type === 'Take A Break') {
 			data = {

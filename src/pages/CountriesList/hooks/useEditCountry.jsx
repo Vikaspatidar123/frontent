@@ -34,7 +34,7 @@ const useEditCountry = () => {
 			editCountryStart({
 				data: {
 					languageId: Number(values.languageId),
-					countryId: Number(values.countryId),
+					countryId: Number(values.id),
 					kycMethod: Number(values.kycMethod),
 				},
 			})
@@ -62,9 +62,9 @@ const useEditCountry = () => {
 	useEffect(() => {
 		if (languageData?.rows?.length) {
 			const langOptions = languageData.rows.map((r) => ({
-				id: r.languageId,
-				optionLabel: r.languageName,
-				value: r.languageId,
+				id: r.id,
+				optionLabel: r.name,
+				value: r.id,
 			}));
 
 			setFormFields([
@@ -92,7 +92,7 @@ const useEditCountry = () => {
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'countryId',
+				accessor: 'id',
 				// filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},

@@ -37,9 +37,13 @@ const useCreateKYCLabels = () => {
 	const handleCreateKYCLabels = (values) => {
 		dispatch(
 			createKYCLabelsStart({
-				data: { ...values, documentLabelId: '' },
+				data: {
+					...values,
+					name: values?.name?.EN,
+				},
 			})
 		);
+		setLangState({ EN: '' });
 	};
 
 	const handleEditKYCLabels = (values) => {
@@ -47,10 +51,12 @@ const useCreateKYCLabels = () => {
 			editKYCLabelsStart({
 				data: {
 					...values,
-					documentLabelId: isEditPage.selectedRow?.documentLabelId,
+					name: values?.name?.EN,
+					documentLabelId: Number(isEditPage.selectedRow?.id),
 				},
 			})
 		);
+		setLangState({ EN: '' });
 	};
 
 	const {
@@ -75,8 +81,10 @@ const useCreateKYCLabels = () => {
 		e.preventDefault();
 		e.stopPropagation();
 		setIsEditPage({ open: true, selectedRow });
-		setHeader(`Edit KYC Labels : Label ${selectedRow.documentLabelId}`);
-		validation.setValues(getInitialValues(selectedRow));
+		setHeader(`Edit KYC Labels : Label ${selectedRow.id}`);
+		validation.setValues(
+			getInitialValues({ ...selectedRow, name: { EN: selectedRow.name } })
+		);
 		setIsOpen((prev) => !prev);
 	};
 
@@ -90,7 +98,7 @@ const useCreateKYCLabels = () => {
 
 	useEffect(() => {
 		setIsOpen(false);
-	}, [documentLabels?.length]);
+	}, [documentLabels?.rows?.length]);
 
 	useEffect(() => {
 		if (isEditKYCLabelsSuccess) setIsOpen(false);
@@ -119,14 +127,13 @@ const useCreateKYCLabels = () => {
 	useEffect(() => {
 		if (languageData?.rows?.length) {
 			const langOptions = languageData.rows.map((r) => ({
-				id: r.languageId,
-				optionLabel: r.languageName,
+				id: r.id,
+				optionLabel: r.name,
 				value: r.code,
 			}));
 
 			setFormFields([
 				{
-					// name: 'language',
 					fieldType: 'select',
 					label: 'Language',
 					placeholder: 'Select Language',

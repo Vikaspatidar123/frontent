@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer';
 import { isEmpty } from 'lodash';
 import {
@@ -9,9 +9,7 @@ import {
 	getInitialValues,
 	validationSchema,
 } from '../formDetails';
-import { getRolesStart } from '../../../store/auth/roles/actions';
 import PermissionForm from '../permissionForm';
-import { getAllGroupsStart } from '../../../store/adminUser/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	resetLinearProgress,
@@ -28,12 +26,14 @@ import { showToastr } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import { getRolesStart } from '../../../store/auth/roles/actions';
 
 const useActions = (isEditPage, filterValues = {}) => {
+	const location = useLocation();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const roles = useSelector((state) => state.AdminRoles.roles);
-	const groups = useSelector((state) => state.AdminUser.groups);
+	// const groups = useSelector((state) => state.AdminUser.groups);
 	const { adminDetails, superAdminUser, isAdminLoading } = useSelector(
 		(state) => state.PermissionDetails
 	);
@@ -62,7 +62,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 				updateSuperAdminUserStart({
 					data: {
 						...values,
-						adminUserId: adminDetails?.adminUserId,
+						adminUserId: Number(adminDetails?.id),
 					},
 					navigate,
 				})
@@ -73,9 +73,8 @@ const useActions = (isEditPage, filterValues = {}) => {
 					data: {
 						...values,
 						password: Buffer.from(values.password).toString('base64'),
-						adminId: values.adminId
-							? Number(values.adminId)
-							: adminDetails.adminUserId,
+						adminId: values.adminId ? Number(values.adminId) : adminDetails.id,
+						superAdminId: Number(superAdminUser?.id),
 					},
 					navigate,
 				})
@@ -109,7 +108,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 	const handleEdit = (e, row) => {
 		e.preventDefault();
 		setIsEdit(true);
-		navigate(`edit/${row.adminUserId}`);
+		navigate(`edit/${row.id}`);
 		// setHeader('Edit Staff');
 		dispatch(showLinearProgress());
 	};
@@ -143,31 +142,36 @@ const useActions = (isEditPage, filterValues = {}) => {
 	]);
 
 	const setCustomFields = () => {
-		if (roles?.length && groups?.length && allAdminList.rows?.length) {
+		if (
+			roles?.length &&
+			// groups?.length &&
+			allAdminList.rows?.length
+		) {
 			let customField = {};
 
 			const roleOptions = roles
 				.filter((r) => r.name !== 'Super Admin')
 				.map((r) => ({
 					id: r.adminRoleId,
-					optionLabel: r.name,
+					optionLabel: r.label,
 					value: r.name,
 				}));
 
-			const groupOptions = groups
-				.filter((r) => r)
-				.map((g) => ({
-					id: g,
-					label: g,
-					value: g,
-				}));
+			// const groupOptions = groups
+			//   .filter((r) => r)
+			//   .map((g) => ({
+			//     id: g,
+			//     label: g,
+			//     value: g,
+			//   }));
 
 			const adminOptions = allAdminList?.rows?.map((ad) => ({
 				optionLabel: `${ad.firstName} ${ad.lastName}`,
-				value: ad.adminUserId,
+				value: ad.id,
 			}));
 
 			if (validation?.values?.role === 'Manager') {
+				validation.setFieldValue('adminRoleId', 3);
 				customField = {
 					name: 'adminId',
 					fieldType: 'select',
@@ -177,20 +181,22 @@ const useActions = (isEditPage, filterValues = {}) => {
 					callBack: handleAdminSelect,
 					isDisabled: isEdit,
 				};
+			} else if (validation?.values?.role === 'admin') {
+				validation.setFieldValue('adminRoleId', 2);
 			}
 
 			setRightFormFields([
 				...rightStaticFormFields(isEdit),
-				{
-					name: 'group',
-					fieldType: 'creatableSingleSelect',
-					label: 'Group',
-					optionList: groupOptions,
-					callBack: (option) => {
-						validation.setFieldValue('group', option.value);
-					},
-				},
-				isEdit ? {} : customField,
+				// {
+				//   name: 'group',
+				//   fieldType: 'creatableSingleSelect',
+				//   label: 'Group',
+				//   optionList: groupOptions,
+				//   callBack: (option) => {
+				//     validation.setFieldValue('group', option.value);
+				//   },
+				// },
+				isEdit ? customField : {},
 			]);
 
 			setLeftFormFields([
@@ -203,41 +209,49 @@ const useActions = (isEditPage, filterValues = {}) => {
 					optionList: roleOptions,
 					isDisabled: isEdit,
 				},
-				isEdit ? customField : {},
+				isEdit ? {} : customField,
 			]);
 		}
 	};
 
 	useEffect(() => {
-		if (isEmpty(roles)) {
-			dispatch(getRolesStart());
+		if (
+			location.pathname === '/staff/add' ||
+			location.pathname?.includes('/staff/edit')
+		) {
+			if (isEmpty(roles)) {
+				dispatch(getRolesStart());
+			}
+
+			if (isEmpty(allAdminList)) {
+				dispatch(
+					getAdminDetails({
+						limit: itemsPerPage,
+						pageNo: page,
+						orderBy: 'id',
+						sort: 'desc',
+					})
+				);
+			}
 		}
-		if (isEmpty(groups)) {
-			dispatch(getAllGroupsStart());
-		}
-		if (isEmpty(allAdminList)) {
-			dispatch(
-				getAdminDetails({
-					limit: itemsPerPage,
-					pageNo: page,
-					orderBy: 'adminUserId',
-					sort: 'desc',
-				})
-			);
-		}
-		if (!isEmpty(roles) && !isEmpty(groups) && !isEmpty(allAdminList))
+
+		if (
+			!isEmpty(roles) &&
+			// !isEmpty(groups) &&
+			!isEmpty(allAdminList)
+		)
 			setCustomFields();
 	}, [
 		roles,
-		groups,
+		// groups,
 		validation?.values?.role,
 		isEdit,
 		allAdminList,
-		validation?.values?.group,
+		// validation?.values?.group,
 	]);
 
 	useEffect(() => {
-		// if(validation?.values?.role === 'Admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
+		// if(validation?.values?.role === 'admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
 		setCustomComponent(
 			<PermissionForm
 				values={validation.values}

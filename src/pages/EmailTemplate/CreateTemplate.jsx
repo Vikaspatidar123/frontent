@@ -60,15 +60,15 @@ const CreateTemplate = ({
 	const [isTestTemplateModalVisible, setIsTestTemplateModalVisible] =
 		useState(false);
 	const dispatch = useDispatch();
-	const [activeTab, setActiveTab] = useState(5);
+	const [activeTab, setActiveTab] = useState(1);
 	const [template, setTemplate] = useState('');
 	const [requiredKeyData, setRequiredKeyData] = useState({});
 	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
-	const [data, setData] = useState(emailTemplate?.templateCode?.EN);
+	const [data, setData] = useState(emailTemplate?.[0]?.templateCode?.EN);
 
 	useEffect(() => {
-		if (emailTemplate?.templateCode?.EN) {
-			setData(emailTemplate?.templateCode?.EN);
+		if (emailTemplate?.[0]?.templateCode?.EN) {
+			setData(emailTemplate?.[0]?.templateCode?.EN);
 		}
 	}, [emailTemplate]);
 
@@ -181,7 +181,7 @@ const CreateTemplate = ({
 	};
 
 	const tabData = languageData?.rows?.map((item) => ({
-		id: item.languageId,
+		id: parseInt(item.id, 10),
 		title: item.code,
 		component: (
 			<Row>
@@ -201,8 +201,8 @@ const CreateTemplate = ({
 						<Col className="text-end">
 							<div className="btn-group">
 								<ButtonDropdown
-									isOpen={drpPrimaryStates[item.languageId] || false}
-									toggle={() => toggleDropdown(item.languageId)}
+									isOpen={drpPrimaryStates[item.id] || false}
+									toggle={() => toggleDropdown(item.id)}
 								>
 									<Button id="caret" type="button" color="primary">
 										Dynamic Keys

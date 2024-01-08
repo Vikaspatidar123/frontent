@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { currencyTypes } from './constants';
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
@@ -6,8 +7,17 @@ const getInitialValues = (defaultValue) => ({
 	symbol: defaultValue?.symbol || '',
 	exchangeRate: defaultValue?.exchangeRate || '',
 	loyaltyPoint: defaultValue?.loyaltyPoint || '',
-	type: defaultValue?.type || 0,
+	type: defaultValue?.type || 'fiat',
 });
+
+const initialData = {
+	name: '',
+	code: '',
+	symbol: '',
+	exchangeRate: '',
+	loyaltyPoint: '',
+	type: 'fiat',
+};
 
 const validationSchema = () =>
 	Yup.object().shape({
@@ -27,11 +37,11 @@ const validationSchema = () =>
 			.typeError('Exchange rate must be a number')
 			.positive('Exchange rate must be a positive number')
 			.required('Exchange Rate cannot be Empty'),
-		loyaltyPoint: Yup.number('Only enter numbers')
-			.typeError('Loyalty Point must be a number')
-			.positive('Loyalty Point must be Greater Than Zero')
-			.required('Loyalty Point cannot be Empty'),
-		type: Yup.number().required('Type cannot be Empty'),
+		// loyaltyPoint: Yup.number('Only enter numbers')
+		//   .typeError('Loyalty Point must be a number')
+		//   .positive('Loyalty Point must be Greater Than Zero')
+		//   .required('Loyalty Point cannot be Empty'),
+		type: Yup.string().required('Type cannot be Empty'),
 	});
 
 const staticFormFields = [
@@ -59,30 +69,19 @@ const staticFormFields = [
 		label: 'Exchange Rate (with base currency Euro)',
 		placeholder: 'Enter currency exchange rate',
 	},
-	{
-		name: 'loyaltyPoint',
-		fieldType: 'textField',
-		label: 'Loyalty Point',
-		placeholder: 'Enter loyalty point',
-	},
+	// {
+	//   name: 'loyaltyPoint',
+	//   fieldType: 'textField',
+	//   label: 'Loyalty Point',
+	//   placeholder: 'Enter loyalty point',
+	// },
 	{
 		name: 'type',
 		fieldType: 'select',
 		label: 'Type',
 		placeholder: 'Enter type',
-		optionList: [
-			{
-				id: 1,
-				optionLabel: 'Crypto',
-				value: 2,
-			},
-			{
-				id: 2,
-				optionLabel: 'Fiat',
-				value: 1,
-			},
-		],
+		optionList: currencyTypes,
 	},
 ];
 
-export { validationSchema, getInitialValues, staticFormFields };
+export { validationSchema, getInitialValues, staticFormFields, initialData };

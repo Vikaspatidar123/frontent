@@ -58,7 +58,7 @@ const AdminDetails = ({ t }) => {
 				<Breadcrumbs
 					showRightInfo={false}
 					showBackButton
-					breadcrumbItem={`${adminDetails?.AdminRole?.name}: ${adminDetails.firstName} ${adminDetails.lastName}`}
+					breadcrumbItem={`${adminDetails?.adminRole?.name}: ${adminDetails.firstName} ${adminDetails.lastName}`}
 				/>
 				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
 			</Container>

@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
 	selectedLang: defaultValue?.selectedLang || '',
-	isRequired: defaultValue?.isRequired || false,
+	required: defaultValue?.required || false,
 	name: defaultValue?.name || {},
 });
 
@@ -25,7 +25,7 @@ const validationSchema = (name) =>
 
 const staticFormFields = [
 	{
-		name: 'isRequired',
+		name: 'required',
 		fieldType: 'switch',
 		label: 'Required',
 	},

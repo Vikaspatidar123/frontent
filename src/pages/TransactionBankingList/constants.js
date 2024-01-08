@@ -1,25 +1,36 @@
-export const transactionType = [
-	{ label: 'Deposit', value: 'deposit' },
-	{ label: 'Withdraw', value: 'withdraw' },
-	{ label: 'Add Money', value: 'addMoney' },
-	{ label: 'Remove Money', value: 'removeMoney' },
-	{ label: 'Bonus', value: 'bonus' },
-	{ label: 'Bonus To Cash', value: 'bonusToCash' },
-	{ label: 'Bonus Forfiet', value: 'bonusForfeit' },
-	{ label: 'Bonus Expired', value: 'bonusExpired' },
-	{ label: 'Bonus Zeroed Out', value: 'bonusZeroedOut' },
-	{ label: 'Internal Deposit', value: 'depositInternal' },
-	{ label: 'Internal Add Money', value: 'addMoneyInternal' },
-	{ label: 'Internal Withdraw', value: 'withdrawInternal' },
-	{ label: 'Internal Remove Money', value: 'removeMoneyInternal' },
+export const LEDGER_PURPOSE = [
+	{ label: 'CasinoBet', value: 'CasinoBet' },
+	{ label: 'CasinoWin', value: 'CasinoWin' },
+	{ label: 'CasinoRefund', value: 'CasinoRefund' },
+	{ label: 'Commission', value: 'Commission' },
+	{ label: 'Winnings', value: 'Winnings' },
+	{ label: 'Cash-Deposit', value: 'Cash-Deposit' },
+	{ label: 'Cash-Withdraw', value: 'Cash-Withdraw' },
+	{ label: 'NonCash-Deposit', value: 'NonCash-Deposit' },
+	{ label: 'NonCash-Withdraw', value: 'NonCash-Withdraw' },
+	{ label: 'SportsBookBet', value: 'SportsBookBet' },
+	{ label: 'SportsBookWin', value: 'SportsBookWin' },
+	{ label: 'SportsBookRefund', value: 'SportsBookRefund' },
+	{ label: 'ResettlementLostTORefund', value: 'ResettlementLostTORefund' },
+	{ label: 'ResettlementLostToWin', value: 'ResettlementLostToWin' },
+	{ label: 'ResettlementOpenToWin', value: 'ResettlementOpenToWin' },
+	{ label: 'ResettlementWinToOpen', value: 'ResettlementWinToOpen' },
+	{ label: 'ResettlementWinToLost', value: 'ResettlementWinToLost' },
+	{ label: 'ResettlementRefundToLost', value: 'ResettlementRefundToLost' },
+	{ label: 'ResettlementRefundToOpen', value: 'ResettlementRefundToOpen' },
+	{ label: 'ResettlementOpenToRefund', value: 'ResettlementOpenToRefund' },
+	{ label: 'SportsBookExchangeBet', value: 'SportsBookExchangeBet' },
+];
+
+export const LEDGER_TYPES = [
+	{ label: 'Debit', value: 'debit' },
+	{ label: 'Credit', value: 'credit' },
 ];
 
 export const walletType = ['Cash', 'Bonus'];
 
 export const statusType = [
 	{ label: 'All', value: '' },
-	{ label: 'Pending', value: 0 },
-	{ label: 'Complete', value: 1 },
-	{ label: 'Failed', value: 2 },
-	{ label: 'Requested', value: 7 },
+	{ label: 'Pending', value: 'pending' },
+	{ label: 'Completed', value: 'completed' },
 ];

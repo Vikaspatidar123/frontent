@@ -376,3 +376,9 @@ export const bonusTypes = [
 	{ label: 'DEPOSIT(CASHBACK)', value: 'deposit', id: 3 },
 	{ label: 'WAGERING(CASHBACK)', value: 'wagering', id: 4 },
 ];
+
+export const genderTypes = [
+	{ label: 'Male', value: 'male' },
+	{ label: 'Female', value: 'female' },
+	{ label: 'Other', value: 'other' },
+];

@@ -13,7 +13,7 @@ const OverView = ({ details, t }) => {
 			row: 2,
 			firstCol: { name: 'email', label: 'Email', icon: 'email' },
 			secondCol: {
-				name: 'adminUsername',
+				name: 'username',
 				label: 'Username',
 				icon: 'account-details',
 			},
@@ -21,7 +21,7 @@ const OverView = ({ details, t }) => {
 		{
 			row: 3,
 			firstCol: { name: 'role', label: 'Role', icon: 'account-cog' },
-			secondCol: { name: 'group', label: 'Group', icon: 'account-group' },
+			// secondCol: { name: 'group', label: 'Group', icon: 'account-group' },
 		},
 	];
 
@@ -36,7 +36,7 @@ const OverView = ({ details, t }) => {
 									<div className="d-flex">
 										<i
 											className={`mdi mdi-${item.firstCol.icon} font-size-18 text-primary`}
-										 />
+										/>
 										<div className="ms-3">
 											<h6 className="mb-1 fw-semibold">
 												{t(`${item.firstCol.label}`)} :{' '}
@@ -44,26 +44,28 @@ const OverView = ({ details, t }) => {
 											<span className="text-muted">
 												{item.firstCol.name !== 'role'
 													? details[item.firstCol.name]
-													: details?.AdminRole?.name}
+													: details?.adminRole?.name}
 											</span>
 										</div>
 									</div>
 								</Col>
-								<Col>
-									<div className="d-flex">
-										<i
-											className={`mdi mdi-${item.secondCol.icon} font-size-18 text-primary`}
-										 />
-										<div className="ms-3">
-											<h6 className="mb-1 fw-semibold">
-												{t(`${item.secondCol.label}`)} :{' '}
-											</h6>
-											<span className="text-muted">
-												{details[item.secondCol.name]}
-											</span>
+								{!!item.secondCol && (
+									<Col>
+										<div className="d-flex">
+											<i
+												className={`mdi mdi-${item.secondCol.icon} font-size-18 text-primary`}
+											/>
+											<div className="ms-3">
+												<h6 className="mb-1 fw-semibold">
+													{t(`${item.secondCol.label}`)} :{' '}
+												</h6>
+												<span className="text-muted">
+													{details[item.secondCol.name]}
+												</span>
+											</div>
 										</div>
-									</div>
-								</Col>
+									</Col>
+								)}
 							</Row>
 						))}
 					</CardBody>

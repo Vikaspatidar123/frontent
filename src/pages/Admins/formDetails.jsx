@@ -5,24 +5,22 @@ import PropTypes from 'prop-types';
 const getInitialValues = (defaultValue) => ({
 	email: defaultValue?.email || '',
 	password: '',
-	adminUsername: defaultValue?.adminUsername || '',
+	username: defaultValue?.username || '',
 	firstName: defaultValue?.firstName || '',
 	lastName: defaultValue?.lastName || '',
-	role: defaultValue?.AdminRole?.name || null,
-	adminId: defaultValue?.parentId || null,
-	permission: defaultValue?.userPermission?.permission || {},
-	group: defaultValue?.group || null,
+	role: defaultValue?.adminRole?.name || null,
+	adminId: defaultValue?.parentAdminId || null,
+	permission: defaultValue?.permissions?.[0]?.permission || {},
 });
 const initialValueInstance = {
 	email: PropTypes.string,
 	password: PropTypes.string,
-	adminUsername: PropTypes.string,
+	username: PropTypes.string,
 	firstName: PropTypes.string,
 	lastName: PropTypes.string,
 	role: PropTypes.string,
 	adminId: PropTypes.string,
 	permission: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-	group: PropTypes.string,
 };
 
 const validationSchema = (isEdit) =>
@@ -62,21 +60,22 @@ const validationSchema = (isEdit) =>
 		// 	then: Yup.string().required('Parent Admin is required').nullable(),
 		// 	otherwise: Yup.string().nullable(),
 		// }),
-		adminUsername: Yup.string()
+		username: Yup.string()
 			.matches(/^[A-Za-z]+$/, 'Only Alphabets Allowed')
 			.min(8)
 			.max(100)
 			.required('User Name Required'),
-		group: Yup.string()
-			.min(3, 'Group Name must be atleast 3 characters')
-			.max(200)
-			.matches(/^[A-Za-z0-9 ]+$/, 'Only Alphabets, Numbers and Space Allowed')
-			.required('Group Name Required'),
+		adminRoleId: Yup.number().required('Admin role id is required'),
+		// group: Yup.string()
+		//   .min(3, 'Group Name must be atleast 3 characters')
+		//   .max(200)
+		//   .matches(/^[A-Za-z0-9 ]+$/, 'Only Alphabets, Numbers and Space Allowed')
+		//   .required('Group Name Required'),
 	});
 
-const leftStaticFormFields = (isEdit) => [
+const leftStaticFormFields = () => [
 	{
-		name: 'adminUsername',
+		name: 'username',
 		fieldType: 'textField',
 		label: 'Username',
 		placeholder: 'Enter username',
@@ -86,14 +85,6 @@ const leftStaticFormFields = (isEdit) => [
 		fieldType: 'textField',
 		label: 'First Name',
 		placeholder: 'Enter first name',
-	},
-	{
-		name: 'password',
-		fieldType: 'textField',
-		label: 'Password',
-		placeholder: 'Enter password',
-		isPassword: true, // for showing visibility (if needed)
-		isHide: isEdit,
 	},
 ];
 
@@ -110,6 +101,14 @@ const rightStaticFormFields = (isEdit) => [
 		fieldType: 'textField',
 		label: 'Last Name',
 		placeholder: 'Enter last name',
+	},
+	{
+		name: 'password',
+		fieldType: 'textField',
+		label: 'Password',
+		placeholder: 'Enter password',
+		isPassword: true, // for showing visibility (if needed)
+		isHide: isEdit,
 	},
 ];
 

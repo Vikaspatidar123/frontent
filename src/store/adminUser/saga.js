@@ -120,7 +120,7 @@ function* updateSuperAdminStatusWorker(action) {
 		const { adminDetails } = yield select((state) => state.AllAdmins);
 
 		const newAdminRow = adminDetails?.rows?.map((admin) => {
-			if (admin?.adminUserId === payload.adminId) {
+			if (parseInt(admin?.id, 10) === payload.adminId) {
 				admin.isActive = payload.status;
 			}
 			return admin;

@@ -40,7 +40,7 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 				tags: [],
 			},
 			onSubmitEntry: (values, { resetForm }) => {
-				submitTagsCreate();
+				submitTagsCreate(values);
 				resetForm();
 				handleClose();
 			},

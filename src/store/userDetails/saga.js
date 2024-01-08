@@ -171,19 +171,34 @@ function* createUserCommentWorker(action) {
 
 function* resetUserLimitWorker(action) {
 	try {
-		const payload = action && action.payload;
-		if (payload?.type === 'wager') {
-			yield resetUserLimitCall(payload);
-		} else if (payload?.type === 'deposit') {
-			yield resetDepositLimitCall(payload);
+		const { userId, value, type, key, reset } = action && action.payload;
+		if (type === 'bet') {
+			yield resetUserLimitCall({
+				userId,
+				value,
+				key,
+				reset,
+			});
+		} else if (type === 'deposit') {
+			yield resetDepositLimitCall({
+				userId,
+				value,
+				key,
+				reset,
+			});
 		} else {
-			yield resetLossLimitCall(payload);
+			yield resetLossLimitCall({
+				userId,
+				value,
+				key,
+				reset,
+			});
 		}
 		showToastr({
-			message: `Limit ${payload.reset ? 'Reset' : 'Set'} Successfully`,
+			message: `Limit ${reset ? 'Reset' : 'Set'} Successfully`,
 			type: 'success',
 		});
-		yield put(resetUserLimitSuccess(true));
+		yield put(resetUserLimitSuccess());
 	} catch (e) {
 		yield put(resetUserLimitFail(e.message));
 	}
@@ -355,7 +370,7 @@ function* depositToOtherWorker(action) {
 		yield put(depositToOtherSuccess(data?.data?.bonus));
 		showToastr({
 			message:
-				payload.addAmount > 0
+				payload.amount > 0
 					? `Deposit Successful`
 					: 'Amount Removed from Wallet Successful',
 			type: 'success',

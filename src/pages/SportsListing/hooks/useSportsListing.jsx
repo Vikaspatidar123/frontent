@@ -32,7 +32,7 @@ const useSportsListing = (filterValues = {}) => {
 		if (sportsListInfo) {
 			return sportsListInfo?.rows?.map((item) => ({
 				...item,
-				sportName: item.sportName[0].name,
+				sportName: item.name,
 				icons: '-',
 			}));
 		}
@@ -85,7 +85,7 @@ const useSportsListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'sportId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <SportId value={cell.value} />,
 			},

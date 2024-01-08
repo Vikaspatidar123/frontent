@@ -76,15 +76,15 @@ const staticFormFields = (countriesList) => [
 		optionList: [
 			{
 				optionLabel: 'Male',
-				value: 'Male',
+				value: 'male',
 			},
 			{
 				optionLabel: 'Female',
-				value: 'Female',
+				value: 'female',
 			},
 			{
 				optionLabel: 'Other',
-				value: 'Other',
+				value: 'other',
 			},
 		],
 	},
@@ -137,6 +137,7 @@ const UpdateUserInfo = ({ show, header, toggle }) => {
 		dispatch(
 			updateUserInfo({
 				...values,
+				userId: Number(values.userId),
 			})
 		);
 	};

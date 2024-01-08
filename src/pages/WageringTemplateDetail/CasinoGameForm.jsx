@@ -37,7 +37,7 @@ const columns = (handleChange, selectedId) => [
 		Cell: ({ cell }) => <WageringContribution cell={cell} />,
 	},
 	{
-		Header: 'DEFAULT',
+		Header: 'CUSTOM VALUE',
 		accessor: 'gameContribution',
 		Cell: ({ cell }) => <CustomValues cell={cell} />,
 	},

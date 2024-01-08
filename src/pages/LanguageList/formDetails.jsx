@@ -5,7 +5,7 @@ const staticFiltersFields = () => [
 	{
 		name: 'name',
 		fieldType: 'textField',
-		type: 'search',
+		// type: 'search',
 		label: '',
 		placeholder: 'Search language',
 	},

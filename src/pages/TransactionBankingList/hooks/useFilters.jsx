@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -8,7 +8,7 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
-	fetchCurrenciesStart,
+	// fetchCurrenciesStart,
 	fetchTransactionBankingStart,
 } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
@@ -18,7 +18,7 @@ const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const { currencies } = useSelector((state) => state.Currencies);
+	// const { currencies } = useSelector((state) => state.Currencies);
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
@@ -37,7 +37,7 @@ const useFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields, setFormFields } = useForm({
+	const { validation, formFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
@@ -53,31 +53,31 @@ const useFilters = () => {
 		validation.resetForm(initialValues);
 	};
 
-	useEffect(() => {
-		if (isEmpty(currencies)) {
-			dispatch(
-				fetchCurrenciesStart({
-					// limit: itemsPerPage,
-					// pageNo: page,
-				})
-			);
-		} else {
-			const currencyField = currencies?.rows?.map((row) => ({
-				optionLabel: row.name,
-				value: row.code,
-			}));
-			setFormFields([
-				{
-					name: 'currencyCode',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Select a currency',
-					optionList: currencyField,
-				},
-				...staticFiltersFields(),
-			]);
-		}
-	}, [currencies]);
+	// useEffect(() => {
+	// 	if (isEmpty(currencies)) {
+	// 		dispatch(
+	// 			fetchCurrenciesStart({
+	// 				// limit: itemsPerPage,
+	// 				// pageNo: page,
+	// 			})
+	// 		);
+	// 	} else {
+	// 		const currencyField = currencies?.rows?.map((row) => ({
+	// 			optionLabel: row.name,
+	// 			value: row.code,
+	// 		}));
+	// 		setFormFields([
+	// 			{
+	// 				name: 'currencyCode',
+	// 				fieldType: 'select',
+	// 				label: '',
+	// 				placeholder: 'Select a currency',
+	// 				optionList: currencyField,
+	// 			},
+	// 			...staticFiltersFields(),
+	// 		]);
+	// 	}
+	// }, [currencies]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {

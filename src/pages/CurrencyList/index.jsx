@@ -29,7 +29,6 @@ const CurrencyList = () => {
 
 	const {
 		isOpen,
-		setIsOpen,
 		header,
 		validation,
 		formFields,
@@ -39,7 +38,7 @@ const CurrencyList = () => {
 		isEditCurrencyLoading,
 		showModal,
 		setShowModal,
-		isEdit,
+		toggleFormModal,
 	} = useCreateCurrency();
 
 	return (
@@ -78,10 +77,7 @@ const CurrencyList = () => {
 				</Row>
 				<FormModal
 					isOpen={isOpen}
-					setIsOpen={setIsOpen}
-					showConfirmationModal={showModal}
-					setShowConfirmationModal={setShowModal}
-					isEditOpen={isEdit.open}
+					toggle={toggleFormModal}
 					header={header}
 					validation={validation}
 					formFields={formFields}

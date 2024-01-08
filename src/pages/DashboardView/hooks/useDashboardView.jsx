@@ -135,7 +135,7 @@ const useDashboardView = () => {
 	}, [demoGraphicData]);
 
 	useEffect(() => {
-		if (livePlayerData?.deviceLoggedIn) {
+		if (livePlayerData?.deviceLoggedIn?.length) {
 			const apexsaleschartColors = getChartColorsArray(
 				'["--bs-primary", "--bs-success", "--bs-danger"]'
 			);
@@ -162,13 +162,13 @@ const useDashboardView = () => {
 			};
 			const labels = [];
 			const series = [];
-			livePlayerData?.deviceLoggedIn
-				?.filter((d) => d.device_type !== null)
-				.map((d) => {
-					labels.push(d.device_type);
-					series.push(Number(d.count));
-					return true;
-				});
+			// livePlayerData?.deviceLoggedIn
+			// 	?.filter((d) => d.device_type !== null)
+			// 	.map((d) => {
+			// 		labels.push(d.device_type);
+			// 		series.push(Number(d.count));
+			// 		return true;
+			// 	});
 			options.series = series;
 			options.labels = labels;
 			setLoggedInOptions(options);

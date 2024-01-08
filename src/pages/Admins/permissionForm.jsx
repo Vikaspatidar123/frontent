@@ -16,7 +16,7 @@ const PermissionForm = ({
 	const dispatch = useDispatch();
 	const permissions = (
 		values.role === 'Manager' && !isEdit ? adminDetails : superAdminUser
-	)?.userPermission?.permission;
+	)?.permissions?.[0]?.permission;
 
 	const handleChangeCheckbox = (e, key) => {
 		e.preventDefault();
@@ -39,10 +39,11 @@ const PermissionForm = ({
 			);
 		}
 	};
+
 	return (
-		(['Super Admin', 'Admin'].includes(values?.role) || values.adminId) &&
+		(['Superadmin', 'admin'].includes(values?.role) || values.adminId) &&
 		(values.role === 'Manager' ? adminDetails : superAdminUser)
-			?.userPermission && (
+			?.permissions?.[0] && (
 			<>
 				<h4 className="title-text">Permissions</h4>
 				<div className="row">

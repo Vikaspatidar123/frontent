@@ -2,22 +2,29 @@
 import { useParams } from 'react-router-dom';
 import { formatDate } from '../../../utils/dateFormatter';
 import { formatDateYMD } from '../../../helpers/dateFormatter';
+import { genderTypes } from '../constants';
 
 const useUserOverview = ({ user }) => {
 	const { playerId } = useParams();
 	const showStyle = (data) => (data ? 'text-success' : 'text-danger');
 	const printData = (data) => (data ? 'Yes' : 'No');
+	const address = user?.addresses?.[0];
 	const basicInfo = [
 		{ label: 'ID', value: playerId },
 		{ label: 'Email', value: user?.email },
 		{
 			label: 'Email Verified',
-			value: printData(user?.isEmailVerified),
-			subValue: showStyle(user?.isEmailVerified),
+			value: printData(user?.emailVerified),
+			subValue: showStyle(user?.emailVerified),
 		},
 		{ label: 'Full Name', value: `${user?.firstName} ${user?.lastName}` },
 		{ label: 'User Name', value: user?.username },
-		{ label: 'Gender', value: user?.gender },
+		{
+			label: 'Gender',
+			value:
+				genderTypes.find((gender) => gender.value === user?.gender)?.label ||
+				'',
+		},
 		{ label: 'Date Of Birth', value: formatDateYMD(user?.dateOfBirth) },
 
 		{
@@ -52,9 +59,11 @@ const useUserOverview = ({ user }) => {
 		{ label: 'Phone Number', value: user?.phone },
 		{
 			label: 'Address',
-			value: `${user?.address}, ${user?.city}, ${user?.zipCode}`,
+			value: address
+				? `${address?.address}, ${address?.city}, ${address?.zipCode}`
+				: 'NA',
 		},
-		{ label: 'Country Code', value: user?.countryCode },
+		{ label: 'Country Code', value: address?.countryCode },
 		{
 			label: 'NewsLetter',
 			value: user?.newsLetter ? 'True' : 'False',

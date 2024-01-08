@@ -47,7 +47,7 @@ const UserDocsList = ({ userId }) => {
 	const formattedUserDocuments = useMemo(() => {
 		const formattedValues = [];
 		if (userDocuments) {
-			userDocuments.map((doc) =>
+			userDocuments.rows?.map((doc) =>
 				formattedValues.push({
 					...doc,
 					actionPerformedAt: getDateTime(doc.actionPerformedAt),
@@ -61,7 +61,7 @@ const UserDocsList = ({ userId }) => {
 	const formattedDocumentLabels = useMemo(() => {
 		const formattedValues = [];
 		if (documentLabels) {
-			documentLabels.map((doc) =>
+			documentLabels.rows?.map((doc) =>
 				formattedValues.push({
 					...doc,
 					name: doc.name.EN,

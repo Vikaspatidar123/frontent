@@ -13,7 +13,6 @@ import SportsBettingHistory from './SportsBettingHistory';
 import Transactions from './Transactions';
 import KYCSettings from './KYCSettings';
 import YourBonuses from './YourBonuses';
-import Notes from './Notes';
 import Limits from './Limits';
 import { modules } from '../../constants/permissions';
 import { getUserDetails, resetUserLimitData } from '../../store/actions';
@@ -130,12 +129,12 @@ const PlayerDetailsPage = ({ t }) => {
 			component: <YourBonuses userId={playerId} />,
 			isHidden: !isGranted(modules.Bonus, 'R'),
 		},
-		{
-			id: 9,
-			title: 'Notes',
-			component: <Notes userId={playerId} />,
-			isHidden: !isGranted(modules.UserComment, 'R'),
-		},
+		// {
+		// 	id: 9,
+		// 	title: 'Notes',
+		// 	component: <Notes userId={playerId} />,
+		// 	isHidden: !isGranted(modules.UserComment, 'R'),
+		// },
 	];
 
 	const leftTitle = userDetailsLoading

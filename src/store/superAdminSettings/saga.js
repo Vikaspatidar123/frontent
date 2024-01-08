@@ -110,7 +110,7 @@ function* createKYCLabelsWorker(action) {
 		yield createKYCLabels(data);
 
 		showToastr({
-			message: `Banner Created Successfully`,
+			message: `Label Created Successfully`,
 			type: 'success',
 		});
 

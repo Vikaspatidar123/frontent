@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { isEqual } from 'lodash';
+import moment from 'moment';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -34,8 +35,8 @@ const useFilters = () => {
 			fetchPlayersStart({
 				limit: itemsPerPage,
 				pageNo: 1,
-				dobStart: startDate,
-				dobEnd: endDate,
+				dobStart: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
+				dobEnd: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
 				search,
 				kycStatus,
 				affiliateName,
