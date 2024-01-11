@@ -89,7 +89,10 @@ const Overview = ({
 						validation={validation}
 						leftFormFields={leftFormFields}
 						rightFormFields={rightFormFields}
-						submitLabel={isEditable ? 'Edit' : 'Submit'}
+						submitLabel="Submit"
+						isSubmit={!isEditable}
+						isEdit={isEditable}
+						enableEdit={setIsEditable}
 						customColClasses=""
 						isSubmitLoading={isLoading}
 					/>

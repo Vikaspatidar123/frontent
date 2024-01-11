@@ -15,7 +15,7 @@ const Id = ({ value }) => value ?? '';
 
 const Title = ({ cell }) =>
 	cell.value ? (
-		<Link to={`/match/${cell?.row?.original?.matchId}`}>{cell.value}</Link>
+		<Link to={`/match/${cell?.row?.original?.id}`}>{cell.value}</Link>
 	) : (
 		''
 	);

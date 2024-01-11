@@ -54,7 +54,7 @@ const WageringContribution = ({ wageringId }) => {
 			return SAWageringTemplate?.gameDetail?.rows.map((item) => ({
 				...item,
 				rtp: `${item.returnToPlayer} %`,
-				contribution: `${item.wageringContribution} %`,
+				contribution: `${item.wageringContribution ?? 0} %`,
 			}));
 		}
 		return [];

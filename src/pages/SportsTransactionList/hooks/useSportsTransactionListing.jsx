@@ -47,8 +47,8 @@ const useSportsTransactionListing = (filterValues = {}) => {
 			sportsTransaction.rows.map((txn) =>
 				formattedValues.push({
 					...txn,
-					email: txn.users.email,
-					currencyCode: txn.users.currencyCode,
+					email: txn?.user?.email,
+					currencyCode: txn?.wallet?.currency?.code,
 					createdAt: getDateTime(txn.createdAt),
 				})
 			);
@@ -60,7 +60,7 @@ const useSportsTransactionListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'transactionId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},

@@ -19,16 +19,28 @@ import {
 } from './actions';
 import { showToastr } from '../../utils/helpers';
 import { kpiReportConstant } from './config/kpiReport';
-import {
-	getDashboardLiveInfoService,
-	getDashboardDemoGraphicService,
-} from '../../network/getRequests';
+import // getDashboardLiveInfoService,
+// getDashboardDemoGraphicService,
+'../../network/getRequests';
 
 function* getLivePlayerData() {
 	try {
 		yield getLivePlayerInfoStart();
-		const { data } = yield getDashboardLiveInfoService();
-		yield put(getLivePlayerInfoSuccess(data?.data));
+		// const { data } = yield getDashboardLiveInfoService();
+		const data = {
+			totalPlayers: '107',
+			todayTotalGgr: '0',
+			loggedInPlayer: 5,
+			depositConvRate: '0.00',
+			registrationConvRate: '100.00',
+			deviceLoggedIn: [
+				{
+					device_type: 'desktop',
+					count: '5',
+				},
+			],
+		};
+		yield put(getLivePlayerInfoSuccess(data));
 	} catch (e) {
 		yield put(getLivePlayerInfoFail());
 
@@ -39,11 +51,148 @@ function* getLivePlayerData() {
 	}
 }
 
-function* getDemoGraphicData(action) {
+function* getDemoGraphicData() {
 	try {
 		yield getDemographicStart();
-		const { data } = yield getDashboardDemoGraphicService(action.payload);
-		yield put(getDemographicSuccess(data?.data?.demographic));
+		// const { data } = yield getDashboardDemoGraphicService(action.payload);
+		const data = [
+			{
+				country_code: 'AD',
+				signUpCount: '2',
+				depositCount: '0',
+				countryName: 'Andorra',
+				currency: 'EUR',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'AF',
+				signUpCount: '10',
+				depositCount: '0',
+				countryName: 'Afghanistan',
+				currency: 'AFN',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'AI',
+				signUpCount: '1',
+				depositCount: '0',
+				countryName: 'Anguilla',
+				currency: 'XCD',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'AL',
+				signUpCount: '3',
+				depositCount: '0',
+				countryName: 'Albania',
+				currency: 'ALL',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'AO',
+				signUpCount: '3',
+				depositCount: '0',
+				countryName: 'Angola',
+				currency: 'AOA',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'AR',
+				signUpCount: '1',
+				depositCount: '0',
+				countryName: 'Argentina',
+				currency: 'ARS',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'AS',
+				signUpCount: '1',
+				depositCount: '0',
+				countryName: 'American Samoa',
+				currency: 'USD',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'AX',
+				signUpCount: '7',
+				depositCount: '0',
+				countryName: 'Aland Islands',
+				currency: 'EUR',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'BS',
+				signUpCount: '2',
+				depositCount: '0',
+				countryName: 'Bahamas',
+				currency: 'BSD',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'CA',
+				signUpCount: '1',
+				depositCount: '0',
+				countryName: 'Canada',
+				currency: 'CAD',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'GY',
+				signUpCount: '1',
+				depositCount: '0',
+				countryName: 'Guyana',
+				currency: 'GYD',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'HR',
+				signUpCount: '1',
+				depositCount: '0',
+				countryName: 'Croatia',
+				currency: 'HRK',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'IN',
+				signUpCount: '48',
+				depositCount: '0',
+				countryName: 'India',
+				currency: 'INR',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'IO',
+				signUpCount: '1',
+				depositCount: '0',
+				countryName: 'British Indian Ocean Territory',
+				currency: 'USD',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+			{
+				country_code: 'US',
+				signUpCount: '25',
+				depositCount: '0',
+				countryName: 'United States',
+				currency: 'USD',
+				conversionRate: '0',
+				depositAmount: '0',
+			},
+		];
+		yield put(getDemographicSuccess(data));
 	} catch (e) {
 		yield put(getDemographicFail());
 

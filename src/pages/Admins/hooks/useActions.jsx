@@ -143,17 +143,17 @@ const useActions = (isEditPage, filterValues = {}) => {
 
 	const setCustomFields = () => {
 		if (
-			roles?.length &&
+			roles?.rows?.length &&
 			// groups?.length &&
 			allAdminList.rows?.length
 		) {
 			let customField = {};
 
-			const roleOptions = roles
-				.filter((r) => r.name !== 'Super Admin')
+			const roleOptions = roles?.rows
+				.filter((r) => r.name !== 'Superadmin')
 				.map((r) => ({
-					id: r.adminRoleId,
-					optionLabel: r.label,
+					id: r.id,
+					optionLabel: r.name,
 					value: r.name,
 				}));
 

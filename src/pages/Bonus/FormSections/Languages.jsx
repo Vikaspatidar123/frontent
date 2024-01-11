@@ -61,6 +61,7 @@ const Languages = ({
 	nextPressed,
 	setNextPressed,
 	setActiveTab,
+	// bonusDetails,
 }) => {
 	useEffect(() => {
 		if (nextPressed.currentTab === 'languages') {
@@ -88,7 +89,7 @@ const Languages = ({
 			),
 			tooltipText: langList[lang],
 		}));
-	}, [langList]);
+	}, [langList, langContent]);
 
 	useEffect(() => {
 		if (tabData.length) {

@@ -117,7 +117,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 	);
 
 	const handleDownload = () =>
-		downloadFileInNewWindow(`${VITE_APP_API_URL}/api/admin/casino/transactions?csvDownload=true
+		downloadFileInNewWindow(`${VITE_APP_API_URL}/api/v1/casino/transactions?csvDownload=true
     &limit=${itemsPerPage}&pageNo=${currentPage}&startDate=${formatDateYMD(
 			filterValues.startDate || moment().subtract(1, 'month').utc().toDate()
 		)}&endDate=${formatDateYMD(

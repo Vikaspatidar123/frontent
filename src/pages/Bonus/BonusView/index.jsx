@@ -9,7 +9,7 @@ import Breadcrumb from '../../../components/Common/Breadcrumb';
 import TabsPage from '../../../components/Common/TabsPage';
 import { getBonusStart } from '../../../store/actions';
 import GeneralDetails from './GeneralInformation';
-import LoyaltyManagement from '../../LoyaltyManagement';
+// import LoyaltyManagement from '../../LoyaltyManagement';
 import Games from './Games';
 import Spinners from '../../../components/Common/Spinner';
 
@@ -66,15 +66,15 @@ const BonusPreview = () => {
 			),
 			isHidden: gameBonusDetail?.bonusType === 'joining',
 		},
-		{
-			id: '5',
-			title: 'Loyalty',
-			component: <LoyaltyManagement bonusDetails={gameBonusDetail?.other} />,
-			isHidden: !(
-				gameBonusDetail?.bonusType === 'depositCashback' ||
-				gameBonusDetail?.bonusType === 'wagering'
-			),
-		},
+		// {
+		// 	id: '5',
+		// 	title: 'Loyalty',
+		// 	component: <LoyaltyManagement bonusDetails={gameBonusDetail?.other} />,
+		// 	isHidden: !(
+		// 		gameBonusDetail?.bonusType === 'depositCashback' ||
+		// 		gameBonusDetail?.bonusType === 'wagering'
+		// 	),
+		// },
 		{
 			id: '6',
 			title: 'Games',

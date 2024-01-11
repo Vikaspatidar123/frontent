@@ -7,8 +7,6 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import useWageringTemplate from './useWageringTemplate';
 import CasinoGameForm from '../CasinoGameForm';
 
-import { showLinearProgress } from '../../../store/progressLoading/actions';
-
 import {
 	getCasinoProvidersDataStart,
 	getCasinoGamesStart,
@@ -44,15 +42,17 @@ const useEditWageringTemplate = () => {
 	);
 
 	useEffect(() => {
-		dispatch(
-			getWageringTemplateDetail({
-				wageringTemplateId: Number(wageringTemplateId),
-				providerId: '',
-				limit: itemsPerPage,
-				pageNo: page,
-				search: '',
-			})
-		);
+		if (wageringTemplateId) {
+			dispatch(
+				getWageringTemplateDetail({
+					wageringTemplateId: Number(wageringTemplateId),
+					providerId: '',
+					limit: itemsPerPage,
+					pageNo: page,
+					search: '',
+				})
+			);
+		}
 	}, [itemsPerPage, page]);
 
 	const formSubmitHandler = (values) => {
@@ -98,7 +98,7 @@ const useEditWageringTemplate = () => {
 	useEffect(() => {
 		if (SAWageringTemplate && !SAWageringTemplateLoading) {
 			validation.setValues(getInitialValues(SAWageringTemplate));
-			const data = Object.keys(SAWageringTemplate?.gameContribution).map(
+			const data = Object.keys(SAWageringTemplate?.gameContribution || {}).map(
 				(key) => ({
 					casinoGameId: Number(key),
 				})
@@ -182,16 +182,6 @@ const useEditWageringTemplate = () => {
 		selectedId,
 	]);
 
-	const handleEditClick = (row) => {
-		navigate(`edit/${row.wageringTemplateId}`);
-		dispatch(showLinearProgress());
-	};
-
-	const handleViewClick = (row) => {
-		navigate(`details/${row.wageringTemplateId}`);
-		dispatch(showLinearProgress);
-	};
-
 	return {
 		header,
 		validation,
@@ -200,8 +190,6 @@ const useEditWageringTemplate = () => {
 		setLeftFormFields,
 		setRightFormFields,
 		setHeader,
-		handleEditClick,
-		handleViewClick,
 		customComponent,
 		setCustomComponent,
 		selectedId,

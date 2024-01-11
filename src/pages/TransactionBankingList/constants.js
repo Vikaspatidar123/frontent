@@ -30,7 +30,7 @@ export const LEDGER_TYPES = [
 export const walletType = ['Cash', 'Bonus'];
 
 export const statusType = [
-	{ label: 'All', value: '' },
+	// { label: 'All', value: '' },
 	{ label: 'Pending', value: 'pending' },
 	{ label: 'Completed', value: 'completed' },
 ];
