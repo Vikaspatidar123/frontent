@@ -162,13 +162,13 @@ const useDashboardView = () => {
 			};
 			const labels = [];
 			const series = [];
-			// livePlayerData?.deviceLoggedIn
-			// 	?.filter((d) => d.device_type !== null)
-			// 	.map((d) => {
-			// 		labels.push(d.device_type);
-			// 		series.push(Number(d.count));
-			// 		return true;
-			// 	});
+			livePlayerData?.deviceLoggedIn
+				?.filter((d) => d.device_type !== null)
+				.map((d) => {
+					labels.push(d.device_type);
+					series.push(Number(d.count));
+					return true;
+				});
 			options.series = series;
 			options.labels = labels;
 			setLoggedInOptions(options);
@@ -199,7 +199,7 @@ const useDashboardView = () => {
 
 	const exportReport = () => {
 		downloadFileInNewWindow(
-			`${VITE_APP_API_URL}/api/admin/report/demographic?startDate=${
+			`${VITE_APP_API_URL}/api/v1/admin/report/demographic?startDate=${
 				formatDateYMD(demoGraphState.map((a) => a.startDate)) ||
 				moment().subtract(1, 'month').utc().toDate()
 			}&endDate=${
@@ -211,7 +211,7 @@ const useDashboardView = () => {
 	// FIXME: update the date range after real time implementation
 	const exportKPISummaryReport = () => {
 		downloadFileInNewWindow(
-			`${VITE_APP_API_URL}/api/admin/report/kpi-summary?tab=${activeKpiSummTab}startDate=${
+			`${VITE_APP_API_URL}/api/v1/admin/report/kpi-summary?tab=${activeKpiSummTab}startDate=${
 				formatDateYMD(demoGraphState.map((a) => a.startDate)) ||
 				moment().subtract(1, 'month').utc().toDate()
 			}&endDate=${
@@ -222,7 +222,7 @@ const useDashboardView = () => {
 	// FIXME: update the date range after real time implementation
 	const exportKPIReport = () => {
 		downloadFileInNewWindow(
-			`${VITE_APP_API_URL}/api/admin/report/kpi?tab=${activeKpiReportTab}&dateOptions=${demoDateOptions}&customStartDate=${
+			`${VITE_APP_API_URL}/api/v1/admin/report/kpi?tab=${activeKpiReportTab}&dateOptions=${demoDateOptions}&customStartDate=${
 				formatDateYMD(demoGraphState.map((a) => a.startDate)) ||
 				moment().subtract(1, 'month').utc().toDate()
 			}&customEndDate=${
@@ -233,7 +233,7 @@ const useDashboardView = () => {
 	// FIXME: update the date range after real time implementation
 	const exportGameReport = () => {
 		downloadFileInNewWindow(
-			`${VITE_APP_API_URL}/api/admin/report/kpi?tab=${activeKpiReportTab}&dateOptions=${demoDateOptions}&customStartDate=${
+			`${VITE_APP_API_URL}/api/v1/admin/report/kpi?tab=${activeKpiReportTab}&dateOptions=${demoDateOptions}&customStartDate=${
 				formatDateYMD(demoGraphState.map((a) => a.startDate)) ||
 				moment().subtract(1, 'month').utc().toDate()
 			}&customEndDate=${

@@ -46,6 +46,7 @@ const Filters = ({
 												key={field?.name || field?.label}
 											>
 												<div className="position-relative">
+													<input style={{ display: 'none' }} />
 													{getField(field, validation)}
 												</div>
 											</Col>

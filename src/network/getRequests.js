@@ -152,7 +152,10 @@ const getUserBonuses = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/user`, payload);
 
 const getSiteConfiguration = (data) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/site-information`, data);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-information`,
+		data
+	);
 
 const getGlobalRegistration = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/global-registration`);

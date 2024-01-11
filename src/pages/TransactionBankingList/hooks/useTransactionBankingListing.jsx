@@ -156,7 +156,7 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 
 	const handleDownload = () =>
 		downloadFileInNewWindow(
-			`${VITE_APP_API_URL}/api/admin/transactions?csvDownload=true&limit=${itemsPerPage}&pageNo=${currentPage}&actioneeType=${
+			`${VITE_APP_API_URL}/api/v1/admin/transactions?csvDownload=true&limit=${itemsPerPage}&pageNo=${currentPage}&actioneeType=${
 				filterValues.actioneeType || ''
 			}&startDate=${formatDateYMD(
 				filterValues.startDate || moment().subtract(1, 'month').utc().toDate()

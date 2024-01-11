@@ -52,15 +52,17 @@ const WageringTemplateDetailList = () => {
 	} = useEditWageringTemplate();
 
 	useEffect(() => {
-		dispatch(
-			getWageringTemplateDetail({
-				wageringTemplateId: Number(wageringTemplateId),
-				providerId: '',
-				limit: itemsPerPage,
-				pageNo: page,
-				search: '',
-			})
-		);
+		if (wageringTemplateId) {
+			dispatch(
+				getWageringTemplateDetail({
+					wageringTemplateId: Number(wageringTemplateId),
+					providerId: '',
+					limit: itemsPerPage,
+					pageNo: page,
+					search: '',
+				})
+			);
+		}
 	}, [itemsPerPage, page]);
 
 	const formattedSAWageringTemplateData = useMemo(() => {
@@ -69,7 +71,8 @@ const WageringTemplateDetailList = () => {
 				return {
 					...template,
 					gameContribution:
-						SAWageringTemplate?.gameContribution[template?.casinoGameId] || 100,
+						SAWageringTemplate?.gameContribution?.[template?.casinoGameId] ||
+						100,
 				};
 			});
 		}

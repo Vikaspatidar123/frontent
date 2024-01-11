@@ -77,7 +77,17 @@ const useCreateBonus = ({ isEdit }) => {
 				desc: bonusDetails?.description,
 			});
 		}
-	}, [bonusDetails]);
+	}, [bonusDetails, nextPressed]);
+
+	useEffect(() => {
+		if (nextPressed.currentTab === 'languages' && bonusDetails) {
+			setLangContent({
+				promoTitle: bonusDetails?.promotionTitle,
+				terms: bonusDetails?.termCondition,
+				desc: bonusDetails?.description,
+			});
+		}
+	}, [nextPressed.currentTab]);
 
 	useEffect(() => {
 		dispatch(getAllSAWageringTemplates());
@@ -307,6 +317,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setNextPressed={setNextPressed}
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
+					bonusDetails={bonusDetails}
 				/>
 			),
 		},

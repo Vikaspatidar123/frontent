@@ -117,7 +117,7 @@ const FormPage = ({
 						<div className="text-end">
 							{isEdit && (
 								<button
-									className="btn btn-primary waves-effect waves-light"
+									className="btn btn-success waves-effect waves-light"
 									disabled={isSubmitLoading}
 									type="button"
 									onClick={() => enableEdit(false)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
 
@@ -22,7 +22,7 @@ const SiteConfig = ({
 	updateSiteConfiguration,
 	isLanguageDataLoading,
 }) => {
-	const [formLanguage, setFormLanguage] = useState([]);
+	// const [formLanguage, setFormLanguage] = useState([]);
 	// const languageOptions =
 	// 	languageData?.rows?.map(({ code, name }) => ({
 	// 		value: code,
@@ -45,18 +45,18 @@ const SiteConfig = ({
 		setEditableSiteConfig(true);
 	};
 
-	useEffect(() => {
-		if (details && details[1]?.value?.languages) {
-			const selectedArray = [];
-			Object.keys(details[1]?.value?.languages).forEach((key) => {
-				const label = {};
-				label.label = details[1]?.value?.languages[key];
-				label.value = key;
-				selectedArray.push(label);
-			});
-			setFormLanguage(selectedArray);
-		}
-	}, [details]);
+	// useEffect(() => {
+	// 	if (details && details[1]?.value?.languages) {
+	// 		const selectedArray = [];
+	// 		Object.keys(details[1]?.value?.languages).forEach((key) => {
+	// 			const label = {};
+	// 			label.label = details[1]?.value?.languages[key];
+	// 			label.value = key;
+	// 			selectedArray.push(label);
+	// 		});
+	// 		setFormLanguage(selectedArray);
+	// 	}
+	// }, [details]);
 
 	const {
 		leftFormFields,
@@ -65,7 +65,7 @@ const SiteConfig = ({
 		setRightFormFields,
 		validation,
 	} = useForm({
-		initialValues: getSiteConfigInitialValues(details, formLanguage),
+		initialValues: getSiteConfigInitialValues(details),
 		validationSchema: adminSiteConfigSchema,
 		onSubmitEntry: handleSubmit,
 		leftStaticFormFields: leftStaticSiteConfigFormFields(editableSiteConfig),
@@ -73,7 +73,7 @@ const SiteConfig = ({
 	});
 
 	useEffect(() => {
-		if (details.length) {
+		if (Object.keys(details).length > 0) {
 			setLeftFormFields(leftStaticSiteConfigFormFields(editableSiteConfig));
 			setRightFormFields([
 				...rightStaticSiteConfigFormFields(editableSiteConfig),
@@ -101,12 +101,12 @@ const SiteConfig = ({
 				},
 			]);
 		}
-	}, [editableSiteConfig]);
+	}, [editableSiteConfig, details]);
 
 	useEffect(() => {
-		if (details.length) {
+		if (Object.keys(details).length > 0) {
 			validation.resetForm({
-				values: getSiteConfigInitialValues(details, formLanguage),
+				values: getSiteConfigInitialValues(details),
 			});
 			setRightFormFields([
 				...rightStaticSiteConfigFormFields(editableSiteConfig),
