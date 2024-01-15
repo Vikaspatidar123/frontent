@@ -55,6 +55,7 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 				formattedValues.push({
 					...review,
 					status: review.status ? 'Active' : 'In-Active',
+					userName: review?.user?.username,
 				})
 			);
 		}
@@ -68,8 +69,14 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'Id',
-				accessor: 'reviewId',
+				Header: 'Review Id',
+				accessor: 'id',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'User Id',
+				accessor: 'userId',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -81,7 +88,7 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 			},
 			{
 				Header: 'Description',
-				accessor: 'description',
+				accessor: 'comment',
 				filterable: true,
 				Cell: ({ cell }) => <Description value={cell.value} />,
 			},
@@ -93,7 +100,7 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 			},
 			{
 				Header: 'Status',
-				accessor: 'status',
+				accessor: 'isActive',
 				filterable: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,

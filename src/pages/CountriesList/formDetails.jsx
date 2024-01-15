@@ -25,7 +25,7 @@ const staticFiltersFields = () => [
 		fieldType: 'textField',
 		// type: 'search',
 		label: '',
-		placeholder: 'Search by email, name or group',
+		placeholder: 'Search by country name',
 	},
 ];
 

@@ -75,7 +75,7 @@ const downloadFileInNewWindow = (url) => {
 	);
 	setTimeout(() => {
 		downloadWindow.close();
-		showToastr({ message: 'File downloaded successfully', type: 'success' });
+		// showToastr({ message: 'File downloaded successfully', type: 'success' });
 	}, 4000);
 };
 

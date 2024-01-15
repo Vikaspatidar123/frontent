@@ -8,7 +8,7 @@ import { modules } from '../../constants/permissions';
 const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
-	const countryId = original?.countryId;
+	const id = original?.id;
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -20,12 +20,12 @@ const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 						onClick={(e) =>
 							handleStatus(e, {
 								active,
-								countryId,
+								id,
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id={`active-${countryId}`} />
-						<UncontrolledTooltip placement="top" target={`active-${countryId}`}>
+						<i className="mdi mdi-close-thick" id={`active-${id}`} />
+						<UncontrolledTooltip placement="top" target={`active-${id}`}>
 							Set Inactive
 						</UncontrolledTooltip>
 					</Button>
@@ -36,12 +36,12 @@ const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 						onClick={(e) =>
 							handleStatus(e, {
 								active,
-								countryId,
+								id,
 							})
 						}
 					>
-						<i className="mdi mdi-check-circle" id={`active-${countryId}`} />
-						<UncontrolledTooltip placement="top" target={`active-${countryId}`}>
+						<i className="mdi mdi-check-circle" id={`active-${id}`} />
+						<UncontrolledTooltip placement="top" target={`active-${id}`}>
 							Set Active
 						</UncontrolledTooltip>
 					</Button>
@@ -54,11 +54,11 @@ const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 					className="btn btn-sm btn-soft-primary"
 					onClick={(e) => {
 						e.preventDefault();
-						handleUpload(countryId);
+						handleUpload(id);
 					}}
 				>
-					<i className="mdi mdi-upload" id={`upload-${countryId}`} />
-					<UncontrolledTooltip placement="top" target={`upload-${countryId}`}>
+					<i className="mdi mdi-upload" id={`upload-${id}`} />
+					<UncontrolledTooltip placement="top" target={`upload-${id}`}>
 						Upload Icon
 					</UncontrolledTooltip>
 				</Button>
@@ -73,7 +73,7 @@ ActionButtons.propTypes = {
 	row: PropTypes.shape({
 		original: PropTypes.shape({
 			isActive: PropTypes.bool,
-			countryId: PropTypes.number,
+			id: PropTypes.number,
 		}),
 	}).isRequired,
 };

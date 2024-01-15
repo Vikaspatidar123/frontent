@@ -25,7 +25,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [showUploadModal, setShowUploadModal] = useState(false);
-	const [countryId, setCountryId] = useState('');
+	const [locationId, setLocationId] = useState('');
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -59,14 +59,14 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		}
 	}, [uploadImageSuccess]);
 
-	const handleUpload = (sportId) => {
-		setCountryId(sportId);
+	const handleUpload = (id) => {
+		setLocationId(id);
 		setShowUploadModal(true);
 	};
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active, countryId: sportCountryId } = props;
+		const { active, id: sportCountryId } = props;
 		dispatch(
 			updateStatusStart({
 				code: 'SPORTCONTRY',
@@ -142,7 +142,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		columns,
 		showUploadModal,
 		setShowUploadModal,
-		countryId,
+		locationId,
 		isUploadImageLoading,
 	};
 };

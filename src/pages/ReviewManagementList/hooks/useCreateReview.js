@@ -30,9 +30,10 @@ const useCreateReview = () => {
 			dispatch(
 				updateReviewStart({
 					data: {
-						...values,
+						comment: values.description,
 						rating: Number(values.rating),
-						reviewId: isEdit?.reviewId,
+						reviewId: Number(isEdit.reviewId),
+						isActive: values.isActive ? 'true' : 'false',
 					},
 				})
 			);
@@ -40,8 +41,10 @@ const useCreateReview = () => {
 			dispatch(
 				createReviewStart({
 					data: {
-						...values,
 						rating: Number(values.rating),
+						userId: Number(values.userId),
+						comment: values.description,
+						isActive: values.isActive ? 'true' : 'false',
 					},
 				})
 			);
@@ -74,10 +77,7 @@ const useCreateReview = () => {
 
 	const handleEditClick = (e, row) => {
 		e.preventDefault();
-		if (row?.status) {
-			row.status = row.status === 'Active';
-		}
-		setIsEdit({ open: true, reviewId: row?.reviewId });
+		setIsEdit({ open: true, reviewId: row?.id });
 		setHeader('Edit Review');
 		validation.setValues(getInitialValues(row));
 		setIsOpen((prev) => !prev);

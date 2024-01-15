@@ -99,7 +99,7 @@ const useDashboardView = () => {
 
 		list &&
 			list?.map((item) => {
-				const { countryName } = countryFilter(item.country_code);
+				const { countryName } = countryFilter(item.countryCode);
 				const row = {
 					x: countryName,
 					y: Number(item.signUpCount),
