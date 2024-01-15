@@ -21,7 +21,7 @@ const createCasinoProvider = (data) =>
 	});
 
 const createReview = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/review`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/review`, data);
 
 const createBetSettings = (data) =>
 	postRequest(

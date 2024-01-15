@@ -18,8 +18,8 @@ const Breadcrumb = ({
 }) => {
 	const navigate = useNavigate();
 	const onBackClick = () => {
-		if (!titleLink && !values && !callBack) return;
-		const hasFilledValues = Object.values(values).some(
+		if (!titleLink && !values && !callBack && !showBackButton) return;
+		const hasFilledValues = Object?.values(values || {}).some(
 			(value) => !isEmpty(value)
 		);
 		if (hasFilledValues) {

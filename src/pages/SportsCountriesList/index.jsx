@@ -36,7 +36,7 @@ const SportsCountriesListing = () => {
 		onChangeRowsPerPage,
 		showUploadModal,
 		setShowUploadModal,
-		countryId,
+		locationId,
 		isUploadImageLoading,
 	} = useSportsCountriesListing(filterValidation.values);
 
@@ -87,8 +87,8 @@ const SportsCountriesListing = () => {
 					hideFooter
 				>
 					<IconUploader
-						countryId={countryId}
-						code="COUNTRY"
+						locationId={locationId}
+						code="LOCATION"
 						isUploading={isUploadImageLoading}
 					/>
 				</Modal>

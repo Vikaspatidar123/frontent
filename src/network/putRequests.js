@@ -181,14 +181,14 @@ const updateReorderGames = ({ data }) =>
 	);
 
 const updateReview = ({ data }) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/review`, data);
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/review`, data);
 
 const reorderBonus = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/order`, data);
 
 const uploadImageApi = (data) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/upload-thumbnails`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}/sports/upload-thumbnails`,
 		data,
 		{
 			'Content-Type': 'multipart/form-data',

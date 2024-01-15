@@ -1,29 +1,26 @@
 import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
-	userName: defaultValue?.userName || '',
-	description: defaultValue?.description || '',
+	userId: defaultValue?.userId || '',
+	description: defaultValue?.comment || '',
 	rating: defaultValue?.rating || 1,
-	status: defaultValue?.status || false,
+	isActive: defaultValue?.isActive || false,
 });
 
 const validationSchema = () =>
 	Yup.object().shape({
-		userName: Yup.string()
-			.max(50, 'User Name must be less than 50 characters')
-			.matches(/^[A-Za-z0-9 ]+$/, 'Only Alpha-Numeric Values Allowed')
-			.required('UserName Required'),
+		userId: Yup.string().required('UserId Required'),
 		description: Yup.string().required('Description Required'),
 		rating: Yup.number().required().positive(),
-		status: Yup.boolean().required(),
+		isActive: Yup.boolean().required(),
 	});
 
 const staticFormFields = [
 	{
-		name: 'userName',
+		name: 'userId',
 		fieldType: 'textField',
-		label: 'Username',
-		placeholder: 'Enter Provider name',
+		label: 'User Id',
+		placeholder: 'Enter User Id',
 	},
 	{
 		name: 'description',
@@ -85,7 +82,7 @@ const staticFormFields = [
 		],
 	},
 	{
-		name: 'status',
+		name: 'isActive',
 		fieldType: 'switch',
 		label: 'Active',
 	},
@@ -109,12 +106,12 @@ const staticFiltersFields = () => [
 			{
 				id: 1,
 				optionLabel: 'Active',
-				value: true,
+				value: 'true',
 			},
 			{
 				id: 2,
 				optionLabel: 'In Active',
-				value: false,
+				value: 'false',
 			},
 		],
 	},

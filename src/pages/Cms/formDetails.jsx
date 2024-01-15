@@ -64,7 +64,7 @@ const initialData = {
 	content: {
 		EN: '',
 	},
-	category: 1,
+	category: pageCategories?.ABOUT,
 	isActive: true,
 	language: 'EN',
 };

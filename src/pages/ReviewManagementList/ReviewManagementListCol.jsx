@@ -11,16 +11,12 @@ const Description = ({ value }) =>
 
 const Rating = ({ value }) => value ?? '-';
 
-const Status = ({ value }) => {
-	switch (value) {
-		case 'Active':
-			return <Badge className="bg-success">Active</Badge>;
-		case 'In-Active':
-			return <Badge className="bg-danger">In-Active</Badge>;
-		default:
-			return '';
-	}
-};
+const Status = ({ value }) =>
+	value ? (
+		<Badge className="bg-success">Active</Badge>
+	) : (
+		<Badge className="bg-danger">In-Active</Badge>
+	);
 
 UserName.propTypes = {
 	value: PropTypes.string.isRequired,
