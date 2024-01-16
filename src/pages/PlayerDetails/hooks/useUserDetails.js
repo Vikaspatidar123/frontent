@@ -9,9 +9,8 @@ import {
 const useUserDetails = ({ userId }) => {
 	const dispatch = useDispatch();
 
-	const { userDetails, userDetailsLoading, duplicateUsers } = useSelector(
-		(state) => state.UserDetails
-	);
+	const { userWalletData, userDetails, userDetailsLoading, duplicateUsers } =
+		useSelector((state) => state.UserDetails);
 
 	useEffect(() => {
 		dispatch(getUserDetails({ userId }));
@@ -30,6 +29,7 @@ const useUserDetails = ({ userId }) => {
 		userDetails,
 		userDetailsLoading,
 		duplicateUsers,
+		userWalletData,
 	};
 };
 

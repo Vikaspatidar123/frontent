@@ -113,7 +113,7 @@ function* getUserDetailsWorker(action) {
 		const payload = action && action.payload;
 		const { data } = yield getUserDetails(payload);
 
-		yield put(getUserDetailsSuccess(data?.data?.getUser));
+		yield put(getUserDetailsSuccess(data?.data));
 	} catch (e) {
 		yield put(getUserDetailsFail(e.message));
 	}

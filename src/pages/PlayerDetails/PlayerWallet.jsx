@@ -6,36 +6,41 @@ import { Card, Container } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import { KeyValueCell } from './TableCol';
 
-const PlayerWallet = ({ userDetails }) => {
+const PlayerWallet = ({ userDetails, userWalletData: getUserWalletData }) => {
 	const walletData = useMemo(() => {
-		if (userDetails?.wallets?.length) {
-			return userDetails.wallets.map((wallet) => ({
-				id: wallet.id,
-				amount: `${wallet.amount} ${wallet.currency.code}`,
-				currencyName: wallet.currency.name,
-				currencyCode: wallet.currency.code,
+		const defaultCurrencyObject = userDetails?.wallets?.find(
+			(item) => item.currency.default === true
+		);
+
+		const wallet = {
+			currencyId: defaultCurrencyObject?.currencyId,
+			currency: defaultCurrencyObject?.currency?.name,
+			currencyCode: defaultCurrencyObject?.currency?.code,
+			amount: defaultCurrencyObject?.amount,
+			exchangeRate: defaultCurrencyObject?.currency?.exchangeRate,
+			...getUserWalletData,
+		};
+
+		if (Object.keys(wallet).length > 0) {
+			return Object.keys(wallet).map((key) => ({
+				id: key,
+				key: wallet[key],
 			}));
 		}
 		return [];
-	}, [userDetails]);
+	}, [getUserWalletData, userDetails]);
 
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'Id',
+				Header: 'id',
 				accessor: 'id',
 				// filterable: true,
 				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
 			{
-				Header: 'Amount',
-				accessor: 'amount',
-				// filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
-			},
-			{
-				Header: 'Currency',
-				accessor: 'currencyName',
+				Header: 'Key',
+				accessor: 'key',
 				// filterable: true,
 				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
@@ -49,10 +54,11 @@ const PlayerWallet = ({ userDetails }) => {
 				<h4 className="text-center border-bottom p-3">Player Wallet</h4>
 				<TableContainer
 					columns={columns}
-					data={walletData || []}
+					data={walletData}
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
 					customPageSize={20}
+					hideHeader
 					tableClass="table-striped table-hover "
 				/>
 			</Card>
