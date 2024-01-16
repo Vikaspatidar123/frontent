@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const KeyValueCell = ({ value }) => value ?? '';
+const KeyValueCell = ({ value }) => value ?? '-';
 const KeyValueCellNA = ({ value }) => value ?? '-';
 const Id = ({ value }) => value ?? '';
 const Email = ({ value }) => value ?? '';

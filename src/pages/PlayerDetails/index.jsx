@@ -62,9 +62,10 @@ const PlayerDetailsPage = ({ t }) => {
 		updateUserInfoSuccess,
 	]);
 
-	const { userDetails, userDetailsLoading, duplicateUsers } = useUserDetails({
-		userId: playerId,
-	});
+	const { userWalletData, userDetails, userDetailsLoading, duplicateUsers } =
+		useUserDetails({
+			userId: playerId,
+		});
 
 	const tabData = [
 		{
@@ -92,7 +93,12 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 4,
 			title: 'Wallet',
-			component: <PlayerWallet userDetails={userDetails} />,
+			component: (
+				<PlayerWallet
+					userDetails={userDetails}
+					userWalletData={userWalletData}
+				/>
+			),
 		},
 		{
 			id: 5,

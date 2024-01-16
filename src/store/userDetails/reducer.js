@@ -76,6 +76,7 @@ import {
 
 const INIT_STATE = {
 	userDetails: null,
+	userWalletData: null,
 	userDetailsLoading: false,
 	userDetailsError: false,
 	userDocuments: null,
@@ -158,7 +159,8 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				userDetailsLoading: false,
-				userDetails: payload,
+				userDetails: payload?.getUser,
+				userWalletData: payload?.getUserWalletData,
 				userDetailsError: null,
 			};
 
