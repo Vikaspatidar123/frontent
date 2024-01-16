@@ -91,14 +91,14 @@ function* updateStatusWorker(action) {
 		yield put(updateStatusSuccess(payload));
 
 		switch (payload.code) {
-			case 'SPORTS': {
+			case 'SPORT': {
 				const { sportsListInfo } = yield select((state) => state.SportsList);
 
 				const updatedSportsList = sportsListInfo?.rows?.map((item) => {
-					if (item.sportId === payload.sportId) {
+					if (item.id === payload.sportId) {
 						return {
 							...item,
-							isActive: payload.status,
+							isActive: payload.status === 'true',
 						};
 					}
 					return item;
@@ -112,14 +112,14 @@ function* updateStatusWorker(action) {
 				);
 				break;
 			}
-			case 'SPORTCONTRY': {
+			case 'LOCATION': {
 				const { sportsCountries } = yield select((state) => state.SportsList);
 
 				const updatedCountryList = sportsCountries?.rows?.map((item) => {
-					if (item.countryId === payload.sportCountryId) {
+					if (item.id === payload.locationId) {
 						return {
 							...item,
-							isActive: payload.status,
+							isActive: payload.status === 'true',
 						};
 					}
 					return item;
