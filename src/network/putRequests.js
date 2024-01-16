@@ -28,7 +28,7 @@ const superAdminViewToggleStatus = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/status`, data);
 
 const updateStatus = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/status`, data);
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/status`, data);
 
 const updateKYCLabels = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/document-label`, data);

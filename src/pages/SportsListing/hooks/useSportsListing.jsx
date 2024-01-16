@@ -72,11 +72,9 @@ const useSportsListing = (filterValues = {}) => {
 		const { active: status, sportId } = props;
 		dispatch(
 			updateStatusStart({
-				code: 'SPORTS',
-				status: !status,
+				code: 'SPORT',
+				status: status ? 'false' : 'true',
 				sportId,
-				limit: itemsPerPage,
-				pageNo: page,
 			})
 		);
 	};

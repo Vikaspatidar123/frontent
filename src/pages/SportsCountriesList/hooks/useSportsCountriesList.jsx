@@ -69,11 +69,9 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		const { active, id: sportCountryId } = props;
 		dispatch(
 			updateStatusStart({
-				code: 'SPORTCONTRY',
-				status: !active,
-				sportCountryId,
-				limit: itemsPerPage,
-				pageNo: page,
+				code: 'LOCATION',
+				status: active ? 'false' : 'true',
+				locationId: sportCountryId,
 			})
 		);
 	};
