@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { currencyTypes } from './constants';
+import { currencySymbols } from '../../utils/constant';
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
@@ -53,9 +54,13 @@ const staticFormFields = [
 	},
 	{
 		name: 'code',
-		fieldType: 'textField',
+		fieldType: 'select',
 		label: 'Code',
 		placeholder: 'Enter currency code',
+		optionList: Object.keys(currencySymbols)?.map((currency) => ({
+				optionLabel: currency,
+				value: currency,
+			})),
 	},
 	{
 		name: 'symbol',

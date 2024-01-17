@@ -89,6 +89,17 @@ const useCreateCurrency = () => {
 		setIsOpen(false);
 	}, [currencies?.count]);
 
+	useEffect(() => {
+		if (validation?.values?.code) {
+			const symbol = Object.keys(currencySymbols)?.includes(
+				validation?.values?.code
+			)
+				? currencySymbols[validation?.values?.code]
+				: '';
+			validation.setFieldValue('symbol', symbol);
+		}
+	}, [validation?.values?.code]);
+
 	const buttonList = useMemo(() => [
 		{
 			label: 'Create',
