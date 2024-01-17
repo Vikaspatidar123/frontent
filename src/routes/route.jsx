@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { getAccessToken } from '../network/storageUtils';
 import { getSuperAdminStart } from '../store/auth/permissionDetails/actions';
 import { getRolesStart } from '../store/auth/roles/actions';
+import { getSiteDetails } from '../store/actions';
 
 const Authmiddleware = ({ children, location }) => {
 	const accessToken = getAccessToken();
@@ -15,7 +16,7 @@ const Authmiddleware = ({ children, location }) => {
 			dispatch(getSuperAdminStart());
 			dispatch(getRolesStart());
 			// dispatch(getTenantRoleStart())
-			// dispatch(getSiteDetails());
+			dispatch(getSiteDetails());
 		}
 	}, []);
 

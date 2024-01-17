@@ -9,10 +9,10 @@ import {
 	Amount,
 	CreatedAt,
 	CurrencyCode,
+	Email,
 	// Email,
 	Id,
-	NonCashAmount,
-	Status,
+	StatusData,
 } from './TableCol';
 import { fetchSportsTransactionStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
@@ -45,9 +45,11 @@ const SportsBettingHistory = ({ userId }) => {
 			sportsTransaction?.rows?.map((txn) =>
 				formattedValues.push({
 					...txn,
-					email: txn.users.email,
-					currencyCode: txn.users.currencyCode,
-					createdAt: getDateTime(txn.createdAt),
+					email: txn?.user?.email,
+					amount: txn?.amount,
+					currencyCode: txn?.wallet?.currency?.code,
+					createdAt: getDateTime(txn?.createdAt),
+					status: txn?.transaction?.status,
 				})
 			);
 		}
@@ -58,28 +60,28 @@ const SportsBettingHistory = ({ userId }) => {
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'transactionId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
-			// {
-			// 	Header: 'Email',
-			// 	accessor: 'email',
-			// 	filterable: true,
-			// 	Cell: ({cell}) => <Email value={cell.value} />,
-			// },
+			{
+				Header: 'Email',
+				accessor: 'email',
+				filterable: true,
+				Cell: ({ cell }) => <Email value={cell.value} />,
+			},
 			{
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
 				Cell: ({ cell }) => <Amount value={cell.value} />,
 			},
-			{
-				Header: 'Non Cash Amount',
-				accessor: 'nonCashAmount',
-				filterable: true,
-				Cell: ({ cell }) => <NonCashAmount value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Non Cash Amount',
+			// 	accessor: 'nonCashAmount',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <NonCashAmount value={cell.value} />,
+			// },
 			{
 				Header: 'Currency Code',
 				accessor: 'currencyCode',
@@ -88,13 +90,13 @@ const SportsBettingHistory = ({ userId }) => {
 			},
 			{
 				Header: 'Action Types',
-				accessor: 'actionType',
+				accessor: 'type',
 				Cell: ({ cell }) => <ActionTypes value={cell.value} />,
 			},
 			{
 				Header: 'Status',
 				accessor: 'status',
-				Cell: ({ cell }) => <Status value={cell.value} />,
+				Cell: ({ cell }) => <StatusData value={cell.value} />,
 			},
 			{
 				Header: 'Date',

@@ -198,6 +198,9 @@ const uploadImageApi = (data) =>
 const primaryEmailTemplate = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email/mark-primary`, data);
 
+const updateSiteDetails = (data) =>
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-layout`, data);
+
 export {
 	updateSuperAdminUser,
 	updateAdmin,
@@ -247,4 +250,5 @@ export {
 	reorderBonus,
 	uploadImageApi,
 	primaryEmailTemplate,
+	updateSiteDetails,
 };

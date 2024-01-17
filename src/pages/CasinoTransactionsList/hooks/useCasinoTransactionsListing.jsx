@@ -54,11 +54,11 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 			casinoTransactions.rows.map((txn) =>
 				formattedValues.push({
 					...txn,
-					userEmail: txn.User.email,
-					amountWithCurr: `${txn.amount} ${txn.User.currencyCode}`,
-					bonusAmt: `${txn.nonCashAmount} ${txn.User.currencyCode}`,
-					createdAt: getDateTime(txn.createdAt),
-					statusText: statusType?.[parseInt(txn.status, 10) + 1].label,
+					userEmail: txn?.user?.email,
+					amountWithCurr: `${txn?.amount} ${txn?.currencyCode}`,
+					bonusAmt: `${txn?.nonCashAmount} ${txn?.currencyCode}`,
+					createdAt: getDateTime(txn?.createdAt),
+					statusText: statusType?.[parseInt(txn?.status, 10) + 1]?.label,
 				})
 			);
 		}

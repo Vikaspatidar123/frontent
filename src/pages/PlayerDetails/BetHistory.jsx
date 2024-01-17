@@ -9,14 +9,13 @@ import {
 	Amount,
 	BonusMoney,
 	CreatedAt,
-	// Email,
+	Email,
 	GameName,
 	Id,
 	Status,
 } from './TableCol';
 import { fetchCasinoTransactionsStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
-import { statusType } from '../CasinoTransactionsList/constants';
 import Filters from '../../components/Common/Filters';
 import useBetHistoryFilters from './hooks/useBetHistoryFilters';
 import CrudSection from '../../components/Common/CrudSection';
@@ -34,11 +33,11 @@ const BetHistory = ({ userId }) => {
 			casinoTransactions?.rows?.map((txn) =>
 				formattedValues.push({
 					...txn,
-					userEmail: txn.User.email,
-					amountWithCurr: `${txn.amount} ${txn.User.currencyCode}`,
-					bonusAmt: `${txn.nonCashAmount} ${txn.User.currencyCode}`,
-					createdAt: getDateTime(txn.createdAt),
-					statusText: statusType?.[parseInt(txn.status, 10) + 1].label,
+					userEmail: txn?.user?.email,
+					amountWithCurr: `${txn?.amount} ${txn?.currencyCode}`,
+					bonusAmt: `${txn?.nonCashAmount} ${txn?.currencyCode}`,
+					createdAt: getDateTime(txn?.createdAt),
+					statusText: txn?.status,
 				})
 			);
 		}
@@ -63,12 +62,12 @@ const BetHistory = ({ userId }) => {
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
-			// {
-			// 	Header: 'User Email',
-			// 	accessor: 'userEmail',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <Email value={cell.value} />,
-			// },
+			{
+				Header: 'User Email',
+				accessor: 'userEmail',
+				filterable: true,
+				Cell: ({ cell }) => <Email value={cell.value} />,
+			},
 			{
 				Header: 'Game Name',
 				accessor: 'gameIdentifier',

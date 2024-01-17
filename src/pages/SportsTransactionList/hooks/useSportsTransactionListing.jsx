@@ -14,7 +14,6 @@ import {
 	CurrencyCode,
 	Email,
 	Id,
-	NonCashAmount,
 	Status,
 } from '../SportsTransactionListCol';
 
@@ -49,6 +48,7 @@ const useSportsTransactionListing = (filterValues = {}) => {
 					...txn,
 					email: txn?.user?.email,
 					currencyCode: txn?.wallet?.currency?.code,
+					status: txn?.transaction?.status,
 					createdAt: getDateTime(txn.createdAt),
 				})
 			);
@@ -76,12 +76,12 @@ const useSportsTransactionListing = (filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => <Amount value={cell.value} />,
 			},
-			{
-				Header: 'Non Cash Amount',
-				accessor: 'nonCashAmount',
-				filterable: true,
-				Cell: ({ cell }) => <NonCashAmount value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Non Cash Amount',
+			// 	accessor: 'nonCashAmount',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <NonCashAmount value={cell.value} />,
+			// },
 			{
 				Header: 'Currency Code',
 				accessor: 'currencyCode',
@@ -90,7 +90,7 @@ const useSportsTransactionListing = (filterValues = {}) => {
 			},
 			{
 				Header: 'Action Types',
-				accessor: 'actionType',
+				accessor: 'type',
 				Cell: ({ cell }) => <ActionTypes value={cell.value} />,
 			},
 			{

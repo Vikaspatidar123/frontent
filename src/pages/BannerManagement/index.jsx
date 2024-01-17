@@ -50,10 +50,7 @@ const BannerManagement = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const { formattedSABanners, SABannersloading, onClickDelete } =
-		useBannerManagement();
-
-	console.log(SABannersloading);
+	const { formattedSABanners, onClickDelete } = useBannerManagement();
 
 	const {
 		isOpen,

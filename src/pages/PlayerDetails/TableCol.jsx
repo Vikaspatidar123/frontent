@@ -10,34 +10,24 @@ const ActionTypes = ({ value }) => value ?? '';
 const GameName = ({ value }) => value ?? '-';
 
 const Amount = ({ value }) =>
-	value ? (
-		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
-			{value}
-		</div>
-	) : (
-		'-'
-	);
+	value ? <div className="text-success">{value}</div> : '-';
 
 const BonusMoney = ({ value }) =>
-	value ? (
-		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
-			{value}
-		</div>
-	) : (
-		'-'
-	);
+	value ? <div className="text-danger">{value}</div> : '-';
+
+const StatusData = ({ value }) => value ?? '';
 
 const Status = ({ value }) => {
 	if (value === 0) {
 		return <td>Pending</td>;
 	}
 	if (value === 1) {
-		return <td>Approved</td>;
+		return <td>Completed</td>;
 	}
-	if (value === 4) {
-		return <td>Re-Requested</td>;
+	if (value === 2) {
+		return <td>FAILED</td>;
 	}
-	return <td>Rejected</td>;
+	return <td>ROLLBACK</td>;
 };
 
 const CreatedAt = ({ value }) => value ?? '';
@@ -94,4 +84,5 @@ export {
 	Action,
 	Comment,
 	KeyValueCellNA,
+	StatusData,
 };
