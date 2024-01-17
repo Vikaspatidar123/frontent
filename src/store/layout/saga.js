@@ -18,6 +18,7 @@ import {
 	getSiteDetailsFail,
 } from './actions';
 import { getSiteDetailApi } from '../../network/getRequests';
+// import { updateSiteDetails } from '../../network/putRequests';
 
 /**
  * Changes the body attribute
@@ -53,6 +54,11 @@ function manageBodyClass(cssClass, action = 'toggle') {
  */
 function* changeLayout({ payload: layout }) {
 	try {
+		// const siteLayout = yield select((state) => state.Layout);
+		// const data = {
+		// 	...siteLayout,
+		// 	layoutType: layout,
+		// };
 		if (layout === 'horizontal') {
 			// yield put(changeTopbarThemeAction("dark"))
 			document.body.removeAttribute('data-sidebar');
@@ -61,6 +67,7 @@ function* changeLayout({ payload: layout }) {
 		} else {
 			// yield put(changeTopbarThemeAction("light"))
 		}
+		// yield put(updateSiteDetails({ data }));
 		yield call(changeBodyAttribute, 'data-layout', layout);
 	} catch (err) {
 		// console.log(err)

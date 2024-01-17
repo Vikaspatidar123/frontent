@@ -20,9 +20,10 @@ const NonCashAmount = ({ value }) =>
 		'-'
 	);
 
-const CurrencyCode = ({ value }) => value ?? '';
+const CurrencyCode = ({ value }) =>
+	value ? <div className="text-success">{value}</div> : '';
 
-const ActionTypes = () => 'Bet';
+const ActionTypes = ({ value }) => value ?? '';
 
 const Status = ({ value }) => value || 'Pending';
 

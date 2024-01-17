@@ -242,7 +242,7 @@ const getBonus = ({ bonusId, userBonusId }) =>
 	);
 
 const getSiteDetailApi = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/site-details`);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-layout`);
 
 export {
 	getBonus,
