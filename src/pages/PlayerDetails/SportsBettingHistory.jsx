@@ -12,6 +12,7 @@ import {
 	Email,
 	// Email,
 	Id,
+	Purpose,
 	StatusData,
 } from './TableCol';
 import { fetchSportsTransactionStart } from '../../store/actions';
@@ -89,9 +90,14 @@ const SportsBettingHistory = ({ userId }) => {
 				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
 			},
 			{
-				Header: 'Action Types',
+				Header: 'Action Type',
 				accessor: 'type',
 				Cell: ({ cell }) => <ActionTypes value={cell.value} />,
+			},
+			{
+				Header: 'Purpose',
+				accessor: 'purpose',
+				Cell: ({ cell }) => <Purpose value={cell.value} />,
 			},
 			{
 				Header: 'Status',

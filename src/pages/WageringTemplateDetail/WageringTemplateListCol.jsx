@@ -7,11 +7,12 @@ const WageringTemplateId = ({ cell }) => cell.value ?? '';
 
 const TemplateName = ({ cell }) => cell.value ?? '';
 
-const RTP = ({ cell }) => `${cell.value} %` ?? '';
+const RTP = ({ cell }) => `${cell?.value} %`;
 
-const WageringContribution = ({ cell }) => `${cell.value} %` ?? '';
+const WageringContribution = ({ cell }) =>
+	`${cell?.value ? cell?.value : 100} %`;
 
-const CustomValues = ({ cell }) => `${cell.value} %` ?? '';
+const CustomValues = ({ cell }) => `${cell?.value} %`;
 
 const Select = ({ cell, handleChange, selectedId }) => (
 	<CustomSwitchButton

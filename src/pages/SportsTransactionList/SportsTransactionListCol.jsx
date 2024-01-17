@@ -21,7 +21,7 @@ const NonCashAmount = ({ value }) =>
 	);
 
 const CurrencyCode = ({ value }) =>
-	value ? <div className="text-success">{value}</div> : '';
+	value ? <div className="text-primary">{value}</div> : '';
 
 const ActionTypes = ({ value }) => value ?? '';
 

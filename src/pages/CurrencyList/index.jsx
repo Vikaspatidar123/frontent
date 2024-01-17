@@ -33,7 +33,6 @@ const CurrencyList = () => {
 		validation,
 		formFields,
 		isCreateCurrencyLoading,
-		buttonList,
 		columns,
 		isEditCurrencyLoading,
 		showModal,
@@ -54,7 +53,7 @@ const CurrencyList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Currency" />
+							<CrudSection buttonList={[]} title="Currency" />
 							<CardBody>
 								<TableContainer
 									isLoading={isCurrenciesLoading}

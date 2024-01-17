@@ -6,6 +6,7 @@ const KeyValueCellNA = ({ value }) => value ?? '-';
 const Id = ({ value }) => value ?? '';
 const Email = ({ value }) => value ?? '';
 const ActionTypes = ({ value }) => value ?? '';
+const Purpose = ({ value }) => value ?? '';
 
 const GameName = ({ value }) => value ?? '-';
 
@@ -39,7 +40,8 @@ const NonCashAmount = ({ value }) =>
 		'-'
 	);
 
-const CurrencyCode = ({ value }) => value ?? '';
+const CurrencyCode = ({ value }) =>
+	value ? <div className="text-primary">{value}</div> : '';
 
 const PromotionTitle = ({ value }) => value ?? '';
 
@@ -68,6 +70,10 @@ Comment.propTypes = {
 	value: PropTypes.string.isRequired,
 };
 
+CurrencyCode.propTypes = {
+	value: PropTypes.string.isRequired,
+};
+
 export {
 	KeyValueCell,
 	Id,
@@ -85,4 +91,5 @@ export {
 	Comment,
 	KeyValueCellNA,
 	StatusData,
+	Purpose,
 };
