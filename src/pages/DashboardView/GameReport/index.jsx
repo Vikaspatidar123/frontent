@@ -94,8 +94,7 @@ const GameReport = (props) => {
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
 									columns={gameReportColumn || []}
-									data={gameReport?.game}
-									isGlobalFilter={false}
+									data={gameReport || []}
 									isPagination={false}
 									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
 									// tbodyClass="kpiTableWrap"
@@ -103,7 +102,7 @@ const GameReport = (props) => {
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									pageCount={1}
-									customPageSize={gameReport?.game?.length}
+									customPageSize={gameReport?.length || 50}
 									// tbodyHeight="300"
 									// isLoading={!isLoading}
 								/>
@@ -113,13 +112,13 @@ const GameReport = (props) => {
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
 									columns={gameReportColumn || []}
-									data={gameReport.provider}
+									data={gameReport || []}
 									isGlobalFilter
 									isPagination={false}
 									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
 									// tbodyClass={tbodyClass}
 									// theadClass={theadClass}
-									customPageSize={gameReport?.provider?.length}
+									customPageSize={gameReport?.length || 50}
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									// isLoading={!isLoading}

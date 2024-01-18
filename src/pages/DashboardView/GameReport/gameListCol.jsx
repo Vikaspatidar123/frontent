@@ -7,15 +7,15 @@ const IdValue = ({ cell }) => cell;
 
 const NAME = ({ cell }) => cell;
 
-const NUMBEROFROUNDS = ({ cell }) => cell;
+const NUMBEROFROUNDS = ({ cell }) => (cell || 0);
 
-const NUMBERFPLAYER = ({ cell }) => cell;
+const NUMBERFPLAYER = ({ cell }) => (cell || 0);
 
-const TOTALBETSGAME = ({ cell }) => cell;
+const TOTALBETSGAME = ({ cell }) => (cell || 0);
 
-const TOTALWINS = ({ cell }) => cell;
-const GAMEREVENUE = ({ cell }) => cell;
-const PAYOUT = ({ cell }) => cell;
+const TOTALWINS = ({ cell }) => (cell || 0);
+const GAMEREVENUE = ({ cell }) => (cell || 0);
+const PAYOUT = ({ cell }) => (cell || 0);
 
 export {
 	IdValue,

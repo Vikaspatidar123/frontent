@@ -10,6 +10,7 @@ import {
 	getLivePlayerInfoStart,
 	getDemographicStart,
 	getKpiReportStart,
+	getGameReportStart,
 } from '../../../store/dashboardView/actions';
 import {
 	formatDateYMD,
@@ -115,6 +116,14 @@ const useDashboardView = () => {
 		];
 		setDemoGrapFormatedData(finalData);
 	};
+
+	useEffect(() => {
+		dispatch(
+			getGameReportStart({
+				tab: activeGameReportTab,
+			})
+		);
+	}, [activeGameReportTab]);
 
 	useEffect(() => {
 		dispatch(getLivePlayerInfoStart());
@@ -369,31 +378,31 @@ const useDashboardView = () => {
 			},
 			{
 				Header: 'NUMBER OF ROUNDS',
-				accessor: 'roundCount',
+				accessor: 'numberOfRounds',
 				filterable: true,
 				Cell: ({ cell }) => <NUMBEROFROUNDS cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'NUMBER OF PLAYER',
-				accessor: 'playerCount',
+				accessor: 'numberOfPlayer',
 				filterable: true,
 				Cell: ({ cell }) => <NUMBERFPLAYER cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'TOTAL BETS',
-				accessor: 'totalBet',
+				accessor: 'totalBets',
 				filterable: true,
 				Cell: ({ cell }) => <TOTALBETSGAME cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'TOTAL WINS',
-				accessor: 'totalWin',
+				accessor: 'totalWins',
 				disableFilters: true,
 				Cell: ({ cell }) => <TOTALWINS cell={cell?.value || ''} />,
 			},
 			{
 				Header: 'GAME REVENUE',
-				accessor: 'GGR',
+				accessor: 'gameRevenue',
 				disableFilters: true,
 				Cell: ({ cell }) => <GAMEREVENUE cell={cell?.value || ''} />,
 			},

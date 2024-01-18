@@ -59,7 +59,7 @@ const editCasinoSubCategory = (data) =>
 	});
 
 const editCasinoGames = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/game`, data, {
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/games`, data, {
 		'Content-Type': 'multipart/form-data',
 	});
 

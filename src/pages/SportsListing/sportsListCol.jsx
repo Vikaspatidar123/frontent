@@ -19,7 +19,11 @@ const Status = ({ value }) =>
 		<Badge className="bg-danger">In Active</Badge>
 	);
 
-const Icon = ({ value }) => <ImageCell imgSrc={value} />;
+const Icon = ({ value }) => (
+	<ImageCell
+		imgSrc={`development/sportbook/sport/${value?.row?.original?.providerId}.jpeg`}
+	/>
+);
 
 SportId.propTypes = {
 	value: PropTypes.string.isRequired,

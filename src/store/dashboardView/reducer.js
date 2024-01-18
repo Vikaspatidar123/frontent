@@ -9,8 +9,10 @@ import {
 	GET_KPI_REPORT_SUCCESS,
 	GET_KPI_REPORT_FAIL,
 	RESET_DASHBOARD_STATE,
+	GET_GAME_REPORT_SUCCESS,
+	GET_GAME_REPORT_START,
+	GET_GAME_REPORT_FAIL,
 } from './actionTypes';
-import { gameContant } from './config/gameReport';
 // import { kpiReportConstant } from './config/kpiReport';
 
 import { kpiConstant } from './config/kpisummary';
@@ -24,7 +26,9 @@ const INIT_STATE = {
 	kPIReport: {},
 	// kPIReport: kpiReportConstant,
 	isKpiReportLoading: false,
-	gameReport: gameContant,
+	gameReport: null,
+	isGameReportLoading: false,
+	isGameReportError: false,
 };
 
 function DashboardView(state = INIT_STATE, { type, payload } = {}) {
@@ -89,6 +93,31 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 				isKpiReportLoading: false,
 				kPIReport: {},
 			};
+
+		case GET_GAME_REPORT_START:
+			return {
+				...state,
+				isGameReportLoading: true,
+				gameReport: null,
+				isGameReportError: false,
+			};
+
+		case GET_GAME_REPORT_SUCCESS:
+			return {
+				...state,
+				isGameReportLoading: false,
+				gameReport: payload,
+				isGameReportError: false,
+			};
+
+		case GET_GAME_REPORT_FAIL:
+			return {
+				...state,
+				isGameReportLoading: false,
+				gameReport: null,
+				isGameReportError: true,
+			};
+
 		case RESET_DASHBOARD_STATE:
 			return INIT_STATE;
 		default:

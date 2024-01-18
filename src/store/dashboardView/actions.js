@@ -8,6 +8,9 @@ import {
 	GET_KPI_REPORT_START,
 	GET_KPI_REPORT_SUCCESS,
 	GET_KPI_REPORT_FAIL,
+	GET_GAME_REPORT_FAIL,
+	GET_GAME_REPORT_START,
+	GET_GAME_REPORT_SUCCESS,
 } from './actionTypes';
 
 export const getLivePlayerInfoStart = (payload) => ({
@@ -51,5 +54,20 @@ export const getKpiReportSuccess = (payload) => ({
 
 export const getKpiReportFail = (payload) => ({
 	type: GET_KPI_REPORT_FAIL,
+	payload,
+});
+
+export const getGameReportStart = (payload) => ({
+	type: GET_GAME_REPORT_START,
+	payload,
+});
+
+export const getGameReportSuccess = (payload) => ({
+	type: GET_GAME_REPORT_SUCCESS,
+	payload,
+});
+
+export const getGameReportFail = (payload) => ({
+	type: GET_GAME_REPORT_FAIL,
 	payload,
 });
