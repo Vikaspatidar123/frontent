@@ -7,7 +7,7 @@ import {
 	resetTransactionBankingData,
 } from '../../../store/actions';
 import { LEDGER_TYPES, statusType } from '../constants';
-import { formatDateYMD, getDateTime } from '../../../helpers/dateFormatter';
+import { formatDateYMD } from '../../../helpers/dateFormatter';
 import {
 	Purpose,
 	Actionee,
@@ -82,7 +82,9 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 					//     amountType: transaction.amountType,
 					//   })}`,
 					actionee: transaction?.transaction?.adminUser?.email,
-					createdAt: getDateTime(transaction.createdAt),
+					createdAt: moment(transaction?.createdAt)
+						.local()
+						.format('YYYY-MM-DD HH:mm:ss'),
 					transactionType: LEDGER_TYPES.find(
 						(trans) => trans.value === transaction?.type
 					)?.label,

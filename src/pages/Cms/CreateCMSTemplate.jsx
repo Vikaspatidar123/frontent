@@ -235,7 +235,7 @@ const CreateCMSTemplate = ({
 											width="250"
 											className="rounded me-2 bg-light"
 											alt={f.name}
-											src={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
+											src={`${VITE_APP_AWS_GALLERY_URL}${f.fileName}`}
 										/>
 									</CopyToClipboard>
 									<Col className="position-absolute top-0 end-0">

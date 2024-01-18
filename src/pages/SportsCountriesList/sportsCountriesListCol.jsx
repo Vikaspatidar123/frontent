@@ -12,7 +12,11 @@ const CountryId = ({ value }) => (
 
 const CountryName = ({ value }) => value ?? '';
 
-const Icon = ({ value }) => <ImageCell imgSrc={value} />;
+const Icon = ({ value }) => (
+	<ImageCell
+		imgSrc={`development/sportbook/location/${value?.row?.original?.name}.jpeg`}
+	/>
+);
 
 const Status = ({ value }) =>
 	value ? (

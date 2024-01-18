@@ -124,7 +124,7 @@ const CreateTemplate = ({
 							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
 								<div className="p-2">
 									<CopyToClipboard
-										text={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
+										text={`${VITE_APP_AWS_GALLERY_URL}${f.fileName}`}
 										onCopy={() => {
 											setShowGallery(false);
 											showToastr({
@@ -139,7 +139,7 @@ const CreateTemplate = ({
 											width="250"
 											className="rounded me-2 bg-light"
 											alt={f.name}
-											src={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
+											src={`${VITE_APP_AWS_GALLERY_URL}${f.fileName}`}
 										/>
 									</CopyToClipboard>
 									<Col className="position-absolute top-0 end-0">

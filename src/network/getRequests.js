@@ -244,6 +244,9 @@ const getBonus = ({ bonusId, userBonusId }) =>
 const getSiteDetailApi = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-layout`);
 
+const getGameReports = (payload) =>
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/game`, payload);
+
 export {
 	getBonus,
 	getAllCurrencies,
@@ -305,4 +308,5 @@ export {
 	getUnrestrictedItems,
 	getSiteDetailApi,
 	getAdminChildren,
+	getGameReports,
 };

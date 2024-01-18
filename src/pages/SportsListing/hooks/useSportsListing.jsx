@@ -105,7 +105,7 @@ const useSportsListing = (filterValues = {}) => {
 				accessor: 'icon',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => <Icon value={cell.value} />,
+				Cell: ({ cell }) => <Icon value={cell} />,
 			},
 			{
 				Header: 'Action',

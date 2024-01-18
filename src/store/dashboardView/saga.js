@@ -5,6 +5,7 @@ import {
 	GET_LIVE_PLAYER_START,
 	GET_DEMOGRAPHIC_START,
 	GET_KPI_REPORT_START,
+	GET_GAME_REPORT_START,
 } from './actionTypes';
 import {
 	getLivePlayerInfoStart,
@@ -16,12 +17,15 @@ import {
 	// getKpiReportStart,
 	getKpiReportSuccess,
 	getKpiReportFail,
+	getGameReportSuccess,
+	getGameReportFail,
 } from './actions';
 import { showToastr } from '../../utils/helpers';
 import { kpiReportConstant } from './config/kpiReport';
 import {
 	// getDashboardLiveInfoService,
 	getDashboardDemoGraphicService,
+	getGameReports,
 } from '../../network/getRequests';
 
 function* getLivePlayerData() {
@@ -81,10 +85,24 @@ function* getKpiData() {
 	}
 }
 
+function* getGameReportWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getGameReports(payload);
+		yield put(getGameReportSuccess(data?.data?.gameReport));
+	} catch (e) {
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+		yield put(getGameReportFail(e?.response?.data?.errors[0]?.description));
+	}
+}
 export function* watchDashboardViewData() {
 	yield takeEvery(GET_LIVE_PLAYER_START, getLivePlayerData);
 	yield takeEvery(GET_DEMOGRAPHIC_START, getDemoGraphicData);
 	yield takeEvery(GET_KPI_REPORT_START, getKpiData);
+	yield takeEvery(GET_GAME_REPORT_START, getGameReportWorker);
 }
 
 function* dashboardSaga() {
