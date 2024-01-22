@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
+/* eslint-disable consistent-return */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ import {
 	getDemographicStart,
 	getKpiReportStart,
 	getGameReportStart,
+	getKpiSummaryStart,
 } from '../../../store/dashboardView/actions';
 import {
 	formatDateYMD,
@@ -54,6 +56,7 @@ import {
 	SIGNUPS,
 } from '../DemographicReport/DemoGraphCol';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+import KpiSummary from '../KpiSummary';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
@@ -68,7 +71,40 @@ const useDashboardView = () => {
 		gameReport,
 		isDemographicLoading,
 		isKpiReportLoading,
+		isKpiSummaryLoading,
+		isGameReportLoading,
 	} = useSelector((state) => state.DashboardViewInfo);
+
+	const data = {
+		betAmount: 20,
+		winAmount: 0,
+		data: 'today',
+	};
+
+	const formattedKpiSummary = useMemo(() => {
+		if (kPISummary?.length) {
+			return Object.values(
+				kPISummary.reduce((acc, entry) => {
+					Object.keys(entry).forEach((key) => {
+						if (key !== 'data') {
+							if (!acc[key]) {
+								acc[key] = {
+									name: key,
+									today: 0,
+									yesterday: 0,
+									monthToDate: 0,
+									CustomDate: 0,
+								};
+							}
+							acc[key][entry.data] = entry[key];
+						}
+					});
+					return acc;
+				}, {})
+			);
+		}
+		return [];
+	}, [kPISummary]);
 
 	const [demoGraphState, setDemoGraphState] = useState([
 		{
@@ -82,7 +118,7 @@ const useDashboardView = () => {
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
 	const [isRefresh, setIsRefresh] = useState(false);
 
-	const [activeKpiSummTab, setActiveKpiSummTab] = useState('banking');
+	const [activeKpiSummTab, setActiveKpiSummTab] = useState('sport');
 	const [activeKpiReportTab, setActiveKpiReportTab] = useState('game');
 	const [activeGameReportTab, setActiveGameReportTab] = useState('game');
 
@@ -118,16 +154,37 @@ const useDashboardView = () => {
 	};
 
 	useEffect(() => {
-		dispatch(
-			getGameReportStart({
-				tab: activeGameReportTab,
-			})
-		);
+		if (activeGameReportTab) {
+			dispatch(
+				getGameReportStart({
+					tab: activeGameReportTab,
+				})
+			);
+		}
 	}, [activeGameReportTab]);
 
 	useEffect(() => {
+		if (activeKpiSummTab) {
+			dispatch(
+				getKpiSummaryStart({
+					tab: activeKpiSummTab,
+				})
+			);
+		}
+	}, [activeKpiSummTab]);
+
+	useEffect(() => {
+		if (activeKpiReportTab) {
+			dispatch(
+				getKpiReportStart({
+					tab: activeKpiReportTab,
+				})
+			);
+		}
+	}, [activeKpiReportTab]);
+
+	useEffect(() => {
 		dispatch(getLivePlayerInfoStart());
-		dispatch(getKpiReportStart());
 		fetchData();
 		return () => {
 			// Dispatch an action to reset Redux state here
@@ -254,8 +311,8 @@ const useDashboardView = () => {
 	const kPISummaryColumn = useMemo(
 		() => [
 			{
-				Header: 'DATA',
-				accessor: 'rowName',
+				Header: 'Name',
+				accessor: 'name',
 				filterable: true,
 				Cell: ({ cell }) => <RowName cell={cell?.value || ''} />,
 			},
@@ -277,12 +334,12 @@ const useDashboardView = () => {
 				filterable: true,
 				// Cell: ({ cell }) => <Role cell={cell?.value || ''} />,
 			},
-			{
-				Header: 'CUSTOM DATE',
-				accessor: 'customDate',
-				filterable: true,
-				Cell: ({ cell }) => <CustomDate cell={cell?.value || ''} />,
-			},
+			// {
+			// 	Header: 'CUSTOM DATE',
+			// 	accessor: 'customDate',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <CustomDate cell={cell?.value || ''} />,
+			// },
 			{
 				Header: 'DELTA',
 				accessor: 'delta',
@@ -294,11 +351,11 @@ const useDashboardView = () => {
 	);
 
 	const kPIReportColumn = useMemo(() => {
-		if (Object.keys(kPIReport).length > 0) {
+		if (kPIReport?.length) {
 			return [
 				{
-					Header: 'PROVIDER/CLIENT',
-					accessor: 'provider',
+					Header: 'NAME',
+					accessor: 'name',
 					filterable: true,
 					Cell: ({ cell }) => <ProviderName cell={cell?.value || '0'} />,
 				},
@@ -316,25 +373,25 @@ const useDashboardView = () => {
 				},
 				{
 					Header: 'REAL BET',
-					accessor: 'realBet',
+					accessor: 'betAmount',
 					filterable: true,
 					Cell: ({ cell }) => <REALBET cell={cell?.value || '0'} />,
 				},
 				{
 					Header: 'REAL WIN',
-					accessor: 'realWin',
+					accessor: 'winningAmount',
 					filterable: true,
 					Cell: ({ cell }) => <REALWIN cell={cell?.value || '0'} />,
 				},
 				{
 					Header: 'BONUS Bet',
-					accessor: 'bonusBet',
+					accessor: 'bonusBetAmount',
 					disableFilters: true,
 					Cell: ({ cell }) => <BONUSWIN cell={cell?.value || '0'} />,
 				},
 				{
 					Header: 'BONUS WIN',
-					accessor: 'bonusWin',
+					accessor: 'bonusWinningAmount',
 					disableFilters: true,
 					Cell: ({ cell }) => <BONUSWIN cell={cell?.value || '0'} />,
 				},
@@ -346,13 +403,13 @@ const useDashboardView = () => {
 				},
 				{
 					Header: 'TOTAL BETS',
-					accessor: 'totalBets',
+					accessor: 'totalBetAmount',
 					disableFilters: true,
 					Cell: ({ cell }) => <TOTALBETS cell={cell?.value || '0'} />,
 				},
 				{
 					Header: 'DELTA TOTAL BETS',
-					accessor: 'deltaTotalBets',
+					accessor: 'deltaTotalBetAmount',
 					disableFilters: true,
 					Cell: ({ cell }) => <DELTATOTALBETS cell={cell?.value || '0'} />,
 				},
@@ -480,6 +537,9 @@ const useDashboardView = () => {
 		isRefresh,
 		setIsRefresh,
 		isKpiReportLoading,
+		formattedKpiSummary,
+		isKpiSummaryLoading,
+		isGameReportLoading,
 	};
 };
 

@@ -28,7 +28,7 @@ const CasinoAddGames = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 	const { state } = useLocation();
 
-	const { gameCategoryName, isGlobal } = state || {
+	const { gameCategoryName } = state || {
 		gameCategoryName: '',
 		isGlobal: true,
 	};
@@ -179,7 +179,7 @@ const CasinoAddGames = () => {
 								<h5>Games you add will appear here</h5>
 								<Button
 									type="button"
-									disabled={isGlobal}
+									// disabled={isGlobal}
 									className="btn btn-sm btn-success font-size-14"
 									onClick={handleSubmitClick}
 								>

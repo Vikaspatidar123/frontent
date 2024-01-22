@@ -247,6 +247,12 @@ const getSiteDetailApi = () =>
 const getGameReports = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/game`, payload);
 
+const getKpiSummary = (payload) =>
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/kpi-summary`, payload);
+
+const getKpiReport = (payload) =>
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/kpi`, payload);
+
 export {
 	getBonus,
 	getAllCurrencies,
@@ -309,4 +315,6 @@ export {
 	getSiteDetailApi,
 	getAdminChildren,
 	getGameReports,
+	getKpiSummary,
+	getKpiReport,
 };

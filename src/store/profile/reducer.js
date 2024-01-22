@@ -8,6 +8,9 @@ import {
 	RESET_PROFILE_PASSWORD_START,
 	RESET_PROFILE_PASSWORD_SUCCESS,
 	RESET_PROFILE_PASSWORD_FAIL,
+	GET_SITE_CONFIGURATION_START,
+	GET_SITE_CONFIGURATION_SUCCESS,
+	GET_SITE_CONFIGURATION_FAIL,
 } from './actionTypes';
 
 const initialState = {
@@ -20,6 +23,9 @@ const initialState = {
 	resetProfilePasswordLoading: false,
 	resetProfilePasswordSuccess: false,
 	resetProfilePasswordError: null,
+	siteConfigDetails: null,
+	siteConfigLoading: false,
+	siteConfigError: null,
 };
 
 const ProfileData = (state = initialState, { type, payload } = {}) => {
@@ -80,6 +86,27 @@ const ProfileData = (state = initialState, { type, payload } = {}) => {
 				resetProfilePasswordLoading: false,
 				resetProfilePasswordError: payload,
 				resetProfilePasswordSuccess: false,
+			};
+		case GET_SITE_CONFIGURATION_START:
+			return {
+				...state,
+				siteConfigLoading: true,
+				siteConfigDetails: null,
+				siteConfigError: null,
+			};
+		case GET_SITE_CONFIGURATION_FAIL:
+			return {
+				...state,
+				siteConfigLoading: false,
+				siteConfigDetails: null,
+				siteConfigError: payload,
+			};
+		case GET_SITE_CONFIGURATION_SUCCESS:
+			return {
+				...state,
+				siteConfigLoading: false,
+				siteConfigDetails: payload,
+				siteConfigError: null,
 			};
 		default:
 			return { ...state };

@@ -37,7 +37,7 @@ const useCreateBonus = ({ isEdit }) => {
 	const [allFields, setAllFields] = useState({});
 	const [existingFilledFields, setExistingFilledFields] = useState({});
 	const [showModal, setShowModal] = useState(false);
-	const [selectedTemplate, setSelectedTemplate] = useState('');
+	const [selectedTemplate, setSelectedTemplate] = useState(1);
 	const [langList, setLangList] = useState({});
 	const [nextPressed, setNextPressed] = useState({});
 	const [langContent, setLangContent] = useState({

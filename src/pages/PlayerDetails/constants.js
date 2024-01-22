@@ -43,12 +43,12 @@ export const portalValues = [
 
 export const timePeriodValues = [
 	{
-		optionLabel: 'Permanent',
-		value: 'permanent',
-	},
-	{
 		optionLabel: 'Custom Value',
 		value: 'custom',
+	},
+	{
+		optionLabel: 'Permanent',
+		value: 'permanent',
 	},
 ];
 

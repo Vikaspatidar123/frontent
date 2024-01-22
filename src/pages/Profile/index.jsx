@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
-import { getSiteConfiguration } from '../../network/getRequests';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 
 import { projectName } from '../../constants/config';
 import { getSuperAdminStart } from '../../store/auth/permissionDetails/actions';
 import {
+	getAdminChildren,
 	getLanguagesStart,
+	getSiteConfigurationStart,
 	updateProfileStart,
 	updateSiteConfigurationStart,
 } from '../../store/actions';
@@ -29,7 +30,6 @@ const ProfilePage = ({ t }) => {
 	const [activeTab, setActiveTab] = useState('1');
 	const [editable, setEditable] = useState(true);
 	const [editableSiteConfig, setEditableSiteConfig] = useState(true);
-	const [details, setDetails] = useState([]);
 	const isTenant = false;
 
 	const toggle = (tab) => {
@@ -43,11 +43,23 @@ const ProfilePage = ({ t }) => {
 	const { languageData, languageDataLoading } = useSelector(
 		(state) => state.CasinoManagementData
 	);
-	const { resetProfilePasswordLoading } = useSelector(
+	const { resetProfilePasswordLoading, siteConfigDetails } = useSelector(
 		(state) => state.ProfileData
 	);
 
+	const { adminChildren } = useSelector((state) => state.AllAdmins);
+
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (superAdminUser) {
+			dispatch(
+				getAdminChildren({
+					superAdminId: superAdminUser?.id,
+				})
+			);
+		}
+	}, [superAdminUser]);
 
 	const updateData = (data) => {
 		dispatch(
@@ -74,12 +86,10 @@ const ProfilePage = ({ t }) => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
-		async function fetchData() {
-			await getSiteConfiguration().then((res) => {
-				setDetails(res?.data?.data?.siteInformation?.[0]?.value);
-			});
-		}
-		fetchData();
+	}, []);
+
+	useEffect(() => {
+		dispatch(getSiteConfigurationStart());
 	}, []);
 
 	const tabData = [
@@ -102,7 +112,7 @@ const ProfilePage = ({ t }) => {
 			title: 'Site Keys',
 			component: (
 				<SiteConfig
-					details={details}
+					details={siteConfigDetails}
 					languageData={languageData}
 					editableSiteConfig={editableSiteConfig}
 					setEditableSiteConfig={setEditableSiteConfig}
@@ -131,7 +141,7 @@ const ProfilePage = ({ t }) => {
 					adminDetails={{
 						name: `${superAdminUser?.firstName} ${superAdminUser?.lastName}`,
 						id: superAdminUser?.id,
-						children: [],
+						children: adminChildren?.children || [],
 						isInitial: true,
 						data: { superRoleId: superAdminUser?.adminRoleId },
 					}}

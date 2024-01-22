@@ -60,6 +60,9 @@ const DashboardView = ({ t }) => {
 		isRefresh,
 		setIsRefresh,
 		isKpiReportLoading,
+		formattedKpiSummary,
+		isKpiSummaryLoading,
+		isGameReportLoading,
 	} = useDashboardView();
 	return (
 		<div className="page-content">
@@ -109,6 +112,8 @@ const DashboardView = ({ t }) => {
 									kPISummaryColumn={kPISummaryColumn}
 									kPISummary={kPISummary}
 									exportReport={exportKPISummaryReport}
+									formattedKpiSummary={formattedKpiSummary}
+									isKpiSummaryLoading={isKpiSummaryLoading}
 								/>
 							</Suspense>
 						</Row>
@@ -136,6 +141,7 @@ const DashboardView = ({ t }) => {
 									gameReportColumn={gameReportColumn}
 									gameReport={gameReport}
 									exportReport={exportGameReport}
+									isGameReportLoading={isGameReportLoading}
 								/>{' '}
 							</Suspense>
 						</Row>

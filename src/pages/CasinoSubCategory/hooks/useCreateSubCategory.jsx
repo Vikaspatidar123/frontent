@@ -322,7 +322,7 @@ const useCreateSubCategory = () => {
 					const status = cell?.row?.original?.isActive;
 					const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
 					const gameCategoryName = cell?.row?.original?.nameEN;
-					const isGlobal = cell?.row?.original?.isGlobal;
+					// const isGlobal = cell?.row?.original?.isGlobal;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li>
@@ -400,7 +400,7 @@ const useCreateSubCategory = () => {
 								<Button
 									type="button"
 									hidden={!isGranted(modules.CasinoManagement, 'D')}
-									disabled={isGlobal}
+									// disabled={isGlobal}
 									className="btn btn-sm btn-soft-danger"
 									onClick={(e) => {
 										e.preventDefault();
@@ -423,15 +423,15 @@ const useCreateSubCategory = () => {
 							<li>
 								<Button
 									type="button"
-									hidden={!isGranted(modules.CasinoManagement, 'T') || isGlobal}
-									disabled={isGlobal}
+									hidden={!isGranted(modules.CasinoManagement, 'T')}
+									// disabled={isGlobal}
 									className="btn btn-sm btn-soft-primary"
 									onClick={(e) =>
 										handleAddGameClick({
 											e,
 											gameSubCategoryId,
 											gameCategoryName,
-											isGlobal,
+											// isGlobal,
 										})
 									}
 								>

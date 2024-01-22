@@ -21,10 +21,16 @@ class NodeLabel extends React.PureComponent {
 					fill="#74788d"
 					fontSize="18px"
 					className="fas"
+					onClick={onNodeClick}
 				>
 					{nodeDatum?.isInitial ? '' : '\uf007'}
 				</text>
-				<text strokeWidth="1" x={nodeDatum?.isInitial ? '25' : '40'} y="3">
+				<text
+					strokeWidth="1"
+					x={nodeDatum?.isInitial ? '25' : '40'}
+					y="3"
+					onClick={onNodeClick}
+				>
 					{nodeDatum?.name}
 				</text>
 			</g>

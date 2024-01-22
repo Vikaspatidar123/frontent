@@ -5,6 +5,7 @@ import {
 	UPDATE_PROFILE_START,
 	UPDATE_SITE_CONFIGURATION_START,
 	RESET_PROFILE_PASSWORD_START,
+	GET_SITE_CONFIGURATION_START,
 } from './actionTypes';
 import {
 	updateProfileSuccess,
@@ -13,6 +14,8 @@ import {
 	updateSiteConfigurationFail,
 	resetProfilePasswordSuccess,
 	resetProfilePasswordFail,
+	getSiteConfigurationSuccess,
+	getSiteConfigurationFail,
 } from './actions';
 import {
 	updateProfile,
@@ -21,6 +24,7 @@ import {
 } from '../../network/putRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
+import { getSiteConfiguration } from '../../network/getRequests';
 
 function* updateProfileWorker(action) {
 	try {
@@ -35,6 +39,25 @@ function* updateProfileWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateProfileFail(e?.response?.data?.errors[0]?.description));
+
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* getSiteConfigurationWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getSiteConfiguration(payload);
+		yield put(
+			getSiteConfigurationSuccess(data?.data?.siteInformation?.[0]?.value)
+		);
+	} catch (e) {
+		yield put(
+			getSiteConfigurationFail(e?.response?.data?.errors[0]?.description)
+		);
 
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
@@ -98,6 +121,7 @@ export function* ProfileDataWatcher() {
 		updateSiteConfigurationWorker
 	);
 	yield takeLatest(RESET_PROFILE_PASSWORD_START, resetProfilePasswordWorker);
+	yield takeLatest(GET_SITE_CONFIGURATION_START, getSiteConfigurationWorker);
 }
 
 function* ProfileDataSaga() {
