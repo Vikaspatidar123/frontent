@@ -104,7 +104,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 			},
 			{
 				Header: 'Status',
-				accessor: 'statusText',
+				accessor: 'status',
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
