@@ -2,10 +2,10 @@ import * as Yup from 'yup';
 
 // Player Filters
 export const kycLabels = [
-	{ value: '', label: 'All' },
+	// { value: '', label: 'All' },
 	// { value: 'APPROVED', label: 'Approved' },
-	{ value: 'pending', label: 'Pending' },
-	{ value: 'completed', label: 'Completed' },
+	{ value: false, label: 'Pending' },
+	{ value: true, label: 'Approved' },
 	// { value: 'REJECTED', label: 'Rejected' },
 	// { value: 'REQUESTED', label: 'Requested' },
 	// { value: 'RE_REQUESTED', label: 'Re Requested' },
@@ -46,17 +46,24 @@ const staticFiltersFields = () => [
 		label: '',
 		placeholder: 'Search by Phone number',
 	},
-	// {
-	// 	name: 'kycStatus',
-	// 	fieldType: 'select',
-	// 	label: '',
-	// 	placeholder: 'KYC Status',
-	// 	optionList: kycLabels.map(({ value, label }, idx) => ({
-	// 		id: idx + 1,
-	// 		value,
-	// 		optionLabel: label,
-	// 	})),
-	// },
+	{
+		name: 'kycStatus',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'KYC Status',
+		optionList: [
+			{
+				id: 1,
+				optionLabel: 'Pending',
+				value: false,
+			},
+			{
+				id: 2,
+				optionLabel: 'Approved',
+				value: true,
+			},
+		],
+	},
 ];
 
 const filterValues = () => ({

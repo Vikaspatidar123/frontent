@@ -1,6 +1,16 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Form, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import {
+	Button,
+	Card,
+	Form,
+	Modal,
+	ModalBody,
+	ModalHeader,
+	UncontrolledTooltip,
+} from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import {
 	CustomInputField,
@@ -176,14 +186,32 @@ const SelfExclusionCard = ({ limit, userId }) => {
 							errorMsg={validation.touched?.days && validation.errors?.days}
 						/>
 					)}
-					<div className="mt-3 text-center">
+					<div className="mt-3 text-center d-flex justify-content-center">
 						<Button type="submit" className="btn btn-primary" color="primary">
 							Set
 						</Button>
-						{limit.days && (
-							<Button onClick={onResetLimit} className="mx-2">
-								Reset Limit
-							</Button>
+						{!!limit?.days && (
+							<>
+								<i
+									className="mdi mdi-refresh"
+									style={{
+										cursor: 'pointer',
+										fontSize: '1.5rem',
+										marginLeft: '5px',
+									}}
+									id="refresh"
+									onClick={onResetLimit}
+									onKeyDown={(event) => {
+										if (event.key === 'Enter') {
+											onResetLimit();
+										}
+									}}
+									tabIndex="0"
+								/>
+								<UncontrolledTooltip placement="top" target="refresh">
+									Reset Limit
+								</UncontrolledTooltip>
+							</>
 						)}
 					</div>
 				</Form>

@@ -142,7 +142,7 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 								<>
 									<i
 										className="mdi mdi-refresh"
-										style={{ cursor: 'pointer' }}
+										style={{ cursor: 'pointer', fontSize: '1.5rem' }}
 										id="refresh"
 										onClick={onResetLimit}
 										onKeyDown={(event) => {

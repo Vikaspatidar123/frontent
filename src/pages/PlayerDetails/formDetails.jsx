@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
 import { formatDateYMD } from '../../utils/helpers';
 import {
+	ACTION_TYPES,
 	LEDGER_TYPES,
+	LEDGER_PURPOSE,
 	statusType as casinoStatusType,
 } from '../CasinoTransactionsList/constants';
 import { statusType } from '../TransactionBankingList/constants';
@@ -167,8 +169,8 @@ const staticFiltersFields = () => [
 		name: 'transactionType',
 		fieldType: 'select',
 		label: '',
-		placeholder: 'Transaction Type',
-		optionList: LEDGER_TYPES.map(({ value, label }) => ({
+		placeholder: 'Action Type',
+		optionList: ACTION_TYPES.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
@@ -197,7 +199,7 @@ const filterValues = () => ({
 	status: null,
 	startDate: null,
 	endDate: null,
-	currencyCode: null,
+	// currencyCode: null,
 	transactionType: null,
 });
 
@@ -212,12 +214,45 @@ const filterValidationSchema = () =>
 
 // Sports Bet History filters
 const sportsBetFiltersFields = () => [
+	// {
+	// 	name: 'email',
+	// 	fieldType: 'textField',
+	// 	type: 'search',
+	// 	label: '',
+	// 	placeholder: 'Search by email',
+	// },
 	{
-		name: 'email',
-		fieldType: 'textField',
-		type: 'search',
+		name: 'transactionType',
+		fieldType: 'select',
 		label: '',
-		placeholder: 'Search by email',
+		placeholder: 'Action Type',
+		optionList: LEDGER_TYPES.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
+		name: 'ledgerPurpose',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Ledger Purpose',
+		optionList: LEDGER_PURPOSE.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
+		name: 'status',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: casinoStatusType.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
 	},
 	{
 		name: 'ranges',
@@ -228,15 +263,20 @@ const sportsBetFiltersFields = () => [
 ];
 
 const sportsBetFilterValues = () => ({
-	email: '',
+	// email: '',
+	transactionType: null,
+	ledgerPurpose: null,
 	startDate: null,
 	endDate: null,
-	currencyCode: null,
+	status: null,
+	// currencyCode: null,
 });
 
 const sportsBetFilterValidationSchema = () =>
 	Yup.object({
-		email: Yup.string().nullable(),
+		// email: Yup.string().nullable(),
+		transactionType: Yup.string().nullable(),
+		ledgerPurpose: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
 		currencyCode: Yup.string().nullable(),
@@ -268,6 +308,17 @@ const transactionFiltersFields = () => [
 		})),
 	},
 	{
+		name: 'ledgerPurpose',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Ledger Purpose',
+		optionList: LEDGER_PURPOSE.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
+	},
+	{
 		name: 'paymentProvider',
 		fieldType: 'textField',
 		type: 'search',
@@ -289,6 +340,7 @@ const transactionFilterValues = () => ({
 	endDate: null,
 	currencyCode: null,
 	transactionType: null,
+	ledgerPurpose: null,
 });
 
 const transactionFilterValidationSchema = () =>
@@ -299,6 +351,7 @@ const transactionFilterValidationSchema = () =>
 		endDate: Yup.string().nullable(),
 		currencyCode: Yup.string().nullable(),
 		transactionType: Yup.string().nullable(),
+		ledgerPurpose: Yup.string().nullable(),
 	});
 
 // Bonus filters

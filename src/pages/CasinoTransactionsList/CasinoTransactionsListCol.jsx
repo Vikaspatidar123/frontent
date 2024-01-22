@@ -28,7 +28,19 @@ const BonusMoney = ({ value }) =>
 		'-'
 	);
 
-const Status = ({ value }) => value ?? '';
+const Status = ({ value }) => {
+	if (value === 0) {
+		return 'Pending';
+	} if (value === 1) {
+		return 'Completed';
+	} if (value === 2) {
+		return 'Failed';
+	} if (value === 3) {
+		return 'Rollback';
+	} 
+		return '-';
+	
+};
 
 const CreatedAt = ({ value }) => value ?? '';
 

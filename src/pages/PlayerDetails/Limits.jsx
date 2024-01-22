@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import { Card, Col, Container, Row, Spinner } from 'reactstrap';
+import moment from 'moment';
 import useEditLimits from './hooks/useEditLimits';
 import SingleLimitCard from './components/SingleLimitCard';
 import SelfExclusionCard from './components/SelfExclusionCard';
@@ -69,17 +70,21 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 									label: 'Self Exclusion',
 									type: 'SELF_EXCLUSION',
 									key: userLimitTypes.selfExclusion,
-									days: userLimits?.isSelfExclusionPermanent
-										? -1
-										: userLimits?.selfExclusion
-										? Math.ceil(
-												Math.abs(
-													new Date(userLimits?.selfExclusion) - new Date()
-												) /
-													(1000 * 60 * 60 * 24 * 30)
-										  )
-										: '',
-									portal: userLimits?.selfExclusionType,
+									days:
+										userLimits?.[9]?.value === 'permanent'
+											? -1
+											: userLimits?.[9]?.expireAt
+											? Math.abs(
+													Math.round(
+														moment().diff(
+															userLimits?.[9]?.expireAt,
+															'months',
+															true
+														)
+													)
+											  )
+											: 0,
+									// portal: userLimits?.selfExclusionType,
 								}}
 								userId={userId}
 								currencyCode={currencyCode}
