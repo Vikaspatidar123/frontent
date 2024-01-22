@@ -45,6 +45,7 @@ const GetCasinoSubCategoryDetail = () => {
 
 	const {
 		casinoSubCategoryDetails,
+		casinoCategoryDetails,
 		iscasinoSubCategoryDetailsLoading,
 		isCreateSubCategorySuccess,
 		isEditSubCategorySuccess,
@@ -89,16 +90,18 @@ const GetCasinoSubCategoryDetail = () => {
 	]);
 
 	const formattedgetCasinoSubCategoryDetails = useMemo(() => {
-		if (casinoSubCategoryDetails) {
+		if (casinoSubCategoryDetails && casinoCategoryDetails?.rows) {
 			return casinoSubCategoryDetails?.rows.map((category) => ({
 				...category,
 				nameEN: category?.name?.EN,
-				gameCategory: 'default',
+				gameCategory: casinoCategoryDetails?.rows.find(
+					(item) => item.gameCategoryId === category?.gameCategoryId
+				)?.name?.EN,
 				subcategoryImage: category?.imageUrl,
 			}));
 		}
 		return [];
-	}, [casinoSubCategoryDetails]);
+	}, [casinoSubCategoryDetails, casinoCategoryDetails]);
 
 	useEffect(() => {
 		fetchData();

@@ -30,6 +30,8 @@ const KpiSummary = (props) => {
 		kPISummaryColumn,
 		kPISummary,
 		exportReport,
+		formattedKpiSummary,
+		isKpiSummaryLoading,
 	} = props;
 	const lastDate = new Date();
 
@@ -87,19 +89,9 @@ const KpiSummary = (props) => {
 						<NavItem>
 							<NavLink
 								className={classnames({
-									active: activeKpiSummTab === 'banking',
+									active: activeKpiSummTab === 'sport',
 								})}
-								onClick={() => setActiveKpiSummTab('banking')}
-							>
-								Banking
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink
-								className={classnames({
-									active: activeKpiSummTab === 'sports',
-								})}
-								onClick={() => setActiveKpiSummTab('sports')}
+								onClick={() => setActiveKpiSummTab('sport')}
 							>
 								Sports
 							</NavLink>
@@ -114,16 +106,27 @@ const KpiSummary = (props) => {
 								Casino
 							</NavLink>
 						</NavItem>
+						<NavItem>
+							<NavLink
+								className={classnames({
+									active: activeKpiSummTab === 'banking',
+								})}
+								onClick={() => setActiveKpiSummTab('banking')}
+							>
+								Banking
+							</NavLink>
+						</NavItem>
 					</Nav>
 					<TabContent
 						activeTab={activeKpiSummTab}
 						className="mt-4 kpi-dashboard-tab"
 					>
 						<TabPane tabId="banking">
-							<SimpleBar style={{ maxHeight: '330px' }}>
+							<SimpleBar style={{ maxHeight: '300px' }}>
 								<TableContainer
+									isLoading={isKpiSummaryLoading}
 									columns={kPISummaryColumn || []}
-									data={kPISummary?.Banking}
+									data={formattedKpiSummary || []}
 									isGlobalFilter={false}
 									isPagination={false}
 									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
@@ -132,17 +135,18 @@ const KpiSummary = (props) => {
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									pageCount={1}
-									customPageSize={kPISummary?.Banking?.length}
+									customPageSize={kPISummary?.count || 100}
 									// tbodyHeight="300"
 									// isLoading={!isLoading}
 								/>
 							</SimpleBar>
 						</TabPane>
-						<TabPane tabId="sports">
+						<TabPane tabId="sport">
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
+									isLoading={isKpiSummaryLoading}
 									columns={kPISummaryColumn || []}
-									data={kPISummary.SPORTS}
+									data={formattedKpiSummary || []}
 									isGlobalFilter
 									isPagination={false}
 									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
@@ -150,6 +154,8 @@ const KpiSummary = (props) => {
 									// theadClass={theadClass}
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
+									pageCount={1}
+									customPageSize={kPISummary?.count || 100}
 									// isLoading={!isLoading}
 									// tbodyHeight="300"
 								/>
@@ -159,8 +165,9 @@ const KpiSummary = (props) => {
 						<TabPane tabId="casino">
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
+									isLoading={isKpiSummaryLoading}
 									columns={kPISummaryColumn || []}
-									data={kPISummary.CASINO}
+									data={formattedKpiSummary || []}
 									isGlobalFilter
 									isPagination={false}
 									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
@@ -168,6 +175,8 @@ const KpiSummary = (props) => {
 									// theadClass={theadClass}
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
+									pageCount={1}
+									customPageSize={kPISummary?.count || 100}
 									// isLoading={!isLoading}
 									// tbodyHeight="300"
 								/>
@@ -185,11 +194,15 @@ KpiSummary.propTypes = {
 	kPISummaryColumn: PropTypes.arrayOf,
 	kPISummary: PropTypes.arrayOf,
 	exportReport: PropTypes.func.isRequired,
+	formattedKpiSummary: PropTypes.arrayOf,
+	isKpiSummaryLoading: PropTypes.bool,
 };
 KpiSummary.defaultProps = {
 	activeKpiSummTab: PropTypes.string,
 	setActiveKpiSummTab: PropTypes.func,
 	kPISummaryColumn: PropTypes.arrayOf,
 	kPISummary: PropTypes.arrayOf,
+	formattedKpiSummary: PropTypes.arrayOf,
+	isKpiSummaryLoading: PropTypes.bool,
 };
 export default KpiSummary;

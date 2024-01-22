@@ -1,4 +1,4 @@
-import { put, takeEvery, all, fork, delay } from 'redux-saga/effects';
+import { put, takeEvery, all, fork } from 'redux-saga/effects';
 
 // Crypto Redux States
 import {
@@ -6,6 +6,7 @@ import {
 	GET_DEMOGRAPHIC_START,
 	GET_KPI_REPORT_START,
 	GET_GAME_REPORT_START,
+	GET_KPI_SUMMARY_START,
 } from './actionTypes';
 import {
 	getLivePlayerInfoStart,
@@ -19,13 +20,16 @@ import {
 	getKpiReportFail,
 	getGameReportSuccess,
 	getGameReportFail,
+	getKpiSummarySuccess,
+	getKpiSummaryFail,
 } from './actions';
 import { showToastr } from '../../utils/helpers';
-import { kpiReportConstant } from './config/kpiReport';
 import {
 	// getDashboardLiveInfoService,
 	getDashboardDemoGraphicService,
 	getGameReports,
+	getKpiReport,
+	getKpiSummary,
 } from '../../network/getRequests';
 
 function* getLivePlayerData() {
@@ -71,15 +75,31 @@ function* getDemoGraphicData(action) {
 	}
 }
 
-function* getKpiData() {
+function* getKpiSummaryWorker(action) {
 	try {
-		// yield getKpiReportStart();
-		yield delay(500);
-		yield put(getKpiReportSuccess(kpiReportConstant));
+		const { data } = yield getKpiSummary(action.payload);
+		yield put(getKpiSummarySuccess(data?.data?.kpiSummary));
 	} catch (e) {
-		yield put(getKpiReportFail());
+		yield put(getKpiSummaryFail(e?.response?.data?.errors[0]?.description));
+
 		showToastr({
-			message: 'Json Load Error',
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* getKpiData(action) {
+	try {
+		const payload = action && action?.payload;
+		const { data } = yield getKpiReport(payload);
+		yield put(getKpiReportSuccess(data?.data?.KPIReport));
+	} catch (e) {
+		yield put(
+			getKpiReportFail(e?.response?.data?.errors[0]?.description || e.message)
+		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
 			type: 'error',
 		});
 	}
@@ -103,6 +123,7 @@ export function* watchDashboardViewData() {
 	yield takeEvery(GET_DEMOGRAPHIC_START, getDemoGraphicData);
 	yield takeEvery(GET_KPI_REPORT_START, getKpiData);
 	yield takeEvery(GET_GAME_REPORT_START, getGameReportWorker);
+	yield takeEvery(GET_KPI_SUMMARY_START, getKpiSummaryWorker);
 }
 
 function* dashboardSaga() {

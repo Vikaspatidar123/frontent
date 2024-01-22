@@ -12,7 +12,7 @@ const HierarchyTree = ({ adminDetails }) => {
 	const dispatch = useDispatch();
 	const { adminChildren } = useSelector((state) => state.AllAdmins);
 
-	const getChildren = async (id) => {
+	const getChildren = (id) => {
 		dispatch(
 			getAdminChildren({
 				superAdminId: id,

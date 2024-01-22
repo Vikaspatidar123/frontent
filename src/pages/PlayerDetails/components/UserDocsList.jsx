@@ -248,7 +248,7 @@ const UserDocsList = ({ userId }) => {
 				/>
 			</Card>
 			<Card className="p-2">
-				<h4 className="text-center">Request Documents</h4>
+				<h4 className="text-center">Re-Request Documents</h4>
 				<TableContainer
 					isLoading={documentLabelsLoading}
 					columns={labelColumns}

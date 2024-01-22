@@ -109,14 +109,14 @@ const getPasswordInitialValues = () => ({
 });
 
 const getSiteConfigInitialValues = (details) => ({
-	name: details.name || '',
-	url: details.url || '',
-	supportEmail: details.supportEmail || '',
+	name: details?.name || '',
+	url: details?.url || '',
+	supportEmail: details?.supportEmail || '',
 	// sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
 	// sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
-	logo: details.logo ? `${VITE_APP_AWS_GALLERY_URL}${details.logo}` : null,
+	logo: details?.logo ? `${VITE_APP_AWS_GALLERY_URL}${details?.logo}` : null,
 	// lang: formLanguage || null,
-	maintenance: details.maintenance,
+	maintenance: details?.maintenance,
 });
 
 const leftStaticAdminFormFields = (isEditable) => [

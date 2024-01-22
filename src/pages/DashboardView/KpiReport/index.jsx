@@ -18,8 +18,8 @@ import classnames from 'classnames';
 import SimpleBar from 'simplebar-react';
 import TableContainer from '../../../components/Common/TableContainer';
 // import { tableCustomClass } from '../../../constants/config';
-import { objectToarrayKpiReport } from './supportFunction';
 import { dateConstants } from '../constant';
+import { tableCustomClass } from '../../../constants/config';
 
 const KpiReport = (props) => {
 	const {
@@ -95,20 +95,17 @@ const KpiReport = (props) => {
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
 									isLoading={isKpiReportLoading}
-									columns={kPIReportColumn}
-									data={
-										objectToarrayKpiReport(
-											JSON.parse(JSON.stringify(kPIReport)),
-											'game'
-										).data || []
-									}
+									columns={kPIReportColumn || []}
+									data={kPIReport || []}
 									isGlobalFilter={false}
-									customPageSize={
-										objectToarrayKpiReport(
-											JSON.parse(JSON.stringify(kPIReport)),
-											'game'
-										)?.lengthValue || 300
-									}
+									customPageSize={kPIReport?.length || 50}
+									isPagination={false}
+									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
+									// tbodyClass="kpiTableWrap"
+									// theadClass={theadClass}
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									pageCount={1}
 								/>
 							</SimpleBar>
 						</TabPane>
@@ -117,20 +114,16 @@ const KpiReport = (props) => {
 								<TableContainer
 									isLoading={isKpiReportLoading}
 									columns={kPIReportColumn || []}
-									data={
-										objectToarrayKpiReport(
-											JSON.parse(JSON.stringify(kPIReport)),
-											'provider'
-										).data || []
-									}
+									data={kPIReport || []}
 									isGlobalFilter={false}
-									customPageSize={
-										objectToarrayKpiReport(
-											JSON.parse(JSON.stringify(kPIReport)),
-											'provider'
-										)?.lengthValue || 300
-									}
-									// tbodyHeight="300"
+									customPageSize={kPIReport?.length || 50}
+									isPagination={false}
+									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
+									// tbodyClass="kpiTableWrap"
+									// theadClass={theadClass}
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									pageCount={1}
 								/>
 							</SimpleBar>
 						</TabPane>

@@ -108,12 +108,12 @@ const PlayerDetailsPage = ({ t }) => {
 			dropdownItems: [
 				{
 					id: 1,
-					title: 'Bet History',
+					title: 'Casino Bet History',
 					component: <BetHistory userId={playerId} />,
 				},
 				{
 					id: 2,
-					title: 'Sports Betting History',
+					title: 'Sport Betting History',
 					component: <SportsBettingHistory userId={playerId} />,
 				},
 			],

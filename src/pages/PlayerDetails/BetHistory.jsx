@@ -121,7 +121,7 @@ const BetHistory = ({ userId }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
-				<CrudSection buttonList={[]} title="Bet History" />
+				<CrudSection buttonList={[]} title="Casino Bet History" />
 				<CardBody>
 					<Filters
 						validation={filterValidation}

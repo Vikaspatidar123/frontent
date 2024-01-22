@@ -8,6 +8,9 @@ import {
 	RESET_PROFILE_PASSWORD_START,
 	RESET_PROFILE_PASSWORD_SUCCESS,
 	RESET_PROFILE_PASSWORD_FAIL,
+	GET_SITE_CONFIGURATION_START,
+	GET_SITE_CONFIGURATION_SUCCESS,
+	GET_SITE_CONFIGURATION_FAIL,
 } from './actionTypes';
 
 export const updateProfileStart = (payload) => ({
@@ -52,5 +55,20 @@ export const resetProfilePasswordSuccess = (payload) => ({
 
 export const resetProfilePasswordFail = (payload) => ({
 	type: RESET_PROFILE_PASSWORD_FAIL,
+	payload,
+});
+
+export const getSiteConfigurationStart = (payload) => ({
+	type: GET_SITE_CONFIGURATION_START,
+	payload,
+});
+
+export const getSiteConfigurationSuccess = (payload) => ({
+	type: GET_SITE_CONFIGURATION_SUCCESS,
+	payload,
+});
+
+export const getSiteConfigurationFail = (payload) => ({
+	type: GET_SITE_CONFIGURATION_FAIL,
 	payload,
 });

@@ -73,7 +73,7 @@ const SiteConfig = ({
 	});
 
 	useEffect(() => {
-		if (Object.keys(details).length > 0) {
+		if (Object.keys(details || {}).length > 0) {
 			setLeftFormFields(leftStaticSiteConfigFormFields(editableSiteConfig));
 			setRightFormFields([
 				...rightStaticSiteConfigFormFields(editableSiteConfig),
@@ -104,7 +104,7 @@ const SiteConfig = ({
 	}, [editableSiteConfig, details]);
 
 	useEffect(() => {
-		if (Object.keys(details).length > 0) {
+		if (Object.keys(details || {}).length > 0) {
 			validation.resetForm({
 				values: getSiteConfigInitialValues(details),
 			});

@@ -21,7 +21,7 @@ const Status = ({ value }) =>
 
 const Icon = ({ value }) => (
 	<ImageCell
-		imgSrc={`development/sportbook/sport/${value?.row?.original?.providerId}.jpeg`}
+		imgSrc={`development/sportbook/sport/${value?.row?.original?.providerId}.png`}
 	/>
 );
 

@@ -39,11 +39,11 @@ const useUserOverview = ({ user }) => {
 			label: 'Tags',
 			value: user?.tags
 				? user?.tags?.length < 1
-					? 'N/A'
+					? 'NA'
 					: user?.tags?.join(', ')
-				: 'N/A',
+				: 'NA',
 		},
-		{ label: 'SumSub Applicant Id', value: user?.applicantId },
+		// { label: 'SumSub Applicant Id', value: user?.applicantId },
 	];
 
 	const moreInfo = [
@@ -86,7 +86,9 @@ const useUserOverview = ({ user }) => {
 			value:
 				user?.kycMethod === 1
 					? user?.sumsubKycStatus?.toUpperCase()
-					: user?.kycStatus,
+					: user?.kycStatus === 'true'
+					? 'Compeleted'
+					: 'Pending',
 		},
 	];
 

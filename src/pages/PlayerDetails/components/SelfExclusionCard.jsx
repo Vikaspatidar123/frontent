@@ -9,11 +9,12 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { selfExclusionSchema } from '../formDetails';
 import { disableUser } from '../../../store/actions';
-import { portalValues, timePeriodValues } from '../constants';
+import { timePeriodValues } from '../constants';
 
 const SelfExclusionCard = ({ limit, userId }) => {
 	const dispatch = useDispatch();
 	const [isResetLimit, setIsResetLimit] = useState({ open: false, data: '' });
+	const [isPermanentExclude, setIsPermanentExclude] = useState(false);
 
 	const setDisableUser = ({ formValues, reset, type, key }) => {
 		let data = {};
@@ -24,7 +25,9 @@ const SelfExclusionCard = ({ limit, userId }) => {
 				userId: parseInt(userId, 10),
 				reset,
 				days:
-					formValues?.permanent === 'true' ? -1 : Number(formValues?.days) * 30,
+					formValues?.permanent === 'permanent'
+						? -1
+						: Number(formValues?.days) * 30,
 				value: 'temporary',
 			};
 		}
@@ -38,7 +41,7 @@ const SelfExclusionCard = ({ limit, userId }) => {
 	const { validation } = useForm({
 		validationSchema: selfExclusionSchema,
 		initialValues: {
-			portal: limit?.portal || 'current',
+			// portal: limit?.portal || 'current',
 			days: limit?.days === -1 ? '1' : limit?.days,
 			permanent: limit?.days === -1 ? 'true' : 'false',
 		},
@@ -50,6 +53,15 @@ const SelfExclusionCard = ({ limit, userId }) => {
 				key: limit.key,
 			}),
 	});
+
+	useEffect(() => {
+		if (validation?.values?.permanent === 'permanent') {
+			setIsPermanentExclude(true);
+			validation?.setFieldValue('days', '1');
+		} else {
+			setIsPermanentExclude(false);
+		}
+	}, [validation?.values]);
 
 	const resetDisableUser = (type) => {
 		let data = {};
@@ -105,7 +117,7 @@ const SelfExclusionCard = ({ limit, userId }) => {
 					}}
 				>
 					<h5 className="text-center">{limit.label}</h5>
-					<CustomSelectField
+					{/* <CustomSelectField
 						className="mb-2"
 						label="Portal"
 						name="portal"
@@ -125,7 +137,7 @@ const SelfExclusionCard = ({ limit, userId }) => {
 								{optionLabel}
 							</option>
 						))}
-					/>
+					/> */}
 					<CustomSelectField
 						label="Time Period"
 						name="permanent"
@@ -151,17 +163,19 @@ const SelfExclusionCard = ({ limit, userId }) => {
 							</option>
 						))}
 					/>
-					<CustomInputField
-						label="Months"
-						name="days"
-						placeholder="Enter Months"
-						value={validation?.values?.days}
-						onChange={validation.handleChange}
-						onBlur={validation.handleBlur}
-						invalid={!!(validation.touched?.days && validation.errors?.days)}
-						isError
-						errorMsg={validation.touched?.days && validation.errors?.days}
-					/>
+					{!isPermanentExclude && (
+						<CustomInputField
+							label="Months"
+							name="days"
+							placeholder="Enter Months"
+							value={validation?.values?.days}
+							onChange={validation.handleChange}
+							onBlur={validation.handleBlur}
+							invalid={!!(validation.touched?.days && validation.errors?.days)}
+							isError
+							errorMsg={validation.touched?.days && validation.errors?.days}
+						/>
+					)}
 					<div className="mt-3 text-center">
 						<Button type="submit" className="btn btn-primary" color="primary">
 							Set

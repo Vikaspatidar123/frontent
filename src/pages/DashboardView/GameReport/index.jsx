@@ -27,6 +27,7 @@ const GameReport = (props) => {
 		gameReportColumn,
 		gameReport,
 		exportReport,
+		isGameReportLoading,
 	} = props;
 
 	return (
@@ -93,6 +94,7 @@ const GameReport = (props) => {
 						<TabPane tabId="game">
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
+									isLoading={isGameReportLoading}
 									columns={gameReportColumn || []}
 									data={gameReport || []}
 									isPagination={false}
@@ -111,6 +113,7 @@ const GameReport = (props) => {
 						<TabPane tabId="provider">
 							<SimpleBar style={{ maxHeight: '330px' }}>
 								<TableContainer
+									isLoading={isGameReportLoading}
 									columns={gameReportColumn || []}
 									data={gameReport || []}
 									isGlobalFilter
@@ -138,11 +141,13 @@ GameReport.propTypes = {
 	gameReportColumn: PropTypes.arrayOf,
 	gameReport: PropTypes.arrayOf,
 	exportReport: PropTypes.func.isRequired,
+	isGameReportLoading: PropTypes.bool,
 };
 GameReport.defaultProps = {
 	activeGameReportTab: PropTypes.string,
 	setActiveGameReportTab: PropTypes.func,
 	gameReportColumn: PropTypes.arrayOf,
 	gameReport: PropTypes.arrayOf,
+	isGameReportLoading: PropTypes.bool,
 };
 export default GameReport;

@@ -12,20 +12,23 @@ import {
 	GET_GAME_REPORT_SUCCESS,
 	GET_GAME_REPORT_START,
 	GET_GAME_REPORT_FAIL,
+	GET_KPI_SUMMARY_START,
+	GET_KPI_SUMMARY_SUCCESS,
+	GET_KPI_SUMMARY_FAIL,
 } from './actionTypes';
 // import { kpiReportConstant } from './config/kpiReport';
-
-import { kpiConstant } from './config/kpisummary';
 
 const INIT_STATE = {
 	isLivePlayerLoading: false,
 	livePlayerData: {},
 	isDemographicLoading: false,
 	demoGraphicData: [],
-	kPISummary: kpiConstant,
-	kPIReport: {},
-	// kPIReport: kpiReportConstant,
+	kPISummary: null,
+	isKpiSummaryLoading: false,
+	isKpiSummaryError: null,
+	kPIReport: null,
 	isKpiReportLoading: false,
+	isKpiReportError: null,
 	gameReport: null,
 	isGameReportLoading: false,
 	isGameReportError: false,
@@ -77,7 +80,8 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 			return {
 				...state,
 				isKpiReportLoading: true,
-				kPIReport: {},
+				kPIReport: null,
+				isKpiReportError: null,
 			};
 
 		case GET_KPI_REPORT_SUCCESS:
@@ -85,13 +89,15 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 				...state,
 				isKpiReportLoading: false,
 				kPIReport: payload,
+				isKpiReportError: null,
 			};
 
 		case GET_KPI_REPORT_FAIL:
 			return {
 				...state,
 				isKpiReportLoading: false,
-				kPIReport: {},
+				kPIReport: null,
+				isKpiReportError: payload,
 			};
 
 		case GET_GAME_REPORT_START:
@@ -116,6 +122,30 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 				isGameReportLoading: false,
 				gameReport: null,
 				isGameReportError: true,
+			};
+
+		case GET_KPI_SUMMARY_START:
+			return {
+				...state,
+				isKpiSummaryLoading: true,
+				kPISummary: null,
+				isKpiSummaryError: null,
+			};
+
+		case GET_KPI_SUMMARY_SUCCESS:
+			return {
+				...state,
+				isKpiSummaryLoading: false,
+				kPISummary: payload,
+				isKpiSummaryError: null,
+			};
+
+		case GET_KPI_SUMMARY_FAIL:
+			return {
+				...state,
+				isKpiSummaryLoading: false,
+				kPISummary: null,
+				isKpiSummaryError: payload,
 			};
 
 		case RESET_DASHBOARD_STATE:
