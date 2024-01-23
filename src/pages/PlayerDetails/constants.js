@@ -370,11 +370,12 @@ export const bonusStatus = [
 
 export const bonusTypes = [
 	{ label: 'All', value: '' },
-	{ label: 'MATCH', value: 'match', id: 0 },
-	{ label: 'BALANCE', value: 'balance', id: 1 },
+	// { label: 'MATCH', value: 'match', id: 0 },
+	// { label: 'BALANCE', value: 'balance', id: 1 },
 	{ label: 'FREESPINS', value: 'freespins', id: 2 },
 	{ label: 'DEPOSIT(CASHBACK)', value: 'deposit', id: 3 },
-	{ label: 'WAGERING(CASHBACK)', value: 'wagering', id: 4 },
+	{ label: 'JOINING', value: 'joining', id: 5 },
+	// { label: 'WAGERING(CASHBACK)', value: 'wagering', id: 4 },
 ];
 
 export const genderTypes = [
