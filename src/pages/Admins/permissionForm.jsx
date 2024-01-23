@@ -39,9 +39,8 @@ const PermissionForm = ({
 			);
 		}
 	};
-
 	return (
-		(['Superadmin', 'admin'].includes(values?.role) || values.adminId) &&
+		(['Superadmin', 'Support'].includes(values?.role) || values.adminId) &&
 		(values.role === 'Manager' ? adminDetails : superAdminUser)
 			?.permissions?.[0] && (
 			<>
