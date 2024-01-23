@@ -56,7 +56,6 @@ import {
 	SIGNUPS,
 } from '../DemographicReport/DemoGraphCol';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
-import KpiSummary from '../KpiSummary';
 
 const { VITE_APP_API_URL } = import.meta.env;
 

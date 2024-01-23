@@ -27,13 +27,11 @@ const useCasinoGamesListings = (filterValues = {}) => {
 	} = useSelector((state) => state.CasinoManagementData);
 
 	useEffect(() => {
-		if (isEmpty(casinoSubCategoryDetails)) {
-			dispatch(
-				getCasinoSubCategoryDetailStart({
-					limit: itemsPerPage,
-				})
-			);
-		}
+		dispatch(
+			getCasinoSubCategoryDetailStart({
+				limit: itemsPerPage,
+			})
+		);
 
 		if (isEmpty(casinoProvidersData)) {
 			dispatch(

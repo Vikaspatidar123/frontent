@@ -44,13 +44,13 @@ const useRemoveFromRestrictedCountriesListing = () => {
 	const onAddCountry = (cell) => {
 		setSelectedCountriesState((prev) => [...prev, cell]);
 		setRestrictedCountriesState((prev) =>
-			prev.filter((country) => country.countryId !== cell.countryId)
+			prev.filter((country) => country.id !== cell.id)
 		);
 	};
 
 	const onRemoveCountry = (cell) => {
 		setSelectedCountriesState((prev) =>
-			prev.filter((country) => country.countryId !== cell.countryId)
+			prev.filter((country) => country.id !== cell.id)
 		);
 		setRestrictedCountriesState((prev) => [...prev, cell]);
 	};
@@ -59,7 +59,7 @@ const useRemoveFromRestrictedCountriesListing = () => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'countryId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -92,7 +92,7 @@ const useRemoveFromRestrictedCountriesListing = () => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'countryId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -148,7 +148,7 @@ const useRemoveFromRestrictedCountriesListing = () => {
 	}, [formattedRestrictedCountries]);
 
 	const onSubmitSelected = () => {
-		const countries = selectedCountriesState.map((g) => g.countryId);
+		const countries = selectedCountriesState.map((g) => g.id);
 		dispatch(
 			addRestrictedCountriesStart({
 				type: casinoState?.type,
