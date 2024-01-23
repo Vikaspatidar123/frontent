@@ -536,7 +536,7 @@ const sideBarElements = [
 	},
 ];
 
-// For maintaining single source of truth
+// For maintaining single source of truth (SSOT)
 const getMegaMenuElement = () => {
 	try {
 		let id = 1;

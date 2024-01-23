@@ -3,9 +3,11 @@ import { Row, Col, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import megamenuImg from '../../../assets/images/megamenu-img.png';
 import { getMegaMenuElement } from '../../../constants/sidebar';
+import usePermission from '../../Common/Hooks/usePermission';
 
 const MegaMenu = () => {
 	const [megaMenu, setmegaMenu] = useState(false);
+	const { isGranted } = usePermission();
 
 	return (
 		<Dropdown
@@ -28,11 +30,16 @@ const MegaMenu = () => {
 									<h5 className="font-size-14 mt-0">{nav?.label}</h5>
 									{nav?.subMenu?.length && (
 										<ul className="list-unstyled megamenu-list">
-											{nav?.subMenu?.map((sub) => (
-												<li key={sub.link}>
-													<Link to={sub.link}>{sub.label}</Link>
-												</li>
-											))}
+											{nav?.subMenu?.map((sub) => {
+												if (sub?.module && !isGranted(sub.module, 'R')) {
+													return null;
+												}
+												return (
+													<li key={sub.link}>
+														<Link to={sub.link}>{sub.label}</Link>
+													</li>
+												);
+											})}
 										</ul>
 									)}
 								</Col>
