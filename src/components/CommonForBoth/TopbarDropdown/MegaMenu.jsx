@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React, { useState } from 'react';
 import { Row, Col, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -32,7 +33,7 @@ const MegaMenu = () => {
 										<ul className="list-unstyled megamenu-list">
 											{nav?.subMenu?.map((sub) => {
 												if (sub?.module && !isGranted(sub.module, 'R')) {
-													return null;
+													return <></>;
 												}
 												return (
 													<li key={sub.link}>
