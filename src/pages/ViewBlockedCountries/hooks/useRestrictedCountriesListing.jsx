@@ -46,7 +46,7 @@ const useRestrictedCountriesListing = () => {
 	const columns = useMemo(() => [
 		{
 			Header: 'ID',
-			accessor: 'countryId',
+			accessor: 'id',
 			filterable: true,
 			Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 		},

@@ -14,6 +14,9 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 		() => userDetails?.wallets?.[0]?.currency?.code,
 		[userDetails]
 	);
+	const selfExclusionLimit = userLimits?.filter(
+		(key) => key.key === 'self_exclusion'
+	)?.[0];
 
 	return (
 		<Container fluid>
@@ -71,13 +74,13 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 									type: 'SELF_EXCLUSION',
 									key: userLimitTypes.selfExclusion,
 									days:
-										userLimits?.[9]?.value === 'permanent'
+										selfExclusionLimit?.value === 'permanent'
 											? -1
-											: userLimits?.[9]?.expireAt
+											: selfExclusionLimit?.expireAt
 											? Math.abs(
 													Math.round(
 														moment().diff(
-															userLimits?.[9]?.expireAt,
+															selfExclusionLimit?.expireAt,
 															'months',
 															true
 														)

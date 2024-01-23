@@ -150,7 +150,7 @@ const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 	}, [formattedUnrestrictedCountries]);
 
 	const onSubmitSelected = () => {
-		const countries = selectedCountriesState.map((g) => g.countryId);
+		const countries = selectedCountriesState.map((g) => g.id);
 		dispatch(
 			addRestrictedCountriesStart({
 				type: casinoState?.type,

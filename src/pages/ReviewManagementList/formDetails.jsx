@@ -39,41 +39,41 @@ const staticFormFields = [
 				optionLabel: 1,
 				value: 1,
 			},
-			{
-				id: 2,
-				optionLabel: 1.5,
-				value: 1.5,
-			},
+			// {
+			// 	id: 2,
+			// 	optionLabel: 1.5,
+			// 	value: 1.5,
+			// },
 			{
 				id: 3,
 				optionLabel: 2,
 				value: 2,
 			},
-			{
-				id: 4,
-				optionLabel: 2.5,
-				value: 2.5,
-			},
+			// {
+			// 	id: 4,
+			// 	optionLabel: 2.5,
+			// 	value: 2.5,
+			// },
 			{
 				id: 5,
 				optionLabel: 3,
 				value: 3,
 			},
-			{
-				id: 6,
-				optionLabel: 3.5,
-				value: 3.5,
-			},
+			// {
+			// 	id: 6,
+			// 	optionLabel: 3.5,
+			// 	value: 3.5,
+			// },
 			{
 				id: 7,
 				optionLabel: 4,
 				value: 4,
 			},
-			{
-				id: 8,
-				optionLabel: 4.5,
-				value: 4.5,
-			},
+			// {
+			// 	id: 8,
+			// 	optionLabel: 4.5,
+			// 	value: 4.5,
+			// },
 			{
 				id: 9,
 				optionLabel: 5,

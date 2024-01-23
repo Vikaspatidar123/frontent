@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import { put, takeEvery, all, fork } from 'redux-saga/effects';
 
 // Crypto Redux States
@@ -31,6 +32,7 @@ import {
 	getKpiReport,
 	getKpiSummary,
 } from '../../network/getRequests';
+import kpiConstant from './config/kpisummary';
 
 function* getLivePlayerData() {
 	try {
@@ -77,8 +79,13 @@ function* getDemoGraphicData(action) {
 
 function* getKpiSummaryWorker(action) {
 	try {
-		const { data } = yield getKpiSummary(action.payload);
-		yield put(getKpiSummarySuccess(data?.data?.kpiSummary));
+		const payload = action && action?.payload;
+		if (payload?.tab === 'banking') {
+			yield put(getKpiSummarySuccess(kpiConstant.Banking));
+		} else {
+			const { data } = yield getKpiSummary(payload);
+			yield put(getKpiSummarySuccess(data?.data?.kpiSummary));
+		}
 	} catch (e) {
 		yield put(getKpiSummaryFail(e?.response?.data?.errors[0]?.description));
 
