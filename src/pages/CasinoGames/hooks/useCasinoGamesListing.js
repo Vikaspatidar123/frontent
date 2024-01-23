@@ -1,9 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { isEmpty } from 'lodash';
 import {
 	getCasinoGamesStart,
-	getCasinoProvidersDataStart,
+	// getCasinoProvidersDataStart,
 	getCasinoSubCategoryDetailStart,
 	updateCasinoIsFeaturedStart,
 	updateSACasinoGamesStatusStart,
@@ -32,14 +31,11 @@ const useCasinoGamesListings = (filterValues = {}) => {
 				limit: itemsPerPage,
 			})
 		);
-
-		if (isEmpty(casinoProvidersData)) {
-			dispatch(
-				getCasinoProvidersDataStart({
-					limit: itemsPerPage,
-				})
-			);
-		}
+		// dispatch(
+		// 	getCasinoProvidersDataStart({
+		// 		limit: itemsPerPage,
+		// 	})
+		// );
 	}, [itemsPerPage]);
 
 	const onChangeRowsPerPage = (value) => {
@@ -50,14 +46,14 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		casinoSubCategoryDetails?.rows.find((val) => val.gameSubCategoryId === id)
 			?.name?.EN;
 
-	const getProviderName = (id) =>
-		casinoProvidersData?.rows.find((val) => val.casinoProviderId === id)?.name;
+	// const getProviderName = (id) =>
+	// 	casinoProvidersData?.rows.find((val) => val.casinoProviderId === id)?.name;
 
 	const formattedCasinoGames = useMemo(() => {
 		if (casinoGames?.rows?.length) {
 			return casinoGames?.rows.map((item) => ({
 				...item,
-				providerName: getProviderName(item?.casinoProviderId),
+				providerName: item?.casinoProvider?.name,
 				subCategoryType: getCategoryName(item?.gameSubCategoryId),
 				thumbnail: item?.thumbnailUrl,
 			}));
