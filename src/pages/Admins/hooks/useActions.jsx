@@ -169,7 +169,6 @@ const useActions = (isEditPage, filterValues = {}) => {
 				optionLabel: `${ad.firstName} ${ad.lastName}`,
 				value: ad.id,
 			}));
-
 			if (validation?.values?.role === 'Manager') {
 				validation.setFieldValue('adminRoleId', 3);
 				customField = {
@@ -181,10 +180,9 @@ const useActions = (isEditPage, filterValues = {}) => {
 					callBack: handleAdminSelect,
 					isDisabled: isEdit,
 				};
-			} else if (validation?.values?.role === 'admin') {
+			} else if (validation?.values?.role === 'Support') {
 				validation.setFieldValue('adminRoleId', 2);
 			}
-
 			setRightFormFields([
 				...rightStaticFormFields(isEdit),
 				// {
@@ -251,7 +249,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 	]);
 
 	useEffect(() => {
-		// if(validation?.values?.role === 'admin' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
+		// if(validation?.values?.role === 'Support' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
 		setCustomComponent(
 			<PermissionForm
 				values={validation.values}
