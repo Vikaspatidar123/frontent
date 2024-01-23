@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useCallback } from 'react';
 
@@ -147,7 +148,7 @@ const SidebarContent = ({ t }) => {
 				<ul className="metismenu list-unstyled" id="side-menu">
 					{sideBarElements.map((nav) => {
 						if (nav?.module && !isGranted(nav.module, 'R')) {
-							return null;
+							return <></>;
 						}
 						if (nav?.isSeparator) {
 							return (
@@ -166,7 +167,7 @@ const SidebarContent = ({ t }) => {
 									<ul className="sub-menu">
 										{nav?.subMenu?.map((sub) => {
 											if (sub?.module && !isGranted(sub.module, 'R')) {
-												return null;
+												return <></>;
 											}
 											return (
 												<li key={sub?.link}>

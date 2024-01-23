@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 const usePermission = () => {
 	const { superAdminUser } = useSelector((state) => state.PermissionDetails);
-	const permissions = superAdminUser?.userPermission?.permission;
+	const permissions = superAdminUser?.permissions?.[0]?.permission;
 
 	const isGranted = (module, operation) => {
 		if (!isEmpty(permissions)) {
@@ -17,7 +17,6 @@ const usePermission = () => {
 		return false;
 	};
 	// for temporarily setting all permissions
-	// const isGranted = () => true;
 	return { isGranted, permissions };
 };
 
