@@ -32,7 +32,7 @@ const TransactionBankingList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		buttonList,
+		exportComponent,
 	} = useTransactionBankingListing('', filterValidation.values);
 
 	return (
@@ -45,7 +45,8 @@ const TransactionBankingList = () => {
 					<Col lg="12">
 						<Card>
 							<CrudSection
-								buttonList={buttonList}
+								buttonList={[]}
+								exportComponent={exportComponent}
 								title="Transactions Banking"
 							/>
 							<CardBody>

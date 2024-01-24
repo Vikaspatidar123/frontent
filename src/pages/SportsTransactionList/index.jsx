@@ -32,6 +32,7 @@ const SportsTransactionList = ({ t }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		exportComponent,
 	} = useSportsTransactionListing(filterValidation.values);
 
 	return (
@@ -47,7 +48,11 @@ const SportsTransactionList = ({ t }) => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Sports Transactions" />
+							<CrudSection
+								buttonList={[]}
+								exportComponent={exportComponent}
+								title="Sports Transactions"
+							/>
 							<CardBody>
 								<Filters
 									validation={filterValidation}

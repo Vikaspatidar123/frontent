@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -32,17 +33,36 @@ const BetHistory = ({ userId }) => {
 		if (casinoTransactions) {
 			casinoTransactions?.rows?.map((txn) =>
 				formattedValues.push({
-					...txn,
+					casinoTransactionId: txn?.casinoTransactionId,
 					userEmail: txn?.user?.email,
+					gameIdentifier: txn?.gameIdentifier,
+					actionType: txn?.actionType,
 					amountWithCurr: `${txn?.amount} ${txn?.currencyCode}`,
 					bonusAmt: `${txn?.nonCashAmount} ${txn?.currencyCode}`,
+					statusText:
+						txn?.status === 0
+							? 'Pending'
+							: txn?.status === 1
+							? 'Completed'
+							: txn?.status === 2
+							? 'FAILED'
+							: 'ROLLBACK',
 					createdAt: getDateTime(txn?.createdAt),
-					statusText: txn?.status,
 				})
 			);
 		}
 		return formattedValues;
 	}, [casinoTransactions]);
+
+	const exportComponent = useMemo(() => [
+		{
+			label: '',
+			isDownload: true,
+			tooltip: 'Download as CSV',
+			icon: <i className="mdi mdi-file-download-outline" />,
+			data: formattedCasinoTransactions,
+		},
+	]);
 
 	useEffect(() => {
 		dispatch(
@@ -121,7 +141,11 @@ const BetHistory = ({ userId }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
-				<CrudSection buttonList={[]} title="Casino Bet History" />
+				<CrudSection
+					buttonList={[]}
+					exportComponent={exportComponent}
+					title="Casino Bet History"
+				/>
 				<CardBody>
 					<Filters
 						validation={filterValidation}

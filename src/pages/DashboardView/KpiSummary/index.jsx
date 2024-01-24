@@ -20,6 +20,7 @@ import classnames from 'classnames';
 
 // Simple bar
 import SimpleBar from 'simplebar-react';
+import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/TableContainer';
 import { tableCustomClass } from '../../../constants/config';
 
@@ -29,7 +30,6 @@ const KpiSummary = (props) => {
 		setActiveKpiSummTab,
 		kPISummaryColumn,
 		kPISummary,
-		exportReport,
 		formattedKpiSummary,
 		isKpiSummaryLoading,
 	} = props;
@@ -59,14 +59,13 @@ const KpiSummary = (props) => {
 									</span>
 								</div>
 							</InputGroup>
-							<button
-								type="button"
+							<CSVLink
+								data={formattedKpiSummary || []}
+								filename="downloaded_data.csv"
 								className="btn btn-primary dashboard-export-btn"
-								onClick={exportReport}
 							>
-								Export Details{' '}
-								<i className="bx bx-download align-baseline ms-1" />
-							</button>
+								Export Details <i className="bx bx-download align-baseline" />
+							</CSVLink>
 						</div>
 					</div>
 
@@ -193,7 +192,6 @@ KpiSummary.propTypes = {
 	setActiveKpiSummTab: PropTypes.func,
 	kPISummaryColumn: PropTypes.arrayOf,
 	kPISummary: PropTypes.arrayOf,
-	exportReport: PropTypes.func.isRequired,
 	formattedKpiSummary: PropTypes.arrayOf,
 	isKpiSummaryLoading: PropTypes.bool,
 };

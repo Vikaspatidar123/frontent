@@ -16,6 +16,7 @@ import classnames from 'classnames';
 
 // Simple bar
 import SimpleBar from 'simplebar-react';
+import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/TableContainer';
 // import { tableCustomClass } from '../../../constants/config';
 import { dateConstants } from '../constant';
@@ -27,7 +28,6 @@ const KpiReport = (props) => {
 		setActiveKpiReportTab,
 		kPIReportColumn,
 		kPIReport,
-		exportReport,
 		isKpiReportLoading,
 	} = props;
 	return (
@@ -49,14 +49,13 @@ const KpiReport = (props) => {
 									</option>
 								))}
 							</select>
-							<button
-								type="button"
+							<CSVLink
+								data={kPIReport || []}
+								filename="downloaded_data.csv"
 								className="btn btn-primary dashboard-export-btn"
-								onClick={exportReport}
 							>
-								Export Details
-								<i className="bx bx-download align-baseline ms-1" />
-							</button>
+								Export Details <i className="bx bx-download align-baseline" />
+							</CSVLink>
 						</div>
 					</div>
 					<h4 className="card-title mb-4">KPI Report</h4>
@@ -139,7 +138,6 @@ KpiReport.propTypes = {
 	kPIReportColumn: PropTypes.arrayOf,
 	kPIReport: PropTypes.arrayOf,
 	isKpiReportLoading: PropTypes.bool,
-	exportReport: PropTypes.func.isRequired,
 };
 KpiReport.defaultProps = {
 	activeKpiReportTab: PropTypes.string,

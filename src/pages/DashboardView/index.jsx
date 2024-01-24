@@ -53,10 +53,6 @@ const DashboardView = ({ t }) => {
 		setDemoDateOptions,
 		isDemographicLoading,
 		loggedInOptions,
-		exportReport,
-		exportGameReport,
-		exportKPIReport,
-		exportKPISummaryReport,
 		isRefresh,
 		setIsRefresh,
 		isKpiReportLoading,
@@ -95,7 +91,6 @@ const DashboardView = ({ t }) => {
 								demoDateOptions={demoDateOptions}
 								setDemoDateOptions={setDemoDateOptions}
 								isDemographicLoading={isDemographicLoading}
-								exportReport={exportReport}
 								isRefresh={isRefresh}
 								setIsRefresh={setIsRefresh}
 							/>
@@ -111,7 +106,6 @@ const DashboardView = ({ t }) => {
 									setActiveKpiSummTab={setActiveKpiSummTab}
 									kPISummaryColumn={kPISummaryColumn}
 									kPISummary={kPISummary}
-									exportReport={exportKPISummaryReport}
 									formattedKpiSummary={formattedKpiSummary}
 									isKpiSummaryLoading={isKpiSummaryLoading}
 								/>
@@ -126,7 +120,6 @@ const DashboardView = ({ t }) => {
 									setActiveKpiReportTab={setActiveKpiReportTab}
 									kPIReportColumn={kPIReportColumn}
 									kPIReport={kPIReport}
-									exportReport={exportKPIReport}
 									isKpiReportLoading={isKpiReportLoading}
 								/>
 							</Suspense>
@@ -140,7 +133,6 @@ const DashboardView = ({ t }) => {
 									setActiveGameReportTab={setActiveGameReportTab}
 									gameReportColumn={gameReportColumn}
 									gameReport={gameReport}
-									exportReport={exportGameReport}
 									isGameReportLoading={isGameReportLoading}
 								/>{' '}
 							</Suspense>

@@ -46,9 +46,12 @@ const useSportsTransactionListing = (filterValues = {}) => {
 		if (sportsTransaction) {
 			sportsTransaction.rows.map((txn) =>
 				formattedValues.push({
-					...txn,
+					id: txn?.id,
 					email: txn?.user?.email,
+					amount: txn?.amount,
 					currencyCode: txn?.wallet?.currency?.code,
+					type: txn?.type,
+					purpose: txn?.purpose,
 					status: txn?.transaction?.status,
 					createdAt: getDateTime(txn.createdAt),
 				})
@@ -113,6 +116,16 @@ const useSportsTransactionListing = (filterValues = {}) => {
 		[]
 	);
 
+	const exportComponent = useMemo(() => [
+		{
+			label: '',
+			isDownload: true,
+			tooltip: 'Download as CSV',
+			icon: <i className="mdi mdi-file-download-outline" />,
+			data: formattedSportsTransaction,
+		},
+	]);
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -122,6 +135,7 @@ const useSportsTransactionListing = (filterValues = {}) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		exportComponent,
 	};
 };
 
