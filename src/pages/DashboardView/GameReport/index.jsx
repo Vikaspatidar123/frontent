@@ -28,6 +28,8 @@ const GameReport = (props) => {
 		gameReportColumn,
 		gameReport,
 		isGameReportLoading,
+		gameReportDateOption,
+		setGameReportDateOption,
 	} = props;
 
 	return (
@@ -37,10 +39,10 @@ const GameReport = (props) => {
 					<div className="float-end">
 						<div className="d-flex justify-content-between align-items-center">
 							<select
-								// value={demoDateOptions}
+								value={gameReportDateOption}
 								className="form-select ms-2"
-								onChange={() => {
-									// setDemoDateOptions(e.target.value);
+								onChange={(e) => {
+									setGameReportDateOption(e.target.value);
 								}}
 							>
 								{dateConstants?.map((item) => (
@@ -140,6 +142,8 @@ GameReport.propTypes = {
 	gameReportColumn: PropTypes.arrayOf,
 	gameReport: PropTypes.arrayOf,
 	isGameReportLoading: PropTypes.bool,
+	gameReportDateOption: PropTypes.string,
+	setGameReportDateOption: PropTypes.func,
 };
 GameReport.defaultProps = {
 	activeGameReportTab: PropTypes.string,
@@ -147,5 +151,7 @@ GameReport.defaultProps = {
 	gameReportColumn: PropTypes.arrayOf,
 	gameReport: PropTypes.arrayOf,
 	isGameReportLoading: PropTypes.bool,
+	gameReportDateOption: PropTypes.string,
+	setGameReportDateOption: PropTypes.func,
 };
 export default GameReport;

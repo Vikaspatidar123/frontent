@@ -21,6 +21,7 @@ import classnames from 'classnames';
 // Simple bar
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
+import moment from 'moment';
 import TableContainer from '../../../components/Common/TableContainer';
 import { tableCustomClass } from '../../../constants/config';
 
@@ -32,6 +33,10 @@ const KpiSummary = (props) => {
 		kPISummary,
 		formattedKpiSummary,
 		isKpiSummaryLoading,
+		kpiSummaryStartDate,
+		kpiSummaryEndDate,
+		setKpiSummaryStartDate,
+		setKpiSummaryEndDate,
 	} = props;
 	const lastDate = new Date();
 
@@ -46,12 +51,19 @@ const KpiSummary = (props) => {
 							<InputGroup>
 								<Flatpickr
 									className="form-control dashboard-range-picker"
-									// placeholder="dd M,yyyy"
+									value={[kpiSummaryStartDate, kpiSummaryEndDate]}
+									placeholder="Select Date"
 									options={{
-										mode: 'range ',
+										mode: 'range',
 										dateFormat: 'Y-m-d',
-										defaultDate: [new Date(), lastDate],
+										minDate: moment().subtract(100, 'years').utc().toDate(),
+										maxDate: moment().utc().startOf('day').toDate(),
 									}}
+									onChange={(date) => {
+										setKpiSummaryStartDate(date[0]);
+										setKpiSummaryEndDate(date[1]);
+									}}
+									monthsShown={2}
 								/>
 								<div className="input-group-append">
 									<span className="input-group-text">
@@ -194,6 +206,10 @@ KpiSummary.propTypes = {
 	kPISummary: PropTypes.arrayOf,
 	formattedKpiSummary: PropTypes.arrayOf,
 	isKpiSummaryLoading: PropTypes.bool,
+	kpiSummaryStartDate: PropTypes.string,
+	kpiSummaryEndDate: PropTypes.string,
+	setKpiSummaryStartDate: PropTypes.func,
+	setKpiSummaryEndDate: PropTypes.func,
 };
 KpiSummary.defaultProps = {
 	activeKpiSummTab: PropTypes.string,
@@ -202,5 +218,9 @@ KpiSummary.defaultProps = {
 	kPISummary: PropTypes.arrayOf,
 	formattedKpiSummary: PropTypes.arrayOf,
 	isKpiSummaryLoading: PropTypes.bool,
+	kpiSummaryStartDate: PropTypes.string,
+	kpiSummaryEndDate: PropTypes.string,
+	setKpiSummaryStartDate: PropTypes.func,
+	setKpiSummaryEndDate: PropTypes.func,
 };
 export default KpiSummary;

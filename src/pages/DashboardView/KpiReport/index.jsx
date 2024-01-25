@@ -29,6 +29,8 @@ const KpiReport = (props) => {
 		kPIReportColumn,
 		kPIReport,
 		isKpiReportLoading,
+		kpiReportDateOption,
+		setKpiReportDateOption,
 	} = props;
 	return (
 		<Col xl="12">
@@ -37,10 +39,10 @@ const KpiReport = (props) => {
 					<div className="float-end">
 						<div className="d-flex justify-content-between align-items-center">
 							<select
-								// value={demoDateOptions}
+								value={kpiReportDateOption}
 								className="form-select ms-2"
-								onChange={() => {
-									// setDemoDateOptions(e.target.value);
+								onChange={(e) => {
+									setKpiReportDateOption(e.target.value);
 								}}
 							>
 								{dateConstants?.map((item) => (
@@ -138,6 +140,8 @@ KpiReport.propTypes = {
 	kPIReportColumn: PropTypes.arrayOf,
 	kPIReport: PropTypes.arrayOf,
 	isKpiReportLoading: PropTypes.bool,
+	kpiReportDateOption: PropTypes.string,
+	setKpiReportDateOption: PropTypes.func,
 };
 KpiReport.defaultProps = {
 	activeKpiReportTab: PropTypes.string,
@@ -145,6 +149,8 @@ KpiReport.defaultProps = {
 	kPIReportColumn: PropTypes.arrayOf,
 	kPIReport: PropTypes.arrayOf,
 	isKpiReportLoading: PropTypes.bool,
+	kpiReportDateOption: PropTypes.string,
+	setKpiReportDateOption: PropTypes.func,
 };
 
 export default KpiReport;

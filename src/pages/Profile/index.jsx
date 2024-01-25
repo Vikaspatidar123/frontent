@@ -29,7 +29,7 @@ const ProfilePage = ({ t }) => {
 
 	const [activeTab, setActiveTab] = useState('1');
 	const [editable, setEditable] = useState(true);
-	const [editableSiteConfig, setEditableSiteConfig] = useState(true);
+	const [editableSiteConfig, setEditableSiteConfig] = useState(false);
 	const isTenant = false;
 
 	const toggle = (tab) => {

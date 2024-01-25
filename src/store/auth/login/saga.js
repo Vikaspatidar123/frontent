@@ -3,6 +3,7 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { Buffer } from 'buffer';
 
 // Login Redux States
+import moment from 'moment';
 import { LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN } from './actionTypes';
 import { apiError, loginSuccess, logoutUserSuccess } from './actions';
 
@@ -28,6 +29,10 @@ function* loginUser({ payload: { user, history } }) {
 		setLoginToken(accessToken);
 		setItem('role', 'Admin');
 		yield put(loginSuccess(data));
+		localStorage.setItem(
+			'loggedInTime',
+			moment().format('YYYY-MM-DD HH:mm:ss')
+		);
 
 		// if (import.meta.env.VITE_APP_DEFAULTAUTH === 'firebase') {
 		// 	const response = yield call(

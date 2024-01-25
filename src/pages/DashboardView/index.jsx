@@ -59,6 +59,14 @@ const DashboardView = ({ t }) => {
 		formattedKpiSummary,
 		isKpiSummaryLoading,
 		isGameReportLoading,
+		kpiSummaryStartDate,
+		setKpiSummaryStartDate,
+		kpiSummaryEndDate,
+		setKpiSummaryEndDate,
+		kpiReportDateOption,
+		setKpiReportDateOption,
+		gameReportDateOption,
+		setGameReportDateOption,
 	} = useDashboardView();
 	return (
 		<div className="page-content">
@@ -108,6 +116,10 @@ const DashboardView = ({ t }) => {
 									kPISummary={kPISummary}
 									formattedKpiSummary={formattedKpiSummary}
 									isKpiSummaryLoading={isKpiSummaryLoading}
+									kpiSummaryStartDate={kpiSummaryStartDate}
+									setKpiSummaryStartDate={setKpiSummaryStartDate}
+									kpiSummaryEndDate={kpiSummaryEndDate}
+									setKpiSummaryEndDate={setKpiSummaryEndDate}
 								/>
 							</Suspense>
 						</Row>
@@ -121,6 +133,8 @@ const DashboardView = ({ t }) => {
 									kPIReportColumn={kPIReportColumn}
 									kPIReport={kPIReport}
 									isKpiReportLoading={isKpiReportLoading}
+									kpiReportDateOption={kpiReportDateOption}
+									setKpiReportDateOption={setKpiReportDateOption}
 								/>
 							</Suspense>
 						</Row>
@@ -134,6 +148,8 @@ const DashboardView = ({ t }) => {
 									gameReportColumn={gameReportColumn}
 									gameReport={gameReport}
 									isGameReportLoading={isGameReportLoading}
+									gameReportDateOption={gameReportDateOption}
+									setGameReportDateOption={setGameReportDateOption}
 								/>{' '}
 							</Suspense>
 						</Row>
