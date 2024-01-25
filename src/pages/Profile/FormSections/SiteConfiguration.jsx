@@ -45,6 +45,12 @@ const SiteConfig = ({
 		setEditableSiteConfig(true);
 	};
 
+	useEffect(() => {
+		if (details) {
+			setEditableSiteConfig(true);
+		}
+	}, [details]);
+
 	// useEffect(() => {
 	// 	if (details && details[1]?.value?.languages) {
 	// 		const selectedArray = [];
@@ -134,7 +140,7 @@ const SiteConfig = ({
 				},
 			]);
 		}
-	}, [details]);
+	}, [editableSiteConfig, details]);
 
 	return (
 		<Row>

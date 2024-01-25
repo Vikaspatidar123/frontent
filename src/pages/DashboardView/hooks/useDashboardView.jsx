@@ -5,7 +5,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { getAccessToken } from '../../../network/storageUtils';
 import {
 	getLivePlayerInfoStart,
@@ -14,19 +13,9 @@ import {
 	getGameReportStart,
 	getKpiSummaryStart,
 } from '../../../store/dashboardView/actions';
-import {
-	formatDateYMD,
-	getDateDaysAgo,
-	downloadFileInNewWindow,
-} from '../../../utils/helpers';
+import { formatDateYMD, getDateDaysAgo } from '../../../utils/helpers';
 import { countryFilter } from '../../../utils/countryFilter';
-import {
-	CustomDate,
-	Delta,
-	RowName,
-	Today,
-	Yesterday,
-} from '../KpiSummary/KpiListCol';
+import { Delta, RowName, Today, Yesterday } from '../KpiSummary/KpiListCol';
 import {
 	BONUSGGR,
 	BONUSWIN,
@@ -56,7 +45,6 @@ import {
 	SIGNUPS,
 } from '../DemographicReport/DemoGraphCol';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
-import { getDashboardDemoGraphicService } from '../../../network/getRequests';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
@@ -74,12 +62,6 @@ const useDashboardView = () => {
 		isKpiSummaryLoading,
 		isGameReportLoading,
 	} = useSelector((state) => state.DashboardViewInfo);
-
-	const data = {
-		betAmount: 20,
-		winAmount: 0,
-		data: 'today',
-	};
 
 	const formattedKpiSummary = useMemo(() => {
 		if (kPISummary?.length) {
@@ -115,6 +97,10 @@ const useDashboardView = () => {
 	]);
 	const [loggedInOptions, setLoggedInOptions] = useState({});
 	const [demoDateOptions, setDemoDateOptions] = useState('yeartodate');
+	const [kpiSummaryStartDate, setKpiSummaryStartDate] = useState('');
+	const [kpiSummaryEndDate, setKpiSummaryEndDate] = useState('');
+	const [kpiReportDateOption, setKpiReportDateOption] = useState('today');
+	const [gameReportDateOption, setGameReportDateOption] = useState('today');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
 	const [isRefresh, setIsRefresh] = useState(false);
 
@@ -158,30 +144,34 @@ const useDashboardView = () => {
 			dispatch(
 				getGameReportStart({
 					tab: activeGameReportTab,
+					dateOptions: gameReportDateOption,
 				})
 			);
 		}
-	}, [activeGameReportTab]);
+	}, [activeGameReportTab, gameReportDateOption]);
 
 	useEffect(() => {
 		if (activeKpiSummTab) {
 			dispatch(
 				getKpiSummaryStart({
 					tab: activeKpiSummTab,
+					startDate: kpiSummaryStartDate,
+					endDate: kpiSummaryEndDate,
 				})
 			);
 		}
-	}, [activeKpiSummTab]);
+	}, [activeKpiSummTab, kpiSummaryStartDate, kpiSummaryEndDate]);
 
 	useEffect(() => {
 		if (activeKpiReportTab) {
 			dispatch(
 				getKpiReportStart({
 					tab: activeKpiReportTab,
+					dateOptions: kpiReportDateOption,
 				})
 			);
 		}
-	}, [activeKpiReportTab]);
+	}, [activeKpiReportTab, kpiReportDateOption]);
 
 	useEffect(() => {
 		dispatch(getLivePlayerInfoStart());
@@ -491,6 +481,14 @@ const useDashboardView = () => {
 		formattedKpiSummary,
 		isKpiSummaryLoading,
 		isGameReportLoading,
+		kpiSummaryStartDate,
+		setKpiSummaryStartDate,
+		kpiSummaryEndDate,
+		setKpiSummaryEndDate,
+		kpiReportDateOption,
+		setKpiReportDateOption,
+		gameReportDateOption,
+		setGameReportDateOption,
 	};
 };
 
