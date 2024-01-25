@@ -5,6 +5,7 @@ import TableContainer from '../../components/Common/TableContainer';
 import useTransactionBankingListing from '../TransactionBankingList/hooks/useTransactionBankingListing';
 import useTransactionFilters from './hooks/useTransactionFilters';
 import Filters from '../../components/Common/Filters';
+import CrudSection from '../../components/Common/CrudSection';
 
 const Transactions = ({ userId }) => {
 	const {
@@ -16,6 +17,7 @@ const Transactions = ({ userId }) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		exportComponent,
 	} = useTransactionBankingListing(userId);
 
 	const {
@@ -30,6 +32,11 @@ const Transactions = ({ userId }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
+				<CrudSection
+					buttonList={[]}
+					exportComponent={exportComponent}
+					title="Transactions"
+				/>
 				<CardBody>
 					<Filters
 						validation={filterValidation}

@@ -18,18 +18,7 @@ const BonusMoney = ({ value }) =>
 
 const StatusData = ({ value }) => value ?? '';
 
-const Status = ({ value }) => {
-	if (value === 0) {
-		return <td>Pending</td>;
-	}
-	if (value === 1) {
-		return <td>Completed</td>;
-	}
-	if (value === 2) {
-		return <td>FAILED</td>;
-	}
-	return <td>ROLLBACK</td>;
-};
+const Status = ({ value }) => value ?? '';
 
 const CreatedAt = ({ value }) => value ?? '';
 

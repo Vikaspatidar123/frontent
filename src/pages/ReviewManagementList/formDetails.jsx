@@ -95,7 +95,7 @@ const staticFiltersFields = () => [
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
-		placeholder: 'Search by title and description',
+		placeholder: 'Search by description',
 	},
 	{
 		name: 'status',

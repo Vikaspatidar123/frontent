@@ -32,7 +32,7 @@ const CasinoTransactionsList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		buttonList,
+		exportComponent,
 	} = useCasinoTransactionsListing(filterValidation.values);
 
 	return (
@@ -45,7 +45,8 @@ const CasinoTransactionsList = () => {
 					<Col lg="12">
 						<Card>
 							<CrudSection
-								buttonList={buttonList}
+								buttonList={[]}
+								exportComponent={exportComponent}
 								title="Casino Transactions"
 							/>
 							<CardBody>

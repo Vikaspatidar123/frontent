@@ -45,17 +45,29 @@ const SportsBettingHistory = ({ userId }) => {
 		if (sportsTransaction) {
 			sportsTransaction?.rows?.map((txn) =>
 				formattedValues.push({
-					...txn,
+					id: txn?.id,
 					email: txn?.user?.email,
 					amount: txn?.amount,
 					currencyCode: txn?.wallet?.currency?.code,
-					createdAt: getDateTime(txn?.createdAt),
+					type: txn?.type,
+					purpose: txn?.purpose,
 					status: txn?.transaction?.status,
+					createdAt: getDateTime(txn?.createdAt),
 				})
 			);
 		}
 		return formattedValues;
 	}, [sportsTransaction]);
+
+	const exportComponent = useMemo(() => [
+		{
+			label: '',
+			isDownload: true,
+			tooltip: 'Download as CSV',
+			icon: <i className="mdi mdi-file-download-outline" />,
+			data: formattedSportsTransaction,
+		},
+	]);
 
 	const columns = useMemo(
 		() => [
@@ -129,7 +141,11 @@ const SportsBettingHistory = ({ userId }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
-				<CrudSection buttonList={[]} title="Sport Betting History" />
+				<CrudSection
+					buttonList={[]}
+					exportComponent={exportComponent}
+					title="Sport Betting History"
+				/>
 				<CardBody>
 					<Filters
 						validation={filterValidation}

@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
+import { CSVLink } from 'react-csv';
 import GraphicChart from './GraphicChart';
 import DemoGraphicTable from './DemoGraphicTable';
 import { dateConstants } from '../constant';
@@ -17,7 +18,6 @@ const DemographicReport = (props) => {
 		demoDateOptions,
 		setDemoDateOptions,
 		isDemographicLoading,
-		exportReport,
 		isRefresh,
 		setIsRefresh,
 	} = props;
@@ -41,17 +41,13 @@ const DemographicReport = (props) => {
 									</option>
 								))}
 							</select>
-							<button
-								type="button"
-								id="demograph-export-tool"
+							<CSVLink
+								data={demoGraphicData || []}
+								filename="downloaded_data.csv"
 								className="btn btn-sm btn-primary"
-								onClick={exportReport}
 							>
 								<i className="bx bx-download align-baseline" />
-							</button>
-							<UncontrolledTooltip target="demograph-export-tool">
-								Export Details
-							</UncontrolledTooltip>
+							</CSVLink>
 						</div>
 					</div>
 
@@ -102,7 +98,6 @@ DemographicReport.propTypes = {
 	setDemoDateOptions: PropTypes.func,
 	isDemographicLoading: PropTypes.bool,
 	demoGrapFormatedData: PropTypes.arrayOf,
-	exportReport: PropTypes.func.isRequired,
 	isRefresh: PropTypes.bool,
 	setIsRefresh: PropTypes.func,
 };

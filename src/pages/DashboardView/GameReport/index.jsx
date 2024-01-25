@@ -16,6 +16,7 @@ import classnames from 'classnames';
 
 // Simple bar
 import SimpleBar from 'simplebar-react';
+import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/TableContainer';
 import { tableCustomClass } from '../../../constants/config';
 import { dateConstants } from '../constant';
@@ -26,7 +27,6 @@ const GameReport = (props) => {
 		setActiveGameReportTab,
 		gameReportColumn,
 		gameReport,
-		exportReport,
 		isGameReportLoading,
 	} = props;
 
@@ -49,14 +49,13 @@ const GameReport = (props) => {
 									</option>
 								))}
 							</select>
-							<button
-								type="button"
+							<CSVLink
+								data={gameReport || []}
+								filename="downloaded_data.csv"
 								className="btn btn-primary dashboard-export-btn"
-								onClick={exportReport}
 							>
-								Export Details
-								<i className="bx bx-download align-baseline ms-1" />
-							</button>
+								Export Details <i className="bx bx-download align-baseline" />
+							</CSVLink>
 						</div>
 					</div>
 					<h4 className="card-title mb-4">Game Report</h4>
@@ -140,7 +139,6 @@ GameReport.propTypes = {
 	setActiveGameReportTab: PropTypes.func,
 	gameReportColumn: PropTypes.arrayOf,
 	gameReport: PropTypes.arrayOf,
-	exportReport: PropTypes.func.isRequired,
 	isGameReportLoading: PropTypes.bool,
 };
 GameReport.defaultProps = {

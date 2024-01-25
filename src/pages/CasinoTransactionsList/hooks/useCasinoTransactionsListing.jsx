@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import moment from 'moment';
+// import moment from 'moment';
 import {
 	fetchCasinoTransactionsStart,
 	resetCasinoTransactionsData,
 } from '../../../store/actions';
-import { getDateTime, formatDateYMD } from '../../../helpers/dateFormatter';
-import { statusType } from '../constants';
+import { getDateTime } from '../../../helpers/dateFormatter';
+// import { statusType } from '../constants';
 import {
 	ActionType,
 	Amount,
@@ -18,11 +19,9 @@ import {
 	Status,
 	UserEmail,
 } from '../CasinoTransactionsListCol';
-import { modules } from '../../../constants/permissions';
-import { getAccessToken } from '../../../network/storageUtils';
-import { downloadFileInNewWindow } from '../../../utils/helpers';
-
-const { VITE_APP_API_URL } = import.meta.env;
+// import { modules } from '../../../constants/permissions';
+// import { getAccessToken } from '../../../network/storageUtils';
+// import { downloadFileInNewWindow } from '../../../utils/helpers';
 
 const useCasinoTransactionsListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -53,12 +52,21 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		if (casinoTransactions) {
 			casinoTransactions.rows.map((txn) =>
 				formattedValues.push({
-					...txn,
+					casinoTransactionId: txn?.casinoTransactionId,
 					userEmail: txn?.user?.email,
+					gameIdentifier: txn?.gameIdentifier,
+					actionType: txn?.actionType,
 					amountWithCurr: `${txn?.amount} ${txn?.currencyCode}`,
 					bonusAmt: `${txn?.nonCashAmount} ${txn?.currencyCode}`,
+					status:
+						txn?.status === 0
+							? 'Pending'
+							: txn?.status === 1
+							? 'Completed'
+							: txn?.status === 2
+							? 'FAILED'
+							: 'ROLLBACK',
 					createdAt: getDateTime(txn?.createdAt),
-					statusText: statusType?.[parseInt(txn?.status, 10) + 1]?.label,
 				})
 			);
 		}
@@ -116,27 +124,13 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		[]
 	);
 
-	const handleDownload = () =>
-		downloadFileInNewWindow(`${VITE_APP_API_URL}/api/v1/casino/transactions?csvDownload=true
-    &limit=${itemsPerPage}&pageNo=${currentPage}&startDate=${formatDateYMD(
-			filterValues.startDate || moment().subtract(1, 'month').utc().toDate()
-		)}&endDate=${formatDateYMD(
-			filterValues.endDate || new Date()
-		)}&currencyCode=${filterValues.currencyCode || ''}&transactionType=${
-			filterValues.transactionType || ''
-		}&email=${filterValues.email || ''}&adminId=${''}&token=${
-			getAccessToken() || ''
-		}`);
-
-	const buttonList = useMemo(() => [
+	const exportComponent = useMemo(() => [
 		{
 			label: '',
-			handleClick: handleDownload,
-			link: '#!',
+			isDownload: true,
 			tooltip: 'Download as CSV',
 			icon: <i className="mdi mdi-file-download-outline" />,
-			module: modules.CasinoManagement,
-			operation: 'R',
+			data: formattedCasinoTransactions,
 		},
 	]);
 
@@ -149,7 +143,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		buttonList,
+		exportComponent,
 	};
 };
 

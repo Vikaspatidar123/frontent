@@ -7,7 +7,7 @@ import {
 	resetTransactionBankingData,
 } from '../../../store/actions';
 import { LEDGER_TYPES, statusType } from '../constants';
-import { formatDateYMD } from '../../../helpers/dateFormatter';
+// import { formatDateYMD } from '../../../helpers/dateFormatter';
 import {
 	Purpose,
 	Actionee,
@@ -17,12 +17,10 @@ import {
 	Id,
 	Status,
 } from '../TransactionBankingCol';
-import { downloadFileInNewWindow } from '../../../utils/helpers';
-import { getAccessToken } from '../../../network/storageUtils';
+// import { downloadFileInNewWindow } from '../../../utils/helpers';
+// import { getAccessToken } from '../../../network/storageUtils';
 
 // import { modules } from '../../../constants/permissions';
-
-const { VITE_APP_API_URL } = import.meta.env;
 
 const useTransactionBankingListing = (userId, filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -68,9 +66,14 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		if (transactionBanking) {
 			transactionBanking.rows.map((transaction) =>
 				formattedValues.push({
-					...transaction,
+					id: transaction?.id,
+					actionee: transaction?.transaction?.adminUser?.email,
 					amountWithCurr: transaction.amount,
+					purpose: transaction?.purpose,
 					currencyCode: transaction?.wallet?.currency?.code,
+					transactionType: LEDGER_TYPES.find(
+						(trans) => trans.value === transaction?.type
+					)?.label,
 					status: statusType.find(
 						(status) => status.value === transaction?.transaction?.status
 					)?.label,
@@ -81,13 +84,9 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 					//     type: transaction.transactionType,
 					//     amountType: transaction.amountType,
 					//   })}`,
-					actionee: transaction?.transaction?.adminUser?.email,
 					createdAt: moment(transaction?.createdAt)
 						.local()
 						.format('YYYY-MM-DD HH:mm:ss'),
-					transactionType: LEDGER_TYPES.find(
-						(trans) => trans.value === transaction?.type
-					)?.label,
 				})
 			);
 		}
@@ -156,28 +155,13 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		[]
 	);
 
-	const handleDownload = () =>
-		downloadFileInNewWindow(
-			`${VITE_APP_API_URL}/api/v1/admin/transactions?csvDownload=true&limit=${itemsPerPage}&pageNo=${currentPage}&actioneeType=${
-				filterValues.actioneeType || ''
-			}&startDate=${formatDateYMD(
-				filterValues.startDate || moment().subtract(1, 'month').utc().toDate()
-			)}&endDate=${formatDateYMD(
-				filterValues.endDate || new Date()
-			)}&currencyCode=${filterValues.currencyCode || ''}&transactionType=${
-				filterValues.transactionType || ''
-			}&adminId=${''}&paymentProvider=${
-				filterValues.paymentProvider
-			}&token=${getAccessToken()}`
-		);
-
-	const buttonList = useMemo(() => [
+	const exportComponent = useMemo(() => [
 		{
 			label: '',
-			handleClick: handleDownload,
-			link: '#!',
+			isDownload: true,
 			tooltip: 'Download as CSV',
 			icon: <i className="mdi mdi-file-download-outline" />,
+			data: formattedTransactionBanking,
 		},
 	]);
 
@@ -190,7 +174,7 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		buttonList,
+		exportComponent,
 	};
 };
 
