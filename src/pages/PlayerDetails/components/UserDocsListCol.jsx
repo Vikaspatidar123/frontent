@@ -20,7 +20,7 @@ const Name = ({ value }) => value ?? '';
 const Reason = ({ value }) => value ?? '-';
 const UpdatedAt = ({ value }) => value ?? '';
 const Actionee = ({ value }) => value ?? '-';
-const ActionAt = ({ value }) => value ?? '-';
+const ActionAt = ({ value }) => value ?? '';
 const Status = ({ value }) => (value ? statusMapper(value) : '-');
 const Action = ({ value }) => (value ? statusMapper(value) : '-');
 
