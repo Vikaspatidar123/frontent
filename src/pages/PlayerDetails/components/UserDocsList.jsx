@@ -3,6 +3,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, Container } from 'reactstrap';
@@ -50,8 +51,8 @@ const UserDocsList = ({ userId }) => {
 			userDocuments.rows?.map((doc) =>
 				formattedValues.push({
 					...doc,
-					actionPerformedAt: getDateTime(doc.actionPerformedAt),
-					updatedAt: getDateTime(doc.updatedAt),
+					createdAt: getDateTime(doc?.createdAt),
+					updatedAt: getDateTime(doc?.updatedAt),
 				})
 			);
 		}
@@ -64,7 +65,7 @@ const UserDocsList = ({ userId }) => {
 			documentLabels.rows?.map((doc) =>
 				formattedValues.push({
 					...doc,
-					name: doc.name.EN,
+					name: doc?.documentLabel?.name,
 				})
 			);
 			if (
@@ -81,7 +82,7 @@ const UserDocsList = ({ userId }) => {
 					) {
 						formattedValues.push({
 							...doc,
-							name: doc.name.EN,
+							name: doc?.documentLabel?.name,
 							isRequired: true,
 						});
 					}
@@ -132,25 +133,25 @@ const UserDocsList = ({ userId }) => {
 		() => [
 			{
 				Header: 'DOCUMENT ID',
-				accessor: 'userDocumentId',
+				accessor: 'documentLabelId',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
-				accessor: 'documentName',
+				accessor: 'name',
 				filterable: true,
 				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
 				Header: 'DOCUMENT PREVIEW',
-				accessor: 'documentUrl',
+				accessor: 'url',
 				filterable: true,
 				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
 			},
 			{
 				Header: 'REASON',
-				accessor: 'reason',
+				accessor: 'comment',
 				filterable: true,
 				Cell: ({ cell }) => <Reason value={cell.value} />,
 			},
@@ -167,7 +168,7 @@ const UserDocsList = ({ userId }) => {
 			},
 			{
 				Header: 'ACTION PERFORMED AT',
-				accessor: 'actionPerformedAt',
+				accessor: 'createdAt',
 				Cell: ({ cell }) => <ActionAt value={cell.value} />,
 			},
 			{
@@ -176,13 +177,13 @@ const UserDocsList = ({ userId }) => {
 				disableSortBy: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
-			{
-				Header: 'ACTION',
-				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<KYCActionButtons handleStatus={acceptOrReject} cell={cell} />
-				),
-			},
+			// {
+			// 	Header: 'ACTION',
+			// 	disableSortBy: true,
+			// 	Cell: ({ cell }) => (
+			// 		<KYCActionButtons handleStatus={acceptOrReject} cell={cell} />
+			// 	),
+			// },
 		],
 		[]
 	);
@@ -195,12 +196,12 @@ const UserDocsList = ({ userId }) => {
 				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 
-			{
-				Header: 'Action',
-				Cell: ({ cell }) => (
-					<ActionButtons cell={cell} handleStatus={handleMarkAsRequired} />
-				),
-			},
+			// {
+			// 	Header: 'Action',
+			// 	Cell: ({ cell }) => (
+			// 		<ActionButtons cell={cell} handleStatus={handleMarkAsRequired} />
+			// 	),
+			// },
 		],
 		[]
 	);
