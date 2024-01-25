@@ -27,7 +27,7 @@ const Sidebar = () => {
 					<span className="logo-lg">
 						{/* <img src={logoLightPng} alt="" height="19" /> */}
 						<h4 className="text-wrap my-2 mt-5 text-muted">
-							{superAdminUser?.firstName}
+							{superAdminUser?.firstName || 'Admin'}
 						</h4>
 						{/* <h6 className="text-wrap my-2 text-muted">
 							{superAdminUser?.email}

@@ -2,7 +2,6 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer';
-import { isEmpty } from 'lodash';
 import {
 	leftStaticFormFields,
 	rightStaticFormFields,
@@ -142,20 +141,17 @@ const useActions = (isEditPage, filterValues = {}) => {
 	]);
 
 	const setCustomFields = () => {
-		if (
-			roles?.rows?.length &&
-			// groups?.length &&
-			allAdminList.rows?.length
-		) {
+		if (roles?.rows) {
 			let customField = {};
 
-			const roleOptions = roles?.rows
-				.filter((r) => r.name !== 'Superadmin')
-				.map((r) => ({
-					id: r.id,
-					optionLabel: r.name,
-					value: r.name,
-				}));
+			const roleOptions =
+				roles?.rows
+					?.filter((r) => r.name !== 'Superadmin')
+					.map((r) => ({
+						id: r.id,
+						optionLabel: r.name,
+						value: r.name,
+					})) || [];
 
 			// const groupOptions = groups
 			//   .filter((r) => r)
@@ -165,10 +161,12 @@ const useActions = (isEditPage, filterValues = {}) => {
 			//     value: g,
 			//   }));
 
-			const adminOptions = allAdminList?.rows?.map((ad) => ({
-				optionLabel: `${ad.firstName} ${ad.lastName}`,
-				value: ad.id,
-			}));
+			const adminOptions =
+				allAdminList?.rows?.map((ad) => ({
+					optionLabel: `${ad.firstName} ${ad.lastName}`,
+					value: ad.id,
+				})) || [];
+
 			if (validation?.values?.role === 'Manager') {
 				validation.setFieldValue('adminRoleId', 3);
 				customField = {
@@ -217,11 +215,11 @@ const useActions = (isEditPage, filterValues = {}) => {
 			location.pathname === '/staff/add' ||
 			location.pathname?.includes('/staff/edit')
 		) {
-			if (isEmpty(roles)) {
+			if (!roles?.rows) {
 				dispatch(getRolesStart());
 			}
 
-			if (isEmpty(allAdminList)) {
+			if (!allAdminList?.rows) {
 				dispatch(
 					getAdminDetails({
 						limit: itemsPerPage,
@@ -234,9 +232,9 @@ const useActions = (isEditPage, filterValues = {}) => {
 		}
 
 		if (
-			!isEmpty(roles) &&
+			roles?.rows &&
 			// !isEmpty(groups) &&
-			!isEmpty(allAdminList)
+			allAdminList?.rows
 		)
 			setCustomFields();
 	}, [
