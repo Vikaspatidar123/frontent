@@ -26,7 +26,7 @@ const initialData = {
 	betLevel: 1,
 	timePeriod: '1',
 	currency: {
-		EUR: {
+		USD: {
 			maxBonusThreshold: '',
 			minDeposit: '',
 			maxWinAmount: '',
@@ -99,7 +99,7 @@ const getCreateBonusInitialValues = () => ({
 	quantity: 1,
 	wageringMultiplier: 1,
 	currency: {
-		EUR: {
+		USD: {
 			maxBonusThreshold: '',
 			minDeposit: '',
 			maxWinAmount: '',
