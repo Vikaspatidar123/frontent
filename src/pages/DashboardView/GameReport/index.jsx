@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -11,6 +12,7 @@ import {
 	NavLink,
 	TabContent,
 	TabPane,
+	UncontrolledTooltip,
 } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -30,6 +32,7 @@ const GameReport = (props) => {
 		isGameReportLoading,
 		gameReportDateOption,
 		setGameReportDateOption,
+		loadGameReport,
 	} = props;
 
 	return (
@@ -60,7 +63,26 @@ const GameReport = (props) => {
 							</CSVLink>
 						</div>
 					</div>
-					<h4 className="card-title mb-4">Game Report</h4>
+
+					<div className="d-flex align-items-center">
+						<h4 className="card-title font-size-18 mb-3">Game Report</h4>
+						<i
+							role="button"
+							tabIndex="0"
+							className="mdi mdi-refresh mx-2 font-size-24 mb-3"
+							style={{ cursor: 'pointer' }}
+							id="refreshGameReport"
+							onClick={loadGameReport}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter') {
+									loadGameReport();
+								}
+							}}
+						/>
+						<UncontrolledTooltip placement="top" target="refreshGameReport">
+							Refresh
+						</UncontrolledTooltip>
+					</div>
 
 					<Nav pills className="bg-light rounded" role="tablist">
 						<NavItem>
@@ -90,10 +112,10 @@ const GameReport = (props) => {
 					</Nav>
 					<TabContent
 						activeTab={activeGameReportTab}
-						className="mt-4 kpi-dashboard-tab"
+						className="mt-2 kpi-dashboard-tab"
 					>
 						<TabPane tabId="game">
-							<SimpleBar style={{ maxHeight: '330px' }}>
+							<SimpleBar style={{ maxHeight: '310px' }}>
 								<TableContainer
 									isLoading={isGameReportLoading}
 									columns={gameReportColumn || []}
@@ -112,7 +134,7 @@ const GameReport = (props) => {
 							</SimpleBar>
 						</TabPane>
 						<TabPane tabId="provider">
-							<SimpleBar style={{ maxHeight: '330px' }}>
+							<SimpleBar style={{ maxHeight: '310px' }}>
 								<TableContainer
 									isLoading={isGameReportLoading}
 									columns={gameReportColumn || []}
@@ -144,6 +166,7 @@ GameReport.propTypes = {
 	isGameReportLoading: PropTypes.bool,
 	gameReportDateOption: PropTypes.string,
 	setGameReportDateOption: PropTypes.func,
+	loadGameReport: PropTypes.func,
 };
 GameReport.defaultProps = {
 	activeGameReportTab: PropTypes.string,
@@ -153,5 +176,6 @@ GameReport.defaultProps = {
 	isGameReportLoading: PropTypes.bool,
 	gameReportDateOption: PropTypes.string,
 	setGameReportDateOption: PropTypes.func,
+	loadGameReport: PropTypes.func,
 };
 export default GameReport;

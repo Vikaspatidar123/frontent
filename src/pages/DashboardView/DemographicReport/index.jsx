@@ -18,8 +18,7 @@ const DemographicReport = (props) => {
 		demoDateOptions,
 		setDemoDateOptions,
 		isDemographicLoading,
-		isRefresh,
-		setIsRefresh,
+		fetchData,
 	} = props;
 
 	return (
@@ -54,18 +53,18 @@ const DemographicReport = (props) => {
 					<div className="d-flex align-items-center">
 						<h4 className="card-title font-size-16">Demographic Report</h4>
 						<i
-							className="mdi mdi-refresh mx-2 font-size-20 mb-1"
+							className="mdi mdi-refresh mx-2 font-size-24 mb-2"
 							style={{ cursor: 'pointer' }}
-							id="refresh"
-							onClick={() => setIsRefresh(!isRefresh)}
+							id="refreshDemo"
+							onClick={fetchData}
 							onKeyDown={(e) => {
 								if (e.key === 'Enter') {
-									setIsRefresh(!isRefresh);
+									fetchData();
 								}
 							}}
 							tabIndex="0"
 						/>
-						<UncontrolledTooltip placement="top" target="refresh">
+						<UncontrolledTooltip placement="top" target="refreshDemo">
 							Refresh
 						</UncontrolledTooltip>
 					</div>
@@ -98,8 +97,7 @@ DemographicReport.propTypes = {
 	setDemoDateOptions: PropTypes.func,
 	isDemographicLoading: PropTypes.bool,
 	demoGrapFormatedData: PropTypes.arrayOf,
-	isRefresh: PropTypes.bool,
-	setIsRefresh: PropTypes.func,
+	fetchData: PropTypes.func,
 };
 
 DemographicReport.defaultProps = {
@@ -110,7 +108,6 @@ DemographicReport.defaultProps = {
 	setDemoDateOptions: PropTypes.func,
 	isDemographicLoading: PropTypes.bool,
 	demoGrapFormatedData: PropTypes.arrayOf,
-	isRefresh: PropTypes.bool,
-	setIsRefresh: PropTypes.func,
+	fetchData: PropTypes.func,
 };
 export default DemographicReport;

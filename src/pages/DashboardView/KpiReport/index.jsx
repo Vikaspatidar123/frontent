@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -11,6 +12,7 @@ import {
 	NavLink,
 	TabContent,
 	TabPane,
+	UncontrolledTooltip,
 } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -31,6 +33,7 @@ const KpiReport = (props) => {
 		isKpiReportLoading,
 		kpiReportDateOption,
 		setKpiReportDateOption,
+		loadKPIReport,
 	} = props;
 	return (
 		<Col xl="12">
@@ -60,7 +63,26 @@ const KpiReport = (props) => {
 							</CSVLink>
 						</div>
 					</div>
-					<h4 className="card-title mb-4">KPI Report</h4>
+
+					<div className="d-flex align-items-center">
+						<h4 className="card-title font-size-18 mb-3">KPI Report</h4>
+						<i
+							role="button"
+							tabIndex="0"
+							className="mdi mdi-refresh mx-2 font-size-24 mb-3"
+							style={{ cursor: 'pointer' }}
+							id="refreshKpiReport"
+							onClick={loadKPIReport}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter') {
+									loadKPIReport();
+								}
+							}}
+						/>
+						<UncontrolledTooltip placement="top" target="refreshKpiReport">
+							Refresh
+						</UncontrolledTooltip>
+					</div>
 
 					<Nav pills className="bg-light rounded" role="tablist">
 						<NavItem>
@@ -90,10 +112,10 @@ const KpiReport = (props) => {
 					</Nav>
 					<TabContent
 						activeTab={activeKpiReportTab}
-						className="mt-4 kpi-dashboard-tab"
+						className="mt-2 kpi-dashboard-tab"
 					>
 						<TabPane tabId="game">
-							<SimpleBar style={{ maxHeight: '330px' }}>
+							<SimpleBar style={{ maxHeight: '310px' }}>
 								<TableContainer
 									isLoading={isKpiReportLoading}
 									columns={kPIReportColumn || []}
@@ -111,7 +133,7 @@ const KpiReport = (props) => {
 							</SimpleBar>
 						</TabPane>
 						<TabPane tabId="provider">
-							<SimpleBar style={{ maxHeight: '330px' }}>
+							<SimpleBar style={{ maxHeight: '310px' }}>
 								<TableContainer
 									isLoading={isKpiReportLoading}
 									columns={kPIReportColumn || []}
@@ -142,6 +164,7 @@ KpiReport.propTypes = {
 	isKpiReportLoading: PropTypes.bool,
 	kpiReportDateOption: PropTypes.string,
 	setKpiReportDateOption: PropTypes.func,
+	loadKPIReport: PropTypes.func,
 };
 KpiReport.defaultProps = {
 	activeKpiReportTab: PropTypes.string,
@@ -151,6 +174,7 @@ KpiReport.defaultProps = {
 	isKpiReportLoading: PropTypes.bool,
 	kpiReportDateOption: PropTypes.string,
 	setKpiReportDateOption: PropTypes.func,
+	loadKPIReport: PropTypes.func,
 };
 
 export default KpiReport;

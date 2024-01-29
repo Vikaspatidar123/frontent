@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Container } from 'reactstrap';
 import TabsPage from '../../components/Common/TabsPage';
-import Breadcrumb from '../../components/Common/Breadcrumb';
+import Breadcrumbs from '../../components/Common/Breadcrumb';
 import RestrictedProviders from './components/RestrictedProviders';
 import AddRestrictedProviders from './components/AddRestrictedProviders';
 import RemoveRestrictedProviders from './components/RemoveRestrictedProviders';
@@ -13,7 +13,6 @@ import {
 
 const ViewRestrictedProviders = () => {
 	const dispatch = useDispatch();
-	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 	const [activeTab, setActiveTab] = useState(1);
 	const tabData = [
 		{
@@ -44,14 +43,8 @@ const ViewRestrictedProviders = () => {
 
 	return (
 		<div className="page-content">
-			{showBreadcrumb && (
-				<Breadcrumb
-					title="Site Configurations"
-					breadcrumbItem="View Restricted Providers"
-					showBackButton
-				/>
-			)}
 			<Container fluid>
+				<Breadcrumbs showBackButton showRightInfo={false} />
 				<TabsPage
 					activeTab={activeTab}
 					tabsData={tabData}

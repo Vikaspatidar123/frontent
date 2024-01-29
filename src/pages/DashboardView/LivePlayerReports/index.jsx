@@ -10,7 +10,7 @@ const Reports = (props) => {
 			<Col md="3">
 				<ReportList
 					title="Today GGR"
-					description={`€ ${livePlayerData.todayTotalGgr || 0}`}
+					description={`€ ${livePlayerData.todayTotalGGR || 0}`}
 					iconClass="bx bxs-dollar-circle"
 					isLoading={isLivePlayerLoading}
 				/>
