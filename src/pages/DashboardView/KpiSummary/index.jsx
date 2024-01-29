@@ -1,6 +1,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Flatpickr from 'react-flatpickr';
@@ -37,6 +38,7 @@ const KpiSummary = (props) => {
 		kpiSummaryEndDate,
 		setKpiSummaryStartDate,
 		setKpiSummaryEndDate,
+		loadKPISummary,
 	} = props;
 	const lastDate = new Date();
 
@@ -82,16 +84,21 @@ const KpiSummary = (props) => {
 					</div>
 
 					<div className="d-flex align-items-center">
-						<h4 className="card-title font-size-16 mb-3">KPI Summary</h4>
+						<h4 className="card-title font-size-18 mb-3">KPI Summary</h4>
 						<i
-							className="mdi mdi-refresh mx-2 font-size-20 mb-3"
-							style={{ cursor: 'pointer' }}
-							id="refresh"
-							// onClick={}
-							// onKeyDown={}
+							role="button"
 							tabIndex="0"
+							className="mdi mdi-refresh mx-2 font-size-24 mb-3"
+							style={{ cursor: 'pointer' }}
+							id="refreshKpiSummary"
+							onClick={loadKPISummary}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter') {
+									loadKPISummary();
+								}
+							}}
 						/>
-						<UncontrolledTooltip placement="top" target="refresh">
+						<UncontrolledTooltip placement="top" target="refreshKpiSummary">
 							Refresh
 						</UncontrolledTooltip>
 					</div>
@@ -130,10 +137,10 @@ const KpiSummary = (props) => {
 					</Nav>
 					<TabContent
 						activeTab={activeKpiSummTab}
-						className="mt-4 kpi-dashboard-tab"
+						className="mt-2 kpi-dashboard-tab"
 					>
 						<TabPane tabId="banking">
-							<SimpleBar style={{ maxHeight: '300px' }}>
+							<SimpleBar style={{ maxHeight: '310px' }}>
 								<TableContainer
 									isLoading={isKpiSummaryLoading}
 									columns={kPISummaryColumn || []}
@@ -153,7 +160,7 @@ const KpiSummary = (props) => {
 							</SimpleBar>
 						</TabPane>
 						<TabPane tabId="sport">
-							<SimpleBar style={{ maxHeight: '330px' }}>
+							<SimpleBar style={{ maxHeight: '310px' }}>
 								<TableContainer
 									isLoading={isKpiSummaryLoading}
 									columns={kPISummaryColumn || []}
@@ -174,7 +181,7 @@ const KpiSummary = (props) => {
 						</TabPane>
 
 						<TabPane tabId="casino">
-							<SimpleBar style={{ maxHeight: '330px' }}>
+							<SimpleBar style={{ maxHeight: '310px' }}>
 								<TableContainer
 									isLoading={isKpiSummaryLoading}
 									columns={kPISummaryColumn || []}
@@ -210,6 +217,7 @@ KpiSummary.propTypes = {
 	kpiSummaryEndDate: PropTypes.string,
 	setKpiSummaryStartDate: PropTypes.func,
 	setKpiSummaryEndDate: PropTypes.func,
+	loadKPISummary: PropTypes.func,
 };
 KpiSummary.defaultProps = {
 	activeKpiSummTab: PropTypes.string,
@@ -222,5 +230,6 @@ KpiSummary.defaultProps = {
 	kpiSummaryEndDate: PropTypes.string,
 	setKpiSummaryStartDate: PropTypes.func,
 	setKpiSummaryEndDate: PropTypes.func,
+	loadKPISummary: PropTypes.func,
 };
 export default KpiSummary;

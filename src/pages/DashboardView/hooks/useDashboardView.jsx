@@ -102,7 +102,6 @@ const useDashboardView = () => {
 	const [kpiReportDateOption, setKpiReportDateOption] = useState('today');
 	const [gameReportDateOption, setGameReportDateOption] = useState('today');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
-	const [isRefresh, setIsRefresh] = useState(false);
 
 	const [activeKpiSummTab, setActiveKpiSummTab] = useState('sport');
 	const [activeKpiReportTab, setActiveKpiReportTab] = useState('game');
@@ -117,6 +116,35 @@ const useDashboardView = () => {
 			})
 		);
 	};
+
+	const loadKPISummary = () => {
+		dispatch(
+			getKpiSummaryStart({
+				tab: activeKpiSummTab,
+				startDate: kpiSummaryStartDate,
+				endDate: kpiSummaryEndDate,
+			})
+		);
+	};
+
+	const loadKPIReport = () => {
+		dispatch(
+			getKpiReportStart({
+				tab: activeKpiReportTab,
+				dateOptions: kpiReportDateOption,
+			})
+		);
+	};
+
+	const loadGameReport = () => {
+		dispatch(
+			getGameReportStart({
+				tab: activeGameReportTab,
+				dateOptions: gameReportDateOption,
+			})
+		);
+	};
+
 	const formatDataHandler = (list) => {
 		const tempData = [];
 
@@ -141,35 +169,19 @@ const useDashboardView = () => {
 
 	useEffect(() => {
 		if (activeGameReportTab) {
-			dispatch(
-				getGameReportStart({
-					tab: activeGameReportTab,
-					dateOptions: gameReportDateOption,
-				})
-			);
+			loadGameReport();
 		}
 	}, [activeGameReportTab, gameReportDateOption]);
 
 	useEffect(() => {
 		if (activeKpiSummTab) {
-			dispatch(
-				getKpiSummaryStart({
-					tab: activeKpiSummTab,
-					startDate: kpiSummaryStartDate,
-					endDate: kpiSummaryEndDate,
-				})
-			);
+			loadKPISummary();
 		}
 	}, [activeKpiSummTab, kpiSummaryStartDate, kpiSummaryEndDate]);
 
 	useEffect(() => {
 		if (activeKpiReportTab) {
-			dispatch(
-				getKpiReportStart({
-					tab: activeKpiReportTab,
-					dateOptions: kpiReportDateOption,
-				})
-			);
+			loadKPIReport();
 		}
 	}, [activeKpiReportTab, kpiReportDateOption]);
 
@@ -184,14 +196,14 @@ const useDashboardView = () => {
 
 	useEffect(() => {
 		fetchData();
-	}, [demoDateOptions, isRefresh]);
+	}, [demoDateOptions]);
 
 	useEffect(() => {
 		if (demoGraphicData) formatDataHandler(demoGraphicData);
 	}, [demoGraphicData]);
 
 	useEffect(() => {
-		if (livePlayerData?.deviceLoggedIn?.length) {
+		if (livePlayerData) {
 			const apexsaleschartColors = getChartColorsArray(
 				'["--bs-primary", "--bs-success", "--bs-danger"]'
 			);
@@ -218,18 +230,20 @@ const useDashboardView = () => {
 			};
 			const labels = [];
 			const series = [];
-			livePlayerData?.deviceLoggedIn
-				?.filter((d) => d.device_type !== null)
-				.map((d) => {
-					labels.push(d.device_type);
-					series.push(Number(d.count));
-					return true;
-				});
+			// livePlayerData?.deviceLoggedIn
+			// 	?.filter((d) => d.device_type !== null)
+			// 	.map((d) => {
+			// 		labels.push(d.device_type);
+			// 		series.push(Number(d.count));
+			// 		return true;
+			// 	});
+			labels.push('Total logged in players');
+			series.push(Number(livePlayerData?.totalLoggedInPlayers));
 			options.series = series;
 			options.labels = labels;
 			setLoggedInOptions(options);
 		}
-	}, [livePlayerData && livePlayerData?.deviceLoggedIn]);
+	}, [livePlayerData && livePlayerData?.totalLoggedInPlayers]);
 
 	const demoGraphOptions = {
 		chart: {
@@ -475,8 +489,6 @@ const useDashboardView = () => {
 		setDemoDateOptions,
 		isDemographicLoading,
 		loggedInOptions,
-		isRefresh,
-		setIsRefresh,
 		isKpiReportLoading,
 		formattedKpiSummary,
 		isKpiSummaryLoading,
@@ -489,6 +501,10 @@ const useDashboardView = () => {
 		setKpiReportDateOption,
 		gameReportDateOption,
 		setGameReportDateOption,
+		fetchData,
+		loadKPISummary,
+		loadKPIReport,
+		loadGameReport,
 	};
 };
 

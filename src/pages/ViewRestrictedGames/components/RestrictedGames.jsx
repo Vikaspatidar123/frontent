@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Container } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 import useRestrictedGamesListing from '../hooks/useRestrictedGamesListing';
 
@@ -17,21 +17,25 @@ const RestrictedGames = () => {
 
 	return (
 		<Container fluid>
-			<TableContainer
-				columns={columns || []}
-				data={restrictedGamesList || []}
-				isPagination
-				customPageSize={itemsPerPage}
-				tableClass="table-bordered align-middle nowrap mt-2"
-				paginationDiv="justify-content-center"
-				pagination="pagination justify-content-start pagination-rounded"
-				totalPageCount={totalGamesCount}
-				isManualPagination
-				onChangePagination={setCurrentPage}
-				currentPage={currentPage}
-				isLoading={restrictedGamesLoading}
-				changeRowsPerPageCallback={onChangeRowsPerPage}
-			/>
+			<Card>
+				<CardBody>
+					<TableContainer
+						columns={columns || []}
+						data={restrictedGamesList || []}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={totalGamesCount}
+						isManualPagination
+						onChangePagination={setCurrentPage}
+						currentPage={currentPage}
+						isLoading={restrictedGamesLoading}
+						changeRowsPerPageCallback={onChangeRowsPerPage}
+					/>
+				</CardBody>
+			</Card>
 		</Container>
 	);
 };

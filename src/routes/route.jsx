@@ -25,8 +25,8 @@ const Authmiddleware = ({ children, location }) => {
 		if (accessToken && window.localStorage.getItem('loggedInTime')) {
 			const loggedInTime = window.localStorage.getItem('loggedInTime');
 			const currentTime = moment().format('YYYY-MM-DD HH:mm:ss');
-			const diff = moment(currentTime).diff(moment(loggedInTime), 'minutes');
-			if (diff > 12) {
+			const diff = moment(currentTime).diff(moment(loggedInTime), 'hours');
+			if (diff > 11) {
 				localStorage.clear();
 				window.location.reload();
 			}

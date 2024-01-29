@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'reactstrap';
+import { Card, CardBody, Container } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 import useRestrictedProvidersListing from '../hooks/useRestrictedProvidersListing';
 
@@ -17,21 +17,25 @@ const RestrictedProviders = () => {
 
 	return (
 		<Container fluid>
-			<TableContainer
-				columns={columns || []}
-				data={restrictedProvidersList || []}
-				isPagination
-				customPageSize={itemsPerPage}
-				tableClass="table-bordered align-middle nowrap mt-2"
-				paginationDiv="justify-content-center"
-				pagination="pagination justify-content-start pagination-rounded"
-				totalPageCount={totalProvidersCount}
-				isManualPagination
-				onChangePagination={setCurrentPage}
-				currentPage={currentPage}
-				isLoading={restrictedProvidersLoading}
-				changeRowsPerPageCallback={onChangeRowsPerPage}
-			/>
+			<Card>
+				<CardBody>
+					<TableContainer
+						columns={columns || []}
+						data={restrictedProvidersList || []}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={totalProvidersCount}
+						isManualPagination
+						onChangePagination={setCurrentPage}
+						currentPage={currentPage}
+						isLoading={restrictedProvidersLoading}
+						changeRowsPerPageCallback={onChangeRowsPerPage}
+					/>
+				</CardBody>
+			</Card>
 		</Container>
 	);
 };

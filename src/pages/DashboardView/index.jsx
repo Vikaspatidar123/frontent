@@ -53,8 +53,6 @@ const DashboardView = ({ t }) => {
 		setDemoDateOptions,
 		isDemographicLoading,
 		loggedInOptions,
-		isRefresh,
-		setIsRefresh,
 		isKpiReportLoading,
 		formattedKpiSummary,
 		isKpiSummaryLoading,
@@ -67,6 +65,10 @@ const DashboardView = ({ t }) => {
 		setKpiReportDateOption,
 		gameReportDateOption,
 		setGameReportDateOption,
+		fetchData,
+		loadKPISummary,
+		loadKPIReport,
+		loadGameReport,
 	} = useDashboardView();
 	return (
 		<div className="page-content">
@@ -99,8 +101,7 @@ const DashboardView = ({ t }) => {
 								demoDateOptions={demoDateOptions}
 								setDemoDateOptions={setDemoDateOptions}
 								isDemographicLoading={isDemographicLoading}
-								isRefresh={isRefresh}
-								setIsRefresh={setIsRefresh}
+								fetchData={fetchData}
 							/>
 						</Row>
 					</Col>
@@ -120,6 +121,7 @@ const DashboardView = ({ t }) => {
 									setKpiSummaryStartDate={setKpiSummaryStartDate}
 									kpiSummaryEndDate={kpiSummaryEndDate}
 									setKpiSummaryEndDate={setKpiSummaryEndDate}
+									loadKPISummary={loadKPISummary}
 								/>
 							</Suspense>
 						</Row>
@@ -135,6 +137,7 @@ const DashboardView = ({ t }) => {
 									isKpiReportLoading={isKpiReportLoading}
 									kpiReportDateOption={kpiReportDateOption}
 									setKpiReportDateOption={setKpiReportDateOption}
+									loadKPIReport={loadKPIReport}
 								/>
 							</Suspense>
 						</Row>
@@ -150,6 +153,7 @@ const DashboardView = ({ t }) => {
 									isGameReportLoading={isGameReportLoading}
 									gameReportDateOption={gameReportDateOption}
 									setGameReportDateOption={setGameReportDateOption}
+									loadGameReport={loadGameReport}
 								/>{' '}
 							</Suspense>
 						</Row>

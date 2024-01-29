@@ -26,7 +26,7 @@ import {
 } from './actions';
 import { showToastr } from '../../utils/helpers';
 import {
-	// getDashboardLiveInfoService,
+	getDashboardLiveInfoService,
 	getDashboardDemoGraphicService,
 	getGameReports,
 	getKpiReport,
@@ -37,21 +37,8 @@ import kpiConstant from './config/kpisummary';
 function* getLivePlayerData() {
 	try {
 		yield getLivePlayerInfoStart();
-		// const { data } = yield getDashboardLiveInfoService();
-		const data = {
-			totalPlayers: '107',
-			todayTotalGgr: '0',
-			loggedInPlayer: 5,
-			depositConvRate: '0.00',
-			registrationConvRate: '100.00',
-			deviceLoggedIn: [
-				{
-					device_type: 'desktop',
-					count: '5',
-				},
-			],
-		};
-		yield put(getLivePlayerInfoSuccess(data));
+		const { data } = yield getDashboardLiveInfoService();
+		yield put(getLivePlayerInfoSuccess(data?.data));
 	} catch (e) {
 		yield put(getLivePlayerInfoFail());
 

@@ -42,7 +42,7 @@ const Breadcrumb = ({
 								onClick={onBackClick}
 							>
 								<>
-									<i className="fas fa-angle-left" />
+									<i className="fas fa-angle-left" />{' '}
 									{leftTitle || breadcrumbItem ? '' : 'Back'}
 								</>
 							</h4>
