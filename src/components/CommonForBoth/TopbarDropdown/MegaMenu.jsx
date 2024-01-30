@@ -28,7 +28,11 @@ const MegaMenu = () => {
 						<Row>
 							{getMegaMenuElement()?.map((nav) => (
 								<Col md={2} key={nav.label}>
-									<h5 className="font-size-14 mt-0">{nav?.label}</h5>
+									{nav?.groupedModules?.filter((module) =>
+										isGranted(module, 'R')
+									)?.length === 0 ? null : (
+										<h5 className="font-size-14 mt-0">{nav?.label}</h5>
+									)}
 									{nav?.subMenu?.length && (
 										<ul className="list-unstyled megamenu-list">
 											{nav?.subMenu?.map((sub) => {

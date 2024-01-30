@@ -10,9 +10,11 @@ import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import withRouter from '../Common/withRouter';
 import { getMegaMenuElement } from '../../constants/sidebar';
+import usePermission from '../Common/Hooks/usePermission';
 
 const Navbar = ({ leftMenu, menuOpen }) => {
 	const [open, setOpen] = useState(0);
+	const { isGranted } = usePermission();
 
 	const removeActivation = (items) => {
 		for (let i = 0; i < items.length; i += 1) {
@@ -85,33 +87,39 @@ const Navbar = ({ leftMenu, menuOpen }) => {
 						id="topnav-menu-content"
 					>
 						<ul className="navbar-nav">
-							{getMegaMenuElement()?.map((nav) => (
-								<li className="nav-item dropdown">
-									<Link
-										className="nav-link arrow-none"
-										onClick={(e) => {
-											e.preventDefault();
-											setOpen((prev) => (prev === nav.id ? 0 : nav.id));
-										}}
-										to={nav?.link || '#'}
-									>
-										<i className="bx bx-home-circle me-2" />
-										{nav.label} {menuOpen}
-										<div className="arrow-down" />
-									</Link>
-									<div
-										className={classname('dropdown-menu', {
-											show: open === nav.id,
-										})}
-									>
-										{nav?.subMenu?.map((subNav) => (
-											<Link to={subNav.link} className="dropdown-item">
-												{subNav.label}
-											</Link>
-										))}
-									</div>
-								</li>
-							))}
+							{getMegaMenuElement()?.map((nav) =>
+								nav?.groupedModules?.filter((module) => isGranted(module, 'R'))
+									?.length === 0 ? null : (
+									<li className="nav-item dropdown">
+										<Link
+											className="nav-link arrow-none"
+											onClick={(e) => {
+												e.preventDefault();
+												setOpen((prev) => (prev === nav.id ? 0 : nav.id));
+											}}
+											to={nav?.link || '#'}
+										>
+											<i className="bx bx-home-circle me-2" />
+											{nav.label} {menuOpen}
+											<div className="arrow-down" />
+										</Link>
+										<div
+											className={classname('dropdown-menu', {
+												show: open === nav.id,
+											})}
+										>
+											{nav?.subMenu?.map((subNav) =>
+												subNav?.module &&
+												!isGranted(subNav.module, 'R') ? null : (
+													<Link to={subNav.link} className="dropdown-item">
+														{subNav.label}
+													</Link>
+												)
+											)}
+										</div>
+									</li>
+								)
+							)}
 						</ul>
 					</Collapse>
 				</nav>
