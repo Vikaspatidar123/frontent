@@ -5,14 +5,12 @@ import { Buffer } from 'buffer';
 // Login Redux States
 import moment from 'moment';
 import { LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN } from './actionTypes';
-import { apiError, loginSuccess, logoutUserSuccess } from './actions';
+import { apiError, loginSuccess } from './actions';
 
 // Include Both Helper File with needed methods
 import { getFirebaseBackend } from '../../../helpers/firebase_helper';
 import { superAdminLogin } from '../../../network/postRequests';
 import { setItem, setLoginToken } from '../../../network/storageUtils';
-
-const fireBaseBackend = getFirebaseBackend();
 
 function* loginUser({ payload: { user, history } }) {
 	try {
@@ -68,11 +66,6 @@ function* loginUser({ payload: { user, history } }) {
 function* logoutUser({ payload: { history } }) {
 	try {
 		localStorage.removeItem('authUser');
-
-		if (import.meta.env.VITE_APP_DEFAULTAUTH === 'firebase') {
-			const response = yield call(fireBaseBackend.logout);
-			yield put(logoutUserSuccess(response));
-		}
 		history('/login');
 	} catch (error) {
 		yield put(apiError(error));
