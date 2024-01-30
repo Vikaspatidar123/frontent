@@ -66,6 +66,7 @@ const ActionButtons = ({
 
 			<li>
 				<Button
+					hidden={!isGranted(modules.Bonus, 'U')}
 					className="btn btn-sm btn-soft-info"
 					id="editToolTip"
 					onClick={handleEdit}
@@ -78,6 +79,7 @@ const ActionButtons = ({
 			</li>
 			<li>
 				<Button
+					hidden={!isGranted(modules.Bonus, 'R')}
 					className="btn btn-sm btn-soft-info"
 					id="viewToolTip"
 					onClick={() => handleView(original)}
@@ -91,6 +93,7 @@ const ActionButtons = ({
 
 			<li>
 				<Button
+					hidden={!isGranted(modules.Bonus, 'D')}
 					id="deleteToolTip"
 					className="btn btn-sm btn-soft-danger"
 					onClick={() => handleDelete(original)}

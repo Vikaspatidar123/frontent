@@ -253,6 +253,9 @@ const getKpiSummary = (payload) =>
 const getKpiReport = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/kpi`, payload);
 
+const getSubCategoryAddedGames = (payload) =>
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/games`, payload);
+
 export {
 	getBonus,
 	getAllCurrencies,
@@ -317,4 +320,5 @@ export {
 	getGameReports,
 	getKpiSummary,
 	getKpiReport,
+	getSubCategoryAddedGames,
 };

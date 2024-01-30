@@ -8,7 +8,6 @@ import EditCMS from '../pages/Cms/EditCMS';
 import CMSDetails from '../pages/Cms/CMSDetails';
 import CasinoCategory from '../pages/CasinoCategory';
 import CasinoSubCategory from '../pages/CasinoSubCategory';
-import CasinoAddGames from '../pages/CasinoSubCategory/CasinoAddGames';
 import CasinoAggregators from '../pages/Casino Management/Aggregators';
 import BonusDetail from '../pages/Bonus';
 import LanguageList from '../pages/LanguageList';
@@ -57,6 +56,7 @@ import EditBonus from '../pages/Bonus/EditBonus';
 import ReorderSubCategory from '../pages/CasinoSubCategory/components/ReorderSubCategory';
 import ReorderGames from '../pages/CasinoGames/components/ReorderGames';
 import ReorderBonus from '../pages/Bonus/ReorderBonus';
+import AddGamesCasinoSubcategory from '../pages/AddGamesCasinoSubcategory';
 import { modules } from '../constants/permissions';
 
 const authProtectedRoutes = [
@@ -138,7 +138,7 @@ const authProtectedRoutes = [
 	},
 	{
 		path: '/sub-categories/addGames/:gameSubCategoryId',
-		component: <CasinoAddGames />,
+		component: <AddGamesCasinoSubcategory />,
 		modules: [modules.CasinoManagement],
 		operation: 'C',
 	},

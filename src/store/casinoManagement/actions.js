@@ -67,6 +67,12 @@ import {
 	RESET_CASINO_CATEGORY_DATA,
 	RESET_CASINO_SUB_CATEGORY_DATA,
 	RESET_CASINO_GAMES,
+	GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
+	GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS,
+	GET_ADDED_GAMES_IN_SUB_CATEGORY_FAIL,
+	REMOVE_GAME_FROM_SUB_CATEGORY_START,
+	REMOVE_GAME_FROM_SUB_CATEGORY_SUCCESS,
+	REMOVE_GAME_FROM_SUB_CATEGORY_FAIL,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -404,4 +410,34 @@ export const reorderCasinoGamesFail = (payload) => ({
 
 export const resetCasinoState = () => ({
 	type: RESET_CASINO_STATE,
+});
+
+export const getAddedGamesInSubCategoryStart = (payload) => ({
+	type: GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
+	payload,
+});
+
+export const getAddedGamesInSubCategorySuccess = (payload) => ({
+	type: GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const getAddedGamesInSubCategoryFail = (payload) => ({
+	type: GET_ADDED_GAMES_IN_SUB_CATEGORY_FAIL,
+	payload,
+});
+
+export const removeGameFromSubCategoryStart = (payload) => ({
+	type: REMOVE_GAME_FROM_SUB_CATEGORY_START,
+	payload,
+});
+
+export const removeGameFromSubCategorySuccess = (payload) => ({
+	type: REMOVE_GAME_FROM_SUB_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const removeGameFromSubCategoryFail = (payload) => ({
+	type: REMOVE_GAME_FROM_SUB_CATEGORY_FAIL,
+	payload,
 });

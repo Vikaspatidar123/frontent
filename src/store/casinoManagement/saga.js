@@ -45,6 +45,10 @@ import {
 	reorderCasinoSubCategoryFail,
 	reorderCasinoGamesSuccess,
 	reorderCasinoGamesFail,
+	getAddedGamesInSubCategorySuccess,
+	getAddedGamesInSubCategoryFail,
+	removeGameFromSubCategorySuccess,
+	removeGameFromSubCategoryFail,
 } from './actions';
 
 import {
@@ -69,6 +73,8 @@ import {
 	REORDER_CASINO_CATEGORY_START,
 	REORDER_CASINO_SUB_CATEGORY_START,
 	REORDER_CASINO_GAMES_START,
+	GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
+	REMOVE_GAME_FROM_SUB_CATEGORY_START,
 } from './actionTypes';
 
 import {
@@ -77,6 +83,7 @@ import {
 	getCasinoCategoryListing,
 	getCasinoSubCategoryListing,
 	getLanguages,
+	getSubCategoryAddedGames,
 } from '../../network/getRequests';
 
 import {
@@ -101,6 +108,7 @@ import {
 import {
 	deleteSubCategory,
 	deleteCasinoGames,
+	removeGamesFromSubCategory,
 } from '../../network/deleteRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
@@ -115,6 +123,44 @@ function* getCasinoCategoryWorker(action) {
 		showToastr({ message: 'Something Went wrong', type: 'error' });
 		yield put(
 			getCasinoCategoryDetailFailure(
+				error?.response?.data?.errors[0]?.description
+			)
+		);
+	}
+}
+
+function* getSubCategoryAddedGamesWorker(action) {
+	const payload = action && action.payload;
+	try {
+		const { data } = yield getSubCategoryAddedGames(payload);
+		yield put(getAddedGamesInSubCategorySuccess(data?.data?.casinoGames));
+	} catch (error) {
+		showToastr({ message: 'Unable to fetch games', type: 'error' });
+		yield put(
+			getAddedGamesInSubCategoryFail(
+				error?.response?.data?.errors[0]?.description
+			)
+		);
+	}
+}
+
+function* removeSubCategoryAddedGamesWorker(action) {
+	const { casinoGameId, navigate } = action && action.payload;
+	try {
+		yield removeGamesFromSubCategory(casinoGameId);
+		yield put(removeGameFromSubCategorySuccess());
+		showToastr({ message: 'Games Removed Successfully', type: 'success' });
+
+		if (navigate) {
+			navigate('/sub-categories');
+		}
+	} catch (error) {
+		showToastr({
+			message: error?.response?.data?.errors[0]?.description || error?.message,
+			type: 'error',
+		});
+		yield put(
+			removeGameFromSubCategoryFail(
 				error?.response?.data?.errors[0]?.description
 			)
 		);
@@ -672,6 +718,14 @@ export function* casinoManagementWatcher() {
 	yield takeLatest(REORDER_CASINO_CATEGORY_START, updateCategoryOrder);
 	yield takeLatest(REORDER_CASINO_SUB_CATEGORY_START, updateSubCategoryOrder);
 	yield takeLatest(REORDER_CASINO_GAMES_START, updateReorderGamesWorker);
+	yield takeLatest(
+		GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
+		getSubCategoryAddedGamesWorker
+	);
+	yield takeLatest(
+		REMOVE_GAME_FROM_SUB_CATEGORY_START,
+		removeSubCategoryAddedGamesWorker
+	);
 }
 
 function* CasinoManagementSaga() {
