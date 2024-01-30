@@ -124,7 +124,7 @@ const KpiSummary = (props) => {
 								Casino
 							</NavLink>
 						</NavItem>
-						<NavItem>
+						{/* <NavItem>
 							<NavLink
 								className={classnames({
 									active: activeKpiSummTab === 'banking',
@@ -133,7 +133,7 @@ const KpiSummary = (props) => {
 							>
 								Banking
 							</NavLink>
-						</NavItem>
+						</NavItem> */}
 					</Nav>
 					<TabContent
 						activeTab={activeKpiSummTab}
