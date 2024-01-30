@@ -68,6 +68,12 @@ import {
 	RESET_CASINO_CATEGORY_DATA,
 	RESET_CASINO_SUB_CATEGORY_DATA,
 	RESET_CASINO_GAMES,
+	GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
+	GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS,
+	GET_ADDED_GAMES_IN_SUB_CATEGORY_FAIL,
+	REMOVE_GAME_FROM_SUB_CATEGORY_START,
+	REMOVE_GAME_FROM_SUB_CATEGORY_SUCCESS,
+	REMOVE_GAME_FROM_SUB_CATEGORY_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -133,6 +139,12 @@ const INIT_STATE = {
 	isReorderCasinoGamesSuccess: false,
 	isReorderCasinoGamesError: null,
 	isReorderCasinoGamesLoading: false,
+	subCategoryAddedGames: null,
+	subCategoryAddedGamesError: null,
+	isSubCategoryAddedGamesLoading: false,
+	isRemoveGameFromSubCategoryLoading: false,
+	isRemoveGameFromSubCategorySuccess: false,
+	isRemoveGameFromSubCategoryError: null,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -648,6 +660,54 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 		case RESET_CASINO_STATE:
 			return {
 				...INIT_STATE,
+			};
+
+		case GET_ADDED_GAMES_IN_SUB_CATEGORY_START:
+			return {
+				...state,
+				isSubCategoryAddedGamesLoading: true,
+				subCategoryAddedGames: null,
+				subCategoryAddedGamesError: null,
+			};
+
+		case GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS:
+			return {
+				...state,
+				isSubCategoryAddedGamesLoading: false,
+				subCategoryAddedGames: payload,
+				subCategoryAddedGamesError: null,
+			};
+
+		case GET_ADDED_GAMES_IN_SUB_CATEGORY_FAIL:
+			return {
+				...state,
+				subCategoryAddedGamesError: payload,
+				isSubCategoryAddedGamesLoading: false,
+				subCategoryAddedGames: null,
+			};
+
+		case REMOVE_GAME_FROM_SUB_CATEGORY_START:
+			return {
+				...state,
+				isRemoveGameFromSubCategoryLoading: true,
+				isRemoveGameFromSubCategorySuccess: false,
+				isRemoveGameFromSubCategoryError: null,
+			};
+
+		case REMOVE_GAME_FROM_SUB_CATEGORY_SUCCESS:
+			return {
+				...state,
+				isRemoveGameFromSubCategoryLoading: false,
+				isRemoveGameFromSubCategorySuccess: true,
+				isRemoveGameFromSubCategoryError: null,
+			};
+
+		case REMOVE_GAME_FROM_SUB_CATEGORY_FAIL:
+			return {
+				...state,
+				isRemoveGameFromSubCategoryLoading: false,
+				isRemoveGameFromSubCategorySuccess: false,
+				isRemoveGameFromSubCategoryError: payload,
 			};
 
 		default:
