@@ -4,6 +4,7 @@ import { modules } from './permissions';
 
 const sideBarElements = [
 	{
+		id: 101,
 		isSeparator: true,
 		title: 'Menu',
 	},
@@ -18,6 +19,13 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		groupedModules: [
+			modules.DemographReport,
+			modules.KpiReport,
+			modules.KpiSummaryReport,
+			modules.LivePlayerReport,
+			modules.GameReport,
+		],
 	},
 	{
 		id: 2,
@@ -81,6 +89,11 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		groupedModules: [
+			modules.Currencies,
+			modules.RestrictedCountry,
+			modules.MultiLanguage,
+		],
 		subMenu: [
 			{
 				id: 7,
@@ -160,6 +173,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		groupedModules: [modules.CMS, modules.EmailTemplate, modules.ImageGallery],
 		subMenu: [
 			{
 				id: 12,
@@ -203,8 +217,10 @@ const sideBarElements = [
 		],
 	},
 	{
+		id: 102,
 		isSeparator: true,
 		title: 'Casino 	service',
+		groupedModules: [modules.CashierManagement, modules.BannerManagement],
 	},
 	{
 		id: 15,
@@ -217,6 +233,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		groupedModules: [modules.CashierManagement, modules.BannerManagement],
 		subMenu: [
 			{
 				id: 16,
@@ -299,8 +316,10 @@ const sideBarElements = [
 		],
 	},
 	{
+		id: 103,
 		isSeparator: true,
 		title: 'Reward administration',
+		groupedModules: [modules.WageringTemplate, modules.Bonus],
 	},
 	{
 		id: 22,
@@ -313,6 +332,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		groupedModules: [modules.WageringTemplate, modules.Bonus],
 		subMenu: [
 			// {
 			// 	id: 23,
@@ -356,8 +376,10 @@ const sideBarElements = [
 		],
 	},
 	{
+		id: 104,
 		isSeparator: true,
 		title: 'Statements',
+		groupedModules: [modules.Transactions, modules.Reviews],
 	},
 	{
 		id: 26,
@@ -370,6 +392,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		groupedModules: [modules.Transactions, modules.Reviews],
 		subMenu: [
 			{
 				id: 27,
@@ -439,8 +462,10 @@ const sideBarElements = [
 		],
 	},
 	{
+		id: 105,
 		isSeparator: true,
 		title: 'Sports Management',
+		groupedModules: [modules.SportbookManagement],
 	},
 	// {
 	// 	id: 32,
@@ -466,6 +491,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
+		groupedModules: [modules.SportbookManagement],
 		subMenu: [
 			{
 				id: 34,
@@ -556,6 +582,7 @@ const getMegaMenuElement = () => {
 					id,
 					link: '#!',
 					label: tab.title,
+					...tab,
 				};
 				id += 1;
 			} else {

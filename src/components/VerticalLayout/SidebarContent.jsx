@@ -1,6 +1,7 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/jsx-no-useless-fragment */
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useMemo } from 'react';
 
 // //Import Scrollbar
 import SimpleBar from 'simplebar-react';
@@ -9,6 +10,8 @@ import SimpleBar from 'simplebar-react';
 import MetisMenu from 'metismenujs';
 import { Link, useLocation } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { isEmpty } from 'lodash';
 import withRouter from '../Common/withRouter';
 import { sideBarElements } from '../../constants/sidebar';
 import usePermission from '../Common/Hooks/usePermission';
@@ -18,7 +21,10 @@ import usePermission from '../Common/Hooks/usePermission';
 const SidebarContent = ({ t }) => {
 	const ref = useRef();
 	const path = useLocation();
-	const { isGranted } = usePermission();
+	const { isGranted, permissions } = usePermission();
+	const superAdminUser = useSelector(
+		(state) => state.PermissionDetails.superAdminUser
+	);
 	function scrollElement(item) {
 		if (item) {
 			const currentPosition = item.offsetTop;
@@ -32,6 +38,7 @@ const SidebarContent = ({ t }) => {
 		item.classList.add('active');
 		const parent = item.parentElement;
 		const parent2El = parent.childNodes[1];
+
 		if (parent2El && parent2El.id !== 'side-menu') {
 			parent2El.classList.add('mm-show');
 		}
@@ -76,7 +83,7 @@ const SidebarContent = ({ t }) => {
 			}
 			if (parent) {
 				const parent2El =
-					parent.childNodes && parent.childNodes.lenght && parent.childNodes[1]
+					parent.childNodes && parent.childNodes.length && parent.childNodes[1]
 						? parent.childNodes[1]
 						: null;
 				if (parent2El && parent2El.id !== 'side-menu') {
@@ -112,8 +119,9 @@ const SidebarContent = ({ t }) => {
 	const activeMenu = useCallback(() => {
 		const pathName = path.pathname;
 		let matchingMenuItem = null;
-		const ul = document.getElementById('side-menu');
-		const items = ul.getElementsByTagName('a');
+		const ul = document?.getElementById('side-menu');
+		const items = ul?.getElementsByTagName('a');
+		if (!items) return;
 		removeActivation(items);
 
 		for (let i = 0; i < items.length; i += 1) {
@@ -125,65 +133,87 @@ const SidebarContent = ({ t }) => {
 		if (matchingMenuItem) {
 			activateParentDropdown(matchingMenuItem);
 		}
-	}, [path.pathname, activateParentDropdown]);
+	}, [path.pathname, permissions]);
 
 	useEffect(() => {
 		ref.current.recalculate();
 	}, []);
 
 	useEffect(() => {
-		// eslint-disable-next-line no-new
-		new MetisMenu('#side-menu');
-		activeMenu();
+		const metis = new MetisMenu('#side-menu');
+		activeMenu(metis);
 	}, []);
 
 	useEffect(() => {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 		activeMenu();
-	}, [activeMenu]);
+	}, []);
+
+	const hideModule = (nav) =>
+		nav?.groupedModules?.filter((module) => isGranted(module, 'R'))?.length ===
+		0;
+
+	const renderSideBar = useMemo(
+		() =>
+			sideBarElements
+				.filter((nav) => {
+					if (nav?.module && !isGranted(nav.module, 'R')) {
+						return false;
+					}
+
+					if (
+						nav?.groupedModules &&
+						!isEmpty(superAdminUser) &&
+						hideModule(nav)
+					) {
+						return false;
+					}
+
+					return true;
+				})
+				?.map((nav) => {
+					if (nav?.isSeparator) {
+						return (
+							<li className="menu-title" key={nav?.id}>
+								{nav.title}{' '}
+							</li>
+						);
+					}
+					return (
+						<li key={nav?.id}>
+							<Link to={nav.link} className={nav.linkClass}>
+								<i className={nav.iconName} />
+								<span className={nav.spanClass}>{t(nav.label)}</span>
+							</Link>
+							{nav?.subMenu?.length && (
+								<ul className="sub-menu">
+									{nav?.subMenu?.map((sub) => {
+										if (sub?.module && !isGranted(sub.module, 'R')) {
+											return null;
+										}
+										return (
+											<li key={sub?.link}>
+												<Link to={sub.link}>{t(sub.label)}</Link>
+											</li>
+										);
+									})}
+								</ul>
+							)}
+						</li>
+					);
+				}),
+		[sideBarElements, permissions]
+	);
 
 	return (
 		<SimpleBar className="h-100 simple-bar" ref={ref}>
 			<div id="sidebar-menu" className="h-100 position-relative">
 				<ul className="metismenu list-unstyled" id="side-menu">
-					{sideBarElements.map((nav) => {
-						if (nav?.module && !isGranted(nav.module, 'R')) {
-							return <></>;
-						}
-						if (nav?.isSeparator) {
-							return (
-								<li className="menu-title" key={nav?.id}>
-									{nav.title}{' '}
-								</li>
-							);
-						}
-						return (
-							<li key={nav?.id}>
-								<Link to={nav.link} className={nav.linkClass}>
-									<i className={nav.iconName} />
-									<span className={nav.spanClass}>{t(nav.label)}</span>
-								</Link>
-								{nav?.subMenu?.length && (
-									<ul className="sub-menu">
-										{nav?.subMenu?.map((sub) => {
-											if (sub?.module && !isGranted(sub.module, 'R')) {
-												return <></>;
-											}
-											return (
-												<li key={sub?.link}>
-													<Link to={sub.link}>{t(sub.label)}</Link>
-												</li>
-											);
-										})}
-									</ul>
-								)}
-							</li>
-						);
-					})}
+					{renderSideBar}
 				</ul>
-				<p className="text-center w-100 bottom-text">
-					ARC 1.0.0 powered by GAMMASTACK
-				</p>
+				{/* <p className="text-center w-100 bottom-text">
+          ARC 1.0.0 powered by GAMMASTACK
+        </p> */}
 			</div>
 		</SimpleBar>
 	);
