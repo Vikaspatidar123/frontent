@@ -82,7 +82,11 @@ const App = () => {
 					<Route
 						path={route.path}
 						element={
-							<Authmiddleware>
+							<Authmiddleware
+								modules={route.modules}
+								operation={route.operation}
+								isHome={route.isHome}
+							>
 								<Layout>{route.component}</Layout>
 							</Authmiddleware>
 						}

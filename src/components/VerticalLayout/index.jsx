@@ -81,21 +81,22 @@ const Layout = (props) => {
   layout  settings
   */
 
+	const preLoaderDisplay = (dis) => {
+		document.getElementById('preloader').style.display = dis;
+		document.getElementById('status').style.display = dis;
+	};
+
 	useEffect(() => {
 		//init body click event fot toggle rightbar
 		document.body.addEventListener('click', hideRightbar, true);
 
 		if (isPreloader === true) {
-			document.getElementById('preloader').style.display = 'block';
-			document.getElementById('status').style.display = 'block';
-
+			preLoaderDisplay('block');
 			setTimeout(function () {
-				document.getElementById('preloader').style.display = 'none';
-				document.getElementById('status').style.display = 'none';
+				preLoaderDisplay('none');
 			}, 2500);
 		} else {
-			document.getElementById('preloader').style.display = 'none';
-			document.getElementById('status').style.display = 'none';
+			preLoaderDisplay('none');
 		}
 	}, [isPreloader]);
 
