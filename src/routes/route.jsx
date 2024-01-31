@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
-import { getAccessToken, removeLoginToken } from '../network/storageUtils';
+import { getAccessToken } from '../network/storageUtils';
 import { getSuperAdminStart } from '../store/auth/permissionDetails/actions';
 import { getRolesStart } from '../store/auth/roles/actions';
 import { getSiteDetails } from '../store/actions';
@@ -13,7 +13,6 @@ import usePermission from '../components/Common/Hooks/usePermission';
 const Authmiddleware = ({ children, location, modules, operation, isHome }) => {
 	const accessToken = getAccessToken();
 	const { isGranted, permissions } = usePermission();
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -62,12 +61,12 @@ const Authmiddleware = ({ children, location, modules, operation, isHome }) => {
 		const grantedList = modules.filter((module) =>
 			isGranted(module, operation)
 		);
-		if (!grantedList?.length) {
-			if (isHome) {
-				removeLoginToken();
-				navigate('/login');
-				return null;
-			}
+		if (!grantedList?.length && !isHome) {
+			// if (isHome) {
+			// 	removeLoginToken();
+			// 	navigate('/login');
+			// 	return null;
+			// }
 			return <Navigate to={{ pathname: '/', state: { from: location } }} />;
 		}
 	}
