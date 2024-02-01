@@ -22,7 +22,7 @@ const daysOfWeek = [
 const bonusTypes = [
 	{ label: 'DEPOSIT', value: 'deposit', id: 1 },
 	{ label: 'FREESPINS', value: 'freespins', id: 2 },
-	{ label: 'PROMOTION', value: 'promotion', id: 3 },
+	{ label: 'JOINING', value: 'joining', id: 3 },
 ];
 
 const convertAmountOptions = [

@@ -23,25 +23,29 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	const { adminDetails, isLoading, error } = useSelector(
 		(state) => state.AllAdmins
 	);
+
+	const { roles } = useSelector((state) => state?.AdminRoles);
 	const [page, setPage] = useState(1);
 	const [orderBy, setOrderBy] = useState('id');
 	const [sort, setSort] = useState('desc');
 	const [name, setName] = useState();
 
 	const formattedAdminDetails = useMemo(() => {
-		if (adminDetails) {
+		if (adminDetails?.rows?.length && roles?.rows?.length > 0) {
 			return adminDetails?.rows.map((admin) => {
 				const randomColor = getRandomColor();
 				return {
 					...admin,
 					fullName: `${admin.firstName} ${admin.lastName}`,
 					randomColor,
-					roleName: admin?.adminRole?.name,
+					roleName: roles?.rows?.find(
+						(role) => Number(role?.id) === admin?.adminRoleId
+					)?.name,
 				};
 			});
 		}
 		return [];
-	}, [adminDetails]);
+	}, [adminDetails, roles]);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();

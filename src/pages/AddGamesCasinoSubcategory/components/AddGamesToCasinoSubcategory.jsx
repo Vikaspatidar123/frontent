@@ -162,44 +162,52 @@ const AddGamesToCasinoSubcategory = () => {
 		<Container fluid>
 			<Row>
 				<Col lg="12">
-					<Card>
-						<div className="mx-4 pt-3 d-flex justify-content-between">
-							<h5>Games you add will appear here</h5>
-							<Button
-								type="button"
-								// disabled={isGlobal}
-								className="btn btn-sm btn-success font-size-14"
-								onClick={handleSubmitClick}
-							>
-								Submit
-							</Button>
-						</div>
-						<CardBody>
-							<TableContainer
-								columns={newGamesColumns}
-								data={newGamesData}
-								isPagination
-								customPageSize={newGameItemsPerPage}
-								tableClass="table-bordered align-middle nowrap"
-								paginationDiv="justify-content-center"
-								pagination="pagination justify-content-start pagination-rounded"
-								totalPageCount={newGamesData?.length}
-								isManualPagination
-								onChangePagination={setNewGamepageNo}
-								currentPage={newGamepageNo}
-								isLoading={!isCasinoGamesLoading}
-								changeRowsPerPageCallback={onChangeNewGameTableRowsPerPage}
-							/>
-						</CardBody>
-					</Card>
+					{newGamesData?.length ? (
+						<Card>
+							<div className="mx-4 pt-3 d-flex justify-content-between">
+								<h5>Selected Games</h5>
+								<Button
+									type="button"
+									// disabled={isGlobal}
+									className="btn btn-sm btn-success font-size-14"
+									onClick={handleSubmitClick}
+								>
+									Submit
+								</Button>
+							</div>
+							<CardBody>
+								<TableContainer
+									columns={newGamesColumns || []}
+									data={newGamesData || []}
+									isPagination
+									customPageSize={newGameItemsPerPage}
+									tableClass="table-bordered align-middle nowrap"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={newGamesData?.length}
+									isManualPagination
+									onChangePagination={setNewGamepageNo}
+									currentPage={newGamepageNo}
+									isLoading={!isCasinoGamesLoading}
+									changeRowsPerPageCallback={onChangeNewGameTableRowsPerPage}
+								/>
+							</CardBody>
+						</Card>
+					) : (
+						<Card>
+							<h4 className="text-center text-primary p-5">
+								Games you add will appear here.
+							</h4>
+						</Card>
+					)}
 					<Card>
 						<CardBody>
 							<div className="mx-1 pt-3">
 								<h5>All Games</h5>
 							</div>
 							<TableContainer
-								columns={columns}
-								data={formattedGames}
+								columns={columns || []}
+								data={formattedGames || []}
 								isPagination
 								customPageSize={itemsPerPage}
 								tableClass="table-bordered align-middle nowrap mt-2"

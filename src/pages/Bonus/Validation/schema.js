@@ -241,6 +241,21 @@ const generalFormSchema = () =>
 					.integer('Only Integer Values Allowed')
 					.required('Days To Clear Required'),
 		}),
+
+		joiningAmount: Yup.number().when(['bonusType'], {
+			is: (bonusType) => {
+				if (bonusType === 'joining') {
+					return true;
+				}
+				return false;
+			},
+			then: (schema) =>
+				schema
+					.min(1, 'Minimum Value Must be One')
+					.typeError('Only Numbers Allowed')
+					.integer('Only Integer Values Allowed')
+					.required('Joining Amount Required'),
+		}),
 	});
 
 const bonusSchema = (curr, { bonusDetail }) => [
