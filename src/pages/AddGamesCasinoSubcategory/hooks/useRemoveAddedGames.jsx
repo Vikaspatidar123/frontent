@@ -67,7 +67,7 @@ const useRemoveAddedGames = () => {
 		const itemIds = selectedGames?.map((g) => g.casinoGameId);
 		dispatch(
 			removeGameFromSubCategoryStart({
-				casinoGameId: itemIds,
+				casinoGameIds: itemIds,
 				navigate,
 			})
 		);

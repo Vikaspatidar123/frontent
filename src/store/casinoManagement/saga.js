@@ -145,9 +145,9 @@ function* getSubCategoryAddedGamesWorker(action) {
 }
 
 function* removeSubCategoryAddedGamesWorker(action) {
-	const { casinoGameId, navigate } = action && action.payload;
+	const { casinoGameIds, navigate } = action && action.payload;
 	try {
-		yield removeGamesFromSubCategory(casinoGameId);
+		yield removeGamesFromSubCategory({ casinoGameIds });
 		yield put(removeGameFromSubCategorySuccess());
 		showToastr({ message: 'Games Removed Successfully', type: 'success' });
 
