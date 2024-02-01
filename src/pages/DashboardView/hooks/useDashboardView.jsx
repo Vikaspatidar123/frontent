@@ -238,7 +238,9 @@ const useDashboardView = () => {
 			// 		return true;
 			// 	});
 			labels.push('Total logged in players');
+			labels.push('Total players');
 			series.push(Number(livePlayerData?.totalLoggedInPlayers));
+			series.push(Number(livePlayerData?.totalPlayers));
 			options.series = series;
 			options.labels = labels;
 			setLoggedInOptions(options);
