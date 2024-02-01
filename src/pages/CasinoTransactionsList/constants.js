@@ -17,15 +17,15 @@ export const LEDGER_TYPES = [
 ];
 
 export const LEDGER_PURPOSE = [
-	{ label: 'CasinoBet', value: 'CasinoBet' },
-	{ label: 'CasinoWin', value: 'CasinoWin' },
-	{ label: 'CasinoRefund', value: 'CasinoRefund' },
+	// { label: 'CasinoBet', value: 'CasinoBet' },
+	// { label: 'CasinoWin', value: 'CasinoWin' },
+	// { label: 'CasinoRefund', value: 'CasinoRefund' },
 	{ label: 'Commission', value: 'Commission' },
-	{ label: 'Winnings', value: 'Winnings' },
-	{ label: 'Cash-Deposit', value: 'Cash-Deposit' },
-	{ label: 'Cash-Withdraw', value: 'Cash-Withdraw' },
-	{ label: 'NonCash-Deposit', value: 'NonCash-Deposit' },
-	{ label: 'NonCash-Withdraw', value: 'NonCash-Withdraw' },
+	// { label: 'Winnings', value: 'Winnings' },
+	// { label: 'Cash-Deposit', value: 'Cash-Deposit' },
+	// { label: 'Cash-Withdraw', value: 'Cash-Withdraw' },
+	// { label: 'NonCash-Deposit', value: 'NonCash-Deposit' },
+	// { label: 'NonCash-Withdraw', value: 'NonCash-Withdraw' },
 	{ label: 'SportsBookBet', value: 'SportsBookBet' },
 	{ label: 'SportsBookWin', value: 'SportsBookWin' },
 	{ label: 'SportsBookRefund', value: 'SportsBookRefund' },
