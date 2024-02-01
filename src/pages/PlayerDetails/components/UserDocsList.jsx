@@ -29,6 +29,7 @@ import { Id, Status } from '../TableCol';
 import ActionButtons from '../ActionButtons';
 import { getDocumentLabelCall } from '../../../network/getRequests';
 import KYCActionButtons from '../KYCActions';
+import NoDataFound from '../../../components/Common/NoDataFound';
 
 const UserDocsList = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -238,27 +239,33 @@ const UserDocsList = ({ userId }) => {
 
 	return (
 		<Container fluid>
-			<Card className="p-2">
-				<TableContainer
-					isLoading={userDocumentsLoading}
-					columns={columns}
-					data={formattedUserDocuments}
-					isPagination
-					customPageSize={20}
-					tableClass="table-bordered align-middle nowrap mt-2"
-				/>
-			</Card>
-			<Card className="p-2">
-				<h4 className="text-center">Re-Request Documents</h4>
-				<TableContainer
-					isLoading={documentLabelsLoading}
-					columns={labelColumns}
-					data={formattedDocumentLabels}
-					isPagination
-					customPageSize={20}
-					tableClass="table-bordered align-middle nowrap mt-2"
-				/>
-			</Card>
+			{formattedDocumentLabels?.length && formattedUserDocuments?.length ? (
+				<>
+					<Card className="p-2">
+						<TableContainer
+							isLoading={userDocumentsLoading}
+							columns={columns}
+							data={formattedUserDocuments}
+							isPagination
+							customPageSize={20}
+							tableClass="table-bordered align-middle nowrap mt-2"
+						/>
+					</Card>
+					<Card className="p-2">
+						<h4 className="text-center">Re-Request Documents</h4>
+						<TableContainer
+							isLoading={documentLabelsLoading}
+							columns={labelColumns}
+							data={formattedDocumentLabels}
+							isPagination
+							customPageSize={20}
+							tableClass="table-bordered align-middle nowrap mt-2"
+						/>
+					</Card>
+				</>
+			) : (
+				<NoDataFound height="400px" width="500px" />
+			)}
 		</Container>
 	);
 };

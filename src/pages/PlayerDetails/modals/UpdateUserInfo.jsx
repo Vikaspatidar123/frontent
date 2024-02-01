@@ -144,8 +144,8 @@ const UpdateUserInfo = ({ show, header, toggle }) => {
 
 	const { isOpen, setIsOpen, validation, formFields } = useForm({
 		header,
-		validationSchema: userSchema,
 		initialValues: getInitialValuesUpdateUser(userDetails),
+		validationSchema: userSchema,
 		onSubmitEntry: (values) => {
 			handleUserEdit(values);
 			toggle();

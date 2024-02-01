@@ -61,10 +61,11 @@ const Languages = ({
 	nextPressed,
 	setNextPressed,
 	setActiveTab,
+	selectedBonus,
 	// bonusDetails,
 }) => {
 	useEffect(() => {
-		if (nextPressed.currentTab === 'languages') {
+		if (nextPressed.currentTab === 'languages' && selectedBonus !== 'joining') {
 			setActiveTab(nextPressed.nextTab);
 			window.scrollTo(0, 0);
 			setNextPressed({});

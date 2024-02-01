@@ -57,13 +57,14 @@ const generalStepInitialValues = ({ bonusDetails }) => ({
 	betLevel: bonusDetails?.other?.betLevel || 1,
 	timePeriod: bonusDetails?.other?.timePeriod || '1',
 	currency: {
-		EUR: {
+		USD: {
 			maxBonusThreshold: '',
 			minDeposit: '',
 			maxWinAmount: '',
 			zeroOutThreshold: '',
 		},
 	},
+	joiningAmount: bonusDetails?.currency?.USD?.joiningAmount || '',
 });
 
 const generalStepInitialValuesFromLocalStorage = (values) => ({
@@ -87,6 +88,7 @@ const generalStepInitialValuesFromLocalStorage = (values) => ({
 	betLevel: values?.betLevel || 1,
 	timePeriod: values?.timePeriod || '1',
 	currency: values?.currency,
+	joiningAmount: values?.joiningAmount || '',
 });
 
 const getCreateBonusInitialValues = () => ({

@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { Fragment, useState } from 'react';
 import PropTypes, { oneOfType } from 'prop-types';
 import {
@@ -14,6 +15,7 @@ import ReactPaginate from 'react-paginate';
 import { useSelector } from 'react-redux';
 import { CustomSelectField } from '../../helpers/customForms';
 import { defaultPageSize, rowsPerPageOptions } from './constants';
+import NoDataFound from './NoDataFound';
 
 const TableContainer = ({
 	columns,
@@ -147,7 +149,9 @@ const TableContainer = ({
 						)}
 						{noDataFound && (
 							<tr style={{ textAlign: 'center' }}>
-								<td colSpan={columns.length}>No data found</td>
+								<td colSpan={columns.length}>
+									<NoDataFound height="200px" width="300px" />
+								</td>
 							</tr>
 						)}
 						{!isLoading &&

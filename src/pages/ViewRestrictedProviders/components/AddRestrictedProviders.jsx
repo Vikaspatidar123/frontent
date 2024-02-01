@@ -26,35 +26,43 @@ const AddRestrictedProviders = () => {
 		<Container fluid>
 			<Row>
 				<Col lg="12">
-					<Card>
-						<div className="mx-4 pt-3 d-flex justify-content-between">
-							<h5>Providers you add will appear here</h5>
-							<Button
-								type="button"
-								className="btn btn-sm btn-success font-size-14"
-								onClick={addRestrictedProvider}
-							>
-								Submit
-							</Button>
-						</div>
-						<CardBody>
-							<TableContainer
-								columns={addProviderscolumns}
-								data={selectedProviders || []}
-								isPagination
-								customPageSize={addProvidersItemsPerPage}
-								tableClass="table-bordered align-middle nowrap"
-								paginationDiv="justify-content-center"
-								pagination="pagination justify-content-start pagination-rounded"
-								totalPageCount={selectedProviders?.length || 0}
-								isManualPagination
-								onChangePagination={setAddProvidersCurrentPage}
-								currentPage={addProvidersCurrentPage}
-								isLoading={false}
-								changeRowsPerPageCallback={onChangeAddProvidersRowsPerPage}
-							/>
-						</CardBody>
-					</Card>
+					{selectedProviders?.length ? (
+						<Card>
+							<div className="mx-4 pt-3 d-flex justify-content-between">
+								<h5>Selected Providers</h5>
+								<Button
+									type="button"
+									className="btn btn-sm btn-success font-size-14"
+									onClick={addRestrictedProvider}
+								>
+									Submit
+								</Button>
+							</div>
+							<CardBody>
+								<TableContainer
+									columns={addProviderscolumns}
+									data={selectedProviders || []}
+									isPagination
+									customPageSize={addProvidersItemsPerPage}
+									tableClass="table-bordered align-middle nowrap"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={selectedProviders?.length || 0}
+									isManualPagination
+									onChangePagination={setAddProvidersCurrentPage}
+									currentPage={addProvidersCurrentPage}
+									isLoading={false}
+									changeRowsPerPageCallback={onChangeAddProvidersRowsPerPage}
+								/>
+							</CardBody>
+						</Card>
+					) : (
+						<Card>
+							<h4 className="text-center text-primary p-5">
+								Providers you add will appear here.
+							</h4>
+						</Card>
+					)}
 					<Card>
 						<div className="mx-4 pt-3">
 							<h5>Unrestricted Providers</h5>

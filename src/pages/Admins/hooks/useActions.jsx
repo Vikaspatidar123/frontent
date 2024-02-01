@@ -222,9 +222,9 @@ const useActions = (isEditPage, filterValues = {}) => {
 			if (!allAdminList?.rows) {
 				dispatch(
 					getAdminDetails({
-						limit: itemsPerPage,
-						pageNo: page,
-						orderBy: 'id',
+						// limit: itemsPerPage,
+						// pageNo: page,
+						// orderBy: 'id',
 						sort: 'desc',
 					})
 				);

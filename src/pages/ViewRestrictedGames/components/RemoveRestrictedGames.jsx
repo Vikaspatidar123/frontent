@@ -26,35 +26,43 @@ const RemoveRestrictedGames = () => {
 		<Container fluid>
 			<Row>
 				<Col lg="12">
-					<Card>
-						<div className="mx-4 pt-3 d-flex justify-content-between">
-							<h5>Games you remove will appear here</h5>
-							<Button
-								type="button"
-								className="btn btn-sm btn-success font-size-14"
-								onClick={removeRestrictedGames}
-							>
-								Submit
-							</Button>
-						</div>
-						<CardBody>
-							<TableContainer
-								columns={removeGamescolumns}
-								data={selectedGames || []}
-								isPagination
-								customPageSize={removeGamesItemsPerPage}
-								tableClass="table-bordered align-middle nowrap"
-								paginationDiv="justify-content-center"
-								pagination="pagination justify-content-start pagination-rounded"
-								totalPageCount={selectedGames?.length || 0}
-								isManualPagination
-								onChangePagination={setRemoveGamesCurrentPage}
-								currentPage={removeGamesCurrentPage}
-								isLoading={false}
-								changeRowsPerPageCallback={onChangeRemoveGamesRowsPerPage}
-							/>
-						</CardBody>
-					</Card>
+					{selectedGames?.length ? (
+						<Card>
+							<div className="mx-4 pt-3 d-flex justify-content-between">
+								<h5>Selected Games</h5>
+								<Button
+									type="button"
+									className="btn btn-sm btn-success font-size-14"
+									onClick={removeRestrictedGames}
+								>
+									Submit
+								</Button>
+							</div>
+							<CardBody>
+								<TableContainer
+									columns={removeGamescolumns}
+									data={selectedGames || []}
+									isPagination
+									customPageSize={removeGamesItemsPerPage}
+									tableClass="table-bordered align-middle nowrap"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									totalPageCount={selectedGames?.length || 0}
+									isManualPagination
+									onChangePagination={setRemoveGamesCurrentPage}
+									currentPage={removeGamesCurrentPage}
+									isLoading={false}
+									changeRowsPerPageCallback={onChangeRemoveGamesRowsPerPage}
+								/>
+							</CardBody>
+						</Card>
+					) : (
+						<Card>
+							<h4 className="text-center text-primary p-5">
+								Games you remove will appear here.
+							</h4>
+						</Card>
+					)}
 					<Card>
 						<div className="mx-4 pt-3">
 							<h5>Restricted Games</h5>

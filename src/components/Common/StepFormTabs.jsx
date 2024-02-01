@@ -26,7 +26,7 @@ const StepFormTabs = ({
 	submitButtonLoading,
 }) => {
 	const tabsToShow = useMemo(
-		() => tabsData.filter((tab) => !tab.isHidden) || [],
+		() => tabsData.filter((tab) => !tab?.isHidden) || [],
 		[tabsData]
 	);
 	const currentTabIndex = useMemo(

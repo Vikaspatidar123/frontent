@@ -149,11 +149,11 @@ const General = ({
 					...typeFreeSpinAdditionalFields(bonusDetails?.claimedCount),
 				]);
 				break;
-			case 'promotion':
+			case 'joining':
 				setFormFields([
 					...generalStaticFormFieldsWithoutPercent(
 						bonusDetails?.claimedCount,
-						bonusDetails ? [bonusDetails.validFrom, bonusDetails.validTo] : []
+						bonusDetails ? [bonusDetails?.validFrom, bonusDetails?.validTo] : []
 					),
 					{
 						name: 'bonusType',
@@ -167,6 +167,13 @@ const General = ({
 							id,
 						})),
 						isDisabled: !!bonusDetails,
+					},
+					{
+						name: 'joiningAmount',
+						fieldType: 'textField',
+						type: 'number',
+						label: 'Joining Amount',
+						placeholder: 'Joining Amount',
 					},
 					...commonFields(bonusDetails?.claimedCount),
 				]);
@@ -184,8 +191,8 @@ const General = ({
 	useEffect(() => {
 		if (isInitialFieldRendered) {
 			if (
-				validation.values.visibleInPromotions &&
-				validation.values.bonusType !== 'promotion'
+				validation?.values?.visibleInPromotions &&
+				validation?.values?.bonusType !== 'joining'
 			) {
 				const copyArray = [...formFields];
 				copyArray.splice(11, 0, {
@@ -213,6 +220,28 @@ const General = ({
 			}
 		}
 	}, [validation.values.visibleInPromotions, isInitialFieldRendered]);
+
+	useEffect(() => {
+		if (isInitialFieldRendered && validation?.values?.bonusType === 'joining') {
+			const excludedFields = [
+				'depositBonusPercent',
+				'ranges',
+				'isSticky',
+				'wageringMultiplier',
+				'wageringRequirementType',
+				'daysToClear',
+				'visibleInPromotions',
+				'showBonusValidity',
+				'toggle',
+			];
+
+			const copyArray = formFields.filter(
+				(field) => !excludedFields.includes(field?.name)
+			);
+
+			setFormFields(copyArray);
+		}
+	}, [isInitialFieldRendered, validation?.values?.bonusType]);
 
 	useEffect(() => {
 		if (existingFilledFields) {
@@ -245,17 +274,6 @@ const General = ({
 			);
 		}
 	}, []);
-
-	// useEffect(() => {
-	// 	if (localStorage.getItem(formPageTitle.bonusManagement)) {
-	// 		const storedValues = JSON.parse(
-	// 			decryptCredentials(localStorage.getItem(formPageTitle.bonusManagement))
-	// 		);
-	// 		if (!isEqual(storedValues?.bonusType, validation.values?.bonusType)) {
-	// 			handleBonusTypeChange(null, storedValues?.bonusType);
-	// 		}
-	// 	}
-	// }, [validation.values?.bonusType]);
 
 	return (
 		<Row>

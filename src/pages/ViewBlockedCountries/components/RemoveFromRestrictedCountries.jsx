@@ -21,26 +21,39 @@ const RemoveFromRestrictedCountries = () => {
 
 	return (
 		<Card className="p-2">
-			<div className="d-flex justify-content-between my-2 align-items-center">
-				<h4>Countries you remove will appear here</h4>
-				<Button
-					disabled={
-						!selectedCountriesState.length || addToRestrictedCountriesLoading
-					}
-					onClick={onSubmitSelected}
-				>
-					{addToRestrictedCountriesLoading ? <Spinner /> : 'Submit'}
-				</Button>
-			</div>
-			<TableContainer
-				columns={selectedTableColumns}
-				isLoading={false}
-				data={selectedCountriesState}
-				isPagination
-				customPageSize={itemsPerPage}
-				tableClass="table-bordered align-middle nowrap mt-2"
-			/>
-			<h4>Restricted Countries</h4>
+			{selectedCountriesState?.length ? (
+				<Card>
+					<div className="d-flex justify-content-between my-2 align-items-center">
+						<h4> Selected Countries </h4>
+						<Button
+							color="primary"
+							disabled={
+								!selectedCountriesState.length ||
+								addToRestrictedCountriesLoading
+							}
+							onClick={onSubmitSelected}
+						>
+							{addToRestrictedCountriesLoading ? <Spinner /> : 'Submit'}
+						</Button>
+					</div>
+					<TableContainer
+						columns={selectedTableColumns}
+						isLoading={false}
+						data={selectedCountriesState}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+					/>
+				</Card>
+			) : (
+				<Card>
+					<h4 className="text-center text-primary p-5">
+						{' '}
+						Countries you remove will appear here.
+					</h4>
+				</Card>
+			)}
+			<h4 className="py-3">Restricted Countries</h4>
 			<TableContainer
 				columns={columns}
 				isLoading={restrictedCountriesLoading}

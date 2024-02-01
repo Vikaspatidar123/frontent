@@ -173,27 +173,62 @@ const useCreateBonus = ({ isEdit }) => {
 	useEffect(() => {
 		if (nextPressed.nextTab === 'submit') {
 			if (isEdit) {
+				if (bonusDetails?.bonusType === 'joining') {
+					dispatch(
+						updateBonus({
+							promotionTitle: safeStringify(langContent?.promoTitle),
+							description: safeStringify(langContent?.desc),
+							termCondition: safeStringify(langContent?.terms),
+							bonusType: allFields.bonusType,
+							currency: safeStringify({
+								USD: {
+									joiningAmount: allFields.joiningAmount,
+								},
+							}),
+							isActive: allFields.isActive,
+							bonusImage: allFields.bonusImage,
+						})
+					);
+				} else {
+					dispatch(
+						updateBonus({
+							...allFields,
+							bonusId,
+							promotionTitle: safeStringify(langContent?.promoTitle),
+							description: safeStringify(langContent?.desc),
+							termCondition: safeStringify(langContent?.terms),
+							validFrom: formatDateYMD(allFields.validFrom),
+							validTo: formatDateYMD(allFields.validTo),
+							wageringTemplateId: allFields.selectedTemplateId,
+							gameIds: selectedGames,
+							other: safeStringify({
+								countries: selectedCountries,
+								showBonusValidity: allFields.showBonusValidity,
+							}),
+						})
+					);
+				}
+			} else if (allFields?.bonusType === 'joining') {
 				dispatch(
-					updateBonus({
-						...allFields,
-						bonusId,
+					createBonus({
 						promotionTitle: safeStringify(langContent?.promoTitle),
 						description: safeStringify(langContent?.desc),
 						termCondition: safeStringify(langContent?.terms),
-						validFrom: formatDateYMD(allFields.validFrom),
-						validTo: formatDateYMD(allFields.validTo),
-						wageringTemplateId: allFields.selectedTemplateId,
-						gameIds: selectedGames,
-						other: safeStringify({
-							countries: selectedCountries,
-							showBonusValidity: allFields.showBonusValidity,
+						bonusType: allFields.bonusType,
+						currency: safeStringify({
+							USD: {
+								joiningAmount: allFields.joiningAmount,
+							},
 						}),
+						isActive: allFields.isActive,
+						bonusImage: allFields.bonusImage,
 					})
 				);
 			} else {
 				dispatch(
 					createBonus({
 						...allFields,
+						currency: safeStringify(allFields.currency),
 						promotionTitle: safeStringify(langContent?.promoTitle),
 						description: safeStringify(langContent?.desc),
 						termCondition: safeStringify(langContent?.terms),
@@ -318,6 +353,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
 					bonusDetails={bonusDetails}
+					selectedBonus={selectedBonus}
 				/>
 			),
 		},
@@ -340,7 +376,7 @@ const useCreateBonus = ({ isEdit }) => {
 				/>
 			),
 			isHidden:
-				['promotion'].includes(selectedBonus) || bonusDetails?.claimedCount,
+				['joining'].includes(selectedBonus) || bonusDetails?.claimedCount,
 		},
 		{
 			id: 'wageringContribution',
@@ -358,7 +394,7 @@ const useCreateBonus = ({ isEdit }) => {
 				/>
 			),
 			isHidden:
-				['promotion'].includes(selectedBonus) || bonusDetails?.claimedCount,
+				['joining'].includes(selectedBonus) || bonusDetails?.claimedCount,
 		},
 		{
 			id: 'games',
@@ -374,7 +410,7 @@ const useCreateBonus = ({ isEdit }) => {
 				/>
 			),
 			isHidden:
-				['promotion', 'deposit'].includes(selectedBonus) ||
+				['joining', 'deposit'].includes(selectedBonus) ||
 				bonusDetails?.claimedCount,
 		},
 		{
@@ -388,6 +424,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setExistingFilledFields={setExistingFilledFields}
 				/>
 			),
+			isHidden: ['joining'].includes(selectedBonus),
 		},
 	];
 

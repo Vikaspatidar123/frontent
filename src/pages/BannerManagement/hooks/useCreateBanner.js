@@ -160,9 +160,9 @@ const useCreateBanner = () => {
 				) === 'Banner'
 			) {
 				setValidationConditions({
-					minRequiredWidth: 400,
-					minRequiredHeight: 400,
-					maxRequiredWidth: 600,
+					minRequiredWidth: 600,
+					minRequiredHeight: 300,
+					maxRequiredWidth: 1600,
 					maxRequiredHeight: 600,
 				});
 			} else {
