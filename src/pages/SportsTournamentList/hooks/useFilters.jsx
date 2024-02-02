@@ -61,8 +61,8 @@ const useFilters = () => {
 		if (isEmpty(sportsCountries)) {
 			dispatch(
 				getSportsCountries({
-					limit: itemsPerPage,
-					pageNo: 1,
+					// limit: itemsPerPage,
+					// pageNo: 1,
 				})
 			);
 		}

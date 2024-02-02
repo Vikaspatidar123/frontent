@@ -38,9 +38,8 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 					...admin,
 					fullName: `${admin.firstName} ${admin.lastName}`,
 					randomColor,
-					roleName: roles?.rows?.find(
-						(role) => Number(role?.id) === admin?.adminRoleId
-					)?.name,
+					roleName: roles?.rows?.find((role) => role?.id === admin?.adminRoleId)
+						?.name,
 				};
 			});
 		}
