@@ -56,6 +56,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 				providerName: item?.casinoProvider?.name,
 				subCategoryType: getCategoryName(item?.gameSubCategoryId),
 				thumbnail: item?.thumbnailUrl,
+				devices: item?.devices?.join(', '),
 			}));
 		}
 		return [];

@@ -33,6 +33,7 @@ const FormModal = ({
 	colOptions,
 	responsiveFormFields,
 	className,
+	disableSubmit,
 }) => {
 	const toggleFormModal = () => {
 		if (!isEditOpen) {
@@ -111,10 +112,10 @@ const FormModal = ({
 									<div className="text-end">
 										<button
 											type="submit"
-											disabled={isSubmitLoading}
+											disabled={isSubmitLoading || disableSubmit}
 											className="btn btn-primary save-user"
 										>
-											{isSubmitLoading && (
+											{isSubmitLoading && !disableSubmit && (
 												<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
 											)}
 											{/* {isSubmitLoading && <i className="bx bx-loader bx-spin font-size-16 align-middle me-2" /> } */}{' '}
@@ -149,6 +150,7 @@ FormModal.defaultProps = {
 	isEditOpen: false,
 	showConfirmationModal: false,
 	setShowConfirmationModal: () => {},
+	disableSubmit: false,
 };
 
 FormModal.propTypes = {
@@ -169,6 +171,7 @@ FormModal.propTypes = {
 	isEditOpen: PropTypes.bool,
 	showConfirmationModal: PropTypes.bool,
 	setShowConfirmationModal: PropTypes.func,
+	disableSubmit: PropTypes.bool,
 };
 
 export default FormModal;

@@ -111,6 +111,7 @@ const BannerManagement = () => {
 					submitLabel="Submit"
 					customColClasses="col-md-12"
 					isSubmitLoading={isCreateBannerLoading || isEditBannerLoading}
+					disableSubmit={typeof validation?.values?.thumbnail === 'string'}
 				/>
 				<ConfirmationModal
 					openModal={showModal}
