@@ -17,6 +17,7 @@ const initialData = {
 	daysToClear: 1,
 	isActive: false,
 	visibleInPromotions: false,
+	joiningAmount: '',
 	showBonusValidity: true,
 	validOnDays: [],
 	termCondition: {},

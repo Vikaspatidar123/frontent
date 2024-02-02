@@ -176,6 +176,7 @@ const useCreateBonus = ({ isEdit }) => {
 				if (bonusDetails?.bonusType === 'joining') {
 					dispatch(
 						updateBonus({
+							bonusId,
 							promotionTitle: safeStringify(langContent?.promoTitle),
 							description: safeStringify(langContent?.desc),
 							termCondition: safeStringify(langContent?.terms),
@@ -201,6 +202,7 @@ const useCreateBonus = ({ isEdit }) => {
 							validTo: formatDateYMD(allFields.validTo),
 							wageringTemplateId: allFields.selectedTemplateId,
 							gameIds: selectedGames,
+							currency: safeStringify(allFields?.currency),
 							other: safeStringify({
 								countries: selectedCountries,
 								showBonusValidity: allFields.showBonusValidity,

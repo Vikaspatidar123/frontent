@@ -5,14 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
 	fetchSportsMatchesStart,
 	resetSportsMatchesData,
-	updateFeaturedMatchStart,
+	// updateFeaturedMatchStart,
 } from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
 import {
 	Action,
 	Id,
-	IsFeatured,
-	Live,
+	// IsFeatured,
+	// Live,
 	Sport,
 	StartDate,
 	Status,
@@ -27,8 +27,8 @@ const useSportsMatchesListing = (filterValues = {}) => {
 	const {
 		sportsMatches,
 		loading: isSportsMatchesLoading,
-		isFeaturedUpdateLoading,
-		featuredFabData,
+		// isFeaturedUpdateLoading,
+		// featuredFabData,
 	} = useSelector((state) => state.SportsMatches);
 
 	const onChangeRowsPerPage = (value) => {
@@ -63,30 +63,30 @@ const useSportsMatchesListing = (filterValues = {}) => {
 		}
 		return formattedValues;
 	}, [sportsMatches]);
-	const toggleIsFeatured = (event, cell) => {
-		const data = {
-			isFeatured: (!event.target.checked).toString(),
-			providerMatchId: cell.row.original.providerId,
-			matchId: cell.row.original.id,
-		};
-		dispatch(updateFeaturedMatchStart(data));
-	};
+	// const toggleIsFeatured = (event, cell) => {
+	// 	const data = {
+	// 		isFeatured: (!event.target.checked).toString(),
+	// 		providerMatchId: cell.row.original.providerId,
+	// 		matchId: cell.row.original.id,
+	// 	};
+	// 	dispatch(updateFeaturedMatchStart(data));
+	// };
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'IS FEATURED',
-				accessor: 'bettingEnabled',
-				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<IsFeatured
-						toggleIsFeatured={toggleIsFeatured}
-						isFeaturedUpdateLoading={isFeaturedUpdateLoading}
-						featuredFabData={featuredFabData}
-						cell={cell}
-					/>
-				),
-			},
+			// {
+			// 	Header: 'IS FEATURED',
+			// 	accessor: 'bettingEnabled',
+			// 	disableSortBy: true,
+			// 	Cell: ({ cell }) => (
+			// 		<IsFeatured
+			// 			toggleIsFeatured={toggleIsFeatured}
+			// 			isFeaturedUpdateLoading={isFeaturedUpdateLoading}
+			// 			featuredFabData={featuredFabData}
+			// 			cell={cell}
+			// 		/>
+			// 	),
+			// },
 			{
 				Header: 'Id',
 				accessor: 'id',
@@ -127,11 +127,11 @@ const useSportsMatchesListing = (filterValues = {}) => {
 				accessor: 'status',
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
-			{
-				Header: 'Live',
-				accessor: 'isLive',
-				Cell: ({ cell }) => <Live value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Live',
+			// 	accessor: 'isLive',
+			// 	Cell: ({ cell }) => <Live value={cell.value} />,
+			// },
 			{
 				Header: 'Action',
 				accessor: '',

@@ -30,24 +30,24 @@ const staticFiltersFields = () => [
 			},
 		],
 	},
-	{
-		name: 'isLive',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Is Live',
-		optionList: [
-			{
-				id: 1,
-				optionLabel: 'Yes',
-				value: true,
-			},
-			{
-				id: 2,
-				optionLabel: 'No',
-				value: false,
-			},
-		],
-	},
+	// {
+	// 	name: 'isLive',
+	// 	fieldType: 'select',
+	// 	label: '',
+	// 	placeholder: 'Is Live',
+	// 	optionList: [
+	// 		{
+	// 			id: 1,
+	// 			optionLabel: 'Yes',
+	// 			value: true,
+	// 		},
+	// 		{
+	// 			id: 2,
+	// 			optionLabel: 'No',
+	// 			value: false,
+	// 		},
+	// 	],
+	// },
 	// {
 	// 	name: 'isFeatured',
 	// 	fieldType: 'select',
@@ -78,7 +78,7 @@ const staticFiltersFields = () => [
 const filterValues = () => ({
 	search: '',
 	providerSportId: null,
-	isLive: null,
+	// isLive: null,
 	isFeatured: null,
 	eventStatus: null,
 });
@@ -87,7 +87,7 @@ const filterValidationSchema = () =>
 	Yup.object({
 		search: Yup.string().nullable(),
 		providerSportId: Yup.string().nullable(),
-		isLive: Yup.string().nullable(),
+		// isLive: Yup.string().nullable(),
 		isFeatured: Yup.string().nullable(),
 		eventStatus: Yup.string().nullable(),
 	});
