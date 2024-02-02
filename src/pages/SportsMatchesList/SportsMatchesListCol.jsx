@@ -54,9 +54,21 @@ const IsFeatured = ({ cell, toggleIsFeatured }) => {
 
 const StartDate = ({ value }) => value ?? '';
 
-const Status = ({ value }) => value ?? '';
+const Status = ({ value }) => {
+	const status = {
+		0: 'Not Started',
+		1: 'In Progress',
+		2: 'Finished',
+		3: 'Cancelled',
+		4: 'Postponed',
+		5: 'Interrupted',
+		6: 'Abondoned',
+		7: 'Coverage Lost',
+	};
+	return status[value] || '';
+};
 
-const Live = ({ value }) => (value ? 'YES' : 'NO');
+// const Live = ({ value }) => (value ? 'YES' : 'NO');
 
 const Action = ({ row: { original } }) => (
 	<ul className="list-unstyled hstack gap-1 mb-0">
@@ -97,7 +109,7 @@ export {
 	IsFeatured,
 	StartDate,
 	Status,
-	Live,
+	// Live,
 	Action,
 };
 export default IsFeatured;

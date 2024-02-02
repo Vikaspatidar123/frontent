@@ -41,7 +41,7 @@ const DisableReason = ({ show, handleClose, markUserStatusInactive, name }) => {
 		header: `Mark ${name || 'Player'} Inactive`,
 		validationSchema: reasonSchema,
 		initialValues: {
-			reason: '',
+			reason: null,
 			description: '',
 		},
 		onSubmitEntry: (values, { resetForm }) => {

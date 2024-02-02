@@ -100,7 +100,7 @@ const useDashboardView = () => {
 	const [kpiSummaryStartDate, setKpiSummaryStartDate] = useState('');
 	const [kpiSummaryEndDate, setKpiSummaryEndDate] = useState('');
 	const [kpiReportDateOption, setKpiReportDateOption] = useState('today');
-	const [gameReportDateOption, setGameReportDateOption] = useState('today');
+	const [gameReportDateOption, setGameReportDateOption] = useState('last7days');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
 
 	const [activeKpiSummTab, setActiveKpiSummTab] = useState('sport');
