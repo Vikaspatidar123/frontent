@@ -57,7 +57,7 @@ const CreateCMSTemplate = ({
 	const [label, setLabel] = useState('');
 	const [requiredKeyData, setRequiredKeyData] = useState({});
 	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
-	const [data, setData] = useState(cmsByPageId?.content?.[selectedTab] || '');
+	const [data, setData] = useState(cmsByPageId?.content?.EN || '');
 	const dispatch = useDispatch();
 
 	const toggleDropdown = (tabId) => {
