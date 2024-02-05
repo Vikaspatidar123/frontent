@@ -3,22 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer';
 import {
-	leftStaticFormFields,
-	rightStaticFormFields,
-	getInitialValues,
-	validationSchema,
+  leftStaticFormFields,
+  rightStaticFormFields,
+  getInitialValues,
+  validationSchema,
 } from '../formDetails';
 import PermissionForm from '../permissionForm';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
-	resetLinearProgress,
-	showLinearProgress,
+  resetLinearProgress,
+  showLinearProgress,
 } from '../../../store/progressLoading/actions';
 import { getPermissionsStart } from '../../../store/auth/permissionDetails/actions';
 import {
-	addSuperAdminUserStart,
-	getAdminDetails,
-	updateSuperAdminUserStart,
+  addSuperAdminUserStart,
+  getAdminDetails,
+  updateSuperAdminUserStart,
 } from '../../../store/actions';
 import useAdminListing from './useAdminListing';
 import { showToastr } from '../../../utils/helpers';
@@ -28,282 +28,282 @@ import { decryptCredentials } from '../../../network/storageUtils';
 import { getRolesStart } from '../../../store/auth/roles/actions';
 
 const useActions = (isEditPage, filterValues = {}) => {
-	const location = useLocation();
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const roles = useSelector((state) => state.AdminRoles.roles);
-	// const groups = useSelector((state) => state.AdminUser.groups);
-	const { adminDetails, superAdminUser, isAdminLoading } = useSelector(
-		(state) => state.PermissionDetails
-	);
-	const {
-		isAddSuperUserLoading,
-		isUpdateSuperUserLoading,
-		adminDetails: allAdminList,
-	} = useSelector((state) => state.AllAdmins);
-	const [customComponent, setCustomComponent] = useState();
-	const [isEdit, setIsEdit] = useState(isEditPage || false);
-	const [showModal, setShowModal] = useState(false);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const roles = useSelector((state) => state.AdminRoles.roles);
+  // const groups = useSelector((state) => state.AdminUser.groups);
+  const { adminDetails, superAdminUser, isAdminLoading } = useSelector(
+    (state) => state.PermissionDetails
+  );
+  const {
+    isAddSuperUserLoading,
+    isUpdateSuperUserLoading,
+    adminDetails: allAdminList,
+  } = useSelector((state) => state.AllAdmins);
+  const [customComponent, setCustomComponent] = useState();
+  const [isEdit, setIsEdit] = useState(isEditPage || false);
+  const [showModal, setShowModal] = useState(false);
 
-	const handleStaffSubmit = (values) => {
-		if (
-			[undefined, null].includes(values.permission) ||
-			Object.keys(values.permission).length < 1
-		) {
-			dispatch(
-				showToastr({
-					message: 'Please select at least one permission',
-					type: 'error',
-				})
-			);
-		} else if (isEdit) {
-			dispatch(
-				updateSuperAdminUserStart({
-					data: {
-						...values,
-						adminUserId: Number(adminDetails?.id),
-					},
-					navigate,
-				})
-			);
-		} else {
-			dispatch(
-				addSuperAdminUserStart({
-					data: {
-						...values,
-						password: Buffer.from(values.password).toString('base64'),
-						adminId: values.adminId ? Number(values.adminId) : adminDetails.id,
-						superAdminId: Number(superAdminUser?.id),
-					},
-					navigate,
-				})
-			);
-		}
-	};
+  const handleStaffSubmit = (values) => {
+    if (
+      [undefined, null].includes(values.permission) ||
+      Object.keys(values.permission).length < 1
+    ) {
+      dispatch(
+        showToastr({
+          message: 'Please select at least one permission',
+          type: 'error',
+        })
+      );
+    } else if (isEdit) {
+      dispatch(
+        updateSuperAdminUserStart({
+          data: {
+            ...values,
+            adminUserId: Number(adminDetails?.id),
+          },
+          navigate,
+        })
+      );
+    } else {
+      dispatch(
+        addSuperAdminUserStart({
+          data: {
+            ...values,
+            password: Buffer.from(values.password).toString('base64'),
+            adminId: values.adminId ? Number(values.adminId) : adminDetails.id,
+            superAdminId: Number(superAdminUser?.id),
+          },
+          navigate,
+        })
+      );
+    }
+  };
 
-	const handleAdminSelect = (e) => {
-		dispatch(getPermissionsStart(Number(e.target.value)));
-	};
+  const handleAdminSelect = (e) => {
+    dispatch(getPermissionsStart(Number(e.target.value)));
+  };
 
-	const {
-		isOpen,
-		setIsOpen,
-		header,
-		validation,
-		leftFormFields,
-		setLeftFormFields,
-		rightFormFields,
-		setRightFormFields,
-		setHeader,
-	} = useForm({
-		header: isEdit ? 'Add Staff' : 'Edit Staff',
-		initialValues: getInitialValues(isEdit ? adminDetails : null, isEdit),
-		validationSchema: validationSchema(isEdit),
-		onSubmitEntry: handleStaffSubmit,
-		leftStaticFormFields: leftStaticFormFields(isEdit),
-		rightStaticFormFields: rightStaticFormFields(isEdit),
-	});
+  const {
+    isOpen,
+    setIsOpen,
+    header,
+    validation,
+    leftFormFields,
+    setLeftFormFields,
+    rightFormFields,
+    setRightFormFields,
+    setHeader,
+  } = useForm({
+    header: isEdit ? 'Add Staff' : 'Edit Staff',
+    initialValues: getInitialValues(isEdit ? adminDetails : null, isEdit),
+    validationSchema: validationSchema(isEdit),
+    onSubmitEntry: handleStaffSubmit,
+    leftStaticFormFields: leftStaticFormFields(isEdit),
+    rightStaticFormFields: rightStaticFormFields(isEdit),
+  });
 
-	const handleEdit = (e, row) => {
-		e.preventDefault();
-		setIsEdit(true);
-		navigate(`edit/${row.id}`);
-		// setHeader('Edit Staff');
-		dispatch(showLinearProgress());
-	};
+  const handleEdit = (e, row) => {
+    e.preventDefault();
+    setIsEdit(true);
+    navigate(`edit/${row.id}`);
+    // setHeader('Edit Staff');
+    dispatch(showLinearProgress());
+  };
 
-	const {
-		formattedAdminDetails,
-		isLoading,
-		totalAdminsCount,
-		page,
-		setPage,
-		itemsPerPage,
-		columns,
-		onChangeRowsPerPage,
-	} = useAdminListing(handleEdit, filterValues);
+  const {
+    formattedAdminDetails,
+    isLoading,
+    totalAdminsCount,
+    page,
+    setPage,
+    itemsPerPage,
+    columns,
+    onChangeRowsPerPage,
+  } = useAdminListing(handleEdit, filterValues);
 
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		setHeader('Add Staff');
-		navigate('add');
-		setIsEdit(false);
-	};
+  const handleAddClick = (e) => {
+    e.preventDefault();
+    setHeader('Add Staff');
+    navigate('add');
+    setIsEdit(false);
+  };
 
-	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleAddClick,
-			link: '#!',
-			module: modules.Admins,
-			operation: 'C',
-		},
-	]);
+  const buttonList = useMemo(() => [
+    {
+      label: 'Create',
+      handleClick: handleAddClick,
+      link: '#!',
+      module: modules.Admins,
+      operation: 'C',
+    },
+  ]);
 
-	const setCustomFields = () => {
-		if (roles?.rows) {
-			let customField = {};
+  const setCustomFields = () => {
+    if (roles?.rows) {
+      let customField = {};
 
-			const roleOptions =
-				roles?.rows
-					?.filter((r) => r.name !== 'Superadmin')
-					.map((r) => ({
-						id: r.id,
-						optionLabel: r.name,
-						value: r.name,
-					})) || [];
+      const roleOptions =
+        roles?.rows
+          ?.filter((r) => r.name !== 'Superadmin')
+          .map((r) => ({
+            id: r.id,
+            optionLabel: r.name,
+            value: r.name,
+          })) || [];
 
-			// const groupOptions = groups
-			//   .filter((r) => r)
-			//   .map((g) => ({
-			//     id: g,
-			//     label: g,
-			//     value: g,
-			//   }));
+      // const groupOptions = groups
+      //   .filter((r) => r)
+      //   .map((g) => ({
+      //     id: g,
+      //     label: g,
+      //     value: g,
+      //   }));
 
-			const adminOptions =
-				allAdminList?.rows?.map((ad) => ({
-					optionLabel: `${ad.firstName} ${ad.lastName}`,
-					value: ad.id,
-				})) || [];
+      const adminOptions =
+        allAdminList?.rows?.map((ad) => ({
+          optionLabel: `${ad.firstName} ${ad.lastName}`,
+          value: ad.id,
+        })) || [];
 
-			if (validation?.values?.role === 'Manager') {
-				validation.setFieldValue('adminRoleId', 3);
-				customField = {
-					name: 'adminId',
-					fieldType: 'select',
-					label: 'Admin',
-					placeholder: 'Select Admin',
-					optionList: adminOptions,
-					callBack: handleAdminSelect,
-					isDisabled: isEdit,
-				};
-			} else if (validation?.values?.role === 'Support') {
-				validation.setFieldValue('adminRoleId', 2);
-			}
-			setRightFormFields([
-				...rightStaticFormFields(isEdit),
-				// {
-				//   name: 'group',
-				//   fieldType: 'creatableSingleSelect',
-				//   label: 'Group',
-				//   optionList: groupOptions,
-				//   callBack: (option) => {
-				//     validation.setFieldValue('group', option.value);
-				//   },
-				// },
-				isEdit ? customField : {},
-			]);
+      if (validation?.values?.role === 'Support') {
+        validation.setFieldValue('adminRoleId', 3);
+        customField = {
+          name: 'adminId',
+          fieldType: 'select',
+          label: 'Admin',
+          placeholder: 'Select Admin',
+          optionList: adminOptions,
+          callBack: handleAdminSelect,
+          isDisabled: isEdit,
+        };
+      } else if (validation?.values?.role === 'Manager') {
+        validation.setFieldValue('adminRoleId', 2);
+      }
+      setRightFormFields([
+        ...rightStaticFormFields(isEdit),
+        // {
+        //   name: 'group',
+        //   fieldType: 'creatableSingleSelect',
+        //   label: 'Group',
+        //   optionList: groupOptions,
+        //   callBack: (option) => {
+        //     validation.setFieldValue('group', option.value);
+        //   },
+        // },
+        isEdit ? customField : {},
+      ]);
 
-			setLeftFormFields([
-				...leftStaticFormFields(isEdit),
-				{
-					name: 'role',
-					fieldType: 'select',
-					label: 'Role',
-					placeholder: 'Select Role',
-					optionList: roleOptions,
-					isDisabled: isEdit,
-				},
-				isEdit ? {} : customField,
-			]);
-		}
-	};
+      setLeftFormFields([
+        ...leftStaticFormFields(isEdit),
+        {
+          name: 'role',
+          fieldType: 'select',
+          label: 'Role',
+          placeholder: 'Select Role',
+          optionList: roleOptions,
+          isDisabled: isEdit,
+        },
+        isEdit ? {} : customField,
+      ]);
+    }
+  };
 
-	useEffect(() => {
-		if (
-			location.pathname === '/staff/add' ||
-			location.pathname?.includes('/staff/edit')
-		) {
-			if (!roles?.rows) {
-				dispatch(getRolesStart());
-			}
+  useEffect(() => {
+    if (
+      location.pathname === '/staff/add' ||
+      location.pathname?.includes('/staff/edit')
+    ) {
+      if (!roles?.rows) {
+        dispatch(getRolesStart());
+      }
 
-			if (!allAdminList?.rows) {
-				dispatch(
-					getAdminDetails({
-						// limit: itemsPerPage,
-						// pageNo: page,
-						// orderBy: 'id',
-						sort: 'desc',
-					})
-				);
-			}
-		}
+      if (!allAdminList?.rows) {
+        dispatch(
+          getAdminDetails({
+            // limit: itemsPerPage,
+            // pageNo: page,
+            // orderBy: 'id',
+            sort: 'desc',
+          })
+        );
+      }
+    }
 
-		if (
-			roles?.rows &&
-			// !isEmpty(groups) &&
-			allAdminList?.rows
-		)
-			setCustomFields();
-	}, [
-		roles,
-		// groups,
-		validation?.values?.role,
-		isEdit,
-		allAdminList,
-		// validation?.values?.group,
-	]);
+    if (
+      roles?.rows &&
+      // !isEmpty(groups) &&
+      allAdminList?.rows
+    )
+      setCustomFields();
+  }, [
+    roles,
+    // groups,
+    validation?.values?.role,
+    isEdit,
+    allAdminList,
+    // validation?.values?.group,
+  ]);
 
-	useEffect(() => {
-		// if(validation?.values?.role === 'Support' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
-		setCustomComponent(
-			<PermissionForm
-				values={validation.values}
-				adminDetails={adminDetails}
-				superAdminUser={superAdminUser}
-				validation={validation}
-				isEdit={isEdit}
-			/>
-		);
-	}, [
-		validation?.values,
-		adminDetails,
-		superAdminUser,
-		validation?.values?.role,
-	]);
+  useEffect(() => {
+    // if(validation?.values?.role === 'Support' || (validation?.values?.role === 'Manager' && validation?.values?.adminId))
+    setCustomComponent(
+      <PermissionForm
+        values={validation.values}
+        adminDetails={adminDetails}
+        superAdminUser={superAdminUser}
+        validation={validation}
+        isEdit={isEdit}
+      />
+    );
+  }, [
+    validation?.values,
+    adminDetails,
+    superAdminUser,
+    validation?.values?.role,
+  ]);
 
-	useEffect(() => {
-		if (isEdit && adminDetails && !isAdminLoading) {
-			dispatch(resetLinearProgress());
-		}
-	}, [adminDetails, isAdminLoading]);
+  useEffect(() => {
+    if (isEdit && adminDetails && !isAdminLoading) {
+      dispatch(resetLinearProgress());
+    }
+  }, [adminDetails, isAdminLoading]);
 
-	useEffect(() => {
-		if (localStorage.getItem(formPageTitle.staff)) {
-			const values = JSON.parse(
-				decryptCredentials(localStorage.getItem(formPageTitle.staff))
-			);
-			validation.setValues(values);
-		}
-	}, []);
+  useEffect(() => {
+    if (localStorage.getItem(formPageTitle.staff)) {
+      const values = JSON.parse(
+        decryptCredentials(localStorage.getItem(formPageTitle.staff))
+      );
+      validation.setValues(values);
+    }
+  }, []);
 
-	return {
-		isOpen,
-		setIsOpen,
-		header,
-		validation,
-		customComponent,
-		isLoading,
-		totalAdminsCount,
-		page,
-		setPage,
-		itemsPerPage,
-		columns,
-		formattedAdminDetails,
-		buttonList,
-		leftFormFields,
-		rightFormFields,
-		isAddSuperUserLoading,
-		isUpdateSuperUserLoading,
-		isAdminLoading,
-		adminDetails,
-		onChangeRowsPerPage,
-		showModal,
-		setShowModal,
-		navigate,
-	};
+  return {
+    isOpen,
+    setIsOpen,
+    header,
+    validation,
+    customComponent,
+    isLoading,
+    totalAdminsCount,
+    page,
+    setPage,
+    itemsPerPage,
+    columns,
+    formattedAdminDetails,
+    buttonList,
+    leftFormFields,
+    rightFormFields,
+    isAddSuperUserLoading,
+    isUpdateSuperUserLoading,
+    isAdminLoading,
+    adminDetails,
+    onChangeRowsPerPage,
+    showModal,
+    setShowModal,
+    navigate,
+  };
 };
 
 export default useActions;
