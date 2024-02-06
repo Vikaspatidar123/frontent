@@ -13,12 +13,7 @@ import DivLoader from '../../components/Common/Loader/divLoader';
 
 const Id = ({ value }) => value ?? '';
 
-const Title = ({ cell }) =>
-	cell.value ? (
-		<Link to={`/match/${cell?.row?.original?.id}`}>{cell.value}</Link>
-	) : (
-		''
-	);
+const Title = ({ cell }) => cell.value;
 
 const Tournament = ({ value }) => value ?? '-';
 
