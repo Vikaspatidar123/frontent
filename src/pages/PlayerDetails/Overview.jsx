@@ -205,7 +205,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											Duplicates ({duplicateUsers?.count})
 										</Button>
 									</ColumnContainer>
-									{isGranted(modules.Bonus, 'Issue') && (
+									{/* {isGranted(modules.Bonus, 'Issue') && (
 										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
@@ -215,7 +215,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 												Give Bonus
 											</Button>
 										</ColumnContainer>
-									)}
+									)} */}
 									{isGranted(modules.Users, 'AB') && (
 										<ColumnContainer>
 											<Button

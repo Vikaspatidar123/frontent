@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
@@ -7,9 +7,11 @@ import TableContainer from '../../components/Common/TableContainer';
 import useSportsMatchDetail from './hooks/useSportsMatchDetail';
 import AccordianMatchDetails from './components/AccordianMatchDetails';
 import Breadcrumb from '../../components/Common/Breadcrumb';
+import ModalView from '../../components/Common/Modal';
 
 const SportsMatchDetail = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
+	const [showModal, setShowModal] = useState(true);
 	const {
 		columns,
 		matchId,
@@ -45,7 +47,7 @@ const SportsMatchDetail = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Market Details" />
+							<CrudSection buttonList={[]} title="Event Details" />
 							<CardBody>
 								<TableContainer
 									isLoading={isSportsMatchDetailsLoading}
@@ -58,7 +60,7 @@ const SportsMatchDetail = () => {
 						</Card>
 						{!isEmpty(matchOdsDetails?.rows) && (
 							<Card>
-								<CrudSection buttonList={[]} title="Event Detail" />
+								<CrudSection buttonList={[]} title="Market Details" />
 								<CardBody>
 									<AccordianMatchDetails
 										matchOdsDetails={matchOdsDetails}
@@ -84,6 +86,17 @@ const SportsMatchDetail = () => {
 						)}
 					</Col>
 				</Row>
+				<ModalView
+					openModal={showModal}
+					toggleModal={() => setShowModal(!showModal)}
+					headerTitle="Arriving shortly!!"
+					hideFooter
+					className="modal-dialog"
+				>
+					{' '}
+					Stay tuned for an intuitive and powerful odd manipulation
+					functionality!
+				</ModalView>
 			</Container>
 		</div>
 	);
