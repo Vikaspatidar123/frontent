@@ -12,7 +12,7 @@ import BetHistory from './BetHistory';
 import SportsBettingHistory from './SportsBettingHistory';
 import Transactions from './Transactions';
 import KYCSettings from './KYCSettings';
-import YourBonuses from './YourBonuses';
+// import YourBonuses from './YourBonuses';
 import Limits from './Limits';
 import { modules } from '../../constants/permissions';
 import { getUserDetails, resetUserLimitData } from '../../store/actions';
@@ -129,12 +129,12 @@ const PlayerDetailsPage = ({ t }) => {
 			title: 'KYC Settings',
 			component: <KYCSettings userDetails={userDetails} userId={playerId} />,
 		},
-		{
-			id: 8,
-			title: 'Bonuses',
-			component: <YourBonuses userId={playerId} />,
-			isHidden: !isGranted(modules.Bonus, 'R'),
-		},
+		// {
+		// 	id: 8,
+		// 	title: 'Bonuses',
+		// 	component: <YourBonuses userId={playerId} />,
+		// 	isHidden: !isGranted(modules.Bonus, 'R'),
+		// },
 		// {
 		// 	id: 9,
 		// 	title: 'Notes',
