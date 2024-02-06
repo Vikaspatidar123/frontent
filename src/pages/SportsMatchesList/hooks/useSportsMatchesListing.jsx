@@ -9,7 +9,7 @@ import {
 } from '../../../store/actions';
 import { getDateTime } from '../../../helpers/dateFormatter';
 import {
-	Action,
+	// Action,
 	Id,
 	// IsFeatured,
 	// Live,
@@ -132,12 +132,12 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			// 	accessor: 'isLive',
 			// 	Cell: ({ cell }) => <Live value={cell.value} />,
 			// },
-			{
-				Header: 'Action',
-				accessor: '',
-				disableSortBy: true,
-				Cell: ({ cell }) => <Action row={cell.row} />,
-			},
+			// {
+			// 	Header: 'Action',
+			// 	accessor: '',
+			// 	disableSortBy: true,
+			// 	Cell: ({ cell }) => <Action row={cell.row} />,
+			// },
 		],
 		[]
 	);
