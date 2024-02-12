@@ -1,8 +1,3 @@
-/* eslint-disable arrow-body-style */
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/forbid-prop-types */
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
@@ -19,28 +14,8 @@ import Authmiddleware from './routes/route';
 import VerticalLayout from './components/VerticalLayout';
 import HorizontalLayout from './components/HorizontalLayout';
 import NonAuthLayout from './components/NonAuthLayout';
-
-// Import scss
 import './assets/scss/theme.scss';
-
-// Import Firebase Configuration file
-// import { initFirebaseBackend } from "./helpers/firebase_helper"
-
 import LinearLoading from './components/Common/LinearLoading';
-
-// const firebaseConfig = {
-//   apiKey: import.meta.env.VITE_APP_APIKEY,
-//   authDomain: import.meta.env.VITE_APP_AUTHDOMAIN,
-//   databaseURL: import.meta.env.VITE_APP_DATABASEURL,
-//   projectId: import.meta.env.VITE_APP_PROJECTID,
-//   storageBucket: import.meta.env.VITE_APP_STORAGEBUCKET,
-//   messagingSenderId: import.meta.env.VITE_APP_MESSAGINGSENDERID,
-//   appId: import.meta.env.VITE_APP_APPID,
-//   measurementId: import.meta.env.VITE_APP_MEASUREMENTID,
-// };
-
-// init firebase backend
-// initFirebaseBackend(firebaseConfig)
 
 const App = () => {
 	const selectLayoutState = (state) => state.Layout;
@@ -99,14 +74,8 @@ const App = () => {
 	);
 };
 
-App.propTypes = {
-	layout: PropTypes.any,
-};
-
-const mapStateToProps = (state) => {
-	return {
-		layout: state.Layout,
-	};
-};
+const mapStateToProps = (state) => ({
+	layout: state.Layout,
+});
 
 export default connect(mapStateToProps, null)(App);
