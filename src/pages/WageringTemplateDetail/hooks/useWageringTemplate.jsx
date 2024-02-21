@@ -21,6 +21,7 @@ const useWageringTemplate = (filterValues = {}) => {
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
+		setPage(1);
 		setItemsPerPage(value);
 	};
 

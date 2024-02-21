@@ -35,6 +35,7 @@ const useBonusListing = (filterValues = {}) => {
 	const navigate = useNavigate();
 
 	const onChangeRowsPerPage = (value) => {
+		setPage(1);
 		setItemsPerPage(value);
 	};
 

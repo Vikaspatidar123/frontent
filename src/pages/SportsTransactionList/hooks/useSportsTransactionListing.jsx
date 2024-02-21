@@ -26,6 +26,7 @@ const useSportsTransactionListing = (filterValues = {}) => {
 		useSelector((state) => state.SportsTransaction);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 	useEffect(() => {

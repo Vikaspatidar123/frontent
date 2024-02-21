@@ -17,6 +17,7 @@ const useSportsMarketsListing = (filterValues = {}) => {
 	);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 

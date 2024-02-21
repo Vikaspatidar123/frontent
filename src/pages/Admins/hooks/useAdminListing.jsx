@@ -153,6 +153,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	);
 
 	const onChangeRowsPerPage = (value) => {
+		setPage(1);
 		setItemsPerPage(value);
 	};
 
