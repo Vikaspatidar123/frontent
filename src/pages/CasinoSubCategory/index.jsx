@@ -1,16 +1,13 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 
 import { Card, CardBody, Col, Row } from 'reactstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 
 import { projectName } from '../../constants/config';
 
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import {
-	getCasinoSubCategoryDetailStart,
-	resetCasinoSubCategoryData,
-} from '../../store/actions';
+
 import CrudSection from '../../components/Common/CrudSection';
 import useCreateSubCategory from './hooks/useCreateSubCategory';
 import FormModal from '../../components/Common/FormModal';
@@ -18,11 +15,11 @@ import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 import { formPageTitle } from '../../components/Common/constants';
+import useSubCategoryListing from './hooks/useSubCategoryListing';
 
 const GetCasinoSubCategoryDetail = () => {
 	// meta title
 	document.title = projectName;
-	const dispatch = useDispatch();
 
 	const {
 		isOpen,
@@ -31,26 +28,13 @@ const GetCasinoSubCategoryDetail = () => {
 		validation,
 		isCreateSubCategoryLoading,
 		buttonList,
-		active,
 		isEditSubCategoryLoading,
-		columns,
-		page,
-		setPage,
-		itemsPerPage,
-		setItemsPerPage,
 		showModal,
 		setShowModal,
 		toggleFormModal,
+		onClickEdit,
 	} = useCreateSubCategory();
 
-	const {
-		casinoSubCategoryDetails,
-		casinoCategoryDetails,
-		iscasinoSubCategoryDetailsLoading,
-		isCreateSubCategorySuccess,
-		isEditSubCategorySuccess,
-		isDeleteCasinoSubCategorySuccess,
-	} = useSelector((state) => state.CasinoManagementData);
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
@@ -62,53 +46,16 @@ const GetCasinoSubCategoryDetail = () => {
 		isFilterChanged,
 	} = useFilters();
 
-	const fetchData = () => {
-		dispatch(
-			getCasinoSubCategoryDetailStart({
-				limit: itemsPerPage,
-				pageNo: page,
-				...filterValidation.values,
-			})
-		);
-	};
-
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
-	};
-
-	useEffect(() => {
-		if (
-			isCreateSubCategorySuccess ||
-			isEditSubCategorySuccess ||
-			isDeleteCasinoSubCategorySuccess
-		)
-			fetchData();
-	}, [
-		isCreateSubCategorySuccess,
-		isEditSubCategorySuccess,
-		isDeleteCasinoSubCategorySuccess,
-	]);
-
-	const formattedgetCasinoSubCategoryDetails = useMemo(() => {
-		if (casinoSubCategoryDetails && casinoCategoryDetails?.rows) {
-			return casinoSubCategoryDetails?.rows.map((category) => ({
-				...category,
-				nameEN: category?.name?.EN,
-				gameCategory: casinoCategoryDetails?.rows.find(
-					(item) => item.gameCategoryId === category?.gameCategoryId
-				)?.name?.EN,
-				subcategoryImage: category?.imageUrl,
-			}));
-		}
-		return [];
-	}, [casinoSubCategoryDetails, casinoCategoryDetails]);
-
-	useEffect(() => {
-		fetchData();
-	}, [itemsPerPage, page, active, isFilterChanged]);
-
-	// resetting sub categories list redux state
-	useEffect(() => () => dispatch(resetCasinoSubCategoryData()), []);
+	const {
+		columns,
+		formattedgetCasinoSubCategoryDetails,
+		itemsPerPage,
+		casinoSubCategoryDetails,
+		setPage,
+		iscasinoSubCategoryDetailsLoading,
+		page,
+		onChangeRowsPerPage,
+	} = useSubCategoryListing(filterValidation, isFilterChanged, onClickEdit);
 
 	return (
 		<div className="page-content">
