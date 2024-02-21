@@ -1,6 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { Fragment, useState } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { Fragment } from 'react';
 import PropTypes, { oneOfType } from 'prop-types';
 import {
 	useTable,
@@ -20,7 +20,7 @@ import NoDataFound from './NoDataFound';
 const TableContainer = ({
 	columns,
 	data,
-	customPageSize = defaultPageSize,
+	customPageSize,
 	tableClass,
 	paginationDiv,
 	isPagination,
@@ -36,8 +36,8 @@ const TableContainer = ({
 	tbodyHeight,
 	cellPadding,
 	isLongTable = false,
+	currentPage,
 }) => {
-	const [rowsPerPage, setRowsPerPage] = useState(customPageSize || 10);
 	const tableHeaderClass = useSelector(
 		(state) => state.Layout.tableHeaderClass
 	);
@@ -65,11 +65,6 @@ const TableContainer = ({
 		if (isManualPagination) {
 			onChangePagination((newPage?.selected || 0) + 1);
 		}
-	};
-
-	const onChangeRowsPerPage = (e) => {
-		setRowsPerPage(e.target.value);
-		changeRowsPerPageCallback(e.target.value);
 	};
 
 	const noDataFound = !isLoading && !page.length;
@@ -198,9 +193,9 @@ const TableContainer = ({
 								</div>
 								<div>
 									<CustomSelectField
-										value={rowsPerPage}
+										value={customPageSize}
 										type="select"
-										onChange={onChangeRowsPerPage}
+										onChange={(e) => changeRowsPerPageCallback(e.target.value)}
 										options={
 											<>
 												<option value={null} selected disabled>
@@ -238,6 +233,7 @@ const TableContainer = ({
 								containerClassName="pagination"
 								activeClassName="active"
 								pageRangeDisplayed={3}
+								{...(currentPage ? { forcePage: currentPage - 1 } : {})}
 							/>
 						</div>
 					</Col>
@@ -262,6 +258,8 @@ TableContainer.defaultProps = {
 	cellPadding: '',
 	isLongTable: false,
 	totalPageCount: 1,
+	currentPage: 1,
+	customPageSize: defaultPageSize,
 };
 
 TableContainer.propTypes = {
@@ -280,7 +278,7 @@ TableContainer.propTypes = {
 	).isRequired,
 	// eslint-disable-next-line react/forbid-prop-types
 	data: PropTypes.arrayOf(PropTypes.object).isRequired,
-	customPageSize: PropTypes.number.isRequired,
+	customPageSize: PropTypes.number,
 	tableClass: PropTypes.string,
 	paginationDiv: PropTypes.string,
 	isPagination: PropTypes.bool,
@@ -295,6 +293,7 @@ TableContainer.propTypes = {
 	tbodyHeight: PropTypes.string,
 	cellPadding: PropTypes.string,
 	isLongTable: PropTypes.bool,
+	currentPage: PropTypes.number,
 };
 
 export default TableContainer;

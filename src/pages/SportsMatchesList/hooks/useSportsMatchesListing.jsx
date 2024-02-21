@@ -32,6 +32,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 	} = useSelector((state) => state.SportsMatches);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 

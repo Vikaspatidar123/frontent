@@ -44,6 +44,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 	useEffect(() => () => dispatch(resetCasinoTransactionsData()), []);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 

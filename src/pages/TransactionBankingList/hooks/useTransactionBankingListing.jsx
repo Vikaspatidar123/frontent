@@ -30,6 +30,7 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		useSelector((state) => state.TransactionBanking);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 

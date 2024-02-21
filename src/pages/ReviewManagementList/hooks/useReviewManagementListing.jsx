@@ -28,6 +28,7 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 	} = useSelector((state) => state.ReviewManagement);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 

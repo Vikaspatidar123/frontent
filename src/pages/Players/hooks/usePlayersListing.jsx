@@ -125,6 +125,7 @@ const usePlayersListing = (filterValues = {}) => {
 	}, [players]);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 

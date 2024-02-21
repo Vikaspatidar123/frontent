@@ -17,11 +17,13 @@ const useSportsTounamentListing = (filterValues = {}) => {
 		(state) => state.SportsList
 	);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
-	};
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
+
+	const onChangeRowsPerPage = (value) => {
+		setPage(1);
+		setItemsPerPage(value);
+	};
 
 	const formattedSportsTournamenList = useMemo(() => {
 		if (sportsTournamentList) {
