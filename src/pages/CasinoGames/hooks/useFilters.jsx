@@ -73,7 +73,7 @@ const useFilters = () => {
 		if (isEmpty(casinoSubCategoryDetails)) {
 			dispatch(
 				getCasinoSubCategoryDetailStart({
-					limit: itemsPerPage,
+					// limit: itemsPerPage,
 				})
 			);
 		}
@@ -81,7 +81,7 @@ const useFilters = () => {
 		if (isEmpty(casinoProvidersData)) {
 			dispatch(
 				getCasinoProvidersDataStart({
-					limit: itemsPerPage,
+					// limit: itemsPerPage,
 				})
 			);
 		}
