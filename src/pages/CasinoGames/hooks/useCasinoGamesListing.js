@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
 	getCasinoGamesStart,
 	// getCasinoProvidersDataStart,
-	getCasinoSubCategoryDetailStart,
 	updateCasinoIsFeaturedStart,
 	updateSACasinoGamesStatusStart,
 	deleteCasinoGamesStart,
@@ -25,26 +24,13 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		isDeleteCasinoGamesSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 
-	useEffect(() => {
-		dispatch(
-			getCasinoSubCategoryDetailStart({
-				limit: itemsPerPage,
-			})
-		);
-		// dispatch(
-		// 	getCasinoProvidersDataStart({
-		// 		limit: itemsPerPage,
-		// 	})
-		// );
-	}, [itemsPerPage]);
-
 	const onChangeRowsPerPage = (value) => {
 		setPage(1);
 		setItemsPerPage(value);
 	};
 
 	const getCategoryName = (id) =>
-		casinoSubCategoryDetails?.rows.find((val) => val.gameSubCategoryId === id)
+		casinoSubCategoryDetails?.rows?.find((val) => val.gameSubCategoryId === id)
 			?.name?.EN;
 
 	// const getProviderName = (id) =>
