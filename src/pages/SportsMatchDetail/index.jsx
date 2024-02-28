@@ -5,15 +5,15 @@ import { useSelector } from 'react-redux';
 import CrudSection from '../../components/Common/CrudSection';
 import TableContainer from '../../components/Common/TableContainer';
 import useSportsMatchDetail from './hooks/useSportsMatchDetail';
-import AccordianMatchDetails from './components/AccordianMatchDetails';
+import AccordionMatchDetails from './components/AccordionMatchDetails';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import ModalView from '../../components/Common/Modal';
+import eventColumns from './components/SportsMatchDetailsListCol';
 
 const SportsMatchDetail = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 	const [showModal, setShowModal] = useState(true);
 	const {
-		columns,
 		matchId,
 		matchOdsDetails,
 		toggleModal,
@@ -32,6 +32,9 @@ const SportsMatchDetail = () => {
 		marketDetail,
 		setMarketDetail,
 		isSportsMatchDetailsLoading,
+		marketColumns,
+		toggleAccordion,
+		openAccordion,
 	} = useSportsMatchDetail();
 
 	return (
@@ -51,7 +54,7 @@ const SportsMatchDetail = () => {
 							<CardBody>
 								<TableContainer
 									isLoading={isSportsMatchDetailsLoading}
-									columns={columns}
+									columns={eventColumns}
 									data={matchOdsDetails?.match ? [matchOdsDetails?.match] : []}
 									isPagination={false}
 									tableClass="table-bordered align-middle nowrap mt-2 match-details-table"
@@ -62,7 +65,7 @@ const SportsMatchDetail = () => {
 							<Card>
 								<CrudSection buttonList={[]} title="Market Details" />
 								<CardBody>
-									<AccordianMatchDetails
+									<AccordionMatchDetails
 										matchOdsDetails={matchOdsDetails}
 										toggleModal={toggleModal}
 										handleChange={handleChange}
@@ -80,6 +83,9 @@ const SportsMatchDetail = () => {
 										marketDetail={marketDetail}
 										handleVarySubmit={handleVarySubmit}
 										setMarketDetail={setMarketDetail}
+										marketColumns={marketColumns}
+										toggleAccordion={toggleAccordion}
+										openAccordion={openAccordion}
 									/>
 								</CardBody>
 							</Card>
