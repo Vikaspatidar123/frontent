@@ -1,16 +1,18 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Button, Input } from 'reactstrap';
 import { showToastr } from '../../../utils/helpers';
 import {
 	deatechOdsVariationStart,
 	getSportsMatchDetailStart,
 	resetSportsMatchDetailData,
 	updateOdsVariationStart,
+	// updateCompanyOddStart
 } from '../../../store/actions';
-import columns from '../components/SportsMatchDeatilsListCol';
+import { CommonCell } from '../components/SportsMatchDetailsListCol';
 
 const useSportsMatchDetail = () => {
 	const { matchId } = useParams();
@@ -21,6 +23,7 @@ const useSportsMatchDetail = () => {
 	const [showOddsModal, setShowOddsModal] = useState(false);
 	const [varyType, setVaryType] = useState('increase');
 	const [varyPercentage, setVaryPercentage] = useState('');
+	const [varyPercentageMap, setVaryPercentageMap] = useState({});
 	const [isAllEvents, setIsAllEvents] = useState('');
 	const [matchMarketId, setMatchMarketId] = useState('');
 	const [showDetachMarketModal, setShowDetachMarketModal] = useState(false);
@@ -28,6 +31,7 @@ const useSportsMatchDetail = () => {
 		name: '',
 		isDetached: '',
 	});
+	const [openAccordion, setOpenAccordion] = useState('');
 
 	useEffect(() => {
 		if (matchId) {
@@ -96,9 +100,92 @@ const useSportsMatchDetail = () => {
 		);
 	};
 
+	const toggleAccordion = (id) => {
+		if (openAccordion === id) {
+			setOpenAccordion();
+		} else {
+			setOpenAccordion(id);
+		}
+		setVaryPercentageMap({});
+	};
+
+	// const handleSetClick = (value, item, index) => {
+	// 	if (!varyPercentageMap[index] || Number(varyPercentageMap[index] < 0)) {
+	// 		showToastr({ message: 'Please Error a Valid Number.', type: 'error' });
+	// 	} else {
+	// 		dispatch(
+	// 			updateCompanyOddStart({
+	// 				matchId,
+	// 				matchMarketId: Number(item?.matchMarketId),
+	// 				outcomeId: Number(value.outcomeId),
+	// 				modificationValue: Number(varyPercentageMap[index]),
+	// 			})
+	// 		);
+	// 	}
+	// };
+
+	const marketColumns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'id',
+				filterable: true,
+				Cell: ({ cell }) => <CommonCell cell={cell} />,
+			},
+			{
+				Header: 'Name',
+				accessor: 'name',
+				filterable: true,
+				Cell: ({ cell }) => <CommonCell cell={cell} />,
+			},
+			{
+				Header: 'Feed Odd',
+				accessor: 'price',
+				filterable: false,
+				Cell: ({ cell }) => <CommonCell cell={cell} />,
+			},
+			{
+				Header: 'Company Odd',
+				accessor: 'customOdd',
+				filterable: false,
+				Cell: ({ cell }) => <CommonCell cell={cell} />,
+			},
+			{
+				Header: 'Actions',
+				accessor: '',
+				filterable: false,
+				Cell: () => (
+					<div className="d-flex justify-content-start align-items-start ">
+						<Input
+							type="number"
+							// disabled={!item?.detach}
+							// value={varyPercentageMap[index] || ''}
+							maxLength={3}
+							onChange={() => {
+								// const newVaryPercentage = e.target.value;
+								setVaryPercentageMap((prevState) => ({
+									...prevState,
+									// [index]: newVaryPercentage,
+								}));
+							}}
+							placeholder="Enter odd"
+						/>
+						<Button
+							// disabled={!item?.detach}
+							onClick={() => {}}
+							// handleSetClick(value, item, index)
+							color="info"
+						>
+							Set
+						</Button>
+					</div>
+				),
+			},
+		],
+		[varyPercentageMap]
+	);
+
 	return {
-		columns,
-		dispatch,
 		matchId,
 		matchOdsDetails,
 		toggleModal,
@@ -117,6 +204,9 @@ const useSportsMatchDetail = () => {
 		marketDetail,
 		setMarketDetail,
 		isSportsMatchDetailsLoading,
+		marketColumns,
+		toggleAccordion,
+		openAccordion,
 	};
 };
 

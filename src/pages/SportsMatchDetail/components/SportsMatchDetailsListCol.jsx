@@ -2,7 +2,7 @@
 import React from 'react';
 import { getDateTime } from '../../../utils/dateFormatter';
 
-const Id = ({ cell }) => (cell.value ? cell.value : '');
+export const CommonCell = ({ cell }) => (cell.value ? cell.value : '');
 
 const Title = ({ cell }) =>
 	cell?.row?.original
@@ -33,12 +33,12 @@ const Live = ({ cell }) =>
 
 const StartDate = ({ cell }) => (cell?.value ? getDateTime(cell?.value) : '-');
 
-const columns = [
+const eventColumns = [
 	{
 		Header: 'ID',
 		accessor: 'id',
 		filterable: false,
-		Cell: ({ cell }) => <Id cell={cell} />,
+		Cell: ({ cell }) => <CommonCell cell={cell} />,
 	},
 	{
 		Header: 'Title',
@@ -81,4 +81,4 @@ const columns = [
 	},
 ];
 
-export default columns;
+export default eventColumns;

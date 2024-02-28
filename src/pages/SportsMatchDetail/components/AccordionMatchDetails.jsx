@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
 	Accordion,
@@ -19,23 +19,23 @@ import {
 	ModalHeader,
 	Row,
 	Spinner,
-	Table,
+	// Table,
 	UncontrolledDropdown,
 } from 'reactstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { showToastr } from '../../../utils/helpers';
-import { updateCompanyOddStart } from '../../../store/actions';
+import { useSelector } from 'react-redux';
 
 import VerticalIcon from '../../../assets/images/VerticalDots.svg';
 import PencilIcon from '../../../assets/images/pencilIcon.svg';
 import AttatchIcon from '../../../assets/images/attatchIcon.svg';
 import DeatachIcon from '../../../assets/images/deatechIcon.svg';
+import TableContainer from '../../../components/Common/TableContainer';
+// import { marketColumns } from './SportsMatchDetailsListCol';
+// import TableContainer from '../../../components/Common/TableContainer';
 
-const AccordianMatchDetails = ({
+const AccordionMatchDetails = ({
 	toggleModal,
 	toggleDetachMarketModal,
 	handleChange,
-	matchId,
 	setIsAllEvents,
 	matchOdsDetails,
 	showDetachMarketModal,
@@ -47,41 +47,16 @@ const AccordianMatchDetails = ({
 	varyPercentage,
 	setVaryPercentage,
 	showOddsModal,
+	toggleAccordion,
+	openAccordion,
+	marketColumns,
 }) => {
-	const [open, setOpen] = useState('1');
-	const [varyPercentageMap, setVaryPercentageMap] = useState({});
 	const { isdeatechOdsVariationLoading, isUpdateOdsVariationLoading } =
 		useSelector((state) => state?.SportsList);
-	const dispatch = useDispatch();
 
-	const toggle = (id) => {
-		if (open === id) {
-			setOpen();
-		} else {
-			setOpen(id);
-		}
-		setVaryPercentageMap({});
-	};
-
-	const handleSetClick = (value, item, index) => {
-		if (!varyPercentageMap[index] || Number(varyPercentageMap[index] < 0)) {
-			showToastr({ message: 'Please Error a Valid Number.', type: 'error' });
-		} else {
-			dispatch(
-				updateCompanyOddStart({
-					matchId,
-					matchMarketId: Number(item?.matchMarketId),
-					outcomeId: Number(value.outcomeId),
-					modificationValue: Number(varyPercentageMap[index]),
-					accordinIndex: open,
-					companyIndex: index,
-				})
-			);
-		}
-	};
 	return (
 		<div>
-			<Accordion open={open} toggle={toggle}>
+			<Accordion open={openAccordion} toggle={toggleAccordion}>
 				{matchOdsDetails &&
 					matchOdsDetails?.rows &&
 					matchOdsDetails?.rows?.map((item, idx) => (
@@ -158,7 +133,7 @@ const AccordianMatchDetails = ({
 								</Row>
 							</AccordionHeader>
 							<AccordionBody accordionId={idx + 1}>
-								<Table
+								{/* <Table
 									striped
 									responsive
 									hover
@@ -186,7 +161,7 @@ const AccordianMatchDetails = ({
 													<td style={{ width: '25%' }}>
 														{value?.name}
 														{item?.market?.id === '209' &&
-														value?.specialBetValue
+															value?.specialBetValue
 															? ` (${value?.specialBetValue})`
 															: ''}
 													</td>
@@ -223,7 +198,23 @@ const AccordianMatchDetails = ({
 												</tr>
 											))}
 									</tbody>
-								</Table>
+								</Table> */}
+								<TableContainer
+									columns={marketColumns || []}
+									data={item.outcomes || []}
+									// isPagination
+									// customPageSize={itemsPerPage}
+									tableClass="table-bordered align-middle nowrap mt-2"
+									paginationDiv="justify-content-center"
+									pagination="pagination justify-content-start pagination-rounded"
+									// totalPageCount={totalGamesCount}
+									// isManualPagination
+									// onChangePagination={setCurrentPage}
+									// currentPage={currentPage}
+									// isLoading={isSubCategoryAddedGamesLoading}
+									// changeRowsPerPageCallback={onChangeRowsPerPage}
+									tbodyHeight="200px"
+								/>
 							</AccordionBody>
 						</AccordionItem>
 					))}
@@ -317,6 +308,6 @@ const AccordianMatchDetails = ({
 		</div>
 	);
 };
-AccordianMatchDetails.propTypes = PropTypes.any;
+AccordionMatchDetails.propTypes = PropTypes.any;
 
-export default AccordianMatchDetails;
+export default AccordionMatchDetails;
