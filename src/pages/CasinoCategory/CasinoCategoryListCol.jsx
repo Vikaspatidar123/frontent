@@ -3,17 +3,16 @@ import React from 'react';
 import { Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ImageCell from '../../components/Common/ImageCell';
 
 const GameCategoryId = ({ value }) => (
-		<Link to="#" className="text-body fw-bold">
-			{value ?? ''}
-		</Link>
-	);
+	<Link to="#" className="text-body fw-bold">
+		{value ?? ''}
+	</Link>
+);
 const Name = ({ value }) => value ?? '';
 
-const CreatedAt = ({ value }) => value ?? '';
-
-const UpdatedAt = ({ value }) => value ?? '';
+const ThumbnailUrl = ({ value }) => <ImageCell imgSrc={value} />;
 
 const Status = ({ value }) =>
 	value ?? '' ? (
@@ -30,4 +29,8 @@ Status.propTypes = {
 	value: PropTypes.bool.isRequired,
 };
 
-export { GameCategoryId, Name, CreatedAt, UpdatedAt, Status };
+ThumbnailUrl.propTypes = {
+	value: PropTypes.bool.isRequired,
+};
+
+export { GameCategoryId, Name, Status, ThumbnailUrl };

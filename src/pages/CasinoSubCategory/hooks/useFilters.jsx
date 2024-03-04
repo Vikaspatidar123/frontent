@@ -64,7 +64,7 @@ const useFilters = () => {
 				})
 			);
 		} else {
-			const categoryField = casinoCategoryDetails?.rows?.map((row) => ({
+			const categoryField = casinoCategoryDetails?.categories?.map((row) => ({
 				optionLabel: row.name?.EN,
 				value: row.gameCategoryId,
 			}));

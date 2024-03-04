@@ -118,7 +118,7 @@ function* getCasinoCategoryWorker(action) {
 	const payload = action && action.payload;
 	try {
 		const { data } = yield getCasinoCategoryListing(payload);
-		yield put(getCasinoCategoryDetailSuccess(data?.data?.casinoCategories));
+		yield put(getCasinoCategoryDetailSuccess(data?.data));
 	} catch (error) {
 		showToastr({ message: 'Something Went wrong', type: 'error' });
 		yield put(
@@ -183,11 +183,11 @@ function* getCasinoSubCategoryWorker(action) {
 	}
 }
 
-function* getLanguagesWorker(action) {
+function* getLanguagesWorker() {
 	try {
-		const payload = action && action.payload;
+		// const payload = action && action.payload;
 
-		const { data } = yield getLanguages(payload);
+		const { data } = yield getLanguages();
 
 		yield put(getLanguagesSuccess(data?.data));
 	} catch (error) {
@@ -470,17 +470,19 @@ function* updateSACasinoGamesStatusWorker(action) {
 					(state) => state.CasinoManagementData
 				);
 
-				const updatedCasinoGames = casinoCategoryDetails?.rows?.map((game) => {
-					if (game.gameCategoryId === payload.gameCategoryId) {
-						game.isActive = payload.status;
+				const updatedCasinoGames = casinoCategoryDetails?.categories?.map(
+					(cate) => {
+						if (cate.id === payload.gameCategoryId) {
+							cate.isActive = payload.status;
+						}
+						return cate;
 					}
-					return game;
-				});
+				);
 
 				yield put(
 					getCasinoCategoryDetailSuccess({
 						...casinoCategoryDetails,
-						rows: updatedCasinoGames,
+						categories: updatedCasinoGames,
 					})
 				);
 				break;

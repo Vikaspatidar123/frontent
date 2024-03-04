@@ -6,10 +6,9 @@ import React, { useMemo } from 'react';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import {
 	GameCategoryId,
-	CreatedAt,
-	UpdatedAt,
 	Status,
 	Name,
+	ThumbnailUrl,
 } from '../CasinoCategoryListCol';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../constants/permissions';
@@ -20,7 +19,7 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'gameCategoryId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <GameCategoryId value={cell.value} />,
 			},
@@ -31,17 +30,18 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
-				Header: 'CREATED AT',
-				accessor: 'createdAt',
+				Header: 'ICON',
+				accessor: 'iconUrl',
+				disableSortBy: true,
 				filterable: true,
-				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
+				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
 			},
-			{
-				Header: 'UPDATED AT',
-				accessor: 'updatedAt',
-				filterable: true,
-				Cell: ({ cell }) => <UpdatedAt value={cell.value} />,
-			},
+			// {
+			// 	Header: 'UPDATED AT',
+			// 	accessor: 'updatedAt',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <UpdatedAt value={cell.value} />,
+			// },
 			{
 				Header: 'STATUS',
 				accessor: 'isActive',

@@ -176,7 +176,7 @@ const useCreateProvider = () => {
 				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
-				Header: 'THUMBNAIL',
+				Header: 'ICON',
 				accessor: 'iconUrl',
 				disableSortBy: true,
 				filterable: true,

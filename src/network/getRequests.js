@@ -22,7 +22,10 @@ const getAllCurrencies = ({ limit, pageNo }) =>
 	);
 
 const getLanguages = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/settings/languages`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/settings/get-languages`,
+		payload
+	);
 
 const getCountries = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/country/list`, payload);

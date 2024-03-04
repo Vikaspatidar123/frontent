@@ -52,7 +52,7 @@ const ReorderSubCategory = () => {
 											<>
 												<option value="">Select Category</option>
 												{casinoCategoryDetails &&
-													casinoCategoryDetails?.rows?.map((c) => (
+													casinoCategoryDetails?.categories?.map((c) => (
 														<option
 															key={c?.gameCategoryId}
 															value={c?.gameCategoryId}

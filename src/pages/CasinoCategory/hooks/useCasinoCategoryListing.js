@@ -30,7 +30,7 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 
 	const formattedCasinoCategoriesData = useMemo(() => {
 		if (casinoCategoryDetails) {
-			return casinoCategoryDetails?.rows.map((category) => ({
+			return casinoCategoryDetails?.categories.map((category) => ({
 				...category,
 				nameEN: category?.name?.EN,
 				createdAt: formatDate(category?.createdAt),
