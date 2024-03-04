@@ -189,7 +189,7 @@ function* getLanguagesWorker(action) {
 
 		const { data } = yield getLanguages(payload);
 
-		yield put(getLanguagesSuccess(data?.data?.languages));
+		yield put(getLanguagesSuccess(data?.data));
 	} catch (error) {
 		showToastr({ message: 'Something Went wrong', type: 'error' });
 		yield put(
@@ -202,7 +202,7 @@ function* getAllCasinoProvidersWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield getAllCasinoProviders(payload);
-		yield put(getCasinoProvidersDataSuccess(data?.data?.providerList));
+		yield put(getCasinoProvidersDataSuccess(data?.data));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0].description,
@@ -221,7 +221,7 @@ function* getAllCasinoGamesWorker(action) {
 
 		const { data } = yield getAllCasinoGames(payload);
 
-		yield put(getCasinoGamesSuccess(data?.data?.casinoGames));
+		yield put(getCasinoGamesSuccess(data?.data));
 	} catch (e) {
 		yield showToastr({
 			message: e?.response?.data?.errors[0]?.description,

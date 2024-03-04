@@ -35,8 +35,8 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 	const fetchData = () => {
 		dispatch(
 			fetchReviewManagementStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...formValues,
 			})
 		);

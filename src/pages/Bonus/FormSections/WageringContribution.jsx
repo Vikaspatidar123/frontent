@@ -96,9 +96,9 @@ const WageringContribution = ({
 			dispatch(
 				getWageringTemplateDetail({
 					wageringTemplateId: selectedTemplate,
-					pageNo: currentPage,
+					page: currentPage,
 					search: searchText,
-					limit: itemsPerPage,
+					perPage: itemsPerPage,
 				})
 			);
 		}

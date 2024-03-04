@@ -63,8 +63,8 @@ const YourBonuses = ({ userId }) => {
 	useEffect(() => {
 		dispatch(
 			getUserBonus({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				userId,
 			})
 		);

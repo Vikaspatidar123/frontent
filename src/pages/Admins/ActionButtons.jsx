@@ -31,7 +31,7 @@ const ActionButtons = ({ handleEdit, row, handleStatus }) => {
 					</Link>
 				</li>
 			)}
-			{isGranted(modules.Admins, 'T') && (
+			{isGranted(modules.Admins, 'TS') && (
 				<li>
 					{active ? (
 						<Link

@@ -23,8 +23,8 @@ const Duplicates = ({ show, toggle, header }) => {
 		dispatch(
 			getDuplicateUsers({
 				userId: playerId,
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 			})
 		);
 	};

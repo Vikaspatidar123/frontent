@@ -29,8 +29,8 @@ const useRemoveRestrictedGame = () => {
 		dispatch(
 			fetchRestrictedItemsStart({
 				countryId,
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				type: 'games',
 				search: '',
 			})

@@ -27,8 +27,8 @@ const useRestrictedCountriesListing = () => {
 		dispatch(
 			fetchRestrictedCountriesStart({
 				itemId: id,
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				type: casinoState?.type,
 			})
 		);

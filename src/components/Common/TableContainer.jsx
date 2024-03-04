@@ -52,7 +52,8 @@ const TableContainer = ({
 					pageSize: customPageSize,
 				},
 				manualPagination: isManualPagination,
-				pageCount: Math.ceil(totalPageCount / customPageSize),
+				// pageCount: Math.ceil(totalPageCount / customPageSize),
+				pageCount: totalPageCount,
 			},
 			useGlobalFilter,
 			useFilters,
@@ -178,8 +179,8 @@ const TableContainer = ({
 					<Col lg={4}>
 						{!!totalPageCount && (
 							<div className="text-muted">
-								Showing <span className="fw-semibold">{page.length}</span> of{' '}
-								<span className="fw-semibold">{totalPageCount}</span> entries
+								Showing <span className="fw-semibold">{currentPage}</span> of{' '}
+								<span className="fw-semibold">{totalPageCount}</span> pages.
 							</div>
 						)}
 						{/* need to remove inline styles here */}
@@ -219,7 +220,7 @@ const TableContainer = ({
 								breakLabel="..."
 								nextLabel=">"
 								onPageChange={handlePagination}
-								pageCount={Math.ceil(totalPageCount / customPageSize)}
+								pageCount={totalPageCount}
 								previousLabel="<"
 								renderOnZeroPageCount={null}
 								pageClassName="page-item"

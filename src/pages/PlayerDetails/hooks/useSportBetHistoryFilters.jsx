@@ -29,8 +29,8 @@ const useSportBetHistoryFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchSportsTransactionStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				userId: playerId,
 				...values,
 			})
@@ -61,8 +61,8 @@ const useSportBetHistoryFilters = () => {
 	// 	if (isEmpty(currencies)) {
 	// 		dispatch(
 	// 			fetchCurrenciesStart({
-	// 				// limit: itemsPerPage,
-	// 				// pageNo: page,
+	// 				// perPage: itemsPerPage,
+	// 				// page: page,
 	// 			})
 	// 		);
 	// 	} else {

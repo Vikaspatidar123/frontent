@@ -225,7 +225,7 @@ const authProtectedRoutes = [
 	{
 		path: '/languages',
 		component: <LanguageList />,
-		modules: [modules.MultiLanguage],
+		modules: [modules.Language],
 		operation: 'R',
 	},
 	{
@@ -237,7 +237,7 @@ const authProtectedRoutes = [
 	{
 		path: '/languages-management',
 		component: <LanguageManagementList />,
-		modules: [modules.MultiLanguage],
+		modules: [modules.Language],
 		operation: 'R',
 	},
 	{

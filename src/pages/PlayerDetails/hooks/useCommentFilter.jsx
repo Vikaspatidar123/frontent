@@ -24,8 +24,8 @@ const useCommentFilter = () => {
 	const fetchData = (values) => {
 		dispatch(
 			getUserComments({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				userId: playerId,
 				...values,
 			})

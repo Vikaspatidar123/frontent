@@ -32,8 +32,8 @@ const useSportsTransactionListing = (filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchSportsTransactionStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...filterValues,
 			})
 		);

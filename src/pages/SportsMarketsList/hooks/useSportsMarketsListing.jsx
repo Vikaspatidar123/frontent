@@ -24,8 +24,8 @@ const useSportsMarketsListing = (filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchSportsMarketsStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...filterValues,
 			})
 		);

@@ -59,14 +59,14 @@ const CasinoAggregators = () => {
 							<CardBody>
 								<TableContainer
 									columns={columns || []}
-									data={aggregatorsData?.rows || []}
+									data={aggregatorsData?.aggregators || []}
 									isGlobalFilter
 									isPagination
 									customPageSize={itemsPerPage}
 									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={aggregatorsData?.count}
+									totalPageCount={aggregatorsData?.totalPages}
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}

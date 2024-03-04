@@ -144,7 +144,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 							</h4>
 							<div className="div-overview">
 								<Row>
-									{isGranted(modules.Users, 'T') && (
+									{isGranted(modules.Users, 'TS') && (
 										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
@@ -175,7 +175,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)} */}
-									{(isGranted(modules.Users, 'EV') ||
+									{(isGranted(modules.Users, 'VE') ||
 										userDetails?.emailVerified) && (
 										<ColumnContainer hidden={userDetails?.emailVerified}>
 											<Button
@@ -216,7 +216,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)} */}
-									{isGranted(modules.Users, 'AB') && (
+									{isGranted(modules.Users, 'MM') && (
 										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
@@ -279,7 +279,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)}
-									{isGranted(modules.Users, 'UP') && (
+									{isGranted(modules.Users, 'RP') && (
 										<ColumnContainer>
 											<Dropdown
 												isOpen={openResetMenu}

@@ -39,8 +39,8 @@ const useSportsMatchesListing = (filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchSportsMatchesStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...filterValues,
 			})
 		);

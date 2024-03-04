@@ -34,7 +34,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 			?.name?.EN;
 
 	// const getProviderName = (id) =>
-	// 	casinoProvidersData?.rows.find((val) => val.casinoProviderId === id)?.name;
+	// 	casinoProvidersData?.providers.find((val) => val.casinoProviderId === id)?.name;
 
 	const formattedCasinoGames = useMemo(() => {
 		if (casinoGames?.rows?.length) {
@@ -52,8 +52,8 @@ const useCasinoGamesListings = (filterValues = {}) => {
 	const fetchData = () => {
 		dispatch(
 			getCasinoGamesStart({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				...filterValues,
 			})
 		);
@@ -86,8 +86,8 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		dispatch(
 			deleteCasinoGamesStart({
 				casinoGameId,
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				search: '',
 			})
 		);

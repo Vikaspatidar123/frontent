@@ -67,8 +67,8 @@ const BetHistory = ({ userId }) => {
 	useEffect(() => {
 		dispatch(
 			fetchCasinoTransactionsStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				userId,
 			})
 		);

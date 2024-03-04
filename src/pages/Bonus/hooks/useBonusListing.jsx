@@ -94,8 +94,8 @@ const useBonusListing = (filterValues = {}) => {
 		const { bonusType, ...rest } = filterValues;
 		dispatch(
 			getBonusDetails({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				bonusType: bonusType ? safeStringify([bonusType]) : null,
 				...rest,
 			})

@@ -22,8 +22,8 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchReviewManagementStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				// tenantId: selectedPortal,
 				// adminId: selectedClient,
 				// search,

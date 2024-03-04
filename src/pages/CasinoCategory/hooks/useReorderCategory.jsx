@@ -19,8 +19,8 @@ const useReorderCategory = () => {
 	const fetchData = () => {
 		dispatch(
 			getCasinoCategoryDetailStart({
-				limit: '',
-				pageNo: '',
+				perPage: '',
+				page: '',
 				search: '',
 			})
 		);
@@ -39,19 +39,23 @@ const useReorderCategory = () => {
 	useEffect(() => {
 		dispatch(
 			getCasinoCategoryDetailStart({
-				limit: '',
-				pageNo: '',
+				perPage: '',
+				page: '',
 				search: '',
 				tenantId: '',
 			})
 		);
 	}, []);
 
-	const formattedState = useMemo(() => state.rows.map((item) => ({
-			reorderId: item?.gameCategoryId,
-			name: item?.name?.EN,
-			isActive: item?.isActive,
-		})), [state]);
+	const formattedState = useMemo(
+		() =>
+			state.rows.map((item) => ({
+				reorderId: item?.gameCategoryId,
+				name: item?.name?.EN,
+				isActive: item?.isActive,
+			})),
+		[state]
+	);
 
 	const handleSave = () => {
 		const row = [];

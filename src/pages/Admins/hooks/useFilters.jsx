@@ -22,8 +22,8 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			getAdminDetails({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				orderBy: 'id',
 				sort: 'desc',
 				...values,

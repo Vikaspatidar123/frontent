@@ -51,8 +51,8 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchTransactionBankingStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				userId: userId || '',
 				...filterValues,
 			})

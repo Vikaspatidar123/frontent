@@ -23,7 +23,7 @@ function* getAggregatorsWorker(action) {
 	try {
 		const payload = clearEmptyProperty(action && action.payload);
 		const { data } = yield getAggregators(payload);
-		yield put(getAggregatorsListSuccess(data?.data?.aggregators));
+		yield put(getAggregatorsListSuccess(data?.data));
 	} catch (e) {
 		yield showToastr({
 			message: e?.response?.data?.errors[0].description,

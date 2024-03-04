@@ -73,7 +73,7 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 
 	useEffect(() => {
 		if (limit.value) {
-			validation.setValues({ limit: limit.value });
+			validation.setValues({ perPage: limit.value });
 		}
 	}, []);
 

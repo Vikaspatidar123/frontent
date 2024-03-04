@@ -24,8 +24,8 @@ const useBonusReorder = () => {
 	const fetchData = () => {
 		dispatch(
 			getBonusDetails({
-				limit: '',
-				pageNo: '',
+				perPage: '',
+				page: '',
 				search: '',
 				bonusType: '',
 				isActive: '',

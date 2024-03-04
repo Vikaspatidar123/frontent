@@ -43,8 +43,8 @@ const useSportsListing = (filterValues = {}) => {
 	const fetchData = () => {
 		dispatch(
 			getSportsList({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				...filterValues,
 			})
 		);

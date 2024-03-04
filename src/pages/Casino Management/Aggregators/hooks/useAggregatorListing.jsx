@@ -20,8 +20,8 @@ const useAggregatorListing = (handleStatus) => {
 	const fetchData = () => {
 		dispatch(
 			getAggregatorsList({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 			})
 		);
 	};

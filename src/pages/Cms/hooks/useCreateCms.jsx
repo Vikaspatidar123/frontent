@@ -67,7 +67,7 @@ const useCreateCms = () => {
 	};
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
+		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
 		dispatch(getCmsDynamicKeys());
 	}, []);
 

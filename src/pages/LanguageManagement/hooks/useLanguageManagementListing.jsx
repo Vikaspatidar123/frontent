@@ -22,8 +22,8 @@ const useLanguageManagementListing = () => {
 	useEffect(() => {
 		dispatch(
 			fetchLanguageManagementStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				search: searchText,
 			})
 		);

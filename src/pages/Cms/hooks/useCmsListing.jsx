@@ -39,8 +39,8 @@ const useCmsListing = (filterValues = {}) => {
 	const fetchData = () => {
 		dispatch(
 			getAllCmsDetails({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				adminId: selectedClient,
 				...filterValues,
 			})

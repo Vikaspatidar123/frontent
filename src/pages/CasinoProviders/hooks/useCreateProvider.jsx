@@ -86,7 +86,7 @@ const useCreateProvider = () => {
 	};
 
 	useEffect(() => {
-		dispatch(getAggregatorsList({ pageNo: 1 }));
+		dispatch(getAggregatorsList({ page: 1 }));
 	}, []);
 
 	const onClickEdit = (selectedRow) => {
@@ -165,7 +165,7 @@ const useCreateProvider = () => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'casinoProviderId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <CasinoProviderId value={cell.value} />,
 			},
@@ -177,7 +177,7 @@ const useCreateProvider = () => {
 			},
 			{
 				Header: 'THUMBNAIL',
-				accessor: 'thumbnailUrl',
+				accessor: 'iconUrl',
 				disableSortBy: true,
 				filterable: true,
 				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,

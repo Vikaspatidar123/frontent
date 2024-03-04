@@ -57,8 +57,8 @@ const WageringTemplateDetailList = () => {
 				getWageringTemplateDetail({
 					wageringTemplateId: Number(wageringTemplateId),
 					providerId: '',
-					limit: itemsPerPage,
-					pageNo: page,
+					perPage: itemsPerPage,
+					page,
 					search: '',
 				})
 			);

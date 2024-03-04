@@ -81,14 +81,14 @@ const CasinoProviders = () => {
 								/>
 								<TableContainer
 									columns={columns}
-									data={casinoProvidersData?.rows || []}
+									data={casinoProvidersData?.providers || []}
 									isGlobalFilter
 									isPagination
 									customPageSize={itemsPerPage}
 									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={casinoProvidersData?.count}
+									totalPageCount={casinoProvidersData?.totalPages}
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}

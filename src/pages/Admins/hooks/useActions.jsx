@@ -222,8 +222,8 @@ const useActions = (isEditPage, filterValues = {}) => {
 			if (!allAdminList?.staff) {
 				dispatch(
 					getAdminDetails({
-						// limit: itemsPerPage,
-						// pageNo: page,
+						// perPage: itemsPerPage,
+						// page: page,
 						// orderBy: 'id',
 						sort: 'desc',
 					})

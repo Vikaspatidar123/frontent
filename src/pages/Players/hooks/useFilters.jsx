@@ -33,8 +33,8 @@ const useFilters = () => {
 	}) => {
 		dispatch(
 			fetchPlayersStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				dobStart: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
 				dobEnd: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
 				search,

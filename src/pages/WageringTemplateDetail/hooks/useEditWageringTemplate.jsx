@@ -47,8 +47,8 @@ const useEditWageringTemplate = () => {
 				getWageringTemplateDetail({
 					wageringTemplateId: Number(wageringTemplateId),
 					providerId: '',
-					limit: itemsPerPage,
-					pageNo: page,
+					perPage: itemsPerPage,
+					page,
 					search: '',
 				})
 			);
@@ -126,7 +126,7 @@ const useEditWageringTemplate = () => {
 					fieldType: 'select',
 					label: 'Provider Name ',
 					placeholder: 'Provider',
-					optionList: casinoProvidersData?.rows?.map(
+					optionList: casinoProvidersData?.providers?.map(
 						({ casinoProviderId, name }) => ({
 							optionLabel: name,
 							value: casinoProviderId,
@@ -141,8 +141,8 @@ const useEditWageringTemplate = () => {
 		dispatch(getCasinoProvidersDataStart());
 		dispatch(
 			getCasinoGamesStart({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				casinoCategoryId: '',
 				search: validation?.values?.search || '',
 				isActive: '',

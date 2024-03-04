@@ -29,8 +29,8 @@ const useBetHistoryFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchCasinoTransactionsStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				userId: playerId,
 				...values,
 			})
@@ -61,8 +61,8 @@ const useBetHistoryFilters = () => {
 	// 	if (isEmpty(currencies)) {
 	// 		dispatch(
 	// 			fetchCurrenciesStart({
-	// 				// limit: itemsPerPage,
-	// 				// pageNo: page,
+	// 				// perPage: itemsPerPage,
+	// 				// page: page,
 	// 			})
 	// 		);
 	// 	} else {

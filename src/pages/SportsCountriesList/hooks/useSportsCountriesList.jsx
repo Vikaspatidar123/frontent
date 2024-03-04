@@ -47,8 +47,8 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	const fetchData = () => {
 		dispatch(
 			getSportsCountries({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				...filterValues,
 			})
 		);

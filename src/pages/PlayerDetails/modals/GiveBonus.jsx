@@ -34,8 +34,8 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 			getAllBonus({
 				adminId: '',
 				tenantId: '',
-				limit: '',
-				pageNo: '',
+				perPage: '',
+				page: '',
 				search: '',
 				bonusType: safeStringify(['deposit']),
 				isActive: '',

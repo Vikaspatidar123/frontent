@@ -24,8 +24,8 @@ const useBonusFilter = () => {
 	const fetchData = (values) => {
 		dispatch(
 			getUserBonus({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				userId: playerId,
 				...values,
 			})

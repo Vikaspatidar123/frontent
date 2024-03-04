@@ -44,8 +44,8 @@ const useSubCategoryListing = (
 	const fetchData = () => {
 		dispatch(
 			getCasinoSubCategoryDetailStart({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				...filterValidation.values,
 			})
 		);
@@ -60,8 +60,8 @@ const useSubCategoryListing = (
 		dispatch(
 			deleteCasinoSubCategoryStart({
 				gameSubCategoryId,
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				search: '',
 			})
 		);
@@ -174,7 +174,7 @@ const useSubCategoryListing = (
 							<li>
 								{status ? (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'T')}
+										hidden={!isGranted(modules.CasinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -196,7 +196,7 @@ const useSubCategoryListing = (
 									</Button>
 								) : (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'T')}
+										hidden={!isGranted(modules.CasinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -269,7 +269,7 @@ const useSubCategoryListing = (
 							<li>
 								<Button
 									type="button"
-									hidden={!isGranted(modules.CasinoManagement, 'T')}
+									hidden={!isGranted(modules.CasinoManagement, 'TS')}
 									// disabled={isGlobal}
 									className="btn btn-sm btn-soft-primary"
 									onClick={(e) =>

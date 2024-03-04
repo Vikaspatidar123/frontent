@@ -35,8 +35,8 @@ const useWithdrawRequestsListing = (formValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchWithdrawRequestsStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...formValues,
 			})
 		);

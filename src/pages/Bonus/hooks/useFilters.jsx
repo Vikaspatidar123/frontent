@@ -23,8 +23,8 @@ const useFilters = () => {
 	const fetchData = ({ bonusType, ...rest }) => {
 		dispatch(
 			getBonusDetails({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				bonusType: bonusType ? safeStringify([bonusType]) : null,
 				...rest,
 			})

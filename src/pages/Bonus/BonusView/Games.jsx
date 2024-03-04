@@ -45,7 +45,7 @@ const Games = () => {
 
 	const providerOptions = useMemo(() => {
 		if (casinoProvidersData) {
-			return casinoProvidersData?.rows?.map((provider) => ({
+			return casinoProvidersData?.providers?.map((provider) => ({
 				optionLabel: provider.name,
 				value: provider.casinoProviderId,
 			}));
@@ -56,8 +56,8 @@ const Games = () => {
 	useEffect(() => {
 		dispatch(
 			getCasinoGamesStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				search: '',
 				providerId: selectedProvider || '',
 				freespins: true,
@@ -69,7 +69,7 @@ const Games = () => {
 		if (casinoGames) {
 			return casinoGames?.rows?.map((game) => ({
 				...game,
-				providerName: casinoProvidersData?.rows?.find(
+				providerName: casinoProvidersData?.providers?.find(
 					(obj) => obj.casinoProviderId === game.casinoProviderId
 				)?.name,
 			}));

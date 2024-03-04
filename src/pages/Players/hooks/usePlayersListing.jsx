@@ -96,8 +96,8 @@ const usePlayersListing = (filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchPlayersStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...filterValues,
 			})
 		);

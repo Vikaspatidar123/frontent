@@ -20,8 +20,8 @@ const useAddedGames = () => {
 			dispatch(
 				getAddedGamesInSubCategoryStart({
 					casinoCategoryId: gameSubCategoryId,
-					limit: itemsPerPage,
-					pageNo: currentPage,
+					perPage: itemsPerPage,
+					page: currentPage,
 				})
 			);
 		}

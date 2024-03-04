@@ -31,7 +31,7 @@ const ActionButtons = ({
 			<li>
 				{active ? (
 					<Button
-						hidden={!isGranted(modules.Bonus, 'T')}
+						hidden={!isGranted(modules.Bonus, 'TS')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -47,7 +47,7 @@ const ActionButtons = ({
 					</Button>
 				) : (
 					<Button
-						hidden={!isGranted(modules.Bonus, 'T')}
+						hidden={!isGranted(modules.Bonus, 'TS')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {

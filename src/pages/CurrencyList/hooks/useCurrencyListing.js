@@ -19,8 +19,8 @@ const useCurrencyListing = () => {
 	const fetchData = () => {
 		dispatch(
 			fetchCurrenciesStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 			})
 		);
 	};

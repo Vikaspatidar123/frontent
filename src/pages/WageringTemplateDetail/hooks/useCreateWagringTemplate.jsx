@@ -92,7 +92,7 @@ const useCreateWageringTemplate = () => {
 					fieldType: 'select',
 					label: 'Provider Name ',
 					placeholder: 'Provider',
-					optionList: casinoProvidersData?.rows?.map(
+					optionList: casinoProvidersData?.providers?.map(
 						({ casinoProviderId, name }) => ({
 							optionLabel: name,
 							value: casinoProviderId,
@@ -107,8 +107,8 @@ const useCreateWageringTemplate = () => {
 		dispatch(getCasinoProvidersDataStart());
 		dispatch(
 			getCasinoGamesStart({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				casinoCategoryId: '',
 				search: validation?.values?.search || '',
 				isActive: '',

@@ -161,8 +161,8 @@ const useCreateSubCategory = () => {
 	}, [languageData, casinoCategoryDetails, isEdit]);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
-		dispatch(getCasinoCategoryDetailStart({ limit: '', pageNo: '', name: '' }));
+		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
+		dispatch(getCasinoCategoryDetailStart({ perPage: '', page: '', name: '' }));
 	}, []);
 
 	const buttonList = useMemo(() => [

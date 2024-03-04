@@ -21,8 +21,8 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchLanguagesStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				...values,
 			})
 		);

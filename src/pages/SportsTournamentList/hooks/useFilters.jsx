@@ -30,8 +30,8 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			getSportsTournamentList({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				...values,
 			})
 		);
@@ -61,16 +61,16 @@ const useFilters = () => {
 		if (isEmpty(sportsCountries)) {
 			dispatch(
 				getSportsCountries({
-					// limit: itemsPerPage,
-					// pageNo: 1,
+					// perPage: itemsPerPage,
+					// page: 1,
 				})
 			);
 		}
 		if (isEmpty(sportsListInfo)) {
 			dispatch(
 				getSportsList({
-					limit: itemsPerPage,
-					pageNo: 1,
+					perPage: itemsPerPage,
+					page: 1,
 				})
 			);
 		}

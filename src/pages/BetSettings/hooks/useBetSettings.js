@@ -50,8 +50,8 @@ const useBetSettings = () => {
 		dispatch(getBetSettingsData());
 		dispatch(
 			getSportsList({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				isAllListing: true,
 			})
 		);

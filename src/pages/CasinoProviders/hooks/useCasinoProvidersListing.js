@@ -26,8 +26,8 @@ const useCasinoProvidersListing = (filterValues = {}) => {
 	const fetchData = () => {
 		dispatch(
 			getCasinoProvidersDataStart({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				...filterValues,
 			})
 		);

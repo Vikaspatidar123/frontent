@@ -22,8 +22,8 @@ const useLanguageListing = (filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchLanguagesStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...filterValues,
 			})
 		);

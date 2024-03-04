@@ -29,8 +29,8 @@ const useAddRestrictedGame = () => {
 		dispatch(
 			fetchUnrestrictedItemsStart({
 				countryId,
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				type: 'games',
 				search: '',
 			})

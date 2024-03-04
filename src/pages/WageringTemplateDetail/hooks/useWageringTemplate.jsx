@@ -28,8 +28,8 @@ const useWageringTemplate = (filterValues = {}) => {
 	const fetchData = () => {
 		dispatch(
 			getWageringTemplateDetails({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				...filterValues,
 			})
 		);

@@ -19,8 +19,8 @@ const useCountriesListing = (filterValues = {}) => {
 	const fetchData = () =>
 		dispatch(
 			fetchCountriesStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...filterValues,
 			})
 		);

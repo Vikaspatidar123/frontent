@@ -92,7 +92,7 @@ const sideBarElements = [
 		groupedModules: [
 			modules.Currencies,
 			modules.RestrictedCountry,
-			modules.MultiLanguage,
+			modules.Language,
 		],
 		subMenu: [
 			{
@@ -132,7 +132,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.MultiLanguage,
+				module: modules.Language,
 			},
 			// {
 			// 	id: 9,
@@ -145,7 +145,7 @@ const sideBarElements = [
 			// 	spanClass: '',
 			// 	liTagClass: '',
 			// 	ulTagClass: '',
-			// 	module: modules.MultiLanguage,
+			// 	module: modules.Language,
 			// },
 			// {
 			// 	id: 10,

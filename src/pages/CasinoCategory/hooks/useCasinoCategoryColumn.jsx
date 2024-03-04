@@ -62,7 +62,7 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 							<li>
 								{active ? (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'T')}
+										hidden={!isGranted(modules.CasinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -84,7 +84,7 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 									</Button>
 								) : (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'T')}
+										hidden={!isGranted(modules.CasinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {

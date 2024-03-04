@@ -37,8 +37,8 @@ const useReorderGames = () => {
 	const fetchData = () => {
 		dispatch(
 			getCasinoCategoryDetailStart({
-				limit: '',
-				pageNo: '',
+				perPage: '',
+				page: '',
 				search: '',
 			})
 		);
@@ -55,8 +55,8 @@ const useReorderGames = () => {
 		if (selectedCategory) {
 			dispatch(
 				getCasinoSubCategoryDetailStart({
-					limit: '',
-					pageNo: '',
+					perPage: '',
+					page: '',
 					search: '',
 					gameCategoryId: selectedCategory,
 				})
@@ -68,8 +68,8 @@ const useReorderGames = () => {
 		if (selectedSubCategory) {
 			dispatch(
 				getCasinoGamesStart({
-					limit: itemsPerPage,
-					pageNo: page,
+					perPage: itemsPerPage,
+					page,
 					casinoCategoryId: selectedSubCategory,
 					search,
 					isActive: '',

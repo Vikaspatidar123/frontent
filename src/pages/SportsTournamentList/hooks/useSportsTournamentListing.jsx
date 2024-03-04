@@ -40,8 +40,8 @@ const useSportsTounamentListing = (filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			getSportsTournamentList({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				...filterValues,
 			})
 		);

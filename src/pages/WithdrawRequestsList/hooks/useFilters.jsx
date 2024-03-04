@@ -23,8 +23,8 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchWithdrawRequestsStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				...values,
 			})
 		);

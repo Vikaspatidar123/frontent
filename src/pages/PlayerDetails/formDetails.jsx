@@ -39,7 +39,7 @@ const staticFormFields = [
 
 const limitsSchema = ({ minimum, currLabel, label }) =>
 	Yup.object().shape({
-		limit: Yup.number()
+		perPage: Yup.number()
 			.positive('Limit must be positive number')
 			.integer('Limit must be an integer')
 			.min(
@@ -51,7 +51,7 @@ const limitsSchema = ({ minimum, currLabel, label }) =>
 
 const setDisableUserlimitsSchema = () =>
 	Yup.object().shape({
-		limit: Yup.number()
+		perPage: Yup.number()
 			.positive('Time Period must be positive number')
 			.integer('Time Period must be an integer')
 			.required('Time Period Required'),
@@ -66,7 +66,7 @@ const selfExclusionSchema = () =>
 	});
 
 const getLimitInitialValues = (defaultValue) => ({
-	limit: defaultValue?.limit || '',
+	perPage: defaultValue?.limit || '',
 });
 
 const depositSchema = () =>

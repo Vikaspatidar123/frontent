@@ -74,7 +74,7 @@ const useEditCasinoGames = () => {
 	useEffect(() => {
 		if (
 			casinoSubCategoryDetails?.rows?.length &&
-			casinoProvidersData?.rows?.length
+			casinoProvidersData?.providers?.length
 		) {
 			const provOptions = casinoProvidersData.rows.map((r) => ({
 				id: r.casinoProviderId,

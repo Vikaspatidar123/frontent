@@ -14,7 +14,7 @@ const useUserDetails = ({ userId }) => {
 
 	useEffect(() => {
 		dispatch(getUserDetails({ userId }));
-		dispatch(getDuplicateUsers({ userId, limit: 10, pageNo: 1 }));
+		dispatch(getDuplicateUsers({ userId, perPage: 10, page: 1 }));
 	}, []);
 
 	// resetting player details redux state

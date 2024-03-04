@@ -28,8 +28,8 @@ const useTransactionFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchTransactionBankingStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				userId: playerId,
 				...values,
 			})
@@ -60,8 +60,8 @@ const useTransactionFilters = () => {
 	// 	if (isEmpty(currencies)) {
 	// 		dispatch(
 	// 			fetchCurrenciesStart({
-	// 				// limit: itemsPerPage,
-	// 				// pageNo: page,
+	// 				// perPage: itemsPerPage,
+	// 				// page: page,
 	// 			})
 	// 		);
 	// 	} else {

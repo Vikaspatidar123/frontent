@@ -11,7 +11,7 @@ const CasinoProviderId = ({ value }) => (
 		{value ?? ''}
 	</Link>
 );
-const Name = ({ value }) => value ?? '';
+const Name = ({ value }) => value?.EN ?? '';
 
 const ThumbnailUrl = ({ value }) => <ImageCell imgSrc={value} />;
 

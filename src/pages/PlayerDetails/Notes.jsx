@@ -44,8 +44,8 @@ const Notes = ({ userId }) => {
 	const fetchData = () => {
 		dispatch(
 			getUserComments({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				userId,
 			})
 		);

@@ -27,8 +27,8 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchCasinoTransactionsStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				...values,
 			})
 		);
@@ -73,8 +73,8 @@ const useFilters = () => {
 	// 	if (isEmpty(currencies)) {
 	// 		dispatch(
 	// 			fetchCurrenciesStart({
-	// 				// limit: itemsPerPage,
-	// 				// pageNo: page,
+	// 				// perPage: itemsPerPage,
+	// 				// page: page,
 	// 			})
 	// 		);
 	// 	} else {

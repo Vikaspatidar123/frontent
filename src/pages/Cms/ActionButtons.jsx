@@ -46,7 +46,7 @@ const ActionButtons = ({
 			<li>
 				{status ? (
 					<Button
-						hidden={!isGranted(modules.CMS, 'T')}
+						hidden={!isGranted(modules.CMS, 'TS')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -62,7 +62,7 @@ const ActionButtons = ({
 					</Button>
 				) : (
 					<Button
-						hidden={!isGranted(modules.CMS, 'T')}
+						hidden={!isGranted(modules.CMS, 'TS')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {

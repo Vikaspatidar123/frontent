@@ -24,8 +24,8 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchSportsMatchesStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				...values,
 			})
 		);
@@ -56,8 +56,8 @@ const useFilters = () => {
 		if (isEmpty(sportsListInfo)) {
 			dispatch(
 				getSportsList({
-					limit: itemsPerPage,
-					pageNo: 1,
+					perPage: itemsPerPage,
+					page: 1,
 				})
 			);
 		}

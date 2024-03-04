@@ -30,8 +30,8 @@ const useFilters = () => {
 		dispatch(
 			fetchUnrestrictedCountriesStart({
 				itemId: id,
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				...values,
 				type: state?.type,
 			})

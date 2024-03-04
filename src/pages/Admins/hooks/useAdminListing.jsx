@@ -61,8 +61,8 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	const fetchData = () => {
 		dispatch(
 			getAdminDetails({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				orderBy,
 				sort,
 				adminRoleId: adminDetails?.adminRoleId,

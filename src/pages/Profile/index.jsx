@@ -85,7 +85,7 @@ const ProfilePage = ({ t }) => {
 	}, []);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
+		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
 	}, []);
 
 	useEffect(() => {

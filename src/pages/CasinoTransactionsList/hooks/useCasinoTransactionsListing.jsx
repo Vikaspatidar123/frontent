@@ -33,8 +33,8 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 	useEffect(() => {
 		dispatch(
 			fetchCasinoTransactionsStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				...filterValues,
 			})
 		);

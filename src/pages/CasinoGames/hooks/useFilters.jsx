@@ -31,8 +31,8 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			getCasinoGamesStart({
-				limit: itemsPerPage,
-				pageNo: 1,
+				perPage: itemsPerPage,
+				page: 1,
 				// casinoCategoryId: selectedSubCategoryId,
 				// search,
 				// isActive: active,
@@ -73,7 +73,7 @@ const useFilters = () => {
 		if (isEmpty(casinoSubCategoryDetails)) {
 			dispatch(
 				getCasinoSubCategoryDetailStart({
-					// limit: itemsPerPage,
+					// perPage: itemsPerPage,
 				})
 			);
 		}
@@ -81,7 +81,7 @@ const useFilters = () => {
 		if (isEmpty(casinoProvidersData)) {
 			dispatch(
 				getCasinoProvidersDataStart({
-					// limit: itemsPerPage,
+					// perPage: itemsPerPage,
 				})
 			);
 		}
@@ -94,7 +94,7 @@ const useFilters = () => {
 				value: row.gameSubCategoryId,
 			}));
 
-			const providerField = casinoProvidersData?.rows?.map((row) => ({
+			const providerField = casinoProvidersData?.providers?.map((row) => ({
 				optionLabel: row.name,
 				value: row.casinoProviderId,
 			}));

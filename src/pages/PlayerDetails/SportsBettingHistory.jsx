@@ -32,8 +32,8 @@ const SportsBettingHistory = ({ userId }) => {
 	useEffect(() => {
 		dispatch(
 			fetchSportsTransactionStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
+				perPage: itemsPerPage,
+				page: currentPage,
 				email: '',
 				userId,
 			})

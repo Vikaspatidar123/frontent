@@ -43,8 +43,8 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 	const fetchData = () => {
 		dispatch(
 			getCasinoCategoryDetailStart({
-				limit: itemsPerPage,
-				pageNo: page,
+				perPage: itemsPerPage,
+				page,
 				...filterValues,
 			})
 		);
@@ -62,7 +62,7 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 	}, [isCreateCategorySuccess, isEditCategorySuccess]);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ limit: '', pageNo: '', name: '' }));
+		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
 	}, []);
 
 	const handleStatus = (e, props) => {
