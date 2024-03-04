@@ -7,6 +7,7 @@ const modules = {
 	Admins: 'admins',
 	Reviews: 'reviews',
 	KycLabel: 'kycLabel',
+	Language: 'language',
 	KpiReport: 'kpiReport',
 	Currencies: 'currencies',
 	GameReport: 'gameReport',
@@ -15,7 +16,6 @@ const modules = {
 	ImageGallery: 'imageGallery',
 	Transactions: 'transactions',
 	EmailTemplate: 'emailTemplate',
-	MultiLanguage: 'multiLanguage',
 	DemographReport: 'demographReport',
 	BannerManagement: 'bannerManagement',
 	CasinoManagement: 'casinoManagement',
@@ -46,7 +46,7 @@ const permissionIcons = () => ({
 	[modules.ImageGallery]: <i className="bx bxs-image" />,
 	[modules.Transactions]: <i className="bx bx-wallet-alt" />,
 	[modules.EmailTemplate]: <i className="bx bx-mail-send" />,
-	[modules.MultiLanguage]: <i className="mdi mdi-google-translate" />,
+	[modules.Language]: <i className="mdi mdi-google-translate" />,
 	[modules.DemographReport]: <i className="mdi mdi-map-marker" />,
 	[modules.BannerManagement]: <i className="mdi mdi-file-presentation-box" />,
 	[modules.CasinoManagement]: <i className="mdi mdi-gamepad-variant-outline" />,
@@ -73,22 +73,24 @@ const permissionLabel = (label) => {
 			return 'Update';
 		case 'D':
 			return 'Delete';
-		case 'T':
+		case 'TS':
 			return 'Toggle Status';
 		case 'A':
 			return 'Apply';
 		case 'CC':
 			return 'Create Custom';
-		case 'AB':
+		case 'MM':
 			return 'Manage Money';
-		case 'SR':
+		case 'L':
 			return 'Limit';
 		case 'TE':
 			return 'Test Email';
-		case 'EV':
+		case 'VE':
 			return 'Verify Email';
-		case 'UP':
+		case 'RP':
 			return 'Reset Password';
+		case 'I':
+			return 'Issue';
 		default:
 			return label;
 	}

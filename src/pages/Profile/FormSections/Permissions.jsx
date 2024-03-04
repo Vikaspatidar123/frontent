@@ -8,7 +8,7 @@ import {
 import checkIcon from '../../../assets/images/small/check.svg';
 
 const Permissions = ({ details }) => {
-	const permissionObj = details?.permissions?.[0]?.permission;
+	const permissionObj = details?.permission?.permission;
 	return (
 		<Row>
 			<Col lg={12}>
