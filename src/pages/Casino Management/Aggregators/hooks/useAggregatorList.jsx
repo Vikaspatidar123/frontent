@@ -1,9 +1,7 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useMemo } from 'react';
 import { Button, UncontrolledTooltip } from 'reactstrap';
-import { Name, Status } from '../AggregatorListCol';
+import { ID, Name, Status } from '../AggregatorListCol';
 import usePermission from '../../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../../constants/permissions';
 
@@ -11,12 +9,12 @@ const useAggregatorList = (handleStatus) => {
 	const { isGranted, permissions } = usePermission();
 	const columns = useMemo(
 		() => [
-			// {
-			// 	Header: 'ID',
-			// 	accessor: 'gameAggregatorId',
-			// 	filterable: true,
-			// 	Cell: ({cell}) => <ID value={cell.value} />,
-			// },
+			{
+				Header: 'ID',
+				accessor: 'id',
+				filterable: true,
+				Cell: ({ cell }) => <ID value={cell.value} />,
+			},
 			{
 				Header: 'NAME',
 				accessor: 'name',
@@ -43,7 +41,7 @@ const useAggregatorList = (handleStatus) => {
 							<li>
 								{active ? (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'T')}
+										hidden={!isGranted(modules.CasinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -65,7 +63,7 @@ const useAggregatorList = (handleStatus) => {
 									</Button>
 								) : (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'T')}
+										hidden={!isGranted(modules.CasinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {

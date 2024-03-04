@@ -5,8 +5,7 @@ import Proptypes from 'prop-types';
 
 const ID = ({ value }) => value ?? '';
 
-const Name = ({ value }) => value ?? '';
-
+const Name = ({ value }) => value.EN ?? '';
 const Status = ({ value }) =>
 	value ? (
 		<Badge className="bg-success">Active</Badge>
