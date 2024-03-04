@@ -40,7 +40,7 @@ function* getAdminsDetail(action) {
 	try {
 		const payload = clearEmptyProperty(action.payload);
 		const { data } = yield getAllAdmins(payload);
-		yield put(getAdminDetailsSuccess(data?.data?.adminDetails));
+		yield put(getAdminDetailsSuccess(data?.data));
 	} catch (error) {
 		yield put(
 			getAdminDetailsFail(error?.response?.data?.errors[0]?.description)

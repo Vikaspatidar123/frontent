@@ -30,7 +30,7 @@ export function* getPermissions({ payload }) {
 export function* getSuperAdminPermissions() {
 	try {
 		let details = yield call(getPermissionDetails);
-		details = details.data.data.adminDetails;
+		details = details.data.data.user;
 		yield put(getSuperAdminSuccess(details));
 	} catch (er) {
 		yield put(getSuperAdminFail(`Unable to get roles ${er?.message || ''}`));

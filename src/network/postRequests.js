@@ -1,7 +1,7 @@
 import { postRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
-const API_NAMESPACE = '/api/v1';
+const API_NAMESPACE = '/api/v2';
 
 const superAdminLogin = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/login`, data);
@@ -10,7 +10,7 @@ const createCurrency = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/currency`, data);
 
 const addSuperAdminUser = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`, data);
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/staff`, data);
 
 const createAggregator = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/aggregator`, data);
@@ -35,15 +35,22 @@ const createSABanners = (data) =>
 	});
 
 const createCasinoCategory = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/create-category`,
+		data
+	);
 
 const createKYCLabels = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/document-label`, data);
 
 const createCasinoSubCategory = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/sub-category`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/create-sub-category`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 const createUserCommentEntry = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/comment`, data);

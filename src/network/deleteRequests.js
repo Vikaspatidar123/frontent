@@ -1,7 +1,7 @@
 import { deleteRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
-const API_NAMESPACE = '/api/v1';
+const API_NAMESPACE = '/api/v2';
 
 const deleteFromGallery = (data) =>
 	deleteRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/gallery`, data);

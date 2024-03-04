@@ -2,14 +2,17 @@ import { safeStringify } from '../utils/helpers';
 import { getRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
-const API_NAMESPACE = '/api/v1';
+const API_NAMESPACE = '/api/v2';
 
 const getCasinoCategoryListing = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-categories`,
+		payload
+	);
 
 const getCasinoSubCategoryListing = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino/sub-category`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-sub-categories`,
 		payload
 	);
 
@@ -19,27 +22,30 @@ const getAllCurrencies = ({ limit, pageNo }) =>
 	);
 
 const getLanguages = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/language`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/settings/languages`, payload);
 
 const getCountries = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/country/list`, payload);
 
 const getAllCasinoProviders = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/provider`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-providers`,
+		payload
+	);
 
 const getAdminRole = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/roles`);
 
 const getAdminChildren = ({ superAdminId }) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/childs?adminId=${superAdminId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/children?adminId=${superAdminId}`
 	);
 
 const getAllAdmins = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/staff`, payload);
 
 const getPermissionDetails = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/details`);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`);
 
 const getPlayers = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/all`, payload);
@@ -48,7 +54,10 @@ const getAllCms = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, payload);
 
 const getAggregators = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/aggregator`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-aggregators`,
+		payload
+	);
 
 const getSuperAdminWageringTemplateDetail = (payload) =>
 	getRequest(
@@ -60,7 +69,10 @@ const getSuperAdminWageringTemplate = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template`, payload);
 
 const getAllCasinoGames = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/games`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-games`,
+		payload
+	);
 
 const getAllBonus = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, payload);
@@ -137,7 +149,7 @@ const getEmailTemplates = () =>
 
 const getAdminDetails = (adminId) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/details?adminUserId=${adminId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/?adminUserId=${adminId}`
 	);
 
 const getDocumentLabelCall = (userId) =>
@@ -242,7 +254,7 @@ const getBonus = ({ bonusId, userBonusId }) =>
 	);
 
 const getSiteDetailApi = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-layout`);
+	getRequest(`${VITE_APP_API_URL}/api/v1/setting/site-layout`);
 
 const getGameReports = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/game`, payload);
@@ -254,7 +266,10 @@ const getKpiReport = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/kpi`, payload);
 
 const getSubCategoryAddedGames = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/games`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-games`,
+		payload
+	);
 
 export {
 	getBonus,

@@ -1,10 +1,10 @@
 import { putRequest } from './axios';
 
 const { VITE_APP_API_URL } = import.meta.env;
-const API_NAMESPACE = '/api/v1';
+const API_NAMESPACE = '/api/v2';
 
 const updateSuperAdminUser = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`, data);
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/staff`, data);
 
 const updateAdmin = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/`, data); // No use
@@ -22,7 +22,7 @@ const updateSiteConfiguration = (data) =>
 	);
 
 const resetProfilePassword = ({ data }) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/change-password`, data);
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/forgot-password`, data);
 
 const superAdminViewToggleStatus = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/status`, data);
@@ -46,17 +46,28 @@ const editCountryDetails = (data) =>
 	);
 
 const editCasinoCategory = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/edit-category`,
+		data
+	);
 
 const editCasinoProvider = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/provider`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/edit-provider`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 const editCasinoSubCategory = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/sub-category`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/edit-sub-category`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 const editCasinoGames = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/games`, data, {

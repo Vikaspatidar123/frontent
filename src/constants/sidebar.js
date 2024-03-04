@@ -220,7 +220,7 @@ const sideBarElements = [
 		id: 102,
 		isSeparator: true,
 		title: 'Casino 	service',
-		groupedModules: [modules.CashierManagement, modules.BannerManagement],
+		groupedModules: [modules.CasinoManagement, modules.BannerManagement],
 	},
 	{
 		id: 15,
@@ -233,7 +233,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [modules.CashierManagement, modules.BannerManagement],
+		groupedModules: [modules.CasinoManagement, modules.BannerManagement],
 		subMenu: [
 			{
 				id: 16,

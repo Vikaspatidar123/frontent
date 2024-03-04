@@ -44,7 +44,7 @@ const INIT_STATE = {
 	leftMenu: false,
 	tableHeaderClass: tableHeaderClass.GREY,
 	showBreadcrumb: false,
-	error: null,
+	error: '',
 	isLoading: true,
 };
 
@@ -120,7 +120,7 @@ const Layout = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				...payload,
-				error: null,
+				error: '',
 			};
 		case GET_SITE_DETAILS_FAIL:
 			return {

@@ -31,14 +31,14 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	const [name, setName] = useState();
 
 	const formattedAdminDetails = useMemo(() => {
-		if (adminDetails?.rows?.length && roles?.rows?.length > 0) {
-			return adminDetails?.rows.map((admin) => {
+		if (adminDetails?.staff?.length && roles?.length > 0) {
+			return adminDetails?.staff.map((admin) => {
 				const randomColor = getRandomColor();
 				return {
 					...admin,
 					fullName: `${admin.firstName} ${admin.lastName}`,
 					randomColor,
-					roleName: roles?.rows?.find((role) => role?.id === admin?.adminRoleId)
+					roleName: roles?.find((role) => role?.id === admin?.adminRoleId)
 						?.name,
 				};
 			});
