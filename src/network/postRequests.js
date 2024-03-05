@@ -9,6 +9,17 @@ const superAdminLogin = (data) =>
 const createCurrency = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/currency`, data);
 
+const updateCurrency = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/settings/currency/update`,
+		data
+	);
+const editCountryDetails = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/settings/country/update`,
+		data
+	);
+
 const addSuperAdminUser = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/staff`, data);
 
@@ -109,6 +120,8 @@ export {
 	createSuperAdminCMS,
 	superAdminLogin,
 	createCurrency,
+	updateCurrency,
+	editCountryDetails,
 	addSuperAdminUser,
 	createAggregator,
 	createCasinoProvider,
