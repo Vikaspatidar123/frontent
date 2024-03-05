@@ -164,7 +164,7 @@ const useCreateSubCategory = () => {
 	}, [languageData, casinoCategoryDetails, isEdit]);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
+		dispatch(getLanguagesStart());
 		dispatch(getCasinoCategoryDetailStart({ perPage: '', page: '', name: '' }));
 	}, []);
 

@@ -8,7 +8,7 @@ import { getLanguages } from '../../network/getRequests';
 function* fetchLanguages({ payload }) {
 	try {
 		const response = yield call(getLanguages, payload);
-		yield put(fetchLanguagesSuccess(response?.data?.data?.languages));
+		yield put(fetchLanguagesSuccess(response?.data?.data));
 	} catch (error) {
 		yield put(fetchLanguagesFail(error));
 	}

@@ -39,7 +39,7 @@ const useCountriesListing = (filterValues = {}) => {
 	const formattedCountries = useMemo(() => {
 		const formattedValues = [];
 		if (countries) {
-			countries?.rows?.map((country) =>
+			countries?.countries?.map((country) =>
 				formattedValues.push({
 					...country,
 					countryName: country.name,
@@ -70,7 +70,7 @@ const useCountriesListing = (filterValues = {}) => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalCountriesCount: countries?.count,
+		totalCountriesCount: countries?.totalPages,
 		isCountriesLoading,
 		formattedCountries,
 		itemsPerPage,

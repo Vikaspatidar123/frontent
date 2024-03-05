@@ -39,7 +39,7 @@ const useCurrencyListing = () => {
 	const formattedCurrencies = useMemo(() => {
 		const formattedValues = [];
 		if (currencies) {
-			currencies.rows.map((currency) =>
+			currencies?.currencies?.map((currency) =>
 				formattedValues.push({
 					...currency,
 					primary: currency.isPrimary ? 'YES' : 'NO',
@@ -60,7 +60,7 @@ const useCurrencyListing = () => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalCurrenciesCount: currencies?.count,
+		totalCurrenciesCount: currencies?.totalPages || 10,
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,

@@ -61,7 +61,7 @@ const useEditCms = () => {
 	}, []);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
+		dispatch(getLanguagesStart());
 		dispatch(getCmsDynamicKeys());
 	}, []);
 

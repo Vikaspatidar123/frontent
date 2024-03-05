@@ -127,7 +127,7 @@ const useEditEmailTemplate = () => {
 	};
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
+		dispatch(getLanguagesStart());
 		dispatch(getEmailTypes());
 	}, []);
 

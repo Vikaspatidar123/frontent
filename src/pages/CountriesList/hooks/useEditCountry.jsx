@@ -81,7 +81,7 @@ const useEditCountry = () => {
 	}, [languageData]);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
+		dispatch(getLanguagesStart());
 	}, []);
 
 	useEffect(() => {

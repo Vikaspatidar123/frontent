@@ -23,7 +23,7 @@ import { formPageTitle } from '../../components/Common/constants';
 function* fetchCurrencies({ payload }) {
 	try {
 		const response = yield call(getCurrencies, payload);
-		yield put(fetchCurrenciesSuccess(response?.data?.data?.currencies));
+		yield put(fetchCurrenciesSuccess(response?.data?.data));
 	} catch (error) {
 		yield put(fetchCurrenciesFail(error));
 	}

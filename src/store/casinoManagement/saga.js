@@ -183,11 +183,11 @@ function* getCasinoSubCategoryWorker(action) {
 	}
 }
 
-function* getLanguagesWorker() {
+function* getLanguagesWorker(action) {
 	try {
-		// const payload = action && action.payload;
+		const payload = action && action.payload;
 
-		const { data } = yield getLanguages();
+		const { data } = yield getLanguages(payload);
 
 		yield put(getLanguagesSuccess(data?.data));
 	} catch (error) {

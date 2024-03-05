@@ -48,7 +48,7 @@ import { showToastr } from '../../utils/helpers';
 function* fetchCountries({ payload }) {
 	try {
 		const response = yield call(getCountries, payload);
-		yield put(fetchCountriesSuccess(response?.data?.data?.countries));
+		yield put(fetchCountriesSuccess(response?.data?.data));
 	} catch (error) {
 		yield put(fetchCountriesFail(error));
 	}
