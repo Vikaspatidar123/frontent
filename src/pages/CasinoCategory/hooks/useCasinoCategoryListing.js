@@ -62,7 +62,7 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 	}, [isCreateCategorySuccess, isEditCategorySuccess]);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
+		dispatch(getLanguagesStart());
 	}, []);
 
 	const handleStatus = (e, props) => {

@@ -22,13 +22,10 @@ const getAllCurrencies = ({ limit, pageNo }) =>
 	);
 
 const getLanguages = (payload) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/settings/get-languages`,
-		payload
-	);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/settings/languages`, payload);
 
 const getCountries = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/country/list`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/settings/countries`, payload);
 
 const getAllCasinoProviders = (payload) =>
 	getRequest(
@@ -83,9 +80,10 @@ const getAllBonus = (payload) =>
 const getBonusDetails = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/detail`, payload);
 
-const getCurrencies = ({ pageNo, limit }) =>
+const getCurrencies = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/currency?pageNo=${pageNo}&limit=${limit}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}/settings/currencies`,
+		payload
 	);
 
 const getLanguageManagement = ({ language = '' }) =>

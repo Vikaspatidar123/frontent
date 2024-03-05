@@ -162,7 +162,7 @@ const useCreateKYCLabels = () => {
 	]);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart({ perPage: '', page: '', name: '' }));
+		dispatch(getLanguagesStart());
 	}, []);
 
 	useEffect(() => {
