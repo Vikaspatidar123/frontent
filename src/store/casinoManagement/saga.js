@@ -493,7 +493,7 @@ function* updateSACasinoGamesStatusWorker(action) {
 					(state) => state.CasinoManagementData
 				);
 
-				const updatedCasinoGames = casinoGames?.rows?.map((game) => {
+				const updatedCasinoGames = casinoGames?.games?.map((game) => {
 					if (game.casinoGameId === payload.casinoGameId) {
 						game.isActive = payload.status;
 					}

@@ -67,7 +67,7 @@ const Games = () => {
 
 	const formattedCasinoGames = useMemo(() => {
 		if (casinoGames) {
-			return casinoGames?.rows?.map((game) => ({
+			return casinoGames?.games?.map((game) => ({
 				...game,
 				providerName: casinoProvidersData?.providers?.find(
 					(obj) => obj.casinoProviderId === game.casinoProviderId

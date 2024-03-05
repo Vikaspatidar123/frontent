@@ -9,15 +9,16 @@ import 'react-image-lightbox/style.css';
 import DivLoader from '../../components/Common/Loader/divLoader';
 import { CustomToggleButton } from '../../helpers/customForms';
 import ImageCell from '../../components/Common/ImageCell';
+import { selectedLanguage } from '../../constants/config';
 
 const CasinoGameId = ({ value }) => (
 	<Link to="/#" className="text-body fw-bold">
 		{value ?? ''}
 	</Link>
 );
-const Name = ({ value }) => value ?? '';
+const Name = ({ value }) => value?.[selectedLanguage] ?? '';
 
-const Provider = ({ value }) => value ?? '';
+const Provider = ({ value }) => value?.name?.[selectedLanguage] ?? '';
 
 const Rtp = ({ value }) => value ?? '';
 

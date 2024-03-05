@@ -1,4 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	getCasinoGamesStart,
@@ -8,9 +9,22 @@ import {
 	deleteCasinoGamesStart,
 	resetCasinoGamesData,
 } from '../../../store/actions';
+import {
+	CasinoGameId,
+	Name,
+	Provider,
+	Rtp,
+	SubCategory,
+	ThumbnailUrl,
+	DeviceType,
+	Status,
+	IsFeatured,
+} from '../CasinoGamesListCol';
+import ActionButtons from '../ActionButtons';
+import { selectedLanguage } from '../../../constants/config';
 import { modules } from '../../../constants/permissions';
 
-const useCasinoGamesListings = (filterValues = {}) => {
+const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const dispatch = useDispatch();
@@ -38,10 +52,10 @@ const useCasinoGamesListings = (filterValues = {}) => {
 	// 	casinoProvidersData?.providers.find((val) => val.casinoProviderId === id)?.name;
 
 	const formattedCasinoGames = useMemo(() => {
-		if (casinoGames?.rows?.length) {
-			return casinoGames?.rows.map((item) => ({
+		if (casinoGames?.games?.length) {
+			return casinoGames?.games.map((item) => ({
 				...item,
-				providerName: item?.casinoProvider?.name,
+				providerName: item?.casinoProvider?.name?.[selectedLanguage],
 				subCategoryType: getCategoryName(item?.gameSubCategoryId),
 				thumbnail: item?.thumbnailUrl,
 				devices: item?.devices?.join(', '),
@@ -114,6 +128,88 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		},
 	]);
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'IS FEATURED',
+				accessor: 'isFeatured',
+				Cell: (cellProps) => (
+					<IsFeatured
+						toggleIsFeaturedGames={toggleIsFeaturedGames}
+						isFeaturedUpdateLoading={false}
+						// featuredFabData={featuredFabData}
+						cellProps={cellProps}
+					/>
+				),
+			},
+			{
+				Header: 'GAME ID',
+				accessor: 'id',
+				filterable: true,
+				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
+			},
+			{
+				Header: 'NAME',
+				accessor: 'name',
+				filterable: true,
+				Cell: ({ cell }) => <Name value={cell.value} />,
+			},
+			{
+				Header: 'PROVIDER',
+				accessor: 'casinoProvider',
+				filterable: true,
+				Cell: ({ cell }) => <Provider value={cell.value} />,
+			},
+			{
+				Header: 'RTP',
+				accessor: 'returnToPlayer',
+				filterable: true,
+				Cell: ({ cell }) => <Rtp value={cell.value} />,
+			},
+			{
+				Header: 'SUB CATEGORY',
+				accessor: 'subCategoryType',
+				filterable: true,
+				Cell: ({ cell }) => <SubCategory value={cell.value} />,
+			},
+			{
+				Header: 'THUMBNAIL',
+				accessor: 'iconUrl',
+				filterable: true,
+				disableSortBy: true,
+				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
+			},
+			{
+				Header: 'DEVICE TYPE',
+				accessor: 'devices',
+				filterable: true,
+				Cell: ({ cell }) => <DeviceType value={cell.value} />,
+			},
+			{
+				Header: 'STATUS',
+				accessor: 'isActive',
+				disableFilters: true,
+				disableSortBy: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
+			},
+			{
+				Header: 'ACTION',
+				accessor: 'action',
+				disableFilters: true,
+				disableSortBy: true,
+				Cell: ({ cell }) => (
+					<ActionButtons
+						row={cell.row}
+						handleStatus={handleStatus}
+						onClickEdit={onClickEdit}
+						handleDeleteItem={handleDeleteItem}
+					/>
+				),
+			},
+		],
+		[casinoGames]
+	);
+
 	return {
 		casinoGames,
 		formattedCasinoGames,
@@ -127,6 +223,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		toggleIsFeaturedGames,
 		handleDeleteItem,
 		buttonList,
+		columns,
 	};
 };
 

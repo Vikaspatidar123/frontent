@@ -82,8 +82,8 @@ const useReorderGames = () => {
 
 	const formattedGames = useMemo(() => {
 		let formattedData = [];
-		if (casinoGames?.rows?.length && selectedCategory && selectedSubCategory) {
-			formattedData = casinoGames?.rows?.map((item, index) => ({
+		if (casinoGames?.games?.length && selectedCategory && selectedSubCategory) {
+			formattedData = casinoGames?.games?.map((item, index) => ({
 				...item,
 				reorderId: itemsPerPage * (page - 1) + index + 1,
 				gameName: `${item?.name} (${item?.casinoGameId})`,

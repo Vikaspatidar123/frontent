@@ -18,8 +18,8 @@ import { defaultPageSize, rowsPerPageOptions } from './constants';
 import NoDataFound from './NoDataFound';
 
 const TableContainer = ({
-	columns,
-	data,
+	columns = [],
+	data = [],
 	customPageSize,
 	tableClass,
 	paginationDiv,

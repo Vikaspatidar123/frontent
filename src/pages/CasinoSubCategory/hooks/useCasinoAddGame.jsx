@@ -37,7 +37,7 @@ const useCasinoAddGame = () => {
 
 	const formattedGames = useMemo(() => {
 		if (casinoGames) {
-			return casinoGames?.rows?.map((game) => ({
+			return casinoGames?.games?.map((game) => ({
 				...game,
 				devices: game.devices.join(', '),
 			}));

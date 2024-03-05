@@ -57,7 +57,7 @@ const CasinoGamesForm = ({
 }) => {
 	const formattedCasinoGames = useMemo(() => {
 		if (casinoGames) {
-			return casinoGames?.rows?.map((game) => {
+			return casinoGames?.games?.map((game) => {
 				const data = wageringTemplateDetail?.rows?.find(
 					(templateData) =>
 						templateData.gameContribution &&

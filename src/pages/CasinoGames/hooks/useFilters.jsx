@@ -12,7 +12,11 @@ import {
 	getCasinoProvidersDataStart,
 	getCasinoSubCategoryDetailStart,
 } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import {
+	debounceTime,
+	itemsPerPage,
+	selectedLanguage,
+} from '../../../constants/config';
 
 let debounce;
 const useFilters = () => {
@@ -91,14 +95,14 @@ const useFilters = () => {
 		if (!isEmpty(casinoProvidersData) && !isEmpty(casinoSubCategoryDetails)) {
 			const subCategoryField = casinoSubCategoryDetails?.subCategories?.map(
 				(row) => ({
-					optionLabel: row.name?.EN,
-					value: row.gameSubCategoryId,
+					optionLabel: row.name[selectedLanguage],
+					value: row.id,
 				})
 			);
 
 			const providerField = casinoProvidersData?.providers?.map((row) => ({
-				optionLabel: row.name,
-				value: row.casinoProviderId,
+				optionLabel: row.name[selectedLanguage],
+				value: row.id,
 			}));
 
 			setFormFields([

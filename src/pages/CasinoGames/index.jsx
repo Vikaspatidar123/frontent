@@ -24,6 +24,15 @@ const CasinoGames = () => {
 		filterValidation,
 		isFilterChanged,
 	} = useFilters();
+	const {
+		isEditCasinoGamesLoading,
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		formFields,
+		onClickEdit,
+	} = useEditCasinoGames();
 
 	const {
 		formattedCasinoGames,
@@ -34,17 +43,8 @@ const CasinoGames = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		buttonList,
-	} = useCasinoGamesListings(filterValidation.values);
-
-	const {
-		isEditCasinoGamesLoading,
-		isOpen,
-		setIsOpen,
-		header,
-		validation,
-		formFields,
 		columns,
-	} = useEditCasinoGames();
+	} = useCasinoGamesListings(filterValidation.values, onClickEdit);
 
 	return (
 		<div className="page-content">
