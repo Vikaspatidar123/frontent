@@ -35,7 +35,7 @@ const useLanguageListing = (filterValues = {}) => {
 	const formattedLanguages = useMemo(() => {
 		const formattedValues = [];
 		if (languages) {
-			languages.rows.map((language) =>
+			languages.languages.map((language) =>
 				formattedValues.push({
 					...language,
 				})
@@ -71,7 +71,7 @@ const useLanguageListing = (filterValues = {}) => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalLanguagesCount: languages?.count,
+		totalLanguagesCount: languages?.totalPages,
 		isLanguagesLoading,
 		formattedLanguages,
 		itemsPerPage,
