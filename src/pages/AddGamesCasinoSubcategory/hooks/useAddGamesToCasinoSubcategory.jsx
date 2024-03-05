@@ -98,7 +98,7 @@ const useAddGamesToCasinoSubcategory = () => {
 		setItemsPerPage,
 		formattedGames,
 		isCasinoGamesLoading,
-		totalRecords: casinoGames?.count,
+		totalPages: casinoGames?.totalPages,
 		onChangeRowsPerPage,
 		handleAddGame,
 		newGamesData,

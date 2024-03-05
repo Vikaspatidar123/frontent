@@ -35,7 +35,7 @@ const GetCasinoCategoryDetails = () => {
 		page,
 		setPage,
 		itemsPerPage,
-		totalCasinoCategriesCount,
+		totalPages,
 		onChangeRowsPerPage,
 		handleStatus,
 	} = useCasinoCategoryListing(filterValidation.values);
@@ -90,7 +90,7 @@ const GetCasinoCategoryDetails = () => {
 									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalCasinoCategriesCount}
+									totalPageCount={totalPages}
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}

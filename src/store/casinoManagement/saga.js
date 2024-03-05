@@ -172,7 +172,7 @@ function* getCasinoSubCategoryWorker(action) {
 		let payload = action && action.payload;
 		payload = clearEmptyProperty(payload);
 		const { data } = yield getCasinoSubCategoryListing(payload);
-		yield put(getCasinoSubCategoryDetailSuccess(data?.data?.casinoSubCategory));
+		yield put(getCasinoSubCategoryDetailSuccess(data?.data));
 	} catch (error) {
 		showToastr({ message: 'Something Went wrong', type: 'error' });
 		yield put(
@@ -277,9 +277,9 @@ function* editCasinoProviderWorker(action) {
 
 function* createCasinoCategoryWorker(action) {
 	try {
-		const { data } = action && action.payload;
-		yield createCasinoCategory(data);
-
+		const { payload, handleCallback } = action && action.payload;
+		yield createCasinoCategory(payload);
+		if (handleCallback) handleCallback();
 		showToastr({
 			message: `Category Created Successfully`,
 			type: 'success',

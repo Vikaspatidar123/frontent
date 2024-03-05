@@ -23,17 +23,23 @@ const useCreateCategory = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const {
-		casinoCategoryDetails,
 		languageData,
 		isCreateCategoryLoading,
 		isEditCategoryLoading,
 		isEditCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 
+	const handleCallback = () => {
+		// setIsOpen(false);
+	};
+
 	const handleCreateCategory = (values) => {
 		dispatch(
 			createCasinoCategoryStart({
-				data: values,
+				payload: {
+					...values,
+				},
+				handleCallback,
 			})
 		);
 	};
@@ -80,10 +86,6 @@ const useCreateCategory = () => {
 		validation.setValues(getInitialValues(selectedRow));
 		setIsOpen((prev) => !prev);
 	};
-
-	useEffect(() => {
-		setIsOpen(false);
-	}, [casinoCategoryDetails?.count]);
 
 	const onChangeLanguage = (e) => {
 		validation.setValues((prev) => ({

@@ -89,10 +89,12 @@ const useFilters = () => {
 
 	useEffect(() => {
 		if (!isEmpty(casinoProvidersData) && !isEmpty(casinoSubCategoryDetails)) {
-			const subCategoryField = casinoSubCategoryDetails?.rows?.map((row) => ({
-				optionLabel: row.name?.EN,
-				value: row.gameSubCategoryId,
-			}));
+			const subCategoryField = casinoSubCategoryDetails?.subCategories?.map(
+				(row) => ({
+					optionLabel: row.name?.EN,
+					value: row.gameSubCategoryId,
+				})
+			);
 
 			const providerField = casinoProvidersData?.providers?.map((row) => ({
 				optionLabel: row.name,

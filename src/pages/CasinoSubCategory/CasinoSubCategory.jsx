@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import 'react-image-lightbox/style.css';
 import ImageCell from '../../components/Common/ImageCell';
+import { selectedLanguage } from '../../constants/config';
 
 const CasinoGameId = ({ value }) => (
 	<Link to="/#" className="text-body">
@@ -20,7 +21,7 @@ const GameSubCategoryId = ({ value }) => (
 	</Link>
 );
 
-const Name = ({ value }) => value ?? '';
+const Name = ({ value }) => value[selectedLanguage] ?? '';
 
 const GameCategory = ({ value }) => value ?? '';
 

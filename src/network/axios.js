@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/react-in-jsx-scope */
 import axios from 'axios';
 import { redirect } from 'react-router-dom';
 import { getAccessToken, removeLoginToken } from './storageUtils';
@@ -30,6 +28,22 @@ const METHODS = {
 	delete: 'DELETE',
 };
 
+const filterEmptyPayload = (payload) => {
+	const updatedPayload = {};
+	Object.keys(payload || {}).forEach((key) => {
+		if (
+			!(
+				payload[key] === null ||
+				payload[key] === undefined ||
+				payload[key] === ''
+			)
+		) {
+			updatedPayload[key] = payload[key];
+		}
+	});
+	return updatedPayload;
+};
+
 const makeRequest = async (
 	url,
 	method,
@@ -49,9 +63,9 @@ const makeRequest = async (
 	return axiosInstance({
 		url,
 		method,
-		data,
+		data: filterEmptyPayload(data),
 		headers,
-		params,
+		params: filterEmptyPayload(params),
 	});
 };
 

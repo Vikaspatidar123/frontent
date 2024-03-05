@@ -38,7 +38,7 @@ const ReorderGames = () => {
 		casinoCategoryDetails,
 		setSelectedSubCategory,
 		casinoSubCategoryDetails,
-		totalCount,
+		totalPageCount,
 	} = useReorderGames();
 
 	return (
@@ -110,14 +110,16 @@ const ReorderGames = () => {
 												<>
 													<option value="">All</option>
 													{casinoSubCategoryDetails &&
-														casinoSubCategoryDetails?.rows?.map((c) => (
-															<option
-																key={c?.gameSubCategoryId}
-																value={c?.gameSubCategoryId}
-															>
-																{c?.name?.EN}
-															</option>
-														))}
+														casinoSubCategoryDetails?.subCategories?.map(
+															(c) => (
+																<option
+																	key={c?.gameSubCategoryId}
+																	value={c?.gameSubCategoryId}
+																>
+																	{c?.name?.EN}
+																</option>
+															)
+														)}
 												</>
 											}
 										/>
@@ -174,7 +176,7 @@ const ReorderGames = () => {
 									tableClass="table-bordered align-middle nowrap"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalCount}
+									totalPageCount={totalPageCount}
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}

@@ -191,7 +191,7 @@ const Games = ({
 					// paginationDiv="col-sm-12 col-md-7"
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={casinoGames?.count}
+					totalPageCount={casinoGames?.totalPages}
 					isManualPagination
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}

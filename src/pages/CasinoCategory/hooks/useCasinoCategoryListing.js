@@ -84,7 +84,7 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		page,
 		setPage,
 		itemsPerPage,
-		totalCasinoCategriesCount: casinoCategoryDetails?.count,
+		totalPages: casinoCategoryDetails?.totalPages,
 		modal,
 		setModal,
 		isEdit,

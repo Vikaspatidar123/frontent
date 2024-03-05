@@ -266,7 +266,7 @@ const useReorderGames = () => {
 		setGames,
 		buttonList,
 		itemsPerPage,
-		totalCount: casinoGames?.count,
+		totalPageCount: casinoGames?.totalPages,
 		handleSave,
 		handleAddGame,
 		handRemoveGame,

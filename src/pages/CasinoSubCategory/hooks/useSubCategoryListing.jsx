@@ -82,7 +82,7 @@ const useSubCategoryListing = (
 
 	const formattedgetCasinoSubCategoryDetails = useMemo(() => {
 		if (casinoSubCategoryDetails && casinoCategoryDetails?.categories) {
-			return casinoSubCategoryDetails?.rows.map((category) => ({
+			return casinoSubCategoryDetails?.subCategories.map((category) => ({
 				...category,
 				nameEN: category?.name?.EN,
 				gameCategory: casinoCategoryDetails?.categories.find(
@@ -129,13 +129,13 @@ const useSubCategoryListing = (
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'gameSubCategoryId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <GameSubCategoryId value={cell.value} />,
 			},
 			{
 				Header: 'NAME',
-				accessor: 'nameEN',
+				accessor: 'name',
 				filterable: true,
 				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
@@ -146,8 +146,8 @@ const useSubCategoryListing = (
 				Cell: ({ cell }) => <GameCategory value={cell.value} />,
 			},
 			{
-				Header: 'IMAGE',
-				accessor: 'imageUrl',
+				Header: 'ICON',
+				accessor: 'iconUrl',
 				filterable: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => <ImageUrl value={cell.value} />,

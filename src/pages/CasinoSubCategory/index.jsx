@@ -92,7 +92,7 @@ const GetCasinoSubCategoryDetail = () => {
 									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={casinoSubCategoryDetails?.count}
+									totalPageCount={casinoSubCategoryDetails?.totalPages}
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}

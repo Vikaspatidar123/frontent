@@ -97,7 +97,7 @@ const useCasinoAddGame = () => {
 		setItemsPerPage,
 		formattedGames,
 		isCasinoGamesLoading,
-		totalRecords: casinoGames?.count,
+		totalPages: casinoGames?.totalPages,
 		onChangeRowsPerPage,
 		handleAddGame,
 		newGamesData,

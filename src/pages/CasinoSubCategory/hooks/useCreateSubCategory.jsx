@@ -27,7 +27,6 @@ const useCreateSubCategory = () => {
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 
 	const {
-		casinoSubCategoryDetails,
 		isCreateSubCategoryLoading,
 		isEditSubCategorySuccess,
 		isEditSubCategoryLoading,
@@ -113,9 +112,9 @@ const useCreateSubCategory = () => {
 		});
 	};
 
-	useEffect(() => {
-		setIsOpen(false);
-	}, [casinoSubCategoryDetails?.count]);
+	// useEffect(() => {
+	// 	setIsOpen(false);
+	// }, [casinoSubCategoryDetails?.count]);
 
 	useEffect(() => {
 		if (isEditSubCategorySuccess) setIsOpen(false);
@@ -131,7 +130,7 @@ const useCreateSubCategory = () => {
 				optionLabel: r.name,
 				value: r.code,
 			}));
-			const categoryOptions = casinoCategoryDetails.rows.map((r) => ({
+			const categoryOptions = casinoCategoryDetails?.categories?.map((r) => ({
 				id: r.gameCategoryId,
 				optionLabel: r.name.EN,
 				value: r.gameCategoryId,

@@ -98,20 +98,20 @@ const useCreateProvider = () => {
 		setIsOpen((prev) => !prev);
 	};
 
-	useEffect(() => {
-		setIsOpen(false);
-	}, [casinoProvidersData?.count]);
+	// useEffect(() => {
+	// 	setIsOpen(false);
+	// }, [casinoProvidersData?.count]);
 
 	useEffect(() => {
 		if (isEditProviderLoading) setIsOpen(false);
 	}, [isEditProviderLoading]);
 
 	useEffect(() => {
-		if (aggregatorsData?.rows?.length) {
-			const aggOptions = aggregatorsData.rows.map((r) => ({
-				id: r.gameAggregatorId,
+		if (aggregatorsData?.aggregators?.length) {
+			const aggOptions = aggregatorsData.aggregators.map((r) => ({
+				id: r.id,
 				optionLabel: r.name,
-				value: r.gameAggregatorId,
+				value: r.id,
 			}));
 
 			setFormFields([

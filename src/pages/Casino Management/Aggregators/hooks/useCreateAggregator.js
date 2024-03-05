@@ -19,16 +19,21 @@ const useCreateAggregator = () => {
 	const dispatch = useDispatch();
 	const [showModal, setShowModal] = useState(false);
 
-	const { isCreateAggregatorLoading, aggregatorsData } = useSelector(
+	const { isCreateAggregatorLoading } = useSelector(
 		(state) => state.AggregatorsReducer
 	);
+
+	const handleCallback = () => {
+		setIsOpen(false);
+	};
 
 	const handleCreateAggregator = (values) => {
 		dispatch(
 			createAggregatorStart({
-				data: {
+				payload: {
 					...values,
 				},
+				handleCallback,
 			})
 		);
 		validation.resetForm();
@@ -60,10 +65,6 @@ const useCreateAggregator = () => {
 			})
 		);
 	};
-
-	useEffect(() => {
-		setIsOpen(false);
-	}, [aggregatorsData?.count]);
 
 	const buttonList = useMemo(() => [
 		{

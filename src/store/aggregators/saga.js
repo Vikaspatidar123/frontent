@@ -38,10 +38,9 @@ function* getAggregatorsWorker(action) {
 
 function* createAggregatorWorker(action) {
 	try {
-		const { data } = action && action.payload;
-
-		yield createAggregator(data);
-
+		const { payload, handleCallback } = action && action.payload;
+		yield createAggregator(payload);
+		if (handleCallback) handleCallback();
 		showToastr({
 			message: `Aggregator Created Successfully`,
 			type: 'success',
@@ -77,12 +76,14 @@ function* updateSuperAdminAggregatorStatusWorker(action) {
 			(state) => state.AggregatorsReducer
 		);
 
-		const updatedAggregatorsData = aggregatorsData?.rows?.map((aggregator) => {
-			if (aggregator.gameAggregatorId === payload.gameAggregatorId) {
-				aggregator.isActive = payload.status;
+		const updatedAggregatorsData = aggregatorsData?.aggregators?.map(
+			(aggregator) => {
+				if (aggregator.id === payload.gameAggregatorId) {
+					aggregator.isActive = payload.status;
+				}
+				return aggregator;
 			}
-			return aggregator;
-		});
+		);
 
 		yield put(
 			getAggregatorsListSuccess({

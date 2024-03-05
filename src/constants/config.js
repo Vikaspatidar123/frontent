@@ -18,6 +18,8 @@ const itemsPerPage = 10;
 
 const debounceTime = 700;
 
+const selectedLanguage = 'EN';
+
 export {
 	projectName,
 	role,
@@ -27,4 +29,5 @@ export {
 	tbodyClass,
 	itemsPerPage,
 	debounceTime,
+	selectedLanguage,
 };

@@ -30,8 +30,9 @@ const useCasinoGamesListings = (filterValues = {}) => {
 	};
 
 	const getCategoryName = (id) =>
-		casinoSubCategoryDetails?.rows?.find((val) => val.gameSubCategoryId === id)
-			?.name?.EN;
+		casinoSubCategoryDetails?.subCategories?.find(
+			(val) => val.gameSubCategoryId === id
+		)?.name?.EN;
 
 	// const getProviderName = (id) =>
 	// 	casinoProvidersData?.providers.find((val) => val.casinoProviderId === id)?.name;
@@ -118,7 +119,7 @@ const useCasinoGamesListings = (filterValues = {}) => {
 		formattedCasinoGames,
 		isCasinoGamesLoading,
 		itemsPerPage,
-		totalCasinoGamesCount: casinoGames?.count,
+		totalCasinoPages: casinoGames?.totalPages,
 		onChangeRowsPerPage,
 		page,
 		setPage,

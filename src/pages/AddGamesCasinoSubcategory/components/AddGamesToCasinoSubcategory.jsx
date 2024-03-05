@@ -25,7 +25,7 @@ const AddGamesToCasinoSubcategory = () => {
 		itemsPerPage,
 		formattedGames,
 		isCasinoGamesLoading,
-		totalRecords,
+		totalPages,
 		onChangeRowsPerPage,
 		handleAddGame,
 		newGamesData,
@@ -213,7 +213,7 @@ const AddGamesToCasinoSubcategory = () => {
 								tableClass="table-bordered align-middle nowrap mt-2"
 								paginationDiv="justify-content-center"
 								pagination="pagination justify-content-start pagination-rounded"
-								totalPageCount={totalRecords}
+								totalPageCount={totalPages}
 								isManualPagination
 								onChangePagination={setPageNo}
 								currentPage={pageNo}

@@ -28,7 +28,7 @@ const CasinoGames = () => {
 	const {
 		formattedCasinoGames,
 		isCasinoGamesLoading,
-		totalCasinoGamesCount,
+		totalCasinoPages,
 		page,
 		setPage,
 		itemsPerPage,
@@ -75,7 +75,7 @@ const CasinoGames = () => {
 									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalCasinoGamesCount}
+									totalPageCount={totalCasinoPages}
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}

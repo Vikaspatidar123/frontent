@@ -27,11 +27,9 @@ import useCasinoGamesListings from './useCasinoGamesListing';
 const useEditCasinoGames = () => {
 	const dispatch = useDispatch();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
-	const {
-		casinoCategoryDetails,
-		isEditCasinoGamesLoading,
-		isEditCasinoGamesSuccess,
-	} = useSelector((state) => state.CasinoManagementData);
+	const { isEditCasinoGamesLoading, isEditCasinoGamesSuccess } = useSelector(
+		(state) => state.CasinoManagementData
+	);
 
 	const { casinoProvidersData, casinoSubCategoryDetails } = useSelector(
 		(state) => state.CasinoManagementData
@@ -67,22 +65,22 @@ const useEditCasinoGames = () => {
 		setIsOpen((prev) => !prev);
 	};
 
-	useEffect(() => {
-		setIsOpen(false);
-	}, [casinoCategoryDetails?.count]);
+	// useEffect(() => {
+	// 	setIsOpen(false);
+	// }, [casinoCategoryDetails?.count]);
 
 	useEffect(() => {
 		if (
-			casinoSubCategoryDetails?.rows?.length &&
+			casinoSubCategoryDetails?.subCategories?.length &&
 			casinoProvidersData?.providers?.length
 		) {
-			const provOptions = casinoProvidersData.rows.map((r) => ({
+			const provOptions = casinoProvidersData?.providers?.map((r) => ({
 				id: r.casinoProviderId,
 				optionLabel: r.name,
 				value: r.casinoProviderId,
 			}));
 
-			const subOptions = casinoSubCategoryDetails.rows.map((r) => ({
+			const subOptions = casinoSubCategoryDetails?.subCategories?.map((r) => ({
 				id: r.gameSubCategoryId,
 				optionLabel: r.name?.EN,
 				value: r.gameSubCategoryId,
