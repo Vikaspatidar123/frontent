@@ -36,7 +36,6 @@ import {
 } from '../../network/getRequests';
 
 import {
-	editCountryDetails,
 	superAdminViewToggleStatus,
 	addRestrictedItems,
 } from '../../network/putRequests';
@@ -44,6 +43,7 @@ import {
 import { deleteRestrictedItems } from '../../network/deleteRequests';
 
 import { showToastr } from '../../utils/helpers';
+import { editCountryDetails } from '../../network/postRequests';
 
 function* fetchCountries({ payload }) {
 	try {

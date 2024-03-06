@@ -15,9 +15,8 @@ import {
 	fetchCurrenciesSuccess,
 } from './actions';
 import { getCurrencies } from '../../network/getRequests';
-import { createCurrency } from '../../network/postRequests';
+import { createCurrency, updateCurrency } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
-import { updateCurrency } from '../../network/putRequests';
 import { formPageTitle } from '../../components/Common/constants';
 
 function* fetchCurrencies({ payload }) {
