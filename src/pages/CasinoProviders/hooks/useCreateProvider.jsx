@@ -11,6 +11,7 @@ import {
 	createCasinoProvidersStart,
 	editCasinoProvidersStart,
 	getAggregatorsList,
+	updateCasinoStatusStart,
 } from '../../../store/actions';
 
 import {
@@ -22,7 +23,6 @@ import {
 import ActionButtons from '../ActionButtons';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
-import useCasinoProvidersListing from './useCasinoProvidersListing';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import { dataURLtoBlob } from '../../../utils/helpers';
@@ -46,7 +46,17 @@ const useCreateProvider = () => {
 		);
 	};
 
-	const { handleStatus } = useCasinoProvidersListing();
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { status, casinoProviderId } = props;
+		dispatch(
+			updateCasinoStatusStart({
+				code: 'CASINO_PROVIDER',
+				casinoProviderId,
+				status: !status,
+			})
+		);
+	};
 
 	const handleEditProvider = (values) => {
 		dispatch(
@@ -79,15 +89,12 @@ const useCreateProvider = () => {
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
+		dispatch(getAggregatorsList({}));
 		setIsOpen((prev) => !prev);
 		validation.resetForm(getInitialValues());
 		setHeader('Add Provider');
 		setIsEdit({ open: false, selectedRow: '' });
 	};
-
-	useEffect(() => {
-		dispatch(getAggregatorsList({ page: 1 }));
-	}, []);
 
 	const onClickEdit = (selectedRow) => {
 		setIsEdit({ open: true, selectedRow });

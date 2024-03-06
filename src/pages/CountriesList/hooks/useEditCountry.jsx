@@ -7,7 +7,11 @@ import {
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import { editCountryStart, getLanguagesStart } from '../../../store/actions';
+import {
+	editCountryStart,
+	getLanguagesStart,
+	updateCountryStatusStart,
+} from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	CountryCode,
@@ -17,7 +21,6 @@ import {
 	Status,
 } from '../CountriesListCol';
 import ActionButtons from '../ActionButtons';
-import useCountriesListing from './useCountriesListing';
 
 const useEditCountry = () => {
 	const dispatch = useDispatch();
@@ -27,7 +30,6 @@ const useEditCountry = () => {
 	} = useSelector((state) => state.Countries);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const { handleStatus } = useCountriesListing();
 
 	const handleEditCountry = (values) => {
 		dispatch(
@@ -57,6 +59,18 @@ const useEditCountry = () => {
 	const handleEditClick = (selectedRow) => {
 		validation.setValues(selectedRow);
 		setIsOpen((prev) => !prev);
+	};
+
+	const handleStatus = (e, props) => {
+		e.preventDefault();
+		const { status, countryId } = props;
+		dispatch(
+			updateCountryStatusStart({
+				code: 'COUNTRY',
+				countryId,
+				status: !status,
+			})
+		);
 	};
 
 	useEffect(() => {

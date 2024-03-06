@@ -11,7 +11,6 @@ import {
 import {
 	createCasinoSubCategoryStart,
 	editCasinoSubCategoryStart,
-	getCasinoCategoryDetailStart,
 	getLanguagesStart,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -164,7 +163,6 @@ const useCreateSubCategory = () => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		dispatch(getCasinoCategoryDetailStart({ perPage: '', page: '', name: '' }));
 	}, []);
 
 	const buttonList = useMemo(() => [

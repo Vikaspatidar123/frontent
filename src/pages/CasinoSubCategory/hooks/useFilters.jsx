@@ -57,12 +57,7 @@ const useFilters = () => {
 
 	useEffect(() => {
 		if (isEmpty(casinoCategoryDetails)) {
-			dispatch(
-				getCasinoCategoryDetailStart({
-					// perPage: itemsPerPage,
-					// page: page,
-				})
-			);
+			dispatch(getCasinoCategoryDetailStart({}));
 		} else {
 			const categoryField = casinoCategoryDetails?.categories?.map((row) => ({
 				optionLabel: row.name?.EN,

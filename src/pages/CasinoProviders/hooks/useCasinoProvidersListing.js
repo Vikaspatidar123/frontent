@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
 	getCasinoProvidersDataStart,
 	resetCasinoProvidersData,
-	updateCasinoStatusStart,
 } from '../../../store/actions';
 
 const useCasinoProvidersListing = (filterValues = {}) => {
@@ -44,18 +43,6 @@ const useCasinoProvidersListing = (filterValues = {}) => {
 		if (isCreateProviderSuccess || isEditProviderSuccess) fetchData();
 	}, [isCreateProviderSuccess, isEditProviderSuccess]);
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { status, casinoProviderId } = props;
-		dispatch(
-			updateCasinoStatusStart({
-				code: 'CASINO_PROVIDER',
-				casinoProviderId,
-				status: !status,
-			})
-		);
-	};
-
 	return {
 		casinoProvidersData,
 		isCasinoProvidersDataLoading,
@@ -64,7 +51,6 @@ const useCasinoProvidersListing = (filterValues = {}) => {
 		setLimit,
 		page,
 		setPage,
-		handleStatus,
 		onChangeRowsPerPage,
 	};
 };

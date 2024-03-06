@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
 	fetchCountriesStart,
 	resetCountriesData,
-	updateCountryStatusStart,
 } from '../../../store/actions';
 
 const useCountriesListing = (filterValues = {}) => {
@@ -51,18 +50,6 @@ const useCountriesListing = (filterValues = {}) => {
 		return formattedValues;
 	}, [countries]);
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { status, countryId } = props;
-		dispatch(
-			updateCountryStatusStart({
-				code: 'COUNTRY',
-				countryId,
-				status: !status,
-			})
-		);
-	};
-
 	useEffect(() => {
 		if (isEditCurrencySuccess) fetchData();
 	}, [isEditCurrencySuccess]);
@@ -74,7 +61,6 @@ const useCountriesListing = (filterValues = {}) => {
 		isCountriesLoading,
 		formattedCountries,
 		itemsPerPage,
-		handleStatus,
 		onChangeRowsPerPage,
 	};
 };

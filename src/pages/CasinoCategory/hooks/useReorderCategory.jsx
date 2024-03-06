@@ -17,13 +17,7 @@ const useReorderCategory = () => {
 	const [state, setState] = useState({ rows: [], count: 0 });
 
 	const fetchData = () => {
-		dispatch(
-			getCasinoCategoryDetailStart({
-				perPage: '',
-				page: '',
-				search: '',
-			})
-		);
+		dispatch(getCasinoCategoryDetailStart({}));
 	};
 
 	useEffect(() => {
@@ -35,17 +29,6 @@ const useReorderCategory = () => {
 			setState(casinoCategoryDetails);
 		}
 	}, [casinoCategoryDetails]);
-
-	useEffect(() => {
-		dispatch(
-			getCasinoCategoryDetailStart({
-				perPage: '',
-				page: '',
-				search: '',
-				tenantId: '',
-			})
-		);
-	}, []);
 
 	const formattedState = useMemo(
 		() =>

@@ -35,13 +35,7 @@ const useReorderGames = () => {
 	const [search, setSearch] = useState('');
 
 	const fetchData = () => {
-		dispatch(
-			getCasinoCategoryDetailStart({
-				perPage: '',
-				page: '',
-				search: '',
-			})
-		);
+		dispatch(getCasinoCategoryDetailStart({}));
 	};
 
 	useEffect(() => {
