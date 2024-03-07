@@ -68,7 +68,7 @@ const useCreateCms = () => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		dispatch(getCmsDynamicKeys());
+		// dispatch(getCmsDynamicKeys());
 	}, []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({

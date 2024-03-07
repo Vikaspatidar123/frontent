@@ -49,7 +49,7 @@ const PlayerDetailsPage = ({ t }) => {
 			depositToOtherSuccess ||
 			updateUserInfoSuccess
 		) {
-			dispatch(getUserDetails({ userId: playerId }));
+			dispatch(getUserDetails({ playerId }));
 			dispatch(resetUserLimitData());
 		}
 	}, [

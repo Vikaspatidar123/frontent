@@ -37,7 +37,6 @@ const EmailTemplate = ({ t }) => {
 		expanded,
 		setExpanded,
 	} = useEmailTemplate();
-	const keyList = Object.keys(emailTemplates);
 	const { buttonList } = useCreateEmailTemplate();
 
 	const handleChange = (panel) => () => {
@@ -99,7 +98,17 @@ const EmailTemplate = ({ t }) => {
 							title="Email Template Listing  "
 						/>
 
-						{emailTemplateloading ? (
+						<TableContainer
+							columns={columns}
+							data={emailTemplates?.emailTemplates}
+							customPageSize={emailTemplates?.emailTemplates?.totalPages}
+							tableClass="table-bordered align-middle nowrap mt-2"
+							paginationDiv="justify-content-center"
+							pagination="pagination justify-content-start pagination-rounded"
+							isLoading={emailTemplateloading}
+							thCustomClass="col-3"
+						/>
+						{/* {emailTemplateloading ? (
 							<Spinners
 								color="primary"
 								className="position-absolute top-50 start-50"
@@ -142,8 +151,8 @@ const EmailTemplate = ({ t }) => {
 											<div className="accordion-body accordion-body-padding">
 												<TableContainer
 													columns={columns}
-													data={emailTemplates[key]}
-													customPageSize={emailTemplates[key].count}
+													data={emailTemplates?.emailTemplates}
+													customPageSize={emailTemplates?.emailTemplates?.totalPages}
 													tableClass="table-bordered align-middle nowrap mt-2"
 													paginationDiv="justify-content-center"
 													pagination="pagination justify-content-start pagination-rounded"
@@ -155,7 +164,7 @@ const EmailTemplate = ({ t }) => {
 									</div>
 								</div>
 							))
-						)}
+						)} */}
 					</CardBody>
 				</Card>
 				<Modal

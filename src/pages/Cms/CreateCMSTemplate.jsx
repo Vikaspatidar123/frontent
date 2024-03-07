@@ -67,7 +67,7 @@ const CreateCMSTemplate = ({
 		}));
 	};
 
-	const tabData = languageData?.rows?.map((item) => ({
+	const tabData = languageData?.languages?.map((item) => ({
 		id: parseInt(item.id, 10),
 		title: item.code,
 		component: (

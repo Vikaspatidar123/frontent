@@ -43,7 +43,7 @@ const useCmsDetail = () => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		dispatch(getCmsDynamicKeys());
+		// dispatch(getCmsDynamicKeys());
 	}, []);
 
 	// resetting cms details redux state

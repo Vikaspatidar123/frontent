@@ -109,7 +109,7 @@ const usePlayersListing = (filterValues = {}) => {
 	const formattedPlayers = useMemo(() => {
 		const formattedValues = [];
 		if (players) {
-			return players?.rows.map((player) => {
+			return players?.users?.map((player) => {
 				const randomColor = getRandomColor();
 				return {
 					...player,
@@ -132,7 +132,7 @@ const usePlayersListing = (filterValues = {}) => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalPlayersCount: players?.count,
+		totalPlayerPages: players?.totalPages,
 		isPlayersLoading,
 		formattedPlayers,
 		itemsPerPage,

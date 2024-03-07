@@ -24,9 +24,9 @@ const Permissions = ({ details }) => {
 													<span className="icon font-size-20 px-3 py-2 icon-bg">
 														{permissionIcons()?.[key]}
 													</span>
-													<span className="text">{`  ${key}`}</span>
+													<span className="text text-capitalized">{`  ${key}`}</span>
 												</div>
-												<div className="list-group list-group-flush">
+												<div className="list-group">
 													{permissionObj?.[key].map((permissionKey) => (
 														<div
 															// justifyContent="space-between"
@@ -36,12 +36,7 @@ const Permissions = ({ details }) => {
 															<p className="m-0 p-0">
 																{permissionLabel(permissionKey)}
 															</p>
-															<img
-																width={16}
-																src={checkIcon}
-																className="check-img"
-																alt="Check"
-															/>
+															<img width={16} src={checkIcon} alt="Check" />
 														</div>
 													))}
 												</div>

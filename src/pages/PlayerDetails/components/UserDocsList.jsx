@@ -233,7 +233,7 @@ const UserDocsList = ({ userId }) => {
 			fetchLabels();
 			setDocLabels('');
 			dispatch(markDocumentRequiredReset());
-			dispatch(getUserDetails({ userId }));
+			dispatch(getUserDetails({ playerId: userId }));
 		}
 	}, [markDocumentRequiredSuccess]);
 

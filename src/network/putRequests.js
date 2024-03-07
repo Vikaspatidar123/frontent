@@ -12,12 +12,6 @@ const updateSuperAdminUser = (data) =>
 const updateAdmin = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/`, data); // No use
 
-const updateProfile = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}profile`,
-		data
-	);
-
 const updateSiteConfiguration = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-information`,
@@ -25,12 +19,6 @@ const updateSiteConfiguration = (data) =>
 		{
 			'Content-Type': 'multipart/form-data',
 		}
-	);
-
-const resetProfilePassword = ({ data }) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}forgot-password`,
-		data
 	);
 
 const superAdminViewToggleStatus = (data) =>
@@ -96,15 +84,6 @@ const editBetSettings = (data) =>
 
 const updateloyaltyLevel = ({ data }) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/loyalty-level`, data);
-
-const uploadGallery = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}gallery/upload`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
 
 const updateSAUserStatusCall = (data) =>
 	putRequest(
@@ -240,9 +219,7 @@ const updateSiteDetails = (data) =>
 export {
 	updateSuperAdminUser,
 	updateAdmin,
-	updateProfile,
 	updateSiteConfiguration,
-	resetProfilePassword,
 	superAdminViewToggleStatus,
 	updateStatus,
 	updateKYCLabels,
@@ -254,7 +231,6 @@ export {
 	editBanners,
 	editBetSettings,
 	updateloyaltyLevel,
-	uploadGallery,
 	updateSAUserStatusCall,
 	markUserAsInternal,
 	updateWageringTemplate,

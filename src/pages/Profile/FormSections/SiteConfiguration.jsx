@@ -24,7 +24,7 @@ const SiteConfig = ({
 }) => {
 	// const [formLanguage, setFormLanguage] = useState([]);
 	// const languageOptions =
-	// 	languageData?.rows?.map(({ code, name }) => ({
+	// 	languageData?.languages?.map(({ code, name }) => ({
 	// 		value: code,
 	// 		label: name,
 	// 	})) || [];

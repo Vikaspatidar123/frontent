@@ -21,7 +21,7 @@ const useCmsListing = (filterValues = {}) => {
 
 	const formattedCmsDetails = useMemo(() => {
 		if (cmsDetails) {
-			return cmsDetails?.rows.map((detail) => ({
+			return cmsDetails?.pages.map((detail) => ({
 				...detail,
 				title: detail?.title?.EN,
 				portal: detail?.tenant?.name

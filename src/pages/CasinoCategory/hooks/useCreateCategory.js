@@ -108,8 +108,8 @@ const useCreateCategory = () => {
 	};
 
 	useEffect(() => {
-		if (languageData?.rows?.length) {
-			const langOptions = languageData.rows.map((r) => ({
+		if (languageData?.languages?.length) {
+			const langOptions = languageData?.languages?.map((r) => ({
 				id: r.id,
 				optionLabel: r.name,
 				value: r.code,

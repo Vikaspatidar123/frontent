@@ -26,7 +26,7 @@ const PlayersList = () => {
 	const {
 		currentPage,
 		setCurrentPage,
-		totalPlayersCount,
+		totalPlayerPages,
 		isPlayersLoading,
 		formattedPlayers,
 		itemsPerPage,
@@ -64,7 +64,7 @@ const PlayersList = () => {
 									// paginationDiv="col-sm-12 col-md-7"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalPlayersCount}
+									totalPageCount={totalPlayerPages}
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}

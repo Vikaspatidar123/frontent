@@ -26,7 +26,7 @@ const editCountryDetails = (data) =>
 
 const addSuperAdminUser = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}staff`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}create-user`,
 		data
 	);
 
@@ -129,6 +129,26 @@ const createBonusCall = (data) =>
 		'Content-Type': 'multipart/form-data',
 	});
 
+const uploadGallery = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}gallery/upload`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
+const updateProfile = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}update-profile`,
+		data
+	);
+
+const resetProfilePassword = ({ data }) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}change-password`,
+		data
+	);
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -158,4 +178,7 @@ export {
 	createEmailTemplate,
 	addGamesToSubCategory,
 	createBonusCall,
+	uploadGallery,
+	updateProfile,
+	resetProfilePassword,
 };

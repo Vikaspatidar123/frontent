@@ -65,7 +65,7 @@ const validationSchema = (isEdit) =>
 			.min(8)
 			.max(100)
 			.required('User Name Required'),
-		adminRoleId: Yup.number().required('Admin role id is required'),
+		roleId: Yup.number().required('Admin role id is required'),
 		// group: Yup.string()
 		//   .min(3, 'Group Name must be atleast 3 characters')
 		//   .max(200)

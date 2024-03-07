@@ -45,7 +45,7 @@ function* getCmsDetails(action) {
 
 	try {
 		const { data } = yield getAllCms(payload);
-		yield put(getAllCmsDetailsSuccess(data?.data?.cmsPages));
+		yield put(getAllCmsDetailsSuccess(data?.data));
 	} catch (error) {
 		yield put(
 			getAllCmsDetailsFail(error?.response?.data?.errors[0]?.description)
@@ -61,7 +61,7 @@ function* getCmsByPageIdWorker(action) {
 			cmsPageId,
 		});
 
-		yield put(getCmsByPageIdSuccess(data?.data?.cmsDetails));
+		yield put(getCmsByPageIdSuccess(data?.data));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
@@ -126,7 +126,7 @@ function* updateSACMSStatusWorker(action) {
 
 		const { cmsDetails } = yield select((state) => state.AllCms);
 
-		const updatedCmsDetails = cmsDetails?.rows?.map((cms) => {
+		const updatedCmsDetails = cmsDetails?.pages?.map((cms) => {
 			if (cms?.id === payload.cmsPageId) {
 				cms.isActive = payload.status;
 			}

@@ -28,7 +28,7 @@ const Password = ({ loading, isTenant }) => {
 		dispatch(
 			resetProfilePasswordStart({
 				data: {
-					password: values?.password
+					oldPassword: values?.password
 						? Buffer.from(values?.password).toString('base64')
 						: '',
 					newPassword: values?.newPassword

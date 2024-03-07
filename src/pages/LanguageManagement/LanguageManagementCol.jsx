@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import '../../assets/scss/custom/pages/_language-management.scss';
 import { Tooltip } from 'reactstrap';
 
 const Keys = ({ value }) => value ?? '';

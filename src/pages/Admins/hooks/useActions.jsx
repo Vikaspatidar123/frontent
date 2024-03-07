@@ -168,7 +168,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 				})) || [];
 
 			if (validation?.values?.role === 'Support') {
-				validation.setFieldValue('adminRoleId', 3);
+				validation.setFieldValue('roleId', 3);
 				customField = {
 					name: 'adminId',
 					fieldType: 'select',
@@ -179,7 +179,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 					isDisabled: isEdit,
 				};
 			} else if (validation?.values?.role === 'Manager') {
-				validation.setFieldValue('adminRoleId', 2);
+				validation.setFieldValue('roleId', 2);
 			}
 			setRightFormFields([
 				...rightStaticFormFields(isEdit),

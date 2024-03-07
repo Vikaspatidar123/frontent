@@ -17,14 +17,14 @@ import {
 	getSiteConfigurationSuccess,
 	getSiteConfigurationFail,
 } from './actions';
-import {
-	updateProfile,
-	updateSiteConfiguration,
-	resetProfilePassword,
-} from '../../network/putRequests';
+import { updateSiteConfiguration } from '../../network/putRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 import { getSiteConfiguration } from '../../network/getRequests';
+import {
+	updateProfile,
+	resetProfilePassword,
+} from '../../network/postRequests';
 
 function* updateProfileWorker(action) {
 	try {

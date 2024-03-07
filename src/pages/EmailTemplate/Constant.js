@@ -38,3 +38,26 @@ export const emailDynamicOptions = ({ type, emailTypes }) => {
 
 	return allOpt.filter((option) => option.optional || option.required);
 };
+
+export const EMAIL_TEMPLATE_EVENT_TYPES = {
+	WELCOME: 'welcome',
+	FORGOT_PASSWORD: 'forgot_password',
+	ACTIVE_USER: 'active_user',
+	INACTIVE_USER: 'inactive_user',
+	EMAIL_VERIFICATION: 'email_verification',
+	RESET_PASSWORD: 'reset_password',
+	KYC_REJECTED: 'kyc_rejected',
+	KYC_REQUESTED: 'kyc_requested',
+	KYC_REMINDER: 'kyc_reminder',
+	KYC_RECEIVED: 'kyc_received',
+	KYC_VERIFIED: 'kyc_verified',
+	WITHDRAW_REQUEST_RECEIVED: 'withdraw_request_received',
+	WITHDRAW_REQUEST_APPROVED: 'withdraw_request_approved',
+	WITHDRAW_PROCESSED: 'withdraw_processed',
+	DEPOSIT_SUCCESS: 'deposit_success',
+	DEPOSIT_FAILED: 'deposit_failed',
+	WELCOME: 'welcome',
+	GAMBLING_REGISTRATION: 'gambling_registration',
+	PASSWORD_UPDATED: 'password_updated',
+	JOINING_BONUS: 'joining_bonus',
+};

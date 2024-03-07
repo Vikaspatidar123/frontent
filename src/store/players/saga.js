@@ -8,7 +8,7 @@ import { getPlayers } from '../../network/getRequests';
 function* fetchPlayers({ payload }) {
 	try {
 		const response = yield call(getPlayers, payload);
-		yield put(fetchPlayersSuccess(response?.data?.data?.users));
+		yield put(fetchPlayersSuccess(response?.data?.data));
 	} catch (error) {
 		yield put(fetchPlayersFail(error));
 	}

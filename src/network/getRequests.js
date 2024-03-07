@@ -57,7 +57,10 @@ const getPermissionDetails = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`);
 
 const getPlayers = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/all`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}players`,
+		payload
+	);
 
 const getAllCms = (payload) =>
 	getRequest(
@@ -226,7 +229,10 @@ const getDashboardDemoGraphicService = (data) =>
 	);
 
 const getUserDetails = (params) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user`, params);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player`,
+		params
+	);
 
 const getImageGalleryData = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}gallery`);

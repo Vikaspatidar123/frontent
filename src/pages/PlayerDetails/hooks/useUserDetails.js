@@ -13,7 +13,7 @@ const useUserDetails = ({ userId }) => {
 		useSelector((state) => state.UserDetails);
 
 	useEffect(() => {
-		dispatch(getUserDetails({ userId }));
+		dispatch(getUserDetails({ playerId: userId }));
 		dispatch(getDuplicateUsers({ userId, perPage: 10, page: 1 }));
 	}, []);
 

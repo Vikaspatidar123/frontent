@@ -121,10 +121,10 @@ const useCreateSubCategory = () => {
 
 	useEffect(() => {
 		if (
-			languageData?.rows?.length &&
+			languageData?.languages?.length &&
 			casinoCategoryDetails?.categories?.length
 		) {
-			const langOptions = languageData.rows.map((r) => ({
+			const langOptions = languageData?.languages?.map((r) => ({
 				id: r.id,
 				optionLabel: r.name,
 				value: r.code,
