@@ -128,7 +128,7 @@ const useEditEmailTemplate = () => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		dispatch(getEmailTypes());
+		// dispatch(getEmailTypes());
 	}, []);
 
 	const { validation, formFields, setFormFields } = useForm({

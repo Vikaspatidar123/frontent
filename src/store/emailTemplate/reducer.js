@@ -1,3 +1,4 @@
+import { groupBy } from 'lodash';
 import {
 	GET_ALL_EMAIL_TEMPLATES,
 	GET_ALL_EMAIL_TEMPLATES_SUCCESS,
@@ -41,9 +42,8 @@ import {
 } from './actionTypes';
 
 const INIT_STATE = {
-	emailTemplates: [],
-	emailTemplateOrder: [],
-	templateCount: 0,
+	emailTemplates: {},
+	templatePages: 0,
 	emailTemplateloading: false,
 	emailTemplateError: null,
 	imageGallery: [],
@@ -93,9 +93,8 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				emailTemplateloading: false,
-				emailTemplates: payload?.emailTemplate,
-				templateCount: payload.templateCount,
-				emailTemplateOrder: payload?.emailTemplateOrder,
+				emailTemplates: groupBy(payload?.emailTemplates, 'eventType'),
+				templatePages: payload?.totalPages,
 			};
 
 		case GET_ALL_EMAIL_TEMPLATES_FAIL:
@@ -109,9 +108,8 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				emailTemplateloading: false,
-				emailTemplates: [],
-				templateCount: 0,
-				emailTemplateOrder: [],
+				emailTemplates: {},
+				templatePages: 0,
 			};
 
 		case GET_IMAGE_GALLERY:

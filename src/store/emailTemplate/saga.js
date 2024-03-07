@@ -55,10 +55,10 @@ import {
 import {
 	testEmailTemplateEndPoint,
 	createEmailTemplate,
+	uploadGallery,
 } from '../../network/postRequests';
 
 import {
-	uploadGallery,
 	updateEmailTemplate,
 	primaryEmailTemplate,
 } from '../../network/putRequests';
@@ -85,7 +85,7 @@ function* getAllEmailTemplatesWorker(action) {
 function* getImageGalleryWorker() {
 	try {
 		const { data } = yield getImageGalleryData();
-		yield put(getImageGallerySuccess(data?.data?.gallery));
+		yield put(getImageGallerySuccess(data?.data));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,

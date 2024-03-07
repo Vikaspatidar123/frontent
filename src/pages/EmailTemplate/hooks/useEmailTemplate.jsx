@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'reactstrap';
-import { isEmpty } from 'lodash';
 import {
 	getAllEmailTemplates,
 	getEmailTemplate,
@@ -10,6 +10,8 @@ import {
 	deleteEmailTemplate,
 	resetAllEmailTemplates,
 } from '../../../store/actions';
+import ActionButtons from '../ActionButtons';
+import { EmailTemplateId, Label, Primary } from '../EmailTemplateListCol';
 import { CustomSelectField } from '../../../helpers/customForms';
 
 const useEmailTemplate = () => {
@@ -17,17 +19,15 @@ const useEmailTemplate = () => {
 		emailTemplateOrder,
 		emailTemplateloading,
 		emailTemplates,
-		templateCount,
+		// templateCount,
 	} = useSelector((state) => state.EmailTemplate);
-	const [isView, setIsView] = useState(false);
 	const { emailTemplate, isEmailTemplateLoading } = useSelector(
 		(state) => state.EmailTemplate
 	);
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const [clickId, setClickId] = useState();
+	const [clickId, setClickId] = useState('');
 	const [customComponent, setCustomComponent] = useState();
 	const [language, setLanguage] = useState('EN');
-	const [expanded, setExpanded] = useState('');
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -57,8 +57,8 @@ const useEmailTemplate = () => {
 									<option value="EN" selected disabled>
 										English
 									</option>
-									{languageData?.count &&
-										languageData?.rows?.map(
+									{languageData?.languages?.length &&
+										languageData?.languages?.map(
 											({ name, code }) =>
 												code !== 'EN' &&
 												emailTemplate?.templateCode?.[code] !== undefined && (
@@ -83,21 +83,8 @@ const useEmailTemplate = () => {
 	}, [emailTemplate, languageData, language]);
 
 	useEffect(() => {
-		if (!isEmpty(emailTemplates)) {
-			const keyList = Object.keys(emailTemplates || {});
-			setExpanded(keyList[0]);
-		}
-	}, [emailTemplates]);
-
-	useEffect(() => {
 		fetchData();
 	}, []);
-
-	useEffect(() => {
-		if (clickId) {
-			dispatch(getEmailTemplate(clickId));
-		}
-	}, [clickId]);
 
 	const handleEditClick = (e, emailTemplateId) => {
 		e.preventDefault();
@@ -105,13 +92,13 @@ const useEmailTemplate = () => {
 	};
 
 	const toggleView = () => {
-		setIsView((prev) => !prev);
+		setClickId('');
 	};
 
 	const handleViewClick = (e, emailTemplateId) => {
 		e.preventDefault();
 		setClickId(emailTemplateId);
-		setIsView(true);
+		dispatch(getEmailTemplate(emailTemplateId));
 	};
 
 	const handleDeleteClick = (e, emailTemplateId) => {
@@ -123,22 +110,54 @@ const useEmailTemplate = () => {
 		);
 	};
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: 'ID',
+				accessor: 'id',
+				filterable: true,
+				Cell: ({ cell }) => <EmailTemplateId value={cell.value} />,
+			},
+			{
+				Header: 'LABEL',
+				accessor: 'label',
+				filterable: true,
+				Cell: ({ cell }) => <Label value={cell.value} />,
+			},
+			{
+				Header: 'PRIMARY',
+				accessor: 'isDefault',
+				filterable: true,
+				Cell: ({ cell }) => <Primary value={cell.value} />,
+			},
+			{
+				Header: 'ACTION',
+				accessor: 'action',
+				disableFilters: true,
+				disableSortBy: true,
+				Cell: ({ cell }) => (
+					<ActionButtons
+						row={cell.row}
+						handleEditClick={handleEditClick}
+						handleViewClick={handleViewClick}
+						handleDeleteClick={handleDeleteClick}
+					/>
+				),
+			},
+		],
+		[]
+	);
+
 	return {
 		emailTemplateOrder,
 		emailTemplateloading,
 		emailTemplates,
-		templateCount,
-		handleEditClick,
-		handleViewClick,
 		toggleView,
-		isView,
 		emailTemplate,
 		isEmailTemplateLoading,
 		customComponent,
-		setCustomComponent,
-		handleDeleteClick,
-		expanded,
-		setExpanded,
+		columns,
+		clickId,
 	};
 };
 
