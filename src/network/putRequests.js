@@ -1,16 +1,22 @@
 import { putRequest } from './axios';
+import { API_NAMESPACE, MANAGEMENT } from './networkUtils';
 
 const { VITE_APP_API_URL } = import.meta.env;
-const API_NAMESPACE = '/api/v2';
 
 const updateSuperAdminUser = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/staff`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}staff`,
+		data
+	);
 
 const updateAdmin = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/`, data); // No use
 
 const updateProfile = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/profile`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}profile`,
+		data
+	);
 
 const updateSiteConfiguration = (data) =>
 	putRequest(
@@ -22,29 +28,41 @@ const updateSiteConfiguration = (data) =>
 	);
 
 const resetProfilePassword = ({ data }) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/forgot-password`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}forgot-password`,
+		data
+	);
 
 const superAdminViewToggleStatus = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/status`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}status`,
+		data
+	);
 
 const updateStatus = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/status`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}status`,
+		data
+	);
 
 const updateKYCLabels = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/document-label`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}document-label`,
+		data
+	);
 
 const updateGlobalRegistration = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/global-registration`, data);
 
 const editCasinoCategory = (data) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/edit-category`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-category`,
 		data
 	);
 
 const editCasinoProvider = (data) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/edit-provider`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-provider`,
 		data,
 		{
 			'Content-Type': 'multipart/form-data',
@@ -53,7 +71,7 @@ const editCasinoProvider = (data) =>
 
 const editCasinoSubCategory = (data) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/edit-sub-category`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-sub-category`,
 		data,
 		{
 			'Content-Type': 'multipart/form-data',
@@ -80,12 +98,19 @@ const updateloyaltyLevel = ({ data }) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/loyalty-level`, data);
 
 const uploadGallery = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/gallery`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}gallery/upload`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 const updateSAUserStatusCall = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/status`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}status`,
+		data
+	);
 
 const markUserAsInternal = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/internal`, data);
@@ -103,7 +128,10 @@ const updateUserTags = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/tags`, data);
 
 const addDepositToOtherCall = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/add-balance`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}add-balance`,
+		data
+	);
 
 const updateUserInfoCall = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user`, data);
@@ -137,7 +165,7 @@ const verifyUserDocument = (data) =>
 
 const addRestrictedCountriesCall = (data) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/country/restricted-items`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted-items`,
 		data
 	);
 
@@ -160,7 +188,10 @@ const updateCompanyOddApi = (data) =>
 	);
 
 const addRestrictedItems = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/country/restricted`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted`,
+		data
+	);
 
 const updateCategoryReOrder = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/order-category`, data);
@@ -183,14 +214,17 @@ const updateReorderGames = ({ data }) =>
 	);
 
 const updateReview = ({ data }) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/review`, data);
+	putRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}review`,
+		data
+	);
 
 const reorderBonus = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/order`, data);
 
 const uploadImageApi = (data) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sports/upload-thumbnails`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}upload-thumbnails`,
 		data,
 		{
 			'Content-Type': 'multipart/form-data',

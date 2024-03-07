@@ -1,18 +1,18 @@
 import { safeStringify } from '../utils/helpers';
 import { getRequest } from './axios';
+import { API_NAMESPACE, MANAGEMENT } from './networkUtils';
 
 const { VITE_APP_API_URL } = import.meta.env;
-const API_NAMESPACE = '/api/v2';
 
 const getCasinoCategoryListing = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-categories`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-categories`,
 		payload
 	);
 
 const getCasinoSubCategoryListing = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-sub-categories`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-sub-categories`,
 		payload
 	);
 
@@ -22,27 +22,36 @@ const getAllCurrencies = ({ limit, pageNo }) =>
 	);
 
 const getLanguages = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/settings/languages`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}languages`,
+		payload
+	);
 
 const getCountries = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/settings/countries`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}countries`,
+		payload
+	);
 
 const getAllCasinoProviders = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-providers`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-providers`,
 		payload
 	);
 
 const getAdminRole = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/roles`);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}roles`);
 
 const getAdminChildren = ({ superAdminId }) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/children?adminId=${superAdminId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}children?adminId=${superAdminId}`
 	);
 
 const getAllAdmins = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/staff`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}staff`,
+		payload
+	);
 
 const getPermissionDetails = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin`);
@@ -51,11 +60,14 @@ const getPlayers = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/all`, payload);
 
 const getAllCms = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}pages`,
+		payload
+	);
 
 const getAggregators = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-aggregators`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-aggregators`,
 		payload
 	);
 
@@ -70,7 +82,7 @@ const getSuperAdminWageringTemplate = (payload) =>
 
 const getAllCasinoGames = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-games`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-games`,
 		payload
 	);
 
@@ -82,43 +94,60 @@ const getBonusDetails = (payload) =>
 
 const getCurrencies = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/settings/currencies`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}currencies`,
 		payload
 	);
 
 const getLanguageManagement = ({ language = '' }) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/language/support-keys?language=${language}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.LANGUAGE}support-keys?language=${language}`
 	);
 
 const getBetSettings = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/bet-settings`);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}bet-settings`
+	);
 
 const getTransactionBanking = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/transactions`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}transactions`,
+		payload
+	);
 
 const getSportsList = (payload) =>
 	payload?.isAllListing
 		? getRequest(
-				`${VITE_APP_API_URL}${API_NAMESPACE}/sports/sport?listing=all`,
+				`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}sport?listing=all`,
 				payload
 		  )
-		: getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/sport`, payload);
+		: getRequest(
+				`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}sport`,
+				payload
+		  );
 
 const getReviewManagement = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/admin/review`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}review`,
+		payload
+	);
 
 const getCountriesList = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/countries`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}countries`,
+		payload
+	);
 
 const getSportsTransaction = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sports/transactions`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}transactions`,
 		payload
 	);
 
 const getTournamentsList = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/tournaments`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}tournaments`,
+		payload
+	);
 
 const getCasinoTransactions = (payload) =>
 	getRequest(
@@ -132,30 +161,39 @@ const getWithdrawRequests = (payload) =>
 		payload
 	);
 
-const getAllSABanners = ({ limit, pageNo }) =>
+const getAllSABanners = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/banner?limit=${limit}&pageNo=${pageNo}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}banner`,
+		payload
 	);
 
 const getSportsMatches = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/matches`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}matches`,
+		payload
+	);
 
 const getSportsMarkets = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/sports/markets`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}markets`,
+		payload
+	);
 const getAllGroups = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/all-group`);
 
 const getEmailTemplates = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email/all`);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}/email-template`
+	);
 
 const getAdminDetails = (adminId) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/?adminUserId=${adminId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}?adminUserId=${adminId}`
 	);
 
 const getDocumentLabelCall = (userId) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/admin/document-label?userId=${userId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}document-label?userId=${userId}`
 	);
 
 const getUserDocument = (payload) =>
@@ -177,16 +215,21 @@ const getloyaltyLevel = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/loyalty-level`);
 
 const getDashboardLiveInfoService = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/live-player`);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}live-player`
+	);
 
 const getDashboardDemoGraphicService = (data) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/demographic`, data);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}demographic`,
+		data
+	);
 
 const getUserDetails = (params) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user`, params);
 
 const getImageGalleryData = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/gallery`);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}gallery`);
 
 const getCommentsList = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/comments`, payload);
@@ -203,11 +246,14 @@ const getDuplicateUsers = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/duplicate`, payload);
 
 const fetchRestrictedCountries = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/country/restricted`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted`,
+		payload
+	);
 
 const fetchUnrestrictedCountries = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/country/unrestricted`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}unrestricted`,
 		payload
 	);
 
@@ -221,7 +267,7 @@ const getEmailTemplate = (emailTemplateId) =>
 
 const getSportsMatchesDetailApi = ({ matchId = '' }) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/sports/match-markets?matchId=${matchId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}match-markets?matchId=${matchId}`
 	);
 
 const getBonusCurrenciesConvertAmount = ({
@@ -239,13 +285,13 @@ const getSuperAdminAllWageringTemplate = () =>
 
 const getRestrictedItems = (data) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/country/restricted-items`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted-items`,
 		data
 	);
 
 const getUnrestrictedItems = (data) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/country/unrestricted-items`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}unrestricted-items`,
 		data
 	);
 
@@ -255,20 +301,31 @@ const getBonus = ({ bonusId, userBonusId }) =>
 	);
 
 const getSiteDetailApi = () =>
-	getRequest(`${VITE_APP_API_URL}/api/v1/setting/site-layout`);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}site-layout`
+	);
 
 const getGameReports = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/game`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}game`,
+		payload
+	);
 
 const getKpiSummary = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/kpi-summary`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}kpi-summary`,
+		payload
+	);
 
 const getKpiReport = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/report/kpi`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}kpi`,
+		payload
+	);
 
 const getSubCategoryAddedGames = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino-management/get-games`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-games`,
 		payload
 	);
 

@@ -8,6 +8,7 @@ import {
 import { English, Keys } from '../LanguageManagementCol';
 import { downloadFileInNewWindow } from '../../../utils/helpers';
 import { getAccessToken } from '../../../network/storageUtils';
+import { MANAGEMENT } from '../../../network/networkUtils';
 
 const itemsPerPage = 10;
 const { VITE_APP_API_URL } = import.meta.env;
@@ -74,7 +75,9 @@ const useLanguageManagementListing = () => {
 
 	const handleDownload = () =>
 		downloadFileInNewWindow(
-			`${VITE_APP_API_URL}/api/admin/language/support-keys?csvDownload=true&token=${getAccessToken()}`
+			`${VITE_APP_API_URL}/api/admin${
+				MANAGEMENT.LANGUAGE
+			}support-keys?csvDownload=true&token=${getAccessToken()}`
 		);
 
 	const buttonList = useMemo(() => [

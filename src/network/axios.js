@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { redirect } from 'react-router-dom';
 import { getAccessToken, removeLoginToken } from './storageUtils';
+import { METHODS, filterEmptyPayload } from './networkUtils';
 
 const axiosInstance = axios.create();
 
@@ -19,29 +20,6 @@ export const setupInterceptors = () => {
 			return Promise.reject(error);
 		}
 	);
-};
-
-const METHODS = {
-	get: 'GET',
-	post: 'POST',
-	put: 'PUT',
-	delete: 'DELETE',
-};
-
-const filterEmptyPayload = (payload) => {
-	const updatedPayload = {};
-	Object.keys(payload || {}).forEach((key) => {
-		if (
-			!(
-				payload[key] === null ||
-				payload[key] === undefined ||
-				payload[key] === ''
-			)
-		) {
-			updatedPayload[key] = payload[key];
-		}
-	});
-	return updatedPayload;
 };
 
 const makeRequest = async (
