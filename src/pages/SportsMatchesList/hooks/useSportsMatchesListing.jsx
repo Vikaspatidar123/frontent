@@ -52,7 +52,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 	const formattedSportsMatches = useMemo(() => {
 		const formattedValues = [];
 		if (sportsMatches) {
-			sportsMatches.rows.map((match) =>
+			sportsMatches?.events?.map((match) =>
 				formattedValues.push({
 					...match,
 					title: `${match?.eventParticipants?.[0]?.participant?.name} vs ${match?.eventParticipants?.[1]?.participant?.name}`,
@@ -146,7 +146,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalSportsMatchesCount: sportsMatches?.totalPage,
+		totalSportsMatchesCount: sportsMatches?.totalPages,
 		isSportsMatchesLoading,
 		formattedSportsMatches,
 		itemsPerPage,

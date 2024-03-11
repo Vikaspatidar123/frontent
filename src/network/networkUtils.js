@@ -5,7 +5,7 @@ const MANAGEMENT = {
 	PLAYER: '/player-management/',
 	SETTINGS: '/settings/',
 	LANGUAGE: '/language/',
-	SPORTS: '/sports/',
+	SPORTS: '/sportsbook-management/',
 	ADMIN: '/admin/',
 	COUNTRY: '/country/',
 	REPORT: '/report/',

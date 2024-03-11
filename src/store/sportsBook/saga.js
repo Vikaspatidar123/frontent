@@ -54,7 +54,7 @@ function* sportsListingWorker(action) {
 	try {
 		const payload = clearEmptyProperty(action.payload);
 		const { data } = yield getSportsList(payload);
-		yield put(getSportsListSuccess(data?.data?.sportsList));
+		yield put(getSportsListSuccess(data?.data));
 	} catch (error) {
 		yield put(getSportsListFail(error?.response?.data?.errors[0]?.description));
 	}
@@ -64,7 +64,7 @@ function* sportsCountriesWorker(action) {
 	try {
 		const payload = clearEmptyProperty(action.payload);
 		const { data } = yield getCountriesList(payload);
-		yield put(getSportsCountriesSuccess(data?.data?.countryList));
+		yield put(getSportsCountriesSuccess(data?.data));
 	} catch (error) {
 		yield put(
 			getSportsCountriesFail(error?.response?.data?.errors[0]?.description)
@@ -94,7 +94,7 @@ function* updateStatusWorker(action) {
 			case 'SPORT': {
 				const { sportsListInfo } = yield select((state) => state.SportsList);
 
-				const updatedSportsList = sportsListInfo?.rows?.map((item) => {
+				const updatedSportsList = sportsListInfo?.sports?.map((item) => {
 					if (item.id === payload.sportId) {
 						return {
 							...item,
@@ -107,7 +107,7 @@ function* updateStatusWorker(action) {
 				yield put(
 					getSportsListSuccess({
 						...sportsListInfo,
-						rows: updatedSportsList,
+						sports: updatedSportsList,
 					})
 				);
 				break;
@@ -115,7 +115,7 @@ function* updateStatusWorker(action) {
 			case 'LOCATION': {
 				const { sportsCountries } = yield select((state) => state.SportsList);
 
-				const updatedCountryList = sportsCountries?.rows?.map((item) => {
+				const updatedCountryList = sportsCountries?.locations?.map((item) => {
 					if (item.id === payload.locationId) {
 						return {
 							...item,
@@ -128,7 +128,7 @@ function* updateStatusWorker(action) {
 				yield put(
 					getSportsCountriesSuccess({
 						...sportsCountries,
-						rows: updatedCountryList,
+						locations: updatedCountryList,
 					})
 				);
 				break;

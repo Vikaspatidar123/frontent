@@ -34,8 +34,8 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	};
 
 	const formattedSportsCountries = useMemo(() => {
-		if (sportsCountries) {
-			return sportsCountries?.rows?.map((item) => ({
+		if (sportsCountries?.locations?.length) {
+			return sportsCountries?.locations?.map((item) => ({
 				...item,
 				countryName: item.name,
 				icons: '-',
@@ -132,7 +132,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	return {
 		formattedSportsCountries,
 		isSportsCountriesLoading,
-		totalSportsCountriesCount: sportsCountries?.count,
+		totalSportLocationPages: sportsCountries?.totalPages,
 		page,
 		setPage,
 		itemsPerPage,

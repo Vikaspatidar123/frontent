@@ -136,7 +136,7 @@ function* updateSACMSStatusWorker(action) {
 		yield put(
 			getAllCmsDetailsSuccess({
 				...cmsDetails,
-				rows: updatedCmsDetails,
+				pages: updatedCmsDetails,
 			})
 		);
 

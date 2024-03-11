@@ -160,7 +160,7 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 			};
 			if (payload.code === 'SPORTS') {
 				const temp = { ...state.sportsListInfo };
-				const newObject = temp?.sportsList?.rows?.map((obj) =>
+				const newObject = temp?.sportsList?.sports?.map((obj) =>
 					obj.sportId === payload.sportId
 						? { ...obj, isActive: !!payload.status }
 						: obj
@@ -169,13 +169,13 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 					...state.sportsListInfo,
 					sportsList: {
 						...state.sportsListInfo.sportsList,
-						rows: newObject,
+						sports: newObject,
 					},
 				};
 				data.sportsListInfo = newData;
 			} else if (payload.code === 'SPORTCONTRY') {
 				const temp = { ...state.sportsCountries };
-				const newObject = temp?.countryList?.rows?.map((obj) =>
+				const newObject = temp?.countryList?.locations?.map((obj) =>
 					obj.countryId === payload.sportCountryId
 						? { ...obj, isActive: !!payload.status }
 						: obj
@@ -184,7 +184,7 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 					...state.sportsCountries,
 					countryList: {
 						...state.sportsCountries.countryList,
-						rows: newObject,
+						locations: newObject,
 					},
 				};
 				data.sportsCountries = newData;

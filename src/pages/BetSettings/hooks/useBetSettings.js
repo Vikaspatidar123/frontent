@@ -26,7 +26,7 @@ const useBetSettings = () => {
 	};
 
 	const getSportsName = (sportId) => {
-		const sportsName = sportsListInfo?.rows?.filter(
+		const sportsName = sportsListInfo?.sports?.filter(
 			(x) => x.sportId === sportId
 		);
 		if (sportsName?.length > 0) {

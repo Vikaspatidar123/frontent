@@ -32,7 +32,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 
 	const formattedAdminDetails = useMemo(() => {
 		if (adminDetails?.staff?.length && roles?.length > 0) {
-			return adminDetails?.staff.map((admin) => {
+			return adminDetails?.staff?.map((admin) => {
 				const randomColor = getRandomColor();
 				return {
 					...admin,

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -53,7 +53,7 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(sportsListInfo)) {
+		if (!sportsListInfo?.sports) {
 			dispatch(
 				getSportsList({
 					perPage: itemsPerPage,
@@ -64,8 +64,8 @@ const useFilters = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!isEmpty(sportsListInfo)) {
-			const sportList = sportsListInfo?.rows?.map((row) => ({
+		if (sportsListInfo?.sports?.length) {
+			const sportList = sportsListInfo?.sports?.map((row) => ({
 				optionLabel: row?.name,
 				value: row?.id,
 			}));

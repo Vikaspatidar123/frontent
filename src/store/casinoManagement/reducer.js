@@ -499,14 +499,14 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 			};
 		case UPDATE_GAME_ISFEATURED_SUCCESS:
 			const temp = { ...state.casinoGames };
-			const newObject = temp?.rows?.map((obj) =>
+			const newObject = temp?.games?.map((obj) =>
 				obj.casinoGameId === Number(payload.casinoGameId)
 					? { ...obj, isFeatured: payload.isFeatured }
 					: obj
 			);
 			const newData = {
 				...state.casinoGames,
-				rows: newObject,
+				games: newObject,
 			};
 			return {
 				...state,

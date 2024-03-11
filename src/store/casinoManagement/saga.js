@@ -381,7 +381,7 @@ function* updateCasinoStatusWorker(action) {
 					(state) => state.CasinoManagementData.casinoProvidersData
 				);
 
-				const updatedProviderList = providerList?.rows?.map((provider) => {
+				const updatedProviderList = providerList?.providers?.map((provider) => {
 					if (provider.casinoProviderId === payload.casinoProviderId) {
 						provider.isActive = payload.status;
 					}
@@ -391,7 +391,7 @@ function* updateCasinoStatusWorker(action) {
 				yield put(
 					getCasinoProvidersDataSuccess({
 						...providerList,
-						rows: updatedProviderList,
+						providers: updatedProviderList,
 					})
 				);
 				break;
@@ -402,7 +402,7 @@ function* updateCasinoStatusWorker(action) {
 					(state) => state.CasinoManagementData.casinoSubCategoryDetails
 				);
 
-				const updatedSubCategoryList = subCategoryList?.rows?.map(
+				const updatedSubCategoryList = subCategoryList?.subCategories?.map(
 					(subCategory) => {
 						if (subCategory.gameSubCategoryId === payload.gameSubCategoryId) {
 							subCategory.isActive = payload.status;
@@ -414,7 +414,7 @@ function* updateCasinoStatusWorker(action) {
 				yield put(
 					getCasinoSubCategoryDetailSuccess({
 						...subCategoryList,
-						rows: updatedSubCategoryList,
+						subCategories: updatedSubCategoryList,
 					})
 				);
 			}
@@ -504,7 +504,7 @@ function* updateSACasinoGamesStatusWorker(action) {
 				yield put(
 					getCasinoGamesSuccess({
 						...casinoGames,
-						rows: updatedCasinoGames,
+						games: updatedCasinoGames,
 					})
 				);
 			}

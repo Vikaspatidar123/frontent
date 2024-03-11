@@ -29,7 +29,7 @@ const SportsListing = () => {
 	const {
 		formattedSportsList,
 		isSportsListLoading,
-		totalSportsListCount,
+		sportsPages,
 		showUploadModal,
 		setShowUploadModal,
 		page,
@@ -68,7 +68,7 @@ const SportsListing = () => {
 									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalSportsListCount}
+									totalPageCount={sportsPages}
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}

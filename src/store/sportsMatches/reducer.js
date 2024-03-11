@@ -65,14 +65,14 @@ const sportsMatchesReducer = (state = initialState, { type, payload } = {}) => {
 			// 	featuredFabData: null
 			// };
 			const temp = { ...state.sportsMatches };
-			const newObject = temp?.rows?.map((obj) =>
+			const newObject = temp?.events?.map((obj) =>
 				obj.matchId === payload.matchId
 					? { ...obj, isFeatured: payload.isFeatured }
 					: obj
 			);
 			const newData = {
 				...state.sportsMatches,
-				rows: newObject,
+				events: newObject,
 			};
 			return {
 				...state,

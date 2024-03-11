@@ -88,7 +88,7 @@ function* updateSuperAdminAggregatorStatusWorker(action) {
 		yield put(
 			getAggregatorsListSuccess({
 				...aggregatorsData,
-				rows: updatedAggregatorsData,
+				aggregators: updatedAggregatorsData,
 			})
 		);
 	} catch (e) {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -58,7 +58,7 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(sportsCountries)) {
+		if (!sportsCountries?.locations) {
 			dispatch(
 				getSportsCountries({
 					// perPage: itemsPerPage,
@@ -66,7 +66,7 @@ const useFilters = () => {
 				})
 			);
 		}
-		if (isEmpty(sportsListInfo)) {
+		if (!sportsListInfo?.sports) {
 			dispatch(
 				getSportsList({
 					perPage: itemsPerPage,
@@ -92,13 +92,13 @@ const useFilters = () => {
 	}, [validation.values]);
 
 	useEffect(() => {
-		if (!isEmpty(sportsCountries) && !isEmpty(sportsListInfo)) {
-			const countryList = sportsCountries?.rows?.map((row) => ({
+		if (sportsCountries?.locations && sportsListInfo?.sports) {
+			const countryList = sportsCountries?.locations?.map((row) => ({
 				optionLabel: row?.name,
 				value: row?.id,
 			}));
 
-			const sportList = sportsListInfo?.rows?.map((row) => ({
+			const sportList = sportsListInfo?.sports?.map((row) => ({
 				optionLabel: row?.name,
 				value: row?.id,
 			}));

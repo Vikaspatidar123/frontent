@@ -86,8 +86,8 @@ const useCreateBetSettings = () => {
 	}, [isEditBetSettingsSuccess, isCreateBetSettingsSuccess]);
 
 	useEffect(() => {
-		if (sportsListInfo?.rows?.length) {
-			const sportOptions = sportsListInfo.rows.map((r) => ({
+		if (sportsListInfo?.sports?.length) {
+			const sportOptions = sportsListInfo?.sports?.map((r) => ({
 				id: r.sportId,
 				optionLabel: r.sportName[0].name,
 				value: r.sportId,

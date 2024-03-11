@@ -28,7 +28,7 @@ const SportsCountriesListing = () => {
 	const {
 		formattedSportsCountries,
 		isSportsCountriesLoading,
-		totalSportsCountriesCount,
+		totalSportLocationPages,
 		page,
 		setPage,
 		itemsPerPage,
@@ -67,7 +67,7 @@ const SportsCountriesListing = () => {
 									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalSportsCountriesCount}
+									totalPageCount={totalSportLocationPages}
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}

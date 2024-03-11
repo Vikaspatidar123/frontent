@@ -118,15 +118,10 @@ const getTransactionBanking = (payload) =>
 	);
 
 const getSportsList = (payload) =>
-	payload?.isAllListing
-		? getRequest(
-				`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}sport?listing=all`,
-				payload
-		  )
-		: getRequest(
-				`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}sport`,
-				payload
-		  );
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}sports`,
+		payload
+	);
 
 const getReviewManagement = (payload) =>
 	getRequest(
@@ -136,7 +131,7 @@ const getReviewManagement = (payload) =>
 
 const getCountriesList = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}countries`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}locations`,
 		payload
 	);
 
@@ -148,7 +143,7 @@ const getSportsTransaction = (payload) =>
 
 const getTournamentsList = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}tournaments`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}leagues`,
 		payload
 	);
 
@@ -172,7 +167,7 @@ const getAllSABanners = (payload) =>
 
 const getSportsMatches = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}matches`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}events`,
 		payload
 	);
 

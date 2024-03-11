@@ -30,8 +30,8 @@ const useSportsListing = (filterValues = {}) => {
 	};
 
 	const formattedSportsList = useMemo(() => {
-		if (sportsListInfo) {
-			return sportsListInfo?.rows?.map((item) => ({
+		if (sportsListInfo?.sports?.length) {
+			return sportsListInfo?.sports?.map((item) => ({
 				...item,
 				sportName: item.name,
 				icons: '-',
@@ -128,7 +128,7 @@ const useSportsListing = (filterValues = {}) => {
 	return {
 		formattedSportsList,
 		isSportsListLoading,
-		totalSportsListCount: sportsListInfo?.count,
+		sportsPages: sportsListInfo?.totalPages,
 		page,
 		setPage,
 		itemsPerPage,
