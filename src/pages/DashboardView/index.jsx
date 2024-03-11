@@ -79,7 +79,6 @@ const DashboardView = ({ t }) => {
 				<Row>
 					<Col xl="3">
 						<WelcomeComp />
-						{/* <MonthlyEarning /> */}
 						<LoggedInPlayer
 							loggedInOptions={loggedInOptions}
 							isLivePlayerLoading={isLivePlayerLoading}
@@ -154,7 +153,7 @@ const DashboardView = ({ t }) => {
 									gameReportDateOption={gameReportDateOption}
 									setGameReportDateOption={setGameReportDateOption}
 									loadGameReport={loadGameReport}
-								/>{' '}
+								/>
 							</Suspense>
 						</Row>
 					</Col>

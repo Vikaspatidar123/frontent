@@ -1,6 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -207,29 +204,17 @@ const KpiSummary = (props) => {
 	);
 };
 KpiSummary.propTypes = {
-	activeKpiSummTab: PropTypes.string,
-	setActiveKpiSummTab: PropTypes.func,
-	kPISummaryColumn: PropTypes.arrayOf,
-	kPISummary: PropTypes.arrayOf,
-	formattedKpiSummary: PropTypes.arrayOf,
-	isKpiSummaryLoading: PropTypes.bool,
-	kpiSummaryStartDate: PropTypes.string,
-	kpiSummaryEndDate: PropTypes.string,
-	setKpiSummaryStartDate: PropTypes.func,
-	setKpiSummaryEndDate: PropTypes.func,
-	loadKPISummary: PropTypes.func,
+	activeKpiSummTab: PropTypes.string.isRequired,
+	setActiveKpiSummTab: PropTypes.func.isRequired,
+	kPISummaryColumn: PropTypes.arrayOf.isRequired,
+	kPISummary: PropTypes.arrayOf.isRequired,
+	formattedKpiSummary: PropTypes.arrayOf.isRequired,
+	isKpiSummaryLoading: PropTypes.bool.isRequired,
+	kpiSummaryStartDate: PropTypes.string.isRequired,
+	kpiSummaryEndDate: PropTypes.string.isRequired,
+	setKpiSummaryStartDate: PropTypes.func.isRequired,
+	setKpiSummaryEndDate: PropTypes.func.isRequired,
+	loadKPISummary: PropTypes.func.isRequired,
 };
-KpiSummary.defaultProps = {
-	activeKpiSummTab: PropTypes.string,
-	setActiveKpiSummTab: PropTypes.func,
-	kPISummaryColumn: PropTypes.arrayOf,
-	kPISummary: PropTypes.arrayOf,
-	formattedKpiSummary: PropTypes.arrayOf,
-	isKpiSummaryLoading: PropTypes.bool,
-	kpiSummaryStartDate: PropTypes.string,
-	kpiSummaryEndDate: PropTypes.string,
-	setKpiSummaryStartDate: PropTypes.func,
-	setKpiSummaryEndDate: PropTypes.func,
-	loadKPISummary: PropTypes.func,
-};
+
 export default KpiSummary;

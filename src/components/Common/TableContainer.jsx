@@ -99,13 +99,13 @@ const TableContainer = ({
 							className={`${tableHeaderClass} ${theadClass}`}
 							id="generic-table-head"
 						>
-							{headerGroups.map((headerGroup) => (
+							{headerGroups?.map((headerGroup) => (
 								<tr
 									key={headerGroup.id}
 									{...headerGroup.getHeaderGroupProps()}
 									id="generic-table-tr"
 								>
-									{headerGroup.headers.map((column) => (
+									{headerGroup?.headers?.map((column) => (
 										<th
 											key={column.id}
 											className={column.isSort ? 'sorting' : thCustomClass}
@@ -152,12 +152,12 @@ const TableContainer = ({
 						)}
 						{!isLoading &&
 							!!page.length &&
-							page.map((row) => {
+							page?.map((row) => {
 								prepareRow(row);
 								return (
 									<Fragment key={row.getRowProps().key}>
 										<tr>
-											{row.cells.map((cell) => (
+											{row?.cells?.map((cell) => (
 												<td
 													style={cellPadding ? { padding: cellPadding } : {}}
 													key={cell.id}

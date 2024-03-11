@@ -1,10 +1,9 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 import { CSVLink } from 'react-csv';
+import { isEmpty } from 'lodash';
 import GraphicChart from './GraphicChart';
 import DemoGraphicTable from './DemoGraphicTable';
 import { dateConstants } from '../constant';
@@ -40,13 +39,15 @@ const DemographicReport = (props) => {
 									</option>
 								))}
 							</select>
-							<CSVLink
-								data={demoGraphicData || []}
-								filename="downloaded_data.csv"
-								className="btn btn-sm btn-primary"
-							>
-								<i className="bx bx-download align-baseline" />
-							</CSVLink>
+							{!isEmpty(demoGraphicData) && (
+								<CSVLink
+									data={demoGraphicData || []}
+									filename="downloaded_data.csv"
+									className="btn btn-sm btn-primary"
+								>
+									<i className="bx bx-download align-baseline" />
+								</CSVLink>
+							)}
 						</div>
 					</div>
 
@@ -62,7 +63,6 @@ const DemographicReport = (props) => {
 									fetchData();
 								}
 							}}
-							tabIndex="0"
 						/>
 						<UncontrolledTooltip placement="top" target="refreshDemo">
 							Refresh
@@ -90,24 +90,14 @@ const DemographicReport = (props) => {
 	);
 };
 DemographicReport.propTypes = {
-	demoGraphOptions: PropTypes.arrayOf,
-	demoGraphicData: PropTypes.arrayOf,
-	demoGraphColumn: PropTypes.arrayOf,
-	demoDateOptions: PropTypes.arrayOf,
-	setDemoDateOptions: PropTypes.func,
-	isDemographicLoading: PropTypes.bool,
-	demoGrapFormatedData: PropTypes.arrayOf,
-	fetchData: PropTypes.func,
+	demoGraphOptions: PropTypes.arrayOf.isRequired,
+	demoGraphicData: PropTypes.arrayOf.isRequired,
+	demoGraphColumn: PropTypes.arrayOf.isRequired,
+	demoDateOptions: PropTypes.arrayOf.isRequired,
+	setDemoDateOptions: PropTypes.func.isRequired,
+	isDemographicLoading: PropTypes.bool.isRequired,
+	demoGrapFormatedData: PropTypes.arrayOf.isRequired,
+	fetchData: PropTypes.func.isRequired,
 };
 
-DemographicReport.defaultProps = {
-	demoGraphOptions: PropTypes.arrayOf,
-	demoGraphicData: PropTypes.arrayOf,
-	demoGraphColumn: PropTypes.arrayOf,
-	demoDateOptions: PropTypes.arrayOf,
-	setDemoDateOptions: PropTypes.func,
-	isDemographicLoading: PropTypes.bool,
-	demoGrapFormatedData: PropTypes.arrayOf,
-	fetchData: PropTypes.func,
-};
 export default DemographicReport;

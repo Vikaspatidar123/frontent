@@ -47,7 +47,7 @@ function* getLivePlayerData() {
 function* getDemoGraphicData(action) {
 	try {
 		const { data } = yield getDashboardDemoGraphicService(action.payload);
-		yield put(getDemographicSuccess(data?.data?.demographic));
+		yield put(getDemographicSuccess(data?.data));
 	} catch (e) {
 		yield put(getDemographicFail());
 

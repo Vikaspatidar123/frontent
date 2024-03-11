@@ -46,7 +46,7 @@ const CrudSection = ({ title, buttonList, exportComponent }) => {
 					)}
 				</div>
 				<div className="flex-shrink-0">
-					{exportComponent.map(({ label, tooltip, icon, data }) => (
+					{exportComponent?.map(({ label, tooltip, icon, data }) => (
 						<>
 							<CSVLink
 								data={data || []}

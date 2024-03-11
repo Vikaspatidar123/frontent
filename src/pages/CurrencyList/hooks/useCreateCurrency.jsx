@@ -196,6 +196,7 @@ const useCreateCurrency = () => {
 						hidden={!isGranted(modules.currency, 'U')}
 						type="button"
 						className="btn btn-sm btn-soft-info"
+						disabled={cell?.row?.original?.code === 'BONUS'}
 						onClick={(e) => {
 							e.preventDefault();
 							onClickEdit(cell?.row?.original);
@@ -203,11 +204,11 @@ const useCreateCurrency = () => {
 					>
 						<i
 							className="mdi mdi-pencil-outline"
-							id={`edittooltip-${cell?.row?.original?.currencyId}`}
+							id={`edittooltip-${cell?.row?.original?.id}`}
 						/>
 						<UncontrolledTooltip
 							placement="top"
-							target={`edittooltip-${cell?.row?.original?.currencyId}`}
+							target={`edittooltip-${cell?.row?.original?.id}`}
 						>
 							Edit
 						</UncontrolledTooltip>

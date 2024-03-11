@@ -1,6 +1,5 @@
-/* eslint-disable import/extensions */
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/control-has-associated-label */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -159,23 +158,14 @@ const GameReport = (props) => {
 	);
 };
 GameReport.propTypes = {
-	activeGameReportTab: PropTypes.string,
-	setActiveGameReportTab: PropTypes.func,
-	gameReportColumn: PropTypes.arrayOf,
-	gameReport: PropTypes.arrayOf,
-	isGameReportLoading: PropTypes.bool,
-	gameReportDateOption: PropTypes.string,
-	setGameReportDateOption: PropTypes.func,
-	loadGameReport: PropTypes.func,
+	activeGameReportTab: PropTypes.string.isRequired,
+	setActiveGameReportTab: PropTypes.func.isRequired,
+	gameReportColumn: PropTypes.arrayOf.isRequired,
+	gameReport: PropTypes.arrayOf.isRequired,
+	isGameReportLoading: PropTypes.bool.isRequired,
+	gameReportDateOption: PropTypes.string.isRequired,
+	setGameReportDateOption: PropTypes.func.isRequired,
+	loadGameReport: PropTypes.func.isRequired,
 };
-GameReport.defaultProps = {
-	activeGameReportTab: PropTypes.string,
-	setActiveGameReportTab: PropTypes.func,
-	gameReportColumn: PropTypes.arrayOf,
-	gameReport: PropTypes.arrayOf,
-	isGameReportLoading: PropTypes.bool,
-	gameReportDateOption: PropTypes.string,
-	setGameReportDateOption: PropTypes.func,
-	loadGameReport: PropTypes.func,
-};
+
 export default GameReport;

@@ -6,7 +6,6 @@ import { tableCustomClass } from '../../../constants/config';
 
 const DemoGraphicTable = (props) => {
 	const { demoGraphColumn, demoGraphicData, isDemographicLoading } = props;
-
 	return (
 		<div className="demo-graph-table">
 			<TableContainer
@@ -28,13 +27,9 @@ const DemoGraphicTable = (props) => {
 	);
 };
 DemoGraphicTable.propTypes = {
-	demoGraphColumn: PropTypes.arrayOf,
-	demoGraphicData: PropTypes.arrayOf,
-	isDemographicLoading: PropTypes.bool,
+	demoGraphColumn: PropTypes.arrayOf.isRequired,
+	demoGraphicData: PropTypes.arrayOf.isRequired,
+	isDemographicLoading: PropTypes.bool.isRequired,
 };
-DemoGraphicTable.defaultProps = {
-	demoGraphColumn: PropTypes.arrayOf,
-	demoGraphicData: PropTypes.arrayOf,
-	isDemographicLoading: PropTypes.bool,
-};
+
 export default DemoGraphicTable;

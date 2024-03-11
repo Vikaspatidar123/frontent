@@ -5,6 +5,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 import { getAccessToken } from '../../../network/storageUtils';
 import {
 	getLivePlayerInfoStart,
@@ -199,7 +200,7 @@ const useDashboardView = () => {
 	}, [demoDateOptions]);
 
 	useEffect(() => {
-		if (demoGraphicData) formatDataHandler(demoGraphicData);
+		if (!isEmpty(demoGraphicData)) formatDataHandler(demoGraphicData);
 	}, [demoGraphicData]);
 
 	useEffect(() => {

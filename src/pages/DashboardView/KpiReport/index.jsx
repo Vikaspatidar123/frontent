@@ -1,6 +1,5 @@
-/* eslint-disable import/extensions */
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/control-has-associated-label */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -157,24 +156,14 @@ const KpiReport = (props) => {
 	);
 };
 KpiReport.propTypes = {
-	activeKpiReportTab: PropTypes.string,
-	setActiveKpiReportTab: PropTypes.func,
-	kPIReportColumn: PropTypes.arrayOf,
-	kPIReport: PropTypes.arrayOf,
-	isKpiReportLoading: PropTypes.bool,
-	kpiReportDateOption: PropTypes.string,
-	setKpiReportDateOption: PropTypes.func,
-	loadKPIReport: PropTypes.func,
-};
-KpiReport.defaultProps = {
-	activeKpiReportTab: PropTypes.string,
-	setActiveKpiReportTab: PropTypes.func,
-	kPIReportColumn: PropTypes.arrayOf,
-	kPIReport: PropTypes.arrayOf,
-	isKpiReportLoading: PropTypes.bool,
-	kpiReportDateOption: PropTypes.string,
-	setKpiReportDateOption: PropTypes.func,
-	loadKPIReport: PropTypes.func,
+	activeKpiReportTab: PropTypes.string.isRequired,
+	setActiveKpiReportTab: PropTypes.func.isRequired,
+	kPIReportColumn: PropTypes.arrayOf.isRequired,
+	kPIReport: PropTypes.arrayOf.isRequired,
+	isKpiReportLoading: PropTypes.bool.isRequired,
+	kpiReportDateOption: PropTypes.string.isRequired,
+	setKpiReportDateOption: PropTypes.func.isRequired,
+	loadKPIReport: PropTypes.func.isRequired,
 };
 
 export default KpiReport;
