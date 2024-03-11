@@ -98,7 +98,7 @@ const useCreateKYCLabels = () => {
 
 	useEffect(() => {
 		setIsOpen(false);
-	}, [documentLabels?.rows?.length]);
+	}, [documentLabels?.documentLabels?.length]);
 
 	useEffect(() => {
 		if (isEditKYCLabelsSuccess) setIsOpen(false);

@@ -19,8 +19,8 @@ const useKYCLables = () => {
 
 	const formattedDocumentLabels = useMemo(() => {
 		if (documentLabels) {
-			setExpanded(documentLabels.rows?.[0]?.id);
-			return documentLabels.rows?.map((label) => {
+			setExpanded(documentLabels?.documentLabels?.[0]?.id);
+			return documentLabels?.documentLabels?.map((label) => {
 				// const language = Object.keys(label.name);
 				const language = ['EN'];
 				return [

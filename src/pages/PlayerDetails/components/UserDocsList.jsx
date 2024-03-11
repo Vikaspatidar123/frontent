@@ -63,7 +63,7 @@ const UserDocsList = ({ userId }) => {
 	const formattedDocumentLabels = useMemo(() => {
 		const formattedValues = [];
 		if (documentLabels) {
-			documentLabels.rows?.map((doc) =>
+			documentLabels?.documentLabels?.map((doc) =>
 				formattedValues.push({
 					...doc,
 					name: doc?.documentLabel?.name,
