@@ -16,8 +16,7 @@ export const setupInterceptors = () => {
 				removeLoginToken();
 				redirect('/login');
 			}
-
-			return Promise.reject(error);
+			return error;
 		}
 	);
 };

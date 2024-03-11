@@ -356,5 +356,4 @@ const kpiConstant = {
 		},
 	],
 };
-export { kpiConstant };
 export default kpiConstant;

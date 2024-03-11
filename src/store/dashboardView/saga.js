@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default */
 import { put, takeEvery, all, fork } from 'redux-saga/effects';
 
 // Crypto Redux States
@@ -10,10 +9,8 @@ import {
 	GET_KPI_SUMMARY_START,
 } from './actionTypes';
 import {
-	getLivePlayerInfoStart,
 	getLivePlayerInfoSuccess,
 	getLivePlayerInfoFail,
-	getDemographicStart,
 	getDemographicSuccess,
 	getDemographicFail,
 	// getKpiReportStart,
@@ -36,12 +33,10 @@ import kpiConstant from './config/kpisummary';
 
 function* getLivePlayerData() {
 	try {
-		yield getLivePlayerInfoStart();
 		const { data } = yield getDashboardLiveInfoService();
 		yield put(getLivePlayerInfoSuccess(data?.data));
 	} catch (e) {
 		yield put(getLivePlayerInfoFail());
-
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
 			type: 'error',
@@ -51,7 +46,6 @@ function* getLivePlayerData() {
 
 function* getDemoGraphicData(action) {
 	try {
-		yield getDemographicStart();
 		const { data } = yield getDashboardDemoGraphicService(action.payload);
 		yield put(getDemographicSuccess(data?.data?.demographic));
 	} catch (e) {
