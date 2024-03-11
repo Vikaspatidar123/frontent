@@ -144,7 +144,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 							</h4>
 							<div className="div-overview">
 								<Row>
-									{isGranted(modules.Users, 'TS') && (
+									{isGranted(modules.player, 'TS') && (
 										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
@@ -161,7 +161,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)}
-									{/* {(isGranted(modules.Users, 'U') ||
+									{/* {(isGranted(modules.player, 'U') ||
 										userDetails?.tags?.includes('Internal')) && (
 										<ColumnContainer
 											hidden={userDetails?.tags?.includes('Internal')}
@@ -175,7 +175,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)} */}
-									{(isGranted(modules.Users, 'VE') ||
+									{(isGranted(modules.player, 'VE') ||
 										userDetails?.emailVerified) && (
 										<ColumnContainer hidden={userDetails?.emailVerified}>
 											<Button
@@ -205,7 +205,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											Duplicates ({duplicateUsers?.count})
 										</Button>
 									</ColumnContainer>
-									{/* {isGranted(modules.Bonus, 'Issue') && (
+									{/* {isGranted(modules.bonus, 'Issue') && (
 										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
@@ -216,7 +216,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)} */}
-									{isGranted(modules.Users, 'MM') && (
+									{isGranted(modules.player, 'MM') && (
 										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
@@ -268,7 +268,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 												</Button>
 											)}
 									</ColumnContainer>
-									{isGranted(modules.Users, 'U') && (
+									{isGranted(modules.player, 'U') && (
 										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
@@ -279,7 +279,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)}
-									{isGranted(modules.Users, 'RP') && (
+									{isGranted(modules.player, 'RP') && (
 										<ColumnContainer>
 											<Dropdown
 												isOpen={openResetMenu}

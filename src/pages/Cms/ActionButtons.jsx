@@ -18,7 +18,7 @@ const ActionButtons = ({
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
 				<Button
-					hidden={!isGranted(modules.CMS, 'U')}
+					hidden={!isGranted(modules.page, 'U')}
 					type="button"
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => handleEditClick(e, id)}
@@ -32,7 +32,7 @@ const ActionButtons = ({
 
 			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
 				<Button
-					hidden={!isGranted(modules.CMS, 'R')}
+					hidden={!isGranted(modules.page, 'R')}
 					className="btn btn-sm btn-soft-primary"
 					onClick={(e) => handleViewClick(e, id)}
 				>
@@ -46,7 +46,7 @@ const ActionButtons = ({
 			<li>
 				{status ? (
 					<Button
-						hidden={!isGranted(modules.CMS, 'TS')}
+						hidden={!isGranted(modules.page, 'TS')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -62,7 +62,7 @@ const ActionButtons = ({
 					</Button>
 				) : (
 					<Button
-						hidden={!isGranted(modules.CMS, 'TS')}
+						hidden={!isGranted(modules.page, 'TS')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { getAdminDetails, resetAdminsData } from '../../../store/actions';
+import { getAllAdmins, resetAdminsData } from '../../../store/actions';
 import {
 	AdminUserID,
 	Email,
@@ -60,7 +60,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 
 	const fetchData = () => {
 		dispatch(
-			getAdminDetails({
+			getAllAdmins({
 				perPage: itemsPerPage,
 				page,
 				orderBy,

@@ -15,12 +15,8 @@ import { EmailTemplateId, Label, Primary } from '../EmailTemplateListCol';
 import { CustomSelectField } from '../../../helpers/customForms';
 
 const useEmailTemplate = () => {
-	const {
-		emailTemplateOrder,
-		emailTemplateloading,
-		emailTemplates,
-		// templateCount,
-	} = useSelector((state) => state.EmailTemplate);
+	const { emailTemplateOrder, emailTemplateloading, emailTemplates } =
+		useSelector((state) => state.EmailTemplate);
 	const { emailTemplate, isEmailTemplateLoading } = useSelector(
 		(state) => state.EmailTemplate
 	);

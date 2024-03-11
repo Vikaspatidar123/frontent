@@ -42,7 +42,7 @@ const ImageGalleryGrid = ({ imageGalleryList, isGranted, deleteImage }) =>
 						/>
 						<Col className="trash-btn position-absolute top-0 end-0">
 							<Button
-								hidden={!isGranted(modules.ImageGallery, 'D')}
+								hidden={!isGranted(modules.galley, 'D')}
 								className="btn btn-sm btn-soft-danger"
 								onClick={() => deleteImage(f)}
 							>
@@ -101,7 +101,7 @@ const ImageGallery = () => {
 
 	return (
 		<div className="page-content">
-			{isGranted(modules.ImageGallery, 'R') && (
+			{isGranted(modules.galley, 'R') && (
 				<Container fluid>
 					<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
 					<Row>

@@ -14,7 +14,7 @@ const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 			<li>
 				{active ? (
 					<Button
-						hidden={!isGranted(modules.SportbookManagement, 'U')}
+						hidden={!isGranted(modules.sportsbookManagement, 'U')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -30,7 +30,7 @@ const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 					</Button>
 				) : (
 					<Button
-						hidden={!isGranted(modules.SportbookManagement, 'U')}
+						hidden={!isGranted(modules.sportsbookManagement, 'U')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -49,7 +49,7 @@ const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 
 			<li>
 				<Button
-					hidden={!isGranted(modules.SportbookManagement, 'U')}
+					hidden={!isGranted(modules.sportsbookManagement, 'U')}
 					className="btn btn-sm btn-soft-primary"
 					onClick={(e) => {
 						e.preventDefault();

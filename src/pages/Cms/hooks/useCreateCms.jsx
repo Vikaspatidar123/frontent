@@ -122,7 +122,7 @@ const useCreateCms = () => {
 			label: 'Create',
 			handleClick: handleCreateClick,
 			link: '#!',
-			module: modules.CMS,
+			module: modules.page,
 			operation: 'C',
 		},
 	]);

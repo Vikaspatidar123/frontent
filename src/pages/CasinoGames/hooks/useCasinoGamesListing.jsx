@@ -123,7 +123,7 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			label: 'Reorder',
 			handleClick: '',
 			link: 'reorder',
-			module: modules.CasinoManagement,
+			module: modules.casinoManagement,
 			operation: 'U',
 		},
 	]);

@@ -170,14 +170,14 @@ const useCreateSubCategory = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
-			module: modules.CasinoManagement,
+			module: modules.casinoManagement,
 			operation: 'C',
 		},
 		{
 			label: 'Reorder',
 			handleClick: '',
 			link: 'reorder',
-			module: modules.CasinoManagement,
+			module: modules.casinoManagement,
 			operation: 'U',
 		},
 	]);

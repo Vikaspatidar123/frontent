@@ -11,7 +11,7 @@ const ActionButtons = ({ row: { original }, handleStatus, onClickEdit }) => {
 	const casinoProviderId = original?.casinoProviderId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			{isGranted(modules.CasinoManagement, 'U') && (
+			{isGranted(modules.casinoManagement, 'U') && (
 				<li data-bs-toggle="tooltip" data-bs-placement="top">
 					<Link
 						to={`/casino-providers/restrict-countries/${casinoProviderId}`}
@@ -29,7 +29,7 @@ const ActionButtons = ({ row: { original }, handleStatus, onClickEdit }) => {
 			<li>
 				{status ? (
 					<Button
-						hidden={!isGranted(modules.CasinoManagement, 'TS')}
+						hidden={!isGranted(modules.casinoManagement, 'TS')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -51,7 +51,7 @@ const ActionButtons = ({ row: { original }, handleStatus, onClickEdit }) => {
 					</Button>
 				) : (
 					<Button
-						hidden={!isGranted(modules.CasinoManagement, 'TS')}
+						hidden={!isGranted(modules.casinoManagement, 'TS')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -76,7 +76,7 @@ const ActionButtons = ({ row: { original }, handleStatus, onClickEdit }) => {
 
 			<li>
 				<Button
-					hidden={!isGranted(modules.CasinoManagement, 'U')}
+					hidden={!isGranted(modules.casinoManagement, 'U')}
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => {
 						e.preventDefault();

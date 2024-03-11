@@ -15,7 +15,7 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 			<li>
 				{active ? (
 					<Button
-						hidden={!isGranted(modules.CasinoManagement, 'TS')}
+						hidden={!isGranted(modules.casinoManagement, 'TS')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -34,7 +34,7 @@ const ActionButtons = ({ row, handleStatus, handleEditClick }) => {
 					</Button>
 				) : (
 					<Button
-						hidden={!isGranted(modules.CasinoManagement, 'TS')}
+						hidden={!isGranted(modules.casinoManagement, 'TS')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {

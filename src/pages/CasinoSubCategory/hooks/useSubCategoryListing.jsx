@@ -174,7 +174,7 @@ const useSubCategoryListing = (
 							<li>
 								{status ? (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'TS')}
+										hidden={!isGranted(modules.casinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -196,7 +196,7 @@ const useSubCategoryListing = (
 									</Button>
 								) : (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'TS')}
+										hidden={!isGranted(modules.casinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -222,7 +222,7 @@ const useSubCategoryListing = (
 							<li>
 								<Button
 									type="button"
-									hidden={!isGranted(modules.CasinoManagement, 'U')}
+									hidden={!isGranted(modules.casinoManagement, 'U')}
 									className="btn btn-sm btn-soft-info"
 									onClick={(e) => {
 										e.preventDefault();
@@ -245,7 +245,7 @@ const useSubCategoryListing = (
 							<li>
 								<Button
 									type="button"
-									hidden={!isGranted(modules.CasinoManagement, 'D')}
+									hidden={!isGranted(modules.casinoManagement, 'D')}
 									// disabled={isGlobal}
 									className="btn btn-sm btn-soft-danger"
 									onClick={(e) => {
@@ -269,7 +269,7 @@ const useSubCategoryListing = (
 							<li>
 								<Button
 									type="button"
-									hidden={!isGranted(modules.CasinoManagement, 'TS')}
+									hidden={!isGranted(modules.casinoManagement, 'TS')}
 									// disabled={isGlobal}
 									className="btn btn-sm btn-soft-primary"
 									onClick={(e) =>

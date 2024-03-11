@@ -166,7 +166,7 @@ const useCreateEmailTemplate = () => {
 			label: 'Create',
 			handleClick: handleCreateClick,
 			link: '#!',
-			module: modules.EmailTemplate,
+			module: modules.emailTemplate,
 			operation: 'C',
 		},
 	]);

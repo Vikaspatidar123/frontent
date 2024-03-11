@@ -14,7 +14,7 @@ const useKYCLables = () => {
 	const [expanded, setExpanded] = useState('');
 
 	const fetchData = () => {
-		dispatch(getDocumentLabel({ userId: '' }));
+		dispatch(getDocumentLabel({}));
 	};
 
 	const formattedDocumentLabels = useMemo(() => {

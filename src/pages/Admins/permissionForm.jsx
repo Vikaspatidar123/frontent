@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { CustomInputField } from '../../helpers/customForms';
 import { showToastr } from '../../utils/helpers';
-import { permissionIcons, permissionLabel } from '../../constants/permissions';
+import {
+	modules,
+	permissionIcons,
+	permissionLabel,
+} from '../../constants/permissions';
 import { initialValueInstance } from './formDetails';
 
 const PermissionForm = ({
@@ -46,7 +50,7 @@ const PermissionForm = ({
 				<h4 className="title-text">Permissions</h4>
 				<div className="row">
 					{Object.keys(permissions || {}).map((key) =>
-						values.role === 'Support' && key === 'Admins' ? null : (
+						values.role === 'Support' && key === modules.admin ? null : (
 							<div className="mb-4 col-xl-3 col-lg-4 col-md-6 col-sm-12">
 								<div className="permissions-card card card-bg">
 									<div className="fw-bold card-header d-flex  align-items-center gap-3 p-0">

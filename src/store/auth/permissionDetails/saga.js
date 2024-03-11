@@ -19,7 +19,7 @@ export function* getPermissions({ payload }) {
 	try {
 		yield put(showLinearProgress());
 		let details = yield call(getAdminDetails, payload);
-		details = details.data.data.adminDetails;
+		details = details.data.data.user;
 		yield put(getPermissionsSuccess(details));
 	} catch (er) {
 		yield put(getPermissionsError(`Unable to get roles ${er?.message || ''}`));

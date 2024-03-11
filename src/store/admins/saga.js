@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
-/* eslint-disable no-return-assign */
 /* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 /* eslint-disable no-restricted-syntax */
 import {
 	put,
@@ -14,8 +14,8 @@ import {
 // Crypto Redux States
 import { cloneDeep } from 'lodash';
 import {
-	getAdminDetailsSuccess,
-	getAdminDetailsFail,
+	getAllAdminsSuccess,
+	getAllAdminsFail,
 	addSuperAdminUserSuccess,
 	addSuperAdminUserFail,
 	updateSuperAdminUserSuccess,
@@ -30,28 +30,26 @@ import {
 	GET_ADMIN_CHILDREN,
 } from './actionTypes';
 
-import { getAllAdmins, getAdminChildren } from '../../network/getRequests';
+import { getAllAdminsList, getAdminChildren } from '../../network/getRequests';
 import { addSuperAdminUser } from '../../network/postRequests';
 import { updateSuperAdminUser } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
-function* getAdminsDetail(action) {
+function* getAllAdmins(action) {
 	try {
 		const payload = clearEmptyProperty(action.payload);
-		const { data } = yield getAllAdmins(payload);
-		yield put(getAdminDetailsSuccess(data?.data));
+		const { data } = yield getAllAdminsList(payload);
+		yield put(getAllAdminsSuccess(data?.data));
 	} catch (error) {
-		yield put(
-			getAdminDetailsFail(error?.response?.data?.errors[0]?.description)
-		);
+		yield put(getAllAdminsFail(error?.response?.data?.errors[0]?.description));
 	}
 }
 
 function* addSuperAdminUserWorker(action) {
 	try {
 		const { data, navigate } = action && action.payload;
-
+		delete data.role;
 		yield addSuperAdminUser(data);
 
 		showToastr({
@@ -137,7 +135,7 @@ function* getAdminChildrenWorker(action) {
 }
 
 export function* watchGetAdminsData() {
-	yield takeLatest(GET_ADMINS_DATA, getAdminsDetail);
+	yield takeLatest(GET_ADMINS_DATA, getAllAdmins);
 	yield takeEvery(ADD_SUPER_ADMIN_USER, addSuperAdminUserWorker);
 	yield takeEvery(UPDATE_SUPER_ADMIN_USER, updateSuperAdminUserWorker);
 	yield takeEvery(GET_ADMIN_CHILDREN, getAdminChildrenWorker);

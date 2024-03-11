@@ -103,7 +103,7 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 5,
 			title: 'History', // Combined dropdown for Bet and Sports Betting History
-			isHidden: !isGranted(modules.Transactions, 'R'),
+			isHidden: !isGranted(modules.report, 'R'),
 			isDropdown: true,
 			dropdownItems: [
 				{
@@ -122,7 +122,7 @@ const PlayerDetailsPage = ({ t }) => {
 			id: 6,
 			title: 'Transactions',
 			component: <Transactions userId={playerId} />,
-			isHidden: !isGranted(modules.Transactions, 'R'),
+			isHidden: !isGranted(modules.report, 'R'),
 		},
 		{
 			id: 7,
@@ -133,13 +133,13 @@ const PlayerDetailsPage = ({ t }) => {
 		// 	id: 8,
 		// 	title: 'Bonuses',
 		// 	component: <YourBonuses userId={playerId} />,
-		// 	isHidden: !isGranted(modules.Bonus, 'R'),
+		// 	isHidden: !isGranted(modules.bonus, 'R'),
 		// },
 		// {
 		// 	id: 9,
 		// 	title: 'Notes',
 		// 	component: <Notes userId={playerId} />,
-		// 	isHidden: !isGranted(modules.UserComment, 'R'),
+		// 	isHidden: !isGranted(modules.comment, 'R'),
 		// },
 	];
 

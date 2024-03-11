@@ -12,7 +12,7 @@ const ActionButtons = ({ onClickEdit, onClickDelete, row }) => {
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
 				<Button
-					hidden={!isGranted(modules.BannerManagement, 'U')}
+					hidden={!isGranted(modules.banner, 'U')}
 					onClick={(e) => {
 						e.preventDefault();
 						onClickEdit(row?.original);
@@ -28,7 +28,7 @@ const ActionButtons = ({ onClickEdit, onClickDelete, row }) => {
 
 			<li>
 				<Button
-					hidden={!isGranted(modules.BannerManagement, 'D')}
+					hidden={!isGranted(modules.banner, 'D')}
 					className="btn btn-sm btn-soft-danger"
 					onClick={(e) => {
 						e.preventDefault();

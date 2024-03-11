@@ -1,66 +1,89 @@
 import React from 'react';
 
 const modules = {
-	CMS: 'cms',
-	Bonus: 'bonus',
-	Users: 'users',
-	Admins: 'admins',
+	kyc: 'kyc',
+
+	tag: 'tag',
+
+	page: 'page',
+
+	admin: 'admin',
+
+	bonus: 'bonus',
+
+	banner: 'banner',
+
+	galley: 'galley',
+
+	limits: 'limits',
+
+	player: 'player',
+
+	report: 'report',
+
+	comment: 'comment',
+
+	country: 'country',
+
+	currency: 'currency',
+
+	language: 'language',
+
+	emailTemplate: 'emailTemplate',
+
+	casinoManagement: 'casinoManagement',
+
+	contentManagement: 'contentManagement',
+
+	applicationSetting: 'applicationSetting',
+
+	sportsbookManagement: 'sportsbookManagement',
+
 	Reviews: 'reviews',
-	KycLabel: 'kycLabel',
-	Language: 'language',
 	KpiReport: 'kpiReport',
-	Currencies: 'currencies',
 	GameReport: 'gameReport',
-	UserComment: 'userComment',
 	BetSettings: 'betSettings',
-	ImageGallery: 'imageGallery',
-	Transactions: 'transactions',
-	EmailTemplate: 'emailTemplate',
 	DemographReport: 'demographReport',
-	BannerManagement: 'bannerManagement',
-	CasinoManagement: 'casinoManagement',
 	KpiSummaryReport: 'kpiSummaryReport',
 	LivePlayerReport: 'livePlayerReport',
 	WageringTemplate: 'wageringTemplate',
 	LoyaltyManagement: 'loyalityManagement',
 	RegistrationField: 'registrationField',
-	RestrictedCountry: 'restrictedCountry',
 	PlayerLiabilityReport: 'playerLiabilityReport',
-	PlayerManagementReport: 'playerManagementReport',
-	SiteConfiguration: 'siteConfiguration',
-	SportbookManagement: 'sportsbookManagement',
 };
 
 const permissionIcons = () => ({
-	[modules.CMS]: <i className="bx bx-list-ol" />,
-	[modules.Bonus]: <i className="bx bxs-dollar-circle" />,
-	[modules.Users]: <i className="bx bx-user" />,
-	[modules.Admins]: <i className="bx bx-shield-quarter" />,
+	[modules.page]: <i className="bx bx-list-ol" />,
+	[modules.bonus]: <i className="bx bxs-dollar-circle" />,
+	[modules.player]: <i className="bx bx-user" />,
+	[modules.admin]: <i className="bx bx-shield-quarter" />,
 	[modules.Reviews]: <i className="bx bx-list-check" />,
-	[modules.KycLabel]: <i className="bx bx-user-check" />,
+	[modules.kyc]: <i className="bx bx-user-check" />,
 	[modules.KpiReport]: <i className="bx bxs-report" />,
-	[modules.Currencies]: <i className="bx bx-dollar" />,
+	[modules.currency]: <i className="bx bx-dollar" />,
 	[modules.GameReport]: <i className="bx bx-football" />,
-	[modules.UserComment]: <i className="bx bx-comment-dots" />,
+	[modules.comment]: <i className="bx bx-comment-dots" />,
 	[modules.BetSettings]: <i className="bx bx-wrench" />,
-	[modules.ImageGallery]: <i className="bx bxs-image" />,
-	[modules.Transactions]: <i className="bx bx-wallet-alt" />,
-	[modules.EmailTemplate]: <i className="bx bx-mail-send" />,
-	[modules.Language]: <i className="mdi mdi-google-translate" />,
+	[modules.galley]: <i className="bx bxs-image" />,
+	[modules.report]: <i className="bx bx-wallet-alt" />,
+	[modules.emailTemplate]: <i className="bx bx-mail-send" />,
+	[modules.language]: <i className="mdi mdi-google-translate" />,
 	[modules.DemographReport]: <i className="mdi mdi-map-marker" />,
-	[modules.BannerManagement]: <i className="mdi mdi-file-presentation-box" />,
-	[modules.CasinoManagement]: <i className="mdi mdi-gamepad-variant-outline" />,
+	[modules.banner]: <i className="mdi mdi-file-presentation-box" />,
+	[modules.casinoManagement]: <i className="mdi mdi-gamepad-variant-outline" />,
 	[modules.KpiSummaryReport]: <i className="mdi mdi-chart-box-outline" />,
 	[modules.LivePlayerReport]: <i className="mdi mdi-television-play" />,
 	[modules.WageringTemplate]: <i className="mdi mdi-credit-card-plus" />,
 	[modules.LoyaltyManagement]: <i className="mdi mdi-trophy-outline" />,
 	[modules.RegistrationField]: <i className="bx bx-user-plus" />,
-	[modules.RestrictedCountry]: <i className="mdi mdi-map-marker-off-outline" />,
+	[modules.country]: <i className="mdi mdi-map-marker-off-outline" />,
 	[modules.PlayerLiabilityReport]: <i className="mdi mdi-file-chart-outline" />,
-	[modules.PlayerManagementReport]: <i className="bx bxs-user-detail" />,
-	[modules.SiteConfiguration]: <i className="mdi mdi-web" />,
-	[modules.SportbookManagement]: <i className="mdi mdi-hockey-sticks" />,
+	[modules.applicationSetting]: <i className="mdi mdi-web" />,
+	[modules.sportsbookManagement]: <i className="mdi mdi-hockey-sticks" />,
 	[modules.SportsbookManagement]: <i className="bx bx-ball" />,
+	[modules.tag]: <i className="mdi mdi-tag" />,
+	[modules.limits]: <i className="mdi mdi-currency-usd-off" />,
+	[modules.contentManagement]: <i className="mdi mdi-file-chart" />,
 });
 
 const permissionLabel = (label) => {

@@ -156,7 +156,7 @@ const useCreateKYCLabels = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
-			module: modules.KycLabel,
+			module: modules.kyc,
 			operation: 'C',
 		},
 	]);

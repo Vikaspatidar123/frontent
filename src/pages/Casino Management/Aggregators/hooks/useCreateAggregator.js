@@ -71,7 +71,7 @@ const useCreateAggregator = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
-			module: modules.CasinoManagement,
+			module: modules.casinoManagement,
 			operation: 'C',
 		},
 	]);

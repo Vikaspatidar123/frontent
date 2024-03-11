@@ -119,7 +119,7 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 							<li>
 								<Button
 									type="button"
-									hidden={!isGranted(modules.CasinoManagement, 'U')}
+									hidden={!isGranted(modules.casinoManagement, 'U')}
 									className="btn btn-sm btn-soft-info"
 									onClick={(e) => {
 										handleEditClick(e, cell?.row?.original);

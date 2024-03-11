@@ -41,7 +41,7 @@ const useAggregatorList = (handleStatus) => {
 							<li>
 								{active ? (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'TS')}
+										hidden={!isGranted(modules.casinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
@@ -63,7 +63,7 @@ const useAggregatorList = (handleStatus) => {
 									</Button>
 								) : (
 									<Button
-										hidden={!isGranted(modules.CasinoManagement, 'TS')}
+										hidden={!isGranted(modules.casinoManagement, 'TS')}
 										className="btn btn-sm btn-soft-success"
 										onClick={(e) =>
 											handleStatus(e, {

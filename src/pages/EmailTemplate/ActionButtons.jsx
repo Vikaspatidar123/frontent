@@ -21,7 +21,7 @@ const ActionButtons = ({
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
 				<Button
-					hidden={!isGranted(modules.EmailTemplate, 'U')}
+					hidden={!isGranted(modules.emailTemplate, 'U')}
 					className="btn btn-sm btn-soft-success"
 					onClick={(e) => {
 						e.preventDefault();
@@ -56,7 +56,7 @@ const ActionButtons = ({
 
 			<li>
 				<Button
-					hidden={!isGranted(modules.EmailTemplate, 'U')}
+					hidden={!isGranted(modules.emailTemplate, 'U')}
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => handleEditClick(e, id)}
 				>
@@ -69,7 +69,7 @@ const ActionButtons = ({
 
 			<li>
 				<Button
-					hidden={!isGranted(modules.EmailTemplate, 'D')}
+					hidden={!isGranted(modules.emailTemplate, 'D')}
 					className="btn btn-sm btn-soft-danger"
 					onClick={(e) => handleDeleteClick(e, id)}
 				>

@@ -17,7 +17,7 @@ import {
 import { getPermissionsStart } from '../../../store/auth/permissionDetails/actions';
 import {
 	addSuperAdminUserStart,
-	getAdminDetails,
+	getAllAdmins,
 	updateSuperAdminUserStart,
 } from '../../../store/actions';
 import useAdminListing from './useAdminListing';
@@ -135,7 +135,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
-			module: modules.Admins,
+			module: modules.admin,
 			operation: 'C',
 		},
 	]);
@@ -168,7 +168,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 				})) || [];
 
 			if (validation?.values?.role === 'Support') {
-				validation.setFieldValue('roleId', 3);
+				validation.setFieldValue('adminRoleId', 3);
 				customField = {
 					name: 'adminId',
 					fieldType: 'select',
@@ -179,7 +179,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 					isDisabled: isEdit,
 				};
 			} else if (validation?.values?.role === 'Manager') {
-				validation.setFieldValue('roleId', 2);
+				validation.setFieldValue('adminRoleId', 2);
 			}
 			setRightFormFields([
 				...rightStaticFormFields(isEdit),
@@ -221,7 +221,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 
 			if (!allAdminList?.staff) {
 				dispatch(
-					getAdminDetails({
+					getAllAdmins({
 						// perPage: itemsPerPage,
 						// page: page,
 						// orderBy: 'id',

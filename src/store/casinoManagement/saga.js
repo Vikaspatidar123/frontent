@@ -322,7 +322,8 @@ function* editCasinoCategoryWorker(action) {
 function* createCasinoSubCategoryWorker(action) {
 	try {
 		const { data } = action && action.payload;
-		yield createCasinoSubCategory(objectToFormData(data));
+		// yield createCasinoSubCategory(objectToFormData(data));
+		yield createCasinoSubCategory(data);
 
 		showToastr({
 			message: `Sub Category Created Successfully`,

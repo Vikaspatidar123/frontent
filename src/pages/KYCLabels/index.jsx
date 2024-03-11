@@ -133,7 +133,7 @@ const KYCLabels = () => {
 																	</span>
 																)}{' '}
 																<Button
-																	hidden={!isGranted(modules.KycLabel, 'U')}
+																	hidden={!isGranted(modules.kyc, 'U')}
 																	onClick={(e) =>
 																		onClickEditButton(e, label?.[0])
 																	}

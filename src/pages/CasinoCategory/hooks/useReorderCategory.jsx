@@ -56,7 +56,7 @@ const useReorderCategory = () => {
 			label: 'Save',
 			handleClick: handleSave,
 			link: '#!',
-			module: modules.CasinoManagement,
+			module: modules.casinoManagement,
 			operation: 'U',
 		},
 	];

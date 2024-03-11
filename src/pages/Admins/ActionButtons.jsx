@@ -12,7 +12,7 @@ const ActionButtons = ({ handleEdit, row, handleStatus }) => {
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			{isGranted(modules.Admins, 'R') && (
+			{isGranted(modules.admin, 'R') && (
 				<li data-bs-toggle="tooltip" data-bs-placement="top">
 					<Link
 						to={`/staff/details/${adminUserId}`}
@@ -31,7 +31,7 @@ const ActionButtons = ({ handleEdit, row, handleStatus }) => {
 					</Link>
 				</li>
 			)}
-			{isGranted(modules.Admins, 'TS') && (
+			{isGranted(modules.admin, 'TS') && (
 				<li>
 					{active ? (
 						<Link
@@ -81,7 +81,7 @@ const ActionButtons = ({ handleEdit, row, handleStatus }) => {
 				</li>
 			)}
 
-			{isGranted(modules.Admins, 'U') && (
+			{isGranted(modules.admin, 'U') && (
 				<li>
 					<Link
 						to="#!"

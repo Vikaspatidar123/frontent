@@ -14,14 +14,14 @@ const useButtonList = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
-			module: modules.Bonus,
+			module: modules.bonus,
 			operation: 'C',
 		},
 		{
 			label: 'Reorder',
 			handleClick: '',
 			link: 'reorder',
-			module: modules.Bonus,
+			module: modules.bonus,
 			operation: 'U',
 		},
 	]);

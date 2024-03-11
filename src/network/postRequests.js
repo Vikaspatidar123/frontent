@@ -70,10 +70,7 @@ const createKYCLabels = (data) =>
 const createCasinoSubCategory = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}create-sub-category`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
+		data
 	);
 
 const createUserCommentEntry = (data) =>

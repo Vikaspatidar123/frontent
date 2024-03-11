@@ -14,17 +14,17 @@ import {
 	RESET_ADMINS_DATA,
 } from './actionTypes';
 
-export const getAdminDetailsSuccess = (payload) => ({
+export const getAllAdminsSuccess = (payload) => ({
 	type: GET_ADMINS_DATA_SUCCESS,
 	payload,
 });
 
-export const getAdminDetailsFail = (payload) => ({
+export const getAllAdminsFail = (payload) => ({
 	type: GET_ADMINS_DATA_FAIL,
 	payload,
 });
 
-export const getAdminDetails = (payload) => ({
+export const getAllAdmins = (payload) => ({
 	type: GET_ADMINS_DATA,
 	payload,
 });

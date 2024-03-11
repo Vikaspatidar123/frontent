@@ -47,7 +47,7 @@ const getAdminChildren = ({ superAdminId }) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}children?adminId=${superAdminId}`
 	);
 
-const getAllAdmins = (payload) =>
+const getAllAdminsList = (payload) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}staff`,
 		payload
@@ -194,9 +194,10 @@ const getAdminDetails = (adminId) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}?adminUserId=${adminId}`
 	);
 
-const getDocumentLabelCall = (userId) =>
+const getDocumentLabelCall = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}document-label?userId=${userId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}kyc/document-labels`,
+		payload
 	);
 
 const getUserDocument = (payload) =>
@@ -347,7 +348,7 @@ export {
 	getCasinoCategoryListing,
 	getCasinoSubCategoryListing,
 	getLanguages,
-	getAllAdmins,
+	getAllAdminsList,
 	getAllBonus,
 	getCurrencies,
 	getLanguageManagement,

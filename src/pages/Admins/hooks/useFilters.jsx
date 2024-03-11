@@ -7,7 +7,7 @@ import {
 	staticFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getAdminDetails } from '../../../store/actions';
+import { getAllAdmins } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
@@ -21,7 +21,7 @@ const useFilters = () => {
 
 	const fetchData = (values) => {
 		dispatch(
-			getAdminDetails({
+			getAllAdmins({
 				perPage: itemsPerPage,
 				page: 1,
 				orderBy: 'id',

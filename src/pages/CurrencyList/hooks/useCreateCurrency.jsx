@@ -105,7 +105,7 @@ const useCreateCurrency = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
-			module: modules.Currencies,
+			module: modules.currency,
 			operation: 'C',
 		},
 	]);
@@ -193,7 +193,7 @@ const useCreateCurrency = () => {
 				disableFilters: true,
 				Cell: ({ cell }) => (
 					<Button
-						hidden={!isGranted(modules.Currencies, 'U')}
+						hidden={!isGranted(modules.currency, 'U')}
 						type="button"
 						className="btn btn-sm btn-soft-info"
 						onClick={(e) => {

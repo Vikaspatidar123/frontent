@@ -192,7 +192,7 @@ const useBonusReorder = () => {
 			label: 'Save',
 			handleClick: handleSave,
 			link: '#!',
-			module: modules.Bonus,
+			module: modules.bonus,
 			operation: 'U',
 		},
 	];

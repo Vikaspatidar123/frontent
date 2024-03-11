@@ -33,7 +33,7 @@ import {
 	getAllGroupsFailure,
 } from './actions';
 
-import { getAdminDetailsSuccess } from '../actions';
+import { getAllAdminsSuccess } from '../actions';
 
 import {
 	GET_ALL_GROUP_START,
@@ -127,7 +127,7 @@ function* updateSuperAdminStatusWorker(action) {
 		});
 
 		yield put(
-			getAdminDetailsSuccess({
+			getAllAdminsSuccess({
 				...adminDetails,
 				rows: newAdminRow,
 			})

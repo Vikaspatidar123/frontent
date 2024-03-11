@@ -31,7 +31,7 @@ const ActionButtons = ({
 			<li>
 				{active ? (
 					<Button
-						hidden={!isGranted(modules.Bonus, 'TS')}
+						hidden={!isGranted(modules.bonus, 'TS')}
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -47,7 +47,7 @@ const ActionButtons = ({
 					</Button>
 				) : (
 					<Button
-						hidden={!isGranted(modules.Bonus, 'TS')}
+						hidden={!isGranted(modules.bonus, 'TS')}
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
@@ -66,7 +66,7 @@ const ActionButtons = ({
 
 			<li>
 				<Button
-					hidden={!isGranted(modules.Bonus, 'U')}
+					hidden={!isGranted(modules.bonus, 'U')}
 					className="btn btn-sm btn-soft-info"
 					id="editToolTip"
 					onClick={handleEdit}
@@ -79,7 +79,7 @@ const ActionButtons = ({
 			</li>
 			<li>
 				<Button
-					hidden={!isGranted(modules.Bonus, 'R')}
+					hidden={!isGranted(modules.bonus, 'R')}
 					className="btn btn-sm btn-soft-info"
 					id="viewToolTip"
 					onClick={() => handleView(original)}
@@ -93,7 +93,7 @@ const ActionButtons = ({
 
 			<li>
 				<Button
-					hidden={!isGranted(modules.Bonus, 'D')}
+					hidden={!isGranted(modules.bonus, 'D')}
 					id="deleteToolTip"
 					className="btn btn-sm btn-soft-danger"
 					onClick={() => handleDelete(original)}

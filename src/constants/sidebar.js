@@ -50,7 +50,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		module: modules.Admins,
+		module: modules.admin,
 	},
 	{
 		id: 4,
@@ -63,7 +63,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		module: modules.Users,
+		module: modules.player,
 	},
 	{
 		id: 5,
@@ -76,7 +76,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		module: modules.KycLabel,
+		module: modules.kyc,
 	},
 	{
 		id: 6,
@@ -89,11 +89,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [
-			modules.Currencies,
-			modules.RestrictedCountry,
-			modules.Language,
-		],
+		groupedModules: [modules.currency, modules.country, modules.language],
 		subMenu: [
 			{
 				id: 7,
@@ -106,7 +102,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.Currencies,
+				module: modules.currency,
 			},
 			{
 				id: 7,
@@ -119,7 +115,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.RestrictedCountry,
+				module: modules.country,
 			},
 			{
 				id: 8,
@@ -132,7 +128,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.Language,
+				module: modules.language,
 			},
 			{
 				id: 31,
@@ -158,7 +154,7 @@ const sideBarElements = [
 			// 	spanClass: '',
 			// 	liTagClass: '',
 			// 	ulTagClass: '',
-			// 	module: modules.Language,
+			// 	module: modules.language,
 			// },
 			// {
 			// 	id: 10,
@@ -187,10 +183,10 @@ const sideBarElements = [
 		liTagClass: '',
 		ulTagClass: '',
 		groupedModules: [
-			modules.CMS,
-			modules.BannerManagement,
-			modules.EmailTemplate,
-			modules.ImageGallery,
+			modules.page,
+			modules.banner,
+			modules.emailTemplate,
+			modules.galley,
 		],
 		subMenu: [
 			{
@@ -204,7 +200,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.CMS,
+				module: modules.page,
 			},
 			{
 				id: 13,
@@ -217,7 +213,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.EmailTemplate,
+				module: modules.emailTemplate,
 			},
 			{
 				id: 14,
@@ -230,7 +226,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.ImageGallery,
+				module: modules.galley,
 			},
 			{
 				id: 21,
@@ -243,7 +239,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.BannerManagement,
+				module: modules.banner,
 			},
 		],
 	},
@@ -251,7 +247,7 @@ const sideBarElements = [
 		id: 102,
 		isSeparator: true,
 		title: 'Casino 	service',
-		groupedModules: [modules.CasinoManagement, modules.BannerManagement],
+		groupedModules: [modules.casinoManagement, modules.banner],
 	},
 	{
 		id: 15,
@@ -264,7 +260,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [modules.CasinoManagement],
+		groupedModules: [modules.casinoManagement],
 		subMenu: [
 			{
 				id: 16,
@@ -277,7 +273,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.CasinoManagement,
+				module: modules.casinoManagement,
 			},
 			{
 				id: 17,
@@ -290,7 +286,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.CasinoManagement,
+				module: modules.casinoManagement,
 			},
 			{
 				id: 18,
@@ -303,7 +299,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.CasinoManagement,
+				module: modules.casinoManagement,
 			},
 			{
 				id: 19,
@@ -316,7 +312,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.CasinoManagement,
+				module: modules.casinoManagement,
 			},
 			{
 				id: 20,
@@ -329,7 +325,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.CasinoManagement,
+				module: modules.casinoManagement,
 			},
 		],
 	},
@@ -337,7 +333,7 @@ const sideBarElements = [
 		id: 103,
 		isSeparator: true,
 		title: 'Reward administration',
-		groupedModules: [modules.WageringTemplate, modules.Bonus],
+		groupedModules: [modules.WageringTemplate, modules.bonus],
 	},
 	{
 		id: 22,
@@ -350,7 +346,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [modules.WageringTemplate, modules.Bonus],
+		groupedModules: [modules.WageringTemplate, modules.bonus],
 		subMenu: [
 			// {
 			// 	id: 23,
@@ -389,7 +385,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.Bonus,
+				module: modules.bonus,
 			},
 		],
 	},
@@ -397,7 +393,7 @@ const sideBarElements = [
 		id: 104,
 		isSeparator: true,
 		title: 'Statements',
-		groupedModules: [modules.Transactions, modules.Reviews],
+		groupedModules: [modules.report, modules.Reviews],
 	},
 	{
 		id: 26,
@@ -410,7 +406,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [modules.Transactions, modules.Reviews],
+		groupedModules: [modules.report, modules.Reviews],
 		subMenu: [
 			{
 				id: 27,
@@ -423,7 +419,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.Transactions,
+				module: modules.report,
 			},
 			{
 				id: 28,
@@ -436,7 +432,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.Transactions,
+				module: modules.report,
 			},
 			{
 				id: 29,
@@ -449,7 +445,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.Transactions,
+				module: modules.report,
 			},
 			// {
 			// 	id: 30,
@@ -462,7 +458,7 @@ const sideBarElements = [
 			// 	spanClass: '',
 			// 	liTagClass: '',
 			// 	ulTagClass: '',
-			// 	module: modules.Transactions,
+			// 	module: modules.report,
 			// },
 		],
 	},
@@ -470,7 +466,7 @@ const sideBarElements = [
 		id: 105,
 		isSeparator: true,
 		title: 'Sports Management',
-		groupedModules: [modules.SportbookManagement],
+		groupedModules: [modules.sportsbookManagement],
 	},
 	// {
 	// 	id: 32,
@@ -496,7 +492,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [modules.SportbookManagement],
+		groupedModules: [modules.sportsbookManagement],
 		subMenu: [
 			{
 				id: 34,
@@ -509,7 +505,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.SportbookManagement,
+				module: modules.sportsbookManagement,
 			},
 			{
 				id: 35,
@@ -522,7 +518,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.SportbookManagement,
+				module: modules.sportsbookManagement,
 			},
 			{
 				id: 36,
@@ -535,7 +531,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.SportbookManagement,
+				module: modules.sportsbookManagement,
 			},
 			{
 				id: 38,
@@ -548,7 +544,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.SportbookManagement,
+				module: modules.sportsbookManagement,
 			},
 			{
 				id: 39,
@@ -561,7 +557,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.SportbookManagement,
+				module: modules.sportsbookManagement,
 			},
 		],
 	},
