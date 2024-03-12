@@ -49,4 +49,9 @@ const formPageTitle = {
 	notes: 'NOTES_DETAIL_FORM',
 };
 
-export { rowsPerPageOptions, defaultPageSize, formPageTitle };
+const STORAGE_KEY = {
+	ADMIN_EDIT: 'admin_edit_key',
+	ADMIN_VIEW: 'admin_view_key',
+};
+
+export { rowsPerPageOptions, defaultPageSize, formPageTitle, STORAGE_KEY };

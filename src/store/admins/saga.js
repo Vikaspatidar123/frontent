@@ -113,11 +113,10 @@ function* getAdminChildrenWorker(action) {
 		};
 
 		const { data } = yield getAdminChildren({ superAdminId });
-
 		const newAdminChildren = cloneDeep(adminChildren);
-		const children = data?.data?.details?.map((item) => ({
+		const children = data?.data?.admin?.children?.map((item) => ({
 			id: item.id,
-			name: `${item.firstName || ''} (${item.childCount})`,
+			name: `${item.firstName || item.username} (${item.childCount || 0})`,
 			children: [],
 			data: item,
 		}));

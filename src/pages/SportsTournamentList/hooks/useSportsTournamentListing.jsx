@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { groupBy } from 'lodash';
 import {
 	getSportsTournamentList,
 	resetSportsTournamentList,
@@ -13,9 +14,13 @@ import {
 } from '../sportsTournamentListCol';
 
 const useSportsTounamentListing = (filterValues = {}) => {
-	const { sportsTournamentList, isSportsTournamentListLoading } = useSelector(
-		(state) => state.SportsList
-	);
+	const {
+		sportsTournamentList,
+		isSportsTournamentListLoading,
+		sportsCountries,
+		sportsListInfo,
+	} = useSelector((state) => state.SportsList);
+
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
@@ -26,16 +31,22 @@ const useSportsTounamentListing = (filterValues = {}) => {
 	};
 
 	const formattedSportsTournamenList = useMemo(() => {
-		if (sportsTournamentList) {
-			return sportsTournamentList?.rows?.map((item) => ({
+		if (sportsTournamentList?.leagues?.length) {
+			const countryObj = groupBy(sportsCountries?.locations, 'id');
+			const sportsObj = groupBy(sportsListInfo?.sports, 'id');
+			return sportsTournamentList?.leagues?.map((item) => ({
 				...item,
 				tournamentName: item?.name,
-				countryName: item?.location?.name,
-				sportName: item.sport?.name,
+				countryName: countryObj[item?.locationId]?.[0]?.name || '-',
+				sportName: sportsObj[item?.sportId]?.[0]?.name || '-',
 			}));
 		}
 		return [];
-	}, [sportsTournamentList]);
+	}, [
+		sportsTournamentList?.leagues,
+		sportsCountries?.locations,
+		sportsListInfo?.sports,
+	]);
 
 	useEffect(() => {
 		dispatch(
@@ -80,7 +91,7 @@ const useSportsTounamentListing = (filterValues = {}) => {
 	return {
 		formattedSportsTournamenList,
 		isSportsTournamentListLoading,
-		totalSportsTounamentListCount: sportsTournamentList?.totalPage,
+		totalSportsTounamentListCount: sportsTournamentList?.totalPages,
 		page,
 		setPage,
 		itemsPerPage,

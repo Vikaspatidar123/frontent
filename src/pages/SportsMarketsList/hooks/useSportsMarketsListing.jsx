@@ -36,8 +36,8 @@ const useSportsMarketsListing = (filterValues = {}) => {
 
 	const formattedSportsMarkets = useMemo(() => {
 		const formattedValues = [];
-		if (sportsMarkets) {
-			sportsMarkets.rows.map((market) =>
+		if (sportsMarkets?.markets?.length) {
+			sportsMarkets.markets.map((market) =>
 				formattedValues.push({
 					...market,
 					name: market?.name,
@@ -45,7 +45,7 @@ const useSportsMarketsListing = (filterValues = {}) => {
 			);
 		}
 		return formattedValues;
-	}, [sportsMarkets]);
+	}, [sportsMarkets?.markets]);
 
 	const columns = useMemo(
 		() => [
@@ -68,7 +68,7 @@ const useSportsMarketsListing = (filterValues = {}) => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalSportsMarketsCount: sportsMarkets?.totalPage,
+		totalSportsMarketsCount: sportsMarkets?.totalPages,
 		isSportsMarketsLoading,
 		formattedSportsMarkets,
 		itemsPerPage,

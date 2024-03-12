@@ -12,7 +12,7 @@ import PermissionForm from '../permissionForm';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	resetLinearProgress,
-	showLinearProgress,
+	// showLinearProgress,
 } from '../../../store/progressLoading/actions';
 import { getPermissionsStart } from '../../../store/auth/permissionDetails/actions';
 import {
@@ -23,8 +23,14 @@ import {
 import useAdminListing from './useAdminListing';
 import { showToastr } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
-import { formPageTitle } from '../../../components/Common/constants';
-import { decryptCredentials } from '../../../network/storageUtils';
+import {
+	STORAGE_KEY,
+	formPageTitle,
+} from '../../../components/Common/constants';
+import {
+	decryptCredentials,
+	encryptCredentials,
+} from '../../../network/storageUtils';
 import { getRolesStart } from '../../../store/auth/roles/actions';
 
 const useActions = (isEditPage, filterValues = {}) => {
@@ -106,10 +112,16 @@ const useActions = (isEditPage, filterValues = {}) => {
 
 	const handleEdit = (e, row) => {
 		e.preventDefault();
+		localStorage.setItem(
+			`${STORAGE_KEY.ADMIN_EDIT}_${row.id}`,
+			encryptCredentials(JSON.stringify(row))
+		);
 		setIsEdit(true);
-		navigate(`edit/${row.id}`);
+		setTimeout(() => {
+			navigate(`edit/${row.id}`);
+		}, 200);
 		// setHeader('Edit Staff');
-		dispatch(showLinearProgress());
+		// dispatch(showLinearProgress());
 	};
 
 	const {
