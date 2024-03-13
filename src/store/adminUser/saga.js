@@ -2,7 +2,6 @@
 import { takeLatest, put, select } from 'redux-saga/effects';
 import { getAllGroups } from '../../network/getRequests';
 
-import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { showToastr } from '../../utils/helpers';
 
 import {
@@ -18,6 +17,7 @@ import {
 	GET_ALL_GROUP_START,
 	UPDATE_SUPER_ADMIN_STATUS_START,
 } from './actionTypes';
+import { superAdminViewToggleStatus } from '../../network/postRequests';
 
 function* updateSuperAdminStatusWorker(action) {
 	try {
@@ -30,8 +30,8 @@ function* updateSuperAdminStatusWorker(action) {
 		const { adminDetails } = yield select((state) => state.AllAdmins);
 
 		const newAdminRow = adminDetails?.staff?.map((admin) => {
-			if (parseInt(admin?.id, 10) === payload.adminId) {
-				admin.isActive = payload.status;
+			if (parseInt(admin?.id, 10) === payload.childAdminId) {
+				admin.isActive = !admin.isActive;
 			}
 			return admin;
 		});

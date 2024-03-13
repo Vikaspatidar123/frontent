@@ -36,7 +36,7 @@ import {
 } from '../../network/getRequests';
 
 import {
-	superAdminViewToggleStatus,
+	// superAdminViewToggleStatus,
 	addRestrictedItems,
 } from '../../network/putRequests';
 
@@ -58,7 +58,7 @@ function* updateCountryStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(payload);
+		// yield superAdminViewToggleStatus(payload);
 
 		showToastr({
 			message: 'Status updated Successfully',

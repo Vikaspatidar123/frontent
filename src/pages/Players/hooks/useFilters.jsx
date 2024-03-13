@@ -20,30 +20,14 @@ const useFilters = () => {
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
-	const fetchData = ({
-		endDate,
-		startDate,
-		search,
-		kycStatus,
-		affiliateName,
-		userId,
-		phoneNumber,
-		orderBy,
-		sort,
-	}) => {
+	const fetchData = ({ endDate, startDate, ...rest }) => {
 		dispatch(
 			fetchPlayersStart({
 				perPage: itemsPerPage,
 				page: 1,
 				dobStart: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
 				dobEnd: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
-				search,
-				kycStatus,
-				affiliateName,
-				userId,
-				phoneNumber,
-				orderBy,
-				sort,
+				...rest,
 			})
 		);
 	};

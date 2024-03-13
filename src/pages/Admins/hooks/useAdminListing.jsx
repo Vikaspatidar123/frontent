@@ -38,8 +38,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 					...admin,
 					fullName: `${admin.firstName} ${admin.lastName}`,
 					randomColor,
-					roleName: roles?.find((role) => role?.id === admin?.adminRoleId)
-						?.name,
+					roleName: admin?.adminRole?.name || '-',
 				};
 			});
 		}
@@ -48,12 +47,10 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active: isActive, adminUserId } = props;
+		const { adminUserId } = props;
 		dispatch(
 			updateSuperAdminStatusStart({
-				code: 'ADMIN',
-				status: !isActive,
-				adminId: Number(adminUserId),
+				childAdminId: Number(adminUserId),
 			})
 		);
 	};

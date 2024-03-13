@@ -21,12 +21,6 @@ const updateSiteConfiguration = (data) =>
 		}
 	);
 
-const superAdminViewToggleStatus = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}status`,
-		data
-	);
-
 const updateStatus = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}status`,
@@ -220,7 +214,6 @@ export {
 	updateSuperAdminUser,
 	updateAdmin,
 	updateSiteConfiguration,
-	superAdminViewToggleStatus,
 	updateStatus,
 	updateKYCLabels,
 	updateGlobalRegistration,

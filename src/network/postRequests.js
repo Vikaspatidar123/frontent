@@ -146,6 +146,13 @@ const resetProfilePassword = ({ data }) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}change-password`,
 		data
 	);
+
+const superAdminViewToggleStatus = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}toggle-child`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -178,4 +185,5 @@ export {
 	uploadGallery,
 	updateProfile,
 	resetProfilePassword,
+	superAdminViewToggleStatus,
 };

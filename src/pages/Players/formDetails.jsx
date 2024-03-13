@@ -13,11 +13,11 @@ export const kycLabels = [
 
 const staticFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
-		placeholder: 'Search by email, name or group',
+		placeholder: 'Search by email, name, phone or user id',
 	},
 	// {
 	// 	name: 'affiliateName',
@@ -26,26 +26,26 @@ const staticFiltersFields = () => [
 	// 	label: '',
 	// 	placeholder: 'Search by Affiliate',
 	// },
-	{
-		name: 'userId',
-		fieldType: 'textField',
-		type: 'number',
-		label: '',
-		placeholder: 'Search by user Id',
-	},
+	// {
+	// 	name: 'userId',
+	// 	fieldType: 'textField',
+	// 	type: 'number',
+	// 	label: '',
+	// 	placeholder: 'Search by user Id',
+	// },
 	{
 		name: 'ranges',
 		fieldType: 'dateRangeSelector',
 		label: '',
 		placeholder: 'Range',
 	},
-	{
-		name: 'phoneNumber',
-		fieldType: 'textField',
-		type: 'tel',
-		label: '',
-		placeholder: 'Search by Phone number',
-	},
+	// {
+	// 	name: 'phoneNumber',
+	// 	fieldType: 'textField',
+	// 	type: 'tel',
+	// 	label: '',
+	// 	placeholder: 'Search by Phone number',
+	// },
 	{
 		name: 'kycStatus',
 		fieldType: 'select',
@@ -67,7 +67,7 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	search: '',
+	searchString: '',
 	kycStatus: null,
 	// affiliateName: '',
 	startDate: null,
@@ -80,7 +80,7 @@ const filterValues = () => ({
 
 const filterValidationSchema = () =>
 	Yup.object({
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 		kycStatus: Yup.string().nullable(),
 		// affiliateName: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),

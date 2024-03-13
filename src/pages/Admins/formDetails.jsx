@@ -115,7 +115,7 @@ const rightStaticFormFields = (isEdit) => [
 // Staff Filter
 const staticFiltersFields = () => [
 	{
-		name: 'status',
+		name: 'isActive',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
@@ -133,7 +133,7 @@ const staticFiltersFields = () => [
 		],
 	},
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
@@ -142,14 +142,14 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	status: null,
-	search: '',
+	isActive: null,
+	searchString: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		status: Yup.string().nullable(),
-		search: Yup.string().nullable(),
+		isActive: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 	});
 
 export {

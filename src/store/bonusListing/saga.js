@@ -32,7 +32,7 @@ import {
 	getBonusCurrenciesConvertAmount,
 } from '../../network/getRequests';
 import {
-	superAdminViewToggleStatus,
+	// superAdminViewToggleStatus,
 	reorderBonus,
 } from '../../network/putRequests';
 import { showToastr, clearEmptyProperty } from '../../utils/helpers';
@@ -56,7 +56,7 @@ function* updateSABonusStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(payload);
+		// yield superAdminViewToggleStatus(payload);
 		yield put(updateSABonusStatusSuccess());
 
 		const { bonusDetails } = yield select((state) => state.AllBonusDetails);

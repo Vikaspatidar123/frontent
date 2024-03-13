@@ -15,7 +15,7 @@ import {
 } from './actions';
 import { getAggregators } from '../../network/getRequests';
 import { createAggregator } from '../../network/postRequests';
-import { superAdminViewToggleStatus } from '../../network/putRequests';
+// import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
@@ -63,7 +63,7 @@ function* updateSuperAdminAggregatorStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(payload);
+		// yield superAdminViewToggleStatus(payload);
 
 		yield put(updateAggregatorStatusSuccess());
 

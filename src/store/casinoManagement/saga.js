@@ -99,7 +99,7 @@ import {
 	editCasinoGames,
 	editCasinoProvider,
 	editCasinoSubCategory,
-	superAdminViewToggleStatus,
+	// superAdminViewToggleStatus,
 	updateCategoryReOrder,
 	updateSubCategoryReOrder,
 	updateReorderGames,
@@ -368,7 +368,7 @@ function* updateCasinoStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(payload);
+		// yield superAdminViewToggleStatus(payload);
 
 		showToastr({
 			message: `Status Updated Successfully`,
@@ -456,7 +456,7 @@ function* editCasinoGamesWorker(action) {
 function* updateSACasinoGamesStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
-		yield superAdminViewToggleStatus(payload);
+		// yield superAdminViewToggleStatus(payload);
 
 		showToastr({
 			message: `Status Updated Successfully`,

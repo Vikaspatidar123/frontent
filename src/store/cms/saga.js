@@ -33,7 +33,7 @@ import {
 	getCmsByPageId,
 } from '../../network/getRequests';
 import {
-	superAdminViewToggleStatus,
+	// superAdminViewToggleStatus,
 	updateSuperAdminCMS,
 } from '../../network/putRequests';
 import { createSuperAdminCMS } from '../../network/postRequests';
@@ -117,7 +117,7 @@ function* updateSACMSStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		yield superAdminViewToggleStatus(payload);
+		// yield superAdminViewToggleStatus(payload);
 
 		showToastr({
 			message: 'CMS Status Updated Successfully',
