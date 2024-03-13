@@ -1,46 +1,58 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TabsPage from '../../components/Common/TabsPage';
 import Permissions from '../Profile/FormSections/Permissions';
-import {
-	getPermissionsStart,
-	resetAdminDetails,
-} from '../../store/auth/permissionDetails/actions';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 // eslint-disable-next-line import/no-unresolved
 import OverView from './Overview';
-import Spinners from '../../components/Common/Spinner';
+import { STORAGE_KEY } from '../../components/Common/constants';
+import { decryptCredentials } from '../../network/storageUtils';
 
 const AdminDetails = ({ t }) => {
 	const { adminUserId } = useParams();
-	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [adminData, setAdminData] = useState({});
 
 	const [activeTab, setactiveTab] = useState('1');
 
-	const { adminDetails, isAdminLoading } = useSelector(
-		(state) => state.PermissionDetails
-	);
-
 	useEffect(() => {
-		dispatch(getPermissionsStart(Number(adminUserId)));
+		const admin = decryptCredentials(
+			localStorage.getItem(`${STORAGE_KEY.ADMIN_VIEW}_${adminUserId}`)
+		);
+		if (admin) {
+			let data = JSON.parse(admin);
+			data = {
+				...data,
+				permission: {
+					...data.permission,
+					permission: data?.permission?.permission
+						? typeof data?.permission?.permission === 'string'
+							? JSON.parse(data?.permission?.permission)
+							: data.permission.permission
+						: {},
+				},
+			};
+			setAdminData(data);
+		} else {
+			navigate('/staff');
+		}
+		return () =>
+			localStorage.removeItem(`${STORAGE_KEY.ADMIN_VIEW}_${adminUserId}`);
 	}, []);
-
-	// resetting admin details redux state
-	useEffect(() => () => dispatch(resetAdminDetails()), []);
 
 	const tabData = [
 		{
 			id: '1',
 			title: 'Overview',
-			component: <OverView details={adminDetails} t={t} />,
+			component: <OverView details={adminData} t={t} />,
 		},
 		{
 			id: '2',
 			title: 'Permissions',
-			component: <Permissions details={adminDetails} />,
+			component: <Permissions details={adminData} />,
 		},
 	];
 
@@ -50,15 +62,13 @@ const AdminDetails = ({ t }) => {
 		}
 	};
 
-	return isAdminLoading ? (
-		<Spinners />
-	) : (
+	return (
 		<div className="page-content">
-			<Container fluid onLoad={isAdminLoading}>
+			<Container fluid>
 				<Breadcrumbs
 					showRightInfo={false}
 					showBackButton
-					breadcrumbItem={`${adminDetails?.adminRole?.name}: ${adminDetails.firstName} ${adminDetails.lastName}`}
+					breadcrumbItem={`${adminData?.adminRole?.name}: ${adminData.firstName} ${adminData.lastName}`}
 				/>
 				<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
 			</Container>

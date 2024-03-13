@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getAllAdmins, resetAdminsData } from '../../../store/actions';
 import {
 	AdminUserID,
@@ -15,9 +15,12 @@ import {
 import ActionButtons from '../ActionButtons';
 import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
 import { getRandomColor } from '../../../helpers/common';
+import { STORAGE_KEY } from '../../../components/Common/constants';
+import { encryptCredentials } from '../../../network/storageUtils';
 
 const useAdmin = (handleEdit, filterValues = {}) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const location = useLocation();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const { adminDetails, isLoading, error } = useSelector(
@@ -53,6 +56,15 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 				childAdminId: Number(adminUserId),
 			})
 		);
+	};
+
+	const handleView = (e, adminData) => {
+		e.preventDefault();
+		localStorage.setItem(
+			`${STORAGE_KEY.ADMIN_VIEW}_${adminData.id}`,
+			encryptCredentials(JSON.stringify(adminData))
+		);
+		navigate(`/staff/details/${adminData.id}`);
 	};
 
 	const fetchData = () => {
@@ -142,6 +154,7 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 						handleEdit={handleEdit}
 						row={cell.row}
 						handleStatus={handleStatus}
+						handleView={handleView}
 					/>
 				),
 			},

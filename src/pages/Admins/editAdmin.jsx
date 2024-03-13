@@ -37,6 +37,9 @@ const EditAdmin = () => {
 			localStorage.getItem(`${STORAGE_KEY.ADMIN_EDIT}_${adminUserId}`)
 		);
 		validation.resetForm(getInitialValues(JSON.parse(savedDetails)));
+
+		return () =>
+			localStorage.removeItem(`${STORAGE_KEY.ADMIN_EDIT}_${adminUserId}`);
 	}, []);
 
 	// resetting admin details redux state

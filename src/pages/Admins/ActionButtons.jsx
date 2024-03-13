@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ handleEdit, row, handleStatus }) => {
+const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
 	const active = row?.original?.isActive;
 	const adminUserId = row?.original?.id;
 	const { isGranted } = usePermission();
@@ -15,8 +15,9 @@ const ActionButtons = ({ handleEdit, row, handleStatus }) => {
 			{isGranted(modules.admin, 'R') && (
 				<li data-bs-toggle="tooltip" data-bs-placement="top">
 					<Link
-						to={`/staff/details/${adminUserId}`}
+						to="#!"
 						className="btn btn-sm btn-soft-primary"
+						onClick={(e) => handleView(e, row?.original)}
 					>
 						<i
 							className="mdi mdi-eye-outline"
@@ -118,6 +119,7 @@ ActionButtons.propTypes = {
 	handleEdit: PropTypes.func.isRequired,
 	handleStatus: PropTypes.func.isRequired,
 	row: PropTypes.objectOf.isRequired,
+	handleView: PropTypes.func.isRequired,
 };
 
 export default ActionButtons;

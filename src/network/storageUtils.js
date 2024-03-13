@@ -3,11 +3,17 @@ import CryptoJS from 'crypto-js';
 const FE_ENCRYPTION_KEY =
 	import.meta.env.VITE_APP_FE_ENCRYPTION_KEY || 'abcdef';
 
-export const encryptCredentials = (data) =>
-	CryptoJS.AES.encrypt(data, FE_ENCRYPTION_KEY).toString();
+export const encryptCredentials = (data) => {
+	if (!data) return '';
+	return CryptoJS.AES.encrypt(data, FE_ENCRYPTION_KEY).toString();
+};
 
-export const decryptCredentials = (data) =>
-	CryptoJS.AES.decrypt(data, FE_ENCRYPTION_KEY).toString(CryptoJS.enc.Utf8);
+export const decryptCredentials = (data) => {
+	if (!data) return '';
+	return CryptoJS.AES.decrypt(data, FE_ENCRYPTION_KEY).toString(
+		CryptoJS.enc.Utf8
+	);
+};
 
 export const setLoginToken = (token) =>
 	window.localStorage.setItem('access-token', encryptCredentials(token));
