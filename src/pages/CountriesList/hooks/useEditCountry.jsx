@@ -63,12 +63,10 @@ const useEditCountry = () => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { status, countryId } = props;
+		const { countryId } = props;
 		dispatch(
 			updateCountryStatusStart({
-				code: 'COUNTRY',
 				countryId,
-				status: !status,
 			})
 		);
 	};
@@ -130,7 +128,7 @@ const useEditCountry = () => {
 			},
 			{
 				Header: 'Status',
-				accessor: 'status',
+				accessor: 'isActive',
 				disableSortBy: true,
 				// filterable: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,

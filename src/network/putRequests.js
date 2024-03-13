@@ -27,12 +27,6 @@ const updateStatus = (data) =>
 		data
 	);
 
-const updateKYCLabels = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}document-label`,
-		data
-	);
-
 const updateGlobalRegistration = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/global-registration`, data);
 
@@ -215,7 +209,6 @@ export {
 	updateAdmin,
 	updateSiteConfiguration,
 	updateStatus,
-	updateKYCLabels,
 	updateGlobalRegistration,
 	editCasinoCategory,
 	editCasinoProvider,

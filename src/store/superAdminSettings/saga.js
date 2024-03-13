@@ -43,13 +43,13 @@ import {
 
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
-import { createKYCLabels, createSABanners } from '../../network/postRequests';
-
 import {
-	editBanners,
+	createKYCLabels,
+	createSABanners,
 	updateKYCLabels,
-	updateloyaltyLevel,
-} from '../../network/putRequests';
+} from '../../network/postRequests';
+
+import { editBanners, updateloyaltyLevel } from '../../network/putRequests';
 
 import { deleteSABanners } from '../../network/deleteRequests';
 import { formPageTitle } from '../../components/Common/constants';

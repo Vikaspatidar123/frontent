@@ -35,15 +35,15 @@ import {
 	getUnrestrictedItems,
 } from '../../network/getRequests';
 
-import {
-	// superAdminViewToggleStatus,
-	addRestrictedItems,
-} from '../../network/putRequests';
+import { addRestrictedItems } from '../../network/putRequests';
 
 import { deleteRestrictedItems } from '../../network/deleteRequests';
 
 import { showToastr } from '../../utils/helpers';
-import { editCountryDetails } from '../../network/postRequests';
+import {
+	editCountryDetails,
+	updateCountryStatus,
+} from '../../network/postRequests';
 
 function* fetchCountries({ payload }) {
 	try {
@@ -58,7 +58,7 @@ function* updateCountryStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		// yield superAdminViewToggleStatus(payload);
+		yield updateCountryStatus(payload);
 
 		showToastr({
 			message: 'Status updated Successfully',
@@ -66,9 +66,9 @@ function* updateCountryStatusWorker(action) {
 		});
 
 		const { countries } = yield select((state) => state.Countries);
-		const updatedCountries = countries?.rows?.map((country) => {
+		const updatedCountries = countries?.countries?.map((country) => {
 			if (country?.id === payload.countryId) {
-				country.status = payload.status;
+				country.isActive = !country.isActive;
 			}
 			return country;
 		});
@@ -76,7 +76,7 @@ function* updateCountryStatusWorker(action) {
 		yield put(
 			fetchCountriesSuccess({
 				...countries,
-				rows: updatedCountries,
+				countries: updatedCountries,
 			})
 		);
 

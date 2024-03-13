@@ -24,6 +24,18 @@ const editCountryDetails = (data) =>
 		data
 	);
 
+const updateCurrencyStatus = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}currency/toggle`,
+		data
+	);
+
+const updateCountryStatus = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}country/toggle`,
+		data
+	);
+
 const addSuperAdminUser = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}create-user`,
@@ -63,7 +75,7 @@ const createCasinoCategory = (data) =>
 
 const createKYCLabels = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}document-label`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}/kyc/document-label/create`,
 		data
 	);
 
@@ -153,6 +165,12 @@ const superAdminViewToggleStatus = (data) =>
 		data
 	);
 
+const updateKYCLabels = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}/kyc/document-label/update`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -186,4 +204,7 @@ export {
 	updateProfile,
 	resetProfilePassword,
 	superAdminViewToggleStatus,
+	updateKYCLabels,
+	updateCurrencyStatus,
+	updateCountryStatus,
 };
