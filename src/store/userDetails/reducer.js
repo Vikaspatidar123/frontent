@@ -2,6 +2,9 @@ import {
 	ACCEPT_USER_DOC,
 	ACCEPT_USER_DOC_FAIL,
 	ACCEPT_USER_DOC_SUCCESS,
+	ATTACH_TAG,
+	ATTACH_TAG_FAIL,
+	ATTACH_TAG_SUCCESS,
 	CANCEL_USER_BONUS,
 	CANCEL_USER_BONUS_FAIL,
 	CANCEL_USER_BONUS_SUCCESS,
@@ -17,6 +20,9 @@ import {
 	GET_ALL_BONUS,
 	GET_ALL_BONUS_FAIL,
 	GET_ALL_BONUS_SUCCESS,
+	GET_ALL_TAGS,
+	GET_ALL_TAGS_FAIL,
+	GET_ALL_TAGS_SUCCESS,
 	GET_BONUS_DETAILS,
 	GET_BONUS_DETAILS_FAIL,
 	GET_BONUS_DETAILS_RESET,
@@ -46,6 +52,9 @@ import {
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
+	REMOVE_TAG,
+	REMOVE_TAG_FAIL,
+	REMOVE_TAG_SUCCESS,
 	RESET_USER_DETAILS,
 	RESET_USER_LIMIT,
 	RESET_USER_LIMIT_DATA,
@@ -66,9 +75,6 @@ import {
 	UPDATE_USER_PASSWORD,
 	UPDATE_USER_PASSWORD_FAIL,
 	UPDATE_USER_PASSWORD_SUCCESS,
-	UPDATE_USER_TAGS,
-	UPDATE_USER_TAGS_FAIL,
-	UPDATE_USER_TAGS_SUCCESS,
 	VERIFY_USER_EMAIL,
 	VERIFY_USER_EMAIL_FAIL,
 	VERIFY_USER_EMAIL_SUCCESS,
@@ -145,6 +151,15 @@ const INIT_STATE = {
 	acceptUserDocError: false,
 	acceptUserDocLoading: false,
 	acceptUserDocSuccess: false,
+	attachTag: false,
+	attachTagLoading: false,
+	attachTagError: null,
+	userTags: null,
+	userTagsLoading: false,
+	userTagsError: null,
+	removeUserTag: false,
+	removeUserTagLoading: false,
+	removeUserTagError: null,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -153,13 +168,15 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				userDetailsLoading: true,
+				userDetails: null,
+				userDetailsError: null,
 			};
 
 		case GET_USER_DETAILS_SUCCESS:
 			return {
 				...state,
 				userDetailsLoading: false,
-				userDetails: payload?.getUser,
+				userDetails: payload,
 				userWalletData: payload?.getUserWalletData,
 				userDetailsError: null,
 			};
@@ -382,28 +399,6 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				verifyUserEmailError: payload,
 				verifyUserEmailLoading: false,
 				verifyUserEmailSuccess: false,
-			};
-
-		case UPDATE_USER_TAGS:
-			return {
-				...state,
-				updateUserTagsLoading: true,
-			};
-
-		case UPDATE_USER_TAGS_SUCCESS:
-			return {
-				...state,
-				updateUserTagsLoading: false,
-				updateUserTagsSuccess: true,
-				updateUserTagsError: null,
-			};
-
-		case UPDATE_USER_TAGS_FAIL:
-			return {
-				...state,
-				updateUserTagsError: payload,
-				updateUserTagsLoading: false,
-				updateUserTagsSuccess: false,
 			};
 
 		case GET_DUPLICATE_USERS:
@@ -685,6 +680,79 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				acceptUserDocLoading: true,
 			};
+
+		case ATTACH_TAG_SUCCESS:
+			return {
+				...state,
+				attachTagLoading: false,
+				attachTag: true,
+				attachTagError: null,
+			};
+
+		case ATTACH_TAG_FAIL:
+			return {
+				...state,
+				attachTagLoading: false,
+				attachTag: false,
+				attachTagError: payload,
+			};
+
+		case ATTACH_TAG:
+			return {
+				...state,
+				attachTagLoading: true,
+				attachTag: false,
+				attachTagError: null,
+			};
+
+		case GET_ALL_TAGS_SUCCESS:
+			return {
+				...state,
+				userTagsLoading: false,
+				userTags: payload,
+				userTagsError: null,
+			};
+
+		case GET_ALL_TAGS_FAIL:
+			return {
+				...state,
+				userTagsLoading: false,
+				userTags: null,
+				userTagsError: payload,
+			};
+
+		case GET_ALL_TAGS:
+			return {
+				...state,
+				userTagsLoading: true,
+				userTags: null,
+				userTagsError: null,
+			};
+
+		case REMOVE_TAG_SUCCESS:
+			return {
+				...state,
+				removeUserTag: true,
+				removeUserTagLoading: false,
+				removeUserTagError: null,
+			};
+
+		case REMOVE_TAG_FAIL:
+			return {
+				...state,
+				removeUserTag: false,
+				removeUserTagLoading: false,
+				removeUserTagError: payload,
+			};
+
+		case REMOVE_TAG:
+			return {
+				...state,
+				removeUserTag: false,
+				removeUserTagLoading: true,
+				removeUserTagError: null,
+			};
+
 		default:
 			return { ...state };
 	}

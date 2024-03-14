@@ -20,8 +20,6 @@ import {
 	markUserAsInternalFail,
 	verifyUserEmailSuccess,
 	verifyUserEmailFail,
-	updateUserTagsSuccess,
-	updateUserTagsFail,
 	getDuplicateUsersSuccess,
 	getDuplicateUsersFail,
 	getAllBonusSuccess,
@@ -46,14 +44,22 @@ import {
 	resolveUserCommentFail,
 	acceptUserDocsSuccess,
 	acceptUserDocsFail,
+	attachTagSuccess,
+	attachTagFail,
+	getAllTagsSuccess,
+	getAllTagsFail,
+	removeTagSuccess,
+	removeTagFail,
 } from './actions';
 import {
 	ACCEPT_USER_DOC,
+	ATTACH_TAG,
 	CANCEL_USER_BONUS,
 	CREATE_USER_COMMENT,
 	DEPOSIT_TO_OTHER,
 	DISABLE_USER,
 	GET_ALL_BONUS,
+	GET_ALL_TAGS,
 	GET_BONUS_DETAILS,
 	GET_DUPLICATE_USERS,
 	GET_USER_BONUS,
@@ -63,17 +69,18 @@ import {
 	ISSUE_BONUS,
 	MARK_DOCUMENT_REQUIRED,
 	MARK_USER_AS_INTERNAL,
+	REMOVE_TAG,
 	RESET_USER_LIMIT,
 	RESOLVE_USER_COMMENT,
 	SEND_PASSWORD_RESET,
 	UPDATE_SA_USER_STATUS,
 	UPDATE_USER_INFO,
 	UPDATE_USER_PASSWORD,
-	UPDATE_USER_TAGS,
 	VERIFY_USER_EMAIL,
 } from './actionTypes';
 import {
 	getAllBonus,
+	getAllUserTags,
 	getBonusDetails,
 	getCommentsList,
 	getDuplicateUsers,
@@ -82,13 +89,16 @@ import {
 	getUserDocument,
 } from '../../network/getRequests';
 import {
+	attachUserTags,
 	createUserCommentEntry,
 	disableUserCall,
 	disableUserSession,
 	issueBonus,
+	removeUserTags,
 	resetDepositLimitCall,
 	resetLossLimitCall,
 	resetUserLimitCall,
+	updateSAUserStatusCall,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import {
@@ -100,9 +110,7 @@ import {
 	resetPasswordEmail,
 	resetUserPassword,
 	updateComment,
-	updateSAUserStatusCall,
 	updateUserInfoCall,
-	updateUserTags,
 	verifyPlayerEmail,
 	verifyUserDocument,
 } from '../../network/putRequests';
@@ -113,7 +121,7 @@ function* getUserDetailsWorker(action) {
 		const payload = action && action.payload;
 		const { data } = yield getUserDetails(payload);
 
-		yield put(getUserDetailsSuccess(data?.data));
+		yield put(getUserDetailsSuccess(data?.data?.user));
 	} catch (e) {
 		yield put(getUserDetailsFail(e.message));
 	}
@@ -149,6 +157,17 @@ function* getUserCommentsWorker(action) {
 		yield put(getUserCommentsSuccess(data?.data?.comment));
 	} catch (e) {
 		yield put(getUserCommentsFail(e.message));
+	}
+}
+
+function* getAllUserTagsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getAllUserTags(payload);
+
+		yield put(getAllTagsSuccess(data?.data?.tags));
+	} catch (e) {
+		yield put(getAllTagsFail(e.message));
 	}
 }
 
@@ -284,18 +303,37 @@ function* verifyUserEmailWorker(action) {
 	}
 }
 
-function* updateUserTagsWorker(action) {
+function* attachUserTagsWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield updateUserTags(payload);
-		yield put(updateUserTagsSuccess(data?.data));
+		yield attachUserTags(payload);
+		yield put(attachTagSuccess());
 
 		showToastr({
-			message: `Tags Updated Successfully`,
+			message: `Tag Attached Successfully`,
 			type: 'success',
 		});
 	} catch (e) {
-		yield put(updateUserTagsFail(e.message));
+		yield put(attachTagFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* removeUserTagsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		yield removeUserTags(payload);
+		yield put(removeTagSuccess());
+
+		showToastr({
+			message: `Tag Removed Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(removeTagFail(e.message));
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
 			type: 'error',
@@ -532,7 +570,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(UPDATE_SA_USER_STATUS, updateSAUserStatusWorker);
 	yield takeLatest(MARK_USER_AS_INTERNAL, markUserAsInternalWorker);
 	yield takeLatest(VERIFY_USER_EMAIL, verifyUserEmailWorker);
-	yield takeLatest(UPDATE_USER_TAGS, updateUserTagsWorker);
+	yield takeLatest(ATTACH_TAG, attachUserTagsWorker);
 	yield takeLatest(GET_DUPLICATE_USERS, getDuplicateUsersWorker);
 	yield takeLatest(GET_BONUS_DETAILS, getBonusDetailsWorker);
 	yield takeLatest(GET_ALL_BONUS, getAllBonusWorker);
@@ -545,6 +583,8 @@ function* userDetailsWatcher() {
 	yield takeLatest(CANCEL_USER_BONUS, cancelUserBonusWorker);
 	yield takeLatest(RESOLVE_USER_COMMENT, resolveUserCommentWorker);
 	yield takeLatest(ACCEPT_USER_DOC, acceptUserDocWorker);
+	yield takeLatest(GET_ALL_TAGS, getAllUserTagsWorker);
+	yield takeLatest(REMOVE_TAG, removeUserTagsWorker);
 }
 
 function* UserDetailsSaga() {

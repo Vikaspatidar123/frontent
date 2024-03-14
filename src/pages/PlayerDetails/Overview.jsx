@@ -14,7 +14,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useUserOverview from './hooks/useUserOverview';
-import DisableReason from './modals/DisableReason';
+// import DisableReason from './modals/DisableReason';
 import YesNoModal from './modals/YesNoModal';
 import {
 	markUserAsInternal,
@@ -66,13 +66,10 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		user: userDetails,
 	});
 
-	const updateUserStatus = (values) => {
+	const updateUserStatus = () => {
 		dispatch(
 			updateSAUserStatus({
-				...values,
-				code: 'USER',
 				userId: playerId,
-				status: !userDetails.isActive,
 			})
 		);
 	};
@@ -153,7 +150,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 														? 'outline-danger'
 														: 'outline-success'
 												}
-												onClick={() => openModal('activeInactiveModal')}
+												onClick={() => updateUserStatus()}
 											>
 												{userDetails && userDetails?.isActive
 													? 'In-Active'
@@ -202,7 +199,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											onClick={() => openModal('duplicatesModal')}
 											className="actionButton w-100"
 										>
-											Duplicates ({duplicateUsers?.count})
+											Duplicates ({duplicateUsers?.count || 0})
 										</Button>
 									</ColumnContainer>
 									{/* {isGranted(modules.bonus, 'Issue') && (
@@ -339,7 +336,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 										  )
 								)}
 
-								<h5 className="px-2 mx-1 mt-2">
+								{/* <h5 className="px-2 mx-1 mt-2">
 									Affiliate Info <hr className="h5-hr m-0 mt-2" />
 								</h5>
 								<div className="d-flex justify-content-between m-1">
@@ -355,7 +352,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 									) : (
 										<span className="text-danger px-2">Not Linked</span>
 									)}
-								</div>
+								</div> */}
 
 								<h5 className="px-2 mx-1 mt-2">
 									KYC Info <hr className="h5-hr m-0 mt-2" />
@@ -380,7 +377,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 							</div>
 						</Card>
 					</Col>
-					{userDetails?.isActive ? (
+					{/* {userDetails?.isActive ? (
 						<DisableReason
 							userData={userDetails}
 							show={modalStates.activeInactiveModal}
@@ -399,7 +396,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 								userDetails?.isActive ? 'Active' : 'In-Active'
 							}?`}
 						/>
-					)}
+					)} */}
 					<YesNoModal
 						show={modalStates.internalModal}
 						handleClose={() => closeModal('internalModal')}

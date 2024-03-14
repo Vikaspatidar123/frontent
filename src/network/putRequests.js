@@ -73,12 +73,6 @@ const editBetSettings = (data) =>
 const updateloyaltyLevel = ({ data }) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/loyalty-level`, data);
 
-const updateSAUserStatusCall = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}status`,
-		data
-	);
-
 const markUserAsInternal = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/internal`, data);
 
@@ -90,9 +84,6 @@ const updateSuperAdminCMS = (data) =>
 
 const verifyPlayerEmail = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/verify-email`, data);
-
-const updateUserTags = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/tags`, data);
 
 const addDepositToOtherCall = (data) =>
 	putRequest(
@@ -217,12 +208,10 @@ export {
 	editBanners,
 	editBetSettings,
 	updateloyaltyLevel,
-	updateSAUserStatusCall,
 	markUserAsInternal,
 	updateWageringTemplate,
 	updateSuperAdminCMS,
 	verifyPlayerEmail,
-	updateUserTags,
 	addDepositToOtherCall,
 	updateUserInfoCall,
 	resetPasswordEmail,

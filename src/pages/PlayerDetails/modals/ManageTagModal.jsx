@@ -1,80 +1,111 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import FormModal from '../../../components/Common/FormModal';
-import { updateUserTags } from '../../../store/actions';
+import { attachTag, getAllTags, removeTag } from '../../../store/actions';
+
+const tagActionsOptionsList = [
+	{
+		optionLabel: 'Attach Tag',
+		value: 'addTag',
+	},
+	{
+		optionLabel: 'Remove Tag',
+		value: 'removeTag',
+	},
+];
+
+const staticFormFields = (options) => [
+	{
+		name: 'tagAction',
+		fieldType: 'radioGroup',
+		label: 'Tag Action',
+		optionList: tagActionsOptionsList,
+	},
+	{
+		name: 'tag',
+		fieldType: 'select',
+		// label: '',
+		placeholder: 'Select Tag',
+		required: false,
+		optionList: options || [],
+	},
+];
 
 const ManageTagModal = ({ userDetails, show, handleClose }) => {
 	const { playerId } = useParams();
 	const dispatch = useDispatch();
-	const { updateUserTagsLoading } = useSelector((state) => state.UserDetails);
+	const [options, setOptions] = useState([]);
+	const { updateUserTagsLoading, userTags } = useSelector(
+		(state) => state.UserDetails
+	);
+
+	useEffect(() => {
+		dispatch(getAllTags());
+	}, []);
 
 	const submitTagsCreate = (formValues) => {
-		const tags = [];
-		let customTag = false;
-		for (const tag in formValues?.tags) {
-			tags.push(formValues?.tags[tag]?.value);
-			if (formValues?.tags[tag]?.isNew) {
-				customTag = true;
-			}
+		if (formValues?.tagAction === 'addTag') {
+			dispatch(
+				attachTag({
+					userId: playerId,
+					tagId: formValues?.tag,
+				})
+			);
+		} else if (formValues?.tagAction === 'removeTag') {
+			dispatch(
+				removeTag({
+					userId: playerId,
+					tagId: formValues?.tag,
+				})
+			);
 		}
-		dispatch(
-			updateUserTags({
-				tenantId: userDetails?.tenantId && JSON.parse(userDetails?.tenantId),
-				userId: playerId && JSON.parse(playerId),
-				parentId: userDetails.parentId,
-				tags,
-				customTag,
-			})
-		);
 	};
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
 		useForm({
 			header: `Manage Tags for ${userDetails?.firstName} ${userDetails?.lastName}`,
 			initialValues: {
-				tags: [],
+				tag: null,
+				tagAction: '',
 			},
 			onSubmitEntry: (values, { resetForm }) => {
 				submitTagsCreate(values);
 				resetForm();
 				handleClose();
 			},
-			staticFormFields: [],
+			staticFormFields: staticFormFields(),
 		});
 
 	useEffect(() => {
-		const options = [];
-		if (userDetails?.tags?.length > 0) {
-			for (const i in userDetails?.tags) {
-				if (userDetails?.tags[i] !== '' && userDetails?.tags[i] !== null) {
-					options.push({
-						label: userDetails?.tags[i],
-						value: userDetails?.tags[i],
-					});
-				}
-			}
+		if (userTags?.length > 0 && validation?.values?.tagAction === 'addTag') {
+			setOptions(
+				userTags?.map((tag) => ({
+					id: tag?.id,
+					optionLabel: tag?.tag,
+					value: tag?.id,
+				}))
+			);
 		}
-		setFormFields([
-			{
-				name: 'tags',
-				fieldType: 'creatableSelect',
-				label: 'Tags (Only Alphabets and Numbers Allowed)',
-				required: false,
-				optionList: options,
-				callBack: (option, e) => {
-					if (e.removedValue?.value !== 'Internal') {
-						validation.setFieldValue('tags', option);
-					}
-				},
-			},
-		]);
-		validation.setFieldValue('tags', options);
-	}, [userDetails?.tags]);
+
+		if (validation?.values?.tagAction === 'removeTag' && userDetails) {
+			setOptions(
+				userDetails?.userTags?.map((tag) => ({
+					id: tag.tagId,
+					optionLabel: tag?.tag?.tag,
+					value: tag.tagId,
+				}))
+			);
+		}
+	}, [validation?.values?.tagAction, userTags, userDetails]);
+
+	useEffect(() => {
+		setFormFields(staticFormFields(options));
+	}, [options]);
 
 	useEffect(() => {
 		if (show) setIsOpen(true);

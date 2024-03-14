@@ -66,12 +66,18 @@ import {
 	UPDATE_USER_PASSWORD,
 	UPDATE_USER_PASSWORD_FAIL,
 	UPDATE_USER_PASSWORD_SUCCESS,
-	UPDATE_USER_TAGS,
-	UPDATE_USER_TAGS_FAIL,
-	UPDATE_USER_TAGS_SUCCESS,
 	VERIFY_USER_EMAIL,
 	VERIFY_USER_EMAIL_FAIL,
 	VERIFY_USER_EMAIL_SUCCESS,
+	ATTACH_TAG,
+	ATTACH_TAG_SUCCESS,
+	ATTACH_TAG_FAIL,
+	GET_ALL_TAGS_FAIL,
+	GET_ALL_TAGS,
+	GET_ALL_TAGS_SUCCESS,
+	REMOVE_TAG_SUCCESS,
+	REMOVE_TAG_FAIL,
+	REMOVE_TAG,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -231,21 +237,6 @@ export const verifyUserEmailFail = (payload) => ({
 
 export const verifyUserEmail = (payload) => ({
 	type: VERIFY_USER_EMAIL,
-	payload,
-});
-
-export const updateUserTagsSuccess = (payload) => ({
-	type: UPDATE_USER_TAGS_SUCCESS,
-	payload,
-});
-
-export const updateUserTagsFail = (payload) => ({
-	type: UPDATE_USER_TAGS_FAIL,
-	payload,
-});
-
-export const updateUserTags = (payload) => ({
-	type: UPDATE_USER_TAGS,
 	payload,
 });
 
@@ -436,5 +427,50 @@ export const acceptUserDocs = (payload) => ({
 
 export const acceptUserDocsSuccess = (payload) => ({
 	type: ACCEPT_USER_DOC_SUCCESS,
+	payload,
+});
+
+export const attachTagSuccess = (payload) => ({
+	type: ATTACH_TAG_SUCCESS,
+	payload,
+});
+
+export const attachTagFail = (payload) => ({
+	type: ATTACH_TAG_FAIL,
+	payload,
+});
+
+export const attachTag = (payload) => ({
+	type: ATTACH_TAG,
+	payload,
+});
+
+export const getAllTagsSuccess = (payload) => ({
+	type: GET_ALL_TAGS_SUCCESS,
+	payload,
+});
+
+export const getAllTagsFail = (payload) => ({
+	type: GET_ALL_TAGS_FAIL,
+	payload,
+});
+
+export const getAllTags = (payload) => ({
+	type: GET_ALL_TAGS,
+	payload,
+});
+
+export const removeTagSuccess = (payload) => ({
+	type: REMOVE_TAG_SUCCESS,
+	payload,
+});
+
+export const removeTagFail = (payload) => ({
+	type: REMOVE_TAG_FAIL,
+	payload,
+});
+
+export const removeTag = (payload) => ({
+	type: REMOVE_TAG,
 	payload,
 });

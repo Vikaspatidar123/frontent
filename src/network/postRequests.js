@@ -171,6 +171,24 @@ const updateKYCLabels = (data) =>
 		data
 	);
 
+const updateSAUserStatusCall = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/toggle`,
+		data
+	);
+
+const attachUserTags = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}tag/attach-tag`,
+		data
+	);
+
+const removeUserTags = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}tag/remove-tag`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -207,4 +225,7 @@ export {
 	updateKYCLabels,
 	updateCurrencyStatus,
 	updateCountryStatus,
+	updateSAUserStatusCall,
+	attachUserTags,
+	removeUserTags,
 };
