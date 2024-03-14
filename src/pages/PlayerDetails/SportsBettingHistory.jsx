@@ -43,7 +43,7 @@ const SportsBettingHistory = ({ userId }) => {
 	const formattedSportsTransaction = useMemo(() => {
 		const formattedValues = [];
 		if (sportsTransaction) {
-			sportsTransaction?.rows?.map((txn) =>
+			sportsTransaction?.sportsbookTransactions?.map((txn) =>
 				formattedValues.push({
 					id: txn?.id,
 					email: txn?.user?.email,
@@ -165,7 +165,7 @@ const SportsBettingHistory = ({ userId }) => {
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={sportsTransaction?.count}
+						totalPageCount={formattedSportsTransaction?.length || 0}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}

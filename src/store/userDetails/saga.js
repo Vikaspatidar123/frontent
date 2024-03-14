@@ -93,11 +93,9 @@ import {
 	attachUserTags,
 	createUserCommentEntry,
 	disableUserCall,
-	disableUserSession,
 	issueBonus,
 	removeUserTags,
 	resetDepositLimitCall,
-	resetLossLimitCall,
 	resetPasswordEmail,
 	resetUserLimitCall,
 	updateSAUserStatusCall,
@@ -198,15 +196,8 @@ function* resetUserLimitWorker(action) {
 				key,
 				reset,
 			});
-		} else if (type === 'deposit') {
+		} else if (type === 'deposit' || type === 'loss') {
 			yield resetDepositLimitCall({
-				userId,
-				value,
-				key,
-				reset,
-			});
-		} else {
-			yield resetLossLimitCall({
 				userId,
 				value,
 				key,
@@ -226,13 +217,8 @@ function* resetUserLimitWorker(action) {
 function* disableUserWorker(action) {
 	try {
 		const payload = action && action.payload;
-		if (payload?.timeLimit) {
-			const { data } = yield disableUserSession(payload);
-			yield put(resetUserLimitSuccess(data?.data));
-		} else {
-			const { data } = yield disableUserCall(payload);
-			yield put(resetUserLimitSuccess(data?.data));
-		}
+		const { data } = yield disableUserCall(payload);
+		yield put(resetUserLimitSuccess(data?.data));
 		showToastr({
 			message: `User ${payload.reset ? 'Enabled' : 'Disabled'} Successfully`,
 			type: 'success',
