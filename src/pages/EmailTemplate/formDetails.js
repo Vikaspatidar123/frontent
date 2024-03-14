@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { EMAIL_TEMPLATE_EVENT_TYPES } from './Constant';
 
 const getInitialValues = (emailTemplate) => ({
 	label: emailTemplate?.[0]?.label || '',
@@ -14,7 +15,7 @@ const emailTemplateSchema = Yup.object().shape({
 	type: Yup.string().required('Type Required!'),
 });
 
-const staticFormFields = (emailTemplateOrder, isEdit) => [
+const staticFormFields = (isEdit) => [
 	{
 		name: 'label',
 		fieldType: 'textField',
@@ -27,10 +28,12 @@ const staticFormFields = (emailTemplateOrder, isEdit) => [
 		label: 'Template Type',
 		fieldType: 'select',
 		isDisabled: isEdit || false,
-		optionList: emailTemplateOrder?.map((item, index) => ({
-			value: index,
-			optionLabel: item,
-		})),
+		optionList: Object.values(EMAIL_TEMPLATE_EVENT_TYPES || {})?.map(
+			(item) => ({
+				value: item,
+				optionLabel: item,
+			})
+		),
 	},
 ];
 

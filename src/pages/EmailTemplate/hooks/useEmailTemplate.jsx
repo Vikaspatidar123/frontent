@@ -13,10 +13,12 @@ import {
 import ActionButtons from '../ActionButtons';
 import { EmailTemplateId, Label, Primary } from '../EmailTemplateListCol';
 import { CustomSelectField } from '../../../helpers/customForms';
+import { modules } from '../../../constants/permissions';
 
 const useEmailTemplate = () => {
-	const { emailTemplateOrder, emailTemplateloading, emailTemplates } =
-		useSelector((state) => state.EmailTemplate);
+	const { emailTemplateloading, emailTemplates } = useSelector(
+		(state) => state.EmailTemplate
+	);
 	const { emailTemplate, isEmailTemplateLoading } = useSelector(
 		(state) => state.EmailTemplate
 	);
@@ -106,6 +108,21 @@ const useEmailTemplate = () => {
 		);
 	};
 
+	const handleCreateClick = (e) => {
+		e.preventDefault();
+		navigate('create');
+	};
+
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleCreateClick,
+			link: '#!',
+			module: modules.emailTemplate,
+			operation: 'C',
+		},
+	]);
+
 	const columns = useMemo(
 		() => [
 			{
@@ -145,7 +162,6 @@ const useEmailTemplate = () => {
 	);
 
 	return {
-		emailTemplateOrder,
 		emailTemplateloading,
 		emailTemplates,
 		toggleView,
@@ -154,6 +170,7 @@ const useEmailTemplate = () => {
 		customComponent,
 		columns,
 		clickId,
+		buttonList,
 	};
 };
 

@@ -1,5 +1,6 @@
-/* eslint-disable */
-import { put, takeLatest, all, fork } from 'redux-saga/effects';
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-expressions */
+import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
 
 // Crypto Redux States
 import {
@@ -26,7 +27,7 @@ import {
 	updateEmailTemplateFail,
 	deleteEmailTemplateSuccess,
 	deleteEmailTemplateFail,
-	makeEmailTemplatePrimarySuccess,
+	// makeEmailTemplatePrimarySuccess,
 	makeEmailTemplatePrimaryFail,
 } from './actions';
 
@@ -71,7 +72,7 @@ import { objectToFormData } from '../../utils/objectToFormdata';
 import { emailDynamicOptions } from '../../pages/EmailTemplate/Constant';
 import { formPageTitle } from '../../components/Common/constants';
 
-function* getAllEmailTemplatesWorker(action) {
+function* getAllEmailTemplatesWorker() {
 	try {
 		const { data } = yield getEmailTemplates();
 		yield put(getAllEmailTemplatesSuccess(data?.data));
@@ -285,12 +286,20 @@ function* primaryEmailTemplateWorker(action) {
 		const { data } = action && action.payload;
 		yield primaryEmailTemplate(data);
 
+		const emailTemp = yield select((state) => state.EmailTemplate.templateList);
+
+		emailTemp.forEach((temp) => {
+			if (temp.id === data.emailTemplateId) {
+				temp.isDefault = true;
+			}
+		});
+
 		showToastr({
 			message: 'Template Updated Successfully',
 			type: 'success',
 		});
 
-		yield put(makeEmailTemplatePrimarySuccess());
+		// yield put(makeEmailTemplatePrimarySuccess(emailTemp));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,

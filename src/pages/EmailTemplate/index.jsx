@@ -1,8 +1,6 @@
-/* eslint-disable */
 import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
 import { Container, Collapse, CardBody, Card } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -14,10 +12,9 @@ import CrudSection from '../../components/Common/CrudSection';
 import Modal from '../../components/Common/Modal';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 
-import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
 import { EMAIL_TEMPLATE_EVENT_TYPES } from './Constant';
 
-const EmailTemplate = ({ t }) => {
+const EmailTemplate = () => {
 	// meta title
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
@@ -32,8 +29,8 @@ const EmailTemplate = ({ t }) => {
 		customComponent,
 		columns,
 		clickId,
+		buttonList,
 	} = useEmailTemplate();
-	const { buttonList } = useCreateEmailTemplate();
 
 	const handleChange = (e, panel) => {
 		e.preventDefault();
@@ -125,22 +122,23 @@ const EmailTemplate = ({ t }) => {
 					openModal={clickId}
 					toggleModal={toggleView}
 					headerTitle={emailTemplate?.[0]?.label}
-					children={customComponent}
 					className="modal-dialog modal-lg"
 					isLoading={isEmailTemplateLoading}
 					hideFooter
-				/>
+				>
+					{customComponent}
+				</Modal>
 			</Container>
 		</div>
 	);
 };
 
 EmailTemplate.propTypes = {
-	t: PropTypes.func,
+	// t: PropTypes.func,
 };
 
 EmailTemplate.defaultProps = {
-	t: (string) => string,
+	// t: (string) => string,
 };
 
 export default EmailTemplate;

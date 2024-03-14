@@ -1,12 +1,10 @@
-/* eslint-disable */
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { isEmpty } from 'lodash';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
-	getEmailTypes,
 	getDynamicKeys,
 	resetEmailTemplate,
 	createEmailTemplate,
@@ -18,13 +16,10 @@ import {
 	emailTemplateSchema,
 } from '../formDetails';
 
-import useEmailTemplate from './useEmailTemplate';
 import { showToastr } from '../../../utils/helpers';
 import CreateTemplate from '../CreateTemplate';
-import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
-import { isEmpty } from 'lodash';
 
 const useCreateEmailTemplate = () => {
 	const navigate = useNavigate();
@@ -37,16 +32,14 @@ const useCreateEmailTemplate = () => {
 	const [existingFilledFields, setExistingFilledFields] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 
-	const { emailTemplateOrder } = useEmailTemplate();
-
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { emailTypes, dynamicKeys } = useSelector(
 		(state) => state.EmailTemplate
 	);
 
-	const getTemplateKeys = (template) => {
+	const getTemplateKeys = (temp) => {
 		const mainKeys = [];
-		const keys = template.match(/{{{ *[A-Za-z0-9]* *}}}/g);
+		const keys = temp.match(/{{{ *[A-Za-z0-9]* *}}}/g);
 
 		// let keys = template.match(/{{{(.*)}}}/g)
 		if (keys) {
@@ -54,9 +47,8 @@ const useCreateEmailTemplate = () => {
 				mainKeys.push(key.replaceAll('{', '').replaceAll('}', '').trim());
 			});
 			return [...new Set(mainKeys)];
-		} else {
-			return [];
 		}
+		return [];
 	};
 
 	const formSubmitHandler = (values) => {
@@ -74,7 +66,7 @@ const useCreateEmailTemplate = () => {
 							createEmailTemplate({
 								data: {
 									...values,
-									type: parseInt(values?.type),
+									type: parseInt(values?.type, 10),
 									templateCode: template,
 									language: selectedTab,
 									dynamicData: templateKeys,
@@ -99,7 +91,7 @@ const useCreateEmailTemplate = () => {
 					createEmailTemplate({
 						data: {
 							...values,
-							type: parseInt(values?.type),
+							type: parseInt(values?.type, 10),
 							templateCode: template,
 							language: selectedTab,
 							dynamicData: templateKeys,
@@ -116,8 +108,8 @@ const useCreateEmailTemplate = () => {
 		}
 	};
 
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
+	const onChangeRowsPerPage = () => {
+		// setItemsPerPage(value);
 	};
 
 	useEffect(() => {
@@ -128,18 +120,20 @@ const useCreateEmailTemplate = () => {
 	const { validation, formFields, setFormFields } = useForm({
 		initialValues: getInitialValues(),
 		validationSchema: emailTemplateSchema,
-		staticFormFields: staticFormFields(emailTemplateOrder),
+		staticFormFields: staticFormFields(),
 		onSubmitEntry: formSubmitHandler,
 	});
 
+	const resetEmail = () => dispatch(resetEmailTemplate());
+
 	useEffect(() => {
-		emailTypes && dispatch(getDynamicKeys({ type: 0, emailTypes }));
+		if (emailTypes) {
+			dispatch(getDynamicKeys({ type: 0, emailTypes }));
+		}
 		return () => {
 			resetEmail();
 		};
 	}, [emailTypes]);
-
-	const resetEmail = () => dispatch(resetEmailTemplate());
 
 	useEffect(() => {
 		setCustomComponent(
@@ -156,22 +150,8 @@ const useCreateEmailTemplate = () => {
 		);
 	}, [languageData, dynamicKeys, template, selectedTab, showGallery]);
 
-	const handleCreateClick = (e) => {
-		e.preventDefault();
-		navigate('create');
-	};
-
-	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleCreateClick,
-			link: '#!',
-			module: modules.emailTemplate,
-			operation: 'C',
-		},
-	]);
-
 	const handleGalleryClick = (e) => {
+		e.preventDefault();
 		setShowGallery(true);
 	};
 
@@ -188,7 +168,7 @@ const useCreateEmailTemplate = () => {
 			...existingFilledFields,
 			values: {
 				...validation.values,
-				template: template,
+				template,
 			},
 		});
 	}, [validation.values, template]);
@@ -200,7 +180,7 @@ const useCreateEmailTemplate = () => {
 			);
 			validation.setValues({
 				label: values?.label,
-				type: parseInt(values?.type),
+				type: parseInt(values?.type, 10),
 			});
 			setTemplate(values?.template);
 		}
@@ -219,7 +199,6 @@ const useCreateEmailTemplate = () => {
 
 	return {
 		validation,
-		buttonList,
 		galleryList,
 		formFields,
 		setFormFields,

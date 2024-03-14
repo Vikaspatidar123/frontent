@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
-	getEmailTypes,
 	getDynamicKeys,
 	getEmailTemplate,
 	updateEmailTemplate,
@@ -19,7 +17,6 @@ import {
 	emailTemplateSchema,
 } from '../formDetails';
 
-import useEmailTemplate from './useEmailTemplate';
 import { showToastr } from '../../../utils/helpers';
 import CreateTemplate from '../CreateTemplate';
 
@@ -33,7 +30,6 @@ const useEditEmailTemplate = () => {
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
 	const isEdit = true;
-	const { emailTemplateOrder } = useEmailTemplate();
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { emailTypes, dynamicKeys, emailTemplate } = useSelector(
@@ -49,18 +45,17 @@ const useEditEmailTemplate = () => {
 	// resetting email template details redux state
 	useEffect(() => () => dispatch(resetEmailTemplate()), []);
 
-	const getTemplateKeys = (template) => {
+	const getTemplateKeys = (temp) => {
 		const mainKeys = [];
-		const keys = template.match(/{{{ *[A-Za-z0-9]* *}}}/g);
+		const keys = temp.match(/{{{ *[A-Za-z0-9]* *}}}/g);
 
 		if (keys) {
 			keys.forEach((key) => {
 				mainKeys.push(key.replaceAll('{', '').replaceAll('}', '').trim());
 			});
 			return [...new Set(mainKeys)];
-		} else {
-			return [];
 		}
+		return [];
 	};
 
 	const formSubmitHandler = (values) => {
@@ -79,7 +74,7 @@ const useEditEmailTemplate = () => {
 								data: {
 									...values,
 									emailTemplateId,
-									type: parseInt(values?.type),
+									type: parseInt(values?.type, 10),
 									templateCode: template,
 									language: selectedTab,
 									dynamicData: templateKeys,
@@ -104,7 +99,7 @@ const useEditEmailTemplate = () => {
 					updateEmailTemplate({
 						data: {
 							...values,
-							type: parseInt(values?.type),
+							type: parseInt(values?.type, 10),
 							emailTemplateId,
 							templateCode: template,
 							language: selectedTab,
@@ -122,8 +117,8 @@ const useEditEmailTemplate = () => {
 		}
 	};
 
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
+	const onChangeRowsPerPage = () => {
+		// setItemsPerPage(value);
 	};
 
 	useEffect(() => {
@@ -134,15 +129,15 @@ const useEditEmailTemplate = () => {
 	const { validation, formFields, setFormFields } = useForm({
 		initialValues: getInitialValues(emailTemplate),
 		validationSchema: emailTemplateSchema,
-		staticFormFields: staticFormFields(emailTemplateOrder, isEdit),
+		staticFormFields: staticFormFields(isEdit),
 		onSubmitEntry: formSubmitHandler,
 	});
-	console.log('emailTemplate: ', emailTemplate);
 
 	useEffect(() => {
 		if (emailTemplate?.length) {
-			emailTypes &&
+			if (emailTypes) {
 				dispatch(getDynamicKeys({ type: emailTemplate[0].type, emailTypes }));
+			}
 			setTemplate(emailTemplate.templateCode);
 		}
 	}, [emailTemplate, emailTypes]);
@@ -171,7 +166,7 @@ const useEditEmailTemplate = () => {
 		emailTemplate,
 	]);
 
-	const handleGalleryClick = (e) => {
+	const handleGalleryClick = () => {
 		setShowGallery(true);
 	};
 
