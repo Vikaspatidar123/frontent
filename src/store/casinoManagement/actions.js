@@ -26,9 +26,6 @@ import {
 	UPDATE_CASINO_STATUS_START,
 	UPDATE_CASINO_STATUS_SUCCESS,
 	UPDATE_CASINO_STATUS_FAIL,
-	UPDATE_SA_CASINO_GAMES_STATUS_FAIL,
-	UPDATE_SA_CASINO_GAMES_STATUS_START,
-	UPDATE_SA_CASINO_GAMES_STATUS_SUCCESS,
 	EDIT_CASINO_CATEGORY_SUCCESS,
 	EDIT_CASINO_CATEGORY_FAIL,
 	EDIT_CASINO_CATEGORY,
@@ -242,21 +239,6 @@ export const updateCasinoStatusFail = (payload) => ({
 
 export const updateCasinoStatusStart = (payload) => ({
 	type: UPDATE_CASINO_STATUS_START,
-	payload,
-});
-
-export const updateSACasinoGamesStatusSuccess = (payload) => ({
-	type: UPDATE_SA_CASINO_GAMES_STATUS_SUCCESS,
-	payload,
-});
-
-export const updateSACasinoGamesStatusFail = (payload) => ({
-	type: UPDATE_SA_CASINO_GAMES_STATUS_FAIL,
-	payload,
-});
-
-export const updateSACasinoGamesStatusStart = (payload) => ({
-	type: UPDATE_SA_CASINO_GAMES_STATUS_START,
 	payload,
 });
 

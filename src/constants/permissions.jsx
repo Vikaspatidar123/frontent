@@ -79,11 +79,6 @@ const permissionIcons = () => ({
 	[modules.tag]: <i className="mdi mdi-tag" />,
 	[modules.limits]: <i className="mdi mdi-currency-usd-off" />,
 	[modules.contentManagement]: <i className="mdi mdi-file-chart" />,
-
-	[modules.WageringTemplate]: <i className="mdi mdi-credit-card-plus" />,
-	[modules.LoyaltyManagement]: <i className="mdi mdi-trophy-outline" />,
-	[modules.RegistrationField]: <i className="bx bx-user-plus" />,
-	[modules.PlayerLiabilityReport]: <i className="mdi mdi-file-chart-outline" />,
 });
 
 const permissionLabel = (label) => {

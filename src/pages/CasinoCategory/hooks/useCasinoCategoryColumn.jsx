@@ -56,7 +56,7 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const active = cell?.row?.original?.isActive;
-					const gameCategoryId = cell?.row?.original?.gameCategoryId;
+					const gameCategoryId = cell?.row?.original?.id;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li>
@@ -66,7 +66,6 @@ const useCasinoCategoryColumn = ({ handleStatus, onClickEdit }) => {
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
-												active,
 												gameCategoryId,
 											})
 										}

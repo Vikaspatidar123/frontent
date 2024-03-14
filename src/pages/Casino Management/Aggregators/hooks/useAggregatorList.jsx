@@ -35,7 +35,7 @@ const useAggregatorList = (handleStatus) => {
 				disableFilters: true,
 				Cell: ({ cell }) => {
 					const active = cell?.row?.original?.isActive;
-					const gameAggregatorId = cell?.row?.original?.gameAggregatorId;
+					const gameAggregatorId = cell?.row?.original?.id;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li>
@@ -45,7 +45,6 @@ const useAggregatorList = (handleStatus) => {
 										className="btn btn-sm btn-soft-danger"
 										onClick={(e) =>
 											handleStatus(e, {
-												active,
 												gameAggregatorId,
 											})
 										}

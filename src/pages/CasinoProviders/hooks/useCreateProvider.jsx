@@ -48,12 +48,11 @@ const useCreateProvider = () => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { status, casinoProviderId } = props;
+		const { casinoProviderId } = props;
 		dispatch(
 			updateCasinoStatusStart({
-				code: 'CASINO_PROVIDER',
-				casinoProviderId,
-				status: !status,
+				type: 'provider',
+				id: casinoProviderId,
 			})
 		);
 	};

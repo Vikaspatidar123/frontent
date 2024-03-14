@@ -5,7 +5,7 @@ import {
 	getCasinoCategoryDetailStart,
 	getLanguagesStart,
 	resetCasinoCategoryData,
-	updateSACasinoGamesStatusStart,
+	updateCasinoStatusStart,
 } from '../../../store/casinoManagement/actions';
 
 const useCasinoCategoryListing = (filterValues = {}) => {
@@ -67,12 +67,11 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active: status, gameCategoryId } = props;
+		const { gameCategoryId } = props;
 		dispatch(
-			updateSACasinoGamesStatusStart({
-				code: 'CASINO_CATEGORY',
-				gameCategoryId,
-				status: !status,
+			updateCasinoStatusStart({
+				type: 'category',
+				id: gameCategoryId,
 			})
 		);
 	};

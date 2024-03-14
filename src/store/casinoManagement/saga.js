@@ -21,8 +21,6 @@ import {
 	createCasinoSubCategoryFailure,
 	updateCasinoStatusSuccess,
 	updateCasinoStatusFail,
-	updateSACasinoGamesStatusSuccess,
-	updateSACasinoGamesStatusFail,
 	editCasinoCategorySuccess,
 	editCasinoCategoryFailure,
 	editCasinoProvidersSuccess,
@@ -61,7 +59,6 @@ import {
 	CREATE_CASINO_CATEGORY_START,
 	CREATE_CASINO_SUBCATEGORY_START,
 	UPDATE_CASINO_STATUS_START,
-	UPDATE_SA_CASINO_GAMES_STATUS_START,
 	EDIT_CASINO_CATEGORY,
 	EDIT_CASINO_PROVIDERS,
 	EDIT_CASINO_SUBCATEGORY_START,
@@ -92,6 +89,7 @@ import {
 	createCasinoSubCategory,
 	isCasinoFeaturedService,
 	addGamesToSubCategory,
+	casinoManagementToggle,
 } from '../../network/postRequests';
 
 import {
@@ -368,22 +366,22 @@ function* updateCasinoStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		// yield superAdminViewToggleStatus(payload);
+		yield casinoManagementToggle(payload);
 
 		showToastr({
 			message: `Status Updated Successfully`,
 			type: 'success',
 		});
 
-		switch (payload.code) {
-			case 'CASINO_PROVIDER': {
+		switch (payload.type) {
+			case 'provider': {
 				const providerList = yield select(
 					(state) => state.CasinoManagementData.casinoProvidersData
 				);
 
 				const updatedProviderList = providerList?.providers?.map((provider) => {
-					if (provider.casinoProviderId === payload.casinoProviderId) {
-						provider.isActive = payload.status;
+					if (provider.id === payload.id) {
+						provider.isActive = !provider.isActive;
 					}
 					return provider;
 				});
@@ -397,15 +395,38 @@ function* updateCasinoStatusWorker(action) {
 				break;
 			}
 
-			case 'CASINO_SUB_CATEGORY': {
+			case 'category': {
+				const { casinoCategoryDetails } = yield select(
+					(state) => state.CasinoManagementData
+				);
+
+				const updatedCasinoGames = casinoCategoryDetails?.categories?.map(
+					(cate) => {
+						if (cate.id === payload.id) {
+							cate.isActive = !cate.isActive;
+						}
+						return cate;
+					}
+				);
+
+				yield put(
+					getCasinoCategoryDetailSuccess({
+						...casinoCategoryDetails,
+						categories: updatedCasinoGames,
+					})
+				);
+				break;
+			}
+
+			case 'sub_category': {
 				const subCategoryList = yield select(
 					(state) => state.CasinoManagementData.casinoSubCategoryDetails
 				);
 
 				const updatedSubCategoryList = subCategoryList?.subCategories?.map(
 					(subCategory) => {
-						if (subCategory.gameSubCategoryId === payload.gameSubCategoryId) {
-							subCategory.isActive = payload.status;
+						if (subCategory.id === payload.id) {
+							subCategory.isActive = !subCategory.isActive;
 						}
 						return subCategory;
 					}
@@ -415,6 +436,27 @@ function* updateCasinoStatusWorker(action) {
 					getCasinoSubCategoryDetailSuccess({
 						...subCategoryList,
 						subCategories: updatedSubCategoryList,
+					})
+				);
+				break;
+			}
+
+			case 'game': {
+				const { casinoGames } = yield select(
+					(state) => state.CasinoManagementData
+				);
+
+				const updatedCasinoGames = casinoGames?.games?.map((game) => {
+					if (game.id === payload.id) {
+						game.isActive = !game.isActive;
+					}
+					return game;
+				});
+
+				yield put(
+					getCasinoGamesSuccess({
+						...casinoGames,
+						games: updatedCasinoGames,
 					})
 				);
 			}
@@ -453,71 +495,6 @@ function* editCasinoGamesWorker(action) {
 	}
 }
 
-function* updateSACasinoGamesStatusWorker(action) {
-	try {
-		const payload = action && action.payload;
-		// yield superAdminViewToggleStatus(payload);
-
-		showToastr({
-			message: `Status Updated Successfully`,
-			type: 'success',
-		});
-
-		yield put(updateSACasinoGamesStatusSuccess());
-
-		switch (payload.code) {
-			case 'CASINO_CATEGORY': {
-				const { casinoCategoryDetails } = yield select(
-					(state) => state.CasinoManagementData
-				);
-
-				const updatedCasinoGames = casinoCategoryDetails?.categories?.map(
-					(cate) => {
-						if (cate.id === payload.gameCategoryId) {
-							cate.isActive = payload.status;
-						}
-						return cate;
-					}
-				);
-
-				yield put(
-					getCasinoCategoryDetailSuccess({
-						...casinoCategoryDetails,
-						categories: updatedCasinoGames,
-					})
-				);
-				break;
-			}
-
-			case 'CASINO_GAME': {
-				const { casinoGames } = yield select(
-					(state) => state.CasinoManagementData
-				);
-
-				const updatedCasinoGames = casinoGames?.games?.map((game) => {
-					if (game.casinoGameId === payload.casinoGameId) {
-						game.isActive = payload.status;
-					}
-					return game;
-				});
-
-				yield put(
-					getCasinoGamesSuccess({
-						...casinoGames,
-						games: updatedCasinoGames,
-					})
-				);
-			}
-		}
-	} catch (e) {
-		yield put(updateSACasinoGamesStatusFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-	}
-}
 function* updateGameFeatured(action) {
 	try {
 		const data = {
@@ -701,10 +678,7 @@ export function* casinoManagementWatcher() {
 		createCasinoSubCategoryWorker
 	);
 	yield takeLatest(UPDATE_CASINO_STATUS_START, updateCasinoStatusWorker);
-	yield takeLatest(
-		UPDATE_SA_CASINO_GAMES_STATUS_START,
-		updateSACasinoGamesStatusWorker
-	);
+
 	yield takeLatest(EDIT_CASINO_PROVIDERS, editCasinoProviderWorker);
 	yield takeLatest(EDIT_CASINO_SUBCATEGORY_START, editCasinoSubCategoryWorker);
 	yield takeLatest(EDIT_CASINO_GAMES_START, editCasinoGamesWorker);

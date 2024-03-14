@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
-/* eslint-disable consistent-return */
+
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
-import { getAccessToken } from '../../../network/storageUtils';
 import {
 	getLivePlayerInfoStart,
 	getDemographicStart,
@@ -46,8 +43,6 @@ import {
 	SIGNUPS,
 } from '../DemographicReport/DemoGraphCol';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
-
-const { VITE_APP_API_URL } = import.meta.env;
 
 const useDashboardView = () => {
 	const dispatch = useDispatch();
@@ -89,7 +84,7 @@ const useDashboardView = () => {
 		return [];
 	}, [kPISummary]);
 
-	const [demoGraphState, setDemoGraphState] = useState([
+	const [demoGraphState] = useState([
 		{
 			startDate: getDateDaysAgo(0),
 			endDate: new Date(),
@@ -149,7 +144,7 @@ const useDashboardView = () => {
 	const formatDataHandler = (list) => {
 		const tempData = [];
 
-		list &&
+		if (list?.length) {
 			list?.map((item) => {
 				const { countryName } = countryFilter(item.countryCode);
 				const row = {
@@ -159,7 +154,7 @@ const useDashboardView = () => {
 				tempData.push(row);
 				return null;
 			});
-
+		}
 		const finalData = [
 			{
 				data: tempData,

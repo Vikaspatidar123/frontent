@@ -56,12 +56,11 @@ const useCreateAggregator = () => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active, gameAggregatorId } = props;
+		const { gameAggregatorId } = props;
 		dispatch(
 			updateAggregatorStatusStart({
-				code: 'AGGREGATOR',
-				gameAggregatorId,
-				status: !active,
+				id: gameAggregatorId,
+				type: 'aggregator',
 			})
 		);
 	};

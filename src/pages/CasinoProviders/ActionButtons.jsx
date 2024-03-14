@@ -8,7 +8,7 @@ import { modules } from '../../constants/permissions';
 const ActionButtons = ({ row: { original }, handleStatus, onClickEdit }) => {
 	const { isGranted } = usePermission();
 	const status = original?.isActive;
-	const casinoProviderId = original?.casinoProviderId;
+	const casinoProviderId = original?.id;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			{isGranted(modules.casinoManagement, 'U') && (
@@ -33,7 +33,6 @@ const ActionButtons = ({ row: { original }, handleStatus, onClickEdit }) => {
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
-								status,
 								casinoProviderId,
 							})
 						}

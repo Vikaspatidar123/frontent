@@ -20,11 +20,11 @@ const sideBarElements = [
 		liTagClass: '',
 		ulTagClass: '',
 		groupedModules: [
-			modules.DemographReport,
-			modules.KpiReport,
-			modules.KpiSummaryReport,
-			modules.LivePlayerReport,
-			modules.GameReport,
+			modules.demography,
+			modules.kpiReport,
+			modules.kpiSummaryReport,
+			modules.livePlayerDetail,
+			modules.gameReport,
 		],
 	},
 	{
@@ -333,7 +333,7 @@ const sideBarElements = [
 	// 	id: 103,
 	// 	isSeparator: true,
 	// 	title: 'Reward administration',
-	// 	groupedModules: [modules.WageringTemplate, modules.bonus],
+	// 	groupedModules: [modules.bonus, modules.bonus],
 	// },
 	// {
 	// 	id: 22,

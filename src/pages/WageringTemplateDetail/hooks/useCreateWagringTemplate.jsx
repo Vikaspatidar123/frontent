@@ -184,7 +184,7 @@ const useCreateWageringTemplate = () => {
 			label: 'Create',
 			handleClick: handleCreateClick,
 			link: '#!',
-			module: modules.WageringTemplate,
+			module: modules.bonus,
 			operation: 'C',
 		},
 	]);

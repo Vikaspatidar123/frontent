@@ -14,7 +14,10 @@ import {
 	updateAggregatorStatusFail,
 } from './actions';
 import { getAggregators } from '../../network/getRequests';
-import { createAggregator } from '../../network/postRequests';
+import {
+	casinoManagementToggle,
+	createAggregator,
+} from '../../network/postRequests';
 // import { superAdminViewToggleStatus } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
@@ -63,7 +66,7 @@ function* updateSuperAdminAggregatorStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		// yield superAdminViewToggleStatus(payload);
+		yield casinoManagementToggle(payload);
 
 		yield put(updateAggregatorStatusSuccess());
 
@@ -78,8 +81,8 @@ function* updateSuperAdminAggregatorStatusWorker(action) {
 
 		const updatedAggregatorsData = aggregatorsData?.aggregators?.map(
 			(aggregator) => {
-				if (aggregator.id === payload.gameAggregatorId) {
-					aggregator.isActive = payload.status;
+				if (aggregator.id === payload.id) {
+					aggregator.isActive = !aggregator.isActive;
 				}
 				return aggregator;
 			}

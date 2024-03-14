@@ -11,7 +11,7 @@ const ActionButtons = ({ cell, handleEdit, handleView }) => {
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li data-bs-toggle="tooltip" data-bs-placement="top">
 				<Button
-					hidden={!isGranted(modules.WageringTemplate, 'R')}
+					hidden={!isGranted(modules.bonus, 'R')}
 					className="btn btn-sm btn-soft-primary"
 					onClick={(e) => {
 						e.preventDefault();
@@ -27,7 +27,7 @@ const ActionButtons = ({ cell, handleEdit, handleView }) => {
 
 			<li>
 				<Button
-					hidden={!isGranted(modules.WageringTemplate, 'U')}
+					hidden={!isGranted(modules.bonus, 'U')}
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => {
 						e.preventDefault();

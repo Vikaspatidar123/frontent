@@ -5,9 +5,9 @@ import {
 	getCasinoGamesStart,
 	// getCasinoProvidersDataStart,
 	updateCasinoIsFeaturedStart,
-	updateSACasinoGamesStatusStart,
 	deleteCasinoGamesStart,
 	resetCasinoGamesData,
+	updateCasinoStatusStart,
 } from '../../../store/actions';
 import {
 	CasinoGameId,
@@ -87,12 +87,11 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active, casinoGameId: id } = props;
+		const { casinoGameId: id } = props;
 		dispatch(
-			updateSACasinoGamesStatusStart({
-				code: 'CASINO_GAME',
-				casinoGameId: id,
-				status: !active,
+			updateCasinoStatusStart({
+				type: 'game',
+				id,
 			})
 		);
 	};

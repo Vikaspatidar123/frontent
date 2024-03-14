@@ -15,7 +15,7 @@ const ActionButtons = ({
 }) => {
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
-	const casinoGameId = original?.casinoGameId;
+	const casinoGameId = original?.id;
 	const isDisabled = !!original?.parentId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">

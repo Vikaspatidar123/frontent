@@ -20,6 +20,7 @@ import {
 	Status,
 } from '../CasinoSubCategory';
 import { modules } from '../../../constants/permissions';
+import { selectedLanguage } from '../../../constants/config';
 
 const useSubCategoryListing = (
 	filterValidation,
@@ -115,12 +116,11 @@ const useSubCategoryListing = (
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { status, gameSubCategoryId } = props;
+		const { gameSubCategoryId } = props;
 		dispatch(
 			updateCasinoStatusStart({
-				code: 'CASINO_SUB_CATEGORY',
-				gameSubCategoryId,
-				status: !status,
+				type: 'sub_category',
+				id: gameSubCategoryId,
 			})
 		);
 	};
@@ -166,8 +166,8 @@ const useSubCategoryListing = (
 				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const status = cell?.row?.original?.isActive;
-					const gameSubCategoryId = cell?.row?.original?.gameSubCategoryId;
-					const gameCategoryName = cell?.row?.original?.nameEN;
+					const gameSubCategoryId = cell?.row?.original?.id;
+					const gameCategoryName = cell?.row?.original?.name[selectedLanguage];
 					// const isGlobal = cell?.row?.original?.isGlobal;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">

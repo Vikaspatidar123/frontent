@@ -231,6 +231,13 @@ const updateAdmin = (data) =>
 		data
 	);
 
+const casinoManagementToggle = (data) => {
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}toggle`,
+		data
+	);
+};
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -277,4 +284,5 @@ export {
 	resetPasswordEmail,
 	verifyPlayerEmail,
 	updateAdmin,
+	casinoManagementToggle,
 };
