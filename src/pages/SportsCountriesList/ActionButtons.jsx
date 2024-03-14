@@ -19,7 +19,6 @@ const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
-								active,
 								id,
 							})
 						}

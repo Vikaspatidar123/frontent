@@ -70,12 +70,11 @@ const useSportsListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active: status, sportId } = props;
+		const { sportId } = props;
 		dispatch(
 			updateStatusStart({
-				code: 'SPORT',
-				status: status ? 'false' : 'true',
-				sportId,
+				type: 'sport',
+				id: sportId,
 			})
 		);
 	};

@@ -34,7 +34,7 @@ const ActionButtons = ({ row: { original }, handleStatus, handleUpload }) => {
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
-								active,
+								type: 'sport',
 								sportId,
 							})
 						}

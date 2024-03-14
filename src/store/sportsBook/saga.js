@@ -45,10 +45,13 @@ import {
 	detachOddsVariationApi,
 	updateCompanyOddApi,
 	updateOddsVariationApi,
-	updateStatus,
 	uploadImageApi,
 } from '../../network/putRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import {
+	updateLocationStatus,
+	updateSportStatus,
+} from '../../network/postRequests';
 
 function* sportsListingWorker(action) {
 	try {
@@ -87,18 +90,20 @@ function* sportsTournamentListWorker(action) {
 function* updateStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
-		yield updateStatus(payload);
-		yield put(updateStatusSuccess(payload));
+		// eslint-disable-next-line prefer-destructuring
+		const type = payload.type;
+		delete payload.type;
+		switch (type) {
+			case 'sport': {
+				yield updateSportStatus(payload);
 
-		switch (payload.code) {
-			case 'SPORT': {
 				const { sportsListInfo } = yield select((state) => state.SportsList);
 
 				const updatedSportsList = sportsListInfo?.sports?.map((item) => {
-					if (item.id === payload.sportId) {
+					if (item.id === payload.id) {
 						return {
 							...item,
-							isActive: payload.status === 'true',
+							isActive: !item.isActive,
 						};
 					}
 					return item;
@@ -112,14 +117,16 @@ function* updateStatusWorker(action) {
 				);
 				break;
 			}
-			case 'LOCATION': {
+			case 'location': {
+				yield updateLocationStatus(payload);
+
 				const { sportsCountries } = yield select((state) => state.SportsList);
 
 				const updatedCountryList = sportsCountries?.locations?.map((item) => {
-					if (item.id === payload.locationId) {
+					if (item.id === payload.id) {
 						return {
 							...item,
-							isActive: payload.status === 'true',
+							isActive: !item.isActive,
 						};
 					}
 					return item;
@@ -134,6 +141,8 @@ function* updateStatusWorker(action) {
 				break;
 			}
 		}
+
+		yield put(updateStatusSuccess(payload));
 
 		showToastr({
 			message: 'Status updated Successfully',

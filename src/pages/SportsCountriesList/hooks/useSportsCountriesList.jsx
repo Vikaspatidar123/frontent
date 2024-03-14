@@ -67,12 +67,11 @@ const useSportsCountriesListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active, id: sportCountryId } = props;
+		const { id: sportCountryId } = props;
 		dispatch(
 			updateStatusStart({
-				code: 'LOCATION',
-				status: active ? 'false' : 'true',
-				locationId: sportCountryId,
+				type: 'location',
+				id: sportCountryId,
 			})
 		);
 	};

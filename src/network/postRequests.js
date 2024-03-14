@@ -244,6 +244,20 @@ const casinoManagementToggle = (data) => {
 	);
 };
 
+const updateSportStatus = (data) => {
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}toggle-sport`,
+		data
+	);
+};
+
+const updateLocationStatus = (data) => {
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}toggle-location`,
+		data
+	);
+};
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -290,4 +304,6 @@ export {
 	verifyPlayerEmail,
 	updateAdmin,
 	casinoManagementToggle,
+	updateSportStatus,
+	updateLocationStatus,
 };
