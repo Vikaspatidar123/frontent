@@ -1,26 +1,17 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
-// import PropTypes from 'prop-types'
-// import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import useActions from './hooks/useActions';
 import FormPage from '../../components/Common/FormPage';
-// import {
-// 	getPermissionsStart,
-// 	resetAdminDetails,
-// } from '../../store/auth/permissionDetails/actions';
-// import {
-// 	resetLinearProgress,
-// 	showLinearProgress,
-// } from '../../store/progressLoading/actions';
 import { getInitialValues } from './formDetails';
 import { STORAGE_KEY } from '../../components/Common/constants';
 import { decryptCredentials } from '../../network/storageUtils';
+import useEdit from './hooks/useEdit';
 
 const EditAdmin = () => {
 	const navigate = useNavigate();
+	const [adminData, setAdminData] = useState({});
 	const { adminUserId } = useParams();
 
 	const {
@@ -29,9 +20,7 @@ const EditAdmin = () => {
 		leftFormFields,
 		rightFormFields,
 		isUpdateSuperUserLoading,
-		// isAdminLoading,
-		// adminDetails,
-	} = useActions(true);
+	} = useEdit(adminData);
 
 	useEffect(() => {
 		const savedDetails = decryptCredentials(
@@ -50,6 +39,7 @@ const EditAdmin = () => {
 						: {},
 				},
 			};
+			setAdminData(data);
 			validation.resetForm(getInitialValues(data));
 		} else {
 			navigate('/staff');
@@ -59,7 +49,7 @@ const EditAdmin = () => {
 			localStorage.removeItem(`${STORAGE_KEY.ADMIN_EDIT}_${adminUserId}`);
 	}, []);
 
-	console.log('Outside', validation.values);
+	// console.log('Outside', validation.values);
 
 	return (
 		<div className="page-content">

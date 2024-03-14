@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 // Language filter
 const staticFiltersFields = () => [
 	{
-		name: 'name',
+		name: 'searchString',
 		fieldType: 'textField',
 		// type: 'search',
 		label: '',
@@ -12,12 +12,12 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	name: '',
+	searchString: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		name: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

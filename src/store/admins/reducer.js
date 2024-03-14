@@ -15,7 +15,6 @@ import {
 } from './actionTypes';
 
 const INIT_STATE = {
-	adminDetails: null,
 	error: null,
 	isLoading: true,
 	isAddSuperUserError: false,

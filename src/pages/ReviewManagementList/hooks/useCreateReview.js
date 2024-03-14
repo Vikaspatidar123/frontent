@@ -101,7 +101,7 @@ const useCreateReview = () => {
 			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
-			module: modules.Reviews,
+			module: modules.review,
 			operation: 'C',
 		},
 	]);

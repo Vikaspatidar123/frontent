@@ -39,17 +39,17 @@ const modules = {
 
 	sportsbookManagement: 'sportsbookManagement',
 
-	// Reviews: 'reviews',
-	// KpiReport: 'kpiReport',
-	// GameReport: 'gameReport',
-	// BetSettings: 'betSettings',
-	// DemographReport: 'demographReport',
-	// KpiSummaryReport: 'kpiSummaryReport',
-	// LivePlayerReport: 'livePlayerReport',
-	// WageringTemplate: 'wageringTemplate',
-	// LoyaltyManagement: 'loyalityManagement',
-	// RegistrationField: 'registrationField',
-	// PlayerLiabilityReport: 'playerLiabilityReport',
+	kpiSummaryReport: 'kpiSummaryReport',
+
+	livePlayerDetail: 'livePlayerDetail',
+
+	gameReport: 'gameReport',
+
+	kpiReport: 'kpiReport',
+
+	demography: 'demography',
+
+	review: 'review',
 };
 
 const permissionIcons = () => ({
@@ -57,33 +57,33 @@ const permissionIcons = () => ({
 	[modules.bonus]: <i className="bx bxs-dollar-circle" />,
 	[modules.player]: <i className="bx bx-user" />,
 	[modules.admin]: <i className="bx bx-shield-quarter" />,
-	[modules.Reviews]: <i className="bx bx-list-check" />,
+	[modules.review]: <i className="bx bx-list-check" />,
 	[modules.kyc]: <i className="bx bx-user-check" />,
-	[modules.KpiReport]: <i className="bx bxs-report" />,
+	[modules.kpiReport]: <i className="bx bxs-report" />,
 	[modules.currency]: <i className="bx bx-dollar" />,
-	[modules.GameReport]: <i className="bx bx-football" />,
+	[modules.gameReport]: <i className="bx bx-football" />,
 	[modules.comment]: <i className="bx bx-comment-dots" />,
 	[modules.BetSettings]: <i className="bx bx-wrench" />,
 	[modules.galley]: <i className="bx bxs-image" />,
 	[modules.report]: <i className="bx bx-wallet-alt" />,
 	[modules.emailTemplate]: <i className="bx bx-mail-send" />,
 	[modules.language]: <i className="mdi mdi-google-translate" />,
-	[modules.DemographReport]: <i className="mdi mdi-map-marker" />,
+	[modules.demography]: <i className="mdi mdi-map-marker" />,
 	[modules.banner]: <i className="mdi mdi-file-presentation-box" />,
 	[modules.casinoManagement]: <i className="mdi mdi-gamepad-variant-outline" />,
-	[modules.KpiSummaryReport]: <i className="mdi mdi-chart-box-outline" />,
-	[modules.LivePlayerReport]: <i className="mdi mdi-television-play" />,
-	[modules.WageringTemplate]: <i className="mdi mdi-credit-card-plus" />,
-	[modules.LoyaltyManagement]: <i className="mdi mdi-trophy-outline" />,
-	[modules.RegistrationField]: <i className="bx bx-user-plus" />,
+	[modules.kpiSummaryReport]: <i className="mdi mdi-chart-box-outline" />,
+	[modules.livePlayerDetail]: <i className="mdi mdi-television-play" />,
 	[modules.country]: <i className="mdi mdi-map-marker-off-outline" />,
-	[modules.PlayerLiabilityReport]: <i className="mdi mdi-file-chart-outline" />,
 	[modules.applicationSetting]: <i className="mdi mdi-web" />,
 	[modules.sportsbookManagement]: <i className="mdi mdi-hockey-sticks" />,
-	[modules.SportsbookManagement]: <i className="bx bx-ball" />,
 	[modules.tag]: <i className="mdi mdi-tag" />,
 	[modules.limits]: <i className="mdi mdi-currency-usd-off" />,
 	[modules.contentManagement]: <i className="mdi mdi-file-chart" />,
+
+	[modules.WageringTemplate]: <i className="mdi mdi-credit-card-plus" />,
+	[modules.LoyaltyManagement]: <i className="mdi mdi-trophy-outline" />,
+	[modules.RegistrationField]: <i className="bx bx-user-plus" />,
+	[modules.PlayerLiabilityReport]: <i className="mdi mdi-file-chart-outline" />,
 });
 
 const permissionLabel = (label) => {

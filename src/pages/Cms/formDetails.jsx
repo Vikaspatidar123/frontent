@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 // CMS Filter
 const staticFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
@@ -31,13 +31,13 @@ const staticFiltersFields = () => [
 
 const filterValues = () => ({
 	isActive: null,
-	search: '',
+	searchString: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
 		isActive: Yup.string().nullable(),
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 	});
 
 const pageCategories = {

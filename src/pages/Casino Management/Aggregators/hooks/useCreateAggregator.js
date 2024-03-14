@@ -11,7 +11,7 @@ import {
 	createAggregatorStart,
 	updateAggregatorStatusStart,
 } from '../../../../store/actions';
-import { modules } from '../../../../constants/permissions';
+// import { modules } from '../../../../constants/permissions';
 import { formPageTitle } from '../../../../components/Common/constants';
 import { decryptCredentials } from '../../../../network/storageUtils';
 
@@ -49,10 +49,10 @@ const useCreateAggregator = () => {
 			staticFormFields,
 		});
 
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		setIsOpen((prev) => !prev);
-	};
+	// const handleAddClick = (e) => {
+	// 	e.preventDefault();
+	// 	setIsOpen((prev) => !prev);
+	// };
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
@@ -67,13 +67,13 @@ const useCreateAggregator = () => {
 	};
 
 	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleAddClick,
-			link: '#!',
-			module: modules.casinoManagement,
-			operation: 'C',
-		},
+		// {
+		// 	label: 'Create',
+		// 	handleClick: handleAddClick,
+		// 	link: '#!',
+		// 	module: modules.casinoManagement,
+		// 	operation: 'C',
+		// },
 	]);
 
 	useEffect(() => {

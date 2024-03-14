@@ -1,6 +1,5 @@
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { UncontrolledTooltip, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
@@ -8,14 +7,15 @@ import { modules } from '../../constants/permissions';
 const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
 	const active = row?.original?.isActive;
 	const adminUserId = row?.original?.id;
+	const isSuperAdmin = row?.original?.adminRole?.level === 1;
 	const { isGranted } = usePermission();
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			{isGranted(modules.admin, 'R') && (
 				<li data-bs-toggle="tooltip" data-bs-placement="top">
-					<Link
-						to="#!"
+					<Button
+						disabled={isSuperAdmin}
 						className="btn btn-sm btn-soft-primary"
 						onClick={(e) => handleView(e, row?.original)}
 					>
@@ -29,14 +29,14 @@ const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
 						>
 							View Details
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				</li>
 			)}
 			{isGranted(modules.admin, 'TS') && (
 				<li>
 					{active ? (
-						<Link
-							to="#!"
+						<Button
+							disabled={isSuperAdmin}
 							className="btn btn-sm btn-soft-danger"
 							onClick={(e) =>
 								handleStatus(e, {
@@ -55,10 +55,10 @@ const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
 							>
 								Set Inactive
 							</UncontrolledTooltip>
-						</Link>
+						</Button>
 					) : (
-						<Link
-							to="#!"
+						<Button
+							disabled={isSuperAdmin}
 							className="btn btn-sm btn-soft-success"
 							onClick={(e) =>
 								handleStatus(e, {
@@ -77,15 +77,15 @@ const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
 							>
 								Set Active
 							</UncontrolledTooltip>
-						</Link>
+						</Button>
 					)}
 				</li>
 			)}
 
 			{isGranted(modules.admin, 'U') && (
 				<li>
-					<Link
-						to="#!"
+					<Button
+						disabled={isSuperAdmin}
 						className="btn btn-sm btn-soft-info"
 						onClick={(e) => handleEdit(e, row?.original)}
 					>
@@ -99,18 +99,9 @@ const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
 						>
 							Edit Details
 						</UncontrolledTooltip>
-					</Link>
+					</Button>
 				</li>
 			)}
-
-			{/* <li>
-				<Link to="/" className="btn btn-sm btn-soft-danger">
-					<i className="mdi mdi-delete-outline" id="deletetooltip" />
-					<UncontrolledTooltip placement="top" target="deletetooltip">
-						Delete
-					</UncontrolledTooltip>
-				</Link>
-			</li> */}
 		</ul>
 	);
 };

@@ -195,6 +195,12 @@ const updatePageStatus = (data) =>
 		data
 	);
 
+const updateAdmin = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}update-child`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -235,4 +241,5 @@ export {
 	attachUserTags,
 	removeUserTags,
 	updatePageStatus,
+	updateAdmin,
 };

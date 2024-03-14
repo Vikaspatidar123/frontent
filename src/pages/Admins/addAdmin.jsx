@@ -4,7 +4,6 @@ import { Container } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import useActions from './hooks/useActions';
 import FormPage from '../../components/Common/FormPage';
 import {
 	resetLinearProgress,
@@ -12,10 +11,10 @@ import {
 } from '../../store/progressLoading/actions';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 import { formPageTitle } from '../../components/Common/constants';
+import useCreate from './hooks/useCreate';
 
 const AddAdmin = () => {
 	const dispatch = useDispatch();
-
 	const {
 		validation,
 		customComponent,
@@ -25,7 +24,7 @@ const AddAdmin = () => {
 		showModal,
 		setShowModal,
 		navigate,
-	} = useActions();
+	} = useCreate();
 
 	useEffect(() => {
 		if (isAddSuperUserLoading) {

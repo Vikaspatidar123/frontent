@@ -2,19 +2,16 @@ import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 
 // Add staff and edit staff
-const getInitialValues = (defaultValue) => {
-	console.log('Data = ', defaultValue);
-	return {
-		email: defaultValue?.email || '',
-		password: '',
-		username: defaultValue?.username || '',
-		firstName: defaultValue?.firstName || '',
-		lastName: defaultValue?.lastName || '',
-		role: defaultValue?.adminRole?.name || null,
-		adminId: defaultValue?.parentAdminId || null,
-		permission: defaultValue?.permission?.permission || {},
-	};
-};
+const getInitialValues = (defaultValue) => ({
+	email: defaultValue?.email || '',
+	password: '',
+	username: defaultValue?.username || '',
+	firstName: defaultValue?.firstName || '',
+	lastName: defaultValue?.lastName || '',
+	role: defaultValue?.adminRole?.name || null,
+	adminId: defaultValue?.parentAdminId || null,
+	permission: defaultValue?.permission?.permission || {},
+});
 const initialValueInstance = {
 	email: PropTypes.string,
 	password: PropTypes.string,
@@ -76,12 +73,13 @@ const validationSchema = (isEdit) =>
 		//   .required('Group Name Required'),
 	});
 
-const leftStaticFormFields = () => [
+const leftStaticFormFields = (isEdit) => [
 	{
 		name: 'username',
 		fieldType: 'textField',
 		label: 'Username',
 		placeholder: 'Enter username',
+		isDisabled: isEdit,
 	},
 	{
 		name: 'firstName',

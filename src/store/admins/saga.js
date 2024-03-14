@@ -31,8 +31,7 @@ import {
 } from './actionTypes';
 
 import { getAllAdminsList, getAdminChildren } from '../../network/getRequests';
-import { addSuperAdminUser } from '../../network/postRequests';
-import { updateSuperAdminUser } from '../../network/putRequests';
+import { addSuperAdminUser, updateAdmin } from '../../network/postRequests';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
@@ -75,7 +74,7 @@ function* updateSuperAdminUserWorker(action) {
 	try {
 		const { data, navigate } = action && action.payload;
 
-		yield updateSuperAdminUser(data);
+		yield updateAdmin(data);
 
 		showToastr({
 			message: `${data?.role} Updated Successfully`,

@@ -15,11 +15,10 @@ const PermissionForm = ({
 	adminDetails,
 	superAdminUser,
 	validation,
-	isEdit,
 }) => {
 	const dispatch = useDispatch();
 	const permissions = (
-		values.role === 'Support' && !isEdit ? adminDetails : superAdminUser
+		values.role === 'Support' ? adminDetails : superAdminUser
 	)?.permission?.permission;
 
 	const handleChangeCheckbox = (e, key) => {
@@ -104,10 +103,7 @@ const PermissionForm = ({
 };
 
 PermissionForm.defaultProps = {
-	isEdit: false,
 	values: {},
-	// adminDetails : {},
-	// superAdminUser : {},
 };
 
 PermissionForm.propTypes = {
@@ -117,7 +113,6 @@ PermissionForm.propTypes = {
 	superAdminUser: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 		.isRequired,
 	validation: PropTypes.objectOf.isRequired,
-	isEdit: PropTypes.bool,
 };
 
 export default PermissionForm;

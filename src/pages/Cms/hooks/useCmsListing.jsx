@@ -52,7 +52,7 @@ const useCmsListing = (filterValues = {}) => {
 		const { id } = props;
 		dispatch(
 			updateSaCmsStatus({
-				cmsPageId: id,
+				pageId: id,
 			})
 		);
 	};

@@ -261,7 +261,7 @@ const authProtectedRoutes = [
 	{
 		path: '/review-management',
 		component: <ReviewManagementList />,
-		modules: [modules.Reviews],
+		modules: [modules.review],
 		operation: 'R',
 	},
 	{

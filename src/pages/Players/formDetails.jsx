@@ -33,12 +33,12 @@ const staticFiltersFields = () => [
 	// 	label: '',
 	// 	placeholder: 'Search by user Id',
 	// },
-	{
-		name: 'ranges',
-		fieldType: 'dateRangeSelector',
-		label: '',
-		placeholder: 'Range',
-	},
+	// {
+	// 	name: 'ranges',
+	// 	fieldType: 'dateRangeSelector',
+	// 	label: '',
+	// 	placeholder: 'Range',
+	// },
 	// {
 	// 	name: 'phoneNumber',
 	// 	fieldType: 'textField',

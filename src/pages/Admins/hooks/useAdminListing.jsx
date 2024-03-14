@@ -17,21 +17,17 @@ import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
 import { getRandomColor } from '../../../helpers/common';
 import { STORAGE_KEY } from '../../../components/Common/constants';
 import { encryptCredentials } from '../../../network/storageUtils';
+import { modules } from '../../../constants/permissions';
 
-const useAdmin = (handleEdit, filterValues = {}) => {
+const useAdminListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const { adminDetails, isLoading, error } = useSelector(
-		(state) => state.AllAdmins
-	);
+	const { adminDetails, isLoading } = useSelector((state) => state.AllAdmins);
 
 	const { roles } = useSelector((state) => state?.AdminRoles);
 	const [page, setPage] = useState(1);
-	const [orderBy, setOrderBy] = useState('id');
-	const [sort, setSort] = useState('desc');
-	const [name, setName] = useState();
 
 	const formattedAdminDetails = useMemo(() => {
 		if (adminDetails?.staff?.length && roles?.length > 0) {
@@ -72,9 +68,6 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 			getAllAdmins({
 				perPage: itemsPerPage,
 				page,
-				orderBy,
-				sort,
-				adminRoleId: adminDetails?.adminRoleId,
 				...filterValues,
 			})
 		);
@@ -83,7 +76,32 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	useEffect(() => {
 		if (location.pathname === '/staff') fetchData();
 		return () => dispatch(resetAdminsData());
-	}, [page, orderBy, sort, location, itemsPerPage]);
+	}, [page, location, itemsPerPage]);
+
+	const handleAddClick = (e) => {
+		e.preventDefault();
+		navigate('add');
+	};
+	const handleEdit = (e, row) => {
+		e.preventDefault();
+		localStorage.setItem(
+			`${STORAGE_KEY.ADMIN_EDIT}_${row.id}`,
+			encryptCredentials(JSON.stringify(row))
+		);
+		setTimeout(() => {
+			navigate(`edit/${row.id}`);
+		}, 200);
+	};
+
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+			module: modules.admin,
+			operation: 'C',
+		},
+	]);
 
 	const columns = useMemo(
 		() => [
@@ -168,30 +186,22 @@ const useAdmin = (handleEdit, filterValues = {}) => {
 	};
 
 	return {
-		adminDetails,
-		formattedAdminDetails,
 		isLoading,
-		error,
-		totalAdminsCount: adminDetails?.count,
+		totalPages: adminDetails?.totalPages,
 		page,
 		setPage,
-		orderBy,
-		setOrderBy,
-		sort,
-		setSort,
-		name,
-		setName,
 		itemsPerPage,
 		columns,
-		handleStatus,
+		formattedAdminDetails,
+		buttonList,
 		onChangeRowsPerPage,
 	};
 };
 
-useAdmin.propTypes = {};
+useAdminListing.propTypes = {};
 
-useAdmin.defaultProps = {
+useAdminListing.defaultProps = {
 	cell: PropTypes.objectOf.isRequired,
 };
 
-export default useAdmin;
+export default useAdminListing;

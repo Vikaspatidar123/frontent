@@ -3,15 +3,6 @@ import { API_NAMESPACE, MANAGEMENT } from './networkUtils';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
-const updateSuperAdminUser = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}staff`,
-		data
-	);
-
-const updateAdmin = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/`, data); // No use
-
 const updateSiteConfiguration = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-information`,
@@ -196,8 +187,6 @@ const updateSiteDetails = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-layout`, data);
 
 export {
-	updateSuperAdminUser,
-	updateAdmin,
 	updateSiteConfiguration,
 	updateStatus,
 	updateGlobalRegistration,

@@ -130,8 +130,8 @@ function* updateSACMSStatusWorker(action) {
 		const { cmsDetails } = yield select((state) => state.AllCms);
 
 		const updatedCmsDetails = cmsDetails?.pages?.map((cms) => {
-			if (cms?.id === payload.cmsPageId) {
-				cms.isActive = payload.status;
+			if (cms?.id === payload.pageId) {
+				cms.isActive = !cms.isActive;
 			}
 			return cms;
 		});
