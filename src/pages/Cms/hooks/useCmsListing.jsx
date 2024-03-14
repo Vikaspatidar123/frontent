@@ -49,12 +49,10 @@ const useCmsListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { status, id } = props;
+		const { id } = props;
 		dispatch(
 			updateSaCmsStatus({
-				code: 'CMS',
 				cmsPageId: id,
-				status: !status,
 			})
 		);
 	};

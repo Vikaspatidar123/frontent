@@ -189,6 +189,12 @@ const removeUserTags = (data) =>
 		data
 	);
 
+const updatePageStatus = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}page/toggle`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -228,4 +234,5 @@ export {
 	updateSAUserStatusCall,
 	attachUserTags,
 	removeUserTags,
+	updatePageStatus,
 };

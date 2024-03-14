@@ -120,8 +120,7 @@ const useActions = (isEditPage, filterValues = {}) => {
 		setTimeout(() => {
 			navigate(`edit/${row.id}`);
 		}, 200);
-		// setHeader('Edit Staff');
-		// dispatch(showLinearProgress());
+		setHeader('Edit Staff');
 	};
 
 	const {
@@ -164,14 +163,6 @@ const useActions = (isEditPage, filterValues = {}) => {
 						optionLabel: r.name,
 						value: r.name,
 					})) || [];
-
-			// const groupOptions = groups
-			//   .filter((r) => r)
-			//   .map((g) => ({
-			//     id: g,
-			//     label: g,
-			//     value: g,
-			//   }));
 
 			const adminOptions =
 				allAdminList?.staff?.map((ad) => ({

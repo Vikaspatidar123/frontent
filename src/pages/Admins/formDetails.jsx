@@ -2,16 +2,19 @@ import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 
 // Add staff and edit staff
-const getInitialValues = (defaultValue) => ({
-	email: defaultValue?.email || '',
-	password: '',
-	username: defaultValue?.username || '',
-	firstName: defaultValue?.firstName || '',
-	lastName: defaultValue?.lastName || '',
-	role: defaultValue?.adminRole?.name || null,
-	adminId: defaultValue?.parentAdminId || null,
-	permission: defaultValue?.permissions?.[0]?.permission || {},
-});
+const getInitialValues = (defaultValue) => {
+	console.log('Data = ', defaultValue);
+	return {
+		email: defaultValue?.email || '',
+		password: '',
+		username: defaultValue?.username || '',
+		firstName: defaultValue?.firstName || '',
+		lastName: defaultValue?.lastName || '',
+		role: defaultValue?.adminRole?.name || null,
+		adminId: defaultValue?.parentAdminId || null,
+		permission: defaultValue?.permission?.permission || {},
+	};
+};
 const initialValueInstance = {
 	email: PropTypes.string,
 	password: PropTypes.string,

@@ -39,17 +39,17 @@ const modules = {
 
 	sportsbookManagement: 'sportsbookManagement',
 
-	Reviews: 'reviews',
-	KpiReport: 'kpiReport',
-	GameReport: 'gameReport',
-	BetSettings: 'betSettings',
-	DemographReport: 'demographReport',
-	KpiSummaryReport: 'kpiSummaryReport',
-	LivePlayerReport: 'livePlayerReport',
-	WageringTemplate: 'wageringTemplate',
-	LoyaltyManagement: 'loyalityManagement',
-	RegistrationField: 'registrationField',
-	PlayerLiabilityReport: 'playerLiabilityReport',
+	// Reviews: 'reviews',
+	// KpiReport: 'kpiReport',
+	// GameReport: 'gameReport',
+	// BetSettings: 'betSettings',
+	// DemographReport: 'demographReport',
+	// KpiSummaryReport: 'kpiSummaryReport',
+	// LivePlayerReport: 'livePlayerReport',
+	// WageringTemplate: 'wageringTemplate',
+	// LoyaltyManagement: 'loyalityManagement',
+	// RegistrationField: 'registrationField',
+	// PlayerLiabilityReport: 'playerLiabilityReport',
 };
 
 const permissionIcons = () => ({

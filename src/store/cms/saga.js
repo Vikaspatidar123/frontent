@@ -36,7 +36,10 @@ import {
 	// superAdminViewToggleStatus,
 	updateSuperAdminCMS,
 } from '../../network/putRequests';
-import { createSuperAdminCMS } from '../../network/postRequests';
+import {
+	createSuperAdminCMS,
+	updatePageStatus,
+} from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
@@ -117,7 +120,7 @@ function* updateSACMSStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		// yield superAdminViewToggleStatus(payload);
+		yield updatePageStatus(payload);
 
 		showToastr({
 			message: 'CMS Status Updated Successfully',

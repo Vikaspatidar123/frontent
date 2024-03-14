@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-// import { Buffer } from 'buffer';
+import { Buffer } from 'buffer';
 
 // Login Redux States
 import moment from 'moment';
@@ -12,10 +12,10 @@ import { setItem, setLoginToken } from '../../../network/storageUtils';
 
 function* loginUser({ payload: { user, history } }) {
 	try {
-		// const encryptedPass = Buffer.from(user.password).toString('base64');
+		const encryptedPass = Buffer.from(user.password).toString('base64');
 		const res = yield call(superAdminLogin, {
 			emailOrUsername: user.emailOrUsername,
-			password: user.password,
+			password: encryptedPass,
 		});
 		const {
 			data: { data },

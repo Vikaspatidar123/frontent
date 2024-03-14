@@ -50,7 +50,6 @@ const ActionButtons = ({
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
-								status,
 								id,
 							})
 						}

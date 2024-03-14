@@ -1,8 +1,9 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import { Container } from 'reactstrap';
 // import PropTypes from 'prop-types'
 // import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useActions from './hooks/useActions';
 import FormPage from '../../components/Common/FormPage';
@@ -19,7 +20,7 @@ import { STORAGE_KEY } from '../../components/Common/constants';
 import { decryptCredentials } from '../../network/storageUtils';
 
 const EditAdmin = () => {
-	// const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { adminUserId } = useParams();
 
 	const {
@@ -36,29 +37,30 @@ const EditAdmin = () => {
 		const savedDetails = decryptCredentials(
 			localStorage.getItem(`${STORAGE_KEY.ADMIN_EDIT}_${adminUserId}`)
 		);
-		validation.resetForm(getInitialValues(JSON.parse(savedDetails)));
+		if (savedDetails) {
+			let data = JSON.parse(savedDetails);
+			data = {
+				...data,
+				permission: {
+					...data.permission,
+					permission: data?.permission?.permission
+						? typeof data?.permission?.permission === 'string'
+							? JSON.parse(data?.permission?.permission)
+							: data.permission.permission
+						: {},
+				},
+			};
+			validation.resetForm(getInitialValues(data));
+		} else {
+			navigate('/staff');
+		}
 
 		return () =>
 			localStorage.removeItem(`${STORAGE_KEY.ADMIN_EDIT}_${adminUserId}`);
 	}, []);
 
-	// resetting admin details redux state
-	// useEffect(() => () => dispatch(resetAdminDetails()), []);
+	console.log('Outside', validation.values);
 
-	// useEffect(() => {
-	// 	if (adminDetails && !isAdminLoading) {
-	// 		validation.resetForm(getInitialValues(adminDetails));
-	// 		dispatch(resetLinearProgress());
-	// 	}
-	// }, [adminDetails, isAdminLoading]);
-
-	// useEffect(() => {
-	// 	if (isUpdateSuperUserLoading) {
-	// 		dispatch(showLinearProgress());
-	// 	} else {
-	// 		dispatch(resetLinearProgress());
-	// 	}
-	// }, [isUpdateSuperUserLoading]);
 	return (
 		<div className="page-content">
 			<Breadcrumbs
