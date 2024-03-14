@@ -141,7 +141,11 @@ const useEdit = (adminDetails = {}) => {
 			setCustomComponent(
 				<PermissionForm
 					values={validation.values}
-					adminDetails={adminDetails}
+					adminDetails={
+						allAdminList?.staff?.find(
+							(admin) => admin.id === adminDetails.parentAdminId
+						) || adminDetails
+					}
 					superAdminUser={superAdminUser}
 					validation={validation}
 					isEdit

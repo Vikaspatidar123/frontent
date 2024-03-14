@@ -1,6 +1,5 @@
-/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable no-prototype-builtins */
 
 export const objectToFormDataAdd = (obj) => {
 	const formData = new FormData();
