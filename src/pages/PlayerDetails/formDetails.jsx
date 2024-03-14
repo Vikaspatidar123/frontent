@@ -126,7 +126,7 @@ const userSchema = () =>
 			.required('City Required'),
 		zipCode: Yup.string().required('ZipCode Required'),
 		currencyCode: Yup.string(),
-		countryCode: Yup.string().nullable(),
+		countryCode: Yup.string()?.required('Country Code Required'),
 	});
 
 const getInitialValuesUpdateUser = (defaultValue) => {
@@ -137,7 +137,7 @@ const getInitialValuesUpdateUser = (defaultValue) => {
 		lastName: defaultValue?.lastName,
 		username: defaultValue?.username,
 		email: defaultValue?.email,
-		countryCode: address?.countryCode,
+		countryCode: address?.countryCode || null,
 		address: address?.address,
 		city: address?.city,
 		zipCode: address?.zipCode,

@@ -33,7 +33,7 @@ const Duplicates = ({ show, toggle, header }) => {
 		() => [
 			{
 				Header: 'USER ID',
-				accessor: 'userId',
+				accessor: 'id',
 				subLabel: userDetails?.userId,
 				// filterable: true,
 				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
@@ -75,7 +75,7 @@ const Duplicates = ({ show, toggle, header }) => {
 			},
 			{
 				Header: 'SIGN IN IP',
-				accessor: 'signInIp',
+				accessor: 'lastLoggedInIp',
 				// filterable: true,
 				subLabel: userDetails?.signInIp || 'NA',
 				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
@@ -87,13 +87,13 @@ const Duplicates = ({ show, toggle, header }) => {
 				// filterable: true,
 				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			},
-			{
-				Header: 'ADDRESS',
-				accessor: 'address',
-				// filterable: true,
-				subLabel: userDetails?.address,
-				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ADDRESS',
+			// 	accessor: 'address',
+			// 	// filterable: true,
+			// 	subLabel: userDetails?.addresses[0]?.address,
+			// 	Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
+			// },
 		],
 		[]
 	);
@@ -105,7 +105,7 @@ const Duplicates = ({ show, toggle, header }) => {
 	const formattedDuplicates = useMemo(() => {
 		const formattedValues = [];
 		if (duplicateUsers) {
-			duplicateUsers?.rows?.map((user) =>
+			duplicateUsers?.players?.map((user) =>
 				formattedValues.push({
 					...user,
 					dateOfBirth: formatDateYMD(user.dateOfBirth),

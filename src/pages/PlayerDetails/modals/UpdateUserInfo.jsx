@@ -59,6 +59,7 @@ const staticFormFields = (countriesList) => [
 		name: 'countryCode',
 		fieldType: 'select',
 		label: 'Country Code',
+		placeholder: 'Select Country Code',
 		required: true,
 		optionList: countriesList,
 	},
@@ -115,15 +116,8 @@ const UpdateUserInfo = ({ show, header, toggle }) => {
 
 	const formattedCountries = useMemo(() => {
 		const arrayToReturn = [];
-		if (countries?.length) {
-			countries?.map((country) =>
-				arrayToReturn.push({
-					optionLabel: country.name,
-					value: country.code,
-				})
-			);
-		} else if (countries?.rows?.length) {
-			countries.rows.map((country) =>
+		if (countries?.countries?.length) {
+			countries?.countries?.map((country) =>
 				arrayToReturn.push({
 					optionLabel: country.name,
 					value: country.code,

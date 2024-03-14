@@ -89,6 +89,7 @@ import {
 	getUserDocument,
 } from '../../network/getRequests';
 import {
+	addDepositToOtherCall,
 	attachUserTags,
 	createUserCommentEntry,
 	disableUserCall,
@@ -97,21 +98,20 @@ import {
 	removeUserTags,
 	resetDepositLimitCall,
 	resetLossLimitCall,
+	resetPasswordEmail,
 	resetUserLimitCall,
 	updateSAUserStatusCall,
+	updateUserInfoCall,
+	updateUserPassword,
+	verifyPlayerEmail,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import {
-	addDepositToOtherCall,
 	cancelBonus,
 	cancelDocumentRequest,
 	markUserAsInternal,
 	requestDocument,
-	resetPasswordEmail,
-	resetUserPassword,
 	updateComment,
-	updateUserInfoCall,
-	verifyPlayerEmail,
 	verifyUserDocument,
 } from '../../network/putRequests';
 import { formPageTitle } from '../../components/Common/constants';
@@ -345,7 +345,7 @@ function* getDuplicateUsersWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield getDuplicateUsers(payload);
-		yield put(getDuplicateUsersSuccess(data?.data?.users));
+		yield put(getDuplicateUsersSuccess(data?.data));
 	} catch (e) {
 		yield put(getDuplicateUsersFail(e.message));
 		showToastr({
@@ -461,10 +461,10 @@ function* sendPasswordResetWorker(action) {
 function* updateUserPasswordWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield resetUserPassword(payload);
+		const { data } = yield updateUserPassword(payload);
 		yield put(updateUserPasswordSuccess(data?.data));
 		showToastr({
-			message: 'User Info Updated Successfully',
+			message: 'User Password Updated Successfully',
 			type: 'success',
 		});
 	} catch (e) {

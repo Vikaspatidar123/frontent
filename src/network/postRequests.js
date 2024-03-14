@@ -195,6 +195,36 @@ const updatePageStatus = (data) =>
 		data
 	);
 
+const updateUserInfoCall = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/update`,
+		data
+	);
+
+const updateUserPassword = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/update-password`,
+		data
+	);
+
+const addDepositToOtherCall = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}wallet`,
+		data
+	);
+
+const resetPasswordEmail = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/reset-password`,
+		data
+	);
+
+const verifyPlayerEmail = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}kyc/verify-email`,
+		data
+	);
+
 const updateAdmin = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}update-child`,
@@ -241,5 +271,10 @@ export {
 	attachUserTags,
 	removeUserTags,
 	updatePageStatus,
+	updateUserInfoCall,
+	updateUserPassword,
+	addDepositToOtherCall,
+	resetPasswordEmail,
+	verifyPlayerEmail,
 	updateAdmin,
 };
