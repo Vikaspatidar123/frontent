@@ -64,16 +64,16 @@ const useUserOverview = ({ user }) => {
 				: 'NA',
 		},
 		{ label: 'Country Code', value: address?.countryCode },
-		{
-			label: 'NewsLetter',
-			value: user?.newsLetter ? 'True' : 'False',
-			subValue: showStyle(user?.newsLetter),
-		},
-		{
-			label: 'SMS',
-			value: user?.sms ? 'True' : 'False',
-			subValue: showStyle(user?.sms),
-		},
+		// {
+		// 	label: 'NewsLetter',
+		// 	value: user?.newsLetter ? 'True' : 'False',
+		// 	subValue: showStyle(user?.newsLetter),
+		// },
+		// {
+		// 	label: 'SMS',
+		// 	value: user?.sms ? 'True' : 'False',
+		// 	subValue: showStyle(user?.sms),
+		// },
 	];
 
 	const kycInfo = [

@@ -9,7 +9,7 @@ import { KeyValueCell } from './TableCol';
 const PlayerWallet = ({ userDetails, userWalletData: getUserWalletData }) => {
 	const walletData = useMemo(() => {
 		const defaultCurrencyObject = userDetails?.wallets?.find(
-			(item) => item.currency.default === true
+			(item) => item?.currency?.default === true
 		);
 
 		const wallet = {

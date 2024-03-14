@@ -331,6 +331,12 @@ const getSubCategoryAddedGames = (payload) =>
 		payload
 	);
 
+const getAllUserTags = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}tags`,
+		payload
+	);
+
 export {
 	getBonus,
 	getAllCurrencies,
@@ -396,4 +402,5 @@ export {
 	getKpiSummary,
 	getKpiReport,
 	getSubCategoryAddedGames,
+	getAllUserTags,
 };
