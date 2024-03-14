@@ -73,24 +73,6 @@ const updateWageringTemplate = (data) =>
 const updateSuperAdminCMS = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, data);
 
-const verifyPlayerEmail = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/verify-email`, data);
-
-const addDepositToOtherCall = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}add-balance`,
-		data
-	);
-
-const updateUserInfoCall = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user`, data);
-
-const resetPasswordEmail = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/reset-password`, data);
-
-const resetUserPassword = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/update-password`, data);
-
 const requestDocument = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/request-document`, data);
 
@@ -200,11 +182,6 @@ export {
 	markUserAsInternal,
 	updateWageringTemplate,
 	updateSuperAdminCMS,
-	verifyPlayerEmail,
-	addDepositToOtherCall,
-	updateUserInfoCall,
-	resetPasswordEmail,
-	resetUserPassword,
 	requestDocument,
 	cancelDocumentRequest,
 	updateEmailTemplate,

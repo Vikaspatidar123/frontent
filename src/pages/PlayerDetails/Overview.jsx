@@ -85,8 +85,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 	const handleVerifyEmail = () => {
 		dispatch(
 			verifyUserEmail({
-				isTenant: false,
-				userId: parseInt(playerId, 10),
+				userId: playerId,
 			})
 		);
 	};
@@ -199,7 +198,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											onClick={() => openModal('duplicatesModal')}
 											className="actionButton w-100"
 										>
-											Duplicates ({duplicateUsers?.count || 0})
+											Duplicates ({duplicateUsers?.players?.length || 0})
 										</Button>
 									</ColumnContainer>
 									{/* {isGranted(modules.bonus, 'Issue') && (

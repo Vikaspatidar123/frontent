@@ -10,11 +10,11 @@ import {
 	CustomSwitchButton,
 } from '../../../helpers/customForms';
 import {
-	getAllBonus,
+	// getAllBonus,
 	getUserBonusDetails,
 	issueBonus,
 } from '../../../store/actions';
-import { safeStringify } from '../../../utils/helpers';
+// import { safeStringify } from '../../../utils/helpers';
 import TableContainer from '../../../components/Common/TableContainer';
 import { KeyValueCell } from '../TableCol';
 import { bonusKeyArray } from '../constants';
@@ -30,17 +30,17 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 	);
 
 	useEffect(() => {
-		dispatch(
-			getAllBonus({
-				adminId: '',
-				tenantId: '',
-				perPage: '',
-				page: '',
-				search: '',
-				bonusType: safeStringify(['deposit']),
-				isActive: '',
-			})
-		);
+		// dispatch(
+		// 	getAllBonus({
+		// 		adminId: '',
+		// 		tenantId: '',
+		// 		perPage: '',
+		// 		page: '',
+		// 		search: '',
+		// 		bonusType: safeStringify(['deposit']),
+		// 		isActive: '',
+		// 	})
+		// );
 	}, []);
 
 	useEffect(() => {

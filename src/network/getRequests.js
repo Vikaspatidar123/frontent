@@ -245,7 +245,10 @@ const getCmsByPageId = ({ cmsPageId }) =>
 	);
 
 const getDuplicateUsers = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/duplicate`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}duplicate-players`,
+		payload
+	);
 
 const fetchRestrictedCountries = (payload) =>
 	getRequest(

@@ -29,7 +29,7 @@ const ResetUserPassword = ({ show, headerText, toggle }) => {
 		const encryptedPass = Buffer.from(formValues.password).toString('base64');
 		dispatch(
 			updateUserPassword({
-				password: encryptedPass,
+				newPassword: encryptedPass,
 				userId: parseInt(playerId, 10),
 			})
 		);
