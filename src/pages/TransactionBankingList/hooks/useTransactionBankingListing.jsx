@@ -65,7 +65,7 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 	const formattedTransactionBanking = useMemo(() => {
 		const formattedValues = [];
 		if (transactionBanking) {
-			transactionBanking.rows.map((transaction) =>
+			transactionBanking?.transactions?.map((transaction) =>
 				formattedValues.push({
 					id: transaction?.id,
 					actionee: transaction?.transaction?.adminUser?.email,
@@ -169,7 +169,7 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalTransactionBankingCount: transactionBanking?.count,
+		totalTransactionBankingCount: transactionBanking?.transactions?.length || 0,
 		isTransactionBankingLoading,
 		formattedTransactionBanking,
 		itemsPerPage,

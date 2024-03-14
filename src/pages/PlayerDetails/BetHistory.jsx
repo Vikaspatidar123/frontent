@@ -31,7 +31,7 @@ const BetHistory = ({ userId }) => {
 	const formattedCasinoTransactions = useMemo(() => {
 		const formattedValues = [];
 		if (casinoTransactions) {
-			casinoTransactions?.rows?.map((txn) =>
+			casinoTransactions?.casinoTransactions?.map((txn) =>
 				formattedValues.push({
 					casinoTransactionId: txn?.casinoTransactionId,
 					userEmail: txn?.user?.email,
@@ -165,7 +165,7 @@ const BetHistory = ({ userId }) => {
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={casinoTransactions?.count}
+						totalPageCount={formattedCasinoTransactions?.length || 0}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}

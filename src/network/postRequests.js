@@ -92,16 +92,22 @@ const createWageringTemplate = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template`, data);
 
 const resetUserLimitCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/daily-limit`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}limit/update-betting`,
+		data
+	);
 
 const resetDepositLimitCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/deposit-limit`, data);
-
-const resetLossLimitCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/loss-limit`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}limit/update-deposit-and-loss`,
+		data
+	);
 
 const disableUserCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/disable-until`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}limit/update-self-exclusion`,
+		data
+	);
 
 const disableUserSession = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/session-time`, data);
@@ -261,7 +267,6 @@ export {
 	updateMatchFeaturedTemplate,
 	issueBonus,
 	resetDepositLimitCall,
-	resetLossLimitCall,
 	isCasinoFeaturedService,
 	testEmailTemplateEndPoint,
 	createEmailTemplate,

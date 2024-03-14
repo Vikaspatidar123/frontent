@@ -9,6 +9,7 @@ const MANAGEMENT = {
 	ADMIN: '/admin/',
 	COUNTRY: '/country/',
 	REPORT: '/report/',
+	TRANSACTION: '/transaction/',
 };
 
 const METHODS = {

@@ -6,41 +6,34 @@ import { Card, Container } from 'reactstrap';
 import TableContainer from '../../components/Common/TableContainer';
 import { KeyValueCell } from './TableCol';
 
-const PlayerWallet = ({ userDetails, userWalletData: getUserWalletData }) => {
+const PlayerWallet = ({ userDetails }) => {
 	const walletData = useMemo(() => {
-		const defaultCurrencyObject = userDetails?.wallets?.find(
-			(item) => item?.currency?.default === true
-		);
-
-		const wallet = {
-			currencyId: defaultCurrencyObject?.currencyId,
-			currency: defaultCurrencyObject?.currency?.name,
-			currencyCode: defaultCurrencyObject?.currency?.code,
-			amount: defaultCurrencyObject?.amount,
-			exchangeRate: defaultCurrencyObject?.currency?.exchangeRate,
-			...getUserWalletData,
-		};
-
-		if (Object.keys(wallet).length > 0) {
-			return Object.keys(wallet).map((key) => ({
-				id: key,
-				key: wallet[key],
+		if (userDetails?.wallets?.length > 0) {
+			return userDetails?.wallets?.map((wallet) => ({
+				...wallet,
+				currencyCode: wallet?.currency?.code,
 			}));
 		}
 		return [];
-	}, [getUserWalletData, userDetails]);
+	}, [userDetails]);
 
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'id',
-				accessor: 'id',
+				Header: 'Currency Id',
+				accessor: 'currencyId',
 				// filterable: true,
 				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
 			{
-				Header: 'Key',
-				accessor: 'key',
+				Header: 'Amount',
+				accessor: 'amount',
+				// filterable: true,
+				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+			},
+			{
+				Header: 'Currency Code',
+				accessor: 'currencyCode',
 				// filterable: true,
 				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
@@ -57,9 +50,8 @@ const PlayerWallet = ({ userDetails, userWalletData: getUserWalletData }) => {
 					data={walletData}
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
-					customPageSize={20}
-					hideHeader
-					tableClass="table-striped table-hover "
+					customPageSize={50}
+					tableClass="table-bordered align-middle nowrap mt-2"
 				/>
 			</Card>
 		</Container>
