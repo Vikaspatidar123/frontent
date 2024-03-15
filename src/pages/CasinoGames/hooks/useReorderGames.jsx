@@ -13,7 +13,8 @@ import {
 	reorderCasinoGamesStart,
 	resetCasinoState,
 } from '../../../store/actions';
-import { CasinoGameId, Name } from '../CasinoGamesListCol';
+import { CasinoGameId, Custom } from '../CasinoGamesListCol';
+import { selectedLanguage } from '../../../constants/config';
 
 const useReorderGames = () => {
 	const dispatch = useDispatch();
@@ -49,10 +50,7 @@ const useReorderGames = () => {
 		if (selectedCategory) {
 			dispatch(
 				getCasinoSubCategoryDetailStart({
-					perPage: '',
-					page: '',
-					search: '',
-					gameCategoryId: selectedCategory,
+					casinoCategoryId: selectedCategory,
 				})
 			);
 		}
@@ -64,8 +62,8 @@ const useReorderGames = () => {
 				getCasinoGamesStart({
 					perPage: itemsPerPage,
 					page,
-					casinoCategoryId: selectedSubCategory,
-					search,
+					casinoSubCategoryId: selectedSubCategory,
+					searchString: search,
 					reorder: 'true',
 				})
 			);
@@ -78,7 +76,7 @@ const useReorderGames = () => {
 			formattedData = casinoGames?.games?.map((item, index) => ({
 				...item,
 				reorderId: itemsPerPage * (page - 1) + index + 1,
-				gameName: `${item?.name} (${item?.casinoGameId})`,
+				gameName: `${item?.name[selectedLanguage]} (${item?.id})`,
 			}));
 		}
 		return {
@@ -91,10 +89,7 @@ const useReorderGames = () => {
 		if (formattedGames && formattedGames?.rows?.length) {
 			if (state?.rows) {
 				const filteredArray = formattedGames?.rows?.filter(
-					(item) =>
-						!state?.rows.find(
-							(common) => common.casinoGameId === item.casinoGameId
-						)
+					(item) => !state?.rows.find((common) => common.id === item.id)
 				);
 				setGames({ rows: filteredArray, count: formattedGames?.count });
 			} else {
@@ -110,7 +105,7 @@ const useReorderGames = () => {
 		});
 		setGames((oldItem) => {
 			const newArray = oldItem?.rows.filter(
-				(gameItem) => gameItem.casinoGameId !== item.casinoGameId
+				(gameItem) => gameItem.id !== item.id
 			);
 			return { rows: newArray, count: newArray.length };
 		});
@@ -119,7 +114,7 @@ const useReorderGames = () => {
 	const handRemoveGame = (item) => {
 		setState((oldItem) => {
 			const newArray = oldItem?.rows.filter(
-				(gameItem) => gameItem.casinoGameId !== item.casinoGameId
+				(gameItem) => gameItem.id !== item.id
 			);
 			return { rows: newArray, count: newArray.length };
 		});
@@ -128,12 +123,11 @@ const useReorderGames = () => {
 	const handleSave = () => {
 		const orderedGames = [];
 		const unOrderedGames = [];
-		state && state.rows.map((list) => orderedGames.push(list.casinoGameId));
-		games && games?.rows?.map((list) => unOrderedGames.push(list.casinoGameId));
+		state && state.rows.map((list) => orderedGames.push(list.id));
+		games && games?.rows?.map((list) => unOrderedGames.push(list.id));
 
 		const data = {
-			order: [...orderedGames, ...unOrderedGames],
-			gameSubCategoryId: Number(selectedSubCategory),
+			gameIds: [...orderedGames, ...unOrderedGames],
 		};
 
 		dispatch(
@@ -153,7 +147,7 @@ const useReorderGames = () => {
 		() =>
 			state?.rows?.map((item, index) => ({
 				reorderId: index + 1,
-				gameName: item?.name,
+				gameName: item?.name[selectedLanguage],
 				action: (
 					<ul className="list-unstyled hstack gap-1 mb-0">
 						<li data-bs-toggle="tooltip" data-bs-placement="top">
@@ -165,13 +159,10 @@ const useReorderGames = () => {
 									handRemoveGame(item);
 								}}
 							>
-								<i
-									className="mdi mdi-minus-box"
-									id={`minus-${item.casinoGameId}`}
-								/>
+								<i className="mdi mdi-minus-box" id={`minus-${item.id}`} />
 								<UncontrolledTooltip
 									placement="top"
-									target={`minus-${item.casinoGameId}`}
+									target={`minus-${item.id}`}
 								>
 									Remove this Game
 								</UncontrolledTooltip>
@@ -195,7 +186,7 @@ const useReorderGames = () => {
 				Header: 'GAME NAME (ID)',
 				accessor: 'gameName',
 				filterable: true,
-				Cell: ({ cell }) => <Name value={cell.value} />,
+				Cell: ({ cell }) => <Custom value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',
@@ -203,7 +194,7 @@ const useReorderGames = () => {
 				disableSortBy: true,
 				disableFilters: true,
 				Cell: ({ cell }) => {
-					const casinoGameId = cell?.row?.original?.casinoGameId;
+					const id = cell?.row?.original?.id;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li data-bs-toggle="tooltip" data-bs-placement="top">
@@ -215,11 +206,8 @@ const useReorderGames = () => {
 										handleAddGame(cell?.row?.original);
 									}}
 								>
-									<i className="mdi mdi-plus-box" id={`plus-${casinoGameId}`} />
-									<UncontrolledTooltip
-										placement="top"
-										target={`plus-${casinoGameId}`}
-									>
+									<i className="mdi mdi-plus-box" id={`plus-${id}`} />
+									<UncontrolledTooltip placement="top" target={`plus-${id}`}>
 										Add this Game
 									</UncontrolledTooltip>
 								</Button>

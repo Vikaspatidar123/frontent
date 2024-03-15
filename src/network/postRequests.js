@@ -291,6 +291,12 @@ const updateSubCategoryReOrder = (data) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-sub-category`,
 		data
 	);
+
+const updateReorderGames = ({ data }) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-games`,
+		data
+	);
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -344,4 +350,5 @@ export {
 	updateCategoryReOrder,
 	editCasinoSubCategory,
 	updateSubCategoryReOrder,
+	updateReorderGames,
 };

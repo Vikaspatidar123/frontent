@@ -111,14 +111,14 @@ const useFilters = () => {
 			setFormFields([
 				...staticFiltersFields(),
 				{
-					name: 'casinoCategoryId',
+					name: 'casinoSubCategoryId',
 					fieldType: 'select',
 					label: '',
 					placeholder: 'Sub Category',
 					optionList: subCategoryField,
 				},
 				{
-					name: 'providerId',
+					name: 'casinoProviderId',
 					fieldType: 'select',
 					label: '',
 					placeholder: 'Provider',

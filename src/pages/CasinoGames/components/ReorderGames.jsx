@@ -79,10 +79,7 @@ const ReorderGames = () => {
 												<option value="">Select Category</option>
 												{casinoCategoryDetails &&
 													casinoCategoryDetails?.categories?.map((c) => (
-														<option
-															key={c?.gameCategoryId}
-															value={c?.gameCategoryId}
-														>
+														<option key={c?.id} value={c?.id}>
 															{c?.name?.EN}
 														</option>
 													))}
@@ -112,10 +109,7 @@ const ReorderGames = () => {
 													{casinoSubCategoryDetails &&
 														casinoSubCategoryDetails?.subCategories?.map(
 															(c) => (
-																<option
-																	key={c?.gameSubCategoryId}
-																	value={c?.gameSubCategoryId}
-																>
+																<option key={c?.id} value={c?.id}>
 																	{c?.name?.EN}
 																</option>
 															)
@@ -133,7 +127,7 @@ const ReorderGames = () => {
 										<div className="d-flex align-items-center">
 											<CustomInputField
 												id="search"
-												name="search"
+												name="searchString"
 												type="text"
 												onChange={(e) => {
 													setGames({ rows: [], count: 0 });

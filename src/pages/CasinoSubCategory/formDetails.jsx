@@ -57,7 +57,7 @@ const staticFormFields = [
 
 const staticFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
@@ -85,14 +85,14 @@ const staticFiltersFields = () => [
 
 const filterValues = () => ({
 	isActive: null,
-	search: '',
+	searchString: '',
 	casinoCategoryId: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
 		isActive: Yup.string().nullable(),
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 		casinoCategoryId: Yup.string().nullable(),
 	});
 

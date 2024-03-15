@@ -18,6 +18,8 @@ const CasinoGameId = ({ value }) => (
 );
 const Name = ({ value }) => value?.[selectedLanguage] ?? '';
 
+const Custom = ({ value }) => value ?? '';
+
 const Provider = ({ value }) => value?.name?.[selectedLanguage] ?? '';
 
 const Rtp = ({ value }) => value ?? '';
@@ -92,4 +94,5 @@ export {
 	DeviceType,
 	Status,
 	IsFeatured,
+	Custom,
 };

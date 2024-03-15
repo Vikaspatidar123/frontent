@@ -1,5 +1,6 @@
-/* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+
 import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
@@ -34,7 +35,7 @@ const staticFormFields = [
 // Category filters
 const staticFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		// type: 'search',
 		label: '',
@@ -43,12 +44,12 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	search: '',
+	searchString: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 	});
 
 export {
