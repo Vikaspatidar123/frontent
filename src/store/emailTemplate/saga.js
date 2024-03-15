@@ -100,7 +100,8 @@ function* getImageGalleryWorker() {
 function* uploadImageGalleryWorker(action) {
 	try {
 		const data = action && action.payload;
-		yield uploadGallery(objectToFormData(data));
+		const formData = objectToFormData(data);
+		yield uploadGallery(formData);
 		yield put(uploadImageGallerySuccess());
 
 		showToastr({

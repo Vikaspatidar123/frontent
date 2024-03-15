@@ -109,7 +109,7 @@ const ProfilePage = ({ t }) => {
 		},
 		{
 			id: '2',
-			title: 'Site Keys',
+			title: 'Application',
 			component: (
 				<SiteConfig
 					details={siteConfigDetails}

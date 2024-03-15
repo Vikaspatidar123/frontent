@@ -47,7 +47,6 @@ const useImageGallery = () => {
 		const { initialstate } = values;
 		dispatch(
 			uploadImageGallery({
-				name: initialstate.name,
 				file: initialstate,
 			})
 		);

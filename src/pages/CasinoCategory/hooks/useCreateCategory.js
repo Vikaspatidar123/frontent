@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-expressions */
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import uuid from 'react-uuid';
 import { isEmpty } from 'lodash';
 import {
 	getInitialValues,
@@ -27,19 +26,16 @@ const useCreateCategory = () => {
 		isCreateCategoryLoading,
 		isEditCategoryLoading,
 		isEditCategorySuccess,
+		isCreateCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
-
-	const handleCallback = () => {
-		// setIsOpen(false);
-	};
 
 	const handleCreateCategory = (values) => {
 		dispatch(
 			createCasinoCategoryStart({
 				payload: {
 					...values,
+					uniqueId: uuid(),
 				},
-				handleCallback,
 			})
 		);
 	};
@@ -47,7 +43,7 @@ const useCreateCategory = () => {
 	const handleEditCategory = (values) => {
 		dispatch(
 			editCasinoCategoryStart({
-				data: { ...values, gameCategoryId: isEdit.selectedRow.gameCategoryId },
+				data: { ...values, categoryId: isEdit.selectedRow.id },
 			})
 		);
 	};
@@ -71,6 +67,10 @@ const useCreateCategory = () => {
 	useEffect(() => {
 		if (isEditCategorySuccess) setIsOpen(false);
 	}, [isEditCategorySuccess]);
+
+	useEffect(() => {
+		if (isCreateCategorySuccess) setIsOpen(false);
+	}, [isCreateCategorySuccess]);
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
@@ -170,7 +170,9 @@ const useCreateCategory = () => {
 			const hasFilledValues = Object.values(validation.values).some(
 				(value) => !isEmpty(value) && !isEmpty(value?.EN)
 			);
-			hasFilledValues && setShowModal(!showModal);
+			if (hasFilledValues) {
+				setShowModal(!showModal);
+			}
 		}
 		setIsOpen((prev) => !prev);
 	};

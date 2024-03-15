@@ -46,9 +46,13 @@ const createAggregator = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/aggregator`, data);
 
 const createCasinoProvider = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/provider`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}create-provider`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 const createReview = (data) =>
 	postRequest(
@@ -264,6 +268,24 @@ const requestDocument = (data) =>
 		data
 	);
 
+const editCasinoCategory = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-category`,
+		data
+	);
+
+const updateCategoryReOrder = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-category`,
+		data
+	);
+
+const editCasinoSubCategory = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-sub-category`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -313,4 +335,7 @@ export {
 	updateSportStatus,
 	updateLocationStatus,
 	requestDocument,
+	editCasinoCategory,
+	updateCategoryReOrder,
+	editCasinoSubCategory,
 };

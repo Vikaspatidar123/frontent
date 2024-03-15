@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 
 import 'react-image-lightbox/style.css';
 import ImageCell from '../../components/Common/ImageCell';
+import { selectedLanguage } from '../../constants/config';
 
 const CasinoProviderId = ({ value }) => (
 	<Link to="/#" className="text-body fw-bold">
 		{value ?? ''}
 	</Link>
 );
-const Name = ({ value }) => value?.EN ?? '';
+const Name = ({ value }) => value[selectedLanguage] ?? '';
 
 const ThumbnailUrl = ({ value }) => <ImageCell imgSrc={value} />;
 

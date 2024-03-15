@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
-	gameAggregatorId: defaultValue?.gameAggregatorId || '',
+	gameAggregatorId: defaultValue?.gameAggregatorId || null,
 	isActive: defaultValue?.isActive || false,
 	thumbnail: defaultValue?.thumbnail || '',
 });

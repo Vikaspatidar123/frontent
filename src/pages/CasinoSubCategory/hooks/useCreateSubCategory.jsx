@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { isEmpty } from 'lodash';
+import uuid from 'react-uuid';
 import {
 	getInitialValues,
 	staticFormFields,
@@ -13,6 +14,7 @@ import {
 	editCasinoSubCategoryStart,
 	getLanguagesStart,
 } from '../../../store/actions';
+import { selectedLanguage } from '../../../constants/config';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
@@ -29,6 +31,7 @@ const useCreateSubCategory = () => {
 		isCreateSubCategoryLoading,
 		isEditSubCategorySuccess,
 		isEditSubCategoryLoading,
+		isCreateSubCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const { casinoCategoryDetails, languageData } = useSelector(
 		(state) => state.CasinoManagementData
@@ -37,7 +40,7 @@ const useCreateSubCategory = () => {
 	const handleCreateSubCategory = (values) => {
 		dispatch(
 			createCasinoSubCategoryStart({
-				data: values,
+				data: { ...values, uniqueId: uuid() },
 			})
 		);
 	};
@@ -51,7 +54,7 @@ const useCreateSubCategory = () => {
 						typeof values.subcategoryImage === 'string'
 							? ''
 							: values.subcategoryImage,
-					casinoSubCategoryId: isEdit.selectedRow.gameSubCategoryId,
+					subCategoryId: isEdit.selectedRow.id,
 				},
 			})
 		);
@@ -111,9 +114,9 @@ const useCreateSubCategory = () => {
 		});
 	};
 
-	// useEffect(() => {
-	// 	setIsOpen(false);
-	// }, [casinoSubCategoryDetails?.count]);
+	useEffect(() => {
+		if (isCreateSubCategorySuccess) setIsOpen(false);
+	}, [isCreateSubCategorySuccess]);
 
 	useEffect(() => {
 		if (isEditSubCategorySuccess) setIsOpen(false);
@@ -130,9 +133,9 @@ const useCreateSubCategory = () => {
 				value: r.code,
 			}));
 			const categoryOptions = casinoCategoryDetails?.categories?.map((r) => ({
-				id: r.gameCategoryId,
-				optionLabel: r.name.EN,
-				value: r.gameCategoryId,
+				id: r.id,
+				optionLabel: r.name[selectedLanguage],
+				value: r.id,
 			}));
 			setFormFields([
 				{
@@ -150,7 +153,7 @@ const useCreateSubCategory = () => {
 					onDelete: onRemoveLanguage,
 				},
 				{
-					name: 'gameCategoryId',
+					name: 'categoryId',
 					label: 'Game Category',
 					fieldType: 'select',
 					optionList: categoryOptions,

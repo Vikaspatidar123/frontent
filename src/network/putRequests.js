@@ -21,24 +21,9 @@ const updateStatus = (data) =>
 const updateGlobalRegistration = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/global-registration`, data);
 
-const editCasinoCategory = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-category`,
-		data
-	);
-
 const editCasinoProvider = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-provider`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
-
-const editCasinoSubCategory = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-sub-category`,
 		data,
 		{
 			'Content-Type': 'multipart/form-data',
@@ -121,9 +106,6 @@ const addRestrictedItems = (data) =>
 		data
 	);
 
-const updateCategoryReOrder = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/order-category`, data);
-
 const updateBonusCall = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, data, {
 		'Content-Type': 'multipart/form-data',
@@ -172,9 +154,7 @@ export {
 	updateSiteConfiguration,
 	updateStatus,
 	updateGlobalRegistration,
-	editCasinoCategory,
 	editCasinoProvider,
-	editCasinoSubCategory,
 	editCasinoGames,
 	editBanners,
 	editBetSettings,
@@ -192,7 +172,6 @@ export {
 	detachOddsVariationApi,
 	updateCompanyOddApi,
 	addRestrictedItems,
-	updateCategoryReOrder,
 	updateBonusCall,
 	updateSubCategoryReOrder,
 	updateReorderGames,

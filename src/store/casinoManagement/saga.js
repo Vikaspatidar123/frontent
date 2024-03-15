@@ -90,15 +90,15 @@ import {
 	isCasinoFeaturedService,
 	addGamesToSubCategory,
 	casinoManagementToggle,
+	editCasinoCategory,
+	updateCategoryReOrder,
+	editCasinoSubCategory,
 } from '../../network/postRequests';
 
 import {
-	editCasinoCategory,
 	editCasinoGames,
 	editCasinoProvider,
-	editCasinoSubCategory,
 	// superAdminViewToggleStatus,
-	updateCategoryReOrder,
 	updateSubCategoryReOrder,
 	updateReorderGames,
 } from '../../network/putRequests';
@@ -320,7 +320,6 @@ function* editCasinoCategoryWorker(action) {
 function* createCasinoSubCategoryWorker(action) {
 	try {
 		const { data } = action && action.payload;
-		// yield createCasinoSubCategory(objectToFormData(data));
 		yield createCasinoSubCategory(data);
 
 		showToastr({
@@ -344,7 +343,7 @@ function* createCasinoSubCategoryWorker(action) {
 function* editCasinoSubCategoryWorker(action) {
 	try {
 		const { data } = action && action.payload;
-		yield editCasinoSubCategory(objectToFormData(data));
+		yield editCasinoSubCategory(data);
 
 		showToastr({
 			message: `Sub Category Updated Successfully`,

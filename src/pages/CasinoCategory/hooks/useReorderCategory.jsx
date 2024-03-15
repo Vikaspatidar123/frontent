@@ -5,6 +5,7 @@ import {
 	getCasinoCategoryDetailStart,
 	reorderCasinoCategoryStart,
 } from '../../../store/casinoManagement/actions';
+import { selectedLanguage } from '../../../constants/config';
 import { modules } from '../../../constants/permissions';
 
 const useReorderCategory = () => {
@@ -25,27 +26,30 @@ const useReorderCategory = () => {
 	}, []);
 
 	useEffect(() => {
-		if (casinoCategoryDetails) {
-			setState(casinoCategoryDetails);
+		if (casinoCategoryDetails?.categories) {
+			setState({
+				rows: casinoCategoryDetails?.categories,
+				count: casinoCategoryDetails?.categories?.length || 0,
+			});
 		}
 	}, [casinoCategoryDetails]);
 
 	const formattedState = useMemo(
 		() =>
-			state.rows.map((item) => ({
-				reorderId: item?.gameCategoryId,
-				name: item?.name?.EN,
+			state?.rows?.map((item) => ({
+				reorderId: item?.id,
+				name: item?.name[selectedLanguage],
 				isActive: item?.isActive,
 			})),
-		[state]
+		[state.rows]
 	);
 
 	const handleSave = () => {
 		const row = [];
-		state.rows.map((list) => row.push(list.gameCategoryId));
+		state?.rows?.map((list) => row.push(`${list.id}`));
 		dispatch(
 			reorderCasinoCategoryStart({
-				data: { order: row },
+				data: { categoryIds: row },
 				navigate,
 			})
 		);

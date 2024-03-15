@@ -6,7 +6,7 @@ const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
 	isActive: defaultValue?.isActive || false,
 	subcategoryImage: defaultValue?.subcategoryImage || '',
-	gameCategoryId: defaultValue?.gameCategoryId || '',
+	categoryId: defaultValue?.casinoCategoryId || '',
 });
 
 const validateName = (name) => {
@@ -36,7 +36,7 @@ const validationSchema = (name) =>
 					  (value &&
 							['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
 			),
-		gameCategoryId: Yup.string().required('Game Category Required'),
+		categoryId: Yup.string().required('Game Category Required'),
 	});
 
 const staticFormFields = [
@@ -86,14 +86,14 @@ const staticFiltersFields = () => [
 const filterValues = () => ({
 	isActive: null,
 	search: '',
-	gameCategoryId: null,
+	categoryId: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
 		isActive: Yup.string().nullable(),
 		search: Yup.string().nullable(),
-		gameCategoryId: Yup.string().nullable(),
+		categoryId: Yup.string().nullable(),
 	});
 
 export {

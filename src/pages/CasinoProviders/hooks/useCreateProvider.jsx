@@ -10,7 +10,7 @@ import {
 import {
 	createCasinoProvidersStart,
 	editCasinoProvidersStart,
-	getAggregatorsList,
+	// getAggregatorsList,
 	updateCasinoStatusStart,
 } from '../../../store/actions';
 
@@ -22,10 +22,10 @@ import {
 } from '../CasinoProvidersListCol';
 import ActionButtons from '../ActionButtons';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import { dataURLtoBlob } from '../../../utils/helpers';
+import { selectedLanguage } from '../../../constants/config';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
@@ -86,14 +86,14 @@ const useCreateProvider = () => {
 		onSubmitEntry: isEdit.open ? handleEditProvider : handleCreateProvider,
 	});
 
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		dispatch(getAggregatorsList({}));
-		setIsOpen((prev) => !prev);
-		validation.resetForm(getInitialValues());
-		setHeader('Add Provider');
-		setIsEdit({ open: false, selectedRow: '' });
-	};
+	// const handleAddClick = (e) => {
+	// 	e.preventDefault();
+	// 	dispatch(getAggregatorsList({}));
+	// 	setIsOpen((prev) => !prev);
+	// 	validation.resetForm(getInitialValues());
+	// 	setHeader('Add Provider');
+	// 	setIsEdit({ open: false, selectedRow: '' });
+	// };
 
 	const onClickEdit = (selectedRow) => {
 		setIsEdit({ open: true, selectedRow });
@@ -116,7 +116,7 @@ const useCreateProvider = () => {
 		if (aggregatorsData?.aggregators?.length) {
 			const aggOptions = aggregatorsData.aggregators.map((r) => ({
 				id: r.id,
-				optionLabel: r.name,
+				optionLabel: r.name[selectedLanguage],
 				value: r.id,
 			}));
 
@@ -135,13 +135,13 @@ const useCreateProvider = () => {
 	}, [aggregatorsData]);
 
 	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleAddClick,
-			link: '#!',
-			module: modules.casinoManagement,
-			operation: 'C',
-		},
+		// {
+		// 	label: 'Create',
+		// 	handleClick: handleAddClick,
+		// 	link: '#!',
+		// 	module: modules.casinoManagement,
+		// 	operation: 'C',
+		// },
 	]);
 
 	useEffect(() => {
