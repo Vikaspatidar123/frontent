@@ -61,14 +61,9 @@ const UserDocsList = ({ userId }) => {
 	}, [userDocuments]);
 
 	const formattedDocumentLabels = useMemo(() => {
-		const formattedValues = [];
+		let formattedValues = [];
 		if (documentLabels) {
-			documentLabels?.documentLabels?.map((doc) =>
-				formattedValues.push({
-					...doc,
-					name: doc?.documentLabel?.name,
-				})
-			);
+			formattedValues = [...(documentLabels?.documentLabels || [])];
 			if (
 				docLabels &&
 				docLabels.length &&
@@ -105,17 +100,12 @@ const UserDocsList = ({ userId }) => {
 		}
 	}, [docLabels]);
 
-	const handleMarkAsRequired = ({
-		labelName,
-		documentLabelId,
-		isRequested,
-	}) => {
+	const handleMarkAsRequired = ({ documentLabelId, reRequested }) => {
 		dispatch(
 			markDocumentRequired({
-				labelName,
 				documentLabelId,
-				userId: parseInt(userId, 10),
-				isRequested,
+				userId,
+				reRequested,
 			})
 		);
 	};
@@ -197,12 +187,12 @@ const UserDocsList = ({ userId }) => {
 				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 
-			// {
-			// 	Header: 'Action',
-			// 	Cell: ({ cell }) => (
-			// 		<ActionButtons cell={cell} handleStatus={handleMarkAsRequired} />
-			// 	),
-			// },
+			{
+				Header: 'Action',
+				Cell: ({ cell }) => (
+					<ActionButtons cell={cell} handleStatus={handleMarkAsRequired} />
+				),
+			},
 		],
 		[]
 	);
@@ -239,7 +229,7 @@ const UserDocsList = ({ userId }) => {
 
 	return (
 		<Container fluid>
-			{formattedDocumentLabels?.length && formattedUserDocuments?.length ? (
+			{formattedDocumentLabels?.length || formattedUserDocuments?.length ? (
 				<>
 					<Card className="p-2">
 						<TableContainer

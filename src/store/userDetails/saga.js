@@ -95,6 +95,7 @@ import {
 	disableUserCall,
 	issueBonus,
 	removeUserTags,
+	requestDocument,
 	resetDepositLimitCall,
 	resetPasswordEmail,
 	resetUserLimitCall,
@@ -106,9 +107,8 @@ import {
 import { showToastr } from '../../utils/helpers';
 import {
 	cancelBonus,
-	cancelDocumentRequest,
+	// cancelDocumentRequest,
 	markUserAsInternal,
-	requestDocument,
 	updateComment,
 	verifyUserDocument,
 } from '../../network/putRequests';
@@ -466,9 +466,9 @@ function* markDocumentRequiredWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		if (payload.isRequested) {
-			yield requestDocument(payload);
-		} else yield cancelDocumentRequest(payload);
+		// if (payload.isRequested) {
+		yield requestDocument(payload);
+		// } else yield cancelDocumentRequest(payload);
 		yield put(markDocumentRequiredSuccess(true));
 		showToastr({
 			message: payload.isRequested

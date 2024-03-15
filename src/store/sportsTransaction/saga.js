@@ -12,9 +12,7 @@ function* fetchSportsTransaction(action) {
 	try {
 		const payload = clearEmptyProperty(action.payload);
 		const response = yield call(getSportsTransaction, payload);
-		yield put(
-			fetchSportsTransactionSuccess(response?.data?.data?.transactionDetail)
-		);
+		yield put(fetchSportsTransactionSuccess(response?.data?.data));
 	} catch (error) {
 		yield put(fetchSportsTransactionFail(error));
 	}

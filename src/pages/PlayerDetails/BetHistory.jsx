@@ -5,16 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
-import {
-	ActionTypes,
-	Amount,
-	BonusMoney,
-	CreatedAt,
-	Email,
-	GameName,
-	Id,
-	Status,
-} from './TableCol';
+import { KeyValueCell, Status } from './TableCol';
 import { fetchCasinoTransactionsStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
 import Filters from '../../components/Common/Filters';
@@ -33,20 +24,14 @@ const BetHistory = ({ userId }) => {
 		if (casinoTransactions) {
 			casinoTransactions?.casinoTransactions?.map((txn) =>
 				formattedValues.push({
-					casinoTransactionId: txn?.casinoTransactionId,
-					userEmail: txn?.user?.email,
-					gameIdentifier: txn?.gameIdentifier,
-					actionType: txn?.actionType,
-					amountWithCurr: `${txn?.amount} ${txn?.currencyCode}`,
-					bonusAmt: `${txn?.nonCashAmount} ${txn?.currencyCode}`,
-					statusText:
-						txn?.status === 0
-							? 'Pending'
-							: txn?.status === 1
-							? 'Completed'
-							: txn?.status === 2
-							? 'FAILED'
-							: 'ROLLBACK',
+					casinoTransactionId: txn?.transactionId,
+					gameId: txn?.gameId,
+					amount: txn?.ledger?.amount,
+					currencyCode: txn?.wallet?.currency?.code,
+					conversionRate: txn?.conversionRate,
+					actionType: txn?.ledger?.type,
+					purpose: txn?.ledger?.purpose,
+					status: txn?.status,
 					createdAt: getDateTime(txn?.createdAt),
 				})
 			);
@@ -77,49 +62,55 @@ const BetHistory = ({ userId }) => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'Id',
+				Header: 'Transaction Id',
 				accessor: 'casinoTransactionId',
 				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'User Email',
-				accessor: 'userEmail',
+				Header: 'Game Id',
+				accessor: 'gameId',
 				filterable: true,
-				Cell: ({ cell }) => <Email value={cell.value} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'Game Name',
-				accessor: 'gameIdentifier',
+				Header: 'Amount',
+				accessor: 'amount',
 				filterable: true,
-				Cell: ({ cell }) => <GameName value={cell.value} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+			},
+			{
+				Header: 'Currency',
+				accessor: 'currencyCode',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+			},
+			{
+				Header: 'Conversion Rate',
+				accessor: 'conversionRate',
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'Action Type',
 				accessor: 'actionType',
 				filterable: true,
-				Cell: ({ cell }) => <ActionTypes value={cell.value} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'Amount',
-				accessor: 'amountWithCurr',
+				Header: 'Purpose',
+				accessor: 'purpose',
 				filterable: true,
-				Cell: ({ cell }) => <Amount value={cell.value} />,
-			},
-			{
-				Header: 'Bonus Money',
-				accessor: 'bonusAmt',
-				Cell: ({ cell }) => <BonusMoney value={cell.value} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'Status',
-				accessor: 'statusText',
+				accessor: 'status',
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'Date',
 				accessor: 'createdAt',
-				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 		],
 		[]
@@ -165,7 +156,7 @@ const BetHistory = ({ userId }) => {
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={formattedCasinoTransactions?.length || 0}
+						totalPageCount={casinoTransactions?.totalPages || 0}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}

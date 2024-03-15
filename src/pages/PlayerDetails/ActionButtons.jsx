@@ -5,9 +5,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const ActionButtons = ({ cell, handleStatus }) => {
-	const active = cell?.row?.original?.isRequired;
-	const documentLabelId = cell?.row?.original?.documentLabelId;
-	const name = cell?.row?.original?.name;
+	const active = cell?.row?.original?.required;
+	const documentLabelId = cell?.row?.original?.id;
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -20,7 +19,7 @@ const ActionButtons = ({ cell, handleStatus }) => {
 							e.preventDefault();
 							handleStatus({
 								documentLabelId,
-								isRequested: false,
+								reRequested: false,
 							});
 						}}
 					>
@@ -37,8 +36,7 @@ const ActionButtons = ({ cell, handleStatus }) => {
 							e.preventDefault();
 							handleStatus({
 								documentLabelId,
-								isRequested: true,
-								labelName: name,
+								reRequested: true,
 							});
 						}}
 					>

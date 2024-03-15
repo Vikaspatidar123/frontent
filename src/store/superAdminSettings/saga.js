@@ -74,7 +74,7 @@ function* getAllSABannersWorker(action) {
 function* getDocumentLabelWorker(action) {
 	try {
 		const { userId } = action && action.payload;
-		const { data } = yield getDocumentLabelCall(userId);
+		const { data } = yield getDocumentLabelCall({ userId });
 		yield put(getDocumentLabelSuccess(data?.data));
 	} catch (e) {
 		yield put(getDocumentLabelFail(e?.response?.data?.errors[0]?.description));
