@@ -43,6 +43,7 @@ import {
 	SIGNUPS,
 } from '../DemographicReport/DemoGraphCol';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+import { TABS } from '../constant';
 
 const useDashboardView = () => {
 	const dispatch = useDispatch();
@@ -99,9 +100,9 @@ const useDashboardView = () => {
 	const [gameReportDateOption, setGameReportDateOption] = useState('last7days');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
 
-	const [activeKpiSummTab, setActiveKpiSummTab] = useState('sport');
-	const [activeKpiReportTab, setActiveKpiReportTab] = useState('game');
-	const [activeGameReportTab, setActiveGameReportTab] = useState('game');
+	const [activeKpiSummTab, setActiveKpiSummTab] = useState(TABS.SPORT);
+	const [activeKpiReportTab, setActiveKpiReportTab] = useState(TABS.GAME);
+	const [activeGameReportTab, setActiveGameReportTab] = useState(TABS.GAME);
 
 	const fetchData = () => {
 		dispatch(
@@ -227,13 +228,6 @@ const useDashboardView = () => {
 			};
 			const labels = [];
 			const series = [];
-			// livePlayerData?.deviceLoggedIn
-			// 	?.filter((d) => d.device_type !== null)
-			// 	.map((d) => {
-			// 		labels.push(d.device_type);
-			// 		series.push(Number(d.count));
-			// 		return true;
-			// 	});
 			labels.push('Total logged in players');
 			labels.push('Total players');
 			series.push(Number(livePlayerData?.totalLoggedInPlayers));
@@ -292,12 +286,6 @@ const useDashboardView = () => {
 				filterable: true,
 				// Cell: ({ cell }) => <Role cell={cell?.value || ''} />,
 			},
-			// {
-			// 	Header: 'CUSTOM DATE',
-			// 	accessor: 'customDate',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <CustomDate cell={cell?.value || ''} />,
-			// },
 			{
 				Header: 'DELTA',
 				accessor: 'delta',
@@ -315,53 +303,65 @@ const useDashboardView = () => {
 					Header: 'NAME',
 					accessor: 'name',
 					filterable: true,
-					Cell: ({ cell }) => <ProviderName cell={cell?.value || '0'} />,
+					Cell: ({ cell }) => <ProviderName cell={cell?.value || '-'} />,
 				},
 				{
 					Header: 'GGR',
-					accessor: 'GGR',
+					accessor: 'ggr',
+					filterable: true,
+					Cell: ({ cell }) => <GGR cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'OLD GGR',
+					accessor: 'oldGgr',
 					filterable: true,
 					Cell: ({ cell }) => <GGR cell={cell?.value || '0'} />,
 				},
 				{
 					Header: 'DELTA GGR',
-					accessor: 'deltaGGR',
+					accessor: 'deltaGgr',
 					filterable: true,
 					Cell: ({ cell }) => <DELTAGGR cell={cell?.value || '0'} />,
 				},
 				{
-					Header: 'REAL BET',
-					accessor: 'betAmount',
+					Header: 'REAL BET AMOUNT',
+					accessor: 'totalRealBetAmount',
 					filterable: true,
 					Cell: ({ cell }) => <REALBET cell={cell?.value || '0'} />,
 				},
 				{
-					Header: 'REAL WIN',
-					accessor: 'winningAmount',
+					Header: 'REAL WIN AMOUNT',
+					accessor: 'totalRealWinAmount',
 					filterable: true,
 					Cell: ({ cell }) => <REALWIN cell={cell?.value || '0'} />,
 				},
 				{
-					Header: 'BONUS Bet',
-					accessor: 'bonusBetAmount',
+					Header: 'BONUS BET AMOUNT',
+					accessor: 'totalBonusBetAmount',
 					disableFilters: true,
 					Cell: ({ cell }) => <BONUSWIN cell={cell?.value || '0'} />,
 				},
 				{
-					Header: 'BONUS WIN',
-					accessor: 'bonusWinningAmount',
+					Header: 'BONUS WIN AMOUNT',
+					accessor: 'totalBonusWinAmount',
 					disableFilters: true,
 					Cell: ({ cell }) => <BONUSWIN cell={cell?.value || '0'} />,
 				},
 				{
 					Header: 'BONUS GGR',
-					accessor: 'bonusGGR',
+					accessor: 'bonusGgr',
 					disableFilters: true,
 					Cell: ({ cell }) => <BONUSGGR cell={cell?.value || '0'} />,
 				},
 				{
 					Header: 'TOTAL BETS',
-					accessor: 'totalBetAmount',
+					accessor: 'totalBets',
+					disableFilters: true,
+					Cell: ({ cell }) => <TOTALBETS cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'TOTAL OLD BETS',
+					accessor: 'totalOldBets',
 					disableFilters: true,
 					Cell: ({ cell }) => <TOTALBETS cell={cell?.value || '0'} />,
 				},
@@ -370,6 +370,12 @@ const useDashboardView = () => {
 					accessor: 'deltaTotalBetAmount',
 					disableFilters: true,
 					Cell: ({ cell }) => <DELTATOTALBETS cell={cell?.value || '0'} />,
+				},
+				{
+					Header: 'TOTAL BET AMOUNT',
+					accessor: 'totalBetAmount',
+					filterable: true,
+					Cell: ({ cell }) => <REALBET cell={cell?.value || '0'} />,
 				},
 			];
 		}

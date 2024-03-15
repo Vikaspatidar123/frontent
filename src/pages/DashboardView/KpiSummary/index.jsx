@@ -22,6 +22,7 @@ import { CSVLink } from 'react-csv';
 import moment from 'moment';
 import TableContainer from '../../../components/Common/TableContainer';
 import { tableCustomClass } from '../../../constants/config';
+import { TABS } from '../constant';
 
 const KpiSummary = (props) => {
 	const {
@@ -104,9 +105,9 @@ const KpiSummary = (props) => {
 						<NavItem>
 							<NavLink
 								className={classnames({
-									active: activeKpiSummTab === 'sport',
+									active: activeKpiSummTab === TABS.SPORT,
 								})}
-								onClick={() => setActiveKpiSummTab('sport')}
+								onClick={() => setActiveKpiSummTab(TABS.SPORT)}
 							>
 								Sports
 							</NavLink>
@@ -114,23 +115,13 @@ const KpiSummary = (props) => {
 						<NavItem>
 							<NavLink
 								className={classnames({
-									active: activeKpiSummTab === 'casino',
+									active: activeKpiSummTab === TABS.CASINO,
 								})}
-								onClick={() => setActiveKpiSummTab('casino')}
+								onClick={() => setActiveKpiSummTab(TABS.CASINO)}
 							>
 								Casino
 							</NavLink>
 						</NavItem>
-						{/* <NavItem>
-							<NavLink
-								className={classnames({
-									active: activeKpiSummTab === 'banking',
-								})}
-								onClick={() => setActiveKpiSummTab('banking')}
-							>
-								Banking
-							</NavLink>
-						</NavItem> */}
 					</Nav>
 					<TabContent
 						activeTab={activeKpiSummTab}

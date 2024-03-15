@@ -12,3 +12,10 @@ export const dateConstants = [
 	{ label: 'Previous Month', value: 'previousmonth' },
 	{ label: 'Previous Year', value: 'previousyear' },
 ];
+
+export const TABS = {
+	GAME: 'game',
+	PROVIDER: 'provider',
+	SPORT: 'sport',
+	CASINO: 'casino',
+};

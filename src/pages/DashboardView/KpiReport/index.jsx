@@ -20,7 +20,7 @@ import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/TableContainer';
 // import { tableCustomClass } from '../../../constants/config';
-import { dateConstants } from '../constant';
+import { TABS, dateConstants } from '../constant';
 import { tableCustomClass } from '../../../constants/config';
 
 const KpiReport = (props) => {
@@ -87,10 +87,10 @@ const KpiReport = (props) => {
 						<NavItem>
 							<NavLink
 								className={classnames({
-									active: activeKpiReportTab === 'game',
+									active: activeKpiReportTab === TABS.GAME,
 								})}
 								onClick={() => {
-									setActiveKpiReportTab('game');
+									setActiveKpiReportTab(TABS.GAME);
 								}}
 							>
 								GAME
@@ -99,10 +99,10 @@ const KpiReport = (props) => {
 						<NavItem>
 							<NavLink
 								className={classnames({
-									active: activeKpiReportTab === 'provider',
+									active: activeKpiReportTab === TABS.PROVIDER,
 								})}
 								onClick={() => {
-									setActiveKpiReportTab('provider');
+									setActiveKpiReportTab(TABS.PROVIDER);
 								}}
 							>
 								PROVIDER

@@ -312,19 +312,19 @@ const getSiteDetailApi = () =>
 
 const getGameReports = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}game`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-game-report`,
 		payload
 	);
 
 const getKpiSummary = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}kpi-summary`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-kpi-summary`,
 		payload
 	);
 
 const getKpiReport = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}kpi`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-kpi-report`,
 		payload
 	);
 

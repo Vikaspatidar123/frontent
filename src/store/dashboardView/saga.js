@@ -81,7 +81,7 @@ function* getKpiData(action) {
 	try {
 		const payload = action && action?.payload;
 		const { data } = yield getKpiReport(payload);
-		yield put(getKpiReportSuccess(data?.data?.KPIReport));
+		yield put(getKpiReportSuccess(data?.data?.KpiReport));
 	} catch (e) {
 		yield put(
 			getKpiReportFail(e?.response?.data?.errors[0]?.description || e.message)
