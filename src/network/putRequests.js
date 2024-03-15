@@ -113,13 +113,13 @@ const updateBonusCall = (data) =>
 
 const updateSubCategoryReOrder = (data) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino/order-sub-category`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-sub-category`,
 		data
 	);
 
 const updateReorderGames = ({ data }) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino/order-casino-games`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-games`,
 		data
 	);
 

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,7 +10,6 @@ import {
 	getGameReportStart,
 	getKpiSummaryStart,
 } from '../../../store/dashboardView/actions';
-import { formatDateYMD, getDateDaysAgo } from '../../../utils/helpers';
 import { countryFilter } from '../../../utils/countryFilter';
 import { Delta, RowName, Today, Yesterday } from '../KpiSummary/KpiListCol';
 import {
@@ -30,7 +28,6 @@ import {
 	IdValue,
 	NAME,
 	NUMBERFPLAYER,
-	NUMBEROFROUNDS,
 	PAYOUT,
 	TOTALBETSGAME,
 	TOTALWINS,
@@ -85,18 +82,10 @@ const useDashboardView = () => {
 		return [];
 	}, [kPISummary]);
 
-	const [demoGraphState] = useState([
-		{
-			startDate: getDateDaysAgo(0),
-			endDate: new Date(),
-			key: 'selection',
-		},
-	]);
 	const [loggedInOptions, setLoggedInOptions] = useState({});
 	const [demoDateOptions, setDemoDateOptions] = useState('yeartodate');
-	const [kpiSummaryStartDate, setKpiSummaryStartDate] = useState('');
-	const [kpiSummaryEndDate, setKpiSummaryEndDate] = useState('');
 	const [kpiReportDateOption, setKpiReportDateOption] = useState('today');
+	const [kpiSummaryDate, setKpiSummaryDate] = useState('today');
 	const [gameReportDateOption, setGameReportDateOption] = useState('last7days');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
 
@@ -107,8 +96,6 @@ const useDashboardView = () => {
 	const fetchData = () => {
 		dispatch(
 			getDemographicStart({
-				startDate: formatDateYMD(demoGraphState.map((a) => a.startDate)),
-				endDate: formatDateYMD(demoGraphState.map((a) => a.endDate)),
 				dateOptions: demoDateOptions,
 			})
 		);
@@ -118,8 +105,7 @@ const useDashboardView = () => {
 		dispatch(
 			getKpiSummaryStart({
 				tab: activeKpiSummTab,
-				startDate: kpiSummaryStartDate,
-				endDate: kpiSummaryEndDate,
+				dateOptions: kpiSummaryDate,
 			})
 		);
 	};
@@ -174,7 +160,7 @@ const useDashboardView = () => {
 		if (activeKpiSummTab) {
 			loadKPISummary();
 		}
-	}, [activeKpiSummTab, kpiSummaryStartDate, kpiSummaryEndDate]);
+	}, [activeKpiSummTab, kpiSummaryDate]);
 
 	useEffect(() => {
 		if (activeKpiReportTab) {
@@ -184,7 +170,6 @@ const useDashboardView = () => {
 
 	useEffect(() => {
 		dispatch(getLivePlayerInfoStart());
-		fetchData();
 		return () => {
 			// Dispatch an action to reset Redux state here
 			dispatch({ type: 'RESET_DASHBOARD_STATE' });
@@ -228,7 +213,7 @@ const useDashboardView = () => {
 			};
 			const labels = [];
 			const series = [];
-			labels.push('Total logged in players');
+			labels.push('Logged in players');
 			labels.push('Total players');
 			series.push(Number(livePlayerData?.totalLoggedInPlayers));
 			series.push(Number(livePlayerData?.totalPlayers));
@@ -397,27 +382,27 @@ const useDashboardView = () => {
 				filterable: true,
 				Cell: ({ cell }) => <NAME cell={cell?.value || ''} />,
 			},
+			// {
+			// 	Header: 'NUMBER OF ROUNDS',
+			// 	accessor: 'numberOfRounds',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <NUMBEROFROUNDS cell={cell?.value || ''} />,
+			// },
 			{
-				Header: 'NUMBER OF ROUNDS',
-				accessor: 'numberOfRounds',
-				filterable: true,
-				Cell: ({ cell }) => <NUMBEROFROUNDS cell={cell?.value || ''} />,
-			},
-			{
-				Header: 'NUMBER OF PLAYER',
-				accessor: 'numberOfPlayer',
+				Header: 'TOTAL PLAYER',
+				accessor: 'totalPlayers',
 				filterable: true,
 				Cell: ({ cell }) => <NUMBERFPLAYER cell={cell?.value || ''} />,
 			},
 			{
-				Header: 'TOTAL BETS',
-				accessor: 'totalBets',
+				Header: 'TOTAL BETS AMOUNT',
+				accessor: 'totalBetAmount',
 				filterable: true,
 				Cell: ({ cell }) => <TOTALBETSGAME cell={cell?.value || ''} />,
 			},
 			{
-				Header: 'TOTAL WINS',
-				accessor: 'totalWins',
+				Header: 'TOTAL WIN AMOUNT',
+				accessor: 'totalWinAmount',
 				disableFilters: true,
 				Cell: ({ cell }) => <TOTALWINS cell={cell?.value || ''} />,
 			},
@@ -498,10 +483,6 @@ const useDashboardView = () => {
 		formattedKpiSummary,
 		isKpiSummaryLoading,
 		isGameReportLoading,
-		kpiSummaryStartDate,
-		setKpiSummaryStartDate,
-		kpiSummaryEndDate,
-		setKpiSummaryEndDate,
 		kpiReportDateOption,
 		setKpiReportDateOption,
 		gameReportDateOption,
@@ -510,6 +491,8 @@ const useDashboardView = () => {
 		loadKPISummary,
 		loadKPIReport,
 		loadGameReport,
+		kpiSummaryDate,
+		setKpiSummaryDate,
 	};
 };
 

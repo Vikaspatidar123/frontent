@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Flatpickr from 'react-flatpickr';
 import {
 	Col,
 	Card,
@@ -11,7 +10,6 @@ import {
 	NavLink,
 	TabContent,
 	TabPane,
-	InputGroup,
 	UncontrolledTooltip,
 } from 'reactstrap';
 import classnames from 'classnames';
@@ -19,10 +17,9 @@ import classnames from 'classnames';
 // Simple bar
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
-import moment from 'moment';
 import TableContainer from '../../../components/Common/TableContainer';
 import { tableCustomClass } from '../../../constants/config';
-import { TABS } from '../constant';
+import { TABS, dateConstants } from '../constant';
 
 const KpiSummary = (props) => {
 	const {
@@ -32,10 +29,8 @@ const KpiSummary = (props) => {
 		kPISummary,
 		formattedKpiSummary,
 		isKpiSummaryLoading,
-		kpiSummaryStartDate,
-		kpiSummaryEndDate,
-		setKpiSummaryStartDate,
-		setKpiSummaryEndDate,
+		kpiSummaryDate,
+		setKpiSummaryDate,
 		loadKPISummary,
 	} = props;
 	const lastDate = new Date();
@@ -48,29 +43,19 @@ const KpiSummary = (props) => {
 				<CardBody>
 					<div className="float-end">
 						<div className="d-flex justify-content-between align-items-center">
-							<InputGroup>
-								<Flatpickr
-									className="form-control dashboard-range-picker"
-									value={[kpiSummaryStartDate, kpiSummaryEndDate]}
-									placeholder="Select Date"
-									options={{
-										mode: 'range',
-										dateFormat: 'Y-m-d',
-										minDate: moment().subtract(100, 'years').utc().toDate(),
-										maxDate: moment().utc().startOf('day').toDate(),
-									}}
-									onChange={(date) => {
-										setKpiSummaryStartDate(date[0]);
-										setKpiSummaryEndDate(date[1]);
-									}}
-									monthsShown={2}
-								/>
-								<div className="input-group-append">
-									<span className="input-group-text">
-										<i className="mdi mdi-clock-outline" />
-									</span>
-								</div>
-							</InputGroup>
+							<select
+								value={kpiSummaryDate}
+								className="form-select ms-2"
+								onChange={(e) => {
+									setKpiSummaryDate(e.target.value);
+								}}
+							>
+								{dateConstants?.map((item) => (
+									<option value={item.value} key={item.value}>
+										{item.label}
+									</option>
+								))}
+							</select>
 							<CSVLink
 								data={formattedKpiSummary || []}
 								filename="downloaded_data.csv"
@@ -201,10 +186,8 @@ KpiSummary.propTypes = {
 	kPISummary: PropTypes.arrayOf.isRequired,
 	formattedKpiSummary: PropTypes.arrayOf.isRequired,
 	isKpiSummaryLoading: PropTypes.bool.isRequired,
-	kpiSummaryStartDate: PropTypes.string.isRequired,
-	kpiSummaryEndDate: PropTypes.string.isRequired,
-	setKpiSummaryStartDate: PropTypes.func.isRequired,
-	setKpiSummaryEndDate: PropTypes.func.isRequired,
+	kpiSummaryDate: PropTypes.string.isRequired,
+	setKpiSummaryDate: PropTypes.func.isRequired,
 	loadKPISummary: PropTypes.func.isRequired,
 };
 

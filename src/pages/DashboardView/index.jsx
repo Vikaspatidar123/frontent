@@ -57,10 +57,8 @@ const DashboardView = ({ t }) => {
 		formattedKpiSummary,
 		isKpiSummaryLoading,
 		isGameReportLoading,
-		kpiSummaryStartDate,
-		setKpiSummaryStartDate,
-		kpiSummaryEndDate,
-		setKpiSummaryEndDate,
+		kpiSummaryDate,
+		setKpiSummaryDate,
 		kpiReportDateOption,
 		setKpiReportDateOption,
 		gameReportDateOption,
@@ -116,10 +114,8 @@ const DashboardView = ({ t }) => {
 									kPISummary={kPISummary}
 									formattedKpiSummary={formattedKpiSummary}
 									isKpiSummaryLoading={isKpiSummaryLoading}
-									kpiSummaryStartDate={kpiSummaryStartDate}
-									setKpiSummaryStartDate={setKpiSummaryStartDate}
-									kpiSummaryEndDate={kpiSummaryEndDate}
-									setKpiSummaryEndDate={setKpiSummaryEndDate}
+									kpiSummaryDate={kpiSummaryDate}
+									setKpiSummaryDate={setKpiSummaryDate}
 									loadKPISummary={loadKPISummary}
 								/>
 							</Suspense>

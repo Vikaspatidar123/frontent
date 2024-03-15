@@ -1,48 +1,57 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'reactstrap';
 import ReportList from './ReportList';
 
 const Reports = (props) => {
 	const { livePlayerData, isLivePlayerLoading } = props;
+
+	const reportList = useMemo(
+		() => [
+			{
+				title: 'Today GGR',
+				description: `€ ${
+					livePlayerData.todayTotalCasinoGGR +
+						livePlayerData.todayTotalSportsbookGGR || 0
+				}`,
+				iconClass: 'bx bxs-dollar-circle',
+				reportClass: 'reportList1',
+			},
+			{
+				title: 'Today Players',
+				description: `€ ${livePlayerData.totalPlayers || 0}`,
+				iconClass: 'bx bxs-user-plus',
+				reportClass: 'reportList2',
+			},
+			{
+				title: 'Total registrations',
+				description: `€ ${livePlayerData.totalRegistrationToday || 0}`,
+				iconClass: 'bx bxs-contact',
+				reportClass: 'reportList3',
+			},
+			{
+				title: 'Deposit Conv. Rate',
+				description: `€ ${livePlayerData.depositConvRate || 0}`,
+				iconClass: 'bx bxs-credit-card',
+				reportClass: 'reportList4',
+			},
+		],
+		[livePlayerData, isLivePlayerLoading]
+	);
+
 	return (
 		<Row>
-			<Col md="6" lg="6" xl="3">
-				<ReportList
-					title="Today GGR"
-					description={`€ ${livePlayerData.todayTotalGGR || 0}`}
-					iconClass="bx bxs-dollar-circle"
-					isLoading={isLivePlayerLoading}
-					reportClass="reportList1"
-				/>
-			</Col>
-			<Col md="6" lg="6" xl="3">
-				<ReportList
-					title="Total Players"
-					description={`${livePlayerData.totalPlayers || 0}`}
-					iconClass="bx bxs-user-plus"
-					isLoading={isLivePlayerLoading}
-					reportClass="reportList2"
-				/>
-			</Col>
-			<Col md="6" lg="6" xl="3">
-				<ReportList
-					title="Registration Rate"
-					description={`€ ${livePlayerData.registrationConvRate || 0} %`}
-					iconClass="bx bxs-contact"
-					isLoading={isLivePlayerLoading}
-					reportClass="reportList3"
-				/>
-			</Col>
-			<Col md="6" lg="6" xl="3">
-				<ReportList
-					title="Deposite Conv. Rate"
-					description={`${livePlayerData.depositConvRate || 0}  %`}
-					iconClass="bx bxs-credit-card"
-					isLoading={isLivePlayerLoading}
-					reportClass="reportList4"
-				/>
-			</Col>
+			{reportList.map((report) => (
+				<Col md="6" lg="6" xl="3">
+					<ReportList
+						title={report.title}
+						description={report.description}
+						iconClass={report.iconClass}
+						isLoading={isLivePlayerLoading}
+						reportClass={report.reportClass}
+					/>
+				</Col>
+			))}
 		</Row>
 	);
 };

@@ -8,6 +8,7 @@ import {
 	getCasinoSubCategoryDetailStart,
 	reorderCasinoSubCategoryStart,
 } from '../../../store/actions';
+import { selectedLanguage } from '../../../constants/config';
 
 const useReorderSubCategory = () => {
 	const dispatch = useDispatch();
@@ -29,8 +30,11 @@ const useReorderSubCategory = () => {
 	}, []);
 
 	useEffect(() => {
-		if (casinoSubCategoryDetails) {
-			setState(casinoSubCategoryDetails);
+		if (casinoSubCategoryDetails?.subCategories) {
+			setState({
+				rows: casinoSubCategoryDetails?.subCategories,
+				count: casinoSubCategoryDetails?.subCategories?.length,
+			});
 		}
 	}, [casinoSubCategoryDetails]);
 
@@ -38,10 +42,7 @@ const useReorderSubCategory = () => {
 		if (selectedCategory) {
 			dispatch(
 				getCasinoSubCategoryDetailStart({
-					perPage: '',
-					page: '',
-					search: '',
-					gameCategoryId: selectedCategory,
+					categoryId: selectedCategory,
 				})
 			);
 		}
@@ -50,8 +51,8 @@ const useReorderSubCategory = () => {
 	const formattedState = useMemo(
 		() =>
 			state.rows.map((item) => ({
-				reorderId: item?.gameSubCategoryId,
-				name: item?.name?.EN,
+				reorderId: item?.id,
+				name: item?.name[selectedLanguage],
 				isActive: item?.isActive,
 			})),
 		[state]
@@ -62,7 +63,7 @@ const useReorderSubCategory = () => {
 		state.rows.map((list) => row.push(list.gameSubCategoryId));
 		dispatch(
 			reorderCasinoSubCategoryStart({
-				data: { order: row, gameCategoryId: Number(selectedCategory) },
+				data: { order: row, categoryId: Number(selectedCategory) },
 				navigate,
 			})
 		);
