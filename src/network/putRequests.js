@@ -111,12 +111,6 @@ const updateBonusCall = (data) =>
 		'Content-Type': 'multipart/form-data',
 	});
 
-const updateSubCategoryReOrder = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-sub-category`,
-		data
-	);
-
 const updateReorderGames = ({ data }) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-games`,
@@ -173,7 +167,6 @@ export {
 	updateCompanyOddApi,
 	addRestrictedItems,
 	updateBonusCall,
-	updateSubCategoryReOrder,
 	updateReorderGames,
 	updateReview,
 	reorderBonus,

@@ -86,14 +86,14 @@ const staticFiltersFields = () => [
 const filterValues = () => ({
 	isActive: null,
 	search: '',
-	categoryId: null,
+	casinoCategoryId: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
 		isActive: Yup.string().nullable(),
 		search: Yup.string().nullable(),
-		categoryId: Yup.string().nullable(),
+		casinoCategoryId: Yup.string().nullable(),
 	});
 
 export {

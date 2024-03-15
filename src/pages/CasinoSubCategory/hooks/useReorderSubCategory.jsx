@@ -42,7 +42,7 @@ const useReorderSubCategory = () => {
 		if (selectedCategory) {
 			dispatch(
 				getCasinoSubCategoryDetailStart({
-					categoryId: selectedCategory,
+					casinoCategoryId: selectedCategory,
 				})
 			);
 		}
@@ -60,10 +60,10 @@ const useReorderSubCategory = () => {
 
 	const handleSave = () => {
 		const row = [];
-		state.rows.map((list) => row.push(list.gameSubCategoryId));
+		state.rows.map((list) => row.push(list.id));
 		dispatch(
 			reorderCasinoSubCategoryStart({
-				data: { order: row, categoryId: Number(selectedCategory) },
+				data: { subCategoryIds: row },
 				navigate,
 			})
 		);

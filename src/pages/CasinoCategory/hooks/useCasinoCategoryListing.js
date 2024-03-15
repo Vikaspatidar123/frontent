@@ -29,7 +29,7 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 	};
 
 	const formattedCasinoCategoriesData = useMemo(() => {
-		if (casinoCategoryDetails) {
+		if (casinoCategoryDetails?.categories) {
 			return casinoCategoryDetails?.categories.map((category) => ({
 				...category,
 				nameEN: category?.name?.EN,

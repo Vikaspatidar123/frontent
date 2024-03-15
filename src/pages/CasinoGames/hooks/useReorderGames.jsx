@@ -66,8 +66,6 @@ const useReorderGames = () => {
 					page,
 					casinoCategoryId: selectedSubCategory,
 					search,
-					isActive: '',
-					selectedProvider: '',
 					reorder: 'true',
 				})
 			);

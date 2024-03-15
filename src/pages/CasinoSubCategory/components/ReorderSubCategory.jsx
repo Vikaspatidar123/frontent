@@ -6,6 +6,7 @@ import CrudSection from '../../../components/Common/CrudSection';
 import ReorderComponent from '../../ReorderCategories';
 import useReorderSubCategory from '../hooks/useReorderSubCategory';
 import { CustomSelectField } from '../../../helpers/customForms';
+import { selectedLanguage } from '../../../constants/config';
 
 const ReorderSubCategory = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
@@ -53,11 +54,8 @@ const ReorderSubCategory = () => {
 												<option value="">Select Category</option>
 												{casinoCategoryDetails &&
 													casinoCategoryDetails?.categories?.map((c) => (
-														<option
-															key={c?.gameCategoryId}
-															value={c?.gameCategoryId}
-														>
-															{c?.name?.EN}
+														<option key={c?.id} value={c?.id}>
+															{c?.name[selectedLanguage]}
 														</option>
 													))}
 											</>

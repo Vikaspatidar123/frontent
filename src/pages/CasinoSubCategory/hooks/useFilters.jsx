@@ -11,7 +11,11 @@ import {
 	getCasinoCategoryDetailStart,
 	getCasinoSubCategoryDetailStart,
 } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import {
+	debounceTime,
+	itemsPerPage,
+	selectedLanguage,
+} from '../../../constants/config';
 
 let debounce;
 const useFilters = () => {
@@ -56,17 +60,17 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(casinoCategoryDetails)) {
+		if (isEmpty(casinoCategoryDetails?.categories)) {
 			dispatch(getCasinoCategoryDetailStart({}));
 		} else {
 			const categoryField = casinoCategoryDetails?.categories?.map((row) => ({
-				optionLabel: row.name?.EN,
-				value: row.gameCategoryId,
+				optionLabel: row.name[selectedLanguage],
+				value: row.id,
 			}));
 			setFormFields([
 				...staticFiltersFields(),
 				{
-					name: 'gameCategoryId',
+					name: 'casinoCategoryId',
 					fieldType: 'select',
 					label: '',
 					placeholder: 'Category',

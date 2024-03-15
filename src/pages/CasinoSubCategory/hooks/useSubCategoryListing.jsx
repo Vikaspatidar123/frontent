@@ -22,11 +22,7 @@ import {
 import { modules } from '../../../constants/permissions';
 import { selectedLanguage } from '../../../constants/config';
 
-const useSubCategoryListing = (
-	filterValidation,
-	isFilterChanged,
-	onClickEdit
-) => {
+const useSubCategoryListing = (filterValidation, onClickEdit) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
@@ -97,7 +93,7 @@ const useSubCategoryListing = (
 
 	useEffect(() => {
 		fetchData();
-	}, [itemsPerPage, page, isFilterChanged]);
+	}, [itemsPerPage, page]);
 
 	// resetting sub categories list redux state
 	useEffect(() => () => dispatch(resetCasinoSubCategoryData()), []);

@@ -74,7 +74,7 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(casinoSubCategoryDetails)) {
+		if (!casinoSubCategoryDetails?.subCategories) {
 			dispatch(
 				getCasinoSubCategoryDetailStart({
 					// perPage: itemsPerPage,
@@ -82,7 +82,7 @@ const useFilters = () => {
 			);
 		}
 
-		if (isEmpty(casinoProvidersData)) {
+		if (!casinoProvidersData?.providers) {
 			dispatch(
 				getCasinoProvidersDataStart({
 					// perPage: itemsPerPage,
@@ -92,7 +92,10 @@ const useFilters = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!isEmpty(casinoProvidersData) && !isEmpty(casinoSubCategoryDetails)) {
+		if (
+			!isEmpty(casinoProvidersData?.providers) &&
+			!isEmpty(casinoSubCategoryDetails?.subCategories)
+		) {
 			const subCategoryField = casinoSubCategoryDetails?.subCategories?.map(
 				(row) => ({
 					optionLabel: row.name[selectedLanguage],
