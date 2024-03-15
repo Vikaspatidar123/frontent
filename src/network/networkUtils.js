@@ -10,6 +10,7 @@ const MANAGEMENT = {
 	COUNTRY: '/country/',
 	REPORT: '/report/',
 	TRANSACTION: '/transaction/',
+	DASHBOARD: '/dashboard/',
 };
 
 const METHODS = {

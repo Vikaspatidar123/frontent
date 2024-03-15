@@ -215,12 +215,12 @@ const getloyaltyLevel = () =>
 
 const getDashboardLiveInfoService = () =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}live-player`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-live-player-details`
 	);
 
 const getDashboardDemoGraphicService = (data) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}demographic`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-demograph`,
 		data
 	);
 
@@ -318,13 +318,13 @@ const getGameReports = (payload) =>
 
 const getKpiSummary = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}kpi-summary`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}kpi-summary`,
 		payload
 	);
 
 const getKpiReport = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.REPORT}kpi`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}kpi`,
 		payload
 	);
 

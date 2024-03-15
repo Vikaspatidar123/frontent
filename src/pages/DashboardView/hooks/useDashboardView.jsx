@@ -195,7 +195,8 @@ const useDashboardView = () => {
 	}, [demoDateOptions]);
 
 	useEffect(() => {
-		if (!isEmpty(demoGraphicData)) formatDataHandler(demoGraphicData);
+		if (!isEmpty(demoGraphicData?.demograph))
+			formatDataHandler(demoGraphicData?.demograph);
 	}, [demoGraphicData]);
 
 	useEffect(() => {
@@ -445,7 +446,7 @@ const useDashboardView = () => {
 			},
 			{
 				Header: 'DEPOSITORS',
-				accessor: 'depositCount',
+				accessor: 'depositorCount',
 				filterable: true,
 				Cell: ({ cell }) => <DEPOSITORS cell={cell} />,
 			},

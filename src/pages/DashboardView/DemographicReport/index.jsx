@@ -39,9 +39,9 @@ const DemographicReport = (props) => {
 									</option>
 								))}
 							</select>
-							{!isEmpty(demoGraphicData) && (
+							{!isEmpty(demoGraphicData?.demograph) && (
 								<CSVLink
-									data={demoGraphicData || []}
+									data={demoGraphicData?.demograph || []}
 									filename="downloaded_data.csv"
 									className="btn btn-sm btn-primary"
 								>

@@ -10,7 +10,7 @@ const DemoGraphicTable = (props) => {
 		<div className="demo-graph-table">
 			<TableContainer
 				columns={demoGraphColumn || []}
-				data={demoGraphicData || []}
+				data={demoGraphicData.demograph || []}
 				isGlobalFilter={false}
 				isPagination={false}
 				tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
@@ -19,7 +19,7 @@ const DemoGraphicTable = (props) => {
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
 				// totalPageCount={1}
-				customPageSize={demoGraphicData?.length || 15}
+				customPageSize={demoGraphicData?.demograph?.length || 15}
 				// tbodyHeight="300"
 				isLoading={isDemographicLoading}
 			/>

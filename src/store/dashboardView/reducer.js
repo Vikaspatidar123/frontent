@@ -22,7 +22,7 @@ const INIT_STATE = {
 	isLivePlayerLoading: false,
 	livePlayerData: {},
 	isDemographicLoading: false,
-	demoGraphicData: [],
+	demoGraphicData: {},
 	kPISummary: null,
 	isKpiSummaryLoading: false,
 	isKpiSummaryError: null,
@@ -60,7 +60,7 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 			return {
 				...state,
 				isDemographicLoading: true,
-				demoGraphicData: [],
+				demoGraphicData: {},
 			};
 
 		case GET_DEMOGRAPHIC_SUCCESS:
@@ -74,7 +74,7 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 			return {
 				...state,
 				isDemographicLoading: false,
-				demoGraphicData: [],
+				demoGraphicData: {},
 			};
 		case GET_KPI_REPORT_START:
 			return {
