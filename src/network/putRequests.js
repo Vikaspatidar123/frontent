@@ -73,9 +73,6 @@ const updateWageringTemplate = (data) =>
 const updateSuperAdminCMS = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, data);
 
-const requestDocument = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/request-document`, data);
-
 const cancelDocumentRequest = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/user/cancel-document-request`,
@@ -185,7 +182,6 @@ export {
 	markUserAsInternal,
 	updateWageringTemplate,
 	updateSuperAdminCMS,
-	requestDocument,
 	cancelDocumentRequest,
 	updateEmailTemplate,
 	cancelBonus,

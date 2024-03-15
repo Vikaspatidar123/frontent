@@ -6,7 +6,7 @@ import {
 	fetchTransactionBankingStart,
 	resetTransactionBankingData,
 } from '../../../store/actions';
-import { LEDGER_TYPES, statusType } from '../constants';
+// import { LEDGER_TYPES, statusType } from '../constants';
 // import { formatDateYMD } from '../../../helpers/dateFormatter';
 import {
 	Purpose,
@@ -17,6 +17,7 @@ import {
 	Id,
 	Status,
 } from '../TransactionBankingCol';
+import { KeyValueCell } from '../../PlayerDetails/TableCol';
 // import { downloadFileInNewWindow } from '../../../utils/helpers';
 // import { getAccessToken } from '../../../network/storageUtils';
 
@@ -67,24 +68,13 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		if (transactionBanking) {
 			transactionBanking?.transactions?.map((transaction) =>
 				formattedValues.push({
-					id: transaction?.id,
-					actionee: transaction?.transaction?.adminUser?.email,
-					amountWithCurr: transaction.amount,
-					purpose: transaction?.purpose,
+					ledgerId: transaction?.ledgerId,
+					actionee: transaction?.actioneeId,
+					amount: transaction?.ledger?.amount,
+					purpose: transaction?.ledger?.purpose,
 					currencyCode: transaction?.wallet?.currency?.code,
-					transactionType: LEDGER_TYPES.find(
-						(trans) => trans.value === transaction?.type
-					)?.label,
-					status: statusType.find(
-						(status) => status.value === transaction?.transaction?.status
-					)?.label,
-					// actionType: `${transactionType.find(
-					//   (type) => type.value === transaction.transactionType
-					// )?.label
-					//   } ${handleWalletType({
-					//     type: transaction.transactionType,
-					//     amountType: transaction.amountType,
-					//   })}`,
+					transactionType: transaction?.ledger?.type,
+					status: transaction?.status,
 					createdAt: moment(transaction?.createdAt)
 						.local()
 						.format('YYYY-MM-DD HH:mm:ss'),
@@ -97,8 +87,8 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'Id',
-				accessor: 'id',
+				Header: 'Ledger Id',
+				accessor: 'ledgerId',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -109,20 +99,14 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 			// 	Cell: ({ cell }) => <TransactionId value={cell.value} />,
 			// },
 			{
-				Header: 'Actionee',
+				Header: 'Actionee Id',
 				accessor: 'actionee',
 				filterable: true,
 				Cell: ({ cell }) => <Actionee value={cell.value} />,
 			},
-			// {
-			//   Header: 'Payment Provider',
-			//   accessor: 'paymentProvider',
-			//   filterable: true,
-			//   Cell: ({ cell }) => <PaymentProvider value={cell.value} />,
-			// },
 			{
 				Header: 'Amount',
-				accessor: 'amountWithCurr',
+				accessor: 'amount',
 				filterable: true,
 				Cell: ({ cell }) => (
 					<Amount
@@ -130,6 +114,12 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 						currencyCode={cell?.row?.original?.currencyCode}
 					/>
 				),
+			},
+			{
+				Header: 'Currency',
+				accessor: 'currencyCode',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'Purpose',

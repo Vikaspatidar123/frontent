@@ -13,9 +13,7 @@ function* fetchTransactionBanking(action) {
 	try {
 		const payload = clearEmptyProperty(action.payload);
 		const response = yield call(getTransactionBanking, payload);
-		yield put(
-			fetchTransactionBankingSuccess(response?.data?.data?.transactionDetail)
-		);
+		yield put(fetchTransactionBankingSuccess(response?.data?.data));
 	} catch (error) {
 		yield put(fetchTransactionBankingFail(error));
 	}

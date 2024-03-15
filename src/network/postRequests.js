@@ -258,6 +258,12 @@ const updateLocationStatus = (data) => {
 	);
 };
 
+const requestDocument = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}kyc/request-document`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -306,4 +312,5 @@ export {
 	casinoManagementToggle,
 	updateSportStatus,
 	updateLocationStatus,
+	requestDocument,
 };
