@@ -6,7 +6,7 @@ import {
 	fetchTransactionBankingStart,
 	resetTransactionBankingData,
 } from '../../../store/actions';
-// import { LEDGER_TYPES, statusType } from '../constants';
+import { LEDGER_TYPES, statusType } from '../constants';
 // import { formatDateYMD } from '../../../helpers/dateFormatter';
 import {
 	Purpose,
@@ -17,7 +17,7 @@ import {
 	Id,
 	Status,
 } from '../TransactionBankingCol';
-import { KeyValueCell } from '../../PlayerDetails/TableCol';
+import { CurrencyCode } from '../../PlayerDetails/TableCol';
 // import { downloadFileInNewWindow } from '../../../utils/helpers';
 // import { getAccessToken } from '../../../network/storageUtils';
 
@@ -73,8 +73,12 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 					amount: transaction?.ledger?.amount,
 					purpose: transaction?.ledger?.purpose,
 					currencyCode: transaction?.wallet?.currency?.code,
-					transactionType: transaction?.ledger?.type,
-					status: transaction?.status,
+					transactionType: LEDGER_TYPES.find(
+						(type) => type.value === transaction?.ledger?.type
+					)?.label,
+					status: statusType.find(
+						(status) => status.value === transaction?.status
+					)?.label,
 					createdAt: moment(transaction?.createdAt)
 						.local()
 						.format('YYYY-MM-DD HH:mm:ss'),
@@ -108,18 +112,13 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
-				Cell: ({ cell }) => (
-					<Amount
-						value={cell.value}
-						currencyCode={cell?.row?.original?.currencyCode}
-					/>
-				),
+				Cell: ({ cell }) => <Amount value={cell.value} />,
 			},
 			{
 				Header: 'Currency',
 				accessor: 'currencyCode',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
 			},
 			{
 				Header: 'Purpose',
@@ -160,6 +159,7 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		currentPage,
 		setCurrentPage,
 		totalTransactionBankingCount: transactionBanking?.transactions?.length || 0,
+		transactionBanking,
 		isTransactionBankingLoading,
 		formattedTransactionBanking,
 		itemsPerPage,

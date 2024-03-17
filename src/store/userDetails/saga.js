@@ -4,8 +4,6 @@ import { put, takeLatest, all, fork } from 'redux-saga/effects';
 import {
 	getUserDetailsSuccess,
 	getUserDetailsFail,
-	getUserDocumentsSuccess,
-	getUserDocumentsFail,
 	getUserBonusSuccess,
 	getUserBonusFail,
 	getUserCommentsSuccess,
@@ -50,6 +48,12 @@ import {
 	getAllTagsFail,
 	removeTagSuccess,
 	removeTagFail,
+	requestDocumentSuccess,
+	requestDocumentFail,
+	verifyDocumentSuccess,
+	verifyDocumentFail,
+	rejectDocumentSuccess,
+	rejectDocumentFail,
 } from './actions';
 import {
 	ACCEPT_USER_DOC,
@@ -69,13 +73,16 @@ import {
 	ISSUE_BONUS,
 	MARK_DOCUMENT_REQUIRED,
 	MARK_USER_AS_INTERNAL,
+	REJECT_DOCUMENT,
 	REMOVE_TAG,
+	REQUEST_DOCUMENT,
 	RESET_USER_LIMIT,
 	RESOLVE_USER_COMMENT,
 	SEND_PASSWORD_RESET,
 	UPDATE_SA_USER_STATUS,
 	UPDATE_USER_INFO,
 	UPDATE_USER_PASSWORD,
+	VERIFY_DOCUMENT,
 	VERIFY_USER_EMAIL,
 } from './actionTypes';
 import {
@@ -94,6 +101,7 @@ import {
 	createUserCommentEntry,
 	disableUserCall,
 	issueBonus,
+	rejectDocumentCall,
 	removeUserTags,
 	requestDocument,
 	resetDepositLimitCall,
@@ -102,6 +110,7 @@ import {
 	updateSAUserStatusCall,
 	updateUserInfoCall,
 	updateUserPassword,
+	verifyDocument,
 	verifyPlayerEmail,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
@@ -122,17 +131,6 @@ function* getUserDetailsWorker(action) {
 		yield put(getUserDetailsSuccess(data?.data?.user));
 	} catch (e) {
 		yield put(getUserDetailsFail(e.message));
-	}
-}
-
-function* getUserDocumentsWorker(action) {
-	try {
-		const payload = action && action.payload;
-		const { data } = yield getUserDocument(payload);
-
-		yield put(getUserDocumentsSuccess(data?.data?.userDocument));
-	} catch (e) {
-		yield put(getUserDocumentsFail(e.message));
 	}
 }
 
@@ -465,19 +463,68 @@ function* updateUserPasswordWorker(action) {
 function* markDocumentRequiredWorker(action) {
 	try {
 		const payload = action && action.payload;
-
-		// if (payload.isRequested) {
 		yield requestDocument(payload);
-		// } else yield cancelDocumentRequest(payload);
 		yield put(markDocumentRequiredSuccess(true));
 		showToastr({
-			message: payload.isRequested
-				? 'Document Requested Successfully'
-				: 'Document Unrequested Successfully',
+			message: 'Document Requested Successfully',
 			type: 'success',
 		});
 	} catch (e) {
 		yield put(markDocumentRequiredFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* requestDocumentWorker(action) {
+	try {
+		const payload = action && action.payload;
+		yield requestDocument(payload);
+		yield put(requestDocumentSuccess(true));
+		showToastr({
+			message: 'Document Requested Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(requestDocumentFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* verifyDocumentWorker(action) {
+	try {
+		const payload = action && action.payload;
+		yield verifyDocument(payload);
+		yield put(verifyDocumentSuccess(true));
+		showToastr({
+			message: 'Document Verified Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(verifyDocumentFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* rejectDocumentWorker(action) {
+	try {
+		const payload = action && action.payload;
+		yield rejectDocumentCall(payload);
+		yield put(rejectDocumentSuccess(true));
+		showToastr({
+			message: 'Document Rejected!',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(rejectDocumentFail(e.message));
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
 			type: 'error',
@@ -547,7 +594,6 @@ function* acceptUserDocWorker(action) {
 
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
-	yield takeLatest(GET_USER_DOCUMENTS, getUserDocumentsWorker);
 	yield takeLatest(GET_USER_BONUS, getUserBonusWorker);
 	yield takeLatest(GET_USER_COMMENTS, getUserCommentsWorker);
 	yield takeLatest(CREATE_USER_COMMENT, createUserCommentWorker);
@@ -571,6 +617,9 @@ function* userDetailsWatcher() {
 	yield takeLatest(ACCEPT_USER_DOC, acceptUserDocWorker);
 	yield takeLatest(GET_ALL_TAGS, getAllUserTagsWorker);
 	yield takeLatest(REMOVE_TAG, removeUserTagsWorker);
+	yield takeLatest(REQUEST_DOCUMENT, requestDocumentWorker);
+	yield takeLatest(VERIFY_DOCUMENT, verifyDocumentWorker);
+	yield takeLatest(REJECT_DOCUMENT, rejectDocumentWorker);
 }
 
 function* UserDetailsSaga() {

@@ -10,18 +10,19 @@ const GameName = ({ value }) => value ?? '-';
 
 const ActionType = ({ value }) => value ?? '';
 
+const CurrencyCode = ({ value }) =>
+	value ? <div className="text-primary">{value}</div> : '-';
+
+const ConversionRate = ({ value }) => value ?? '';
+
+const Purpose = ({ value }) => value ?? '';
+
 const Amount = ({ value }) =>
-	value ? (
-		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
-			{value}
-		</div>
-	) : (
-		'-'
-	);
+	value ? <div className="text-success">{value}</div> : '-';
 
 const BonusMoney = ({ value }) =>
 	value ? (
-		<div className={value.includes('-') ? 'text-danger' : 'text-success'}>
+		<div className={value?.includes('-') ? 'text-danger' : 'text-success'}>
 			{value}
 		</div>
 	) : (
@@ -49,4 +50,7 @@ export {
 	BonusMoney,
 	Status,
 	CreatedAt,
+	CurrencyCode,
+	ConversionRate,
+	Purpose,
 };

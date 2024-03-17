@@ -2,9 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Id = ({ value }) => value ?? '';
+const Id = ({ value }) => value ?? '-';
 
-const Email = ({ value }) => value ?? '';
+const KeyValueCell = ({ value }) => value ?? '-';
 
 const Amount = ({ value }) =>
 	value ? (
@@ -41,7 +41,7 @@ export {
 	Status,
 	CreatedAt,
 	Id,
-	Email,
+	KeyValueCell,
 	Amount,
 	NonCashAmount,
 	CurrencyCode,

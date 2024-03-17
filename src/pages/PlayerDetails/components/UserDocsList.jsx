@@ -6,125 +6,105 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, Container } from 'reactstrap';
+import { Button, Card, CardBody, Container } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 import {
-	acceptUserDocs,
 	getDocumentLabel,
-	getUserDetails,
-	getUserDocuments,
-	markDocumentRequired,
-	markDocumentRequiredReset,
+	rejectDocument,
+	requestDocument,
+	verifyDocument,
 } from '../../../store/actions';
-import { getDateTime } from '../../../utils/dateFormatter';
-import {
-	ActionAt,
-	Actionee,
-	Name,
-	Reason,
-	ThumbnailUrl,
-	UpdatedAt,
-} from './UserDocsListCol';
+import { Actionee, Name, Reason, ThumbnailUrl } from './UserDocsListCol';
 import { Id, Status } from '../TableCol';
 import ActionButtons from '../ActionButtons';
-import { getDocumentLabelCall } from '../../../network/getRequests';
-import KYCActionButtons from '../KYCActions';
-import NoDataFound from '../../../components/Common/NoDataFound';
+import CrudSection from '../../../components/Common/CrudSection';
+import { DOCUMENT_STATUS_TYPES } from '../constants';
+import ModalView from '../../../components/Common/Modal';
+import { CustomInputField } from '../../../helpers/customForms';
 
 const UserDocsList = ({ userId }) => {
 	const dispatch = useDispatch();
-	const [docLabels, setDocLabels] = useState('');
-
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const [page, setPage] = useState(1);
+	const [showModal, setShowModal] = useState({
+		documentLabelId: '',
+		show: false,
+	});
+	const [reason, setReason] = useState('');
 	const {
-		userDetails,
-		userDocuments,
-		userDocumentsLoading,
-		markDocumentRequiredSuccess,
-		acceptUserDocSuccess,
+		requestDocument: requestDocuments,
+		verifyDocument: verifyDocuments,
+		rejectDocument: rejectDocuments,
 	} = useSelector((state) => state.UserDetails);
 	const { documentLabels, documentLabelsLoading } = useSelector(
 		(state) => state.SASettings
 	);
 
-	const formattedUserDocuments = useMemo(() => {
-		const formattedValues = [];
-		if (userDocuments) {
-			userDocuments.rows?.map((doc) =>
-				formattedValues.push({
-					...doc,
-					createdAt: getDateTime(doc?.createdAt),
-					updatedAt: getDateTime(doc?.updatedAt),
-				})
-			);
+	const formattedKycLabels = useMemo(() => {
+		if (documentLabels?.documentLabels?.length > 0) {
+			return documentLabels?.documentLabels?.map((label) => ({
+				id: label?.id,
+				name: label?.name,
+				url: label?.documents?.[0]?.url || 'Not Provided',
+				comment: label?.documents?.[0]?.comment || 'NA',
+				actionee: label?.documents?.[0]?.adminUser?.username || 'NA',
+				status:
+					DOCUMENT_STATUS_TYPES?.find(
+						(status) => status.value === label?.documents?.[0]?.status
+					)?.label || 'Not Provided',
+			}));
 		}
-		return formattedValues;
-	}, [userDocuments]);
+		return [];
+	}, [documentLabels]);
 
-	const formattedDocumentLabels = useMemo(() => {
-		let formattedValues = [];
-		if (documentLabels) {
-			formattedValues = [...(documentLabels?.documentLabels || [])];
-			if (
-				docLabels &&
-				docLabels.length &&
-				Array.isArray(userDetails?.requestedDocuments)
-			) {
-				docLabels.map((doc) => {
-					if (
-						userDetails?.requestedDocuments?.includes(doc.documentLabelId) &&
-						!formattedValues.find(
-							(val) => val.documentLabelId === doc.documentLabelId
-						)
-					) {
-						formattedValues.push({
-							...doc,
-							name: doc?.documentLabel?.name,
-							isRequired: true,
-						});
-					}
-				});
-			}
-		}
-		return formattedValues;
-	}, [documentLabels, docLabels, userDetails]);
-
-	const fetchAllLabels = async () => {
-		await getDocumentLabelCall('').then((res) => {
-			setDocLabels(res?.data?.data?.documentLabel);
-		});
-	};
-
-	useEffect(() => {
-		if (!docLabels) {
-			fetchAllLabels();
-		}
-	}, [docLabels]);
-
-	const handleMarkAsRequired = ({ documentLabelId, reRequested }) => {
+	const handleRequestDocument = ({ documentLabelId }) => {
 		dispatch(
-			markDocumentRequired({
+			requestDocument({
 				documentLabelId,
 				userId,
-				reRequested,
 			})
 		);
 	};
 
-	const acceptOrReject = ({ userDocumentId, status }) => {
+	const handleVerifyDocument = ({ documentLabelId }) => {
 		dispatch(
-			acceptUserDocs({
-				userDocumentId,
-				status,
-				userId: parseInt(userId, 10),
+			verifyDocument({
+				userDocumentId: documentLabelId,
+				userId,
 			})
 		);
+	};
+
+	const toggleModal = (documentLabelId) => {
+		setShowModal((prev) => ({
+			documentLabelId,
+			show: !prev?.show,
+		}));
+	};
+
+	const handleRejectDocument = (documentLabelId) => {
+		dispatch(
+			rejectDocument({
+				documentLabelId,
+				userId,
+				kycStatus: 'false',
+				reason,
+			})
+		);
+		toggleModal(documentLabelId);
+		setReason('');
+	};
+
+	const onChangeRowsPerPage = (value) => {
+		setPage(1);
+		setItemsPerPage(value);
 	};
 
 	const columns = useMemo(
 		() => [
 			{
 				Header: 'DOCUMENT ID',
-				accessor: 'documentLabelId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -135,7 +115,7 @@ const UserDocsList = ({ userId }) => {
 				Cell: ({ cell }) => <Name value={cell.value} />,
 			},
 			{
-				Header: 'DOCUMENT PREVIEW',
+				Header: 'DOCUMENT THUMBNAIL',
 				accessor: 'url',
 				filterable: true,
 				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
@@ -147,20 +127,9 @@ const UserDocsList = ({ userId }) => {
 				Cell: ({ cell }) => <Reason value={cell.value} />,
 			},
 			{
-				Header: 'UPDATED AT',
-				accessor: 'updatedAt',
-				filterable: true,
-				Cell: ({ cell }) => <UpdatedAt value={cell.value} />,
-			},
-			{
 				Header: 'ACTIONEE',
 				accessor: 'actionee',
 				Cell: ({ cell }) => <Actionee value={cell.value} />,
-			},
-			{
-				Header: 'ACTION PERFORMED AT',
-				accessor: 'createdAt',
-				Cell: ({ cell }) => <ActionAt value={cell.value} />,
 			},
 			{
 				Header: 'STATUS',
@@ -168,29 +137,15 @@ const UserDocsList = ({ userId }) => {
 				disableSortBy: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
-			// {
-			// 	Header: 'ACTION',
-			// 	disableSortBy: true,
-			// 	Cell: ({ cell }) => (
-			// 		<KYCActionButtons handleStatus={acceptOrReject} cell={cell} />
-			// 	),
-			// },
-		],
-		[]
-	);
-
-	const labelColumns = useMemo(
-		() => [
-			{
-				Header: 'NAME',
-				accessor: 'name',
-				Cell: ({ cell }) => <Name value={cell.value} />,
-			},
-
 			{
 				Header: 'Action',
 				Cell: ({ cell }) => (
-					<ActionButtons cell={cell} handleStatus={handleMarkAsRequired} />
+					<ActionButtons
+						cell={cell}
+						handleRequestDocument={handleRequestDocument}
+						handleVerifyDocument={handleVerifyDocument}
+						toggleModal={toggleModal}
+					/>
 				),
 			},
 		],
@@ -198,11 +153,6 @@ const UserDocsList = ({ userId }) => {
 	);
 
 	const fetchLabels = () => {
-		dispatch(
-			getUserDocuments({
-				userId,
-			})
-		);
 		dispatch(
 			getDocumentLabel({
 				userId,
@@ -215,47 +165,62 @@ const UserDocsList = ({ userId }) => {
 	}, []);
 
 	useEffect(() => {
-		if (acceptUserDocSuccess) fetchLabels();
-	}, [acceptUserDocSuccess]);
-
-	useEffect(() => {
-		if (markDocumentRequiredSuccess) {
-			fetchLabels();
-			setDocLabels('');
-			dispatch(markDocumentRequiredReset());
-			dispatch(getUserDetails({ playerId: userId }));
-		}
-	}, [markDocumentRequiredSuccess]);
+		if (requestDocuments || verifyDocuments || rejectDocuments) fetchLabels();
+	}, [requestDocuments, verifyDocuments, rejectDocuments]);
 
 	return (
 		<Container fluid>
-			{formattedDocumentLabels?.length || formattedUserDocuments?.length ? (
-				<>
-					<Card className="p-2">
-						<TableContainer
-							isLoading={userDocumentsLoading}
-							columns={columns}
-							data={formattedUserDocuments}
-							isPagination
-							customPageSize={20}
-							tableClass="table-bordered align-middle nowrap mt-2"
+			<Card className="p-2">
+				<CrudSection buttonList={[]} title="KYC Documents" />
+				<CardBody>
+					<TableContainer
+						isLoading={documentLabelsLoading}
+						columns={columns || []}
+						data={formattedKycLabels || []}
+						isGlobalFilter
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={documentLabels?.totalPages || 0}
+						isManualPagination
+						onChangePagination={setPage}
+						currentPage={page}
+						changeRowsPerPageCallback={onChangeRowsPerPage}
+					/>
+					<ModalView
+						openModal={showModal.show}
+						toggleModal={() =>
+							setShowModal((prev) => ({
+								...prev,
+								show: !prev.show,
+							}))
+						}
+						headerTitle="Reject Document Reason"
+						className="modal-dialog"
+						hideFooter
+					>
+						<CustomInputField
+							name="reason"
+							type="text"
+							onChange={(e) => {
+								setReason(e?.target?.value);
+							}}
+							placeholder="Enter Reject Document Reason"
+							validate={{ required: { value: true } }}
+							value={reason}
 						/>
-					</Card>
-					<Card className="p-2">
-						<h4 className="text-center">Re-Request Documents</h4>
-						<TableContainer
-							isLoading={documentLabelsLoading}
-							columns={labelColumns}
-							data={formattedDocumentLabels}
-							isPagination
-							customPageSize={20}
-							tableClass="table-bordered align-middle nowrap mt-2"
-						/>
-					</Card>
-				</>
-			) : (
-				<NoDataFound height="400px" width="500px" />
-			)}
+						<Button
+							color="primary"
+							className="mt-2 float-end"
+							onClick={() => handleRejectDocument(showModal?.documentLabelId)}
+						>
+							Submit
+						</Button>
+					</ModalView>
+				</CardBody>
+			</Card>
 		</Container>
 	);
 };

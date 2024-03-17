@@ -9,6 +9,7 @@ import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
+import ModalView from '../../components/Common/Modal';
 
 const SportsTransactionList = ({ t }) => {
 	document.title = projectName;
@@ -33,6 +34,10 @@ const SportsTransactionList = ({ t }) => {
 		onChangeRowsPerPage,
 		columns,
 		exportComponent,
+		viewModal,
+		setViewModal,
+		formattedBetSlips,
+		betSlipColumns,
 	} = useSportsTransactionListing(filterValidation.values);
 
 	return (
@@ -78,6 +83,20 @@ const SportsTransactionList = ({ t }) => {
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
+								<ModalView
+									openModal={viewModal}
+									toggleModal={() => setViewModal(!viewModal)}
+									headerTitle="Bet Slips"
+									className="modal-dialog modal-xl"
+									hideFooter
+								>
+									<TableContainer
+										isLoading={false}
+										columns={betSlipColumns || []}
+										data={formattedBetSlips}
+										customPageSize={50}
+									/>
+								</ModalView>
 							</CardBody>
 						</Card>
 					</Col>

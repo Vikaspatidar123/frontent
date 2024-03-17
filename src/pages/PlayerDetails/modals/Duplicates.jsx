@@ -125,7 +125,7 @@ const Duplicates = ({ show, toggle, header }) => {
 			toggle={toggle}
 			size="lg"
 			backdrop="static"
-			className="modal-dialog modal-lg"
+			className="modal-dialog modal-xl"
 		>
 			<ModalHeader toggle={toggle} tag="h4">
 				{header}

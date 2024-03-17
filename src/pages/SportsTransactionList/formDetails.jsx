@@ -75,4 +75,24 @@ const filterValidationSchema = () =>
 		ledgerPurpose: Yup.string().nullable(),
 	});
 
-export { staticFiltersFields, filterValues, filterValidationSchema };
+const sportsBookStatus = [
+	{ label: 'Pending', value: 'pending' },
+	{ label: 'Won', value: 'won' },
+	{ label: 'Lost', value: 'lost' },
+	{ label: 'Refund', value: 'refund' },
+	{ label: 'Cashout', value: 'cashout' },
+	{ label: 'Half_won', value: 'half_won' },
+	{ label: 'Half_lost', value: 'half_lost' },
+];
+
+const BET_TYPES = [
+	{ label: 'Single', value: 'single' },
+	{ label: 'Multiple', value: 'multiple' },
+];
+export {
+	staticFiltersFields,
+	filterValues,
+	filterValidationSchema,
+	sportsBookStatus,
+	BET_TYPES,
+};

@@ -5,12 +5,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
-import { KeyValueCell, Status } from './TableCol';
+import { Amount, CurrencyCode, KeyValueCell, Status } from './TableCol';
 import { fetchCasinoTransactionsStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
 import Filters from '../../components/Common/Filters';
 import useBetHistoryFilters from './hooks/useBetHistoryFilters';
 import CrudSection from '../../components/Common/CrudSection';
+import { LEDGER_TYPES, statusType } from './constants';
 
 const BetHistory = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -24,14 +25,19 @@ const BetHistory = ({ userId }) => {
 		if (casinoTransactions) {
 			casinoTransactions?.casinoTransactions?.map((txn) =>
 				formattedValues.push({
+					id: txn?.id,
+					walletId: txn?.walletId,
 					casinoTransactionId: txn?.transactionId,
-					gameId: txn?.gameId,
+					casinoGame: txn?.casinoGame?.name,
 					amount: txn?.ledger?.amount,
 					currencyCode: txn?.wallet?.currency?.code,
 					conversionRate: txn?.conversionRate,
-					actionType: txn?.ledger?.type,
+					actionType: LEDGER_TYPES.find(
+						(type) => type.value === txn?.ledger?.type
+					)?.label,
 					purpose: txn?.ledger?.purpose,
-					status: txn?.status,
+					status: statusType.find((status) => status.value === txn?.status)
+						?.label,
 					createdAt: getDateTime(txn?.createdAt),
 				})
 			);
@@ -62,14 +68,26 @@ const BetHistory = ({ userId }) => {
 	const columns = useMemo(
 		() => [
 			{
+				Header: 'Id',
+				accessor: 'id',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+			},
+			{
 				Header: 'Transaction Id',
 				accessor: 'casinoTransactionId',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'Game Id',
-				accessor: 'gameId',
+				Header: 'Game Name',
+				accessor: 'casinoGame',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+			},
+			{
+				Header: 'Wallet Id',
+				accessor: 'walletId',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -77,13 +95,13 @@ const BetHistory = ({ userId }) => {
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => <Amount value={cell.value} />,
 			},
 			{
 				Header: 'Currency',
 				accessor: 'currencyCode',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
 			},
 			{
 				Header: 'Conversion Rate',

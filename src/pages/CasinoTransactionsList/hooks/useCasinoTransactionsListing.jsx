@@ -12,13 +12,17 @@ import { getDateTime } from '../../../helpers/dateFormatter';
 import {
 	ActionType,
 	Amount,
-	BonusMoney,
+	// BonusMoney,
+	ConversionRate,
 	CreatedAt,
+	CurrencyCode,
 	GameName,
 	Id,
+	Purpose,
 	Status,
-	UserEmail,
+	// UserEmail,
 } from '../CasinoTransactionsListCol';
+import { LEDGER_TYPES, statusType } from '../constants';
 // import { modules } from '../../../constants/permissions';
 // import { getAccessToken } from '../../../network/storageUtils';
 // import { downloadFileInNewWindow } from '../../../utils/helpers';
@@ -51,22 +55,21 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 	const formattedCasinoTransactions = useMemo(() => {
 		const formattedValues = [];
 		if (casinoTransactions) {
-			casinoTransactions.rows.map((txn) =>
+			casinoTransactions?.casinoTransactions?.map((txn) =>
 				formattedValues.push({
-					casinoTransactionId: txn?.casinoTransactionId,
-					userEmail: txn?.user?.email,
-					gameIdentifier: txn?.gameIdentifier,
-					actionType: txn?.actionType,
-					amountWithCurr: `${txn?.amount} ${txn?.currencyCode}`,
-					bonusAmt: `${txn?.nonCashAmount} ${txn?.currencyCode}`,
-					status:
-						txn?.status === 0
-							? 'Pending'
-							: txn?.status === 1
-							? 'Completed'
-							: txn?.status === 2
-							? 'FAILED'
-							: 'ROLLBACK',
+					id: txn?.id,
+					walletId: txn?.walletId,
+					transactionId: txn?.transactionId,
+					gameId: txn?.gameId,
+					amount: txn?.ledger?.amount,
+					currencyCode: txn?.wallet?.currency?.code,
+					conversionRate: txn?.conversionRate,
+					actionType: LEDGER_TYPES.find(
+						(type) => type.value === txn?.ledger?.type
+					)?.label,
+					purpose: txn?.ledger?.purpose,
+					status: statusType.find((status) => status.value === txn?.status)
+						?.label,
 					createdAt: getDateTime(txn?.createdAt),
 				})
 			);
@@ -78,21 +81,44 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		() => [
 			{
 				Header: 'Id',
-				accessor: 'casinoTransactionId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
-				Header: 'User Email',
-				accessor: 'userEmail',
+				Header: 'Transaction Id',
+				accessor: 'transactionId',
 				filterable: true,
-				Cell: ({ cell }) => <UserEmail value={cell.value} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
-				Header: 'Game Name',
-				accessor: 'gameIdentifier',
+				Header: 'Game ID',
+				accessor: 'gameId',
 				filterable: true,
 				Cell: ({ cell }) => <GameName value={cell.value} />,
+			},
+			{
+				Header: 'Wallet Id',
+				accessor: 'walletId',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'Amount',
+				accessor: 'amount',
+				filterable: true,
+				Cell: ({ cell }) => <Amount value={cell.value} />,
+			},
+			{
+				Header: 'Currency',
+				accessor: 'currencyCode',
+				filterable: true,
+				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
+			},
+			{
+				Header: 'Conversion Rate',
+				accessor: 'conversionRate',
+				Cell: ({ cell }) => <ConversionRate value={cell.value} />,
 			},
 			{
 				Header: 'Action Type',
@@ -101,15 +127,10 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <ActionType value={cell.value} />,
 			},
 			{
-				Header: 'Amount',
-				accessor: 'amountWithCurr',
+				Header: 'Purpose',
+				accessor: 'purpose',
 				filterable: true,
-				Cell: ({ cell }) => <Amount value={cell.value} />,
-			},
-			{
-				Header: 'Bonus Money',
-				accessor: 'bonusAmt',
-				Cell: ({ cell }) => <BonusMoney value={cell.value} />,
+				Cell: ({ cell }) => <Purpose value={cell.value} />,
 			},
 			{
 				Header: 'Status',
@@ -138,7 +159,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalCasinoTransactionsCount: casinoTransactions?.count,
+		totalCasinoTransactionsCount: casinoTransactions?.totalPages || 0,
 		isCasinoTransactionsLoading,
 		formattedCasinoTransactions,
 		itemsPerPage,

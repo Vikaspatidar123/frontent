@@ -26,7 +26,7 @@ const TransactionBankingList = () => {
 	const {
 		currentPage,
 		setCurrentPage,
-		totalTransactionBankingCount,
+		transactionBanking,
 		isTransactionBankingLoading,
 		formattedTransactionBanking,
 		itemsPerPage,
@@ -68,7 +68,7 @@ const TransactionBankingList = () => {
 									// paginationDiv="col-sm-12 col-md-7"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalTransactionBankingCount}
+									totalPageCount={transactionBanking?.totalPages || 0}
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}

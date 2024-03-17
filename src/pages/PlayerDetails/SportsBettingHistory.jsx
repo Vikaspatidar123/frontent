@@ -1,30 +1,30 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Card, CardBody, Container } from 'reactstrap';
+import {
+	Button,
+	Card,
+	CardBody,
+	Container,
+	UncontrolledTooltip,
+} from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
-import {
-	ActionTypes,
-	Amount,
-	CreatedAt,
-	CurrencyCode,
-	Email,
-	// Email,
-	Id,
-	Purpose,
-	StatusData,
-} from './TableCol';
+import { CreatedAt, Id, KeyValueCell, StatusData } from './TableCol';
 import { fetchSportsTransactionStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
 import Filters from '../../components/Common/Filters';
 import useSportBetHistoryFilters from './hooks/useSportBetHistoryFilters';
 import CrudSection from '../../components/Common/CrudSection';
+import { BET_TYPES, sportsBookStatus } from './constants';
+import ModalView from '../../components/Common/Modal';
 
 const SportsBettingHistory = ({ userId }) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [viewModal, setViewModal] = useState(false);
+	const [betSlipData, setBetSlipData] = useState([]);
 
 	const { sportsTransaction, loading: isSportsTransactionLoading } =
 		useSelector((state) => state.SportsTransaction);
@@ -43,15 +43,18 @@ const SportsBettingHistory = ({ userId }) => {
 	const formattedSportsTransaction = useMemo(() => {
 		const formattedValues = [];
 		if (sportsTransaction) {
-			sportsTransaction?.sportsbookTransactions?.map((txn) =>
+			sportsTransaction?.sportsbookBets?.map((txn) =>
 				formattedValues.push({
 					id: txn?.id,
-					email: txn?.user?.email,
-					amount: txn?.amount,
-					currencyCode: txn?.wallet?.currency?.code,
-					type: txn?.type,
-					purpose: txn?.purpose,
-					status: txn?.transaction?.status,
+					walletId: txn?.walletId,
+					type: BET_TYPES.find((type) => type.value === txn?.type)?.label,
+					stake: txn?.stake,
+					multipliedOdds: txn?.multipliedOdds,
+					status: sportsBookStatus.find(
+						(status) => status.value === txn?.settlementStatus
+					)?.label,
+					winningAmount: txn?.winningAmount,
+					bets: txn?.bets,
 					createdAt: getDateTime(txn?.createdAt),
 				})
 			);
@@ -78,38 +81,33 @@ const SportsBettingHistory = ({ userId }) => {
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
-				Header: 'Email',
-				accessor: 'email',
+				Header: 'Wallet Id',
+				accessor: 'walletId',
 				filterable: true,
-				Cell: ({ cell }) => <Email value={cell.value} />,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
-				Header: 'Amount',
-				accessor: 'amount',
-				filterable: true,
-				Cell: ({ cell }) => <Amount value={cell.value} />,
-			},
-			// {
-			// 	Header: 'Non Cash Amount',
-			// 	accessor: 'nonCashAmount',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <NonCashAmount value={cell.value} />,
-			// },
-			{
-				Header: 'Currency Code',
-				accessor: 'currencyCode',
-				filterable: true,
-				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
-			},
-			{
-				Header: 'Action Type',
+				Header: 'Bet Type',
 				accessor: 'type',
-				Cell: ({ cell }) => <ActionTypes value={cell.value} />,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'Purpose',
-				accessor: 'purpose',
-				Cell: ({ cell }) => <Purpose value={cell.value} />,
+				Header: 'Stake',
+				accessor: 'stake',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+			},
+			{
+				Header: 'Multiplied Odds',
+				accessor: 'multipliedOdds',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+			},
+			{
+				Header: 'Winning Amount',
+				accessor: 'winningAmount',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'Status',
@@ -120,6 +118,29 @@ const SportsBettingHistory = ({ userId }) => {
 				Header: 'Date',
 				accessor: 'createdAt',
 				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
+			},
+			{
+				Header: 'Action',
+				Cell: ({ cell }) => (
+					<ul className="list-unstyled hstack gap-1 mb-0">
+						<li>
+							<Button
+								to="#"
+								className="btn btn-sm btn-soft-primary"
+								onClick={(e) => {
+									e.preventDefault();
+									setViewModal(true);
+									setBetSlipData(cell?.row?.original?.bets);
+								}}
+							>
+								<i className="mdi mdi-eye" id="inactivetooltip" />
+								<UncontrolledTooltip placement="top" target="inactivetooltip">
+									View Bet Details
+								</UncontrolledTooltip>
+							</Button>
+						</li>
+					</ul>
+				),
 			},
 		],
 		[]
@@ -137,6 +158,70 @@ const SportsBettingHistory = ({ userId }) => {
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
+
+	const betSlipColumns = useMemo(
+		() => [
+			{
+				Header: 'Id',
+				accessor: 'id',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'Bet Slip Id',
+				accessor: 'betslipId',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'Event Id',
+				accessor: 'eventId',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'Event Market Id',
+				accessor: 'eventMarketId',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'Event Market Outcome Id',
+				accessor: 'eventMarketOutcomeId',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+
+			{
+				Header: 'Odds',
+				accessor: 'odds',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+			},
+			{
+				Header: 'Winning Amount',
+				accessor: 'winningAmount',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+			},
+			{
+				Header: 'Status',
+				accessor: 'status',
+				Cell: ({ cell }) => <StatusData value={cell.value} />,
+			},
+		],
+		[]
+	);
+
+	const formattedBetSlips = useMemo(() => {
+		if (betSlipData?.length > 0) {
+			return betSlipData?.map((slip) => ({
+				...slip,
+				fixtureId: slip?.event?.fixtureId,
+			}));
+		}
+		return [];
+	}, [betSlipData]);
 
 	return (
 		<Container fluid>
@@ -165,12 +250,26 @@ const SportsBettingHistory = ({ userId }) => {
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={formattedSportsTransaction?.length || 0}
+						totalPageCount={sportsTransaction?.totalPages || 0}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}
 						changeRowsPerPageCallback={onChangeRowsPerPage}
 					/>
+					<ModalView
+						openModal={viewModal}
+						toggleModal={() => setViewModal(!viewModal)}
+						headerTitle="Bet Slips"
+						className="modal-dialog modal-xl"
+						hideFooter
+					>
+						<TableContainer
+							isLoading={false}
+							columns={betSlipColumns || []}
+							data={formattedBetSlips}
+							customPageSize={50}
+						/>
+					</ModalView>
 				</CardBody>
 			</Card>
 		</Container>
