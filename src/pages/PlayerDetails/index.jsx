@@ -11,12 +11,12 @@ import useUserDetails from './hooks/useUserDetails';
 import BetHistory from './BetHistory';
 import SportsBettingHistory from './SportsBettingHistory';
 import Transactions from './Transactions';
-import KYCSettings from './KYCSettings';
 // import YourBonuses from './YourBonuses';
 import Limits from './Limits';
 import { modules } from '../../constants/permissions';
 import { getUserDetails, resetUserLimitData } from '../../store/actions';
 import usePermission from '../../components/Common/Hooks/usePermission';
+import UserDocsList from './components/UserDocsList';
 
 const PlayerDetailsPage = ({ t }) => {
 	const { isGranted } = usePermission();
@@ -127,7 +127,7 @@ const PlayerDetailsPage = ({ t }) => {
 		{
 			id: 7,
 			title: 'KYC Settings',
-			component: <KYCSettings userDetails={userDetails} userId={playerId} />,
+			component: <UserDocsList userDetails={userDetails} userId={playerId} />,
 		},
 		// {
 		// 	id: 8,

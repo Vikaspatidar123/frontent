@@ -268,6 +268,18 @@ const requestDocument = (data) =>
 		data
 	);
 
+const verifyDocument = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}kyc/verify-document`,
+		data
+	);
+
+const rejectDocumentCall = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}kyc/reject-document`,
+		data
+	);
+
 const editCasinoCategory = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-category`,
@@ -346,6 +358,8 @@ export {
 	updateSportStatus,
 	updateLocationStatus,
 	requestDocument,
+	verifyDocument,
+	rejectDocumentCall,
 	editCasinoCategory,
 	updateCategoryReOrder,
 	editCasinoSubCategory,

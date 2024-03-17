@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const KeyValueCell = ({ value }) => value ?? '0';
 const KeyValueCellNA = ({ value }) => value ?? '-';
-const Id = ({ value }) => value ?? '';
+const Id = ({ value }) => value ?? '-';
 const Email = ({ value }) => value ?? '';
 const ActionTypes = ({ value }) => value ?? '';
 const Purpose = ({ value }) => value ?? '';
@@ -16,7 +16,7 @@ const Amount = ({ value }) =>
 const BonusMoney = ({ value }) =>
 	value ? <div className="text-danger">{value}</div> : '-';
 
-const StatusData = ({ value }) => value ?? '';
+const StatusData = ({ value }) => value ?? 'Pending';
 
 const Status = ({ value }) => value ?? '';
 

@@ -383,3 +383,36 @@ export const genderTypes = [
 	{ label: 'Female', value: 'female' },
 	{ label: 'Other', value: 'other' },
 ];
+
+export const statusType = [
+	{ label: 'Completed', value: 'completed' },
+	{ label: 'Pending', value: 'pending' },
+	{ label: 'Failed', value: 'failed' },
+];
+
+export const sportsBookStatus = [
+	{ label: 'Pending', value: 'pending' },
+	{ label: 'Won', value: 'won' },
+	{ label: 'Lost', value: 'lost' },
+	{ label: 'Refund', value: 'refund' },
+	{ label: 'Cashout', value: 'cashout' },
+	{ label: 'Half_won', value: 'half_won' },
+	{ label: 'Half_lost', value: 'half_lost' },
+];
+
+export const LEDGER_TYPES = [
+	{ label: 'Debit', value: 'debit' },
+	{ label: 'Credit', value: 'credit' },
+];
+
+export const BET_TYPES = [
+	{ label: 'Single', value: 'single' },
+	{ label: 'Multiple', value: 'multiple' },
+];
+
+export const DOCUMENT_STATUS_TYPES = [
+	{ label: 'Pending', value: 'pending' },
+	{ label: 'Approved', value: 'approved' },
+	{ label: 'Rejected', value: 'rejected' },
+	{ label: 'Requested', value: 'requested' },
+];

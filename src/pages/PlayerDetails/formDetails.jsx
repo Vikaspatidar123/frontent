@@ -8,6 +8,7 @@ import {
 } from '../CasinoTransactionsList/constants';
 import { statusType } from '../TransactionBankingList/constants';
 import { bonusStatus, bonusTypes } from './constants';
+import moment from 'moment';
 
 const getInitialValues = (defaultValue) => ({
 	title: defaultValue?.title || '',
@@ -165,23 +166,59 @@ const passwordValidation = () =>
 
 // Bet History filters
 const staticFiltersFields = () => [
+	// {
+	// 	name: 'gameId',
+	// 	fieldType: 'textField',
+	// 	placeholder: 'Search by gameId',
+	// 	type: 'search',
+	// },
 	{
-		name: 'transactionType',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Action Type',
-		optionList: ACTION_TYPES.map(({ value, label }) => ({
-			id: value,
-			value,
-			optionLabel: label,
-		})),
+		name: 'walletId',
+		fieldType: 'textField',
+		placeholder: 'Search by walletId',
+		type: 'search',
 	},
+	// {
+	// 	name: 'actioneeId',
+	// 	fieldType: 'textField',
+	// 	placeholder: 'Search by actioneeId',
+	// 	type: 'search',
+	// },
+	{
+		name: 'transactionId',
+		fieldType: 'textField',
+		placeholder: 'Search by transactionId',
+		type: 'search',
+	},
+	{
+		name: 'conversionRate',
+		fieldType: 'textField',
+		placeholder: 'Search by conversionRate',
+		type: 'search',
+	},
+	// {
+	// 	name: 'previousTransactionId',
+	// 	fieldType: 'textField',
+	// 	placeholder: 'Search by previousTransactionId',
+	// 	type: 'search',
+	// },
+	// {
+	// 	name: 'transactionType',
+	// 	fieldType: 'select',
+	// 	label: '',
+	// 	placeholder: 'Action Type',
+	// 	optionList: ACTION_TYPES.map(({ value, label }) => ({
+	// 		id: value,
+	// 		value,
+	// 		optionLabel: label,
+	// 	})),
+	// },
 	{
 		name: 'status',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: casinoStatusType.map(({ value, label }) => ({
+		optionList: statusType.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
@@ -195,12 +232,20 @@ const staticFiltersFields = () => [
 	},
 ];
 
+const startDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
+const endDate = new Date(); // Do not define it inside filterValue function
+
 const filterValues = () => ({
+	startDate: '',
+	endDate: '',
+	// gameId: '',
+	walletId: '',
+	// actioneeId: '',
+	transactionId: '',
+	conversionRate: '',
+	// previousTransactionId: '',
+	// transactionType: null,
 	status: null,
-	startDate: null,
-	endDate: null,
-	// currencyCode: null,
-	transactionType: null,
 });
 
 const filterValidationSchema = () =>
@@ -208,8 +253,13 @@ const filterValidationSchema = () =>
 		status: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
-		currencyCode: Yup.string().nullable(),
 		transactionType: Yup.string().nullable(),
+		gameId: Yup.string().nullable(),
+		walletId: Yup.string().nullable(),
+		actioneeId: Yup.string().nullable(),
+		transactionId: Yup.string().nullable(),
+		conversionRate: Yup.string().nullable(),
+		previousTransactionId: Yup.string().nullable(),
 	});
 
 // Sports Bet History filters

@@ -78,6 +78,15 @@ import {
 	VERIFY_USER_EMAIL,
 	VERIFY_USER_EMAIL_FAIL,
 	VERIFY_USER_EMAIL_SUCCESS,
+	REQUEST_DOCUMENT,
+	REQUEST_DOCUMENT_SUCCESS,
+	REQUEST_DOCUMENT_FAIL,
+	VERIFY_DOCUMENT,
+	VERIFY_DOCUMENT_SUCCESS,
+	VERIFY_DOCUMENT_FAIL,
+	REJECT_DOCUMENT,
+	REJECT_DOCUMENT_SUCCESS,
+	REJECT_DOCUMENT_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -160,6 +169,15 @@ const INIT_STATE = {
 	removeUserTag: false,
 	removeUserTagLoading: false,
 	removeUserTagError: null,
+	requestDocument: null,
+	requestDocumentLoading: false,
+	requestDocumentError: null,
+	verifyDocument: null,
+	verifyDocumentLoading: false,
+	verifyDocumentError: null,
+	rejectDocument: null,
+	rejectDocumentLoading: false,
+	rejectDocumentError: null,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -751,6 +769,78 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				removeUserTag: false,
 				removeUserTagLoading: true,
 				removeUserTagError: null,
+			};
+
+		case REQUEST_DOCUMENT:
+			return {
+				...state,
+				requestDocumentLoading: true,
+				requestDocument: null,
+				requestDocumentError: null,
+			};
+
+		case REQUEST_DOCUMENT_SUCCESS:
+			return {
+				...state,
+				requestDocumentLoading: false,
+				requestDocument: payload,
+				requestDocumentError: null,
+			};
+
+		case REQUEST_DOCUMENT_FAIL:
+			return {
+				...state,
+				requestDocumentLoading: false,
+				requestDocumentError: payload,
+				requestDocument: null,
+			};
+
+		case VERIFY_DOCUMENT:
+			return {
+				...state,
+				verifyDocumentLoading: true,
+				verifyDocument: null,
+				verifyDocumentError: null,
+			};
+
+		case VERIFY_DOCUMENT_SUCCESS:
+			return {
+				...state,
+				verifyDocumentLoading: false,
+				verifyDocument: payload,
+				verifyDocumentError: null,
+			};
+
+		case VERIFY_DOCUMENT_FAIL:
+			return {
+				...state,
+				verifyDocumentLoading: false,
+				verifyDocument: null,
+				verifyDocumentError: payload,
+			};
+
+		case REJECT_DOCUMENT:
+			return {
+				...state,
+				rejectDocumentLoading: true,
+				rejectDocument: null,
+				rejectDocumentError: null,
+			};
+
+		case REJECT_DOCUMENT_SUCCESS:
+			return {
+				...state,
+				rejectDocumentLoading: false,
+				rejectDocument: payload,
+				rejectDocumentError: null,
+			};
+
+		case REJECT_DOCUMENT_FAIL:
+			return {
+				...state,
+				rejectDocumentLoading: false,
+				rejectDocument: null,
+				rejectDocumentError: payload,
 			};
 
 		default:

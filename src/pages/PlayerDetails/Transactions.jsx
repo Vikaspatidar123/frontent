@@ -15,6 +15,7 @@ const Transactions = ({ userId }) => {
 		isTransactionBankingLoading,
 		formattedTransactionBanking,
 		itemsPerPage,
+		transactionBanking,
 		onChangeRowsPerPage,
 		columns,
 		exportComponent,
@@ -56,7 +57,7 @@ const Transactions = ({ userId }) => {
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={totalTransactionBankingCount}
+						totalPageCount={transactionBanking?.totalPages || 0}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}

@@ -7,11 +7,9 @@ const TransactionId = ({ value }) => value ?? 'NA';
 
 const PaymentProvider = ({ value }) => value ?? 'NA';
 
-const Amount = ({ value, currencyCode }) =>
+const Amount = ({ value }) =>
 	value ? (
-		<div className={value < 0 ? 'text-danger' : 'text-success'}>
-			{value} {currencyCode}
-		</div>
+		<div className={value < 0 ? 'text-danger' : 'text-success'}>{value}</div>
 	) : (
 		'-'
 	);
@@ -28,7 +26,6 @@ const CreatedAt = ({ value }) => value ?? '';
 
 Amount.propTypes = {
 	value: PropTypes.string.isRequired,
-	currencyCode: PropTypes.string.isRequired,
 };
 
 export {

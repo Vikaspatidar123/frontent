@@ -78,6 +78,15 @@ import {
 	REMOVE_TAG_SUCCESS,
 	REMOVE_TAG_FAIL,
 	REMOVE_TAG,
+	REQUEST_DOCUMENT_SUCCESS,
+	REQUEST_DOCUMENT_FAIL,
+	REQUEST_DOCUMENT,
+	VERIFY_DOCUMENT_SUCCESS,
+	VERIFY_DOCUMENT_FAIL,
+	VERIFY_DOCUMENT,
+	REJECT_DOCUMENT_SUCCESS,
+	REJECT_DOCUMENT_FAIL,
+	REJECT_DOCUMENT,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -97,21 +106,6 @@ export const getUserDetails = (payload) => ({
 
 export const resetUserDetails = (payload) => ({
 	type: RESET_USER_DETAILS,
-	payload,
-});
-
-export const getUserDocumentsSuccess = (payload) => ({
-	type: GET_USER_DOCUMENTS_SUCCESS,
-	payload,
-});
-
-export const getUserDocumentsFail = (payload) => ({
-	type: GET_USER_DOCUMENTS_FAIL,
-	payload,
-});
-
-export const getUserDocuments = (payload) => ({
-	type: GET_USER_DOCUMENTS,
 	payload,
 });
 
@@ -472,5 +466,50 @@ export const removeTagFail = (payload) => ({
 
 export const removeTag = (payload) => ({
 	type: REMOVE_TAG,
+	payload,
+});
+
+export const requestDocumentSuccess = (payload) => ({
+	type: REQUEST_DOCUMENT_SUCCESS,
+	payload,
+});
+
+export const requestDocumentFail = (payload) => ({
+	type: REQUEST_DOCUMENT_FAIL,
+	payload,
+});
+
+export const requestDocument = (payload) => ({
+	type: REQUEST_DOCUMENT,
+	payload,
+});
+
+export const verifyDocumentSuccess = (payload) => ({
+	type: VERIFY_DOCUMENT_SUCCESS,
+	payload,
+});
+
+export const verifyDocumentFail = (payload) => ({
+	type: VERIFY_DOCUMENT_FAIL,
+	payload,
+});
+
+export const verifyDocument = (payload) => ({
+	type: VERIFY_DOCUMENT,
+	payload,
+});
+
+export const rejectDocumentSuccess = (payload) => ({
+	type: REJECT_DOCUMENT_SUCCESS,
+	payload,
+});
+
+export const rejectDocumentFail = (payload) => ({
+	type: REJECT_DOCUMENT_FAIL,
+	payload,
+});
+
+export const rejectDocument = (payload) => ({
+	type: REJECT_DOCUMENT,
 	payload,
 });

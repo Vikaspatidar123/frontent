@@ -137,7 +137,7 @@ const getCountriesList = (payload) =>
 
 const getSportsTransaction = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}sportsbook-transactions`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-sportsbook-bets`,
 		payload
 	);
 
@@ -149,7 +149,7 @@ const getTournamentsList = (payload) =>
 
 const getCasinoTransactions = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}casino-transactions`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-casino-bets`,
 		payload
 	);
 
