@@ -5,7 +5,6 @@ import { isEmpty } from 'lodash';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
-	getDynamicKeys,
 	resetEmailTemplate,
 	createEmailTemplate,
 } from '../../../store/actions';
@@ -27,79 +26,36 @@ const useCreateEmailTemplate = () => {
 	const [customComponent, setCustomComponent] = useState();
 
 	const [template, setTemplate] = useState('');
+	const [content, setContent] = useState('');
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
 	const [existingFilledFields, setExistingFilledFields] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const { emailTypes, dynamicKeys } = useSelector(
-		(state) => state.EmailTemplate
-	);
 
-	const getTemplateKeys = (temp) => {
-		const mainKeys = [];
-		const keys = temp.match(/{{{ *[A-Za-z0-9]* *}}}/g);
-
-		// let keys = template.match(/{{{(.*)}}}/g)
-		if (keys) {
-			keys.forEach((key) => {
-				mainKeys.push(key.replaceAll('{', '').replaceAll('}', '').trim());
-			});
-			return [...new Set(mainKeys)];
+	useEffect(() => {
+		if (selectedTab) {
+			setContent((prev) => ({
+				...prev,
+				[selectedTab]: template,
+			}));
 		}
-		return [];
-	};
+	}, [selectedTab, template]);
 
 	const formSubmitHandler = (values) => {
-		if (template) {
-			const allKeys = dynamicKeys?.map((item) => item.key);
-			const requiredKeys = dynamicKeys
-				.filter((item) => item.required === true)
-				.map((item) => item.key);
-
-			const templateKeys = getTemplateKeys(template);
-			if (templateKeys?.length || requiredKeys?.length) {
-				if (allKeys.some((r) => templateKeys.includes(r))) {
-					if (requiredKeys.every((v) => templateKeys.includes(v))) {
-						dispatch(
-							createEmailTemplate({
-								data: {
-									...values,
-									type: parseInt(values?.type, 10),
-									templateCode: template,
-									language: selectedTab,
-									dynamicData: templateKeys,
-								},
-								navigate,
-							})
-						);
-					} else {
-						showToastr({
-							message: 'Please Use All Required Dynamic Keys',
-							type: 'error',
-						});
-					}
-				} else {
-					showToastr({
-						message: 'Invalid Dynamic Keys',
-						type: 'error',
-					});
-				}
-			} else {
-				dispatch(
-					createEmailTemplate({
-						data: {
-							...values,
-							type: parseInt(values?.type, 10),
-							templateCode: template,
-							language: selectedTab,
-							dynamicData: templateKeys,
-						},
-						navigate,
-					})
-				);
-			}
+		if (Object?.keys(content)?.length > 0) {
+			dispatch(
+				createEmailTemplate({
+					data: {
+						label: values?.label,
+						templateCode: content,
+						eventType: values?.type,
+						isDefault: values?.isDefault,
+					},
+					navigate,
+				})
+			);
 		} else {
 			showToastr({
 				message: 'Content Required',
@@ -114,7 +70,6 @@ const useCreateEmailTemplate = () => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		// dispatch(getEmailTypes());
 	}, []);
 
 	const { validation, formFields, setFormFields } = useForm({
@@ -126,29 +81,24 @@ const useCreateEmailTemplate = () => {
 
 	const resetEmail = () => dispatch(resetEmailTemplate());
 
-	useEffect(() => {
-		if (emailTypes) {
-			dispatch(getDynamicKeys({ type: 0, emailTypes }));
-		}
-		return () => {
+	useEffect(() => () => {
 			resetEmail();
-		};
-	}, [emailTypes]);
+		}, []);
 
 	useEffect(() => {
 		setCustomComponent(
 			<CreateTemplate
 				languageData={languageData}
-				dynamicKeys={dynamicKeys}
 				setTemp={setTemplate}
 				validation={validation}
 				selectedTab={selectedTab}
 				setSelectedTab={setSelectedTab}
 				showGallery={showGallery}
 				setShowGallery={setShowGallery}
+				content={content}
 			/>
 		);
-	}, [languageData, dynamicKeys, template, selectedTab, showGallery]);
+	}, [languageData, template, selectedTab, showGallery]);
 
 	const handleGalleryClick = (e) => {
 		e.preventDefault();

@@ -57,12 +57,10 @@ import {
 	testEmailTemplateEndPoint,
 	createEmailTemplate,
 	uploadGallery,
-} from '../../network/postRequests';
-
-import {
 	updateEmailTemplate,
 	primaryEmailTemplate,
-} from '../../network/putRequests';
+} from '../../network/postRequests';
+
 import {
 	deleteFromGallery,
 	deleteEmailTemplate,
@@ -226,7 +224,7 @@ function* getemailTemplateWorker(action) {
 
 		const { data } = yield getEmailTemplate(emailTemplateId);
 
-		yield put(getEmailTemplateSuccess(data?.data?.emailTemplate));
+		yield put(getEmailTemplateSuccess(data?.data));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,

@@ -179,7 +179,7 @@ const getAllGroups = () =>
 
 const getEmailTemplates = () =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}/email-template`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}/email-templates`
 	);
 
 const getAdminDetails = (adminId) =>
@@ -241,7 +241,7 @@ const getCMSDynamicKeys = () =>
 
 const getCmsByPageId = ({ cmsPageId }) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/cms/details?cmsPageId=${cmsPageId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}page?pageId=${cmsPageId}`
 	);
 
 const getDuplicateUsers = (payload) =>
@@ -267,7 +267,7 @@ const getEmailTypes = () =>
 
 const getEmailTemplate = (emailTemplateId) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/email?emailTemplateId=${emailTemplateId}`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}/email-template?emailTemplateId=${emailTemplateId}`
 	);
 
 const getSportsMatchesDetailApi = ({ matchId = '' }) =>

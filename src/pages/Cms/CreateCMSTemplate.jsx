@@ -4,18 +4,7 @@
 /* eslint-disable no-shadow */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-	Row,
-	Col,
-	Card,
-	UncontrolledTooltip,
-	Label,
-	ButtonDropdown,
-	DropdownToggle,
-	DropdownMenu,
-	DropdownItem,
-	Button,
-} from 'reactstrap';
+import { Row, Col, Card, UncontrolledTooltip, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Link } from 'react-router-dom';
@@ -37,7 +26,6 @@ const safeStringify = (object) =>
 const CreateCMSTemplate = ({
 	languageData,
 	validation,
-	cmsKeys,
 	title,
 	setTitle,
 	content,
@@ -55,58 +43,14 @@ const CreateCMSTemplate = ({
 	const [activeTab, setActiveTab] = useState(1);
 	const [template, setTemplate] = useState('');
 	const [label, setLabel] = useState('');
-	const [requiredKeyData, setRequiredKeyData] = useState({});
-	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
 	const [data, setData] = useState(cmsByPageId?.content?.EN || '');
 	const dispatch = useDispatch();
-
-	const toggleDropdown = (tabId) => {
-		setDrpPrimaryStates((prevState) => ({
-			...prevState,
-			[tabId]: !prevState[tabId],
-		}));
-	};
 
 	const tabData = languageData?.languages?.map((item) => ({
 		id: parseInt(item.id, 10),
 		title: item.code,
 		component: (
 			<Row>
-				<Col className="text-end">
-					<div className="btn-group">
-						<ButtonDropdown
-							isOpen={drpPrimaryStates[item.id] || false}
-							toggle={() => toggleDropdown(item.id)}
-						>
-							<Button id="caret" type="button" color="primary" hidden={isView}>
-								Dynamic Keys
-							</Button>
-							<DropdownToggle caret color="primary" hidden={isView}>
-								<i className="mdi mdi-chevron-down" />
-							</DropdownToggle>
-							<DropdownMenu>
-								{cmsKeys?.dynamicKeys?.map?.((item, index) => (
-									<DropdownItem
-										key={index}
-										onClick={() => {
-											requiredKeyData
-												? setRequiredKeyData({
-														...requiredKeyData,
-														[item]: cmsKeys?.keyDescription[item],
-												  })
-												: setRequiredKeyData({
-														[item]: cmsKeys?.keyDescription[item],
-												  });
-										}}
-									>
-										{`${item} `}
-										{item.required ? '(Required)' : '(Optional)'}
-									</DropdownItem>
-								))}
-							</DropdownMenu>
-						</ButtonDropdown>
-					</div>
-				</Col>
 				<div className="mb-3">
 					<CustomInputField
 						label="Title"
@@ -134,14 +78,13 @@ const CreateCMSTemplate = ({
 					<span className="text-danger"> *</span>
 					<CodeEditor
 						cmsByPageId={cmsByPageId}
-						dynamicData={safeStringify(requiredKeyData, null, 2)}
+						dynamicData={safeStringify({}, null, 2)}
 						HTML={data || ''}
 						initial="HTML"
 						mobileQuery={800}
 						height="70vh"
 						setTemplate={setTemplate}
 						themeTransitionSpeed={150}
-						setRequiredKeyData={setRequiredKeyData}
 						selectedTab={activeTab}
 						setTemp={setTemplate}
 						validation={validation}
@@ -179,21 +122,6 @@ const CreateCMSTemplate = ({
 			setLabel(cmsByPageId?.title?.[selectedTab]);
 		}
 	}, [cmsByPageId?.content, cmsByPageId?.title]);
-
-	useEffect(() => {
-		if (cmsKeys?.dynamicKeys && Object.keys(cmsKeys?.dynamicKeys)?.length) {
-			let tempDataAll = {};
-			let tempData = {};
-			const dynamicKeys = cmsKeys?.dynamicKeys;
-			dynamicKeys.forEach((item) => {
-				tempDataAll = { ...tempDataAll, [item.key]: item.description };
-				if (item.required) {
-					tempData = { ...tempData, [item.key]: item.description };
-				}
-			});
-			setRequiredKeyData(tempData);
-		}
-	}, [cmsKeys?.dynamicKeys]);
 
 	useEffect(() => {
 		if (showGallery) {
@@ -337,7 +265,6 @@ const CreateCMSTemplate = ({
 CreateCMSTemplate.defaultProps = {
 	languageData: {},
 	validation: {},
-	cmsKeys: {},
 	title: {},
 	setTitle: () => {},
 	content: {},
@@ -354,7 +281,6 @@ CreateCMSTemplate.defaultProps = {
 CreateCMSTemplate.propTypes = {
 	languageData: PropTypes.objectOf(),
 	validation: PropTypes.objectOf(),
-	cmsKeys: PropTypes.objectOf(),
 	title: PropTypes.objectOf(),
 	setTitle: PropTypes.func,
 	content: PropTypes.objectOf(),

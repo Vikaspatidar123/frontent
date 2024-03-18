@@ -7,11 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { isEmpty, isEqual } from 'lodash';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	getLanguagesStart,
-	getCmsDynamicKeys,
-	createSaCms,
-} from '../../../store/actions';
+import { getLanguagesStart, createSaCms } from '../../../store/actions';
 
 import {
 	getInitialValues,
@@ -34,7 +30,6 @@ const useCreateCms = () => {
 	const [showModal, setShowModal] = useState(false);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const { cmsDynamicKeys } = useSelector((state) => state.AllCms);
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
@@ -68,7 +63,6 @@ const useCreateCms = () => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		// dispatch(getCmsDynamicKeys());
 	}, []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
@@ -84,7 +78,6 @@ const useCreateCms = () => {
 			<CreateCMSTemplate
 				languageData={languageData}
 				validation={validation}
-				cmsKeys={cmsDynamicKeys}
 				title={title}
 				setTitle={(v) => setTitle(v)}
 				content={content}
@@ -177,7 +170,6 @@ const useCreateCms = () => {
 		languageData,
 		customComponent,
 		setCustomComponent,
-		cmsDynamicKeys,
 		onChangeRowsPerPage,
 		showGallery,
 		setShowGallery,

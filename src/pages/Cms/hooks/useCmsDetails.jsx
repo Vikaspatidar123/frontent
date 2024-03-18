@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
-	getCmsDynamicKeys,
 	getCmsByPageId,
 	resetCmsByPageIdData,
 } from '../../../store/actions';
@@ -43,7 +42,6 @@ const useCmsDetail = () => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		// dispatch(getCmsDynamicKeys());
 	}, []);
 
 	// resetting cms details redux state
@@ -51,7 +49,7 @@ const useCmsDetail = () => {
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
 		header: `View CMS ${cmsPageId}`,
-		initialValues: getInitialValues(cmsByPageId),
+		initialValues: getInitialValues(cmsByPageId?.page),
 		validationSchema: createCmsNewSchema,
 		staticFormFields: staticFormFields(isView),
 	});
@@ -60,7 +58,7 @@ const useCmsDetail = () => {
 		setCustomComponent(
 			<CreateCMSTemplate
 				languageData={languageData}
-				cmsByPageId={cmsByPageId}
+				cmsByPageId={cmsByPageId?.page}
 				validation={validation}
 				cmsKeys={cmsDynamicKeys}
 				title={title}

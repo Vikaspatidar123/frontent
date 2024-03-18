@@ -117,7 +117,10 @@ const disableUserSession = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/session-time`, data);
 
 const createSuperAdminCMS = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}/page/create`,
+		data
+	);
 
 const updateMatchFeaturedTemplate = (data) =>
 	postRequest(`${VITE_APP_API_URL}admin/sportsbook/addFeatured`, data);
@@ -129,7 +132,10 @@ const testEmailTemplateEndPoint = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email/test`, data);
 
 const createEmailTemplate = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}email/create`,
+		data
+	);
 
 const isCasinoFeaturedService = (data) =>
 	postRequest(
@@ -310,6 +316,25 @@ const updateReorderGames = ({ data }) =>
 		data
 	);
 
+const updateSuperAdminCMS = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}page/update`,
+		data
+	);
+
+const updateEmailTemplate = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}email/update`,
+		data
+	);
+
+const primaryEmailTemplate = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}/email/set-default`,
+		data
+	);
+
+
 const updateSiteConfiguration = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/update-constants`,
@@ -393,6 +418,9 @@ export {
 	editCasinoSubCategory,
 	updateSubCategoryReOrder,
 	updateReorderGames,
+	updateSuperAdminCMS,
+	updateEmailTemplate,
+	primaryEmailTemplate,
 	updateSiteConfiguration,
 	uploadLogoRequest,
 	updateAppSettingRequest,
