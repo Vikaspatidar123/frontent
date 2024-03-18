@@ -3,8 +3,6 @@ import {
 	UPDATE_PROFILE_SUCCESS,
 	UPDATE_PROFILE_FAIL,
 	UPDATE_SITE_CONFIGURATION_START,
-	UPDATE_SITE_CONFIGURATION_FAIL,
-	UPDATE_SITE_CONFIGURATION_SUCCESS,
 	RESET_PROFILE_PASSWORD_START,
 	RESET_PROFILE_PASSWORD_SUCCESS,
 	RESET_PROFILE_PASSWORD_FAIL,
@@ -12,6 +10,7 @@ import {
 	GET_SITE_CONFIGURATION_SUCCESS,
 	GET_SITE_CONFIGURATION_FAIL,
 	UPDATE_LOGO,
+	UPDATE_APP_SETTING,
 } from './actionTypes';
 
 export const updateProfileStart = (payload) => ({
@@ -34,18 +33,13 @@ export const updateSiteConfigurationStart = (payload) => ({
 	payload,
 });
 
-export const updateSiteConfigurationSuccess = (payload) => ({
-	type: UPDATE_SITE_CONFIGURATION_SUCCESS,
-	payload,
-});
-
-export const updateSiteConfigurationFail = (payload) => ({
-	type: UPDATE_SITE_CONFIGURATION_FAIL,
-	payload,
-});
-
 export const updateLogo = (payload) => ({
 	type: UPDATE_LOGO,
+	payload,
+});
+
+export const updateAppSetting = (payload) => ({
+	type: UPDATE_APP_SETTING,
 	payload,
 });
 

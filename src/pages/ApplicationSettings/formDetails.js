@@ -63,6 +63,8 @@ const adminSiteConfigSchema = Yup.object().shape({
 	exchangeBetCommission: Yup.number(),
 });
 
+const appSettingValidation = Yup.object().shape({});
+
 const leftStaticSiteConfigFormFields = (details, customBlurHandler) => [
 	{
 		name: 'applicationName',
@@ -199,4 +201,5 @@ export {
 	rightAppSettingFormFields,
 	getAppSettingInitialValues,
 	BOOL,
+	appSettingValidation,
 };

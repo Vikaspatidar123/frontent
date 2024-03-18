@@ -1,18 +1,7 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-return-assign */
-
-import {
-	put,
-	takeLatest,
-	all,
-	fork,
-	takeEvery,
-	select,
-} from 'redux-saga/effects';
+import { put, takeLatest, all, fork, takeEvery } from 'redux-saga/effects';
 
 // Crypto Redux States
-import { cloneDeep } from 'lodash';
+import { isEmpty } from 'lodash';
 import {
 	getAllAdminsSuccess,
 	getAllAdminsFail,
@@ -94,35 +83,32 @@ function* updateSuperAdminUserWorker(action) {
 	}
 }
 
-function* getAdminChildrenWorker(action) {
-	try {
-		const { superAdminId } = action && action.payload;
-		const { adminChildren } = yield select((state) => state.AllAdmins);
-
-		const addChildrenToAdmin = (newAdminChildren, id, children) => {
-			if (newAdminChildren?.id === id) {
-				return (newAdminChildren.children = [...children]);
-			}
-
-			if (newAdminChildren?.children?.length) {
-				for (const admin of newAdminChildren.children) {
-					addChildrenToAdmin(admin, id, children);
-				}
-			}
-			return '';
-		};
-
-		const { data } = yield getAdminChildren({ superAdminId });
-		const newAdminChildren = cloneDeep(adminChildren);
-		const children = data?.data?.admin?.children?.map((item) => ({
+const setChildren = (adminHierarchy) => {
+	if (isEmpty(adminHierarchy)) return [];
+	return (
+		adminHierarchy?.children?.map((item) => ({
 			id: item.id,
-			name: `${item.firstName || item.username} (${item.childCount || 0})`,
-			children: [],
+			name: `${item.firstName || item.username} (${
+				item.childCount || item?.children?.length || 0
+			})`,
+			children: setChildren(item),
 			data: item,
-		}));
-		yield addChildrenToAdmin(newAdminChildren, superAdminId, children);
+		})) || []
+	);
+};
 
-		yield put(getAdminChildrenSuccess(newAdminChildren));
+function* getAdminChildrenWorker() {
+	try {
+		const { data } = yield getAdminChildren();
+		const { admin } = data.data;
+		const adminHierarchy = {
+			...admin,
+			name: `${admin.firstName || admin.username} (${
+				admin.childCount || admin?.children?.length || 0
+			})`,
+			children: setChildren(data?.data?.admin),
+		};
+		yield put(getAdminChildrenSuccess(adminHierarchy));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,

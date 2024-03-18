@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 
 import {
+	appSettingValidation,
 	getAppSettingInitialValues,
 	leftAppSettingsFormFields,
 	rightAppSettingFormFields,
@@ -13,7 +14,7 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
 import FormPage from '../../../components/Common/FormPage';
-import { updateSiteConfigurationStart } from '../../../store/actions';
+import { updateAppSetting } from '../../../store/actions';
 
 const SiteConfig = ({ details }) => {
 	const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const SiteConfig = ({ details }) => {
 		e.preventDefault();
 		const { name } = e.target;
 		if (name) {
-			dispatch(updateSiteConfigurationStart({ key: name }));
+			dispatch(updateAppSetting({ key: name }));
 		} else {
 			console.warn(
 				'Something went wrong while submitting application details!!'
@@ -38,7 +39,7 @@ const SiteConfig = ({ details }) => {
 		validation,
 	} = useForm({
 		initialValues: getAppSettingInitialValues(details),
-		validationSchema: {},
+		validationSchema: appSettingValidation,
 		leftStaticFormFields: leftAppSettingsFormFields(details, customOnChange),
 		rightStaticFormFields: rightAppSettingFormFields(details, customOnChange),
 	});

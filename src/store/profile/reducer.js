@@ -2,9 +2,6 @@ import {
 	UPDATE_PROFILE_START,
 	UPDATE_PROFILE_FAIL,
 	UPDATE_PROFILE_SUCCESS,
-	UPDATE_SITE_CONFIGURATION_START,
-	UPDATE_SITE_CONFIGURATION_SUCCESS,
-	UPDATE_SITE_CONFIGURATION_FAIL,
 	RESET_PROFILE_PASSWORD_START,
 	RESET_PROFILE_PASSWORD_SUCCESS,
 	RESET_PROFILE_PASSWORD_FAIL,
@@ -17,9 +14,6 @@ const initialState = {
 	updateProfileSuccess: false,
 	updateProfileError: null,
 	updateProfileLoading: false,
-	updateSiteConfigurationSuccess: false,
-	updateSiteConfigurationError: null,
-	updateSiteConfigurationLoading: false,
 	resetProfilePasswordLoading: false,
 	resetProfilePasswordSuccess: false,
 	resetProfilePasswordError: null,
@@ -48,25 +42,6 @@ const ProfileData = (state = initialState, { type, payload } = {}) => {
 				updateProfileLoading: false,
 				updateProfileSuccess: true,
 				updateProfileError: null,
-			};
-		case UPDATE_SITE_CONFIGURATION_START:
-			return {
-				...state,
-				updateSiteConfigurationLoading: true,
-			};
-		case UPDATE_SITE_CONFIGURATION_SUCCESS:
-			return {
-				...state,
-				updateSiteConfigurationLoading: false,
-				updateSiteConfigurationSuccess: true,
-				updateSiteConfigurationError: null,
-			};
-		case UPDATE_SITE_CONFIGURATION_FAIL:
-			return {
-				...state,
-				updateSiteConfigurationLoading: false,
-				updateSiteConfigurationError: payload,
-				updateSiteConfigurationSuccess: false,
 			};
 		case RESET_PROFILE_PASSWORD_START:
 			return {

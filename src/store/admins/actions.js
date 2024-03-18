@@ -74,7 +74,6 @@ export const getAdminChildrenFail = (payload) => ({
 	payload,
 });
 
-export const getAdminChildren = (payload) => ({
+export const getAdminChildren = () => ({
 	type: GET_ADMIN_CHILDREN,
-	payload,
 });

@@ -325,6 +325,18 @@ const uploadLogoRequest = (data) =>
 		}
 	);
 
+const updateAppSettingRequest = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/toggle`,
+		data
+	);
+
+const updateLimitsRequest = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/update-value-comparisons`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -383,4 +395,6 @@ export {
 	updateReorderGames,
 	updateSiteConfiguration,
 	uploadLogoRequest,
+	updateAppSettingRequest,
+	updateLimitsRequest,
 };

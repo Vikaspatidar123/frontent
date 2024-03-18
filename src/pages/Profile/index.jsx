@@ -7,11 +7,7 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 
 import { projectName } from '../../constants/config';
 import { getSuperAdminStart } from '../../store/auth/permissionDetails/actions';
-import {
-	getAdminChildren,
-	getLanguagesStart,
-	updateProfileStart,
-} from '../../store/actions';
+import { getAdminChildren, updateProfileStart } from '../../store/actions';
 
 import Overview from './FormSections/Overview';
 import Password from './FormSections/Password';
@@ -46,11 +42,7 @@ const ProfilePage = ({ t }) => {
 
 	useEffect(() => {
 		if (superAdminUser) {
-			dispatch(
-				getAdminChildren({
-					superAdminId: superAdminUser?.id,
-				})
-			);
+			dispatch(getAdminChildren({}));
 		}
 	}, [superAdminUser]);
 
@@ -65,10 +57,6 @@ const ProfilePage = ({ t }) => {
 
 	useEffect(() => {
 		dispatch(getSuperAdminStart());
-	}, []);
-
-	useEffect(() => {
-		dispatch(getLanguagesStart());
 	}, []);
 
 	const tabData = [

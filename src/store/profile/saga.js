@@ -7,12 +7,11 @@ import {
 	RESET_PROFILE_PASSWORD_START,
 	GET_SITE_CONFIGURATION_START,
 	UPDATE_LOGO,
+	UPDATE_APP_SETTING,
 } from './actionTypes';
 import {
 	updateProfileSuccess,
 	updateProfileFail,
-	updateSiteConfigurationSuccess,
-	updateSiteConfigurationFail,
 	resetProfilePasswordSuccess,
 	resetProfilePasswordFail,
 	getSiteConfigurationSuccess,
@@ -25,7 +24,16 @@ import {
 	resetProfilePassword,
 	updateSiteConfiguration,
 	uploadLogoRequest,
+	updateAppSettingRequest,
+	updateLimitsRequest,
 } from '../../network/postRequests';
+
+const limitKeys = [
+	'minOdds',
+	'maxOdds',
+	'minStakeAmount',
+	'exchangeBetCommission',
+];
 
 function* updateProfileWorker(action) {
 	try {
@@ -68,25 +76,46 @@ function* getSiteConfigurationWorker(action) {
 function* updateSiteConfigurationWorker(action) {
 	try {
 		const data = action && action.payload;
-		yield updateSiteConfiguration(data);
-		const { siteConfigDetails } = yield select((state) => state.ProfileData);
 		const [key] = Object.keys(data || {});
-		const updatedSiteConfig = {
-			...siteConfigDetails,
-			[key]: { ...siteConfigDetails[key], value: `${data[key]}` },
-		};
-		yield put(getSiteConfigurationSuccess(updatedSiteConfig));
-		yield put(updateSiteConfigurationSuccess());
+
+		if (limitKeys.includes(key)) {
+			yield updateLimitsRequest({ [key]: parseFloat(data[key]) });
+		} else {
+			yield updateSiteConfiguration(data);
+		}
 
 		showToastr({
 			message: `Site Configuration Updated Successfully`,
 			type: 'success',
 		});
 	} catch (e) {
-		yield put(
-			updateSiteConfigurationFail(e?.response?.data?.errors[0]?.description)
-		);
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
 
+function* updateAppSetting(action) {
+	try {
+		const data = action && action.payload;
+		const [key] = Object.keys(data || {});
+
+		yield updateAppSettingRequest(data);
+
+		// For locally updating the state without api call.
+		const { siteConfigDetails } = yield select((state) => state.ProfileData);
+		const updatedSiteConfig = {
+			...siteConfigDetails,
+			[key]: { ...siteConfigDetails[key], value: `${data[key]}` },
+		};
+		yield put(getSiteConfigurationSuccess(updatedSiteConfig));
+
+		showToastr({
+			message: `Setting Updated Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
 			type: 'error',
@@ -145,6 +174,7 @@ export function* ProfileDataWatcher() {
 	yield takeLatest(RESET_PROFILE_PASSWORD_START, resetProfilePasswordWorker);
 	yield takeLatest(GET_SITE_CONFIGURATION_START, getSiteConfigurationWorker);
 	yield takeLatest(UPDATE_LOGO, updateLogoWorker);
+	yield takeLatest(UPDATE_APP_SETTING, updateAppSetting);
 }
 
 function* ProfileDataSaga() {
