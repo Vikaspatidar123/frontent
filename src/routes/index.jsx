@@ -58,6 +58,7 @@ import ReorderGames from '../pages/CasinoGames/components/ReorderGames';
 import ReorderBonus from '../pages/Bonus/ReorderBonus';
 import AddGamesCasinoSubcategory from '../pages/AddGamesCasinoSubcategory';
 import { modules } from '../constants/permissions';
+import ApplicationSettings from '../pages/ApplicationSettings';
 
 const authProtectedRoutes = [
 	{
@@ -238,6 +239,12 @@ const authProtectedRoutes = [
 		path: '/languages-management',
 		component: <LanguageManagementList />,
 		modules: [modules.language],
+		operation: 'R',
+	},
+	{
+		path: '/application-settings',
+		component: <ApplicationSettings />,
+		modules: [modules.applicationSetting],
 		operation: 'R',
 	},
 	{

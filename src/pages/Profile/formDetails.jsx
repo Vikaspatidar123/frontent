@@ -1,44 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable func-names */
-
 import * as Yup from 'yup';
 import React from 'react';
-
-const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
-
-const adminSiteConfigSchema = Yup.object().shape({
-	name: Yup.string()
-		.min(3, 'Name must be atleast 3 characters')
-		.max(200)
-		.required('Name Required'),
-	url: Yup.string()
-		.matches(
-			/((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-			'Enter correct url!'
-		)
-		.required('Url Required'),
-	supportEmail: Yup.string()
-		.email('Invalid Email')
-		.max(50)
-		.required('Email Required'),
-	// sendgridEmail: Yup.string()
-	// 	.email('Invalid sendgridEmail')
-	// 	.max(50)
-	// 	.required('sendgridEmail Required'),
-	// sendgridKey: Yup.string().required('sendgridKey Required'),
-	logo: Yup.mixed()
-		.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
-			typeof value === 'string'
-				? true
-				: !value || (value && value.size <= 1024 * 1024)
-		)
-		.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
-			typeof value === 'string'
-				? true
-				: value && ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type)
-		),
-	// lang: Yup.mixed().required('Language Required'),
-});
 
 const adminProfileSchema = Yup.object().shape({
 	firstName: Yup.string()
@@ -106,17 +67,6 @@ const getPasswordInitialValues = () => ({
 	password: '',
 	newPassword: '',
 	confirmPassword: '',
-});
-
-const getSiteConfigInitialValues = (details) => ({
-	name: details?.name || '',
-	url: details?.url || '',
-	supportEmail: details?.supportEmail || '',
-	// sendgridEmail: details[0]?.value.SENDGRID_EMAIL || '',
-	// sendgridKey: details[0]?.value.SENDGRID_API_KEY || '',
-	logo: details?.logo ? `${VITE_APP_AWS_GALLERY_URL}${details?.logo}` : null,
-	// lang: formLanguage || null,
-	maintenance: details?.maintenance,
 });
 
 const leftStaticAdminFormFields = (isEditable) => [
@@ -214,59 +164,7 @@ const staticPasswordFormFields = (passwordShow, setPasswordShow) => {
 	];
 };
 
-const leftStaticSiteConfigFormFields = (editableSiteConfig) => [
-	{
-		name: 'name',
-		fieldType: 'textField',
-		label: 'Site Name',
-		isDisabled: editableSiteConfig,
-		placeholder: 'Enter Site Name',
-	},
-	{
-		name: 'supportEmail',
-		fieldType: 'textField',
-		label: 'Support Email Address',
-		isDisabled: editableSiteConfig,
-		placeholder: 'Enter Support Email Address',
-	},
-	// {
-	// 	name: 'sendgridKey',
-	// 	fieldType: 'textField',
-	// 	label: 'Send grid Api Key',
-	// 	isDisabled: editableSiteConfig,
-	// 	placeholder: 'Enter Send grid Api Key',
-	// },
-	{
-		name: 'logo',
-		fieldType: 'file',
-		label: 'Site Logo',
-		isDisabled: editableSiteConfig,
-		placeholder: 'Enter Site Logo',
-		showThumbnail: true,
-		customThumbnailBackground: '#1A1D29',
-		customPadding: '8px',
-	},
-];
-
-const rightStaticSiteConfigFormFields = (editableSiteConfig) => [
-	{
-		name: 'url',
-		fieldType: 'textField',
-		label: 'Site Url',
-		isDisabled: editableSiteConfig,
-		placeholder: 'Enter Site Url',
-	},
-	// {
-	// 	name: 'sendgridEmail',
-	// 	fieldType: 'textField',
-	// 	label: 'Send grid Email',
-	// 	isDisabled: editableSiteConfig,
-	// 	placeholder: 'Enter Send grid Email',
-	// },
-];
-
 export {
-	adminSiteConfigSchema,
 	adminProfileSchema,
 	profilePasswordSchema,
 	leftStaticAdminFormFields,
@@ -274,7 +172,4 @@ export {
 	getAdminInitialValues,
 	getPasswordInitialValues,
 	staticPasswordFormFields,
-	getSiteConfigInitialValues,
-	leftStaticSiteConfigFormFields,
-	rightStaticSiteConfigFormFields,
 };

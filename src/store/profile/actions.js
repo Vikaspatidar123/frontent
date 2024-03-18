@@ -11,6 +11,7 @@ import {
 	GET_SITE_CONFIGURATION_START,
 	GET_SITE_CONFIGURATION_SUCCESS,
 	GET_SITE_CONFIGURATION_FAIL,
+	UPDATE_LOGO,
 } from './actionTypes';
 
 export const updateProfileStart = (payload) => ({
@@ -40,6 +41,11 @@ export const updateSiteConfigurationSuccess = (payload) => ({
 
 export const updateSiteConfigurationFail = (payload) => ({
 	type: UPDATE_SITE_CONFIGURATION_FAIL,
+	payload,
+});
+
+export const updateLogo = (payload) => ({
+	type: UPDATE_LOGO,
 	payload,
 });
 

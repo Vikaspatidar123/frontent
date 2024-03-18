@@ -3,15 +3,6 @@ import { API_NAMESPACE, MANAGEMENT } from './networkUtils';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
-const updateSiteConfiguration = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-information`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
-
 const updateStatus = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}status`,
@@ -139,7 +130,6 @@ const updateSiteDetails = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-layout`, data);
 
 export {
-	updateSiteConfiguration,
 	updateStatus,
 	updateGlobalRegistration,
 	editCasinoProvider,

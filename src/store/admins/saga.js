@@ -1,7 +1,7 @@
-/* eslint-disable consistent-return */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
-/* eslint-disable no-restricted-syntax */
+
 import {
 	put,
 	takeLatest,
@@ -109,6 +109,7 @@ function* getAdminChildrenWorker(action) {
 					addChildrenToAdmin(admin, id, children);
 				}
 			}
+			return '';
 		};
 
 		const { data } = yield getAdminChildren({ superAdminId });

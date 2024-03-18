@@ -1,4 +1,4 @@
-import { put, takeLatest, fork, all } from 'redux-saga/effects';
+import { put, takeLatest, fork, all, select } from 'redux-saga/effects';
 
 //  Redux States
 import {
@@ -6,6 +6,7 @@ import {
 	UPDATE_SITE_CONFIGURATION_START,
 	RESET_PROFILE_PASSWORD_START,
 	GET_SITE_CONFIGURATION_START,
+	UPDATE_LOGO,
 } from './actionTypes';
 import {
 	updateProfileSuccess,
@@ -17,13 +18,13 @@ import {
 	getSiteConfigurationSuccess,
 	getSiteConfigurationFail,
 } from './actions';
-import { updateSiteConfiguration } from '../../network/putRequests';
-import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 import { getSiteConfiguration } from '../../network/getRequests';
 import {
 	updateProfile,
 	resetProfilePassword,
+	updateSiteConfiguration,
+	uploadLogoRequest,
 } from '../../network/postRequests';
 
 function* updateProfileWorker(action) {
@@ -51,9 +52,7 @@ function* getSiteConfigurationWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield getSiteConfiguration(payload);
-		yield put(
-			getSiteConfigurationSuccess(data?.data?.siteInformation?.[0]?.value)
-		);
+		yield put(getSiteConfigurationSuccess(data?.data));
 	} catch (e) {
 		yield put(
 			getSiteConfigurationFail(e?.response?.data?.errors[0]?.description)
@@ -68,9 +67,15 @@ function* getSiteConfigurationWorker(action) {
 
 function* updateSiteConfigurationWorker(action) {
 	try {
-		const { data } = action && action.payload;
-		yield updateSiteConfiguration(objectToFormData(data));
-
+		const data = action && action.payload;
+		yield updateSiteConfiguration(data);
+		const { siteConfigDetails } = yield select((state) => state.ProfileData);
+		const [key] = Object.keys(data || {});
+		const updatedSiteConfig = {
+			...siteConfigDetails,
+			[key]: { ...siteConfigDetails[key], value: `${data[key]}` },
+		};
+		yield put(getSiteConfigurationSuccess(updatedSiteConfig));
 		yield put(updateSiteConfigurationSuccess());
 
 		showToastr({
@@ -82,6 +87,23 @@ function* updateSiteConfigurationWorker(action) {
 			updateSiteConfigurationFail(e?.response?.data?.errors[0]?.description)
 		);
 
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* updateLogoWorker(action) {
+	try {
+		const data = action && action.payload;
+		yield uploadLogoRequest(data);
+
+		showToastr({
+			message: `Logo uploaded successfully`,
+			type: 'success',
+		});
+	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
 			type: 'error',
@@ -122,6 +144,7 @@ export function* ProfileDataWatcher() {
 	);
 	yield takeLatest(RESET_PROFILE_PASSWORD_START, resetProfilePasswordWorker);
 	yield takeLatest(GET_SITE_CONFIGURATION_START, getSiteConfigurationWorker);
+	yield takeLatest(UPDATE_LOGO, updateLogoWorker);
 }
 
 function* ProfileDataSaga() {

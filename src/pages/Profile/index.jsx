@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,13 +10,10 @@ import { getSuperAdminStart } from '../../store/auth/permissionDetails/actions';
 import {
 	getAdminChildren,
 	getLanguagesStart,
-	getSiteConfigurationStart,
 	updateProfileStart,
-	updateSiteConfigurationStart,
 } from '../../store/actions';
 
 import Overview from './FormSections/Overview';
-import SiteConfig from './FormSections/SiteConfiguration';
 import Password from './FormSections/Password';
 import Permissions from './FormSections/Permissions';
 import TabsPage from '../../components/Common/TabsPage';
@@ -29,7 +25,6 @@ const ProfilePage = ({ t }) => {
 
 	const [activeTab, setActiveTab] = useState('1');
 	const [editable, setEditable] = useState(true);
-	const [editableSiteConfig, setEditableSiteConfig] = useState(false);
 	const isTenant = false;
 
 	const toggle = (tab) => {
@@ -40,10 +35,8 @@ const ProfilePage = ({ t }) => {
 	const { superAdminUser, isSuperAdminLoading } = useSelector(
 		(state) => state.PermissionDetails
 	);
-	const { languageData, languageDataLoading } = useSelector(
-		(state) => state.CasinoManagementData
-	);
-	const { resetProfilePasswordLoading, siteConfigDetails } = useSelector(
+
+	const { resetProfilePasswordLoading } = useSelector(
 		(state) => state.ProfileData
 	);
 
@@ -70,26 +63,12 @@ const ProfilePage = ({ t }) => {
 		);
 	};
 
-	const updateSiteConfiguration = (data) => {
-		dispatch(
-			updateSiteConfigurationStart({
-				data,
-				isTenant,
-			})
-		);
-		setEditableSiteConfig(false);
-	};
-
 	useEffect(() => {
 		dispatch(getSuperAdminStart());
 	}, []);
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-	}, []);
-
-	useEffect(() => {
-		dispatch(getSiteConfigurationStart());
 	}, []);
 
 	const tabData = [
@@ -104,20 +83,6 @@ const ProfilePage = ({ t }) => {
 					setIsEditable={setEditable}
 					updateData={updateData}
 					isLoading={isSuperAdminLoading}
-				/>
-			),
-		},
-		{
-			id: '2',
-			title: 'Application',
-			component: (
-				<SiteConfig
-					details={siteConfigDetails}
-					languageData={languageData}
-					editableSiteConfig={editableSiteConfig}
-					setEditableSiteConfig={setEditableSiteConfig}
-					updateSiteConfiguration={updateSiteConfiguration}
-					isLanguageDataLoading={!languageDataLoading}
 				/>
 			),
 		},

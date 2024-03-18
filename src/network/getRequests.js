@@ -203,12 +203,14 @@ const getUserBonuses = (payload) =>
 
 const getSiteConfiguration = (data) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-information`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application`,
 		data
 	);
 
 const getGlobalRegistration = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/global-registration`);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}global-registration`
+	);
 
 const getloyaltyLevel = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/loyalty-level`);
@@ -307,7 +309,7 @@ const getBonus = ({ bonusId, userBonusId }) =>
 
 const getSiteDetailApi = () =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}site-layout`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/get-site-layout`
 	);
 
 const getGameReports = (payload) =>

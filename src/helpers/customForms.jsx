@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // Form Editor
@@ -47,6 +47,7 @@ export const CustomInputField = ({
 	validate,
 	min,
 	max,
+	description,
 	...props
 }) => (
 	<>
@@ -68,6 +69,7 @@ export const CustomInputField = ({
 			autoComplete="new-password"
 			{...props}
 		/>
+		{description && <span className="text-muted">{description}</span>}
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
 		) : null}
@@ -285,45 +287,53 @@ export const CustomToggleButton = ({
 	containerClass,
 	switchSizeClass,
 	required,
+	description,
 	...rest
 }) => (
-	<span
-		style={{ pointerEvents: disabled ? 'none' : 'auto' }}
-		className={`form-check form-switch ${switchSizeClass || 'form-switch-md'} ${
-			containerClass || 'mb-3 mt-3'
-		}`}
-	>
-		{required
-			? label && (
-					<div>
+	<>
+		<span
+			style={{ pointerEvents: disabled ? 'none' : 'auto' }}
+			className={`form-check form-switch ${
+				switchSizeClass || 'form-switch-md'
+			} ${containerClass || 'mb-3 mt-3'}`}
+		>
+			{required
+				? label && (
+						<div>
+							<Label htmlFor={htmlFor} className={labelClassName}>
+								{label}
+							</Label>{' '}
+							<span className="text-danger"> *</span>
+						</div>
+				  )
+				: label && (
 						<Label htmlFor={htmlFor} className={labelClassName}>
 							{label}
-						</Label>{' '}
-						<span className="text-danger"> *</span>
-					</div>
-			  )
-			: label && (
-					<Label htmlFor={htmlFor} className={labelClassName}>
-						{label}
-					</Label>
-			  )}
-		<Input
-			type={type}
-			id={id}
-			name={name}
-			className={inputClassName}
-			value={value}
-			onClick={onClick}
-			onBlur={onBlur}
-			style={style}
-			checked={checked}
-			disabled={disabled}
-			{...rest}
-		/>
-		{isError && errorMsg ? (
-			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
-		) : null}
-	</span>
+						</Label>
+				  )}
+			<Input
+				type={type}
+				id={id}
+				name={name}
+				className={inputClassName}
+				value={value}
+				onClick={onClick}
+				onBlur={onBlur}
+				style={style}
+				checked={checked}
+				disabled={disabled}
+				{...rest}
+			/>
+			{isError && errorMsg ? (
+				<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+			) : null}
+		</span>
+		{description && (
+			<div>
+				<span className="text-muted">{description}</span>{' '}
+			</div>
+		)}
+	</>
 );
 
 export const CustomTextEditor = ({
@@ -395,6 +405,7 @@ export const getField = (
 		placeholder,
 		label,
 		callBack,
+		customBlurHandler,
 		isDisabled,
 		onDelete,
 		type = 'text',
@@ -413,6 +424,7 @@ export const getField = (
 		defaultValue,
 		customThumbnailBackground,
 		customPadding,
+		description,
 		...rest
 	},
 	validation
@@ -426,10 +438,12 @@ export const getField = (
 					type={type}
 					onChange={(e) => {
 						validation.handleChange(e);
-						// eslint-disable-next-line no-unused-expressions
 						callBack ? callBack(e) : null;
 					}}
-					onBlur={validation.handleBlur}
+					onBlur={(e) => {
+						validation.handleBlur(e);
+						customBlurHandler ? customBlurHandler(e) : null;
+					}}
 					placeholder={placeholder}
 					validate={{ required: { value: true } }}
 					value={validation.values[name]}
@@ -438,6 +452,7 @@ export const getField = (
 					errorMsg={validation.touched[name] && validation.errors[name]}
 					disabled={!!isDisabled}
 					min={minimum}
+					description={description}
 				/>
 			);
 		case 'select':
@@ -512,12 +527,14 @@ export const getField = (
 					inputClassName="form-check-input"
 					value={!!validation.values[name]}
 					onClick={(e) => {
-						validation.setFieldValue(name, !e.target.checked);
 						callBack && callBack(e);
+
+						validation.setFieldValue(name, !e.target.checked);
 					}}
 					onBlur={validation.handleBlur}
 					disabled={!!isDisabled}
 					required={isRequired}
+					description={description}
 					{...rest}
 				/>
 			);
@@ -564,6 +581,7 @@ export const getField = (
 						type="file"
 						onChange={(event) => {
 							validation.setFieldValue(name, event.currentTarget.files[0]);
+							callBack && callBack(event);
 						}}
 						callBack
 						onBlur={validation.handleBlur}

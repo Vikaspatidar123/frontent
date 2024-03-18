@@ -309,6 +309,22 @@ const updateReorderGames = ({ data }) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-games`,
 		data
 	);
+
+const updateSiteConfiguration = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/update-constants`,
+		data
+	);
+
+const uploadLogoRequest = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/update-constants`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -365,4 +381,6 @@ export {
 	editCasinoSubCategory,
 	updateSubCategoryReOrder,
 	updateReorderGames,
+	updateSiteConfiguration,
+	uploadLogoRequest,
 };
