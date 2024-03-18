@@ -1,17 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {
-	Row,
-	Col,
-	Card,
-	Button,
-	DropdownMenu,
-	DropdownItem,
-	DropdownToggle,
-	ButtonDropdown,
-	UncontrolledTooltip,
-} from 'reactstrap';
+import { Row, Col, Card, Button, UncontrolledTooltip } from 'reactstrap';
 
 import { Buffer } from 'buffer';
 import { useSelector, useDispatch } from 'react-redux';
@@ -43,14 +33,12 @@ const safeStringify = (object) =>
 
 const CreateTemplate = ({
 	languageData,
-	validation,
 	emailTemplate,
-	dynamicKeys,
 	setTemp,
-	selectedTab,
 	setSelectedTab,
 	showGallery,
 	setShowGallery,
+	content,
 	isEdit = false,
 	isView = false,
 }) => {
@@ -62,13 +50,11 @@ const CreateTemplate = ({
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState(1);
 	const [template, setTemplate] = useState('');
-	const [requiredKeyData, setRequiredKeyData] = useState({});
-	const [drpPrimaryStates, setDrpPrimaryStates] = useState({});
-	const [data, setData] = useState(emailTemplate?.[0]?.templateCode?.EN);
+	const [data, setData] = useState(emailTemplate?.templateCode?.EN);
 
 	useEffect(() => {
-		if (emailTemplate?.[0]?.templateCode?.EN) {
-			setData(emailTemplate?.[0]?.templateCode?.EN);
+		if (emailTemplate?.templateCode?.EN) {
+			setData(emailTemplate?.templateCode?.EN);
 		}
 	}, [emailTemplate]);
 
@@ -87,20 +73,6 @@ const CreateTemplate = ({
 		};
 		dispatch(deleteImageGallery(data));
 	};
-
-	useEffect(() => {
-		if (Object.keys(dynamicKeys)?.length) {
-			let tempDataAll = {};
-			let tempData = {};
-			dynamicKeys.forEach((item) => {
-				tempDataAll = { ...tempDataAll, [item.key]: item.description };
-				if (item.required) {
-					tempData = { ...tempData, [item.key]: item.description };
-				}
-			});
-			setRequiredKeyData(tempData);
-		}
-	}, [dynamicKeys]);
 
 	useEffect(() => {
 		setTemp && setTemp(template);
@@ -173,76 +145,36 @@ const CreateTemplate = ({
 		}
 	}, [imageGallery]);
 
-	const toggleDropdown = (tabId) => {
-		setDrpPrimaryStates((prevState) => ({
-			...prevState,
-			[tabId]: !prevState[tabId],
-		}));
-	};
-
 	const tabData = languageData?.languages?.map((item) => ({
 		id: parseInt(item.id, 10),
 		title: item.code,
 		component: (
 			<Row>
 				<Card>
-					<Row className="d-flex flex-row justify-content-between">
-						<Col>
-							<Button
-								color="primary"
-								type="button"
-								onClick={() => {
-									setIsTestTemplateModalVisible(!isTestTemplateModalVisible);
-								}}
-							>
-								Send Test Email
-							</Button>
-						</Col>
-						<Col className="text-end">
-							<div className="btn-group">
-								<ButtonDropdown
-									isOpen={drpPrimaryStates[item.id] || false}
-									toggle={() => toggleDropdown(item.id)}
-								>
-									<Button id="caret" type="button" color="primary">
-										Dynamic Keys
-									</Button>
-									<DropdownToggle caret color="primary">
-										<i className="mdi mdi-chevron-down" />
-									</DropdownToggle>
-									<DropdownMenu>
-										{dynamicKeys?.map?.((item, index) => (
-											<DropdownItem
-												key={index}
-												onClick={() => {
-													setRequiredKeyData({
-														...requiredKeyData,
-														[item.key]: item.description,
-													});
-												}}
-											>
-												{`${item.key} `}
-												{item.required ? '(Required)' : '(Optional)'}
-											</DropdownItem>
-										))}
-									</DropdownMenu>
-								</ButtonDropdown>
-							</div>
-						</Col>
-					</Row>
+					<Col className="text-end">
+						<Button
+							color="primary"
+							type="button"
+							onClick={() => {
+								setIsTestTemplateModalVisible(!isTestTemplateModalVisible);
+							}}
+						>
+							Send Test Email
+						</Button>
+					</Col>
 				</Card>
 
 				<Col sm="12">
 					{' '}
 					<CodeEditor
-						dynamicData={safeStringify(requiredKeyData, null, 2)}
+						dynamicData={safeStringify({}, null, 2)}
 						HTML={data || ''}
 						initial="HTML"
 						mobileQuery={800}
 						height="60vh"
 						setTemplate={setTemplate}
 						themeTransitionSpeed={150}
-						setRequiredKeyData={setRequiredKeyData}
+						// setRequiredKeyData={setRequiredKeyData}
 						selectedTab={activeTab}
 						setTemp={setTemplate}
 						disabled={isView}
@@ -258,7 +190,7 @@ const CreateTemplate = ({
 			templateCode &&
 				dispatch(
 					testEmailTemplate({
-						data: { templateCode, testEmail, dynamicData: requiredKeyData },
+						data: { templateCode, testEmail, dynamicData: {} },
 						setIsTestTemplateModalVisible,
 						setTestEmail,
 					})
@@ -289,12 +221,12 @@ const CreateTemplate = ({
 	}, [activeTab]);
 
 	const toggle = (tab) => {
-		if (isEdit) {
+		if (isEdit || content.EN) {
 			setActiveTab(tab);
 		} else {
 			showToastr({
 				message:
-					'You must enter data for English language and Submit before switching to another language ',
+					'You must enter data for English language before switching to another language ',
 				type: 'error',
 			});
 		}
@@ -326,10 +258,7 @@ const CreateTemplate = ({
 
 CreateTemplate.propTypes = {
 	languageData: PropTypes.object,
-	validation: PropTypes.object,
-	dynamicKeys: PropTypes.array,
 	setTemp: PropTypes.func,
-	selectedTab: PropTypes.string,
 	setSelectedTab: PropTypes.func,
 	showGallery: PropTypes.bool,
 	setShowGallery: PropTypes.func,

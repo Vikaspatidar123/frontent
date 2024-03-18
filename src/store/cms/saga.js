@@ -32,13 +32,11 @@ import {
 	getCMSDynamicKeys,
 	getCmsByPageId,
 } from '../../network/getRequests';
-import {
-	// superAdminViewToggleStatus,
-	updateSuperAdminCMS,
-} from '../../network/putRequests';
+
 import {
 	createSuperAdminCMS,
 	updatePageStatus,
+	updateSuperAdminCMS,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';

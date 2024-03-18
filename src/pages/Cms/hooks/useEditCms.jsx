@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
-	getCmsDynamicKeys,
 	getCmsByPageId,
 	updateSaCms,
 	resetCmsByPageIdData,
@@ -40,7 +39,12 @@ const useEditCms = () => {
 		if (values?.content) {
 			dispatch(
 				updateSaCms({
-					cmsData: { ...values, cmsPageId: parseInt(cmsPageId) },
+					cmsData: {
+						...values,
+						title,
+						content,
+						pageId: parseInt(cmsPageId),
+					},
 					navigate,
 				})
 			);
@@ -70,7 +74,7 @@ const useEditCms = () => {
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
 		header: `Edit CMS ${cmsPageId}`,
-		initialValues: getInitialValues(cmsByPageId),
+		initialValues: getInitialValues(cmsByPageId?.page),
 		validationSchema: createCmsNewSchema,
 		staticFormFields: staticFormFields(),
 		onSubmitEntry: formSubmitHandler,
@@ -80,7 +84,7 @@ const useEditCms = () => {
 		setCustomComponent(
 			<CreateCMSTemplate
 				languageData={languageData}
-				cmsByPageId={cmsByPageId}
+				cmsByPageId={cmsByPageId?.page}
 				validation={validation}
 				cmsKeys={cmsDynamicKeys}
 				title={title}

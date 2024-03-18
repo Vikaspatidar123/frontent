@@ -51,7 +51,7 @@ const getInitialValues = (cmsData) => ({
 	title: cmsData ? cmsData?.title?.EN : '',
 	slug: cmsData ? cmsData?.slug : '',
 	content: cmsData ? cmsData?.content?.EN : '',
-	category: cmsData ? cmsData?.category : 'about',
+	category: cmsData?.category ? cmsData?.category : 'about',
 	isActive: cmsData ? !!cmsData?.isActive : true,
 	language: '',
 });

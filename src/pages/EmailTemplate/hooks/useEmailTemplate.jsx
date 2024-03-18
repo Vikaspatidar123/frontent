@@ -72,7 +72,7 @@ const useEmailTemplate = () => {
 					<div
 						className="d-flex p-2"
 						dangerouslySetInnerHTML={{
-							__html: emailTemplate?.[0].templateCode?.[language],
+							__html: emailTemplate?.templateCode?.[language],
 						}}
 					/>
 				</>

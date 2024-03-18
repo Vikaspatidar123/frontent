@@ -46,17 +46,11 @@ const markUserAsInternal = (data) =>
 const updateWageringTemplate = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template`, data);
 
-const updateSuperAdminCMS = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/cms`, data);
-
 const cancelDocumentRequest = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/user/cancel-document-request`,
 		data
 	);
-
-const updateEmailTemplate = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email`, data);
 
 const cancelBonus = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/cancel`, data);
@@ -120,14 +114,11 @@ const uploadImageApi = (data) =>
 		}
 	);
 
-const primaryEmailTemplate = (data) =>
+const updateSiteDetails = (data) =>
 	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}/email/set-default`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}page/update`,
 		data
 	);
-
-const updateSiteDetails = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/setting/site-layout`, data);
 
 export {
 	updateStatus,
@@ -139,9 +130,7 @@ export {
 	updateloyaltyLevel,
 	markUserAsInternal,
 	updateWageringTemplate,
-	updateSuperAdminCMS,
 	cancelDocumentRequest,
-	updateEmailTemplate,
 	cancelBonus,
 	updateComment,
 	verifyUserDocument,
@@ -154,6 +143,5 @@ export {
 	updateReview,
 	reorderBonus,
 	uploadImageApi,
-	primaryEmailTemplate,
 	updateSiteDetails,
 };

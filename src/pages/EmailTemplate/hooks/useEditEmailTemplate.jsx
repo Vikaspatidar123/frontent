@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
-	getDynamicKeys,
 	getEmailTemplate,
 	updateEmailTemplate,
 	resetEmailTemplate,
@@ -27,14 +26,13 @@ const useEditEmailTemplate = () => {
 	const [customComponent, setCustomComponent] = useState();
 
 	const [template, setTemplate] = useState('');
+	const [content, setContent] = useState('');
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
 	const isEdit = true;
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const { emailTypes, dynamicKeys, emailTemplate } = useSelector(
-		(state) => state.EmailTemplate
-	);
+	const { emailTemplate } = useSelector((state) => state.EmailTemplate);
 
 	useEffect(() => {
 		if (emailTemplateId) {
@@ -42,73 +40,38 @@ const useEditEmailTemplate = () => {
 		}
 	}, [emailTemplateId]);
 
+	useEffect(() => {
+		if (selectedTab) {
+			setContent((prev) => ({
+				...prev,
+				[selectedTab]: template,
+			}));
+		}
+	}, [selectedTab, template]);
+
+	useEffect(() => {
+		if (emailTemplate) {
+			setContent(emailTemplate?.templateCode);
+			setTemplate(emailTemplate?.templateCode?.EN);
+		}
+	}, [emailTemplate]);
+
 	// resetting email template details redux state
 	useEffect(() => () => dispatch(resetEmailTemplate()), []);
 
-	const getTemplateKeys = (temp) => {
-		const mainKeys = [];
-		const keys = temp.match(/{{{ *[A-Za-z0-9]* *}}}/g);
-
-		if (keys) {
-			keys.forEach((key) => {
-				mainKeys.push(key.replaceAll('{', '').replaceAll('}', '').trim());
-			});
-			return [...new Set(mainKeys)];
-		}
-		return [];
-	};
-
 	const formSubmitHandler = (values) => {
-		if (template) {
-			const allKeys = dynamicKeys?.map((item) => item.key);
-			const requiredKeys = dynamicKeys
-				.filter((item) => item.required === true)
-				.map((item) => item.key);
-
-			const templateKeys = getTemplateKeys(template);
-			if (templateKeys?.length || requiredKeys?.length) {
-				if (allKeys.some((r) => templateKeys.includes(r))) {
-					if (requiredKeys.every((v) => templateKeys.includes(v))) {
-						dispatch(
-							updateEmailTemplate({
-								data: {
-									...values,
-									emailTemplateId,
-									type: parseInt(values?.type, 10),
-									templateCode: template,
-									language: selectedTab,
-									dynamicData: templateKeys,
-								},
-								navigate,
-							})
-						);
-					} else {
-						showToastr({
-							message: 'Please Use All Required Dynamic Keys',
-							type: 'error',
-						});
-					}
-				} else {
-					showToastr({
-						message: 'Invalid Dynamic Keys',
-						type: 'error',
-					});
-				}
-			} else {
-				dispatch(
-					updateEmailTemplate({
-						data: {
-							...values,
-							type: parseInt(values?.type, 10),
-							emailTemplateId,
-							templateCode: template,
-							language: selectedTab,
-							dynamicData: templateKeys,
-						},
-						navigate,
-					})
-				);
-			}
+		if (Object?.keys(content)?.length > 0) {
+			dispatch(
+				updateEmailTemplate({
+					data: {
+						emailTemplateId,
+						templateCode: content,
+						eventType: values?.type,
+						isDefault: values?.isDefault,
+					},
+					navigate,
+				})
+			);
 		} else {
 			showToastr({
 				message: 'Content Required',
@@ -134,19 +97,9 @@ const useEditEmailTemplate = () => {
 	});
 
 	useEffect(() => {
-		if (emailTemplate?.length) {
-			if (emailTypes) {
-				dispatch(getDynamicKeys({ type: emailTemplate[0].type, emailTypes }));
-			}
-			setTemplate(emailTemplate.templateCode);
-		}
-	}, [emailTemplate, emailTypes]);
-
-	useEffect(() => {
 		setCustomComponent(
 			<CreateTemplate
 				languageData={languageData}
-				dynamicKeys={dynamicKeys}
 				emailTemplate={emailTemplate}
 				setTemp={setTemplate}
 				validation={validation}
@@ -157,14 +110,7 @@ const useEditEmailTemplate = () => {
 				isEdit={isEdit}
 			/>
 		);
-	}, [
-		languageData,
-		dynamicKeys,
-		template,
-		selectedTab,
-		showGallery,
-		emailTemplate,
-	]);
+	}, [languageData, template, selectedTab, showGallery, emailTemplate]);
 
 	const handleGalleryClick = () => {
 		setShowGallery(true);
