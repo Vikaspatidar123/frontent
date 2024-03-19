@@ -115,6 +115,12 @@ const getTransactionBanking = (payload) =>
 		payload
 	);
 
+const getLedgerDetails = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-legders`,
+		payload
+	);
+
 const getSportsList = (payload) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}sports`,
@@ -406,4 +412,5 @@ export {
 	getKpiReport,
 	getSubCategoryAddedGames,
 	getAllUserTags,
+	getLedgerDetails,
 };

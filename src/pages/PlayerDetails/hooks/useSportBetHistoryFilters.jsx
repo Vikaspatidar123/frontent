@@ -32,6 +32,8 @@ const useSportBetHistoryFilters = () => {
 				perPage: itemsPerPage,
 				page: 1,
 				userId: playerId,
+				fromDate: values.startDate,
+				toDate: values.endDate,
 				...values,
 			})
 		);
