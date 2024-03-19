@@ -310,7 +310,7 @@ const sportsBetFilterValidationSchema = () =>
 
 const transactionFiltersFields = () => [
 	{
-		name: 'ledgerType',
+		name: 'type',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Ledger type',
@@ -321,7 +321,7 @@ const transactionFiltersFields = () => [
 		})),
 	},
 	{
-		name: 'ledgerPurpose',
+		name: 'purpose',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Ledger Purpose',
@@ -343,8 +343,8 @@ const transactionFilterValues = () => ({
 	startDate: null,
 	endDate: null,
 	currencyCode: null,
-	ledgerType: null,
-	ledgerPurpose: null,
+	type: null,
+	purpose: null,
 });
 
 const transactionFilterValidationSchema = () =>
@@ -352,8 +352,8 @@ const transactionFilterValidationSchema = () =>
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
 		currencyCode: Yup.string().nullable(),
-		ledgerType: Yup.string().nullable(),
-		ledgerPurpose: Yup.string().nullable(),
+		type: Yup.string().nullable(),
+		purpose: Yup.string().nullable(),
 	});
 
 // Bonus filters

@@ -16,6 +16,10 @@ const Amount = ({ value }) =>
 
 const Actionee = ({ value }) => value ?? '-';
 
+const FromWallet = ({ value }) => value ?? '-';
+
+const ToWallet = ({ value }) => value ?? '-';
+
 const Purpose = ({ value }) => value ?? '';
 
 const TransactionType = ({ value }) => value ?? '-';
@@ -38,4 +42,6 @@ export {
 	PaymentProvider,
 	Amount,
 	TransactionType,
+	FromWallet,
+	ToWallet,
 };

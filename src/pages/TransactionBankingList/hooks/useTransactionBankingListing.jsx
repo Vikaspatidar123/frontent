@@ -7,21 +7,16 @@ import {
 	resetTransactionBankingData,
 } from '../../../store/actions';
 import { LEDGER_TYPES, statusType } from '../constants';
-// import { formatDateYMD } from '../../../helpers/dateFormatter';
 import {
 	Purpose,
-	Actionee,
 	TransactionType,
 	Amount,
 	CreatedAt,
 	Id,
 	Status,
+	FromWallet,
+	ToWallet,
 } from '../TransactionBankingCol';
-import { CurrencyCode } from '../../PlayerDetails/TableCol';
-// import { downloadFileInNewWindow } from '../../../utils/helpers';
-// import { getAccessToken } from '../../../network/storageUtils';
-
-// import { modules } from '../../../constants/permissions';
 
 const useTransactionBankingListing = (userId, filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -34,20 +29,6 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
-
-	// const handleWalletType = ({ type, amountType }) => {
-	//   if (
-	//     [
-	//       'addMoney',
-	//       'removeMoney',
-	//       'addMoneyInternal',
-	//       'removeMoneyInternal',
-	//     ]?.includes(type)
-	//   ) {
-	//     return `(${walletType[amountType]})`;
-	//   }
-	//   return '';
-	// };
 
 	useEffect(() => {
 		dispatch(
@@ -66,13 +47,12 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 	const formattedTransactionBanking = useMemo(() => {
 		const formattedValues = [];
 		if (transactionBanking) {
-			transactionBanking?.transactions?.map((transaction) =>
-				formattedValues.push({
+			transactionBanking?.transactions?.map((transaction) => {
+				const transactionData = {
+					...transaction,
 					ledgerId: transaction?.ledgerId,
-					actionee: transaction?.actioneeId,
 					amount: transaction?.ledger?.amount,
 					purpose: transaction?.ledger?.purpose,
-					currencyCode: transaction?.wallet?.currency?.code,
 					transactionType: LEDGER_TYPES.find(
 						(type) => type.value === transaction?.ledger?.type
 					)?.label,
@@ -82,8 +62,19 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 					createdAt: moment(transaction?.createdAt)
 						.local()
 						.format('YYYY-MM-DD HH:mm:ss'),
-				})
-			);
+				};
+
+				if (transaction?.fromAdminWallet && transaction?.toUserWallet) {
+					transactionData.from = transaction?.adminUser?.username;
+					transactionData.to = transaction?.toUserWallet?.user?.username;
+				} else if (transaction?.fromUserWallet && transaction?.toAdminWallet) {
+					transactionData.from = transaction?.user?.username;
+					transactionData.to = transaction?.adminUser?.userName;
+				}
+
+				formattedValues.push(transactionData);
+				return [];
+			});
 		}
 		return formattedValues;
 	}, [transactionBanking]);
@@ -96,29 +87,23 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
-			// {
-			// 	Header: 'Transaction Id',
-			// 	accessor: 'paymentTransactionId',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <TransactionId value={cell.value} />,
-			// },
 			{
-				Header: 'Actionee Id',
-				accessor: 'actionee',
+				Header: 'From',
+				accessor: 'from',
 				filterable: true,
-				Cell: ({ cell }) => <Actionee value={cell.value} />,
+				Cell: ({ cell }) => <FromWallet value={cell.value} />,
+			},
+			{
+				Header: 'To',
+				accessor: 'to',
+				filterable: true,
+				Cell: ({ cell }) => <ToWallet value={cell.value} />,
 			},
 			{
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
 				Cell: ({ cell }) => <Amount value={cell.value} />,
-			},
-			{
-				Header: 'Currency',
-				accessor: 'currencyCode',
-				filterable: true,
-				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
 			},
 			{
 				Header: 'Purpose',
