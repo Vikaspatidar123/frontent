@@ -1,25 +1,84 @@
 export const LEDGER_PURPOSE = [
-	{ label: 'CasinoBet', value: 'CasinoBet' },
-	{ label: 'CasinoWin', value: 'CasinoWin' },
-	{ label: 'CasinoRefund', value: 'CasinoRefund' },
-	{ label: 'Commission', value: 'Commission' },
-	{ label: 'Winnings', value: 'Winnings' },
-	{ label: 'Cash-Deposit', value: 'Cash-Deposit' },
-	{ label: 'Cash-Withdraw', value: 'Cash-Withdraw' },
-	{ label: 'NonCash-Deposit', value: 'NonCash-Deposit' },
-	{ label: 'NonCash-Withdraw', value: 'NonCash-Withdraw' },
-	{ label: 'SportsBookBet', value: 'SportsBookBet' },
-	{ label: 'SportsBookWin', value: 'SportsBookWin' },
-	{ label: 'SportsBookRefund', value: 'SportsBookRefund' },
-	// { label: 'ResettlementLostTORefund', value: 'ResettlementLostTORefund' },
-	// { label: 'ResettlementLostToWin', value: 'ResettlementLostToWin' },
-	// { label: 'ResettlementOpenToWin', value: 'ResettlementOpenToWin' },
-	// { label: 'ResettlementWinToOpen', value: 'ResettlementWinToOpen' },
-	// { label: 'ResettlementWinToLost', value: 'ResettlementWinToLost' },
-	// { label: 'ResettlementRefundToLost', value: 'ResettlementRefundToLost' },
-	// { label: 'ResettlementRefundToOpen', value: 'ResettlementRefundToOpen' },
-	// { label: 'ResettlementOpenToRefund', value: 'ResettlementOpenToRefund' },
-	{ label: 'SportsBookExchangeBet', value: 'SportsBookExchangeBet' },
+	{
+		label: 'Deposit',
+		value: 'Deposit',
+	},
+	{
+		label: 'Withdraw',
+		value: 'Withdraw',
+	},
+	{
+		label: 'Winnings',
+		value: 'Winnings',
+	},
+	{
+		label: 'Commission',
+		value: 'Commission',
+	},
+	{
+		label: 'BonusDeposit',
+		value: 'BonusDeposit',
+	},
+	{
+		label: 'BonusWithdraw',
+		value: 'BonusWithdraw',
+	},
+	{
+		label: 'CasinoBet',
+		value: 'CasinoBet',
+	},
+	{
+		label: 'CasinoWin',
+		value: 'CasinoWin',
+	},
+	{
+		label: 'CasinoRefund',
+		value: 'CasinoRefund',
+	},
+	{
+		label: 'CasinoBonusBet',
+		value: 'CasinoBonusBet',
+	},
+	{
+		label: 'CasinoBonusWin',
+		value: 'CasinoBonusWin',
+	},
+	{
+		label: 'CasinoBonusRefund',
+		value: 'CasinoBonusRefund',
+	},
+	{
+		label: 'SportsbookBet',
+		value: 'SportsbookBet',
+	},
+	{
+		label: 'SportsbookWin',
+		value: 'SportsbookWin',
+	},
+	{
+		label: 'SportsbookRefund',
+		value: 'SportsbookRefund',
+	},
+	{
+		label: 'SportsbookCashout',
+		value: 'SportsbookCashout',
+	},
+	{
+		label: 'SportsbookExchangeBet',
+		value: 'SportsbookExchangeBet',
+	},
+	{
+		label: 'SportsbookExchangeWin',
+		value: 'SportsbookExchangeWin',
+	},
+	{
+		label: 'SportsbookExchangeRefund',
+		value: 'SportsbookExchangeRefund',
+	},
+	{
+		label: 'SportsbookExchangeCashout',
+		value: 'SportsbookExchangeCashout',
+	},
 ];
 
 export const LEDGER_TYPES = [

@@ -4,7 +4,7 @@ import { statusType, LEDGER_TYPES, LEDGER_PURPOSE } from './constants';
 
 const staticFiltersFields = () => [
 	{
-		name: 'transactionType',
+		name: 'type',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Transaction type',
@@ -15,7 +15,7 @@ const staticFiltersFields = () => [
 		})),
 	},
 	{
-		name: 'ledgerPurpose',
+		name: 'purpose',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Ledger Purpose',
@@ -25,22 +25,6 @@ const staticFiltersFields = () => [
 			optionLabel: label,
 		})),
 	},
-	// {
-	// 	name: 'actioneeType',
-	// 	fieldType: 'select',
-	// 	label: '',
-	// 	placeholder: 'Actionee Type',
-	// 	optionList: [
-	// 		{
-	// 			value: 'user',
-	// 			optionLabel: 'User',
-	// 		},
-	// 		{
-	// 			value: 'admin',
-	// 			optionLabel: 'Admin',
-	// 		},
-	// 	],
-	// },
 	{
 		name: 'status',
 		fieldType: 'select',
@@ -51,13 +35,6 @@ const staticFiltersFields = () => [
 			value,
 			optionLabel: label,
 		})),
-	},
-	{
-		name: 'actineeName',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by Actionee',
 	},
 	{
 		name: 'ranges',
@@ -71,24 +48,20 @@ const startDate = moment().subtract(1, 'month').toDate(); // Do not define it in
 const endDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
-	paymentProvider: '',
 	status: null,
-	// actioneeType: null,
 	startDate,
 	endDate,
-	currency: null,
-	transactionType: null,
+	type: null,
+	purpose: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		paymentProvider: Yup.string().nullable(),
 		status: Yup.string().nullable(),
-		// actioneeType: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
-		currency: Yup.string().nullable(),
-		transactionType: Yup.string().nullable(),
+		type: Yup.string().nullable(),
+		purpose: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };
