@@ -1,14 +1,14 @@
 import * as Yup from 'yup';
 import { formatDateYMD } from '../../utils/helpers';
-import {
-	ACTION_TYPES,
-	LEDGER_TYPES,
-	LEDGER_PURPOSE,
-	statusType as casinoStatusType,
-} from '../CasinoTransactionsList/constants';
 import { statusType } from '../TransactionBankingList/constants';
-import { bonusStatus, bonusTypes } from './constants';
-import moment from 'moment';
+import {
+	BET_SLIP_SETTLEMENT_STATUS,
+	BET_TYPES,
+	LEDGER_PURPOSE,
+	LEDGER_TYPES,
+	bonusStatus,
+	bonusTypes,
+} from './constants';
 
 const getInitialValues = (defaultValue) => ({
 	title: defaultValue?.title || '',
@@ -232,9 +232,6 @@ const staticFiltersFields = () => [
 	},
 ];
 
-const startDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
-const endDate = new Date(); // Do not define it inside filterValue function
-
 const filterValues = () => ({
 	startDate: '',
 	endDate: '',
@@ -264,41 +261,23 @@ const filterValidationSchema = () =>
 
 // Sports Bet History filters
 const sportsBetFiltersFields = () => [
-	// {
-	// 	name: 'email',
-	// 	fieldType: 'textField',
-	// 	type: 'search',
-	// 	label: '',
-	// 	placeholder: 'Search by email',
-	// },
 	{
-		name: 'transactionType',
+		name: 'type',
 		fieldType: 'select',
 		label: '',
-		placeholder: 'Action Type',
-		optionList: LEDGER_TYPES.map(({ value, label }) => ({
+		placeholder: 'Bet Slip Type',
+		optionList: BET_TYPES.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
 		})),
 	},
 	{
-		name: 'ledgerPurpose',
+		name: 'settlementStatus',
 		fieldType: 'select',
 		label: '',
-		placeholder: 'Ledger Purpose',
-		optionList: LEDGER_PURPOSE.map(({ value, label }) => ({
-			id: value,
-			value,
-			optionLabel: label,
-		})),
-	},
-	{
-		name: 'status',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Status',
-		optionList: casinoStatusType.map(({ value, label }) => ({
+		placeholder: 'Bet Slip Settlement Status',
+		optionList: BET_SLIP_SETTLEMENT_STATUS.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
@@ -313,45 +292,29 @@ const sportsBetFiltersFields = () => [
 ];
 
 const sportsBetFilterValues = () => ({
-	// email: '',
-	transactionType: null,
-	ledgerPurpose: null,
+	type: null,
+	settlementStatus: null,
 	startDate: null,
 	endDate: null,
-	status: null,
-	// currencyCode: null,
 });
 
 const sportsBetFilterValidationSchema = () =>
 	Yup.object({
-		// email: Yup.string().nullable(),
-		transactionType: Yup.string().nullable(),
-		ledgerPurpose: Yup.string().nullable(),
+		type: Yup.string().nullable(),
+		settlementStatus: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
-		currencyCode: Yup.string().nullable(),
 	});
 
 // Transaction filters
 
 const transactionFiltersFields = () => [
 	{
-		name: 'transactionType',
+		name: 'ledgerType',
 		fieldType: 'select',
 		label: '',
-		placeholder: 'Transaction type',
+		placeholder: 'Ledger type',
 		optionList: LEDGER_TYPES.map(({ value, label }) => ({
-			id: value,
-			value,
-			optionLabel: label,
-		})),
-	},
-	{
-		name: 'status',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Status',
-		optionList: statusType.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
@@ -369,13 +332,6 @@ const transactionFiltersFields = () => [
 		})),
 	},
 	{
-		name: 'paymentProvider',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by payment provider',
-	},
-	{
 		name: 'ranges',
 		fieldType: 'dateRangeSelector',
 		label: '',
@@ -384,23 +340,19 @@ const transactionFiltersFields = () => [
 ];
 
 const transactionFilterValues = () => ({
-	paymentProvider: '',
-	status: null,
 	startDate: null,
 	endDate: null,
 	currencyCode: null,
-	transactionType: null,
+	ledgerType: null,
 	ledgerPurpose: null,
 });
 
 const transactionFilterValidationSchema = () =>
 	Yup.object({
-		paymentProvider: Yup.string().nullable(),
-		status: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
 		currencyCode: Yup.string().nullable(),
-		transactionType: Yup.string().nullable(),
+		ledgerType: Yup.string().nullable(),
 		ledgerPurpose: Yup.string().nullable(),
 	});
 

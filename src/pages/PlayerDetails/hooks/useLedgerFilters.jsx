@@ -8,18 +8,14 @@ import {
 	transactionFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	// fetchCurrenciesStart,
-	fetchTransactionBankingStart,
-} from '../../../store/actions';
+import { getLedgerDetailsStart } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
-const useTransactionFilters = () => {
+const useLedgerFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	// const { currencies } = useSelector((state) => state.Currencies);
 	const { playerId } = useParams();
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
@@ -27,10 +23,12 @@ const useTransactionFilters = () => {
 
 	const fetchData = (values) => {
 		dispatch(
-			fetchTransactionBankingStart({
+			getLedgerDetailsStart({
 				perPage: itemsPerPage,
 				page: 1,
 				userId: playerId,
+				fromDate: values?.startDate,
+				toDate: values?.endDate,
 				...values,
 			})
 		);
@@ -47,40 +45,10 @@ const useTransactionFilters = () => {
 		staticFormFields: transactionFiltersFields(),
 	});
 
-	// const handleAdvance = () => {
-	// 	toggleAdvance();
-	// };
-
 	const handleClear = () => {
 		const initialValues = transactionFilterValues();
 		validation.resetForm(initialValues);
 	};
-
-	// useEffect(() => {
-	// 	if (isEmpty(currencies)) {
-	// 		dispatch(
-	// 			fetchCurrenciesStart({
-	// 				// perPage: itemsPerPage,
-	// 				// page: page,
-	// 			})
-	// 		);
-	// 	} else {
-	// 		const currencyField = currencies?.rows?.map((row) => ({
-	// 			optionLabel: row.name,
-	// 			value: row.code,
-	// 		}));
-	// 		setFormFields([
-	// 			{
-	// 				name: 'currencyCode',
-	// 				fieldType: 'select',
-	// 				label: '',
-	// 				placeholder: 'Select a currency',
-	// 				optionList: currencyField,
-	// 			},
-	// 			...transactionFiltersFields(),
-	// 		]);
-	// 	}
-	// }, [currencies]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
@@ -118,4 +86,4 @@ const useTransactionFilters = () => {
 	};
 };
 
-export default useTransactionFilters;
+export default useLedgerFilters;

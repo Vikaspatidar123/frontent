@@ -10,13 +10,13 @@ import PlayerWallet from './PlayerWallet';
 import useUserDetails from './hooks/useUserDetails';
 import BetHistory from './BetHistory';
 import SportsBettingHistory from './SportsBettingHistory';
-import Transactions from './Transactions';
 // import YourBonuses from './YourBonuses';
 import Limits from './Limits';
 import { modules } from '../../constants/permissions';
 import { getUserDetails, resetUserLimitData } from '../../store/actions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import UserDocsList from './components/UserDocsList';
+import Ledger from './Ledger';
 
 const PlayerDetailsPage = ({ t }) => {
 	const { isGranted } = usePermission();
@@ -120,8 +120,8 @@ const PlayerDetailsPage = ({ t }) => {
 		},
 		{
 			id: 6,
-			title: 'Transactions',
-			component: <Transactions userId={playerId} />,
+			title: 'Ledger',
+			component: <Ledger userId={playerId} />,
 			isHidden: !isGranted(modules.report, 'R'),
 		},
 		{

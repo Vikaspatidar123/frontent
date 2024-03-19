@@ -2,24 +2,23 @@ import React from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import PropTypes from 'prop-types';
 import TableContainer from '../../components/Common/TableContainer';
-import useTransactionBankingListing from '../TransactionBankingList/hooks/useTransactionBankingListing';
-import useTransactionFilters from './hooks/useTransactionFilters';
+import useLedgerFilters from './hooks/useLedgerFilters';
 import Filters from '../../components/Common/Filters';
 import CrudSection from '../../components/Common/CrudSection';
+import useLedgerDetails from './hooks/useLedgerDetails';
 
-const Transactions = ({ userId }) => {
+const Ledger = ({ userId }) => {
 	const {
 		currentPage,
 		setCurrentPage,
-		totalTransactionBankingCount,
-		isTransactionBankingLoading,
-		formattedTransactionBanking,
+		totalLedgerCount,
+		ledgerDetailLoading,
+		formattedLedgerDetails,
 		itemsPerPage,
-		transactionBanking,
 		onChangeRowsPerPage,
 		columns,
 		exportComponent,
-	} = useTransactionBankingListing(userId);
+	} = useLedgerDetails(userId);
 
 	const {
 		toggleAdvance,
@@ -28,7 +27,7 @@ const Transactions = ({ userId }) => {
 		actionButtons,
 		filterValidation,
 		isFilterChanged,
-	} = useTransactionFilters();
+	} = useLedgerFilters();
 
 	return (
 		<Container fluid>
@@ -36,7 +35,7 @@ const Transactions = ({ userId }) => {
 				<CrudSection
 					buttonList={[]}
 					exportComponent={exportComponent}
-					title="Transactions"
+					title="Ledger"
 				/>
 				<CardBody>
 					<Filters
@@ -48,16 +47,16 @@ const Transactions = ({ userId }) => {
 						isFilterChanged={isFilterChanged}
 					/>
 					<TableContainer
-						isLoading={isTransactionBankingLoading}
+						isLoading={ledgerDetailLoading}
 						columns={columns}
-						data={formattedTransactionBanking}
+						data={formattedLedgerDetails}
 						isPagination
 						customPageSize={itemsPerPage}
 						tableClass="table-bordered align-middle nowrap mt-2"
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={transactionBanking?.totalPages || 0}
+						totalPageCount={totalLedgerCount || 0}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}
@@ -69,12 +68,12 @@ const Transactions = ({ userId }) => {
 	);
 };
 
-Transactions.defaultProps = {
+Ledger.defaultProps = {
 	userId: '',
 };
 
-Transactions.propTypes = {
+Ledger.propTypes = {
 	userId: PropTypes.string,
 };
 
-export default Transactions;
+export default Ledger;

@@ -416,3 +416,96 @@ export const DOCUMENT_STATUS_TYPES = [
 	{ label: 'Rejected', value: 'rejected' },
 	{ label: 'Requested', value: 'requested' },
 ];
+
+export const LEDGER_PURPOSE = [
+	{
+		label: 'Deposit',
+		value: 'Deposit',
+	},
+	{
+		label: 'Withdraw',
+		value: 'Withdraw',
+	},
+	{
+		label: 'Winnings',
+		value: 'Winnings',
+	},
+	{
+		label: 'Commission',
+		value: 'Commission',
+	},
+	{
+		label: 'BonusDeposit',
+		value: 'BonusDeposit',
+	},
+	{
+		label: 'BonusWithdraw',
+		value: 'BonusWithdraw',
+	},
+	{
+		label: 'CasinoBet',
+		value: 'CasinoBet',
+	},
+	{
+		label: 'CasinoWin',
+		value: 'CasinoWin',
+	},
+	{
+		label: 'CasinoRefund',
+		value: 'CasinoRefund',
+	},
+	{
+		label: 'CasinoBonusBet',
+		value: 'CasinoBonusBet',
+	},
+	{
+		label: 'CasinoBonusWin',
+		value: 'CasinoBonusWin',
+	},
+	{
+		label: 'CasinoBonusRefund',
+		value: 'CasinoBonusRefund',
+	},
+	{
+		label: 'SportsbookBet',
+		value: 'SportsbookBet',
+	},
+	{
+		label: 'SportsbookWin',
+		value: 'SportsbookWin',
+	},
+	{
+		label: 'SportsbookRefund',
+		value: 'SportsbookRefund',
+	},
+	{
+		label: 'SportsbookCashout',
+		value: 'SportsbookCashout',
+	},
+	{
+		label: 'SportsbookExchangeBet',
+		value: 'SportsbookExchangeBet',
+	},
+	{
+		label: 'SportsbookExchangeWin',
+		value: 'SportsbookExchangeWin',
+	},
+	{
+		label: 'SportsbookExchangeRefund',
+		value: 'SportsbookExchangeRefund',
+	},
+	{
+		label: 'SportsbookExchangeCashout',
+		value: 'SportsbookExchangeCashout',
+	},
+];
+
+export const BET_SLIP_SETTLEMENT_STATUS = [
+	{ label: 'Won', value: 'won' },
+	{ label: 'Lost', value: 'lost' },
+	{ label: 'Refund', value: 'refund' },
+	{ label: 'Pending', value: 'pending' },
+	{ label: 'Cashout', value: 'cashout' },
+	{ label: 'HalfWon', value: 'half_won' },
+	{ label: 'HalfLost', value: 'half_lost' },
+];
