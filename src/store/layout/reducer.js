@@ -29,7 +29,7 @@ import {
 	tableHeaderClass,
 } from '../../constants/layout';
 
-const INIT_STATE = {
+export const LAYOUT_INIT_STATE = {
 	layoutType: layoutTypes.VERTICAL,
 	layoutModeType: layoutModeTypes.LIGHT,
 	layoutWidth: layoutWidthTypes.FLUID,
@@ -44,11 +44,11 @@ const INIT_STATE = {
 	leftMenu: false,
 	tableHeaderClass: tableHeaderClass.GREY,
 	showBreadcrumb: false,
-	error: '',
+	error: null,
 	isLoading: true,
 };
 
-const Layout = (state = INIT_STATE, { type, payload } = {}) => {
+const Layout = (state = LAYOUT_INIT_STATE, { type, payload } = {}) => {
 	switch (type) {
 		case CHANGE_LAYOUT:
 			return {

@@ -1,5 +1,6 @@
-// @flow
-import { all, call, fork, takeEvery, put } from 'redux-saga/effects';
+import { all, call, fork, takeEvery, put, select } from 'redux-saga/effects';
+import { isEqual } from 'lodash';
+
 import {
 	CHANGE_LAYOUT,
 	CHANGE_LAYOUT_WIDTH,
@@ -10,6 +11,9 @@ import {
 	SHOW_RIGHT_SIDEBAR,
 	CHANGE_LAYOUT_MODE,
 	GET_SITE_DETAILS,
+	CHANGE_PRELOADER,
+	SET_TABLE_HEADER_THEME,
+	SET_BREADCRUMB,
 } from './actionTypes';
 
 import {
@@ -18,7 +22,10 @@ import {
 	getSiteDetailsFail,
 } from './actions';
 import { getSiteDetailApi } from '../../network/getRequests';
-// import { updateSiteDetails } from '../../network/putRequests';
+import { updateSiteDetails } from '../../network/postRequests';
+import { LAYOUT_INIT_STATE } from './reducer';
+
+let siteLayoutPrevious = LAYOUT_INIT_STATE;
 
 /**
  * Changes the body attribute
@@ -52,13 +59,21 @@ function manageBodyClass(cssClass, action = 'toggle') {
  * Changes the layout type
  * @param {*} param0
  */
+
+function* updateSiteDetailsWorker() {
+	try {
+		const siteLayout = yield select((state) => state.Layout);
+		if (!isEqual(siteLayoutPrevious, siteLayout)) {
+			siteLayoutPrevious = siteLayout;
+			yield updateSiteDetails(siteLayout);
+		}
+	} catch (err) {
+		console.log('Error', err);
+	}
+}
+
 function* changeLayout({ payload: layout }) {
 	try {
-		// const siteLayout = yield select((state) => state.Layout);
-		// const data = {
-		// 	...siteLayout,
-		// 	layoutType: layout,
-		// };
 		if (layout === 'horizontal') {
 			// yield put(changeTopbarThemeAction("dark"))
 			document.body.removeAttribute('data-sidebar');
@@ -67,7 +82,8 @@ function* changeLayout({ payload: layout }) {
 		} else {
 			// yield put(changeTopbarThemeAction("light"))
 		}
-		// yield put(updateSiteDetails({ data }));
+		yield call(updateSiteDetailsWorker);
+
 		yield call(changeBodyAttribute, 'data-layout', layout);
 	} catch (err) {
 		// console.log(err)
@@ -78,15 +94,39 @@ function* changeLayout({ payload: layout }) {
  * Changes the layout mode
  * @param {*} param0
  */
+
 function* changeLayoutMode({ payload: mode }) {
 	try {
 		// yield call(changeBodyAttribute, "data-layout-mode", mode);
 		yield call(changeBodyAttribute, 'data-bs-theme', mode);
+		yield call(updateSiteDetailsWorker);
 	} catch (error) {
 		// console.log(error);
 	}
 }
 
+function* changePreloader() {
+	try {
+		yield call(updateSiteDetailsWorker);
+	} catch (error) {
+		// console.log(error);
+	}
+}
+function* setTableHeader() {
+	try {
+		yield call(updateSiteDetailsWorker);
+	} catch (error) {
+		// console.log(error);
+	}
+}
+
+function* setBreadcrumbWatcher() {
+	try {
+		yield call(updateSiteDetailsWorker);
+	} catch (error) {
+		// console.log(error);
+	}
+}
 /**
  * Changes the layout width
  * @param {*} param0
@@ -105,6 +145,7 @@ function* changeLayoutWidth({ payload: width }) {
 			yield call(changeBodyAttribute, 'data-layout-size', width);
 			yield call(changeBodyAttribute, 'data-layout-scrollable', false);
 		}
+		yield call(updateSiteDetailsWorker);
 	} catch (error) {
 		// console.log(error);
 	}
@@ -117,6 +158,7 @@ function* changeLayoutWidth({ payload: width }) {
 function* changeLeftSidebarTheme({ payload: theme }) {
 	try {
 		yield call(changeBodyAttribute, 'data-sidebar', theme);
+		yield call(updateSiteDetailsWorker);
 	} catch (error) {
 		// console.log(error);
 	}
@@ -129,6 +171,7 @@ function* changeLeftSidebarTheme({ payload: theme }) {
 function* changeLeftSidebarThemeImage({ payload: theme }) {
 	try {
 		yield call(changeBodyAttribute, 'data-sidebar-image', theme);
+		yield call(updateSiteDetailsWorker);
 	} catch (error) {
 		// console.log(error);
 	}
@@ -141,6 +184,7 @@ function* changeLeftSidebarThemeImage({ payload: theme }) {
 function* changeTopbarTheme({ payload: theme }) {
 	try {
 		yield call(changeBodyAttribute, 'data-topbar', theme);
+		yield call(updateSiteDetailsWorker);
 	} catch (error) {
 		// console.log(error);
 	}
@@ -182,6 +226,7 @@ function* changeLeftSidebarType({ payload: { sidebarType, isMobile } }) {
 					yield call(manageBodyClass, 'vertical-collpsed', 'remove');
 				break;
 		}
+		yield call(updateSiteDetailsWorker);
 	} catch (error) {
 		// console.log(error)
 	}
@@ -203,8 +248,12 @@ function* showRightSidebar() {
 function* getSiteDetailsWorker(action) {
 	const payload = action && action.payload;
 	try {
-		const { data } = yield getSiteDetailApi(payload);
-		yield put(getSiteDetailsSuccess(data.data.siteDetails.value));
+		let { data } = yield getSiteDetailApi(payload);
+		data = data.data.siteLayout.value;
+		if (typeof data === 'string') {
+			data = JSON.parse(data);
+		}
+		yield put(getSiteDetailsSuccess(data));
 	} catch (error) {
 		yield put(
 			getSiteDetailsFail(
@@ -247,11 +296,15 @@ export function* watchShowRightSidebar() {
 
 export function* watchSChangeLayoutMode() {
 	yield takeEvery(CHANGE_LAYOUT_MODE, changeLayoutMode);
+	yield takeEvery(CHANGE_PRELOADER, changePreloader);
+	yield takeEvery(SET_TABLE_HEADER_THEME, setTableHeader);
+	yield takeEvery(SET_BREADCRUMB, setBreadcrumbWatcher);
 }
 
 export function* getSiteDetailsWatcher() {
 	yield takeEvery(GET_SITE_DETAILS, getSiteDetailsWorker);
 }
+
 function* LayoutSaga() {
 	yield all([
 		fork(watchSChangeLayoutMode),
