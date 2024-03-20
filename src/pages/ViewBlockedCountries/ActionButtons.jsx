@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const ActionButtons = ({ row: { original }, handleStatus, type }) => {
-	const countryId = original?.countryId;
+	const id = original?.id;
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -26,12 +26,9 @@ const ActionButtons = ({ row: { original }, handleStatus, type }) => {
 						className={
 							type === 'remove' ? 'mdi mdi-minus-thick' : 'mdi mdi-plus-thick'
 						}
-						id={`inactivetooltip-${countryId}`}
+						id={`inactivetooltip-${id}`}
 					/>
-					<UncontrolledTooltip
-						placement="top"
-						target={`inactivetooltip-${countryId}`}
-					>
+					<UncontrolledTooltip placement="top" target={`inactivetooltip-${id}`}>
 						Add This Country
 					</UncontrolledTooltip>
 				</Link>
@@ -50,7 +47,7 @@ ActionButtons.propTypes = {
 	row: PropTypes.shape({
 		original: PropTypes.shape({
 			isActive: PropTypes.bool,
-			countryId: PropTypes.number,
+			id: PropTypes.number,
 		}),
 	}).isRequired,
 };

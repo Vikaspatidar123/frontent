@@ -1,23 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Card, Spinner } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 import useRemoveFromRestrictedCountriesListing from '../hooks/useRemoveFromRestrictedCountries';
 
-const RemoveFromRestrictedCountries = () => {
+const RemoveFromRestrictedCountries = ({ restrictedCountries }) => {
 	const {
-		restrictedCountriesCount,
 		restrictedCountriesLoading,
 		restrictedCountriesState,
-		currentPage,
-		setCurrentPage,
 		columns,
-		itemsPerPage,
-		onChangeRowsPerPage,
 		selectedCountriesState,
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
-	} = useRemoveFromRestrictedCountriesListing({});
+	} = useRemoveFromRestrictedCountriesListing(restrictedCountries);
 
 	return (
 		<Card className="p-2">
@@ -27,10 +23,7 @@ const RemoveFromRestrictedCountries = () => {
 						<h4> Selected Countries </h4>
 						<Button
 							color="primary"
-							disabled={
-								!selectedCountriesState.length ||
-								addToRestrictedCountriesLoading
-							}
+							disabled={addToRestrictedCountriesLoading}
 							onClick={onSubmitSelected}
 						>
 							{addToRestrictedCountriesLoading ? <Spinner /> : 'Submit'}
@@ -38,10 +31,7 @@ const RemoveFromRestrictedCountries = () => {
 					</div>
 					<TableContainer
 						columns={selectedTableColumns}
-						isLoading={false}
 						data={selectedCountriesState}
-						isPagination
-						customPageSize={itemsPerPage}
 						tableClass="table-bordered align-middle nowrap mt-2"
 					/>
 				</Card>
@@ -58,20 +48,23 @@ const RemoveFromRestrictedCountries = () => {
 				columns={columns}
 				isLoading={restrictedCountriesLoading}
 				data={restrictedCountriesState}
-				isPagination
-				customPageSize={itemsPerPage}
 				tableClass="table-bordered align-middle nowrap mt-2"
 				// paginationDiv="col-sm-12 col-md-7"
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
-				totalPageCount={restrictedCountriesCount}
-				isManualPagination
-				onChangePagination={setCurrentPage}
-				currentPage={currentPage}
-				changeRowsPerPageCallback={onChangeRowsPerPage}
 			/>
 		</Card>
 	);
 };
 
 export default RemoveFromRestrictedCountries;
+
+RemoveFromRestrictedCountries.propTypes = {
+	restrictedCountries: PropTypes.arrayOf(
+		PropTypes.objectOf({
+			id: PropTypes.string,
+			name: PropTypes.string,
+			code: PropTypes.string,
+		})
+	).isRequired,
+};

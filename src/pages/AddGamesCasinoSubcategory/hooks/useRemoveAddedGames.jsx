@@ -1,19 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, UncontrolledTooltip } from 'reactstrap';
-import {
-	getAddedGamesInSubCategoryStart,
-	removeGameFromSubCategoryStart,
-} from '../../../store/actions';
+import { removeGameFromSubCategoryStart } from '../../../store/actions';
 import { KeyValueCell, Status } from '../GamesListCol';
 import { showToastr } from '../../../utils/helpers';
+import { selectedLanguage } from '../../../constants/config';
 
 const useRemoveAddedGames = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { gameSubCategoryId } = useParams();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [removedGamesCurrentPage, setRemovedGamesCurrentPage] = useState(1);
@@ -24,25 +21,13 @@ const useRemoveAddedGames = () => {
 		(state) => state.CasinoManagementData
 	);
 
-	useEffect(() => {
-		if (gameSubCategoryId) {
-			dispatch(
-				getAddedGamesInSubCategoryStart({
-					casinoCategoryId: gameSubCategoryId,
-					perPage: itemsPerPage,
-					page: currentPage,
-				})
-			);
-		}
-	}, [gameSubCategoryId, currentPage, itemsPerPage]);
-
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
 
 	const handleAddGame = (row) => {
 		setSelectedGames((prevData) => {
-			if (!prevData.find((game) => game.casinoGameId === row.casinoGameId)) {
+			if (!prevData.find((game) => game.id === row.id)) {
 				return [...prevData, row];
 			}
 			showToastr({
@@ -53,10 +38,8 @@ const useRemoveAddedGames = () => {
 		});
 	};
 
-	const handleRemoveGame = (casinoGameId) => {
-		setSelectedGames((prevData) =>
-			prevData.filter((game) => game.casinoGameId !== casinoGameId)
-		);
+	const handleRemoveGame = (id) => {
+		setSelectedGames((prevData) => prevData.filter((game) => game.id !== id));
 	};
 
 	const onChangeRemoveGamesRowsPerPage = (value) => {
@@ -64,20 +47,21 @@ const useRemoveAddedGames = () => {
 	};
 
 	const removeAddedGames = () => {
-		const itemIds = selectedGames?.map((g) => g.casinoGameId);
+		const itemIds = selectedGames?.map((g) => g.id);
 		dispatch(
 			removeGameFromSubCategoryStart({
-				casinoGameIds: itemIds,
+				ids: itemIds,
 				navigate,
 			})
 		);
 	};
 
 	const formattedGames = useMemo(() => {
-		if (subCategoryAddedGames?.rows?.length) {
-			return subCategoryAddedGames?.rows?.map((game) => ({
+		if (subCategoryAddedGames?.games?.length) {
+			return subCategoryAddedGames?.games?.map((game) => ({
 				...game,
-				providerName: game?.casinoProvider?.name,
+				name: game.name[selectedLanguage],
+				providerName: game?.casinoProvider?.name[selectedLanguage],
 				devices: game.devices.join(', '),
 			}));
 		}
@@ -88,7 +72,7 @@ const useRemoveAddedGames = () => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'casinoGameId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -124,7 +108,7 @@ const useRemoveAddedGames = () => {
 				accessor: '',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
-					const gameId = cell?.row?.original?.casinoGameId;
+					const gameId = cell?.row?.original?.id;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li data-bs-toggle="tooltip" data-bs-placement="top">
@@ -157,7 +141,7 @@ const useRemoveAddedGames = () => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'casinoGameId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -193,7 +177,7 @@ const useRemoveAddedGames = () => {
 				accessor: '',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
-					const casinoGameId = cell?.row?.original?.casinoGameId;
+					const id = cell?.row?.original?.id;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
@@ -202,17 +186,11 @@ const useRemoveAddedGames = () => {
 									className="btn btn-sm btn-soft-danger"
 									onClick={(e) => {
 										e.preventDefault();
-										handleRemoveGame(casinoGameId);
+										handleRemoveGame(id);
 									}}
 								>
-									<i
-										className="mdi mdi-minus-box"
-										id={`minus-${casinoGameId}`}
-									/>
-									<UncontrolledTooltip
-										placement="top"
-										target={`minus-${casinoGameId}`}
-									>
+									<i className="mdi mdi-minus-box" id={`minus-${id}`} />
+									<UncontrolledTooltip placement="top" target={`minus-${id}`}>
 										Remove this Game
 									</UncontrolledTooltip>
 								</Button>
@@ -241,7 +219,7 @@ const useRemoveAddedGames = () => {
 		removeAddedGames,
 		columns,
 		formattedGames,
-		totalGamesCount: subCategoryAddedGames?.count || 0,
+		totalGamesCount: subCategoryAddedGames?.totalPages || 0,
 		isSubCategoryAddedGamesLoading,
 	};
 };

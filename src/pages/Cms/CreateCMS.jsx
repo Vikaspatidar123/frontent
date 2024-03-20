@@ -13,7 +13,6 @@ const CreateCMS = () => {
 	document.title = projectName;
 
 	const {
-		header,
 		validation,
 		formFields,
 		galleryList,
@@ -29,7 +28,7 @@ const CreateCMS = () => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs
-					title="CMS"
+					title="Create CMS"
 					breadcrumbItem="Create"
 					leftTitle={
 						<>
@@ -43,7 +42,7 @@ const CreateCMS = () => {
 						<Card>
 							<CrudSection buttonList={galleryList} title="CMS" />
 							<FormPage
-								formTitle={header}
+								// formTitle={header}
 								validation={validation}
 								responsiveFormFields={formFields}
 								customComponent={customComponent}

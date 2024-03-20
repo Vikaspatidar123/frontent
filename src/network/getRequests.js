@@ -256,18 +256,6 @@ const getDuplicateUsers = (payload) =>
 		payload
 	);
 
-const fetchRestrictedCountries = (payload) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted`,
-		payload
-	);
-
-const fetchUnrestrictedCountries = (payload) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}unrestricted`,
-		payload
-	);
-
 const getEmailTypes = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email/dynamic-data`);
 
@@ -313,7 +301,7 @@ const getBonus = ({ bonusId, userBonusId }) =>
 
 const getSiteDetailApi = () =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/get-site-layout`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application?keys[]=siteLayout`
 	);
 
 const getGameReports = (payload) =>
@@ -396,8 +384,6 @@ export {
 	getCmsByPageId,
 	getDuplicateUsers,
 	getBonusDetails,
-	fetchRestrictedCountries,
-	fetchUnrestrictedCountries,
 	getEmailTypes,
 	getEmailTemplate,
 	getSportsMatchesDetailApi,

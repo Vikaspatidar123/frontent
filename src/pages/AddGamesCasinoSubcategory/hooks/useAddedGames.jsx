@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { KeyValueCell, Status } from '../GamesListCol';
 import { getAddedGamesInSubCategoryStart } from '../../../store/actions';
+import { selectedLanguage } from '../../../constants/config';
 
 const useAddedGames = () => {
 	const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const useAddedGames = () => {
 		if (gameSubCategoryId) {
 			dispatch(
 				getAddedGamesInSubCategoryStart({
-					casinoCategoryId: gameSubCategoryId,
+					casinoSubCategoryId: gameSubCategoryId,
 					perPage: itemsPerPage,
 					page: currentPage,
 				})
@@ -28,10 +29,11 @@ const useAddedGames = () => {
 	}, [gameSubCategoryId, currentPage, itemsPerPage]);
 
 	const formattedGames = useMemo(() => {
-		if (subCategoryAddedGames?.rows?.length) {
-			return subCategoryAddedGames?.rows?.map((game) => ({
+		if (subCategoryAddedGames?.games?.length) {
+			return subCategoryAddedGames?.games?.map((game) => ({
 				...game,
-				providerName: game?.casinoProvider?.name,
+				providerName: game?.casinoProvider?.name?.[selectedLanguage],
+				name: game.name[selectedLanguage],
 				devices: game.devices.join(', '),
 			}));
 		}
@@ -45,7 +47,7 @@ const useAddedGames = () => {
 	const columns = useMemo(() => [
 		{
 			Header: 'ID',
-			accessor: 'casinoGameId',
+			accessor: 'id',
 			filterable: true,
 			Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 		},
@@ -85,7 +87,7 @@ const useAddedGames = () => {
 		setItemsPerPage,
 		columns,
 		formattedGames,
-		totalGamesCount: subCategoryAddedGames?.count || 0,
+		totalGamesCount: subCategoryAddedGames?.totalPages || 0,
 		isSubCategoryAddedGamesLoading,
 		onChangeRowsPerPage,
 	};

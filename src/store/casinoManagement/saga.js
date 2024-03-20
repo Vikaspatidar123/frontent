@@ -131,7 +131,7 @@ function* getSubCategoryAddedGamesWorker(action) {
 	const payload = action && action.payload;
 	try {
 		const { data } = yield getSubCategoryAddedGames(payload);
-		yield put(getAddedGamesInSubCategorySuccess(data?.data?.casinoGames));
+		yield put(getAddedGamesInSubCategorySuccess(data?.data));
 	} catch (error) {
 		showToastr({ message: 'Unable to fetch games', type: 'error' });
 		yield put(

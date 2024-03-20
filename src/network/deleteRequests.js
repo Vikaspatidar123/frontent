@@ -11,11 +11,8 @@ const deleteFromGallery = (data) =>
 	);
 
 const deleteEmailTemplate = (data) =>
-	deleteRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/email `, data);
-
-const removeRestrictedCountriesCall = (data) =>
 	deleteRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}email `,
 		data
 	);
 
@@ -47,7 +44,6 @@ const removeGamesFromSubCategory = (data) =>
 
 export {
 	deleteFromGallery,
-	removeRestrictedCountriesCall,
 	deleteEmailTemplate,
 	deleteSubCategory,
 	deleteCasinoGames,

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 /* eslint-disable no-restricted-syntax */
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -57,10 +55,6 @@ const useCreateCms = () => {
 		}
 	};
 
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
-	};
-
 	useEffect(() => {
 		dispatch(getLanguagesStart());
 	}, []);
@@ -106,7 +100,7 @@ const useCreateCms = () => {
 		navigate('create');
 	};
 
-	const handleGalleryClick = (e) => {
+	const handleGalleryClick = () => {
 		setShowGallery(true);
 	};
 
@@ -170,7 +164,6 @@ const useCreateCms = () => {
 		languageData,
 		customComponent,
 		setCustomComponent,
-		onChangeRowsPerPage,
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,

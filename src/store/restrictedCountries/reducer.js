@@ -2,89 +2,16 @@ import {
 	ADD_RESTRICTED_COUNTRIES_FAIL,
 	ADD_RESTRICTED_COUNTRIES_START,
 	ADD_RESTRICTED_COUNTRIES_SUCCESS,
-	FETCH_RESTRICTED_COUNTRIES_FAIL,
-	FETCH_RESTRICTED_COUNTRIES_START,
-	FETCH_RESTRICTED_COUNTRIES_SUCCESS,
-	FETCH_UNRESTRICTED_COUNTRIES_FAIL,
-	FETCH_UNRESTRICTED_COUNTRIES_START,
-	FETCH_UNRESTRICTED_COUNTRIES_SUCCESS,
-	RESET_RESTRICTED_COUNTRIES_DATA,
-	RESET_UNRESTRICTED_COUNTRIES_DATA,
 } from './actionTypes';
 
 const initialState = {
-	restrictedCountries: null,
-	restrictedCountriesError: '',
-	restrictedCountriesLoading: false,
-	unrestrictedCountries: null,
-	unrestrictedCountriesError: '',
-	unrestrictedCountriesLoading: false,
 	addToRestrictedCountriesSuccess: null,
 	addToRestrictedCountriesError: '',
 	addToRestrictedCountriesLoading: false,
 };
 
-const restrictedCountriesReducer = (
-	state = initialState,
-	{ type, payload } = {}
-) => {
+const restrictedCountriesReducer = (state = initialState, { type } = {}) => {
 	switch (type) {
-		case FETCH_RESTRICTED_COUNTRIES_START:
-			return {
-				...state,
-				restrictedCountriesLoading: true,
-			};
-
-		case FETCH_RESTRICTED_COUNTRIES_FAIL:
-			return {
-				...state,
-				restrictedCountriesLoading: false,
-				restrictedCountriesError: true,
-			};
-
-		case FETCH_RESTRICTED_COUNTRIES_SUCCESS:
-			return {
-				...state,
-				restrictedCountriesLoading: false,
-				restrictedCountries: payload,
-			};
-
-		case RESET_RESTRICTED_COUNTRIES_DATA:
-			return {
-				...state,
-				restrictedCountries: null,
-				restrictedCountriesError: '',
-				restrictedCountriesLoading: false,
-			};
-
-		case FETCH_UNRESTRICTED_COUNTRIES_START:
-			return {
-				...state,
-				unrestrictedCountriesLoading: true,
-			};
-
-		case FETCH_UNRESTRICTED_COUNTRIES_FAIL:
-			return {
-				...state,
-				unrestrictedCountriesLoading: false,
-				unrestrictedCountriesError: true,
-			};
-
-		case FETCH_UNRESTRICTED_COUNTRIES_SUCCESS:
-			return {
-				...state,
-				unrestrictedCountriesLoading: false,
-				unrestrictedCountries: payload,
-			};
-
-		case RESET_UNRESTRICTED_COUNTRIES_DATA:
-			return {
-				...state,
-				unrestrictedCountries: null,
-				unrestrictedCountriesError: '',
-				unrestrictedCountriesLoading: false,
-			};
-
 		case ADD_RESTRICTED_COUNTRIES_START:
 			return {
 				...state,

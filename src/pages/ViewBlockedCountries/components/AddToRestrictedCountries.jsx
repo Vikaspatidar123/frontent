@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Card, Spinner } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 import useAddToRestrictedCountriesListing from '../hooks/useAddToRestrictedCountriesListing';
 import useFilters from '../hooks/useFilters';
 import Filters from '../../../components/Common/Filters';
 
-const AddToRestrictedCountries = () => {
+const AddToRestrictedCountries = ({ unrestrictedCountries }) => {
 	const {
 		toggleAdvance,
 		isAdvanceOpen,
@@ -16,19 +17,16 @@ const AddToRestrictedCountries = () => {
 	} = useFilters();
 
 	const {
-		unrestrictedCountriesCount,
-		unrestrictedCountriesLoading,
-		currentPage,
-		setCurrentPage,
 		columns,
-		itemsPerPage,
-		onChangeRowsPerPage,
 		unrestrictedCountriesState,
 		selectedCountriesState,
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
-	} = useAddToRestrictedCountriesListing(filterValidation.values);
+	} = useAddToRestrictedCountriesListing(
+		filterValidation.values,
+		unrestrictedCountries
+	);
 
 	return (
 		<Card className="p-2">
@@ -38,10 +36,7 @@ const AddToRestrictedCountries = () => {
 						<h4>Selected Countries</h4>
 						<Button
 							color="primary"
-							disabled={
-								!selectedCountriesState.length ||
-								addToRestrictedCountriesLoading
-							}
+							disabled={addToRestrictedCountriesLoading}
 							onClick={onSubmitSelected}
 						>
 							{addToRestrictedCountriesLoading ? <Spinner /> : 'Submit'}
@@ -49,10 +44,7 @@ const AddToRestrictedCountries = () => {
 					</div>
 					<TableContainer
 						columns={selectedTableColumns}
-						isLoading={false}
 						data={selectedCountriesState}
-						isPagination
-						customPageSize={itemsPerPage}
 						tableClass="table-bordered align-middle nowrap mt-2"
 					/>
 				</Card>
@@ -75,19 +67,11 @@ const AddToRestrictedCountries = () => {
 				/>
 				<TableContainer
 					columns={columns}
-					isLoading={unrestrictedCountriesLoading}
 					data={unrestrictedCountriesState}
-					isPagination
-					customPageSize={itemsPerPage}
 					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={unrestrictedCountriesCount}
 					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					changeRowsPerPageCallback={onChangeRowsPerPage}
 				/>
 			</Card>
 		</Card>
@@ -95,3 +79,13 @@ const AddToRestrictedCountries = () => {
 };
 
 export default AddToRestrictedCountries;
+
+AddToRestrictedCountries.propTypes = {
+	unrestrictedCountries: PropTypes.arrayOf(
+		PropTypes.objectOf({
+			id: PropTypes.string,
+			name: PropTypes.string,
+			code: PropTypes.string,
+		})
+	).isRequired,
+};

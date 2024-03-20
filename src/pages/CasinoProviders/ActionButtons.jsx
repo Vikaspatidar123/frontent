@@ -15,7 +15,10 @@ const ActionButtons = ({ row: { original }, handleStatus, onClickEdit }) => {
 				<li data-bs-toggle="tooltip" data-bs-placement="top">
 					<Link
 						to={`/casino-providers/restrict-countries/${casinoProviderId}`}
-						state={{ type: 'providers' }}
+						state={{
+							type: 'providers',
+							restrictedCountries: original?.restrictedCountries,
+						}}
 						className="btn btn-sm btn-soft-primary"
 					>
 						<i className="mdi mdi-block-helper" id="viewtooltip" />

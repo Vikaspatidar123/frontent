@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable radix */
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -43,7 +40,7 @@ const useEditCms = () => {
 						...values,
 						title,
 						content,
-						pageId: parseInt(cmsPageId),
+						pageId: parseInt(cmsPageId, 10),
 					},
 					navigate,
 				})
@@ -54,10 +51,6 @@ const useEditCms = () => {
 				type: 'error',
 			});
 		}
-	};
-
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
 	};
 
 	useEffect(() => {
@@ -100,7 +93,7 @@ const useEditCms = () => {
 		);
 	}, [languageData, title, content, showGallery, selectedTab]);
 
-	const handleGalleryClick = (e) => {
+	const handleGalleryClick = () => {
 		setShowGallery(true);
 	};
 
@@ -123,7 +116,6 @@ const useEditCms = () => {
 		customComponent,
 		setCustomComponent,
 		cmsDynamicKeys,
-		onChangeRowsPerPage,
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,

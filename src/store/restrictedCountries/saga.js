@@ -1,59 +1,41 @@
+/* eslint-disable no-lonely-if */
 import { call, put, takeEvery } from 'redux-saga/effects';
-import {
-	ADD_RESTRICTED_COUNTRIES_START,
-	FETCH_RESTRICTED_COUNTRIES_START,
-	FETCH_UNRESTRICTED_COUNTRIES_START,
-} from './actionTypes';
+import { ADD_RESTRICTED_COUNTRIES_START } from './actionTypes';
 import {
 	addRestrictedCountriesFail,
 	addRestrictedCountriesSuccess,
-	fetchRestrictedCountriesFail,
-	fetchRestrictedCountriesSuccess,
-	fetchUnrestrictedCountriesFail,
-	fetchUnrestrictedCountriesSuccess,
 } from './actions';
-import {
-	fetchRestrictedCountries,
-	fetchUnrestrictedCountries,
-} from '../../network/getRequests';
-import { addRestrictedCountriesCall } from '../../network/putRequests';
 import { showToastr } from '../../utils/helpers';
-import { removeRestrictedCountriesCall } from '../../network/deleteRequests';
-
-function* fetchRestrictedCountriesWorker(action) {
-	try {
-		const payload = action && action.payload;
-		const response = yield call(fetchRestrictedCountries, payload);
-		yield put(
-			fetchRestrictedCountriesSuccess(response?.data?.data?.restrictedCountries)
-		);
-	} catch (error) {
-		yield put(fetchRestrictedCountriesFail(error));
-	}
-}
-
-function* fetchUnrestrictedCountriesWorker(action) {
-	try {
-		const payload = action && action.payload;
-		const response = yield call(fetchUnrestrictedCountries, payload);
-		yield put(
-			fetchUnrestrictedCountriesSuccess(
-				response?.data?.data?.unrestrictedCountries
-			)
-		);
-	} catch (e) {
-		yield put(fetchUnrestrictedCountriesFail(e));
-	}
-}
+import {
+	addGamesRestrictedCountries,
+	addProviderRestrictedCountries,
+	removeRestrictedCountriesGame,
+	removeRestrictedCountriesProvider,
+} from '../../network/postRequests';
 
 function* addRestrictedCountriesWorker(action) {
 	try {
 		const payload = action && action.payload;
-		if (payload.case === 'remove') {
-			yield call(removeRestrictedCountriesCall, payload);
+		const { type, operation } = payload;
+		delete payload.type;
+		delete payload.case;
+
+		if (type === 'providers') {
+			if (operation === 'remove') {
+				delete payload.operation;
+				yield call(removeRestrictedCountriesProvider, payload);
+			} else {
+				yield call(addProviderRestrictedCountries, payload);
+			}
 		} else {
-			yield call(addRestrictedCountriesCall, payload);
+			if (operation === 'remove') {
+				delete payload.operation;
+				yield call(removeRestrictedCountriesGame, payload);
+			} else {
+				yield call(addGamesRestrictedCountries, payload);
+			}
 		}
+
 		yield put(addRestrictedCountriesSuccess());
 		showToastr({
 			message:
@@ -72,14 +54,6 @@ function* addRestrictedCountriesWorker(action) {
 }
 
 function* restrictedCountriesSaga() {
-	yield takeEvery(
-		FETCH_RESTRICTED_COUNTRIES_START,
-		fetchRestrictedCountriesWorker
-	);
-	yield takeEvery(
-		FETCH_UNRESTRICTED_COUNTRIES_START,
-		fetchUnrestrictedCountriesWorker
-	);
 	yield takeEvery(ADD_RESTRICTED_COUNTRIES_START, addRestrictedCountriesWorker);
 }
 

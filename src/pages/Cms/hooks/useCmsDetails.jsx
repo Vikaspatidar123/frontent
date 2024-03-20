@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable radix */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,10 +28,6 @@ const useCmsDetail = () => {
 	const { cmsDynamicKeys, cmsByPageId } = useSelector((state) => state.AllCms);
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
-
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
-	};
 
 	useEffect(() => {
 		dispatch(getCmsByPageId({ cmsPageId }));
@@ -83,7 +76,6 @@ const useCmsDetail = () => {
 		customComponent,
 		setCustomComponent,
 		cmsDynamicKeys,
-		onChangeRowsPerPage,
 	};
 };
 

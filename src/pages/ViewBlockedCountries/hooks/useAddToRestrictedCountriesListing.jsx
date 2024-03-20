@@ -2,46 +2,31 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-	addRestrictedCountriesStart,
-	fetchUnrestrictedCountriesStart,
-} from '../../../store/actions';
+import { addRestrictedCountriesStart } from '../../../store/actions';
 import { KeyValueCell } from '../RestrictedCountriesListCol';
 import ActionButtons from '../ActionButtons';
 
-const useAddToRestrictedCountriesListing = (filterValues = {}) => {
+const useAddToRestrictedCountriesListing = (
+	filterValues = {},
+	unrestrictedCountries = []
+) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { state: casinoState } = useLocation();
 	const paramId = useParams();
+	const { addToRestrictedCountriesLoading } = useSelector(
+		(state) => state.RestrictedCountries
+	);
+
 	const id =
 		casinoState?.type === 'providers'
 			? paramId?.casinoProviderId
 			: paramId?.casinoGameId;
-	const [searchText, setSearchText] = useState('');
-	const [currentPage, setCurrentPage] = useState(1);
-	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const {
-		unrestrictedCountries,
-		unrestrictedCountriesLoading,
-		addToRestrictedCountriesLoading,
-	} = useSelector((state) => state.RestrictedCountries);
+
 	const [unrestrictedCountriesState, setUnrestrictedCountriesState] = useState(
 		[]
 	);
 	const [selectedCountriesState, setSelectedCountriesState] = useState([]);
-
-	useEffect(() => {
-		dispatch(
-			fetchUnrestrictedCountriesStart({
-				itemId: id,
-				perPage: itemsPerPage,
-				page: currentPage,
-				type: casinoState?.type,
-				...filterValues,
-			})
-		);
-	}, [id, currentPage, itemsPerPage]);
 
 	const onAddCountry = (cell) => {
 		setSelectedCountriesState((prev) => [...prev, cell]);
@@ -127,63 +112,42 @@ const useAddToRestrictedCountriesListing = (filterValues = {}) => {
 		[]
 	);
 
-	const formattedUnrestrictedCountries = useMemo(() => {
-		const formattedValues = [];
-		if (unrestrictedCountries) {
-			unrestrictedCountries.rows.map((country) =>
-				formattedValues.push({
-					...country,
-				})
-			);
-		}
-		return formattedValues;
-	}, [unrestrictedCountries]);
-
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
-	};
-
 	useEffect(() => {
-		if (formattedUnrestrictedCountries.length) {
-			setUnrestrictedCountriesState(formattedUnrestrictedCountries);
+		if (unrestrictedCountries?.length) {
+			setUnrestrictedCountriesState(() => {
+				if (filterValues?.search?.length > 1) {
+					const searchStr = filterValues?.search;
+					return unrestrictedCountries?.filter(({ code, name }) =>
+						`${code?.toLowerCase()} ${name?.toLowerCase()}`?.includes(
+							searchStr?.toLowerCase()
+						)
+					);
+				}
+				return unrestrictedCountries;
+			});
 		} else setUnrestrictedCountriesState([]);
-	}, [formattedUnrestrictedCountries]);
+	}, [unrestrictedCountries, filterValues?.search]);
 
 	const onSubmitSelected = () => {
-		const countries = selectedCountriesState.map((g) => g.id);
+		const countries = selectedCountriesState.map((g) => g.code);
+		const key = casinoState?.type === 'providers' ? 'providerId' : 'gameId';
 		dispatch(
 			addRestrictedCountriesStart({
 				type: casinoState?.type,
-				countryIds: countries,
-				itemId: parseInt(id, 10),
+				countryCodes: countries,
+				[key]: id,
 			})
 		);
 		navigate(`/casino-${casinoState?.type}`);
 	};
 
-	const onChangeSearch = (e) => {
-		setSearchText(e.target.value);
-	};
-
 	return {
-		id,
-		setCurrentPage,
-		setItemsPerPage,
-		itemsPerPage,
-		currentPage,
 		columns,
-		onChangeRowsPerPage,
-		unrestrictedCountries,
-		unrestrictedCountriesLoading,
-		unrestrictedCountriesCount: unrestrictedCountries?.count,
-		formattedUnrestrictedCountries,
 		unrestrictedCountriesState,
 		selectedCountriesState,
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
-		searchText,
-		onChangeSearch,
 	};
 };
 

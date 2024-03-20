@@ -1,4 +1,13 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { Badge } from 'reactstrap';
+
 const KeyValueCell = ({ value }) => value ?? '';
 
-export { KeyValueCell };
+const Status = ({ value }) =>
+	value ?? '' ? (
+		<Badge className="bg-success">Active</Badge>
+	) : (
+		<Badge className="bg-danger">In Active</Badge>
+	);
+export { KeyValueCell, Status };

@@ -334,7 +334,6 @@ const primaryEmailTemplate = (data) =>
 		data
 	);
 
-
 const updateSiteConfiguration = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/update-constants`,
@@ -362,6 +361,35 @@ const updateLimitsRequest = (data) =>
 		data
 	);
 
+const updateSiteDetails = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/site-layout`,
+		data
+	);
+
+const addProviderRestrictedCountries = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}restrict-countries-for-provider`,
+		data
+	);
+
+const addGamesRestrictedCountries = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}restrict-countries-for-game`,
+		data
+	);
+
+const removeRestrictedCountriesProvider = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}remove-restricted-countries-for-provider`,
+		data
+	);
+
+const removeRestrictedCountriesGame = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}remove-restricted-countries-for-game`,
+		data
+	);
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -425,4 +453,9 @@ export {
 	uploadLogoRequest,
 	updateAppSettingRequest,
 	updateLimitsRequest,
+	updateSiteDetails,
+	addProviderRestrictedCountries,
+	addGamesRestrictedCountries,
+	removeRestrictedCountriesProvider,
+	removeRestrictedCountriesGame,
 };

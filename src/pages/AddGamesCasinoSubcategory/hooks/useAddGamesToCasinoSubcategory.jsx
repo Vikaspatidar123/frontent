@@ -7,6 +7,7 @@ import {
 	getCasinoGamesStart,
 } from '../../../store/actions';
 import { showToastr } from '../../../utils/helpers';
+import { selectedLanguage } from '../../../constants/config';
 
 const useAddGamesToCasinoSubcategory = () => {
 	const dispatch = useDispatch();
@@ -39,8 +40,9 @@ const useAddGamesToCasinoSubcategory = () => {
 		if (casinoGames) {
 			return casinoGames?.games?.map((game) => ({
 				...game,
+				name: game?.name?.[selectedLanguage],
 				devices: game.devices.join(', '),
-				providerName: game?.casinoProvider?.name,
+				providerName: game?.casinoProvider?.name?.[selectedLanguage],
 			}));
 		}
 		return [];
@@ -50,7 +52,7 @@ const useAddGamesToCasinoSubcategory = () => {
 		e.preventDefault();
 
 		setNewGamesData((prevData) => {
-			if (!prevData.find((game) => game.casinoGameId === row.casinoGameId)) {
+			if (!prevData.find((game) => game.id === row.id)) {
 				return [...prevData, row];
 			}
 			showToastr({
@@ -61,12 +63,10 @@ const useAddGamesToCasinoSubcategory = () => {
 		});
 	};
 
-	const handleRemoveGame = (e, casinoGameId) => {
+	const handleRemoveGame = (e, id) => {
 		e.preventDefault();
 
-		setNewGamesData((prevData) =>
-			prevData.filter((game) => game.casinoGameId !== casinoGameId)
-		);
+		setNewGamesData((prevData) => prevData.filter((game) => game.id !== id));
 	};
 
 	const onChangeRowsPerPage = (value) => {
@@ -82,7 +82,7 @@ const useAddGamesToCasinoSubcategory = () => {
 			dispatch(
 				addGameToSubCategoryStart({
 					gameSubCategoryId: parseInt(gameSubCategoryId, 10),
-					games: newGamesData?.map((game) => game.casinoGameId),
+					games: newGamesData?.map((game) => game.id),
 					navigate,
 				})
 			);

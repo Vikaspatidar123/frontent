@@ -61,12 +61,6 @@ const updateComment = (data) =>
 const verifyUserDocument = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/verify-document`, data);
 
-const addRestrictedCountriesCall = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted-items`,
-		data
-	);
-
 const updateOddsVariationApi = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/odd-settings`,
@@ -114,12 +108,6 @@ const uploadImageApi = (data) =>
 		}
 	);
 
-const updateSiteDetails = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}page/update`,
-		data
-	);
-
 export {
 	updateStatus,
 	updateGlobalRegistration,
@@ -134,7 +122,6 @@ export {
 	cancelBonus,
 	updateComment,
 	verifyUserDocument,
-	addRestrictedCountriesCall,
 	updateOddsVariationApi,
 	detachOddsVariationApi,
 	updateCompanyOddApi,
@@ -143,5 +130,4 @@ export {
 	updateReview,
 	reorderBonus,
 	uploadImageApi,
-	updateSiteDetails,
 };

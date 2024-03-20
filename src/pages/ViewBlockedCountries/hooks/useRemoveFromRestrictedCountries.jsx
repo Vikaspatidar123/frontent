@@ -2,44 +2,25 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-	addRestrictedCountriesStart,
-	fetchRestrictedCountriesStart,
-} from '../../../store/actions';
-import { KeyValueCell } from '../RestrictedCountriesListCol';
+import { addRestrictedCountriesStart } from '../../../store/actions';
+import { KeyValueCell, Status } from '../RestrictedCountriesListCol';
 import ActionButtons from '../ActionButtons';
 
-const useRemoveFromRestrictedCountriesListing = () => {
+const useRemoveFromRestrictedCountriesListing = (restrictedCountries) => {
 	const dispatch = useDispatch();
 	const { state: casinoState } = useLocation();
 	const navigate = useNavigate();
-	const [currentPage, setCurrentPage] = useState(1);
-	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const paramId = useParams();
 	const id =
 		casinoState?.type === 'providers'
 			? paramId?.casinoProviderId
 			: paramId?.casinoGameId;
-	const {
-		restrictedCountries,
-		restrictedCountriesLoading,
-		addToRestrictedCountriesLoading,
-	} = useSelector((state) => state.RestrictedCountries);
+	const { addToRestrictedCountriesLoading } = useSelector(
+		(state) => state.RestrictedCountries
+	);
+
 	const [restrictedCountriesState, setRestrictedCountriesState] = useState([]);
 	const [selectedCountriesState, setSelectedCountriesState] = useState([]);
-
-	useEffect(() => {
-		if (!restrictedCountries) {
-			dispatch(
-				fetchRestrictedCountriesStart({
-					itemId: id,
-					perPage: itemsPerPage,
-					page: currentPage,
-					type: casinoState?.type,
-				})
-			);
-		}
-	}, [id, currentPage, itemsPerPage, restrictedCountries]);
 
 	const onAddCountry = (cell) => {
 		setSelectedCountriesState((prev) => [...prev, cell]);
@@ -70,10 +51,10 @@ const useRemoveFromRestrictedCountriesListing = () => {
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'CODE',
-				accessor: 'code',
+				Header: 'Status',
+				accessor: 'isActive',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'ACTIONS',
@@ -103,10 +84,10 @@ const useRemoveFromRestrictedCountriesListing = () => {
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'CODE',
-				accessor: 'code',
+				Header: 'Status',
+				accessor: 'isActive',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
 				Header: 'ACTIONS',
@@ -125,54 +106,29 @@ const useRemoveFromRestrictedCountriesListing = () => {
 		[]
 	);
 
-	const formattedRestrictedCountries = useMemo(() => {
-		const formattedValues = [];
-		if (restrictedCountries) {
-			restrictedCountries.rows.map((country) =>
-				formattedValues.push({
-					...country,
-				})
-			);
-		}
-		return formattedValues;
+	useEffect(() => {
+		if (restrictedCountries.length) {
+			setRestrictedCountriesState(restrictedCountries);
+		} else setRestrictedCountriesState([]);
 	}, [restrictedCountries]);
 
-	const onChangeRowsPerPage = (value) => {
-		setItemsPerPage(value);
-	};
-
-	useEffect(() => {
-		if (formattedRestrictedCountries.length) {
-			setRestrictedCountriesState(formattedRestrictedCountries);
-		} else setRestrictedCountriesState([]);
-	}, [formattedRestrictedCountries]);
-
 	const onSubmitSelected = () => {
-		const countries = selectedCountriesState.map((g) => g.id);
+		const countries = selectedCountriesState.map((g) => g.code);
+		const key = casinoState?.type === 'providers' ? 'providerId' : 'gameId';
 		dispatch(
 			addRestrictedCountriesStart({
 				type: casinoState?.type,
-				countryIds: countries,
-				itemId: parseInt(id, 10),
-				case: 'remove',
+				countryCodes: countries,
+				[key]: id,
+				operation: 'remove',
 			})
 		);
 		navigate(`/casino-${casinoState?.type}`);
 	};
 
 	return {
-		id,
-		setCurrentPage,
-		setItemsPerPage,
-		itemsPerPage,
-		currentPage,
-		columns,
-		onChangeRowsPerPage,
-		restrictedCountries,
-		restrictedCountriesLoading,
-		restrictedCountriesCount: restrictedCountries?.count,
-		formattedRestrictedCountries,
 		restrictedCountriesState,
+		columns,
 		selectedCountriesState,
 		selectedTableColumns,
 		onSubmitSelected,

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { UncontrolledTooltip, Button } from 'reactstrap';
@@ -23,7 +22,10 @@ const ActionButtons = ({
 				{isGranted(modules.casinoManagement, 'U') && (
 					<Link
 						to={`/casino-games/restrict-countries/${casinoGameId}`}
-						state={{ type: 'games' }}
+						state={{
+							type: 'games',
+							restrictedCountries: original?.restrictedCountries,
+						}}
 						className="btn btn-sm btn-soft-primary"
 					>
 						<i

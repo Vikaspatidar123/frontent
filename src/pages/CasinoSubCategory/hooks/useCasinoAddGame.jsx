@@ -7,6 +7,7 @@ import {
 	getCasinoGamesStart,
 } from '../../../store/actions';
 import { showToastr } from '../../../utils/helpers';
+import { selectedLanguage } from '../../../constants/config';
 
 const useCasinoAddGame = () => {
 	const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const useCasinoAddGame = () => {
 		if (casinoGames) {
 			return casinoGames?.games?.map((game) => ({
 				...game,
+				name: game.name[selectedLanguage],
 				devices: game.devices.join(', '),
 			}));
 		}
@@ -49,7 +51,7 @@ const useCasinoAddGame = () => {
 		e.preventDefault();
 
 		setNewGamesData((prevData) => {
-			if (!prevData.find((game) => game.casinoGameId === row.casinoGameId)) {
+			if (!prevData.find((game) => game.id === row.id)) {
 				return [...prevData, row];
 			}
 			showToastr({
@@ -64,7 +66,7 @@ const useCasinoAddGame = () => {
 		e.preventDefault();
 
 		setNewGamesData((prevData) =>
-			prevData.filter((game) => game.casinoGameId !== casinoGameId)
+			prevData.filter((game) => game.id !== casinoGameId)
 		);
 	};
 
@@ -81,7 +83,7 @@ const useCasinoAddGame = () => {
 			dispatch(
 				addGameToSubCategoryStart({
 					gameSubCategoryId: parseInt(gameSubCategoryId, 10),
-					games: newGamesData?.map((game) => game.casinoGameId),
+					games: newGamesData?.map((game) => game.id),
 					navigate,
 				})
 			);

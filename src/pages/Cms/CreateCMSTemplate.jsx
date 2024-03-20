@@ -1,7 +1,3 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-shadow */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Card, UncontrolledTooltip, Label } from 'reactstrap';
@@ -143,8 +139,8 @@ const CreateCMSTemplate = ({
 					className="d-flex justify-content-center flex-wrap gap-3 dropzone-previews mt-3"
 					id="file-previews"
 				>
-					{imageGallery.map((f, i) => (
-						<Col key={`${i}-file`}>
+					{imageGallery.map((f) => (
+						<Col key={`${f?.fileName}-file`}>
 							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
 								<div className="p-2">
 									<CopyToClipboard
@@ -168,7 +164,7 @@ const CreateCMSTemplate = ({
 									</CopyToClipboard>
 									<Col className="position-absolute top-0 end-0">
 										<Link
-											to="#"
+											to="!#"
 											className="btn btn-sm btn-soft-danger"
 											onClick={() => deleteImage(f)}
 										>
@@ -199,20 +195,20 @@ const CreateCMSTemplate = ({
 
 	useEffect(() => {
 		if (activeTab) {
-			const selectedTab = tabData?.find((item) => item.id === activeTab);
-			if (selectedTab) {
-				validation?.setFieldValue('language', selectedTab?.title);
+			const foundTab = tabData?.find((item) => item.id === activeTab);
+			if (foundTab) {
+				validation?.setFieldValue('language', foundTab?.title);
 			}
 		}
 	}, [activeTab]);
 
 	useEffect(() => {
 		if (activeTab && label) {
-			const selectedTab = tabData?.find((item) => item.id === activeTab);
-			if (selectedTab) {
+			const foundTab = tabData?.find((item) => item.id === activeTab);
+			if (foundTab) {
 				setTitle({
 					...title,
-					[selectedTab?.title]: label,
+					[foundTab?.title]: label,
 				});
 			}
 		}
@@ -220,11 +216,11 @@ const CreateCMSTemplate = ({
 
 	useEffect(() => {
 		if (activeTab) {
-			const selectedTab = tabData?.find((item) => item.id === activeTab);
-			if (selectedTab && template) {
+			const foundTab = tabData?.find((item) => item.id === activeTab);
+			if (foundTab && template) {
 				setContent({
 					...content,
-					[selectedTab?.title]: template,
+					[foundTab?.title]: template,
 				});
 				setTemplate('');
 			}

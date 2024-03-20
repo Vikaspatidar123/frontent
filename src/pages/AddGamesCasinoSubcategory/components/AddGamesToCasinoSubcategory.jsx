@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useMemo } from 'react';
 import {
 	Button,
@@ -41,7 +40,7 @@ const AddGamesToCasinoSubcategory = () => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'casinoGameId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
 			},
@@ -70,20 +69,17 @@ const AddGamesToCasinoSubcategory = () => {
 				disableFilters: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => {
-					const casinoGameId = cell?.row?.original.casinoGameId;
+					const id = cell?.row?.original.id;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li>
 								<Link
-									to="#"
+									to="!#"
 									className="btn btn-sm btn-soft-success"
 									onClick={(e) => handleAddGame(e, cell?.row?.original)}
 								>
-									<i className="mdi mdi-plus-box" id={`plus-${casinoGameId}`} />
-									<UncontrolledTooltip
-										placement="top"
-										target={`plus-${casinoGameId}`}
-									>
+									<i className="mdi mdi-plus-box" id={`plus-${id}`} />
+									<UncontrolledTooltip placement="top" target={`plus-${id}`}>
 										Add Game
 									</UncontrolledTooltip>
 								</Link>
@@ -100,7 +96,7 @@ const AddGamesToCasinoSubcategory = () => {
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'casinoGameId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
 			},
@@ -129,23 +125,17 @@ const AddGamesToCasinoSubcategory = () => {
 				disableFilters: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => {
-					const casinoGameId = cell?.row?.original.casinoGameId;
+					const id = cell?.row?.original.id;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li>
 								<Link
-									to="#"
+									to="!#"
 									className="btn btn-sm btn-soft-danger"
-									onClick={(e) => handleRemoveGame(e, casinoGameId)}
+									onClick={(e) => handleRemoveGame(e, id)}
 								>
-									<i
-										className="mdi mdi-minus-box"
-										id={`minus-${casinoGameId}`}
-									/>
-									<UncontrolledTooltip
-										placement="top"
-										target={`minus-${casinoGameId}`}
-									>
+									<i className="mdi mdi-minus-box" id={`minus-${id}`} />
+									<UncontrolledTooltip placement="top" target={`minus-${id}`}>
 										Remove Game
 									</UncontrolledTooltip>
 								</Link>
