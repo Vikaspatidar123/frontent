@@ -145,7 +145,7 @@ const isCasinoFeaturedService = (data) =>
 
 const addGamesToSubCategory = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino/category-games`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}add-games-to-subcategory`,
 		data
 	);
 

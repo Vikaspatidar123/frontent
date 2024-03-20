@@ -43,11 +43,6 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 		setItemsPerPage(value);
 	};
 
-	const getCategoryName = (id) =>
-		casinoSubCategoryDetails?.subCategories?.find(
-			(val) => val.gameSubCategoryId === id
-		)?.name?.EN;
-
 	// const getProviderName = (id) =>
 	// 	casinoProvidersData?.providers.find((val) => val.casinoProviderId === id)?.name;
 
@@ -56,7 +51,7 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			return casinoGames?.games.map((item) => ({
 				...item,
 				providerName: item?.casinoProvider?.name?.[selectedLanguage],
-				subCategoryType: getCategoryName(item?.gameSubCategoryId),
+				subCategory: item?.casinoSubCategory?.name?.[selectedLanguage],
 				thumbnail: item?.thumbnailUrl,
 				devices: item?.devices?.join(', '),
 			}));
@@ -167,7 +162,7 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			},
 			{
 				Header: 'SUB CATEGORY',
-				accessor: 'subCategoryType',
+				accessor: 'subCategory',
 				filterable: true,
 				Cell: ({ cell }) => <SubCategory value={cell.value} />,
 			},

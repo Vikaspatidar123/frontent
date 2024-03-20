@@ -55,7 +55,7 @@ const GetCasinoSubCategoryDetail = () => {
 		iscasinoSubCategoryDetailsLoading,
 		page,
 		onChangeRowsPerPage,
-	} = useSubCategoryListing(filterValidation, isFilterChanged, onClickEdit);
+	} = useSubCategoryListing(filterValidation, onClickEdit);
 
 	return (
 		<div className="page-content">

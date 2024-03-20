@@ -1,10 +1,9 @@
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
 import * as Yup from 'yup';
+import { selectedLanguage } from '../../constants/config';
 
 const getInitialValues = (defaultValue) => ({
-	casinoGameId: defaultValue?.casinoGameId || '',
-	name: defaultValue?.name || '',
+	id: defaultValue?.id || '',
+	name: defaultValue?.name?.[selectedLanguage] || '',
 	gameSubCategoryId: defaultValue?.gameSubCategoryId || '',
 	casinoProviderId: defaultValue?.casinoProviderId || '',
 	isActive: defaultValue?.isActive || false,
@@ -85,15 +84,6 @@ const staticFiltersFields = () => [
 		],
 	},
 ];
-
-// casinoCategoryId: 2
-// search: anil
-// isActive: true
-// providerId: 2
-// freespins:
-// bonusId:
-// addGames: false
-// gameSubCategoryId:
 
 const filterValues = () => ({
 	isActive: null,

@@ -509,19 +509,16 @@ function* updateGameFeatured(action) {
 
 function* addGamesToSubCategoryWorker(action) {
 	try {
-		const { gameSubCategoryId, games, navigate } = action && action.payload;
+		const data = action && action.payload;
 
-		yield addGamesToSubCategory({
-			gameSubCategoryId,
-			games,
-		});
+		yield addGamesToSubCategory(data);
 
 		showToastr({
 			message: 'Games Added To Sub Category',
 			type: 'success',
 		});
-		if (navigate) {
-			navigate('/sub-categories');
+		if (data?.navigate) {
+			data.navigate('/sub-categories');
 		}
 
 		yield put(addGameToSubCategorySuccess());

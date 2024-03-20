@@ -30,7 +30,8 @@ const useAddGamesToCasinoSubcategory = () => {
 				getCasinoGamesStart({
 					limit,
 					pageNo,
-					gameSubCategoryId,
+					casinoSubCategoryId: gameSubCategoryId,
+					notIncluded: true,
 				})
 			);
 		}
@@ -81,8 +82,8 @@ const useAddGamesToCasinoSubcategory = () => {
 		if (newGamesData.length) {
 			dispatch(
 				addGameToSubCategoryStart({
-					gameSubCategoryId: parseInt(gameSubCategoryId, 10),
-					games: newGamesData?.map((game) => game.id),
+					subCategoryId: gameSubCategoryId,
+					gameIds: newGamesData?.map((game) => game.id),
 					navigate,
 				})
 			);

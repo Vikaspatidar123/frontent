@@ -8,6 +8,7 @@ import {
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
+import { selectedLanguage } from '../../../constants/config';
 
 const useEditCasinoGames = () => {
 	const dispatch = useDispatch();
@@ -58,13 +59,13 @@ const useEditCasinoGames = () => {
 		) {
 			const provOptions = casinoProvidersData?.providers?.map((r) => ({
 				id: r.casinoProviderId,
-				optionLabel: r.name,
+				optionLabel: r.name?.[selectedLanguage],
 				value: r.casinoProviderId,
 			}));
 
 			const subOptions = casinoSubCategoryDetails?.subCategories?.map((r) => ({
 				id: r.gameSubCategoryId,
-				optionLabel: r.name?.EN,
+				optionLabel: r.name?.[selectedLanguage],
 				value: r.gameSubCategoryId,
 			}));
 
