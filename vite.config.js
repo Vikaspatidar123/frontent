@@ -30,6 +30,9 @@ export default defineConfig({
 		strictPort: true,
 		port: 3000, // you can replace this port with any port
 	},
+	preview: {
+		port: 3000,
+	},
 	// base: './index.html',
 	build: {
 		input: {
