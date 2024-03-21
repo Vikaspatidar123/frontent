@@ -79,6 +79,9 @@
 	-webkit-scrollbar {
 		display: none; /* Safari and Chrome */
 	}
+	::-webkit-scrollbar {
+		display: none;
+	}
 
 	.mm-active {
 		> .has-arrow {

@@ -16,7 +16,6 @@
 	right: -($rightbar-width + 10px);
 	top: 0;
 	bottom: 0;
-	overflow-y: scroll;
 
 	.right-bar-toggle {
 		background-color: var(--#{$prefix}dark);
