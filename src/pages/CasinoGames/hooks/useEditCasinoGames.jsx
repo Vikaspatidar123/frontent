@@ -21,10 +21,13 @@ const useEditCasinoGames = () => {
 		(state) => state.CasinoManagementData
 	);
 
-	const handleEditCasinoGames = (values) => {
+	const handleEditCasinoGames = ({ file, gameId }) => {
 		dispatch(
 			editCasinoGamesStart({
-				data: values,
+				data: {
+					file,
+					gameId,
+				},
 			})
 		);
 	};
@@ -58,15 +61,15 @@ const useEditCasinoGames = () => {
 			casinoProvidersData?.providers?.length
 		) {
 			const provOptions = casinoProvidersData?.providers?.map((r) => ({
-				id: r.casinoProviderId,
+				id: r.id,
 				optionLabel: r.name?.[selectedLanguage],
-				value: r.casinoProviderId,
+				value: r.id,
 			}));
 
 			const subOptions = casinoSubCategoryDetails?.subCategories?.map((r) => ({
-				id: r.gameSubCategoryId,
+				id: r.id,
 				optionLabel: r.name?.[selectedLanguage],
-				value: r.gameSubCategoryId,
+				value: r.id,
 			}));
 
 			setFormFields([
@@ -77,6 +80,7 @@ const useEditCasinoGames = () => {
 					label: 'Casino Sub Category',
 					placeholder: 'Select sub category',
 					optionList: subOptions,
+					isDisabled: true,
 				},
 				{
 					name: 'casinoProviderId',

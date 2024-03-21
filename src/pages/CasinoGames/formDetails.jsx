@@ -2,20 +2,30 @@ import * as Yup from 'yup';
 import { selectedLanguage } from '../../constants/config';
 
 const getInitialValues = (defaultValue) => ({
-	id: defaultValue?.id || '',
+	gameId: defaultValue?.id || '',
 	name: defaultValue?.name?.[selectedLanguage] || '',
-	gameSubCategoryId: defaultValue?.gameSubCategoryId || '',
-	casinoProviderId: defaultValue?.casinoProviderId || '',
+	gameSubCategoryId: defaultValue?.casinoSubCategoryId || null,
+	casinoProviderId: defaultValue?.casinoProviderId || null,
 	isActive: defaultValue?.isActive || false,
-	thumbnail: defaultValue?.thumbnail || null,
+	file: defaultValue?.thumbnail || null,
 });
 
 const validationSchema = Yup.object().shape({
-	name: Yup.string().required('Game Name Required'),
-	gameSubCategoryId: Yup.string().required('Sub-Category  Required').nullable(),
-	casinoProviderId: Yup.string()
-		.required('Casino Provider Id Required')
-		.nullable(),
+	// name: Yup.string().required('Game Name Required'),
+	// gameSubCategoryId: Yup.string().required('Sub-Category  Required').nullable(),
+	// casinoProviderId: Yup.string()
+	// 	.required('Casino Provider Id Required')
+	// 	.nullable(),
+	file: Yup.mixed().when(
+		'$isFilePresent',
+		(isFilePresent, schema) =>
+			isFilePresent &&
+			schema.test(
+				'FILE_SIZE',
+				'Please select any file.',
+				(value) => value && value.size > 0
+			)
+	),
 });
 
 const staticFormFields = [
@@ -23,17 +33,13 @@ const staticFormFields = [
 		name: 'name',
 		fieldType: 'textField',
 		label: 'Game Name',
+		isDisabled: true,
 	},
 	{
-		name: 'thumbnail',
+		name: 'file',
 		fieldType: 'file',
 		label: 'Thumbnail',
 		showThumbnail: true,
-	},
-	{
-		name: 'isActive',
-		fieldType: 'switch',
-		label: 'Active',
 	},
 ];
 

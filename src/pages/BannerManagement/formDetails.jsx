@@ -67,7 +67,7 @@ const validationSchema = ({
 					isFilePresent &&
 					schema.test(
 						'FILE_SIZE',
-						'File must not be empty.',
+						'Please select any file.',
 						(value) => value && value.size > 0
 					)
 			)

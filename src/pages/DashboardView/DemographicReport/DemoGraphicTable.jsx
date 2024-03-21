@@ -10,7 +10,7 @@ const DemoGraphicTable = (props) => {
 		<div className="demo-graph-table">
 			<TableContainer
 				columns={demoGraphColumn || []}
-				data={demoGraphicData.demograph || []}
+				data={demoGraphicData?.demograph || []}
 				isGlobalFilter={false}
 				isPagination={false}
 				tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}

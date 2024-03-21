@@ -61,8 +61,6 @@ import {
 	REORDER_CASINO_GAMES_FAIL,
 	RESET_CASINO_STATE,
 	RESET_CASINO_PROVIDERS_DATA,
-	RESET_CASINO_CATEGORY_DATA,
-	RESET_CASINO_SUB_CATEGORY_DATA,
 	RESET_CASINO_GAMES,
 	GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
 	GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS,
@@ -107,11 +105,6 @@ export const getCasinoCategoryDetailStart = (payload) => ({
 	payload,
 });
 
-export const resetCasinoCategoryData = (payload) => ({
-	type: RESET_CASINO_CATEGORY_DATA,
-	payload,
-});
-
 export const getCasinoSubCategoryDetailSuccess = (payload) => ({
 	type: GET_CASINO_SUB_CATEGORY_DATA_SUCCESS,
 	payload,
@@ -124,11 +117,6 @@ export const getCasinoSubCategoryDetailFailure = (payload) => ({
 
 export const getCasinoSubCategoryDetailStart = (payload) => ({
 	type: GET_CASINO_SUB_CATEGORY_DATA,
-	payload,
-});
-
-export const resetCasinoSubCategoryData = (payload) => ({
-	type: RESET_CASINO_SUB_CATEGORY_DATA,
 	payload,
 });
 

@@ -92,12 +92,10 @@ const useCreateWageringTemplate = () => {
 					fieldType: 'select',
 					label: 'Provider Name ',
 					placeholder: 'Provider',
-					optionList: casinoProvidersData?.providers?.map(
-						({ casinoProviderId, name }) => ({
-							optionLabel: name,
-							value: casinoProviderId,
-						})
-					),
+					optionList: casinoProvidersData?.providers?.map(({ id, name }) => ({
+						optionLabel: name,
+						value: id,
+					})),
 				},
 			]);
 		}

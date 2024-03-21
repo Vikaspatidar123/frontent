@@ -4,7 +4,6 @@ import { formatDate } from '../../../utils/dateFormatter';
 import {
 	getCasinoCategoryDetailStart,
 	getLanguagesStart,
-	resetCasinoCategoryData,
 	updateCasinoStatusStart,
 } from '../../../store/casinoManagement/actions';
 
@@ -53,9 +52,6 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 	useEffect(() => {
 		fetchData();
 	}, [page, itemsPerPage]);
-
-	// resetting category list redux state
-	useEffect(() => () => dispatch(resetCasinoCategoryData()), []);
 
 	useEffect(() => {
 		if (isCreateCategorySuccess || isEditCategorySuccess) fetchData();

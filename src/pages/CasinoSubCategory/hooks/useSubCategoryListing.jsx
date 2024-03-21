@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import {
 	deleteCasinoSubCategoryStart,
 	getCasinoSubCategoryDetailStart,
-	resetCasinoSubCategoryData,
 	updateCasinoStatusStart,
 } from '../../../store/actions';
 
@@ -94,9 +93,6 @@ const useSubCategoryListing = (filterValidation, onClickEdit) => {
 	useEffect(() => {
 		fetchData();
 	}, [itemsPerPage, page]);
-
-	// resetting sub categories list redux state
-	useEffect(() => () => dispatch(resetCasinoSubCategoryData()), []);
 
 	const handleAddGameClick = ({
 		e,

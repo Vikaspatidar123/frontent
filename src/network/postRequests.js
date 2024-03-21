@@ -425,6 +425,15 @@ const uploadSportsCountryImageApi = (data) =>
 		}
 	);
 
+const editCasinoGames = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-game`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -495,4 +504,5 @@ export {
 	removeRestrictedCountriesGame,
 	uploadImageApi,
 	uploadSportsCountryImageApi,
+	editCasinoGames,
 };

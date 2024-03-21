@@ -21,11 +21,6 @@ const editCasinoProvider = (data) =>
 		}
 	);
 
-const editCasinoGames = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/games`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
-
 const editBetSettings = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/bet-settings`,
@@ -98,7 +93,6 @@ export {
 	updateStatus,
 	updateGlobalRegistration,
 	editCasinoProvider,
-	editCasinoGames,
 	editBetSettings,
 	updateloyaltyLevel,
 	markUserAsInternal,

@@ -95,10 +95,10 @@ import {
 	editCasinoSubCategory,
 	updateSubCategoryReOrder,
 	updateReorderGames,
+	editCasinoGames,
 } from '../../network/postRequests';
 
 import {
-	editCasinoGames,
 	editCasinoProvider,
 	// superAdminViewToggleStatus,
 } from '../../network/putRequests';

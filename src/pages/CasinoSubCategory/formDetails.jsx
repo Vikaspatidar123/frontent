@@ -23,7 +23,16 @@ const validationSchema = (name) =>
 	Yup.object().shape({
 		name: validateName(name),
 		file: Yup.mixed()
-			.required('Image Required')
+			.when(
+				'$isFilePresent',
+				(isFilePresent, schema) =>
+					isFilePresent &&
+					schema.test(
+						'FILE_SIZE',
+						'Please select any file.',
+						(value) => value && value.size > 0
+					)
+			)
 			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
 				typeof value === 'string'
 					? true

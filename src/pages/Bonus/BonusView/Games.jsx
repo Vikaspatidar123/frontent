@@ -47,7 +47,7 @@ const Games = () => {
 		if (casinoProvidersData) {
 			return casinoProvidersData?.providers?.map((provider) => ({
 				optionLabel: provider.name,
-				value: provider.casinoProviderId,
+				value: provider.id,
 			}));
 		}
 		return [];
@@ -70,7 +70,7 @@ const Games = () => {
 			return casinoGames?.games?.map((game) => ({
 				...game,
 				providerName: casinoProvidersData?.providers?.find(
-					(obj) => obj.casinoProviderId === game.casinoProviderId
+					(obj) => obj.id === game.casinoProviderId
 				)?.name,
 			}));
 		}

@@ -15,11 +15,20 @@ const validationSchema = () =>
 			.required('Provider Name Required'),
 		gameAggregatorId: Yup.string().required('Aggregator Required'),
 		thumbnail: Yup.mixed()
-			.required('A file is required')
 			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
 				typeof value === 'string'
 					? true
 					: !value || (value && value.size <= 1024 * 1024)
+			)
+			.when(
+				'$isFilePresent',
+				(isFilePresent, schema) =>
+					isFilePresent &&
+					schema.test(
+						'FILE_SIZE',
+						'Please select any file.',
+						(value) => value && value.size > 0
+					)
 			)
 			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
 				typeof value === 'string'

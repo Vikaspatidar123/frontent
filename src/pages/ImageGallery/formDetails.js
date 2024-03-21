@@ -20,10 +20,21 @@ function formatBytes(bytes, decimals = 2) {
 const validationSchema = () =>
 	Yup.object().shape({
 		initialstate: Yup.mixed()
-			.required('A file is required')
-			.test('File Size', 'File Size Should be Less Than 1MB', (value) => typeof value === 'string'
+			.when(
+				'$isFilePresent',
+				(isFilePresent, schema) =>
+					isFilePresent &&
+					schema.test(
+						'FILE_SIZE',
+						'Please select any file.',
+						(value) => value && value.size > 0
+					)
+			)
+			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
+				typeof value === 'string'
 					? true
-					: !value || (value && value.size <= 1024 * 1024))
+					: !value || (value && value.size <= 1024 * 1024)
+			)
 			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
 				typeof value === 'string'
 					? true

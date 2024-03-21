@@ -62,8 +62,6 @@ import {
 	REORDER_CASINO_GAMES_FAIL,
 	RESET_CASINO_STATE,
 	RESET_CASINO_PROVIDERS_DATA,
-	RESET_CASINO_CATEGORY_DATA,
-	RESET_CASINO_SUB_CATEGORY_DATA,
 	RESET_CASINO_GAMES,
 	GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
 	GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS,
@@ -193,14 +191,6 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				iscasinoCategoryDetailsLoading: true,
 			};
 
-		case RESET_CASINO_CATEGORY_DATA:
-			return {
-				...state,
-				iscasinoCategoryDetailsLoading: true,
-				casinoCategoryDetails: null,
-				casinoCategoryDetailsError: null,
-			};
-
 		case GET_CASINO_SUB_CATEGORY_DATA:
 			return {
 				...state,
@@ -220,14 +210,6 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				casinoSubCategoryDetailsError: payload,
 				iscasinoSubCategoryDetailsLoading: true,
-			};
-
-		case RESET_CASINO_SUB_CATEGORY_DATA:
-			return {
-				...state,
-				iscasinoSubCategoryDetailsLoading: true,
-				casinoSubCategoryDetails: null,
-				casinoSubCategoryDetailsError: null,
 			};
 
 		case GET_CASINO_GAMES:
