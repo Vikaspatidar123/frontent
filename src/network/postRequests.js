@@ -390,6 +390,25 @@ const removeRestrictedCountriesGame = (data) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}remove-restricted-countries-for-game`,
 		data
 	);
+
+const uploadImageApi = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}upload-sport-icon`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
+const uploadSportsCountryImageApi = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}upload-location-icon`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -458,4 +477,6 @@ export {
 	addGamesRestrictedCountries,
 	removeRestrictedCountriesProvider,
 	removeRestrictedCountriesGame,
+	uploadImageApi,
+	uploadSportsCountryImageApi,
 };

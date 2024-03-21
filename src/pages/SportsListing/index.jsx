@@ -87,11 +87,7 @@ const SportsListing = () => {
 					className="modal-dialog modal-lg"
 					hideFooter
 				>
-					<IconUploader
-						sportId={sportId}
-						code="SPORT"
-						isUploading={isUploadImageLoading}
-					/>
+					<IconUploader sportId={sportId} isUploading={isUploadImageLoading} />
 				</Modal>
 			</Container>
 		</div>

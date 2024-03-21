@@ -14,7 +14,7 @@ const CountryName = ({ value }) => value ?? '';
 
 const Icon = ({ value }) => (
 	<ImageCell
-		imgSrc={`development/sportbook/location/${value?.row?.original?.name}.png`}
+		imgSrc={`assets/sportsbook/locations/${value?.row?.original?.name.toLowerCase()}.png`}
 	/>
 );
 

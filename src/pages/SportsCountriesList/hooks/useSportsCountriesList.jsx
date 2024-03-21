@@ -18,7 +18,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	const {
 		sportsCountries,
 		isSportsCountriesLoading,
-		uploadImageSuccess,
+		uploadSportsCountryImageSuccess,
 		isUploadImageLoading,
 	} = useSelector((state) => state.SportsList);
 
@@ -55,10 +55,10 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	};
 
 	useEffect(() => {
-		if (uploadImageSuccess) {
+		if (uploadSportsCountryImageSuccess) {
 			setShowUploadModal(false);
 		}
-	}, [uploadImageSuccess]);
+	}, [uploadSportsCountryImageSuccess]);
 
 	const handleUpload = (id) => {
 		setLocationId(id);
@@ -78,7 +78,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [itemsPerPage, page, uploadImageSuccess]);
+	}, [itemsPerPage, page, uploadSportsCountryImageSuccess]);
 
 	// resetting sports countries redux state
 	useEffect(() => () => dispatch(resetSportsCountries()), []);
