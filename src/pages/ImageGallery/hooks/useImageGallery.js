@@ -54,7 +54,7 @@ const useImageGallery = () => {
 
 	const deleteImage = (f) => {
 		const data = {
-			imageUrl: f.fileName,
+			name: f,
 		};
 		dispatch(deleteImageGallery(data));
 	};

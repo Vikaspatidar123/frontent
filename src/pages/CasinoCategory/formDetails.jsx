@@ -7,6 +7,7 @@ const getInitialValues = (defaultValue) => ({
 	selectedLang: defaultValue?.selectedLang || '',
 	isActive: defaultValue?.isActive || false,
 	name: defaultValue?.name || {},
+	file: defaultValue?.iconUrl || '',
 });
 
 const validateName = (name) => {
@@ -29,6 +30,12 @@ const staticFormFields = [
 		name: 'isActive',
 		fieldType: 'switch',
 		label: 'Active',
+	},
+	{
+		name: 'file',
+		fieldType: 'file',
+		label: 'Thumbnail',
+		showThumbnail: true,
 	},
 ];
 

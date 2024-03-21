@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col, Card, Button, UncontrolledTooltip } from 'reactstrap';
+import { Row, Col, Card, Button } from 'reactstrap';
 
 import { Buffer } from 'buffer';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,15 +17,9 @@ import {
 	getTestEmailInitialValues,
 	staticTestEmailFormFields,
 } from './formDetails';
-import {
-	testEmailTemplate,
-	getImageGallery,
-	deleteImageGallery,
-} from '../../store/actions';
+import { testEmailTemplate, getImageGallery } from '../../store/actions';
 import { formPageTitle } from '../../components/Common/constants';
 import { decryptCredentials } from '../../network/storageUtils';
-
-const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
 const safeStringify = (object) =>
 	JSON.stringify(object)?.replace(/</g, '\\u003c');
@@ -67,13 +60,6 @@ const CreateTemplate = ({
 		}
 	}, []);
 
-	const deleteImage = (f) => {
-		const data = {
-			imageUrl: f.fileName,
-		};
-		dispatch(deleteImageGallery(data));
-	};
-
 	useEffect(() => {
 		setTemp && setTemp(template);
 	}, [template]);
@@ -92,11 +78,11 @@ const CreateTemplate = ({
 					id="file-previews"
 				>
 					{imageGallery.map((f, i) => (
-						<Col key={`${i}-file`}>
+						<Col key={`${f}-file`}>
 							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
 								<div className="p-2">
 									<CopyToClipboard
-										text={`${VITE_APP_AWS_GALLERY_URL}${f.fileName}`}
+										text={f}
 										onCopy={() => {
 											setShowGallery(false);
 											showToastr({
@@ -110,28 +96,10 @@ const CreateTemplate = ({
 											height="200"
 											width="250"
 											className="rounded me-2 bg-light"
-											alt={f.name}
-											src={`${VITE_APP_AWS_GALLERY_URL}${f.fileName}`}
+											alt={f}
+											src={f}
 										/>
 									</CopyToClipboard>
-									<Col className="position-absolute top-0 end-0">
-										<Link
-											to="#"
-											className="btn btn-sm btn-soft-danger"
-											onClick={() => deleteImage(f)}
-										>
-											<i
-												className="mdi mdi-delete-outline"
-												id="deletetooltip"
-											/>
-											<UncontrolledTooltip
-												placement="top"
-												target="deletetooltip"
-											>
-												Delete
-											</UncontrolledTooltip>
-										</Link>
-									</Col>
 								</div>
 							</Card>
 						</Col>

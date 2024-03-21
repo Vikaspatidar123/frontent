@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
 	isActive: defaultValue?.isActive || false,
-	subcategoryImage: defaultValue?.subcategoryImage || '',
+	file: defaultValue?.iconUrl || '',
 	categoryId: defaultValue?.casinoCategoryId || '',
 });
 
@@ -22,7 +22,7 @@ const validateName = (name) => {
 const validationSchema = (name) =>
 	Yup.object().shape({
 		name: validateName(name),
-		subcategoryImage: Yup.mixed()
+		file: Yup.mixed()
 			.required('Image Required')
 			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
 				typeof value === 'string'
@@ -46,7 +46,7 @@ const staticFormFields = [
 		label: 'Active',
 	},
 	{
-		name: 'subcategoryImage',
+		name: 'file',
 		fieldType: 'file',
 		label: 'Thumbnail',
 		showThumbnail: true,

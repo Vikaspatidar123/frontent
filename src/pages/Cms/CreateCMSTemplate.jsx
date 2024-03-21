@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Card, UncontrolledTooltip, Label } from 'reactstrap';
+import { Row, Col, Card, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { Link } from 'react-router-dom';
 import TabsPage from '../../components/Common/TabsPage';
 import { CustomInputField } from '../../helpers/customForms';
 import Modal from '../../components/Common/Modal';
 import CodeEditor from './CodeEditor';
 import { showToastr } from '../../utils/helpers';
 
-import { getImageGallery, deleteImageGallery } from '../../store/actions';
+import { getImageGallery } from '../../store/actions';
 import { decryptCredentials } from '../../network/storageUtils';
 import { formPageTitle } from '../../components/Common/constants';
-
-const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
 const safeStringify = (object) =>
 	JSON.stringify(object)?.replace(/</g, '\\u003c');
@@ -125,13 +122,6 @@ const CreateCMSTemplate = ({
 		}
 	}, [showGallery]);
 
-	const deleteImage = (f) => {
-		const imgData = {
-			imageUrl: f.fileName,
-		};
-		dispatch(deleteImageGallery(imgData));
-	};
-
 	useEffect(() => {
 		if (imageGallery?.length) {
 			setImageComponent(
@@ -140,11 +130,11 @@ const CreateCMSTemplate = ({
 					id="file-previews"
 				>
 					{imageGallery.map((f) => (
-						<Col key={`${f?.fileName}-file`}>
+						<Col key={`${f}-file`}>
 							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
 								<div className="p-2">
 									<CopyToClipboard
-										text={`${VITE_APP_AWS_GALLERY_URL}/${f.fileName}`}
+										text={f}
 										onCopy={() => {
 											setShowGallery(false);
 											showToastr({
@@ -158,28 +148,10 @@ const CreateCMSTemplate = ({
 											height="200"
 											width="250"
 											className="rounded me-2 bg-light"
-											alt={f.name}
-											src={`${VITE_APP_AWS_GALLERY_URL}${f.fileName}`}
+											alt={f}
+											src={f}
 										/>
 									</CopyToClipboard>
-									<Col className="position-absolute top-0 end-0">
-										<Link
-											to="!#"
-											className="btn btn-sm btn-soft-danger"
-											onClick={() => deleteImage(f)}
-										>
-											<i
-												className="mdi mdi-delete-outline"
-												id="deletetooltip"
-											/>
-											<UncontrolledTooltip
-												placement="top"
-												target="deletetooltip"
-											>
-												Delete
-											</UncontrolledTooltip>
-										</Link>
-									</Col>
 								</div>
 							</Card>
 						</Col>
