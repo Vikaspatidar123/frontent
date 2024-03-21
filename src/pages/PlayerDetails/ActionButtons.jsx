@@ -14,7 +14,7 @@ const ActionButtons = ({
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li>
+			<li id={documentLabelId}>
 				<Button
 					to="#"
 					className="btn btn-sm btn-soft-primary"
@@ -26,14 +26,20 @@ const ActionButtons = ({
 						});
 					}}
 				>
-					<i className="mdi mdi-file-document" id="inactivetooltip" />
-					<UncontrolledTooltip placement="top" target="inactivetooltip">
+					<i
+						className="mdi mdi-file-document"
+						id={`inactivetooltip_${documentLabelId}`}
+					/>
+					<UncontrolledTooltip
+						placement="top"
+						target={`inactivetooltip_${documentLabelId}`}
+					>
 						Request Document
 					</UncontrolledTooltip>
 				</Button>
 			</li>
 
-			<li>
+			<li id={documentLabelId}>
 				<Button
 					to="#"
 					className="btn btn-sm btn-soft-success"
@@ -50,14 +56,20 @@ const ActionButtons = ({
 						});
 					}}
 				>
-					<i className="mdi mdi-file-document-edit" id="verifytooltip" />
-					<UncontrolledTooltip placement="top" target="verifytooltip">
+					<i
+						className="mdi mdi-file-document-edit"
+						id={`verify-docs-${documentLabelId}`}
+					/>
+					<UncontrolledTooltip
+						placement="top"
+						target={`verify-docs-${documentLabelId}`}
+					>
 						Verify Document
 					</UncontrolledTooltip>
 				</Button>
 			</li>
 
-			<li>
+			<li id={documentLabelId}>
 				<Button
 					to="#"
 					className="btn btn-sm btn-soft-danger"
@@ -72,8 +84,14 @@ const ActionButtons = ({
 						toggleModal(documentLabelId);
 					}}
 				>
-					<i className="mdi mdi-file-cancel" id="rejecttooltip" />
-					<UncontrolledTooltip placement="top" target="rejecttooltip">
+					<i
+						className="mdi mdi-file-cancel"
+						id={`reject-docs-${documentLabelId}`}
+					/>
+					<UncontrolledTooltip
+						placement="top"
+						target={`reject-docs-${documentLabelId}`}
+					>
 						Reject Document
 					</UncontrolledTooltip>
 				</Button>
@@ -85,7 +103,7 @@ const ActionButtons = ({
 ActionButtons.propTypes = {
 	handleRequestDocument: PropTypes.func.isRequired,
 	handleVerifyDocument: PropTypes.func.isRequired,
-	handleRejectDocument: PropTypes.func.isRequired,
+	toggleModal: PropTypes.func.isRequired,
 	cell: PropTypes.objectOf.isRequired,
 };
 

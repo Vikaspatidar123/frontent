@@ -140,7 +140,11 @@ const useAdminListing = (filterValues = {}) => {
 				accessor: 'email',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<Email value={cell.value} adminUserId={cell?.row?.original?.id} />
+					<Email
+						value={cell.value}
+						adminData={cell?.row?.original}
+						handleView={handleView}
+					/>
 				),
 			},
 			{

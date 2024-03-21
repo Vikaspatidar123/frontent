@@ -9,8 +9,10 @@ const AdminUserID = ({ value }) => (
 
 const FullName = ({ value }) => value ?? '';
 
-const Email = ({ value, adminUserId }) => (
-	<Link to={`/staff/details/${adminUserId}`}>{value ?? ''}</Link>
+const Email = ({ value, adminData, handleView }) => (
+	<Link to="!#" onClick={(e) => handleView(e, adminData)}>
+		{value ?? ''}
+	</Link>
 );
 
 const Role = ({ value }) => value ?? '';
@@ -34,7 +36,8 @@ Status.propTypes = {
 
 Email.propTypes = {
 	value: PropTypes.bool.isRequired,
-	adminUserId: PropTypes.number.isRequired,
+	adminData: PropTypes.objectOf({ id: PropTypes.string }).isRequired,
+	handleView: PropTypes.func.isRequired,
 };
 
 export { AdminUserID, Email, FullName, Role, Group, Status };
