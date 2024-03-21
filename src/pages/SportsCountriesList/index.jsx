@@ -88,7 +88,6 @@ const SportsCountriesListing = () => {
 				>
 					<IconUploader
 						locationId={locationId}
-						code="LOCATION"
 						isUploading={isUploadImageLoading}
 					/>
 				</Modal>

@@ -31,6 +31,9 @@ import {
 	RESET_SPORTS_COUNTRIES,
 	RESET_SPORTS_TOURNAMENT_LIST,
 	RESET_SPORTS_MATCHESDETAIL_DATA,
+	UPLOAD_SPORTS_COUNTRY_IMAGE_START,
+	UPLOAD_SPORTS_COUNTRY_IMAGE_SUCCESS,
+	UPLOAD_SPORTS_COUNTRY_IMAGE_FAILURE,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -55,6 +58,9 @@ const INIT_STATE = {
 	isUploadImageLoading: false,
 	uploadImageError: null,
 	uploadImageSuccess: false,
+	isUploadSportsCountryImageLoading: false,
+	uploadSportsCountryImageError: null,
+	uploadSportsCountryImageSuccess: false,
 };
 
 const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
@@ -306,6 +312,30 @@ const sportsList = (state = INIT_STATE, { type, payload } = {}) => {
 				isUploadImageLoading: false,
 				uploadImageError: payload,
 				updateStatusError: null,
+			};
+
+		case UPLOAD_SPORTS_COUNTRY_IMAGE_START:
+			return {
+				...state,
+				isUploadSportsCountryImageLoading: true,
+				uploadSportsCountryImageSuccess: false,
+				uploadSportsCountryImageError: null,
+			};
+
+		case UPLOAD_SPORTS_COUNTRY_IMAGE_SUCCESS:
+			return {
+				...state,
+				isUploadSportsCountryImageLoading: false,
+				uploadSportsCountryImageSuccess: payload,
+				uploadSportsCountryImageError: null,
+			};
+
+		case UPLOAD_SPORTS_COUNTRY_IMAGE_FAILURE:
+			return {
+				...state,
+				isUploadSportsCountryImageLoading: false,
+				uploadSportsCountryImageSuccess: false,
+				uploadSportsCountryImageError: payload,
 			};
 
 		default:

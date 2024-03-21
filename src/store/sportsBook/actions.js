@@ -30,6 +30,9 @@ import {
 	RESET_SPORTS_COUNTRIES,
 	RESET_SPORTS_TOURNAMENT_LIST,
 	RESET_SPORTS_MATCHESDETAIL_DATA,
+	UPLOAD_SPORTS_COUNTRY_IMAGE_START,
+	UPLOAD_SPORTS_COUNTRY_IMAGE_SUCCESS,
+	UPLOAD_SPORTS_COUNTRY_IMAGE_FAILURE,
 } from './actionTypes';
 
 export const getSportsListSuccess = (payload) => ({
@@ -176,5 +179,20 @@ export const uploadImageSuccess = (payload) => ({
 
 export const uploadImageFail = (payload) => ({
 	type: UPLOAD_IMAGE_FAILURE,
+	payload,
+});
+
+export const uploadSportsCountryImageStart = (payload) => ({
+	type: UPLOAD_SPORTS_COUNTRY_IMAGE_START,
+	payload,
+});
+
+export const uploadSportsCountryImageSuccess = (payload) => ({
+	type: UPLOAD_SPORTS_COUNTRY_IMAGE_SUCCESS,
+	payload,
+});
+
+export const uploadSportsCountryImageFail = (payload) => ({
+	type: UPLOAD_SPORTS_COUNTRY_IMAGE_FAILURE,
 	payload,
 });

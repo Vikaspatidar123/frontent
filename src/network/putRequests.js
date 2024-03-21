@@ -99,15 +99,6 @@ const updateReview = ({ data }) =>
 const reorderBonus = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/order`, data);
 
-const uploadImageApi = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}upload-thumbnails`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
-
 export {
 	updateStatus,
 	updateGlobalRegistration,
@@ -129,5 +120,4 @@ export {
 	updateBonusCall,
 	updateReview,
 	reorderBonus,
-	uploadImageApi,
 };

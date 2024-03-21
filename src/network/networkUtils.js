@@ -20,7 +20,10 @@ const METHODS = {
 	delete: 'DELETE',
 };
 
+const isFormData = (payload) => payload instanceof FormData;
+
 const filterEmptyPayload = (payload) => {
+	if (isFormData(payload)) return payload;
 	const updatedPayload = {};
 	Object.keys(payload || {}).forEach((key) => {
 		if (
