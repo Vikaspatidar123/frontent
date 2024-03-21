@@ -23,22 +23,20 @@ import CrudSection from '../../components/Common/CrudSection';
 import ModalView from '../../components/Common/Modal';
 import ImageUploader from '../../components/Common/ImageUploader';
 
-const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
-
 const ImageGalleryGrid = ({ imageGalleryList, isGranted, deleteImage }) =>
 	imageGalleryList.length ? (
 		imageGalleryList.map((f) => (
 			<div className="col-sm-4 col-md-3 col-lg-2 p-0 mb-4">
 				<div
-					key={`${f?.fileName}-file`}
+					key={`${f}-file`}
 					className="bg-transparent h-100 align-items-center dz-processing dz-image-preview dz-success dz-complete"
 				>
 					<div className="img-parent h-100 position-relative ">
 						<img
 							data-dz-thumbnail=""
 							className="rounded bg-light h-100"
-							alt={f.name}
-							src={`${VITE_APP_AWS_GALLERY_URL}${f.fileName}`}
+							alt={f}
+							src={f}
 						/>
 						<Col className="trash-btn position-absolute top-0 end-0">
 							<Button

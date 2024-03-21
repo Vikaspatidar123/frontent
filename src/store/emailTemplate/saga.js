@@ -84,7 +84,7 @@ function* getAllEmailTemplatesWorker() {
 function* getImageGalleryWorker() {
 	try {
 		const { data } = yield getImageGalleryData();
-		yield put(getImageGallerySuccess(data?.data));
+		yield put(getImageGallerySuccess(data?.data?.gallery));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,

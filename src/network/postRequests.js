@@ -78,7 +78,10 @@ const editBanner = (data) =>
 const createCasinoCategory = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}create-category`,
-		data
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
 	);
 
 const createKYCLabels = (data) =>
@@ -90,7 +93,10 @@ const createKYCLabels = (data) =>
 const createCasinoSubCategory = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}create-sub-category`,
-		data
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
 	);
 
 const createUserCommentEntry = (data) =>
@@ -293,7 +299,10 @@ const rejectDocumentCall = (data) =>
 const editCasinoCategory = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-category`,
-		data
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
 	);
 
 const updateCategoryReOrder = (data) =>
@@ -305,7 +314,10 @@ const updateCategoryReOrder = (data) =>
 const editCasinoSubCategory = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-sub-category`,
-		data
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
 	);
 
 const updateSubCategoryReOrder = (data) =>
