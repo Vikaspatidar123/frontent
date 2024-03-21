@@ -66,10 +66,14 @@ const createBetSettings = (data) =>
 		data
 	);
 
-const createSABanners = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/banner`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
+const editBanner = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}banner/upload`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 const createCasinoCategory = (data) =>
 	postRequest(
@@ -420,7 +424,7 @@ export {
 	createCasinoProvider,
 	createReview,
 	createBetSettings,
-	createSABanners,
+	editBanner,
 	createCasinoCategory,
 	createKYCLabels,
 	createCasinoSubCategory,

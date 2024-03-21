@@ -1,125 +1,88 @@
-/* eslint-disable consistent-return */
-/* eslint-disable no-unused-vars */
-/* eslint-disable func-names */
 import * as Yup from 'yup';
-import { bannerType } from './constants';
 
 const getInitialValues = (defaultValue) => ({
-  bannerType: defaultValue?.bannerType || null,
-  thumbnail: defaultValue?.thumbnail || '',
+	bannerId: defaultValue?.bannerId || '',
+	file: defaultValue?.file || '',
 });
 
 const staticFormFields = [
-  {
-    name: 'thumbnail',
-    fieldType: 'file',
-    label: 'Banner',
-    showThumbnail: true,
-  },
+	{
+		name: 'file',
+		fieldType: 'file',
+		label: 'Banner',
+		showThumbnail: true,
+	},
 ];
 
-const validationSchema = ({
-  minRequiredWidth,
-  minRequiredHeight,
-  maxRequiredWidth,
-  maxRequiredHeight,
-}) =>
-  Yup.object().shape({
-    bannerType: Yup.string().required('Banner Type Required'),
-    thumbnail: Yup.mixed()
-      .required('Banner Required')
-      .imageDimensionCheck(
-        'Banner Required',
-        minRequiredWidth,
-        minRequiredHeight,
-        maxRequiredWidth,
-        maxRequiredHeight
-      )
-      .test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
-        typeof value === 'string'
-          ? true
-          : !value ||
-          (value &&
-            [
-              'image/png',
-              'image/jpeg',
-              'image/jpg',
-              'image/svg+xml',
-            ].includes(value.type))
-      ),
-  });
-
-const imageWidthAndHeight = (provideFile) => {
-  // take the given file (which should be an image) and return the width and height
-  const imgDimensions = { width: null, height: null };
-
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-
-    reader.readAsDataURL(provideFile);
-    reader.onload = function () {
-      const img = new Image();
-      img.src = reader.result;
-
-      img.onload = function () {
-        imgDimensions.width = img.width;
-        imgDimensions.height = img.height;
-
-        resolve(imgDimensions);
-      };
-    };
-  });
-};
-
-const imageDimensionCheck = Yup.addMethod(
-  Yup.mixed,
-  'imageDimensionCheck',
-  function (
-    message,
-    minRequiredWidth,
-    minRequiredHeight,
-    maxRequiredWidth,
-    maxRequiredHeight
-  ) {
-    return this.test(
-      'image-width-height-check',
-      message,
-      async function (value) {
-        const { path, createError } = this;
-
-        if (!value) {
-          return;
-        }
-
-        if (typeof value === 'string') {
-          return true;
-        }
-
-        const imgDimensions = await imageWidthAndHeight(value);
-
-        if (
-          imgDimensions.width < minRequiredWidth ||
-          imgDimensions.width > maxRequiredWidth
-        ) {
-          return createError({
-            path,
-            message: `The image width needs to be between ${minRequiredWidth}px - ${maxRequiredWidth}px!`,
-          });
-        }
-
-        if (
-          imgDimensions.height < minRequiredHeight ||
-          imgDimensions.height > maxRequiredHeight
-        ) {
-          return createError({
-            path,
-            message: `The image height needs to be between ${minRequiredHeight}px - ${maxRequiredHeight}px!`,
-          });
-        }
-        return true;
-      }
-    );
-  }
+Yup.addMethod(
+	Yup.mixed,
+	'imageDimensions',
+	(minW, minH, maxW, maxH, errorMessage) =>
+		Yup.mixed().test(
+			'imageDimensions',
+			errorMessage,
+			(value) =>
+				!value ||
+				(value &&
+					value.type.startsWith('image/') &&
+					new Promise((resolve) => {
+						const img = new Image();
+						img.onerror = () => resolve(false);
+						img.onload = () => {
+							if (
+								img.width >= minW &&
+								img.height >= minH &&
+								img.width <= maxW &&
+								img.height <= maxH
+							) {
+								resolve(true);
+							} else {
+								resolve(false);
+							}
+						};
+						img.src = URL.createObjectURL(value);
+					}))
+		)
 );
+
+const validationSchema = ({
+	minRequiredWidth,
+	minRequiredHeight,
+	maxRequiredWidth,
+	maxRequiredHeight,
+}) =>
+	Yup.object().shape({
+		file: Yup.mixed()
+			.required('Banner Required')
+			.imageDimensions(
+				minRequiredWidth,
+				minRequiredHeight,
+				maxRequiredWidth,
+				maxRequiredHeight,
+				`Image dimensions must be between ${minRequiredWidth}x${minRequiredHeight} and ${maxRequiredWidth}x${maxRequiredHeight}.`
+			)
+			.when(
+				'$isFilePresent',
+				(isFilePresent, schema) =>
+					isFilePresent &&
+					schema.test(
+						'FILE_SIZE',
+						'File must not be empty.',
+						(value) => value && value.size > 0
+					)
+			)
+			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+				typeof value === 'string'
+					? true
+					: !value ||
+					  (value &&
+							[
+								'image/png',
+								'image/jpeg',
+								'image/jpg',
+								'image/svg+xml',
+							].includes(value.type))
+			),
+	});
 
 export { getInitialValues, staticFormFields, validationSchema };

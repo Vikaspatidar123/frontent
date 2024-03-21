@@ -5,9 +5,6 @@ import {
 	GET_DOCUMENT_LABEL,
 	GET_DOCUMENT_LABEL_SUCCESS,
 	GET_DOCUMENT_LABEL_FAIL,
-	CREATE_SA_BANNERS_START,
-	CREATE_SA_BANNERS_SUCCESS,
-	CREATE_SA_BANNERS_FAIL,
 	CREATE_KYC_LABELS_START,
 	CREATE_KYC_LABELS_SUCCESS,
 	CREATE_KYC_LABELS_FAIL,
@@ -23,9 +20,6 @@ import {
 	UPDATE_LOYALTY_LEVEL,
 	UPDATE_LOYALTY_LEVEL_SUCCESS,
 	UPDATE_LOYALTY_LEVEL_FAIL,
-	DELETE_SA_BANNERS_START,
-	DELETE_SA_BANNERS_SUCCESS,
-	DELETE_SA_BANNERS_FAIL,
 	RESET_DOCUMENT_LABELS,
 	RESET_SA_BANNERS_DATA,
 	RESET_LOYALTY_LEVEL_DATA,
@@ -68,21 +62,6 @@ export const getDocumentLabelFail = (payload) => ({
 
 export const resetDocumentLabels = (payload) => ({
 	type: RESET_DOCUMENT_LABELS,
-	payload,
-});
-
-export const createSABannersStart = (payload) => ({
-	type: CREATE_SA_BANNERS_START,
-	payload,
-});
-
-export const createSABannersSuccess = (payload) => ({
-	type: CREATE_SA_BANNERS_SUCCESS,
-	payload,
-});
-
-export const createSABannersFail = (payload) => ({
-	type: CREATE_SA_BANNERS_FAIL,
 	payload,
 });
 
@@ -163,20 +142,5 @@ export const updateLoyaltyLevelSuccess = (payload) => ({
 
 export const updateLoyaltyLevelFail = (payload) => ({
 	type: UPDATE_LOYALTY_LEVEL_FAIL,
-	payload,
-});
-
-export const deleteSABannersStart = (payload) => ({
-	type: DELETE_SA_BANNERS_START,
-	payload,
-});
-
-export const deleteSABannersSuccess = (payload) => ({
-	type: DELETE_SA_BANNERS_SUCCESS,
-	payload,
-});
-
-export const deleteSABannersFail = (payload) => ({
-	type: DELETE_SA_BANNERS_FAIL,
 	payload,
 });

@@ -1,7 +1,4 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, Row } from 'reactstrap';
@@ -74,7 +71,7 @@ const ConfirmationModal = (props) => {
 	const handleNoClick = () => {
 		window.localStorage.removeItem(pageType);
 		setOpenModal((prev) => !prev);
-		validation?.resetForm && validation?.resetForm();
+		if (validation?.resetForm) validation?.resetForm();
 		if (navigate) {
 			navigate(-1);
 		}

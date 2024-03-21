@@ -25,11 +25,6 @@ const deleteSubCategory = (data) =>
 const deleteCasinoGames = (data) =>
 	deleteRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/casino/games`, data);
 
-const deleteSABanners = ({ bannerType }) =>
-	deleteRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}banner?bannerKey=${bannerType}`
-	);
-
 const deleteRestrictedItems = (data) =>
 	deleteRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted-items`,
@@ -47,7 +42,6 @@ export {
 	deleteEmailTemplate,
 	deleteSubCategory,
 	deleteCasinoGames,
-	deleteSABanners,
 	deleteRestrictedItems,
 	deleteBonus,
 	removeGamesFromSubCategory,

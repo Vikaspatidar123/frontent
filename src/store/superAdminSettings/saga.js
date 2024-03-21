@@ -4,13 +4,11 @@ import { put, takeLatest, fork, all } from 'redux-saga/effects';
 import {
 	GET_SA_BANNERS,
 	GET_DOCUMENT_LABEL,
-	CREATE_SA_BANNERS_START,
 	CREATE_KYC_LABELS_START,
 	EDIT_KYC_LABELS_START,
 	EDIT_SA_BANNERS_START,
 	GET_LOYALTY_LEVEL,
 	UPDATE_LOYALTY_LEVEL,
-	DELETE_SA_BANNERS_START,
 } from './actionTypes';
 
 import {
@@ -18,8 +16,6 @@ import {
 	getSABannersFail,
 	getDocumentLabelSuccess,
 	getDocumentLabelFail,
-	createSABannersSuccess,
-	createSABannersFail,
 	createKYCLabelsSuccess,
 	createKYCLabelsFail,
 	editKYCLabelsSuccess,
@@ -31,8 +27,6 @@ import {
 	updateLoyaltyLevelSuccess,
 	updateLoyaltyLevelFail,
 	getLoyaltyLevel,
-	deleteSABannersSuccess,
-	deleteSABannersFail,
 } from './actions';
 
 import {
@@ -45,13 +39,12 @@ import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 import {
 	createKYCLabels,
-	createSABanners,
+	editBanner,
 	updateKYCLabels,
 } from '../../network/postRequests';
 
-import { editBanners, updateloyaltyLevel } from '../../network/putRequests';
+import { updateloyaltyLevel } from '../../network/putRequests';
 
-import { deleteSABanners } from '../../network/deleteRequests';
 import { formPageTitle } from '../../components/Common/constants';
 
 function* getAllSABannersWorker(action) {
@@ -78,29 +71,6 @@ function* getDocumentLabelWorker(action) {
 		yield put(getDocumentLabelSuccess(data?.data));
 	} catch (e) {
 		yield put(getDocumentLabelFail(e?.response?.data?.errors[0]?.description));
-	}
-}
-
-function* createSABannersWorker(action) {
-	try {
-		const { data } = action && action.payload;
-		yield createSABanners(objectToFormData(data));
-
-		showToastr({
-			message: `Banner Created Successfully`,
-			type: 'success',
-		});
-
-		window.localStorage.removeItem(formPageTitle.bannerManagement);
-
-		yield put(createSABannersSuccess());
-	} catch (e) {
-		yield put(createSABannersFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -150,7 +120,7 @@ function* editKYCLabelsWorker(action) {
 function* editSABannersWorker(action) {
 	try {
 		const { data } = action && action.payload;
-		yield editBanners(objectToFormData(data));
+		yield editBanner(objectToFormData(data));
 
 		showToastr({
 			message: `Label Updated Successfully`,
@@ -209,40 +179,12 @@ function* updateloyaltyLevelWorker(action) {
 	}
 }
 
-function* deleteSABannersWorker(action) {
-	try {
-		const { bannerType } = action && action.payload;
-
-		yield deleteSABanners({
-			bannerType,
-		});
-
-		showToastr({
-			message: 'Banner Deleted Successfully',
-			type: 'success',
-		});
-
-		yield put(deleteSABannersSuccess());
-	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
-		yield put(deleteSABannersFail());
-	}
-}
-
 export function* getAllSABannersWatcher() {
 	yield takeLatest(GET_SA_BANNERS, getAllSABannersWorker);
 }
 
 export function* getDocumentLabelWatcher() {
 	yield takeLatest(GET_DOCUMENT_LABEL, getDocumentLabelWorker);
-}
-
-export function* getSABannersWatcher() {
-	yield takeLatest(CREATE_SA_BANNERS_START, createSABannersWorker);
 }
 
 export function* createKYCLabelsWatcher() {
@@ -265,20 +207,14 @@ export function* updateLoyaltyLevelWatcher() {
 	yield takeLatest(UPDATE_LOYALTY_LEVEL, updateloyaltyLevelWorker);
 }
 
-export function* deleteSABannersWatcher() {
-	yield takeLatest(DELETE_SA_BANNERS_START, deleteSABannersWorker);
-}
-
 function* SASettingsSaga() {
 	yield all([fork(getAllSABannersWatcher)]);
 	yield all([fork(getDocumentLabelWatcher)]);
-	yield all([fork(getSABannersWatcher)]);
 	yield all([fork(createKYCLabelsWatcher)]);
 	yield all([fork(editKYCLabelsWatcher)]);
 	yield all([fork(editSABannersWatcher)]);
 	yield all([fork(getLoyaltyLevelWatcher)]);
 	yield all([fork(updateLoyaltyLevelWatcher)]);
-	yield all([fork(deleteSABannersWatcher)]);
 }
 
 export default SASettingsSaga;

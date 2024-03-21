@@ -5,9 +5,6 @@ import {
 	GET_DOCUMENT_LABEL,
 	GET_DOCUMENT_LABEL_SUCCESS,
 	GET_DOCUMENT_LABEL_FAIL,
-	CREATE_SA_BANNERS_START,
-	CREATE_SA_BANNERS_SUCCESS,
-	CREATE_SA_BANNERS_FAIL,
 	CREATE_KYC_LABELS_START,
 	CREATE_KYC_LABELS_SUCCESS,
 	CREATE_KYC_LABELS_FAIL,
@@ -23,9 +20,6 @@ import {
 	UPDATE_LOYALTY_LEVEL,
 	UPDATE_LOYALTY_LEVEL_SUCCESS,
 	UPDATE_LOYALTY_LEVEL_FAIL,
-	DELETE_SA_BANNERS_START,
-	DELETE_SA_BANNERS_SUCCESS,
-	DELETE_SA_BANNERS_FAIL,
 	RESET_DOCUMENT_LABELS,
 	RESET_SA_BANNERS_DATA,
 	RESET_LOYALTY_LEVEL_DATA,
@@ -38,9 +32,6 @@ const initialState = {
 	documentLabels: null,
 	documentLabelsError: null,
 	documentLabelsLoading: false,
-	isCreateSABannersError: false,
-	isCreateSABannersSuccess: false,
-	isCreateSABannersLoading: false,
 	isCreateKYCLabelsError: false,
 	isCreateKYCLabelsSuccess: false,
 	isCreateKYCLabelsLoading: false,
@@ -56,9 +47,6 @@ const initialState = {
 	isUpdateLoyaltyLevelLoading: false,
 	isUpdateLoyaltyLevelSuccess: false,
 	isUpdateLoyaltyLevelError: null,
-	isDeleteSABannersSuccess: false,
-	isDeleteSABannersError: null,
-	isDeleteSABannersLoading: false,
 };
 
 const SASettings = (state = initialState, { type, payload } = {}) => {
@@ -119,28 +107,6 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				documentLabels: null,
 				documentLabelsLoading: false,
 				documentLabelsError: false,
-			};
-
-		case CREATE_SA_BANNERS_START:
-			return {
-				...state,
-				isCreateSABannersLoading: true,
-				isCreateSABannersSuccess: false,
-			};
-
-		case CREATE_SA_BANNERS_SUCCESS:
-			return {
-				...state,
-				isCreateSABannersLoading: false,
-				isCreateSABannersSuccess: true,
-			};
-
-		case CREATE_SA_BANNERS_FAIL:
-			return {
-				...state,
-				isCreateSABannersError: payload,
-				isCreateSABannersLoading: false,
-				isCreateSABannersSuccess: false,
 			};
 
 		case CREATE_KYC_LABELS_START:
@@ -259,31 +225,6 @@ const SASettings = (state = initialState, { type, payload } = {}) => {
 				isUpdateLoyaltyLevelError: payload,
 				isUpdateLoyaltyLevelSuccess: false,
 			};
-
-		case DELETE_SA_BANNERS_START:
-			return {
-				...state,
-				isDeleteSABannersLoading: true,
-				isDeleteSABannersSuccess: false,
-				isDeleteSABannersError: null,
-			};
-
-		case DELETE_SA_BANNERS_SUCCESS:
-			return {
-				...state,
-				isDeleteSABannersLoading: false,
-				isDeleteSABannersSuccess: true,
-				isDeleteSABannersError: null,
-			};
-
-		case DELETE_SA_BANNERS_FAIL:
-			return {
-				...state,
-				isDeleteSABannersLoading: false,
-				isDeleteSABannersSuccess: false,
-				isDeleteSABannersError: payload,
-			};
-
 		default:
 			return { ...state };
 	}
