@@ -26,7 +26,7 @@ const SiteConfig = ({ details }) => {
 		if (type === 'file') {
 			dispatch(
 				updateLogo({
-					image: files,
+					image: files[0],
 				})
 			);
 		} else if (name && value) {

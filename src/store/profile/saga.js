@@ -1,4 +1,5 @@
 import { put, takeLatest, fork, all, select } from 'redux-saga/effects';
+import { objectToFormData } from '../../utils/objectToFormdata';
 
 //  Redux States
 import {
@@ -126,7 +127,7 @@ function* updateAppSetting(action) {
 function* updateLogoWorker(action) {
 	try {
 		const data = action && action.payload;
-		yield uploadLogoRequest(data);
+		yield uploadLogoRequest(objectToFormData(data));
 
 		showToastr({
 			message: `Logo uploaded successfully`,

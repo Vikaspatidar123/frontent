@@ -44,14 +44,13 @@ const useCreateCurrency = () => {
 		);
 	};
 
-	const handleEditCurrency = (values) => {
+	const handleEditCurrency = ({ name, exchangeRate }) => {
 		dispatch(
 			editCurrencyStart({
 				data: {
-					...values,
-					loyaltyPoint: values.loyaltyPoint.toString(),
-					type: values.type,
-					currencyId: Number(isEdit.selectedRow.id),
+					name,
+					exchangeRate,
+					currencyId: isEdit.selectedRow.id,
 				},
 			})
 		);

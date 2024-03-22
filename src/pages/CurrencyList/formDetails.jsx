@@ -27,13 +27,13 @@ const validationSchema = () =>
 			.min(3, 'Name should be of more than 3 characters')
 			.max(50, 'Name Cannot be of more than 50 characters')
 			.required('Name cannot be Empty'),
-		code: Yup.string()
-			.matches(/^[aA-zZ\s]+$/, 'Enter only alphabets')
-			.max(3, 'Code Cannot be of more than 3 characters')
-			.required('Code cannot be Empty'),
-		symbol: Yup.string()
-			.max(5, 'Symbol Cannot be of more than 5 characters')
-			.required('Symbol cannot be Empty'),
+		// code: Yup.string()
+		// 	.matches(/^[aA-zZ\s]+$/, 'Enter only alphabets')
+		// 	.max(3, 'Code Cannot be of more than 3 characters')
+		// 	.required('Code cannot be Empty'),
+		// symbol: Yup.string()
+		// 	.max(5, 'Symbol Cannot be of more than 5 characters')
+		// 	.required('Symbol cannot be Empty'),
 		exchangeRate: Yup.number('Only enter numbers')
 			.typeError('Exchange rate must be a number')
 			.positive('Exchange rate must be a positive number')
@@ -42,7 +42,7 @@ const validationSchema = () =>
 		//   .typeError('Loyalty Point must be a number')
 		//   .positive('Loyalty Point must be Greater Than Zero')
 		//   .required('Loyalty Point cannot be Empty'),
-		type: Yup.string().required('Type cannot be Empty'),
+		// type: Yup.string().required('Type cannot be Empty'),
 	});
 
 const staticFormFields = [
@@ -58,15 +58,17 @@ const staticFormFields = [
 		label: 'Code',
 		placeholder: 'Enter currency code',
 		optionList: Object.keys(currencySymbols)?.map((currency) => ({
-				optionLabel: currency,
-				value: currency,
-			})),
+			optionLabel: currency,
+			value: currency,
+		})),
+		isDisabled: true,
 	},
 	{
 		name: 'symbol',
 		fieldType: 'textField',
 		label: 'Symbol',
 		placeholder: 'Enter currency symbol',
+		isDisabled: true,
 	},
 	{
 		name: 'exchangeRate',
@@ -86,6 +88,7 @@ const staticFormFields = [
 		label: 'Type',
 		placeholder: 'Enter type',
 		optionList: currencyTypes,
+		isDisabled: true,
 	},
 ];
 
