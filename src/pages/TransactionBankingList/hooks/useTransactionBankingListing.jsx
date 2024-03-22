@@ -68,8 +68,8 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 					transactionData.from = transaction?.adminUser?.username;
 					transactionData.to = transaction?.toUserWallet?.user?.username;
 				} else if (transaction?.fromUserWallet && transaction?.toAdminWallet) {
-					transactionData.from = transaction?.user?.username;
-					transactionData.to = transaction?.adminUser?.userName;
+					transactionData.from = transaction?.fromUserWallet?.user?.username;
+					transactionData.to = transaction?.adminUser?.username;
 				}
 
 				formattedValues.push(transactionData);
