@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 import {
 	getLivePlayerInfoStart,
 	getDemographicStart,
@@ -181,7 +180,7 @@ const useDashboardView = () => {
 	}, [demoDateOptions]);
 
 	useEffect(() => {
-		if (!isEmpty(demoGraphicData?.demograph))
+		if (demoGraphicData?.demograph)
 			formatDataHandler(demoGraphicData?.demograph);
 	}, [demoGraphicData]);
 

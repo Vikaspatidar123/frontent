@@ -33,9 +33,6 @@ import {
 	GET_USER_DETAILS,
 	GET_USER_DETAILS_FAIL,
 	GET_USER_DETAILS_SUCCESS,
-	GET_USER_DOCUMENTS,
-	GET_USER_DOCUMENTS_FAIL,
-	GET_USER_DOCUMENTS_SUCCESS,
 	ISSUE_BONUS,
 	ISSUE_BONUS_FAIL,
 	ISSUE_BONUS_SUCCESS,
@@ -87,6 +84,9 @@ import {
 	REJECT_DOCUMENT_SUCCESS,
 	REJECT_DOCUMENT_FAIL,
 	REJECT_DOCUMENT,
+	CREATE_TAG_SUCCESS,
+	CREATE_TAG_FAIL,
+	CREATE_TAG,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -436,6 +436,21 @@ export const attachTagFail = (payload) => ({
 
 export const attachTag = (payload) => ({
 	type: ATTACH_TAG,
+	payload,
+});
+
+export const createTagSuccess = (payload) => ({
+	type: CREATE_TAG_SUCCESS,
+	payload,
+});
+
+export const createTagFail = (payload) => ({
+	type: CREATE_TAG_FAIL,
+	payload,
+});
+
+export const createTag = (payload) => ({
+	type: CREATE_TAG,
 	payload,
 });
 

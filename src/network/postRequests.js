@@ -203,6 +203,12 @@ const updateSAUserStatusCall = (data) =>
 		data
 	);
 
+const createUserTags = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}tag/create`,
+		data
+	);
+
 const attachUserTags = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}tag/attach-tag`,
@@ -505,4 +511,5 @@ export {
 	uploadImageApi,
 	uploadSportsCountryImageApi,
 	editCasinoGames,
+	createUserTags,
 };

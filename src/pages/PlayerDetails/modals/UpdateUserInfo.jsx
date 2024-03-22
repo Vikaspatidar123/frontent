@@ -83,10 +83,10 @@ const staticFormFields = (countriesList) => [
 				optionLabel: 'Female',
 				value: 'female',
 			},
-			{
-				optionLabel: 'Other',
-				value: 'other',
-			},
+			// {
+			// 	optionLabel: 'Other',
+			// 	value: 'other',
+			// },
 		],
 	},
 	{

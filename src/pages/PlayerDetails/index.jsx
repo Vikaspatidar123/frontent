@@ -31,6 +31,9 @@ const PlayerDetailsPage = ({ t }) => {
 		updateUserTagsSuccess,
 		depositToOtherSuccess,
 		updateUserInfoSuccess,
+		createTag: createTagSuccess,
+		attachTag: attachTagSuccess,
+		removeUserTag: removeUserTagSuccess,
 	} = useSelector((state) => state.UserDetails);
 
 	const toggle = (tab) => {
@@ -47,7 +50,10 @@ const PlayerDetailsPage = ({ t }) => {
 			verifyUserEmailSuccess ||
 			updateUserTagsSuccess ||
 			depositToOtherSuccess ||
-			updateUserInfoSuccess
+			updateUserInfoSuccess ||
+			createTagSuccess ||
+			attachTagSuccess ||
+			removeUserTagSuccess
 		) {
 			dispatch(getUserDetails({ playerId }));
 			dispatch(resetUserLimitData());
@@ -60,6 +66,9 @@ const PlayerDetailsPage = ({ t }) => {
 		updateUserTagsSuccess,
 		depositToOtherSuccess,
 		updateUserInfoSuccess,
+		createTagSuccess,
+		attachTagSuccess,
+		removeUserTagSuccess,
 	]);
 
 	const { userWalletData, userDetails, userDetailsLoading, duplicateUsers } =

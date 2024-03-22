@@ -18,7 +18,8 @@ const Breadcrumb = ({
 }) => {
 	const navigate = useNavigate();
 	const onBackClick = () => {
-		if (!titleLink && !values && !callBack && !showBackButton) return;
+		if (!titleLink && !values && !callBack && (breadcrumbItem || leftTitle))
+			return;
 		const hasFilledValues = Object?.values(values || {}).some(
 			(value) => !isEmpty(value)
 		);
@@ -28,6 +29,8 @@ const Breadcrumb = ({
 			navigate(-1);
 		}
 	};
+
+	const onBackArrowClick = () => navigate(-1);
 
 	return (
 		<Row>
@@ -39,7 +42,7 @@ const Breadcrumb = ({
 								className="mb-0 ms-2 font-size-16"
 								role="presentation"
 								style={{ cursor: 'pointer' }}
-								onClick={onBackClick}
+								onClick={onBackArrowClick}
 							>
 								<>
 									<i className="fas fa-angle-left" />{' '}

@@ -263,7 +263,9 @@ export const CustomSwitchButton = ({
 			{...rest}
 		/>
 		{isError && errorMsg ? (
-			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+			<FormFeedback type="invalid" className="d-block">
+				{errorMsg}
+			</FormFeedback>
 		) : null}
 	</span>
 );
@@ -770,6 +772,11 @@ export const getField = (
 									disabled={!!isDisabled}
 								/>
 							))}
+						{validation.touched[name] && validation.errors[name] ? (
+							<FormFeedback type="invalid" className="d-block">
+								{validation.errors[name]}
+							</FormFeedback>
+						) : null}
 					</div>
 				</>
 			);
