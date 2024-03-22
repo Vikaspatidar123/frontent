@@ -16,12 +16,13 @@ import { CustomSelectField } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
 
 const useEmailTemplate = () => {
-	const { emailTemplateloading, emailTemplates } = useSelector(
-		(state) => state.EmailTemplate
-	);
-	const { emailTemplate, isEmailTemplateLoading } = useSelector(
-		(state) => state.EmailTemplate
-	);
+	const {
+		emailTemplateloading,
+		emailTemplates,
+		emailTemplate,
+		isEmailTemplateLoading,
+	} = useSelector((state) => state.EmailTemplate);
+
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const [clickId, setClickId] = useState('');
 	const [customComponent, setCustomComponent] = useState();
@@ -99,11 +100,12 @@ const useEmailTemplate = () => {
 		dispatch(getEmailTemplate(emailTemplateId));
 	};
 
-	const handleDeleteClick = (e, emailTemplateId) => {
+	const handleDeleteClick = (e, emailTemplateId, eventType) => {
 		e.preventDefault();
 		dispatch(
 			deleteEmailTemplate({
 				emailTemplateId: Number(emailTemplateId),
+				eventType,
 			})
 		);
 	};

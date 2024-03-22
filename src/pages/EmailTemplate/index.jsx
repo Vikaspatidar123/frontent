@@ -74,7 +74,7 @@ const EmailTemplate = () => {
 							</button>
 						</h2>
 						<Collapse isOpen={expanded === key} className="accordion-collapse">
-							{expanded === key && (
+							{expanded === key ? (
 								<div className="accordion-body accordion-body-padding">
 									<TableContainer
 										columns={columns}
@@ -87,12 +87,12 @@ const EmailTemplate = () => {
 										customPageSize={10}
 									/>
 								</div>
-							)}
+							) : null}
 						</Collapse>
 					</div>
 				</div>
 			)),
-		[emailTemplates, expanded, emailTemplateloading]
+		[expanded, emailTemplateloading, emailTemplates]
 	);
 
 	return (

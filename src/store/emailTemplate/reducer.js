@@ -43,7 +43,6 @@ import {
 
 const INIT_STATE = {
 	emailTemplates: {},
-	templateList: [],
 	templatePages: 0,
 	emailTemplateloading: false,
 	emailTemplateError: null,
@@ -95,7 +94,6 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				emailTemplateloading: false,
 				emailTemplates: groupBy(payload?.emailTemplates, 'eventType'),
-				templateList: payload.emailTemplates,
 				templatePages: payload?.totalPages,
 			};
 
@@ -350,7 +348,7 @@ const EmailTemplate = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				makeEmailTemplatePrimaryLoading: false,
-				emailTemplates: groupBy(payload?.emailTemplates, 'eventType'),
+				emailTemplates: payload,
 				makeEmailTemplatePrimary: true,
 			};
 

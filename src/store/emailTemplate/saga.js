@@ -1,8 +1,10 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-expressions */
 import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
 
 // Crypto Redux States
+import { cloneDeep } from 'lodash';
 import {
 	getAllEmailTemplatesSuccess,
 	getAllEmailTemplatesFail,
@@ -29,6 +31,7 @@ import {
 	deleteEmailTemplateFail,
 	// makeEmailTemplatePrimarySuccess,
 	makeEmailTemplatePrimaryFail,
+	makeEmailTemplatePrimarySuccess,
 } from './actions';
 
 import {
@@ -262,9 +265,22 @@ function* updateEmailTemplateWorker(action) {
 function* deleteTemplateWorker(action) {
 	try {
 		const data = action && action.payload;
+		const { eventType } = data;
+		delete data.eventType;
+
 		yield deleteEmailTemplate(data);
 
-		yield getEmailTemplates();
+		let emailTemp = yield select((state) => state.EmailTemplate.emailTemplates);
+
+		emailTemp = {
+			...emailTemp,
+			[eventType]: emailTemp[eventType].filter(
+				(temp) => temp.id != data.emailTemplateId
+			),
+		};
+
+		yield put(makeEmailTemplatePrimarySuccess(cloneDeep(emailTemp)));
+
 		yield put(deleteEmailTemplateSuccess());
 
 		showToastr({
@@ -283,22 +299,28 @@ function* deleteTemplateWorker(action) {
 function* primaryEmailTemplateWorker(action) {
 	try {
 		const { data } = action && action.payload;
+		const { eventType } = data;
+		delete data.eventType;
 		yield primaryEmailTemplate(data);
 
-		const emailTemp = yield select((state) => state.EmailTemplate.templateList);
+		const emailTemp = yield select(
+			(state) => state.EmailTemplate.emailTemplates
+		);
 
-		emailTemp.forEach((temp) => {
-			if (temp.id === data.emailTemplateId) {
+		emailTemp[eventType].forEach((temp) => {
+			if (temp.id == data.emailTemplateId) {
 				temp.isDefault = true;
+			} else {
+				temp.isDefault = false;
 			}
 		});
+
+		yield put(makeEmailTemplatePrimarySuccess(cloneDeep(emailTemp)));
 
 		showToastr({
 			message: 'Template Updated Successfully',
 			type: 'success',
 		});
-
-		// yield put(makeEmailTemplatePrimarySuccess(emailTemp));
 	} catch (e) {
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,

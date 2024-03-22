@@ -16,7 +16,7 @@ const ActionButtons = ({
 	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
 	const id = original?.id;
-	// const type = original?.type;
+	const eventType = original?.eventType;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
@@ -29,7 +29,7 @@ const ActionButtons = ({
 							makeEmailTemplatePrimary({
 								data: {
 									emailTemplateId: parseInt(id, 10),
-									// type,
+									eventType,
 								},
 							})
 						);
@@ -71,7 +71,8 @@ const ActionButtons = ({
 				<Button
 					hidden={!isGranted(modules.emailTemplate, 'D')}
 					className="btn btn-sm btn-soft-danger"
-					onClick={(e) => handleDeleteClick(e, id)}
+					onClick={(e) => handleDeleteClick(e, id, eventType)}
+					disabled={original.isDefault}
 				>
 					<i className="mdi mdi-delete-outline" id={`delete-${id}`} />
 					<UncontrolledTooltip placement="top" target={`delete-${id}`}>
@@ -90,7 +91,8 @@ ActionButtons.propTypes = {
 	row: PropTypes.shape({
 		original: PropTypes.shape({
 			id: PropTypes.number.isRequired,
-			type: PropTypes.string.isRequired,
+			eventType: PropTypes.string.isRequired,
+			isDefault: PropTypes.bool.isRequired,
 		}).isRequired,
 	}).isRequired,
 };
