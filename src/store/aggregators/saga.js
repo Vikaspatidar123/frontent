@@ -54,11 +54,6 @@ function* createAggregatorWorker(action) {
 		yield put(createAggregatorSuccess());
 	} catch (e) {
 		yield put(createAggregatorFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -96,11 +91,6 @@ function* updateSuperAdminAggregatorStatusWorker(action) {
 		);
 	} catch (e) {
 		yield put(updateAggregatorStatusFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 

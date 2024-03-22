@@ -153,10 +153,6 @@ function* updateStatusWorker(action) {
 			type: 'success',
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(updateStatusFail(e?.response?.data?.errors[0]?.description));
 	}
 }
@@ -167,10 +163,6 @@ function* getSportsMatchesDetailWorker(action) {
 
 		yield put(getSportsMatchDetailSuccess(data?.data));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(
 			getSportsMatchDetailFail(e?.response?.data?.errors[0]?.description)
 		);
@@ -190,11 +182,6 @@ function* updateOddsVariationWorker(action) {
 			type: 'success',
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(
 			updateOdsVariationFail(e?.response?.data?.errors[0]?.description)
 		);
@@ -214,10 +201,6 @@ function* detachOddsVariationWorker(action) {
 		});
 		yield put(getSportsMatchDetailStart({ matchId: action.payload.marketId }));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(
 			deatechOdsVariationFail(e?.response?.data?.errors[0]?.description)
 		);
@@ -235,10 +218,6 @@ function* updateCompanyOddWorker(action) {
 		yield put(updateCompanyOddSuccess(action.payload));
 		yield put(getSportsMatchDetailStart({ matchId: action.payload.matchId }));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(
 			updateOdsVariationFail(e?.response?.data?.errors[0]?.description)
 		);
@@ -254,10 +233,6 @@ function* uploadImageWorker(action) {
 		});
 		yield put(uploadImageSuccess(action.payload));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(uploadImageFail());
 	}
 }
@@ -271,10 +246,6 @@ function* uploadSportsCountryImageWorker(action) {
 		});
 		yield put(uploadSportsCountryImageSuccess(action.payload));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(uploadSportsCountryImageFail());
 	}
 }

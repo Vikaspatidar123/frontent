@@ -45,10 +45,6 @@ function* addRestrictedCountriesWorker(action) {
 			type: 'success',
 		});
 	} catch (error) {
-		showToastr({
-			message: error?.response?.data?.errors[0]?.description || error.message,
-			type: 'error',
-		});
 		yield put(addRestrictedCountriesFail(error));
 	}
 }

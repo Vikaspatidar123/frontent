@@ -35,10 +35,6 @@ function* createBonusWorker(action) {
 				error?.response?.data?.errors[0]?.description || error.message
 			)
 		);
-		showToastr({
-			message: error?.response?.data?.errors[0]?.description || error.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -60,10 +56,6 @@ function* updateBonusWorker(action) {
 				error?.response?.data?.errors[0]?.description || error.message
 			)
 		);
-		showToastr({
-			message: error?.response?.data?.errors[0]?.description || error.message,
-			type: 'error',
-		});
 	}
 }
 

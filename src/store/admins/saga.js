@@ -51,11 +51,6 @@ function* addSuperAdminUserWorker(action) {
 		if (navigate) yield navigate('/staff');
 	} catch (e) {
 		yield put(addSuperAdminUserFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -75,11 +70,6 @@ function* updateSuperAdminUserWorker(action) {
 		if (navigate) yield navigate('/staff');
 	} catch (e) {
 		yield put(updateSuperAdminUserFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -110,11 +100,6 @@ function* getAdminChildrenWorker() {
 		};
 		yield put(getAdminChildrenSuccess(adminHierarchy));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(getAdminChildrenFail());
 	}
 }

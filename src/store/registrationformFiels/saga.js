@@ -24,11 +24,6 @@ function* getGlobalRegistrationWorker() {
 		yield put(getRegistrationFieldsSuccess(data?.data));
 	} catch (e) {
 		yield put(getRegistrationFieldsFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -46,11 +41,6 @@ function* updateGlobalRegistartionWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateRegistrationFieldsFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 

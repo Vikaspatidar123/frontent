@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { redirect } from 'react-router-dom';
 import { getAccessToken, removeLoginToken } from './storageUtils';
-import { METHODS, filterEmptyPayload } from './networkUtils';
+import { MESSAGES, METHODS, filterEmptyPayload } from './networkUtils';
+import { showToastr } from '../utils/helpers';
 
 const axiosInstance = axios.create();
 
@@ -16,8 +17,14 @@ export const setupInterceptors = () => {
 				removeLoginToken();
 				redirect('/login');
 			}
-			// return Promise.reject(error);
-			return error;
+			const errorCode = error.response?.data?.errors[0]?.fields;
+			if (errorCode) {
+				showToastr({
+					message: MESSAGES[errorCode],
+					type: 'error',
+				});
+			}
+			return Promise.reject(error);
 		}
 	);
 };

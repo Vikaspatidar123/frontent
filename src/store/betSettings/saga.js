@@ -48,11 +48,6 @@ function* createBetSettingsWorker(action) {
 		yield put(createBetSettingsSuccess());
 	} catch (e) {
 		yield put(createBetSettingsFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -70,11 +65,6 @@ function* editBetSettingsWorker(action) {
 		yield put(editBetSettingsSuccess());
 	} catch (e) {
 		yield put(editBetSettingsFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 

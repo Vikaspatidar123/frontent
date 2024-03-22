@@ -49,11 +49,6 @@ function* updateProfileWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateProfileFail(e?.response?.data?.errors[0]?.description));
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -66,11 +61,6 @@ function* getSiteConfigurationWorker(action) {
 		yield put(
 			getSiteConfigurationFail(e?.response?.data?.errors[0]?.description)
 		);
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -90,10 +80,7 @@ function* updateSiteConfigurationWorker(action) {
 			type: 'success',
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
+		console.warn('Error is updating site configuration.');
 	}
 }
 
@@ -117,10 +104,7 @@ function* updateAppSetting(action) {
 			type: 'success',
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
+		console.warn('Error in update settings');
 	}
 }
 
@@ -134,10 +118,7 @@ function* updateLogoWorker(action) {
 			type: 'success',
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
+		console.warn('Error while uploading logo');
 	}
 }
 
@@ -158,11 +139,6 @@ function* resetProfilePasswordWorker(action) {
 		yield put(
 			resetProfilePasswordFail(e?.response?.data?.errors[0]?.description)
 		);
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 

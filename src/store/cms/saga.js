@@ -64,11 +64,6 @@ function* getCmsByPageIdWorker(action) {
 
 		yield put(getCmsByPageIdSuccess(data?.data));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(getCmsByPageIdFail(e?.response?.data?.errors[0].description));
 	}
 }
@@ -79,10 +74,6 @@ function* getCMSDynamicKeysWorker() {
 
 		yield put(getCmsDynamicKeysSuccess(data?.data));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(getCmsDynamicKeysFail());
 	}
 }
@@ -106,11 +97,6 @@ function* createSuperAdminCMSWorker(action) {
 		}
 	} catch (e) {
 		yield put(createSaCmsFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -143,11 +129,6 @@ function* updateSACMSStatusWorker(action) {
 
 		yield put(updateSaCmsStatusSuccess());
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(updateSaCmsStatusFail());
 	}
 }
@@ -168,10 +149,6 @@ function* updateSuperAdminCMSWorker(action) {
 			navigate('/cms');
 		}
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(updateSaCmsFail());
 	}
 }

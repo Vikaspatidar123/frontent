@@ -80,11 +80,6 @@ function* updateSABonusStatusWorker(action) {
 			type: 'success',
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(updateSABonusStatusFail());
 	}
 }
@@ -110,10 +105,6 @@ function* getBonusStartWorker(action) {
 		const { data } = yield getBonus({ bonusId, userBonusId });
 		yield put(getBonusSuccess(data?.data?.bonusDetails));
 	} catch (error) {
-		showToastr({
-			message: error?.response?.data?.errors[0]?.description || error.message,
-			type: 'error',
-		});
 		yield put(getBonusFailure(error?.response?.data?.errors[0]?.description));
 	}
 }
@@ -132,10 +123,6 @@ function* deleteBonusWorker(action) {
 			handleClose();
 		}
 	} catch (error) {
-		showToastr({
-			message: error?.response?.data?.errors[0]?.description || error.message,
-			type: 'error',
-		});
 		yield put(
 			deleteBonusFailure(error?.response?.data?.errors[0]?.description)
 		);
@@ -159,11 +146,6 @@ function* updateReorderBonusWorker(action) {
 			navigate('/bonus');
 		}
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(reorderBonusFailure(e?.response?.data?.errors[0]?.description));
 	}
 }

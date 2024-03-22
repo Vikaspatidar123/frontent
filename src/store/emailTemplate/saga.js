@@ -89,11 +89,6 @@ function* getImageGalleryWorker() {
 		const { data } = yield getImageGalleryData();
 		yield put(getImageGallerySuccess(data?.data?.gallery));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(getImageGalleryFail());
 	}
 }
@@ -111,11 +106,6 @@ function* uploadImageGalleryWorker(action) {
 		});
 		yield put(getImageGallery());
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(
 			uploadImageGalleryFail(e?.response?.data?.errors[0]?.description)
 		);
@@ -133,10 +123,6 @@ function* deleteFromGalleryWorker(action) {
 		});
 		yield put(getImageGallery());
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(deleteImageGalleryFail());
 	}
 }
@@ -147,10 +133,6 @@ function* getDynamicKeysWorker(action) {
 		const data = yield emailDynamicOptions({ type, emailTypes });
 		yield put(getDynamicKeysSuccess(data));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(getDynamicKeysFail());
 	}
 }
@@ -160,10 +142,6 @@ function* getEmailTypesWorker() {
 		const { data } = yield getEmailTypes();
 		yield put(getEmailTypesSuccess(data?.data));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(getEmailTypesFail());
 	}
 }
@@ -188,10 +166,6 @@ function* testEmailTemplateWorker(action) {
 					type: 'error',
 			  });
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(testEmailTemplateFail());
 	}
 }
@@ -213,10 +187,6 @@ function* createEmailTemplateWorker(action) {
 			navigate('/email-templates');
 		}
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(createEmailTemplateFail());
 	}
 }
@@ -229,10 +199,6 @@ function* getemailTemplateWorker(action) {
 
 		yield put(getEmailTemplateSuccess(data?.data));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(getEmailTemplateFail());
 	}
 }
@@ -253,11 +219,6 @@ function* updateEmailTemplateWorker(action) {
 			navigate('/email-templates');
 		}
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(updateEmailTemplateFail());
 	}
 }
@@ -288,10 +249,6 @@ function* deleteTemplateWorker(action) {
 			type: 'success',
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(deleteEmailTemplateFail());
 	}
 }
@@ -322,10 +279,6 @@ function* primaryEmailTemplateWorker(action) {
 			type: 'success',
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(makeEmailTemplatePrimaryFail());
 	}
 }

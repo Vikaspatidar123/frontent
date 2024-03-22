@@ -49,11 +49,6 @@ function* updateSuperAdminStatusWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateSuperAdminStatusFailure());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -62,7 +57,7 @@ function* getAllGroupsWorker() {
 		const { data } = yield getAllGroups();
 		yield put(getAllGroupsSuccess(data?.data?.groupNames));
 	} catch (e) {
-		yield put(getAllGroupsFailure(e?.response?.data?.errors[0]?.description));
+		yield put(getAllGroupsFailure());
 	}
 }
 

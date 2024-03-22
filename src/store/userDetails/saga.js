@@ -225,10 +225,6 @@ function* disableUserWorker(action) {
 		});
 	} catch (e) {
 		yield put(resetUserLimitFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -244,10 +240,6 @@ function* updateSAUserStatusWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateSAUserStatusFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -263,10 +255,6 @@ function* markUserAsInternalWorker(action) {
 		});
 	} catch (e) {
 		yield put(markUserAsInternalFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -282,10 +270,6 @@ function* verifyUserEmailWorker(action) {
 		});
 	} catch (e) {
 		yield put(verifyUserEmailFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -301,10 +285,6 @@ function* createUserTagsWorker(action) {
 		});
 	} catch (e) {
 		yield put(createTagFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -320,10 +300,6 @@ function* attachUserTagsWorker(action) {
 		});
 	} catch (e) {
 		yield put(attachTagFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -339,10 +315,6 @@ function* removeUserTagsWorker(action) {
 		});
 	} catch (e) {
 		yield put(removeTagFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -353,10 +325,6 @@ function* getDuplicateUsersWorker(action) {
 		yield put(getDuplicateUsersSuccess(data?.data));
 	} catch (e) {
 		yield put(getDuplicateUsersFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -367,10 +335,6 @@ function* getBonusDetailsWorker(action) {
 		yield put(getUserBonusDetailsSuccess(data?.data?.bonusDetails));
 	} catch (e) {
 		yield put(getUserBonusDetailsFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -381,10 +345,6 @@ function* getAllBonusWorker(action) {
 		yield put(getAllBonusSuccess(data?.data?.bonus));
 	} catch (e) {
 		yield put(getAllBonusFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -399,10 +359,6 @@ function* issueBonusWorker(action) {
 		});
 	} catch (e) {
 		yield put(issueBonusFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -420,10 +376,6 @@ function* depositToOtherWorker(action) {
 		});
 	} catch (e) {
 		yield put(depositToOtherFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -438,10 +390,6 @@ function* updateUserInfoWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateUserInfoFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -456,10 +404,6 @@ function* sendPasswordResetWorker(action) {
 		});
 	} catch (e) {
 		yield put(sendPasswordResetFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -474,10 +418,6 @@ function* updateUserPasswordWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateUserPasswordFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -492,10 +432,6 @@ function* markDocumentRequiredWorker(action) {
 		});
 	} catch (e) {
 		yield put(markDocumentRequiredFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -510,10 +446,6 @@ function* requestDocumentWorker(action) {
 		});
 	} catch (e) {
 		yield put(requestDocumentFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -528,10 +460,6 @@ function* verifyDocumentWorker(action) {
 		});
 	} catch (e) {
 		yield put(verifyDocumentFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -546,10 +474,6 @@ function* rejectDocumentWorker(action) {
 		});
 	} catch (e) {
 		yield put(rejectDocumentFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -565,10 +489,6 @@ function* cancelUserBonusWorker(action) {
 		});
 	} catch (e) {
 		yield put(cancelUserBonusFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -584,10 +504,6 @@ function* resolveUserCommentWorker(action) {
 		});
 	} catch (e) {
 		yield put(resolveUserCommentFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -606,10 +522,6 @@ function* acceptUserDocWorker(action) {
 		});
 	} catch (e) {
 		yield put(acceptUserDocsFail(e.message));
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 

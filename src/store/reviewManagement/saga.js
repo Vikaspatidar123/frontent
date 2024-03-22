@@ -48,11 +48,6 @@ function* createReviewWorker(action) {
 		yield put(createReviewSuccess());
 	} catch (e) {
 		yield put(createReviewFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -70,11 +65,6 @@ function* updateReviewWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateReviewFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 

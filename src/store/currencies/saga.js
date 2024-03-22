@@ -44,11 +44,6 @@ function* createCurrencyWorker(action) {
 		yield put(createCurrencySuccess());
 	} catch (e) {
 		yield put(createCurrencyFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -66,11 +61,6 @@ function* editCurrencyWorker(action) {
 		yield put(editCurrencySuccess());
 	} catch (e) {
 		yield put(editCurrencyFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 

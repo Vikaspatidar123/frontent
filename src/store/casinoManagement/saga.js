@@ -244,11 +244,6 @@ function* createCasinoProviderWorker(action) {
 		yield put(createCasinoProvidersSuccess());
 	} catch (e) {
 		yield put(createCasinoProvidersFailure());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -265,11 +260,6 @@ function* editCasinoProviderWorker(action) {
 		yield put(editCasinoProvidersSuccess());
 	} catch (e) {
 		yield put(editCasinoProvidersFailure());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -288,11 +278,6 @@ function* createCasinoCategoryWorker(action) {
 		yield put(createCasinoCategorySuccess());
 	} catch (e) {
 		yield put(createCasinoCategoryFailure());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -309,11 +294,6 @@ function* editCasinoCategoryWorker(action) {
 		yield put(editCasinoCategorySuccess());
 	} catch (e) {
 		yield put(editCasinoCategoryFailure());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -332,11 +312,6 @@ function* createCasinoSubCategoryWorker(action) {
 		yield put(createCasinoSubCategorySuccess());
 	} catch (e) {
 		yield put(createCasinoSubCategoryFailure());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -353,11 +328,6 @@ function* editCasinoSubCategoryWorker(action) {
 		yield put(editCasinoSubCategorySuccess());
 	} catch (e) {
 		yield put(editCasinoSubCategoryFailure());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -464,11 +434,6 @@ function* updateCasinoStatusWorker(action) {
 		yield put(updateCasinoStatusSuccess());
 	} catch (e) {
 		yield put(updateCasinoStatusFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -486,11 +451,6 @@ function* editCasinoGamesWorker(action) {
 		yield put(editCasinoGamesSuccess());
 	} catch (e) {
 		yield put(editCasinoGamesFailure());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -523,11 +483,6 @@ function* addGamesToSubCategoryWorker(action) {
 
 		yield put(addGameToSubCategorySuccess());
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(addGameToSubCategoryFail());
 	}
 }
@@ -554,11 +509,6 @@ function* deleteCasinoSubCategoryWorker(action) {
 			search,
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(deleteCasinoSubCategoryFail());
 	}
 }
@@ -584,11 +534,6 @@ function* deleteCasinoGamesWorker(action) {
 			search,
 		});
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(deleteCasinoGamesFail());
 	}
 }
@@ -605,11 +550,6 @@ function* updateCategoryOrder(action) {
 		});
 		navigate('/categories');
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(reorderCasinoCategoryFail());
 	}
 }
@@ -626,11 +566,6 @@ function* updateSubCategoryOrder(action) {
 		});
 		navigate('/sub-categories');
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(reorderCasinoSubCategoryFail());
 	}
 }
@@ -649,11 +584,6 @@ function* updateReorderGamesWorker(action) {
 
 		navigate('/casino-games');
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(
 			reorderCasinoGamesFail(e?.response?.data?.errors[0]?.description)
 		);

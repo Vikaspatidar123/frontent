@@ -82,11 +82,6 @@ function* updateCountryStatusWorker(action) {
 
 		yield put(updateCountryStatusSuccess());
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(updateCountryStatusFail());
 	}
 }
@@ -104,11 +99,6 @@ function* editCountryWorker(action) {
 
 		yield put(editCountrySuccess());
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(editCountryFail());
 	}
 }
@@ -129,11 +119,6 @@ function* getRestrictedItemsWorker(action) {
 			);
 		}
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(fetchRestrictedItemsFail());
 	}
 }
@@ -154,11 +139,6 @@ function* getUnRestrictedItemsWorker(action) {
 			);
 		}
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(fetchUnrestrictedItemsFail());
 	}
 }
@@ -178,11 +158,6 @@ function* removeRestrictedItemsWorker(action) {
 
 		navigate('/countries');
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(removeRestrictedItemsFail());
 	}
 }
@@ -202,11 +177,6 @@ function* addRestrictedItemsWorker(action) {
 
 		navigate('/countries');
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(addRestrictedItemsFail());
 	}
 }

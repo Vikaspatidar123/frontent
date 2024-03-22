@@ -88,11 +88,6 @@ function* createKYCLabelsWorker(action) {
 		yield put(createKYCLabelsSuccess());
 	} catch (e) {
 		yield put(createKYCLabelsFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -109,11 +104,6 @@ function* editKYCLabelsWorker(action) {
 		yield put(editKYCLabelsSuccess());
 	} catch (e) {
 		yield put(editKYCLabelsFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -130,11 +120,6 @@ function* editSABannersWorker(action) {
 		yield put(editSABannersSuccess());
 	} catch (e) {
 		yield put(editSABannersFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -144,11 +129,6 @@ function* getloyaltyLevelWorker() {
 
 		yield put(getLoyaltyLevelSuccess(data?.data?.loyaltyLevel));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(getLoyaltyLevelFail(e?.response?.data?.errors[0]?.description));
 	}
 }
@@ -170,11 +150,6 @@ function* updateloyaltyLevelWorker(action) {
 		});
 		yield put(getLoyaltyLevel({ isTenant }));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
-
 		yield put(updateLoyaltyLevelFail());
 	}
 }

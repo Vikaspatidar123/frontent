@@ -21,7 +21,6 @@ import {
 	getKpiSummarySuccess,
 	getKpiSummaryFail,
 } from './actions';
-import { showToastr } from '../../utils/helpers';
 import {
 	getDashboardLiveInfoService,
 	getDashboardDemoGraphicService,
@@ -37,10 +36,6 @@ function* getLivePlayerData() {
 		yield put(getLivePlayerInfoSuccess(data?.data));
 	} catch (e) {
 		yield put(getLivePlayerInfoFail());
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -50,11 +45,6 @@ function* getDemoGraphicData(action) {
 		yield put(getDemographicSuccess(data?.data));
 	} catch (e) {
 		yield put(getDemographicFail());
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -69,11 +59,6 @@ function* getKpiSummaryWorker(action) {
 		}
 	} catch (e) {
 		yield put(getKpiSummaryFail(e?.response?.data?.errors[0]?.description));
-
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -86,10 +71,6 @@ function* getKpiData(action) {
 		yield put(
 			getKpiReportFail(e?.response?.data?.errors[0]?.description || e.message)
 		);
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 	}
 }
 
@@ -99,10 +80,6 @@ function* getGameReportWorker(action) {
 		const { data } = yield getGameReports(payload);
 		yield put(getGameReportSuccess(data?.data?.gameReport));
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description || e.message,
-			type: 'error',
-		});
 		yield put(getGameReportFail(e?.response?.data?.errors[0]?.description));
 	}
 }
