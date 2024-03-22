@@ -1,12 +1,24 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable react/prop-types */
+import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import FormModal from '../../../components/Common/FormModal';
-import { attachTag, getAllTags, removeTag } from '../../../store/actions';
+import {
+	attachTag,
+	createTag,
+	getAllTags,
+	removeTag,
+} from '../../../store/actions';
+
+const tagSchema = () =>
+	Yup.object().shape({
+		tag: Yup.string().required('Tag Required'),
+		tagAction: Yup.string().required('Tag Action Required'),
+	});
 
 const tagActionsOptionsList = [
 	{
@@ -17,9 +29,13 @@ const tagActionsOptionsList = [
 		optionLabel: 'Remove Tag',
 		value: 'removeTag',
 	},
+	{
+		optionLabel: 'Create Tag',
+		value: 'createTag',
+	},
 ];
 
-const staticFormFields = (options) => [
+const staticFormFields = (options, isCreateTag) => [
 	{
 		name: 'tagAction',
 		fieldType: 'radioGroup',
@@ -28,9 +44,9 @@ const staticFormFields = (options) => [
 	},
 	{
 		name: 'tag',
-		fieldType: 'select',
+		fieldType: isCreateTag ? 'textField' : 'select',
 		// label: '',
-		placeholder: 'Select Tag',
+		placeholder: isCreateTag ? 'Enter tag' : 'Select Tag',
 		required: false,
 		optionList: options || [],
 	},
@@ -63,6 +79,12 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 					tagId: formValues?.tag,
 				})
 			);
+		} else if (formValues?.tagAction === 'createTag') {
+			dispatch(
+				createTag({
+					tag: formValues?.tag,
+				})
+			);
 		}
 	};
 
@@ -73,6 +95,7 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 				tag: null,
 				tagAction: '',
 			},
+			validationSchema: tagSchema,
 			onSubmitEntry: (values, { resetForm }) => {
 				submitTagsCreate(values);
 				resetForm();
@@ -100,6 +123,10 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 					value: tag.tagId,
 				}))
 			);
+		}
+
+		if (validation?.values?.tagAction === 'createTag') {
+			setFormFields(staticFormFields([], true));
 		}
 	}, [validation?.values?.tagAction, userTags, userDetails]);
 

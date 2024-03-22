@@ -54,11 +54,14 @@ import {
 	verifyDocumentFail,
 	rejectDocumentSuccess,
 	rejectDocumentFail,
+	createTagSuccess,
+	createTagFail,
 } from './actions';
 import {
 	ACCEPT_USER_DOC,
 	ATTACH_TAG,
 	CANCEL_USER_BONUS,
+	CREATE_TAG,
 	CREATE_USER_COMMENT,
 	DEPOSIT_TO_OTHER,
 	DISABLE_USER,
@@ -69,7 +72,6 @@ import {
 	GET_USER_BONUS,
 	GET_USER_COMMENTS,
 	GET_USER_DETAILS,
-	GET_USER_DOCUMENTS,
 	ISSUE_BONUS,
 	MARK_DOCUMENT_REQUIRED,
 	MARK_USER_AS_INTERNAL,
@@ -93,12 +95,12 @@ import {
 	getDuplicateUsers,
 	getUserBonuses,
 	getUserDetails,
-	getUserDocument,
 } from '../../network/getRequests';
 import {
 	addDepositToOtherCall,
 	attachUserTags,
 	createUserCommentEntry,
+	createUserTags,
 	disableUserCall,
 	issueBonus,
 	rejectDocumentCall,
@@ -280,6 +282,25 @@ function* verifyUserEmailWorker(action) {
 		});
 	} catch (e) {
 		yield put(verifyUserEmailFail(e.message));
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
+
+function* createUserTagsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		yield createUserTags(payload);
+		yield put(createTagSuccess(true));
+
+		showToastr({
+			message: `Tag Created Successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(createTagFail(e.message));
 		showToastr({
 			message: e?.response?.data?.errors[0]?.description || e.message,
 			type: 'error',
@@ -620,6 +641,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(REQUEST_DOCUMENT, requestDocumentWorker);
 	yield takeLatest(VERIFY_DOCUMENT, verifyDocumentWorker);
 	yield takeLatest(REJECT_DOCUMENT, rejectDocumentWorker);
+	yield takeLatest(CREATE_TAG, createUserTagsWorker);
 }
 
 function* UserDetailsSaga() {

@@ -25,7 +25,7 @@ import ImageUploader from '../../components/Common/ImageUploader';
 
 const ImageGalleryGrid = ({ imageGalleryList, isGranted, deleteImage }) =>
 	imageGalleryList.length ? (
-		imageGalleryList.map((f) => (
+		imageGalleryList?.map((f) => (
 			<div className="col-sm-4 col-md-3 col-lg-2 p-0 mb-4">
 				<div
 					key={`${f}-file`}

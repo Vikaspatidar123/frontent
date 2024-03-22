@@ -87,6 +87,9 @@ import {
 	REJECT_DOCUMENT,
 	REJECT_DOCUMENT_SUCCESS,
 	REJECT_DOCUMENT_FAIL,
+	CREATE_TAG,
+	CREATE_TAG_SUCCESS,
+	CREATE_TAG_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -178,6 +181,9 @@ const INIT_STATE = {
 	rejectDocument: null,
 	rejectDocumentLoading: false,
 	rejectDocumentError: null,
+	createTagLoading: false,
+	createTag: false,
+	createTagError: null,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -721,6 +727,30 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				attachTagLoading: true,
 				attachTag: false,
 				attachTagError: null,
+			};
+
+		case CREATE_TAG:
+			return {
+				...state,
+				createTagLoading: true,
+				createTag: false,
+				createTagError: null,
+			};
+
+		case CREATE_TAG_SUCCESS:
+			return {
+				...state,
+				createTagLoading: false,
+				createTag: payload,
+				createTagError: null,
+			};
+
+		case CREATE_TAG_FAIL:
+			return {
+				...state,
+				createTagLoading: false,
+				createTag: false,
+				createTagError: payload,
 			};
 
 		case GET_ALL_TAGS_SUCCESS:

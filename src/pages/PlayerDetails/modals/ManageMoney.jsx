@@ -72,9 +72,8 @@ const ManageMoney = ({ show, header, toggle }) => {
 		const walletId = userDetails?.wallets?.find((wallet) => {
 			if (values?.walletType === 'bonus') {
 				return wallet.currency.code === 'BONUS';
-			} 
-				return wallet.currency.code !== 'BONUS';
-			
+			}
+			return wallet.currency.code !== 'BONUS';
 		})?.id;
 
 		dispatch(

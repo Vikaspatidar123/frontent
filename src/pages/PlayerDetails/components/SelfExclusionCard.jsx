@@ -34,7 +34,7 @@ const SelfExclusionCard = ({ limit, userId }) => {
 				key,
 				userId: parseInt(userId, 10),
 				reset,
-				days:
+				expireIn:
 					formValues?.permanent === 'permanent'
 						? -1
 						: Number(formValues?.days) * 30,
