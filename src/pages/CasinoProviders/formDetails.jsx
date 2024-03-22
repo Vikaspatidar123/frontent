@@ -1,20 +1,28 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
+	language: '',
 	name: defaultValue?.name || '',
-	gameAggregatorId: defaultValue?.gameAggregatorId || null,
-	isActive: defaultValue?.isActive || false,
-	thumbnail: defaultValue?.thumbnail || '',
+	providerId: defaultValue?.id || null,
+	file: defaultValue?.iconUrl || '',
 });
 
-const validationSchema = () =>
+const validateName = (name) => {
+	const validationObject = {};
+	for (const file in name) {
+		validationObject[file] = Yup.string()
+			.required('Label Name Required!')
+			.nullable();
+	}
+	return Yup.object(validationObject);
+};
+
+const validationSchema = (name) =>
 	Yup.object().shape({
-		name: Yup.string()
-			.max(50, 'Name must be less than 50 characters')
-			.matches(/^[A-Za-z0-9 ]+$/, 'Only Alpha-Numeric Values Allowed')
-			.required('Provider Name Required'),
-		gameAggregatorId: Yup.string().required('Aggregator Required'),
-		thumbnail: Yup.mixed()
+		name: validateName(name),
+		file: Yup.mixed()
 			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
 				typeof value === 'string'
 					? true
@@ -23,7 +31,7 @@ const validationSchema = () =>
 			.when(
 				'$isFilePresent',
 				(isFilePresent, schema) =>
-					isFilePresent &&
+					isFilePresent[0] &&
 					schema.test(
 						'FILE_SIZE',
 						'Please select any file.',
@@ -41,18 +49,7 @@ const validationSchema = () =>
 
 const staticFormFields = [
 	{
-		name: 'name',
-		fieldType: 'textField',
-		label: 'Provider Name',
-		placeholder: 'Enter Provider Name',
-	},
-	{
-		name: 'isActive',
-		fieldType: 'switch',
-		label: 'Active',
-	},
-	{
-		name: 'thumbnail',
+		name: 'file',
 		fieldType: 'file',
 		label: 'Thumbnail',
 		placeholder: 'Enter Thumbnail ',

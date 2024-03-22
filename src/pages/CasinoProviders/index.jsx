@@ -46,7 +46,6 @@ const CasinoProviders = () => {
 		header,
 		validation,
 		isCreateProviderLoading,
-		buttonList,
 		columns,
 		isEditProviderLoading,
 		isEdit,
@@ -67,7 +66,7 @@ const CasinoProviders = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Casino Providers" />
+							<CrudSection buttonList={[]} title="Casino Providers" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}
