@@ -8,8 +8,8 @@ import {
 	validationSchema,
 } from '../formDetails';
 import {
-	createCasinoProvidersStart,
 	editCasinoProvidersStart,
+	getLanguagesStart,
 	// getAggregatorsList,
 	updateCasinoStatusStart,
 } from '../../../store/actions';
@@ -25,26 +25,22 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import { dataURLtoBlob } from '../../../utils/helpers';
-import { selectedLanguage } from '../../../constants/config';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
+	const [langState, setLangState] = useState({ EN: '' });
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const [showModal, setShowModal] = useState(false);
-	const { aggregatorsData } = useSelector((state) => state.AggregatorsReducer);
 	const {
 		isCreateProviderLoading,
 		casinoProvidersData,
 		isEditProviderLoading,
+		languageData,
 	} = useSelector((state) => state.CasinoManagementData);
 
-	const handleCreateProvider = (values) => {
-		dispatch(
-			createCasinoProvidersStart({
-				data: values,
-			})
-		);
-	};
+	useEffect(() => {
+		dispatch(getLanguagesStart());
+	}, []);
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
@@ -62,9 +58,6 @@ const useCreateProvider = () => {
 			editCasinoProvidersStart({
 				data: {
 					...values,
-					thumbnail:
-						typeof values.thumbnail === 'string' ? '' : values.thumbnail,
-					casinoProviderId: isEdit.selectedRow.casinoProviderId,
 				},
 			})
 		);
@@ -81,19 +74,10 @@ const useCreateProvider = () => {
 	} = useForm({
 		header: 'Add Provider',
 		initialValues: getInitialValues(),
-		validationSchema,
+		validationSchema: validationSchema(langState),
 		staticFormFields,
-		onSubmitEntry: isEdit.open ? handleEditProvider : handleCreateProvider,
+		onSubmitEntry: handleEditProvider,
 	});
-
-	// const handleAddClick = (e) => {
-	// 	e.preventDefault();
-	// 	dispatch(getAggregatorsList({}));
-	// 	setIsOpen((prev) => !prev);
-	// 	validation.resetForm(getInitialValues());
-	// 	setHeader('Add Provider');
-	// 	setIsEdit({ open: false, selectedRow: '' });
-	// };
 
 	const onClickEdit = (selectedRow) => {
 		setIsEdit({ open: true, selectedRow });
@@ -104,45 +88,57 @@ const useCreateProvider = () => {
 		setIsOpen((prev) => !prev);
 	};
 
-	// useEffect(() => {
-	// 	setIsOpen(false);
-	// }, [casinoProvidersData?.count]);
+	const onChangeLanguage = (e) => {
+		validation.setValues((prev) => ({
+			...prev,
+			name: { ...prev.name, [e.target.value]: '' },
+		}));
+		setLangState((prev) => ({ ...prev, [e.target.value]: '' }));
+	};
+
+	const onRemoveLanguage = (e) => {
+		validation.setValues((prev) => {
+			const { name } = prev;
+			const { [e]: key, ...rest } = name;
+			return { ...prev, name: rest };
+		});
+
+		setLangState((prev) => {
+			const { [e]: key, ...rest } = prev;
+			return rest;
+		});
+	};
+
+	useEffect(() => {
+		if (languageData?.languages?.length) {
+			const langOptions = languageData?.languages?.map((r) => ({
+				id: r.id,
+				optionLabel: r.name,
+				value: r.code,
+			}));
+			setFormFields([
+				{
+					name: 'language',
+					fieldType: 'select',
+					label: 'Language',
+					placeholder: 'Select Language',
+					optionList: langOptions,
+					callBack: onChangeLanguage,
+				},
+				{
+					name: 'name',
+					label: 'Provider Name',
+					fieldType: 'inputGroup',
+					onDelete: onRemoveLanguage,
+				},
+				...staticFormFields,
+			]);
+		}
+	}, [languageData, isEdit]);
 
 	useEffect(() => {
 		if (isEditProviderLoading) setIsOpen(false);
 	}, [isEditProviderLoading]);
-
-	useEffect(() => {
-		if (aggregatorsData?.aggregators?.length) {
-			const aggOptions = aggregatorsData.aggregators.map((r) => ({
-				id: r.id,
-				optionLabel: r.name[selectedLanguage],
-				value: r.id,
-			}));
-
-			setFormFields([
-				...staticFormFields,
-				{
-					name: 'gameAggregatorId',
-					fieldType: 'select',
-					label: 'Aggregator',
-					placeholder: 'Select Aggregator',
-					optionList: aggOptions,
-					isDisabled: isEdit.open,
-				},
-			]);
-		}
-	}, [aggregatorsData]);
-
-	const buttonList = useMemo(() => [
-		// {
-		// 	label: 'Create',
-		// 	handleClick: handleAddClick,
-		// 	link: '#!',
-		// 	module: modules.casinoManagement,
-		// 	operation: 'C',
-		// },
-	]);
 
 	useEffect(() => {
 		if (
@@ -219,7 +215,6 @@ const useCreateProvider = () => {
 		validation,
 		formFields,
 		setFormFields,
-		buttonList,
 		isCreateProviderLoading,
 		onClickEdit,
 		isEditProviderLoading,

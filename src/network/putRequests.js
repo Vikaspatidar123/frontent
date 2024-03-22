@@ -12,15 +12,6 @@ const updateStatus = (data) =>
 const updateGlobalRegistration = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/global-registration`, data);
 
-const editCasinoProvider = (data) =>
-	putRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-provider`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
-
 const editBetSettings = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/sportsbook/bet-settings`,
@@ -92,7 +83,6 @@ const reorderBonus = (data) =>
 export {
 	updateStatus,
 	updateGlobalRegistration,
-	editCasinoProvider,
 	editBetSettings,
 	updateloyaltyLevel,
 	markUserAsInternal,
