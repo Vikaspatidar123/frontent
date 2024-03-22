@@ -36,6 +36,7 @@ const staticFormFields = [
 		fieldType: 'file',
 		label: 'Thumbnail',
 		showThumbnail: true,
+		isRequired: false,
 	},
 ];
 

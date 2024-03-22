@@ -68,7 +68,8 @@ const validationSchema = ({
 					schema.test(
 						'FILE_SIZE',
 						'Please select any file.',
-						(value) => value && value.size > 0
+						(value) =>
+							value && (typeof value === 'string' ? true : value.size > 0)
 					)
 			)
 			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>

@@ -7,7 +7,7 @@ const getInitialValues = (defaultValue) => ({
 	gameSubCategoryId: defaultValue?.casinoSubCategoryId || null,
 	casinoProviderId: defaultValue?.casinoProviderId || null,
 	isActive: defaultValue?.isActive || false,
-	file: defaultValue?.thumbnail || null,
+	file: defaultValue?.iconUrl || null,
 });
 
 const validationSchema = Yup.object().shape({
@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
 			schema.test(
 				'FILE_SIZE',
 				'Please select any file.',
-				(value) => value && value.size > 0
+				(value) => value && (typeof value === 'string' ? true : value.size > 0)
 			)
 	),
 });

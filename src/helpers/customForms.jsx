@@ -48,11 +48,12 @@ export const CustomInputField = ({
 	min,
 	max,
 	description,
+	isRequired,
 	...props
 }) => (
 	<>
 		{label && <Label className="form-label">{label}</Label>}
-		{isError && label && <span className="text-danger"> *</span>}
+		{isRequired && label && <span className="text-danger"> *</span>}
 		<Input
 			name={name}
 			type={type}
@@ -455,6 +456,7 @@ export const getField = (
 					disabled={!!isDisabled}
 					min={minimum}
 					description={description}
+					isRequired={isRequired}
 				/>
 			);
 		case 'select':

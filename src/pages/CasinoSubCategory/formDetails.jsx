@@ -30,7 +30,8 @@ const validationSchema = (name) =>
 					schema.test(
 						'FILE_SIZE',
 						'Please select any file.',
-						(value) => value && value.size > 0
+						(value) =>
+							value && (typeof value === 'string' ? true : value.size > 0)
 					)
 			)
 			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
