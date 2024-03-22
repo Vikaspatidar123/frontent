@@ -49,7 +49,6 @@ const useEditWageringTemplate = () => {
 					providerId: '',
 					perPage: itemsPerPage,
 					page,
-					search: '',
 				})
 			);
 		}
@@ -142,7 +141,7 @@ const useEditWageringTemplate = () => {
 				perPage: itemsPerPage,
 				page,
 				casinoCategoryId: '',
-				search: validation?.values?.search || '',
+				searchString: validation?.values?.search || '',
 				isActive: '',
 				tenantId: '',
 				providerId: validation?.values?.provider || '',

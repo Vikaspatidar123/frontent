@@ -97,7 +97,6 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 				casinoGameId,
 				perPage: itemsPerPage,
 				page,
-				search: '',
 			})
 		);
 	};

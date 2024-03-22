@@ -401,7 +401,7 @@ const bonusFilterValidationSchema = () =>
 // status: false
 const commentsFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
@@ -438,14 +438,14 @@ const commentsFiltersFields = () => [
 ];
 
 const commentsFilterValues = () => ({
-	search: '',
+	searchString: '',
 	role: null,
 	status: null,
 });
 
 const commentsFilterValidationSchema = () =>
 	Yup.object({
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 		role: Yup.string().nullable(),
 		status: Yup.string().nullable(),
 	});

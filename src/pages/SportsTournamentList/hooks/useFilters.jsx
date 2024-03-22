@@ -106,14 +106,14 @@ const useFilters = () => {
 			setFormFields([
 				...staticFiltersFields(),
 				{
-					name: 'providerCountryId',
+					name: 'locationId',
 					fieldType: 'select',
 					label: '',
 					placeholder: 'Country',
 					optionList: countryList,
 				},
 				{
-					name: 'providerSportId',
+					name: 'sportId',
 					fieldType: 'select',
 					label: '',
 					placeholder: 'Sports',

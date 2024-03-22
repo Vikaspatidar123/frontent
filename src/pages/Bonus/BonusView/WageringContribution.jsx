@@ -42,7 +42,6 @@ const WageringContribution = ({ wageringId }) => {
 				getWageringTemplateDetail({
 					wageringTemplateId: wageringId,
 					page: currentPage,
-					search: '',
 					perPage: itemsPerPage,
 				})
 			);

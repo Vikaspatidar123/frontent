@@ -3,7 +3,7 @@ import { STATUS } from './constants';
 
 const staticFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
@@ -32,7 +32,7 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	search: '',
+	searchString: '',
 	status: null,
 	startDate: null,
 	endDate: null,
@@ -41,7 +41,7 @@ const filterValues = () => ({
 
 const filterValidationSchema = () =>
 	Yup.object({
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 		status: Yup.string().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),

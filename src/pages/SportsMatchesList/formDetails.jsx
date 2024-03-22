@@ -3,6 +3,13 @@ import * as Yup from 'yup';
 // Filters
 const staticFiltersFields = () => [
 	{
+		name: 'searchString',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by name',
+	},
+	{
 		name: 'eventStatus',
 		fieldType: 'select',
 		label: '',
@@ -86,18 +93,11 @@ const staticFiltersFields = () => [
 	// 		},
 	// 	],
 	// },
-	// {
-	// 	name: 'search',
-	// 	fieldType: 'textField',
-	// 	type: 'search',
-	// 	label: '',
-	// 	placeholder: 'Search by name',
-	// },
 ];
 
 const filterValues = () => ({
-	search: '',
-	providerSportId: null,
+	searchString: '',
+	sportId: null,
 	// isLive: null,
 	isFeatured: null,
 	eventStatus: null,
@@ -105,8 +105,8 @@ const filterValues = () => ({
 
 const filterValidationSchema = () =>
 	Yup.object({
-		search: Yup.string().nullable(),
-		providerSportId: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
+		sportId: Yup.string().nullable(),
 		// isLive: Yup.string().nullable(),
 		isFeatured: Yup.string().nullable(),
 		eventStatus: Yup.string().nullable(),

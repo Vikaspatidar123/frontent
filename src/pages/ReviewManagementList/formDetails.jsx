@@ -91,7 +91,7 @@ const staticFormFields = [
 // Filters
 const staticFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
@@ -119,13 +119,13 @@ const staticFiltersFields = () => [
 
 const filterValues = () => ({
 	status: null,
-	search: '',
+	searchString: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
 		status: Yup.string().nullable(),
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 	});
 
 export {

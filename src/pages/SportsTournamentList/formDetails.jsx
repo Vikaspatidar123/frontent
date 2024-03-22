@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 // Filters
 const staticFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		// type: 'search',
 		label: '',
@@ -12,16 +12,16 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	search: '',
-	providerCountryId: null,
-	providerSportId: null,
+	searchString: '',
+	locationId: null,
+	sportId: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		search: Yup.string().nullable(),
-		providerCountryId: Yup.string().nullable(),
-		providerSportId: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
+		locationId: Yup.string().nullable(),
+		sportId: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

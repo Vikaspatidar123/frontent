@@ -23,7 +23,6 @@ const useRestrictedGamesListing = () => {
 				perPage: itemsPerPage,
 				page: currentPage,
 				type: 'games',
-				search: '',
 			})
 		);
 	}, [countryId, currentPage, itemsPerPage]);

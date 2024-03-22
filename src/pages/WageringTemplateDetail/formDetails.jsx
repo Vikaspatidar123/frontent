@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 // Filters
 const staticFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		// type: 'search',
 		label: '',
@@ -12,12 +12,12 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	search: '',
+	searchString: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 	});
 
 const getInitialValues = (defaultValue) => ({
@@ -29,7 +29,7 @@ const getInitialValues = (defaultValue) => ({
 const createWageringTemplate = Yup.object().shape({
 	name: Yup.string().required('Template Name Required'),
 	customValue: Yup.string().required('Custom Value Required'),
-	search: Yup.string().nullable(),
+	searchString: Yup.string().nullable(),
 });
 
 const leftStaticFormFields = () => [
@@ -51,7 +51,7 @@ const rightStaticFormFields = () => [
 		minimum: 0,
 	},
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		label: 'Search',
 		placeholder: 'Search Game Name',

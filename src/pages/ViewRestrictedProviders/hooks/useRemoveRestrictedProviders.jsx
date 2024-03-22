@@ -34,7 +34,6 @@ const useRemoveRestrictedProviders = () => {
 				perPage: itemsPerPage,
 				page: currentPage,
 				type: 'providers',
-				search: '',
 			})
 		);
 	}, [countryId, currentPage, itemsPerPage]);

@@ -23,7 +23,6 @@ const useRestrictedProvidersListing = () => {
 				perPage: itemsPerPage,
 				page: currentPage,
 				type: 'providers',
-				search: '',
 			})
 		);
 	}, [countryId, currentPage, itemsPerPage]);

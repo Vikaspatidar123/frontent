@@ -58,7 +58,6 @@ const Games = () => {
 			getCasinoGamesStart({
 				perPage: itemsPerPage,
 				page: currentPage,
-				search: '',
 				providerId: selectedProvider || '',
 				freespins: true,
 			})

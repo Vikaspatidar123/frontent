@@ -42,10 +42,6 @@ const useFilters = () => {
 		staticFormFields: staticFiltersFields(),
 	});
 
-	// const handleAdvance = () => {
-	// 	toggleAdvance();
-	// };
-
 	const handleClear = () => {
 		const initialValues = filterValues();
 		validation.resetForm(initialValues);
@@ -71,14 +67,14 @@ const useFilters = () => {
 			}));
 
 			setFormFields([
+				...staticFiltersFields(),
 				{
-					name: 'providerSportId',
+					name: 'sportId',
 					fieldType: 'select',
 					label: '',
 					placeholder: 'Sports',
 					optionList: sportList,
 				},
-				...staticFiltersFields(),
 			]);
 		}
 	}, [sportsListInfo]);

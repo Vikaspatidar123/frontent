@@ -56,10 +56,8 @@ const WageringTemplateDetailList = () => {
 			dispatch(
 				getWageringTemplateDetail({
 					wageringTemplateId: Number(wageringTemplateId),
-					providerId: '',
 					perPage: itemsPerPage,
 					page,
-					search: '',
 				})
 			);
 		}

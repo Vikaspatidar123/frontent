@@ -58,7 +58,6 @@ const useSubCategoryListing = (filterValidation, onClickEdit) => {
 				gameSubCategoryId,
 				perPage: itemsPerPage,
 				page,
-				search: '',
 			})
 		);
 	};
