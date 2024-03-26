@@ -55,7 +55,7 @@ const adminSiteConfigSchema = Yup.object().shape({
 		.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
 			typeof value === 'string'
 				? true
-				: value && ['image/png', 'image/jpeg', 'image/jpg'].includes(value.type)
+				: value && ['image/png', 'image/jpeg', 'image/svg'].includes(value.type)
 		),
 	maxOdds: Yup.number(),
 	minOdds: Yup.number(),

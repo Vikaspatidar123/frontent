@@ -364,7 +364,7 @@ const updateSiteConfiguration = (data) =>
 
 const uploadLogoRequest = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/update-constants`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/update-logo`,
 		data,
 		{
 			'Content-Type': 'multipart/form-data',
