@@ -96,7 +96,7 @@ function* createSuperAdminCMSWorker(action) {
 			navigate('/cms');
 		}
 	} catch (e) {
-		yield put(createSaCmsFail());
+		yield put(createSaCmsFail(e?.response?.data?.errors[0].description));
 	}
 }
 

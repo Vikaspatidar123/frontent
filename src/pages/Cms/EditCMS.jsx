@@ -10,8 +10,14 @@ const EditCMS = () => {
 	// Set meta title
 	document.title = projectName;
 
-	const { header, validation, formFields, galleryList, customComponent } =
-		useEditCms();
+	const {
+		header,
+		validation,
+		formFields,
+		galleryList,
+		customComponent,
+		cmsByPageId,
+	} = useEditCms();
 
 	return (
 		<div className="page-content">
@@ -29,7 +35,10 @@ const EditCMS = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={galleryList} title="CMS" />
+							<CrudSection
+								buttonList={galleryList}
+								title={`Edit CMS - ${cmsByPageId?.page?.slug}`}
+							/>
 							<FormPage
 								formTitle={header}
 								validation={validation}
@@ -38,6 +47,7 @@ const EditCMS = () => {
 								submitLabel="Submit"
 								customColClasses=""
 								isSubmitLoading={false}
+								formClass="ms-3"
 							/>
 						</Card>
 					</Col>

@@ -26,8 +26,8 @@ import FlatPickr from 'react-flatpickr';
 import moment from 'moment';
 import CreatableSelect from 'react-select/creatable';
 import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import { showToastr } from '../utils/helpers';
-import { countryMasks } from '../pages/PlayerDetails/constants';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
@@ -428,6 +428,7 @@ export const getField = (
 		customThumbnailBackground,
 		customPadding,
 		description,
+		countryCodes,
 		...rest
 	},
 	validation
@@ -916,8 +917,9 @@ export const getField = (
 		case 'phone':
 			return (
 				<>
+					{label && <Label for={name}>{label}</Label>}
 					<PhoneInput
-						masks={countryMasks}
+						masks={countryCodes}
 						name={namesArray?.[0]}
 						type="text"
 						alwaysDefaultMask={false}
@@ -948,7 +950,7 @@ export const getField = (
 							validation?.setFieldValue(namesArray?.[1], newCode);
 						}}
 						onBlur={() => validation?.setFieldTouched(namesArray?.[0], true)}
-						buttonStyle={{ backgroundColor: '#22214b' }}
+						// buttonStyle={{ backgroundColor: '#22214b' }}
 						inputStyle={{ width: '100%' }}
 					/>
 					{/* <ErrorMessage
