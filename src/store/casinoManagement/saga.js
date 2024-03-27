@@ -451,8 +451,7 @@ function* editCasinoGamesWorker(action) {
 function* updateGameFeatured(action) {
 	try {
 		const data = {
-			casinoGameId: action.payload.casinoGameId,
-			isFeatured: action.payload.isFeatured,
+			gameId: action.payload.gameId,
 		};
 		yield isCasinoFeaturedService(data);
 		yield put(updateCasinoIsFeaturedSuccess(action.payload));

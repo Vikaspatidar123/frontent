@@ -104,9 +104,7 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 	const toggleIsFeaturedGames = (event, cell) => {
 		event.preventDefault();
 		const data = {
-			isFeatured: event.target.checked.toString(),
-			casinoProviderId: cell.row.original.casinoProviderId,
-			casinoGameId: cell.row.original.casinoGameId.toString(),
+			gameId: cell.row.original.id,
 		};
 		dispatch(updateCasinoIsFeaturedStart(data));
 	};

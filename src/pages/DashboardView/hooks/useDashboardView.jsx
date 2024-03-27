@@ -32,7 +32,7 @@ import {
 	TOTALWINS,
 } from '../GameReport/gameListCol';
 import {
-	CONVERSIONRATE,
+	// CONVERSIONRATE,
 	COUNTRY,
 	DEPOSITAMOUNT,
 	DEPOSITORS,
@@ -446,12 +446,12 @@ const useDashboardView = () => {
 				filterable: true,
 				Cell: ({ cell }) => <DEPOSITAMOUNT cell={cell} />,
 			},
-			{
-				Header: 'CONVERSION RATE',
-				accessor: 'conversionRate',
-				filterable: true,
-				Cell: ({ cell }) => <CONVERSIONRATE cell={cell} />,
-			},
+			// {
+			// 	Header: 'CONVERSION RATE',
+			// 	accessor: 'conversionRate',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <CONVERSIONRATE cell={cell} />,
+			// },
 		],
 		[]
 	);

@@ -149,7 +149,7 @@ const createEmailTemplate = (data) =>
 
 const isCasinoFeaturedService = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/casino/featured-games`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}toggle-featured-game`,
 		data
 	);
 
