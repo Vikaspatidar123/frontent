@@ -44,7 +44,12 @@ const useCreateEmailTemplate = () => {
 	}, [selectedTab, template]);
 
 	const formSubmitHandler = (values) => {
-		if (Object?.keys(content)?.length > 0) {
+		if (isEmpty(content[selectedTab])) {
+			showToastr({
+				message: 'Content cannot be empty.',
+				type: 'error',
+			});
+		} else {
 			dispatch(
 				createEmailTemplate({
 					data: {
@@ -56,11 +61,6 @@ const useCreateEmailTemplate = () => {
 					navigate,
 				})
 			);
-		} else {
-			showToastr({
-				message: 'Content Required',
-				type: 'error',
-			});
 		}
 	};
 
@@ -81,9 +81,12 @@ const useCreateEmailTemplate = () => {
 
 	const resetEmail = () => dispatch(resetEmailTemplate());
 
-	useEffect(() => () => {
+	useEffect(
+		() => () => {
 			resetEmail();
-		}, []);
+		},
+		[]
+	);
 
 	useEffect(() => {
 		setCustomComponent(

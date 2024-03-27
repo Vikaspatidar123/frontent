@@ -184,7 +184,7 @@ const CreateTemplate = ({
 	useEffect(() => {
 		if (activeTab) {
 			const tab = tabData?.find((item) => item.id === activeTab);
-			setSelectedTab(tab?.title);
+			setSelectedTab(tab?.title || 'EN');
 		}
 	}, [activeTab]);
 

@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { isEmpty } from 'lodash';
 
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
@@ -60,7 +61,12 @@ const useEditEmailTemplate = () => {
 	useEffect(() => () => dispatch(resetEmailTemplate()), []);
 
 	const formSubmitHandler = (values) => {
-		if (Object?.keys(content)?.length > 0) {
+		if (isEmpty(content[selectedTab])) {
+			showToastr({
+				message: 'Content cannot be empty.',
+				type: 'error',
+			});
+		} else {
 			dispatch(
 				updateEmailTemplate({
 					data: {
@@ -72,11 +78,6 @@ const useEditEmailTemplate = () => {
 					navigate,
 				})
 			);
-		} else {
-			showToastr({
-				message: 'Content Required',
-				type: 'error',
-			});
 		}
 	};
 
