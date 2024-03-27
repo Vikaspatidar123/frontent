@@ -26,24 +26,6 @@ const SelfExclusionCard = ({ limit, userId }) => {
 	const [isResetLimit, setIsResetLimit] = useState({ open: false, data: '' });
 	const [isPermanentExclude, setIsPermanentExclude] = useState(false);
 
-	const setDisableUser = ({ formValues, reset, type, key }) => {
-		let data = {};
-		if (type === 'SELF_EXCLUSION') {
-			data = {
-				type,
-				key,
-				userId: parseInt(userId, 10),
-				reset,
-				expireIn:
-					formValues?.permanent === 'permanent'
-						? -1
-						: Number(formValues?.days) * 30,
-				value: 'temporary',
-			};
-		}
-		dispatch(disableUser(data));
-	};
-
 	const onResetLimit = () => {
 		setIsResetLimit({ open: true, data: limit });
 	};
@@ -51,17 +33,21 @@ const SelfExclusionCard = ({ limit, userId }) => {
 	const { validation } = useForm({
 		validationSchema: selfExclusionSchema,
 		initialValues: {
-			// portal: limit?.portal || 'current',
 			days: limit?.days === -1 ? '1' : limit?.days,
 			permanent: limit?.days === -1 ? 'true' : 'false',
 		},
 		onSubmitEntry: (formValues) =>
-			setDisableUser({
-				formValues,
-				reset: false,
-				type: 'SELF_EXCLUSION',
-				key: limit.key,
-			}),
+			dispatch(
+				disableUser({
+					userId,
+					reset: false,
+					expireIn:
+						formValues?.permanent === 'permanent'
+							? -1
+							: Number(formValues?.days) * 30,
+					value: 'temporary',
+				})
+			),
 	});
 
 	useEffect(() => {
@@ -73,36 +59,6 @@ const SelfExclusionCard = ({ limit, userId }) => {
 		}
 	}, [validation?.values]);
 
-	const resetDisableUser = (type) => {
-		let data = {};
-		if (type === 'Self Exclusion') {
-			data = {
-				userId: parseInt(userId, 10),
-				type: 'SELF_EXCLUSION',
-				key: limit.key,
-				portal: 'all',
-				days: 0,
-				reset: true,
-				value: 'temporary',
-			};
-		} else if (type === 'Take A Break') {
-			data = {
-				userId,
-				type: 'TAKE_A_BREAK',
-				portal: 'all',
-				days: 0,
-				reset: true,
-			};
-		} else {
-			data = {
-				userId,
-				timeLimit: 1,
-				reset: true,
-			};
-		}
-		dispatch(disableUser(data));
-	};
-
 	useEffect(() => {
 		if (limit.value) {
 			validation.setValues({ perPage: limit.value });
@@ -113,7 +69,14 @@ const SelfExclusionCard = ({ limit, userId }) => {
 		setIsResetLimit((prev) => ({ open: !prev.open, data: prev.data }));
 
 	const handleYes = () => {
-		resetDisableUser(limit.label);
+		dispatch(
+			disableUser({
+				userId,
+				expireIn: 0,
+				reset: true,
+				value: 'temporary',
+			})
+		);
 	};
 
 	return (
@@ -127,27 +90,6 @@ const SelfExclusionCard = ({ limit, userId }) => {
 					}}
 				>
 					<h5 className="text-center">{limit.label}</h5>
-					{/* <CustomSelectField
-						className="mb-2"
-						label="Portal"
-						name="portal"
-						isClearable
-						type="select"
-						onChange={(e) => {
-							validation.handleChange(e);
-						}}
-						onBlur={validation.handleBlur}
-						validate={{ required: { value: true } }}
-						value={validation.values.portal}
-						invalid={!!(validation.touched.portal && validation.errors.portal)}
-						isError
-						errorMsg={validation.touched.portal && validation.errors.portal}
-						options={portalValues.map(({ optionLabel, value }) => (
-							<option key={value} value={value}>
-								{optionLabel}
-							</option>
-						))}
-					/> */}
 					<CustomSelectField
 						label="Time Period"
 						name="permanent"

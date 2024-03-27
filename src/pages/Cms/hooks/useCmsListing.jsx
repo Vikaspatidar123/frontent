@@ -13,7 +13,7 @@ import ActionButtons from '../ActionButtons';
 const useCmsListing = (filterValues = {}) => {
 	const navigate = useNavigate();
 	const { cmsDetails, isLoading, error } = useSelector((state) => state.AllCms);
-	const [limit, setLimit] = useState(15);
+	const [limit, setLimit] = useState(10);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [selectedClient, setSelectedClient] = useState('');
@@ -130,7 +130,7 @@ const useCmsListing = (filterValues = {}) => {
 		formattedCmsDetails,
 		isLoading,
 		itemsPerPage,
-		totalCmsCount: cmsDetails?.count,
+		totalCmsCount: cmsDetails?.totalPages || 0,
 		error,
 		setLimit,
 		setPage,

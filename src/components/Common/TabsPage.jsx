@@ -44,15 +44,32 @@ const Dropdown = ({ tab, selectedDropdown, setSelectedDropdown, toggle }) => (
 	</UncontrolledDropdown>
 );
 
-const TabsPage = ({ activeTab, tabsData, toggle, disableTabSwitching }) => {
+const TabsPage = ({
+	activeTab,
+	tabsData,
+	toggle,
+	disableTabSwitching,
+	navClass,
+	tabType = 'pills',
+	tabContentClass = '',
+	tabCardClass = '',
+}) => {
 	const [selectedDropdown, setSelectedDropdown] = useState('');
 	return (
 		<div>
 			<Row>
 				<Col>
-					<Card>
-						<CardBody>
-							<Nav pills className="navtab-bg tab-max-width">
+					<Card className={tabCardClass}>
+						<CardBody className={`${navClass}`}>
+							<Nav
+								tabs={tabType !== 'pills'}
+								pills={tabType === 'pills'}
+								className={`${
+									tabType === 'pills'
+										? 'navtab-bg tab-max-width'
+										: 'nav-tabs-custom nav-justified'
+								}`}
+							>
 								{tabsData?.map((tab) =>
 									tab?.isHidden ? null : tab?.isDropdown ? (
 										<Dropdown
@@ -94,7 +111,10 @@ const TabsPage = ({ activeTab, tabsData, toggle, disableTabSwitching }) => {
 					</Card>
 				</Col>
 			</Row>
-			<TabContent activeTab={activeTab} className="text-muted">
+			<TabContent
+				activeTab={activeTab}
+				className={`text-muted ${tabContentClass}`}
+			>
 				{tabsData?.map((tab) => (
 					<TabPane key={tab.id} tabId={tab.id}>
 						{tab?.isDropdown ? (
@@ -123,6 +143,10 @@ const TabsPage = ({ activeTab, tabsData, toggle, disableTabSwitching }) => {
 
 TabsPage.defaultProps = {
 	disableTabSwitching: false,
+	navClass: '',
+	tabType: 'pills',
+	tabContentClass: '',
+	tabCardClass: '',
 };
 
 TabsPage.propTypes = {
@@ -135,6 +159,10 @@ TabsPage.propTypes = {
 		.isRequired,
 	toggle: PropTypes.func.isRequired,
 	disableTabSwitching: PropTypes.bool,
+	navClass: PropTypes.string,
+	tabType: PropTypes.string,
+	tabContentClass: PropTypes.string,
+	tabCardClass: PropTypes.string,
 };
 
 Dropdown.defaultProps = {

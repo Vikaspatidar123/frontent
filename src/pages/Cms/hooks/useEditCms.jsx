@@ -27,13 +27,36 @@ const useEditCms = () => {
 	const [customComponent, setCustomComponent] = useState();
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const { cmsDynamicKeys, cmsByPageId } = useSelector((state) => state.AllCms);
+	const { cmsByPageId } = useSelector((state) => state.AllCms);
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
+	const [template, setTemplate] = useState('');
+	const [langTitle, setLangTitle] = useState('');
+
+	useEffect(() => {
+		setTitle((prev) => ({
+			...prev,
+			[selectedTab]: langTitle,
+		}));
+	}, [langTitle]);
+
+	useEffect(() => {
+		setContent((prev) => ({
+			...prev,
+			[selectedTab]: template,
+		}));
+	}, [template]);
+
+	useEffect(() => {
+		if (cmsByPageId) {
+			setTitle(cmsByPageId?.page?.title);
+			setContent(cmsByPageId?.page?.content);
+		}
+	}, [cmsByPageId]);
 
 	const formSubmitHandler = (values) => {
-		if (values?.content) {
+		if (content) {
 			dispatch(
 				updateSaCms({
 					cmsData: {
@@ -55,18 +78,13 @@ const useEditCms = () => {
 
 	useEffect(() => {
 		dispatch(getCmsByPageId({ cmsPageId }));
-	}, []);
-
-	useEffect(() => {
 		dispatch(getLanguagesStart());
-		// dispatch(getCmsDynamicKeys());
 	}, []);
 
 	// resetting cms details redux state
 	useEffect(() => () => dispatch(resetCmsByPageIdData()), []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
-		header: `Edit CMS ${cmsPageId}`,
 		initialValues: getInitialValues(cmsByPageId?.page),
 		validationSchema: createCmsNewSchema,
 		staticFormFields: staticFormFields(),
@@ -79,7 +97,6 @@ const useEditCms = () => {
 				languageData={languageData}
 				cmsByPageId={cmsByPageId?.page}
 				validation={validation}
-				cmsKeys={cmsDynamicKeys}
 				title={title}
 				setTitle={(v) => setTitle(v)}
 				content={content}
@@ -89,9 +106,21 @@ const useEditCms = () => {
 				isEdit
 				selectedTab={selectedTab}
 				setSelectedTab={setSelectedTab}
+				template={template}
+				setTemplate={setTemplate}
+				langTitle={langTitle}
+				setLangTitle={setLangTitle}
 			/>
 		);
-	}, [languageData, title, content, showGallery, selectedTab]);
+	}, [
+		languageData,
+		title,
+		content,
+		showGallery,
+		selectedTab,
+		langTitle,
+		template,
+	]);
 
 	const handleGalleryClick = () => {
 		setShowGallery(true);
@@ -115,10 +144,10 @@ const useEditCms = () => {
 		languageData,
 		customComponent,
 		setCustomComponent,
-		cmsDynamicKeys,
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,
+		cmsByPageId,
 	};
 };
 

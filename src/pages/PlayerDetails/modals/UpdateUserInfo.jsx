@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import FormModal from '../../../components/Common/FormModal';
 import { getInitialValuesUpdateUser, userSchema } from '../formDetails';
 import { fetchCountriesStart, updateUserInfo } from '../../../store/actions';
+import { countryMasks } from '../constants';
 
-const staticFormFields = (countriesList) => [
+const staticFormFields = (countriesList, countryCodes) => [
 	{
 		name: 'email',
 		fieldType: 'textField',
@@ -54,6 +55,7 @@ const staticFormFields = (countriesList) => [
 		label: 'Phone',
 		required: true,
 		namesArray: ['phone', 'phoneCode'],
+		countryCodes,
 	},
 	{
 		name: 'countryCode',
@@ -109,6 +111,21 @@ const UpdateUserInfo = ({ show, header, toggle }) => {
 		(state) => state.UserDetails
 	);
 	const { countries } = useSelector((state) => state.Countries);
+	const [countryCodes, setCountryCodes] = useState([]);
+
+	useEffect(() => {
+		if (countries?.countries?.length) {
+			setCountryCodes(() => {
+				const codes = countries?.countries?.map((country) =>
+					country.code.toLowerCase()
+				);
+
+				return Object.fromEntries(
+					Object.entries(countryMasks).filter(([key]) => codes.includes(key))
+				);
+			});
+		}
+	}, [countries]);
 
 	useEffect(() => {
 		dispatch(fetchCountriesStart());
@@ -144,7 +161,7 @@ const UpdateUserInfo = ({ show, header, toggle }) => {
 			handleUserEdit(values);
 			toggle();
 		},
-		staticFormFields: staticFormFields(formattedCountries),
+		staticFormFields: staticFormFields(formattedCountries, countryCodes),
 	});
 
 	useEffect(() => {

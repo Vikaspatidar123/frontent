@@ -40,20 +40,9 @@ const filterValidationSchema = () =>
 		searchString: Yup.string().nullable(),
 	});
 
-const pageCategories = {
-	ABOUT: 'about',
-	OTHERS: 'others',
-	SUPPORT: 'support',
-	RESPONSIBLE_GAMBLING: 'responsible_gambling',
-};
-
 const getInitialValues = (cmsData) => ({
-	title: cmsData ? cmsData?.title?.EN : '',
 	slug: cmsData ? cmsData?.slug : '',
-	content: cmsData ? cmsData?.content?.EN : '',
-	category: cmsData?.category ? cmsData?.category : 'about',
 	isActive: cmsData ? !!cmsData?.isActive : true,
-	language: '',
 });
 
 const initialData = {
@@ -64,13 +53,11 @@ const initialData = {
 	content: {
 		EN: '',
 	},
-	category: pageCategories?.ABOUT,
 	isActive: true,
 	language: 'EN',
 };
 
 const createCmsNewSchema = Yup.object().shape({
-	title: Yup.string().required('Title for English is required'),
 	slug: Yup.string()
 		.required('Slug is required')
 		.min(3, 'Slug must be at least 3 characters')
@@ -81,40 +68,19 @@ const createCmsNewSchema = Yup.object().shape({
 const staticFormFields = (isView) => [
 	{
 		name: 'slug',
+		label: 'Enter Slug',
 		fieldType: 'textField',
 		placeholder: 'Enter Slug',
 		isDisabled: isView || false,
-	},
-	{
-		name: 'category',
-		fieldType: 'select',
-		placeholder: 'Category',
-		isDisabled: isView || false,
-		optionList: [
-			{
-				optionLabel: pageCategories.ABOUT,
-				value: pageCategories.ABOUT,
-			},
-			{
-				optionLabel: pageCategories.OTHERS,
-				value: pageCategories.OTHERS,
-			},
-			{
-				optionLabel: pageCategories.SUPPORT,
-				value: pageCategories.SUPPORT,
-			},
-			{
-				optionLabel: pageCategories.RESPONSIBLE_GAMBLING,
-				value: pageCategories.RESPONSIBLE_GAMBLING,
-			},
-		],
+		fieldColOptions: { lg: 3 },
 	},
 	{
 		name: 'isActive',
 		fieldType: 'toggle',
-		label: 'Status',
+		label: 'Is Active',
 		placeholder: 'Status',
 		isDisabled: isView || false,
+		containerClass: 'form-switch-md mt-4',
 	},
 ];
 

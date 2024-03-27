@@ -128,7 +128,7 @@ const disableUserSession = (data) =>
 
 const createSuperAdminCMS = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}/page/create`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}page/create`,
 		data
 	);
 
