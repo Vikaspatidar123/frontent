@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import { removeGameFromSubCategoryStart } from '../../../store/actions';
 import { KeyValueCell, Status } from '../GamesListCol';
@@ -10,6 +10,7 @@ import { selectedLanguage } from '../../../constants/config';
 
 const useRemoveAddedGames = () => {
 	const dispatch = useDispatch();
+	const { gameSubCategoryId } = useParams();
 	const navigate = useNavigate();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -50,7 +51,9 @@ const useRemoveAddedGames = () => {
 		const itemIds = selectedGames?.map((g) => g.id);
 		dispatch(
 			removeGameFromSubCategoryStart({
-				ids: itemIds,
+				gameIds: itemIds,
+				subCategoryId: gameSubCategoryId,
+				alternateSubCategoryId: '',
 				navigate,
 			})
 		);

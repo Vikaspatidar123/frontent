@@ -55,7 +55,7 @@ const useSubCategoryListing = (filterValidation, onClickEdit) => {
 	const onClickDelete = (gameSubCategoryId) => {
 		dispatch(
 			deleteCasinoSubCategoryStart({
-				gameSubCategoryId,
+				subCategoryId: gameSubCategoryId,
 				perPage: itemsPerPage,
 				page,
 			})

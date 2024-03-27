@@ -97,13 +97,11 @@ import {
 	updateReorderGames,
 	editCasinoGames,
 	editCasinoProvider,
+	removeGamesFromSubCategory,
+	deleteSubCategory,
 } from '../../network/postRequests';
 
-import {
-	deleteSubCategory,
-	deleteCasinoGames,
-	removeGamesFromSubCategory,
-} from '../../network/deleteRequests';
+import { deleteCasinoGames } from '../../network/deleteRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
@@ -139,9 +137,9 @@ function* getSubCategoryAddedGamesWorker(action) {
 }
 
 function* removeSubCategoryAddedGamesWorker(action) {
-	const { casinoGameIds, navigate } = action && action.payload;
+	const { navigate, ...payload } = action && action.payload;
 	try {
-		yield removeGamesFromSubCategory({ casinoGameIds });
+		yield removeGamesFromSubCategory(payload);
 		yield put(removeGameFromSubCategorySuccess());
 		showToastr({ message: 'Games Removed Successfully', type: 'success' });
 
@@ -485,11 +483,10 @@ function* addGamesToSubCategoryWorker(action) {
 
 function* deleteCasinoSubCategoryWorker(action) {
 	try {
-		const { gameSubCategoryId, limit, pageNo, search } =
-			action && action.payload;
+		const { subCategoryId, page, perPage } = action && action.payload;
 
 		yield deleteSubCategory({
-			gameSubCategoryId,
+			subCategoryId,
 		});
 
 		showToastr({
@@ -499,10 +496,9 @@ function* deleteCasinoSubCategoryWorker(action) {
 
 		yield put(deleteCasinoSubCategorySuccess());
 		yield getCasinoSubCategoryListing({
-			gameSubCategoryId,
-			limit,
-			pageNo,
-			search,
+			casinoCategoryId: subCategoryId,
+			page,
+			perPage,
 		});
 	} catch (e) {
 		yield put(deleteCasinoSubCategoryFail());

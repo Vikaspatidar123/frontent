@@ -449,6 +449,18 @@ const editCasinoProvider = (data) =>
 		}
 	);
 
+const removeGamesFromSubCategory = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}remove-games-from-subcategory`,
+		data
+	);
+
+const deleteSubCategory = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}delete-subcategory`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -522,4 +534,6 @@ export {
 	editCasinoGames,
 	createUserTags,
 	editCasinoProvider,
+	removeGamesFromSubCategory,
+	deleteSubCategory,
 };
