@@ -31,6 +31,8 @@ const useCreateCms = () => {
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
+	const [template, setTemplate] = useState('');
+	const [langTitle, setLangTitle] = useState('');
 	const [existingFilledFields, setExistingFilledFields] = useState({});
 
 	const formSubmitHandler = (values) => {
@@ -54,6 +56,20 @@ const useCreateCms = () => {
 			);
 		}
 	};
+
+	useEffect(() => {
+		setTitle((prev) => ({
+			...prev,
+			[selectedTab]: langTitle,
+		}));
+	}, [langTitle]);
+
+	useEffect(() => {
+		setContent((prev) => ({
+			...prev,
+			[selectedTab]: template,
+		}));
+	}, [template]);
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
@@ -80,9 +96,21 @@ const useCreateCms = () => {
 				setShowGallery={setShowGallery}
 				selectedTab={selectedTab}
 				setSelectedTab={setSelectedTab}
+				template={template}
+				setTemplate={setTemplate}
+				langTitle={langTitle}
+				setLangTitle={setLangTitle}
 			/>
 		);
-	}, [languageData, title, content, showGallery, selectedTab]);
+	}, [
+		languageData,
+		title,
+		content,
+		showGallery,
+		selectedTab,
+		langTitle,
+		template,
+	]);
 
 	useEffect(() => {
 		setExistingFilledFields({

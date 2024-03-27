@@ -24,24 +24,29 @@ const useCmsDetail = () => {
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [isView, setIsView] = useState(true);
 
+	const [template, setTemplate] = useState('');
+	const [langTitle, setLangTitle] = useState('');
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const { cmsDynamicKeys, cmsByPageId } = useSelector((state) => state.AllCms);
+	const { cmsByPageId } = useSelector((state) => state.AllCms);
 	const [title, setTitle] = useState({ EN: '' });
 	const [content, setContent] = useState({ EN: '' });
 
 	useEffect(() => {
 		dispatch(getCmsByPageId({ cmsPageId }));
+		dispatch(getLanguagesStart());
 	}, []);
 
 	useEffect(() => {
-		dispatch(getLanguagesStart());
-	}, []);
+		if (cmsByPageId) {
+			setTitle(cmsByPageId?.page?.title);
+			setContent(cmsByPageId?.page?.content);
+		}
+	}, [cmsByPageId]);
 
 	// resetting cms details redux state
 	useEffect(() => () => dispatch(resetCmsByPageIdData()), []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
-		header: `View CMS ${cmsPageId}`,
 		initialValues: getInitialValues(cmsByPageId?.page),
 		validationSchema: createCmsNewSchema,
 		staticFormFields: staticFormFields(isView),
@@ -53,7 +58,6 @@ const useCmsDetail = () => {
 				languageData={languageData}
 				cmsByPageId={cmsByPageId?.page}
 				validation={validation}
-				cmsKeys={cmsDynamicKeys}
 				title={title}
 				setTitle={(v) => setTitle(v)}
 				content={content}
@@ -62,9 +66,13 @@ const useCmsDetail = () => {
 				setIsView={(v) => setIsView(v)}
 				selectedTab={selectedTab}
 				setSelectedTab={(v) => setSelectedTab(v)}
+				template={template}
+				setTemplate={setTemplate}
+				langTitle={langTitle}
+				setLangTitle={setLangTitle}
 			/>
 		);
-	}, [languageData, title, content, selectedTab]);
+	}, [languageData, title, content, selectedTab, langTitle, template]);
 
 	return {
 		header,
@@ -75,7 +83,7 @@ const useCmsDetail = () => {
 		languageData,
 		customComponent,
 		setCustomComponent,
-		cmsDynamicKeys,
+		cmsByPageId,
 	};
 };
 

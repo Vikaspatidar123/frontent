@@ -19,6 +19,7 @@ const FormPage = ({
 	formTitle,
 	colOptions,
 	responsiveFormFields,
+	formClass,
 }) => (
 	<Card className="p-3">
 		<Row>
@@ -67,7 +68,7 @@ const FormPage = ({
 					</Col>
 				</Row>
 				{/* Responsive/customizable column forms */}
-				<Row className="justify-content-start">
+				<Row className={`justify-content-start ${formClass}`}>
 					{responsiveFormFields?.map(
 						(field) =>
 							!field?.isHide && (
@@ -146,6 +147,7 @@ FormPage.defaultProps = {
 	formTitle: '',
 	colOptions: { xs: 12, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 },
 	responsiveFormFields: [],
+	formClass: '',
 };
 
 FormPage.propTypes = {
@@ -163,6 +165,7 @@ FormPage.propTypes = {
 	formTitle: PropTypes.string,
 	colOptions: PropTypes.objectOf,
 	responsiveFormFields: PropTypes.arrayOf,
+	formClass: PropTypes.string,
 };
 
 export default FormPage;
