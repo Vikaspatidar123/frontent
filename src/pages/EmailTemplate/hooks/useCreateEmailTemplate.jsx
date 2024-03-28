@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
@@ -13,6 +13,7 @@ import {
 	getInitialValues,
 	staticFormFields,
 	emailTemplateSchema,
+	initialData,
 } from '../formDetails';
 
 import { showToastr } from '../../../utils/helpers';
@@ -26,7 +27,7 @@ const useCreateEmailTemplate = () => {
 	const [customComponent, setCustomComponent] = useState();
 
 	const [template, setTemplate] = useState('');
-	const [content, setContent] = useState('');
+	const [content, setContent] = useState({ EN: '' });
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
 	const [existingFilledFields, setExistingFilledFields] = useState([]);
@@ -35,13 +36,11 @@ const useCreateEmailTemplate = () => {
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 
 	useEffect(() => {
-		if (selectedTab) {
-			setContent((prev) => ({
-				...prev,
-				[selectedTab]: template,
-			}));
-		}
-	}, [selectedTab, template]);
+		setContent((prev) => ({
+			...prev,
+			[selectedTab]: template,
+		}));
+	}, [template]);
 
 	const formSubmitHandler = (values) => {
 		if (isEmpty(content[selectedTab])) {
@@ -79,11 +78,9 @@ const useCreateEmailTemplate = () => {
 		onSubmitEntry: formSubmitHandler,
 	});
 
-	const resetEmail = () => dispatch(resetEmailTemplate());
-
 	useEffect(
 		() => () => {
-			resetEmail();
+			dispatch(resetEmailTemplate());
 		},
 		[]
 	);
@@ -92,16 +89,18 @@ const useCreateEmailTemplate = () => {
 		setCustomComponent(
 			<CreateTemplate
 				languageData={languageData}
-				setTemp={setTemplate}
+				setTemplate={setTemplate}
 				validation={validation}
 				selectedTab={selectedTab}
 				setSelectedTab={setSelectedTab}
 				showGallery={showGallery}
 				setShowGallery={setShowGallery}
 				content={content}
+				setContent={setContent}
+				template={template}
 			/>
 		);
-	}, [languageData, template, selectedTab, showGallery]);
+	}, [languageData, template, selectedTab, showGallery, content]);
 
 	const handleGalleryClick = (e) => {
 		e.preventDefault();
@@ -121,10 +120,10 @@ const useCreateEmailTemplate = () => {
 			...existingFilledFields,
 			values: {
 				...validation.values,
-				template,
+				content,
 			},
 		});
-	}, [validation.values, template]);
+	}, [validation.values, content]);
 
 	useEffect(() => {
 		if (localStorage.getItem(formPageTitle.crm)) {
@@ -133,20 +132,22 @@ const useCreateEmailTemplate = () => {
 			);
 			validation.setValues({
 				label: values?.label,
-				type: parseInt(values?.type, 10),
+				type: values?.type,
+				isDefault: values?.isDefault,
 			});
-			setTemplate(values?.template);
+			setContent(values?.content);
 		}
 	}, []);
 
 	const onBackClick = () => {
-		const hasFilledValues = Object.values(existingFilledFields?.values).some(
-			(value) => !isEmpty(value)
-		);
-		if (hasFilledValues) {
-			setShowModal(true);
-		} else {
-			navigate('/email-templates');
+		if (!isEmpty(existingFilledFields)) {
+			const existingFilledFieldsCopy = existingFilledFields?.values;
+			const isDataEqual = isEqual(existingFilledFieldsCopy, initialData);
+			if (!isDataEqual) {
+				setShowModal(true);
+			} else {
+				navigate('/email-templates');
+			}
 		}
 	};
 

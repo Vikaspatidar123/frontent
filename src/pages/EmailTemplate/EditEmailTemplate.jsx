@@ -46,6 +46,7 @@ const EditEmailTemplate = () => {
 								submitLabel="Submit"
 								customColClasses=""
 								isSubmitLoading={false}
+								formClass="ms-2"
 							/>
 						</Card>
 					</Col>
