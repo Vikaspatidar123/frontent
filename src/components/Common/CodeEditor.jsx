@@ -4,7 +4,7 @@ import { highlight, languages } from 'prismjs';
 import { Button } from 'reactstrap';
 import uuid from 'react-uuid';
 import Editor from 'react-simple-code-editor';
-import { CreateDynamicStyles } from './style';
+import { CreateDynamicStyles } from '../../pages/Cms/style';
 import '../../assets/scss/custom/pages/_cms.scss';
 
 const CodeEditor = ({

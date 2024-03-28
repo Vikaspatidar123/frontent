@@ -6,16 +6,13 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import TabsPage from '../../components/Common/TabsPage';
 import { CustomInputField } from '../../helpers/customForms';
 import Modal from '../../components/Common/Modal';
-import CodeEditor from './CodeEditor';
+import CodeEditor from '../../components/Common/CodeEditor';
 import { showToastr } from '../../utils/helpers';
 
 import { getImageGallery } from '../../store/actions';
-// import { decryptCredentials } from '../../network/storageUtils';
-import { formPageTitle } from '../../components/Common/constants';
 
 const CreateCMSTemplate = ({
 	languageData,
-	cmsByPageId,
 	// isEdit = false,
 	isView = false,
 	showGallery,
@@ -29,11 +26,11 @@ const CreateCMSTemplate = ({
 	setSelectedTab,
 	setContent,
 }) => {
+	const dispatch = useDispatch();
 	const { imageGallery } = useSelector((state) => state.EmailTemplate);
 	const [imageComponent, setImageComponent] = useState();
 	const [activeTab, setActiveTab] = useState(1);
-	// const [data, setData] = useState();
-	const dispatch = useDispatch();
+
 	const tabData = useMemo(
 		() =>
 			languageData?.languages?.map((item) => ({
@@ -57,7 +54,6 @@ const CreateCMSTemplate = ({
 							<Label className="form-label">Content</Label>
 							<span className="text-danger"> *</span>
 							<CodeEditor
-								cmsByPageId={cmsByPageId}
 								HTML={content[selectedTab] ? content[selectedTab] : ''}
 								initial="HTML"
 								mobileQuery={800}
@@ -82,15 +78,6 @@ const CreateCMSTemplate = ({
 			setSelectedTab(tab?.title);
 		}
 	}, [activeTab, tabData]);
-
-	useEffect(() => {
-		if (localStorage.getItem(formPageTitle.cms)) {
-			// const values = JSON.parse(
-			// 	decryptCredentials(localStorage.getItem(formPageTitle.cms))
-			// );
-			// setData(values?.content?.EN);
-		}
-	}, []);
 
 	useEffect(() => {
 		if (showGallery) {
@@ -181,7 +168,6 @@ CreateCMSTemplate.defaultProps = {
 	languageData: {},
 	title: {},
 	content: {},
-	cmsByPageId: null,
 	// isEdit: false,
 	isView: false,
 	showGallery: false,
@@ -198,7 +184,6 @@ CreateCMSTemplate.propTypes = {
 	languageData: PropTypes.objectOf(),
 	title: PropTypes.objectOf(),
 	content: PropTypes.objectOf(),
-	cmsByPageId: PropTypes.objectOf(),
 	// isEdit: PropTypes.bool,
 	isView: PropTypes.bool,
 	showGallery: PropTypes.bool,

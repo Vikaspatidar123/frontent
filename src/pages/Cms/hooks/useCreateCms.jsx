@@ -156,16 +156,12 @@ const useCreateCms = () => {
 				decryptCredentials(localStorage.getItem(formPageTitle.cms))
 			);
 			validation.setValues({
-				category: values?.category,
-				title: values?.title?.EN || '',
-				content: values?.content?.EN || '',
 				slug: values?.slug || '',
 				isActive: values?.isActive || false,
-				language: values?.language || '',
 			});
 
-			setTitle({ EN: values?.title?.EN || '' });
-			setContent({ EN: values?.content?.EN || '' });
+			setTitle(values?.title);
+			setContent(values?.content);
 		}
 	}, []);
 

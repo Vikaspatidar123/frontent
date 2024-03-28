@@ -16,20 +16,21 @@ const emailTemplateSchema = Yup.object().shape({
 	type: Yup.string().required('Type Required!'),
 });
 
-const staticFormFields = () => [
+const staticFormFields = (isEdit) => [
 	{
 		name: 'label',
 		fieldType: 'textField',
 		label: 'Template Label',
-		placeholder: 'Enter Promotion Title',
-		// isDisabled: isView || false,
+		placeholder: 'Enter Template Label',
+		fieldColOptions: { lg: 3 },
 	},
 	{
 		name: 'type',
 		label: 'Template Type',
 		placeholder: 'Select Template Type',
 		fieldType: 'select',
-		// isDisabled: isEdit || false,
+		fieldColOptions: { lg: 3 },
+		isDisabled: isEdit || false,
 		optionList: Object.keys(EMAIL_TEMPLATE_EVENT_TYPES || {})?.map((item) => ({
 			value: EMAIL_TEMPLATE_EVENT_TYPES[item],
 			optionLabel: item,
@@ -39,7 +40,8 @@ const staticFormFields = () => [
 		name: 'isDefault',
 		label: 'Mark Default',
 		fieldType: 'toggle',
-		// isDisabled: isEdit || false,
+		containerClass: 'form-switch-md mt-4',
+		isDisabled: isEdit || false,
 	},
 ];
 
@@ -53,10 +55,20 @@ const staticTestEmailFormFields = (setTestEmailCallBack) => [
 	},
 ];
 
+const initialData = {
+	label: '',
+	type: null,
+	isDefault: false,
+	content: {
+		EN: '',
+	},
+};
+
 export {
 	getInitialValues,
 	staticFormFields,
 	emailTemplateSchema,
 	getTestEmailInitialValues,
 	staticTestEmailFormFields,
+	initialData,
 };

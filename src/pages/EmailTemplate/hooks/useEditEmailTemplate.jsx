@@ -27,7 +27,7 @@ const useEditEmailTemplate = () => {
 	const [customComponent, setCustomComponent] = useState();
 
 	const [template, setTemplate] = useState('');
-	const [content, setContent] = useState('');
+	const [content, setContent] = useState({ EN: '' });
 	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
 	const isEdit = true;
@@ -42,18 +42,15 @@ const useEditEmailTemplate = () => {
 	}, [emailTemplateId]);
 
 	useEffect(() => {
-		if (selectedTab) {
-			setContent((prev) => ({
-				...prev,
-				[selectedTab]: template,
-			}));
-		}
-	}, [selectedTab, template]);
+		setContent((prev) => ({
+			...prev,
+			[selectedTab]: template,
+		}));
+	}, [template]);
 
 	useEffect(() => {
 		if (emailTemplate) {
 			setContent(emailTemplate?.templateCode);
-			setTemplate(emailTemplate?.templateCode?.EN);
 		}
 	}, [emailTemplate]);
 
@@ -87,7 +84,6 @@ const useEditEmailTemplate = () => {
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		// dispatch(getEmailTypes());
 	}, []);
 
 	const { validation, formFields, setFormFields } = useForm({
@@ -101,17 +97,26 @@ const useEditEmailTemplate = () => {
 		setCustomComponent(
 			<CreateTemplate
 				languageData={languageData}
-				emailTemplate={emailTemplate}
-				setTemp={setTemplate}
+				setTemplate={setTemplate}
 				validation={validation}
 				selectedTab={selectedTab}
 				setSelectedTab={setSelectedTab}
 				showGallery={showGallery}
 				setShowGallery={setShowGallery}
 				isEdit={isEdit}
+				content={content}
+				setContent={setContent}
+				template={template}
 			/>
 		);
-	}, [languageData, template, selectedTab, showGallery, emailTemplate]);
+	}, [
+		languageData,
+		content,
+		selectedTab,
+		showGallery,
+		emailTemplate,
+		template,
+	]);
 
 	const handleGalleryClick = () => {
 		setShowGallery(true);

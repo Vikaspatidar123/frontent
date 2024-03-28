@@ -54,7 +54,6 @@ const initialData = {
 		EN: '',
 	},
 	isActive: true,
-	language: 'EN',
 };
 
 const createCmsNewSchema = Yup.object().shape({

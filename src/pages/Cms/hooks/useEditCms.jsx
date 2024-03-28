@@ -63,7 +63,7 @@ const useEditCms = () => {
 						...values,
 						title,
 						content,
-						pageId: parseInt(cmsPageId, 10),
+						pageId: cmsPageId,
 					},
 					navigate,
 				})
