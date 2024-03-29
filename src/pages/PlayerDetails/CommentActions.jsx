@@ -4,62 +4,60 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const CommentActionButtons = ({ cell, handleStatus }) => {
-	const status = cell?.row?.original?.status;
-	const commentId = cell?.row?.original?.commentId;
+const CommentActionButtons = ({ cell, handleUpdate, handleDelete }) => {
+	const commentId = cell?.row?.original?.id;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
-				{status === 'Resolved' ? (
-					<Link
-						to="#"
-						className="btn btn-sm btn-success"
-						onClick={(e) => {
-							e.preventDefault();
-						}}
+				<Link
+					to="#"
+					className="btn btn-sm btn-soft-info btn-primary"
+					onClick={(e) => {
+						e.preventDefault();
+						handleUpdate(cell?.row?.original);
+					}}
+				>
+					<i
+						className="mdi mdi-pencil-outline"
+						id={`edittooltip-${commentId}`}
+					/>
+					<UncontrolledTooltip
+						placement="top"
+						target={`edittooltip-${commentId}`}
 					>
-						<i
-							className="mdi mdi-check-circle"
-							id={`inactivetooltip-${commentId}`}
-						/>
-						<UncontrolledTooltip
-							placement="top"
-							target={`inactivetooltip-${commentId}`}
-						>
-							Active
-						</UncontrolledTooltip>
-					</Link>
-				) : (
-					<Link
-						to="#"
-						className="btn btn-sm btn-soft-danger"
-						onClick={(e) => {
-							e.preventDefault();
-							handleStatus({
-								commentId,
-								isActive: false,
-							});
-						}}
+						Edit Comment
+					</UncontrolledTooltip>
+				</Link>
+			</li>
+
+			<li>
+				<Link
+					to="#"
+					className="btn btn-sm btn-soft-danger btn-primary"
+					onClick={(e) => {
+						e.preventDefault();
+						handleDelete(commentId);
+					}}
+				>
+					<i
+						className="mdi mdi-delete-outline"
+						id={`deletetooltip-${commentId}`}
+					/>
+					<UncontrolledTooltip
+						placement="top"
+						target={`deletetooltip-${commentId}`}
 					>
-						<i
-							className="mdi mdi-close-thick"
-							id={`activetooltip-${commentId}`}
-						/>
-						<UncontrolledTooltip
-							placement="top"
-							target={`activetooltip-${commentId}`}
-						>
-							Resolve
-						</UncontrolledTooltip>
-					</Link>
-				)}
+						Delete Comment
+					</UncontrolledTooltip>
+				</Link>
 			</li>
 		</ul>
 	);
 };
 
 CommentActionButtons.propTypes = {
-	handleStatus: PropTypes.func.isRequired,
+	handleUpdate: PropTypes.func.isRequired,
+	handleDelete: PropTypes.func.isRequired,
 	cell: PropTypes.objectOf.isRequired,
 };
 

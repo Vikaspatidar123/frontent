@@ -1,13 +1,12 @@
-import { put, takeLatest, all, fork } from 'redux-saga/effects';
+/* eslint-disable no-param-reassign */
+import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
 
-// Crypto Redux States
+// Redux States
 import {
 	getUserDetailsSuccess,
 	getUserDetailsFail,
 	getUserBonusSuccess,
 	getUserBonusFail,
-	getUserCommentsSuccess,
-	getUserCommentsFail,
 	createUserCommentSuccess,
 	createUserCommentFail,
 	resetUserLimitFail,
@@ -34,14 +33,8 @@ import {
 	sendPasswordResetFail,
 	updateUserPasswordSuccess,
 	updateUserPasswordFail,
-	markDocumentRequiredSuccess,
-	markDocumentRequiredFail,
 	cancelUserBonusSuccess,
 	cancelUserBonusFail,
-	resolveUserCommentSuccess,
-	resolveUserCommentFail,
-	acceptUserDocsSuccess,
-	acceptUserDocsFail,
 	attachTagSuccess,
 	attachTagFail,
 	getAllTagsSuccess,
@@ -56,13 +49,22 @@ import {
 	rejectDocumentFail,
 	createTagSuccess,
 	createTagFail,
+	activateKycSuccess,
+	activateKycFail,
+	inActiveKycSuccess,
+	inActiveKycFail,
+	updateUserCommentSuccess,
+	updateUserCommentFail,
+	deleteUserCommentSuccess,
+	deleteUserCommentFail,
 } from './actions';
 import {
-	ACCEPT_USER_DOC,
+	ACTIVATE_KYC,
 	ATTACH_TAG,
 	CANCEL_USER_BONUS,
 	CREATE_TAG,
 	CREATE_USER_COMMENT,
+	DELETE_USER_COMMENT,
 	DEPOSIT_TO_OTHER,
 	DISABLE_USER,
 	GET_ALL_BONUS,
@@ -70,18 +72,17 @@ import {
 	GET_BONUS_DETAILS,
 	GET_DUPLICATE_USERS,
 	GET_USER_BONUS,
-	GET_USER_COMMENTS,
 	GET_USER_DETAILS,
+	INACTIVE_KYC,
 	ISSUE_BONUS,
-	MARK_DOCUMENT_REQUIRED,
 	MARK_USER_AS_INTERNAL,
 	REJECT_DOCUMENT,
 	REMOVE_TAG,
 	REQUEST_DOCUMENT,
 	RESET_USER_LIMIT,
-	RESOLVE_USER_COMMENT,
 	SEND_PASSWORD_RESET,
 	UPDATE_SA_USER_STATUS,
+	UPDATE_USER_COMMENT,
 	UPDATE_USER_INFO,
 	UPDATE_USER_PASSWORD,
 	VERIFY_DOCUMENT,
@@ -91,17 +92,18 @@ import {
 	getAllBonus,
 	getAllUserTags,
 	getBonusDetails,
-	getCommentsList,
 	getDuplicateUsers,
 	getUserBonuses,
 	getUserDetails,
 } from '../../network/getRequests';
 import {
+	activateKyc,
 	addDepositToOtherCall,
 	attachUserTags,
 	createUserCommentEntry,
 	createUserTags,
 	disableUserCall,
+	inActiveKyc,
 	issueBonus,
 	rejectDocumentCall,
 	removeUserTags,
@@ -109,6 +111,7 @@ import {
 	resetDepositLimitCall,
 	resetPasswordEmail,
 	resetUserLimitCall,
+	updateComment,
 	updateSAUserStatusCall,
 	updateUserInfoCall,
 	updateUserPassword,
@@ -120,10 +123,10 @@ import {
 	cancelBonus,
 	// cancelDocumentRequest,
 	markUserAsInternal,
-	updateComment,
-	verifyUserDocument,
 } from '../../network/putRequests';
 import { formPageTitle } from '../../components/Common/constants';
+import { fetchPlayersSuccess } from '../actions';
+import { deleteUserComment } from '../../network/deleteRequests';
 
 function* getUserDetailsWorker(action) {
 	try {
@@ -144,17 +147,6 @@ function* getUserBonusWorker(action) {
 		yield put(getUserBonusSuccess(data?.data?.userBonus));
 	} catch (e) {
 		yield put(getUserBonusFail(e.message));
-	}
-}
-
-function* getUserCommentsWorker(action) {
-	try {
-		const payload = action && action.payload;
-		const { data } = yield getCommentsList(payload);
-
-		yield put(getUserCommentsSuccess(data?.data?.comment));
-	} catch (e) {
-		yield put(getUserCommentsFail(e.message));
 	}
 }
 
@@ -234,6 +226,22 @@ function* updateSAUserStatusWorker(action) {
 		const { data } = yield updateSAUserStatusCall(payload);
 		yield put(updateSAUserStatusSuccess(data?.data));
 
+		if (payload?.pageType === 'PlayerListing') {
+			const { players } = yield select((state) => state.Players);
+			const newPlayers = players?.users?.map((player) => {
+				if (player?.id === payload?.userId) {
+					player.isActive = !player.isActive;
+				}
+				return player;
+			});
+
+			yield put(
+				fetchPlayersSuccess({
+					...players,
+					users: newPlayers,
+				})
+			);
+		}
 		showToastr({
 			message: `Preferences Saved Successfully`,
 			type: 'success',
@@ -421,20 +429,6 @@ function* updateUserPasswordWorker(action) {
 	}
 }
 
-function* markDocumentRequiredWorker(action) {
-	try {
-		const payload = action && action.payload;
-		yield requestDocument(payload);
-		yield put(markDocumentRequiredSuccess(true));
-		showToastr({
-			message: 'Document Requested Successfully',
-			type: 'success',
-		});
-	} catch (e) {
-		yield put(markDocumentRequiredFail(e.message));
-	}
-}
-
 function* requestDocumentWorker(action) {
 	try {
 		const payload = action && action.payload;
@@ -492,43 +486,69 @@ function* cancelUserBonusWorker(action) {
 	}
 }
 
-function* resolveUserCommentWorker(action) {
+function* updateUserCommentWorker(action) {
 	try {
 		const payload = action && action.payload;
 
 		yield updateComment(payload);
-		yield put(resolveUserCommentSuccess(true));
+		yield put(updateUserCommentSuccess(true));
 		showToastr({
-			message: 'Resolved Successfully',
+			message: 'Updated Successfully',
 			type: 'success',
 		});
 	} catch (e) {
-		yield put(resolveUserCommentFail(e.message));
+		yield put(updateUserCommentFail(e.message));
 	}
 }
 
-function* acceptUserDocWorker(action) {
+function* deleteUserCommentWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		yield verifyUserDocument(payload);
-		yield put(acceptUserDocsSuccess(true));
+		yield deleteUserComment(payload);
+		yield put(deleteUserCommentSuccess(true));
 		showToastr({
-			message:
-				payload.status === 'approved'
-					? 'Accepted Successfully'
-					: 'Rejected Succesfully',
+			message: 'Deleted Successfully',
 			type: 'success',
 		});
 	} catch (e) {
-		yield put(acceptUserDocsFail(e.message));
+		yield put(deleteUserCommentFail(e.message));
+	}
+}
+
+function* activateKycWorker(action) {
+	try {
+		const payload = action && action.payload;
+
+		yield activateKyc(payload);
+		yield put(activateKycSuccess(true));
+		showToastr({
+			message: 'Kyc Approved',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(activateKycFail(e.message));
+	}
+}
+
+function* inActiveKycWorker(action) {
+	try {
+		const payload = action && action.payload;
+
+		yield inActiveKyc(payload);
+		yield put(inActiveKycSuccess(true));
+		showToastr({
+			message: 'Kyc Approved',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(inActiveKycFail(e.message));
 	}
 }
 
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_BONUS, getUserBonusWorker);
-	yield takeLatest(GET_USER_COMMENTS, getUserCommentsWorker);
 	yield takeLatest(CREATE_USER_COMMENT, createUserCommentWorker);
 	yield takeLatest(RESET_USER_LIMIT, resetUserLimitWorker);
 	yield takeLatest(DISABLE_USER, disableUserWorker);
@@ -544,16 +564,17 @@ function* userDetailsWatcher() {
 	yield takeLatest(UPDATE_USER_INFO, updateUserInfoWorker);
 	yield takeLatest(UPDATE_USER_PASSWORD, updateUserPasswordWorker);
 	yield takeLatest(SEND_PASSWORD_RESET, sendPasswordResetWorker);
-	yield takeLatest(MARK_DOCUMENT_REQUIRED, markDocumentRequiredWorker);
 	yield takeLatest(CANCEL_USER_BONUS, cancelUserBonusWorker);
-	yield takeLatest(RESOLVE_USER_COMMENT, resolveUserCommentWorker);
-	yield takeLatest(ACCEPT_USER_DOC, acceptUserDocWorker);
+	yield takeLatest(UPDATE_USER_COMMENT, updateUserCommentWorker);
 	yield takeLatest(GET_ALL_TAGS, getAllUserTagsWorker);
 	yield takeLatest(REMOVE_TAG, removeUserTagsWorker);
 	yield takeLatest(REQUEST_DOCUMENT, requestDocumentWorker);
 	yield takeLatest(VERIFY_DOCUMENT, verifyDocumentWorker);
 	yield takeLatest(REJECT_DOCUMENT, rejectDocumentWorker);
 	yield takeLatest(CREATE_TAG, createUserTagsWorker);
+	yield takeLatest(ACTIVATE_KYC, activateKycWorker);
+	yield takeLatest(INACTIVE_KYC, inActiveKycWorker);
+	yield takeLatest(DELETE_USER_COMMENT, deleteUserCommentWorker);
 }
 
 function* UserDetailsSaga() {

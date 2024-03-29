@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -6,17 +6,23 @@ import {
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import { createUserComment } from '../../../store/actions';
+import {
+	createUserComment,
+	deleteUserComment,
+	updateUserComment,
+} from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateComment = ({ userId }) => {
 	const dispatch = useDispatch();
-	const { createUserCommentsLoading, userComments, createUserCommentsSuccess } =
-		useSelector((state) => state.UserDetails);
-
+	const { createUserCommentsSuccess, updateUserCommentSuccess } = useSelector(
+		(state) => state.UserDetails
+	);
+	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const [showModal, setShowModal] = useState(false);
+
 	const handleCreateComment = (values) => {
 		dispatch(
 			createUserComment({
@@ -26,35 +32,53 @@ const useCreateComment = ({ userId }) => {
 		);
 	};
 
-	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
-		useForm({
-			header: 'Add Note',
-			initialValues: getInitialValues(),
-			validationSchema,
-			staticFormFields,
-			onSubmitEntry: handleCreateComment,
-		});
+	const handleUpdate = (values) => {
+		dispatch(
+			updateUserComment({
+				...values,
+				userId,
+			})
+		);
+	};
+
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		setHeader,
+		validation,
+		formFields,
+		setFormFields,
+	} = useForm({
+		header: 'Add Note',
+		initialValues: getInitialValues(),
+		validationSchema,
+		staticFormFields,
+		onSubmitEntry: isEdit.open ? handleUpdate : handleCreateComment,
+	});
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
+		validation.resetForm(getInitialValues());
+		setHeader('Add Note');
+		setIsEdit({ open: false, selectedRow: '' });
 		setIsOpen((prev) => !prev);
 	};
 
-	useEffect(() => {
-		setIsOpen(false);
-	}, [userComments?.count]);
+	const handleUpdateClick = (selectedRow) => {
+		setIsEdit({ open: true, selectedRow });
+		setHeader('Edit Note');
+		validation.setValues(selectedRow);
+		setIsOpen((prev) => !prev);
+	};
+
+	const handleDelete = (commentId) => {
+		dispatch(deleteUserComment({ commentId }));
+	};
 
 	useEffect(() => {
-		if (createUserCommentsSuccess) setIsOpen(false);
-	}, [createUserCommentsSuccess]);
-
-	const buttonList = useMemo(() => [
-		{
-			label: 'Add Note',
-			handleClick: handleAddClick,
-			link: '#!',
-		},
-	]);
+		if (createUserCommentsSuccess || updateUserCommentSuccess) setIsOpen(false);
+	}, [createUserCommentsSuccess, updateUserCommentSuccess]);
 
 	useEffect(() => {
 		if (window.localStorage.getItem(formPageTitle.notes) && isOpen) {
@@ -72,10 +96,11 @@ const useCreateComment = ({ userId }) => {
 		validation,
 		formFields,
 		setFormFields,
-		isCreateCommentLoading: createUserCommentsLoading,
-		buttonList,
 		showModal,
 		setShowModal,
+		handleUpdateClick,
+		handleAddClick,
+		handleDelete,
 	};
 };
 

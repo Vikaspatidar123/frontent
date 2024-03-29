@@ -1,7 +1,4 @@
 import {
-	ACCEPT_USER_DOC,
-	ACCEPT_USER_DOC_FAIL,
-	ACCEPT_USER_DOC_SUCCESS,
 	CANCEL_USER_BONUS,
 	CANCEL_USER_BONUS_FAIL,
 	CANCEL_USER_BONUS_SUCCESS,
@@ -36,10 +33,6 @@ import {
 	ISSUE_BONUS,
 	ISSUE_BONUS_FAIL,
 	ISSUE_BONUS_SUCCESS,
-	MARK_DOCUMENT_REQUIRED,
-	MARK_DOCUMENT_REQUIRED_FAIL,
-	MARK_DOCUMENT_REQUIRED_RESET,
-	MARK_DOCUMENT_REQUIRED_SUCCESS,
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
@@ -48,9 +41,9 @@ import {
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
-	RESOLVE_USER_COMMENT,
-	RESOLVE_USER_COMMENT_FAIL,
-	RESOLVE_USER_COMMENT_SUCCESS,
+	UPDATE_USER_COMMENT,
+	UPDATE_USER_COMMENT_FAIL,
+	UPDATE_USER_COMMENT_SUCCESS,
 	SEND_PASSWORD_RESET,
 	SEND_PASSWORD_RESET_FAIL,
 	SEND_PASSWORD_RESET_SUCCESS,
@@ -87,6 +80,15 @@ import {
 	CREATE_TAG_SUCCESS,
 	CREATE_TAG_FAIL,
 	CREATE_TAG,
+	ACTIVATE_KYC_SUCCESS,
+	ACTIVATE_KYC_FAIL,
+	ACTIVATE_KYC,
+	INACTIVE_KYC,
+	INACTIVE_KYC_FAIL,
+	INACTIVE_KYC_SUCCESS,
+	DELETE_USER_COMMENT_FAIL,
+	DELETE_USER_COMMENT,
+	DELETE_USER_COMMENT_SUCCESS,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -359,26 +361,6 @@ export const sendPasswordReset = (payload) => ({
 	payload,
 });
 
-export const markDocumentRequiredSuccess = (payload) => ({
-	type: MARK_DOCUMENT_REQUIRED_SUCCESS,
-	payload,
-});
-
-export const markDocumentRequiredFail = (payload) => ({
-	type: MARK_DOCUMENT_REQUIRED_FAIL,
-	payload,
-});
-
-export const markDocumentRequired = (payload) => ({
-	type: MARK_DOCUMENT_REQUIRED,
-	payload,
-});
-
-export const markDocumentRequiredReset = (payload) => ({
-	type: MARK_DOCUMENT_REQUIRED_RESET,
-	payload,
-});
-
 export const cancelUserBonusFail = (payload) => ({
 	type: CANCEL_USER_BONUS_FAIL,
 	payload,
@@ -394,33 +376,33 @@ export const cancelUserBonusSuccess = (payload) => ({
 	payload,
 });
 
-export const resolveUserCommentFail = (payload) => ({
-	type: RESOLVE_USER_COMMENT_FAIL,
+export const updateUserCommentFail = (payload) => ({
+	type: UPDATE_USER_COMMENT_FAIL,
 	payload,
 });
 
-export const resolveUserComment = (payload) => ({
-	type: RESOLVE_USER_COMMENT,
+export const updateUserComment = (payload) => ({
+	type: UPDATE_USER_COMMENT,
 	payload,
 });
 
-export const resolveUserCommentSuccess = (payload) => ({
-	type: RESOLVE_USER_COMMENT_SUCCESS,
+export const updateUserCommentSuccess = (payload) => ({
+	type: UPDATE_USER_COMMENT_SUCCESS,
 	payload,
 });
 
-export const acceptUserDocsFail = (payload) => ({
-	type: ACCEPT_USER_DOC_FAIL,
+export const deleteUserCommentFail = (payload) => ({
+	type: DELETE_USER_COMMENT_FAIL,
 	payload,
 });
 
-export const acceptUserDocs = (payload) => ({
-	type: ACCEPT_USER_DOC,
+export const deleteUserComment = (payload) => ({
+	type: DELETE_USER_COMMENT,
 	payload,
 });
 
-export const acceptUserDocsSuccess = (payload) => ({
-	type: ACCEPT_USER_DOC_SUCCESS,
+export const deleteUserCommentSuccess = (payload) => ({
+	type: DELETE_USER_COMMENT_SUCCESS,
 	payload,
 });
 
@@ -526,5 +508,35 @@ export const rejectDocumentFail = (payload) => ({
 
 export const rejectDocument = (payload) => ({
 	type: REJECT_DOCUMENT,
+	payload,
+});
+
+export const activateKycSuccess = (payload) => ({
+	type: ACTIVATE_KYC_SUCCESS,
+	payload,
+});
+
+export const activateKycFail = (payload) => ({
+	type: ACTIVATE_KYC_FAIL,
+	payload,
+});
+
+export const activateKyc = (payload) => ({
+	type: ACTIVATE_KYC,
+	payload,
+});
+
+export const inActiveKycSuccess = (payload) => ({
+	type: INACTIVE_KYC_SUCCESS,
+	payload,
+});
+
+export const inActiveKycFail = (payload) => ({
+	type: INACTIVE_KYC_FAIL,
+	payload,
+});
+
+export const inActiveKyc = (payload) => ({
+	type: INACTIVE_KYC,
 	payload,
 });

@@ -86,8 +86,8 @@ const useUserOverview = ({ user }) => {
 			value:
 				user?.kycMethod === 1
 					? user?.sumsubKycStatus?.toUpperCase()
-					: user?.kycStatus === 'true'
-					? 'Compeleted'
+					: user?.kycStatus
+					? 'Completed'
 					: 'Pending',
 		},
 	];

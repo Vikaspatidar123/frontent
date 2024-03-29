@@ -28,10 +28,17 @@ const deleteRestrictedItems = (data) =>
 const deleteBonus = (data) =>
 	deleteRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, data);
 
+const deleteUserComment = (data) =>
+	deleteRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/comment`,
+		data
+	);
+
 export {
 	deleteFromGallery,
 	deleteEmailTemplate,
 	deleteCasinoGames,
 	deleteRestrictedItems,
 	deleteBonus,
+	deleteUserComment,
 };
