@@ -2,78 +2,46 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
-import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/TableContainer';
 import { Comment, Id, KeyValueCell, KeyValueCellNA } from './TableCol';
-import { getUserComments, resolveUserComment } from '../../store/actions';
-import { getDateTime } from '../../utils/dateFormatter';
 import FormModal from '../../components/Common/FormModal';
 import useCreateComment from './hooks/useCreateComment';
 import CrudSection from '../../components/Common/CrudSection';
-import useCommentFilter from './hooks/useCommentFilter';
-import Filters from '../../components/Common/Filters';
 import CommentActionButtons from './CommentActions';
 import { formPageTitle } from '../../components/Common/constants';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 
-const Notes = ({ userId }) => {
-	const dispatch = useDispatch();
+const Notes = ({ userDetails, userId }) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
+
+	const [userComment, setUserComment] = useState(
+		userDetails?.userComment || []
+		);
+
+	useEffect(() => {
+		setUserComment(userDetails?.userComment ? [userDetails?.userComment] : []);
+	}, [userDetails?.userComment]);
+
 	const {
-		userComments,
-		userCommentsLoading,
-		createUserCommentsSuccess,
-		resolveUserCommentSuccess,
-	} = useSelector((state) => state.UserDetails);
-
-	const formattedUserBonus = useMemo(() => {
-		const formattedValues = [];
-		if (userComments) {
-			userComments?.rows?.map((comment) =>
-				formattedValues.push({
-					...comment,
-					createdAt: getDateTime(comment.createdAt),
-					status: comment.status ? 'Active' : 'Resolved' || 'NA',
-				})
-			);
-		}
-		return formattedValues;
-	}, [userComments]);
-
-	const fetchData = () => {
-		dispatch(
-			getUserComments({
-				perPage: itemsPerPage,
-				page: currentPage,
-				userId,
-			})
-		);
-	};
-
-	useEffect(() => {
-		if (createUserCommentsSuccess || resolveUserCommentSuccess) fetchData();
-	}, [createUserCommentsSuccess, resolveUserCommentSuccess]);
-
-	useEffect(() => {
-		fetchData();
-	}, [currentPage, itemsPerPage]);
-
-	const handleStatus = ({ commentId, isActive }) => {
-		dispatch(
-			resolveUserComment({
-				commentId,
-				status: isActive,
-				userId,
-			})
-		);
-	};
+		isOpen,
+		setIsOpen,
+		formFields,
+		header,
+		validation,
+		isCreateCommentLoading,
+		showModal,
+		setShowModal,
+		handleUpdateClick,
+		handleAddClick,
+		handleDelete,
+	} = useCreateComment({ userId });
 
 	const columns = useMemo(
 		() => [
 			{
 				Header: 'ID',
-				accessor: 'commentId',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -91,86 +59,63 @@ const Notes = ({ userId }) => {
 			},
 			{
 				Header: 'NOTED BY',
-				accessor: 'commentedBy',
-				filterable: true,
-				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
-			},
-			{
-				Header: 'ROLE',
-				accessor: 'role',
-				filterable: true,
+				accessor: 'commenterId',
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
-			{
-				Header: 'STATUS',
-				accessor: 'status',
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
-			},
-			{
-				Header: 'NOTED AT',
-				accessor: 'createdAt',
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
-			},
+			// {
+			// 	Header: 'NOTED AT',
+			// 	accessor: 'createdAt',
+			// 	Cell: ({ cell }) => <KeyValueCell value={(cell.value)} />,
+			// },
 			{
 				Header: 'ACTION',
 				disableSortBy: true,
 				Cell: ({ cell }) => (
-					<CommentActionButtons handleStatus={handleStatus} cell={cell} />
+					<CommentActionButtons
+						handleUpdate={handleUpdateClick}
+						handleDelete={handleDelete}
+						cell={cell}
+					/>
 				),
 			},
 		],
-		[]
+		[userComment]
 	);
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useCommentFilter();
+	const buttonList = useMemo(() => {
+		let list = [];
+		if (!userComment?.length) {
+			list = [
+				{
+					label: 'Add Note',
+					handleClick: handleAddClick,
+					link: '#!',
+				},
+			];
+		}
+		return list;
+	}, [userComment]);
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
-
-	const {
-		isOpen,
-		setIsOpen,
-		formFields,
-		header,
-		validation,
-		isCreateCommentLoading,
-		buttonList,
-		showModal,
-		setShowModal,
-	} = useCreateComment({ userId });
 
 	return (
 		<Container fluid>
 			<Card className="p-2">
 				<CrudSection buttonList={buttonList} title="Notes" />
 				<CardBody>
-					<Filters
-						validation={filterValidation}
-						filterFields={filterFields}
-						actionButtons={actionButtons}
-						isAdvanceOpen={isAdvanceOpen}
-						toggleAdvance={toggleAdvance}
-						isFilterChanged={isFilterChanged}
-					/>
 					<TableContainer
-						isLoading={userCommentsLoading}
-						columns={columns}
-						data={formattedUserBonus}
+						isLoading={false}
+						columns={columns || []}
+						data={userComment || []}
 						isPagination
 						customPageSize={itemsPerPage}
 						tableClass="table-bordered align-middle nowrap mt-2"
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={userComments?.count}
+						totalPageCount={1}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}

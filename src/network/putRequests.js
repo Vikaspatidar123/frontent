@@ -36,9 +36,6 @@ const cancelDocumentRequest = (data) =>
 const cancelBonus = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/cancel`, data);
 
-const updateComment = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/comment-status`, data);
-
 const verifyUserDocument = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/verify-document`, data);
 
@@ -89,7 +86,6 @@ export {
 	updateWageringTemplate,
 	cancelDocumentRequest,
 	cancelBonus,
-	updateComment,
 	verifyUserDocument,
 	updateOddsVariationApi,
 	detachOddsVariationApi,

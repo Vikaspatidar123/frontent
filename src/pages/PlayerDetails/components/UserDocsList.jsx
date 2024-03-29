@@ -1,15 +1,13 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable no-inner-declarations */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/no-unstable-nested-component */
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Card, CardBody, Container } from 'reactstrap';
 import TableContainer from '../../../components/Common/TableContainer';
 import {
+	activateKyc,
 	getDocumentLabel,
+	inActiveKyc,
 	rejectDocument,
 	requestDocument,
 	verifyDocument,
@@ -21,8 +19,9 @@ import CrudSection from '../../../components/Common/CrudSection';
 import { DOCUMENT_STATUS_TYPES } from '../constants';
 import ModalView from '../../../components/Common/Modal';
 import { CustomInputField } from '../../../helpers/customForms';
+import { modules } from '../../../constants/permissions';
 
-const UserDocsList = ({ userId }) => {
+const UserDocsList = ({ userDetails, userId }) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
@@ -67,9 +66,12 @@ const UserDocsList = ({ userId }) => {
 	};
 
 	const handleVerifyDocument = ({ documentLabelId }) => {
+		const userDocumentId = userDetails?.documents?.find(
+			(document) => documentLabelId === document?.documentLabelId
+		)?.id;
 		dispatch(
 			verifyDocument({
-				userDocumentId: documentLabelId,
+				userDocumentId,
 				userId,
 			})
 		);
@@ -149,7 +151,7 @@ const UserDocsList = ({ userId }) => {
 				),
 			},
 		],
-		[]
+		[userDetails]
 	);
 
 	const fetchLabels = () => {
@@ -168,10 +170,31 @@ const UserDocsList = ({ userId }) => {
 		if (requestDocuments || verifyDocuments || rejectDocuments) fetchLabels();
 	}, [requestDocuments, verifyDocuments, rejectDocuments]);
 
+	const handletoggleKyc = () => {
+		if (userDetails?.kycStatus) {
+			dispatch(inActiveKyc({ userId }));
+		} else {
+			dispatch(activateKyc({ userId }));
+		}
+	};
+
+	const buttonList = useMemo(
+		() => [
+			{
+				label: userDetails?.kycStatus ? 'Reject KYC' : 'Approve KYC',
+				handleClick: handletoggleKyc,
+				link: '#!',
+				module: modules.kyc,
+				operation: 'C',
+			},
+		],
+		[userDetails]
+	);
+
 	return (
 		<Container fluid>
 			<Card className="p-2">
-				<CrudSection buttonList={[]} title="KYC Documents" />
+				<CrudSection buttonList={buttonList} title="KYC Documents" />
 				<CardBody>
 					<TableContainer
 						isLoading={documentLabelsLoading}
@@ -224,5 +247,7 @@ const UserDocsList = ({ userId }) => {
 		</Container>
 	);
 };
+
+
 
 export default UserDocsList;

@@ -1,7 +1,4 @@
 import {
-	ACCEPT_USER_DOC,
-	ACCEPT_USER_DOC_FAIL,
-	ACCEPT_USER_DOC_SUCCESS,
 	ATTACH_TAG,
 	ATTACH_TAG_FAIL,
 	ATTACH_TAG_SUCCESS,
@@ -45,10 +42,6 @@ import {
 	ISSUE_BONUS,
 	ISSUE_BONUS_FAIL,
 	ISSUE_BONUS_SUCCESS,
-	MARK_DOCUMENT_REQUIRED,
-	MARK_DOCUMENT_REQUIRED_FAIL,
-	MARK_DOCUMENT_REQUIRED_RESET,
-	MARK_DOCUMENT_REQUIRED_SUCCESS,
 	MARK_USER_AS_INTERNAL,
 	MARK_USER_AS_INTERNAL_FAIL,
 	MARK_USER_AS_INTERNAL_SUCCESS,
@@ -60,9 +53,9 @@ import {
 	RESET_USER_LIMIT_DATA,
 	RESET_USER_LIMIT_FAIL,
 	RESET_USER_LIMIT_SUCCESS,
-	RESOLVE_USER_COMMENT,
-	RESOLVE_USER_COMMENT_FAIL,
-	RESOLVE_USER_COMMENT_SUCCESS,
+	UPDATE_USER_COMMENT,
+	UPDATE_USER_COMMENT_FAIL,
+	UPDATE_USER_COMMENT_SUCCESS,
 	SEND_PASSWORD_RESET,
 	SEND_PASSWORD_RESET_FAIL,
 	SEND_PASSWORD_RESET_SUCCESS,
@@ -90,6 +83,15 @@ import {
 	CREATE_TAG,
 	CREATE_TAG_SUCCESS,
 	CREATE_TAG_FAIL,
+	ACTIVATE_KYC,
+	ACTIVATE_KYC_SUCCESS,
+	ACTIVATE_KYC_FAIL,
+	INACTIVE_KYC,
+	INACTIVE_KYC_SUCCESS,
+	INACTIVE_KYC_FAIL,
+	DELETE_USER_COMMENT_SUCCESS,
+	DELETE_USER_COMMENT_FAIL,
+	DELETE_USER_COMMENT,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -151,18 +153,15 @@ const INIT_STATE = {
 	updateUserPasswordLoading: false,
 	updateUserPasswordSuccess: false,
 	updateUserPasswordError: false,
-	markDocumentRequiredLoading: false,
-	markDocumentRequiredSuccess: false,
-	markDocumentRequiredError: false,
 	cancelUserBonusLoading: false,
 	cancelUserBonusSuccess: false,
 	cancelUserBonusError: false,
-	resolveUserCommentError: false,
-	resolveUserCommentLoading: false,
-	resolveUserCommentSuccess: false,
-	acceptUserDocError: false,
-	acceptUserDocLoading: false,
-	acceptUserDocSuccess: false,
+	updateUserCommentError: false,
+	updateUserCommentLoading: false,
+	updateUserCommentSuccess: false,
+	deleteUserCommentError: false,
+	deleteUserCommentLoading: false,
+	deleteUserCommentSuccess: false,
 	attachTag: false,
 	attachTagLoading: false,
 	attachTagError: null,
@@ -184,6 +183,12 @@ const INIT_STATE = {
 	createTagLoading: false,
 	createTag: false,
 	createTagError: null,
+	activeKycLoading: false,
+	activeKyc: null,
+	activeKycError: null,
+	inActiveKycLoading: false,
+	inActiveKyc: null,
+	inActiveKycError: null,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -282,6 +287,8 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				createUserCommentsLoading: true,
+				createUserCommentsSuccess: false,
+				createUserCommentsError: null,
 			};
 
 		case CREATE_USER_COMMENT_SUCCESS:
@@ -296,7 +303,7 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				createUserCommentsError: payload,
-				createUserCommentsLoading: true,
+				createUserCommentsLoading: false,
 				createUserCommentsSuccess: false,
 			};
 
@@ -363,6 +370,8 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				updateSAUserStatusLoading: true,
+				updateSAUserStatusSuccess: false,
+				updateSAUserStatusError: null,
 			};
 
 		case UPDATE_SA_USER_STATUS_SUCCESS:
@@ -609,36 +618,6 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				updateUserPasswordSuccess: false,
 			};
 
-		case MARK_DOCUMENT_REQUIRED:
-			return {
-				...state,
-				markDocumentRequiredLoading: true,
-			};
-
-		case MARK_DOCUMENT_REQUIRED_SUCCESS:
-			return {
-				...state,
-				markDocumentRequiredLoading: false,
-				markDocumentRequiredSuccess: payload,
-				markDocumentRequiredError: null,
-			};
-
-		case MARK_DOCUMENT_REQUIRED_FAIL:
-			return {
-				...state,
-				markDocumentRequiredError: payload,
-				markDocumentRequiredLoading: false,
-				markDocumentRequiredSuccess: false,
-			};
-
-		case MARK_DOCUMENT_REQUIRED_RESET:
-			return {
-				...state,
-				markDocumentRequiredError: false,
-				markDocumentRequiredLoading: false,
-				markDocumentRequiredSuccess: false,
-			};
-
 		case CANCEL_USER_BONUS_SUCCESS:
 			return {
 				...state,
@@ -661,48 +640,52 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				cancelUserBonusLoading: true,
 			};
 
-		case RESOLVE_USER_COMMENT_SUCCESS:
+		case UPDATE_USER_COMMENT_SUCCESS:
 			return {
 				...state,
-				resolveUserCommentLoading: false,
-				resolveUserCommentSuccess: payload,
-				resolveUserCommentError: null,
+				updateUserCommentLoading: false,
+				updateUserCommentSuccess: payload,
+				updateUserCommentError: null,
 			};
 
-		case RESOLVE_USER_COMMENT_FAIL:
+		case UPDATE_USER_COMMENT_FAIL:
 			return {
 				...state,
-				resolveUserCommentError: payload,
-				resolveUserCommentLoading: false,
-				resolveUserCommentSuccess: false,
+				updateUserCommentError: payload,
+				updateUserCommentLoading: false,
+				updateUserCommentSuccess: false,
 			};
 
-		case RESOLVE_USER_COMMENT:
+		case UPDATE_USER_COMMENT:
 			return {
 				...state,
-				resolveUserCommentLoading: true,
+				updateUserCommentLoading: true,
+				updateUserCommentError: false,
+				updateUserCommentSuccess: false,
 			};
 
-		case ACCEPT_USER_DOC_SUCCESS:
+		case DELETE_USER_COMMENT_SUCCESS:
 			return {
 				...state,
-				acceptUserDocLoading: false,
-				acceptUserDocSuccess: true,
-				acceptUserDocError: null,
+				deleteUserCommentLoading: false,
+				deleteUserCommentError: false,
+				deleteUserCommentSuccess: true,
 			};
 
-		case ACCEPT_USER_DOC_FAIL:
+		case DELETE_USER_COMMENT_FAIL:
 			return {
 				...state,
-				acceptUserDocError: payload,
-				acceptUserDocLoading: false,
-				acceptUserDocSuccess: false,
+				deleteUserCommentError: payload,
+				deleteUserCommentLoading: false,
+				deleteUserCommentSuccess: false,
 			};
 
-		case ACCEPT_USER_DOC:
+		case DELETE_USER_COMMENT:
 			return {
 				...state,
-				acceptUserDocLoading: true,
+				deleteUserCommentError: false,
+				deleteUserCommentLoading: true,
+				deleteUserCommentSuccess: false,
 			};
 
 		case ATTACH_TAG_SUCCESS:
@@ -871,6 +854,54 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				rejectDocumentLoading: false,
 				rejectDocument: null,
 				rejectDocumentError: payload,
+			};
+
+		case ACTIVATE_KYC:
+			return {
+				...state,
+				activeKycLoading: true,
+				activeKyc: null,
+				activeKycError: null,
+			};
+
+		case ACTIVATE_KYC_SUCCESS:
+			return {
+				...state,
+				activeKycLoading: false,
+				activeKyc: payload,
+				activeKycError: null,
+			};
+
+		case ACTIVATE_KYC_FAIL:
+			return {
+				...state,
+				activeKycLoading: false,
+				activeKyc: null,
+				activeKycError: payload,
+			};
+
+		case INACTIVE_KYC:
+			return {
+				...state,
+				inActiveKycLoading: true,
+				inActiveKyc: null,
+				inActiveKycError: null,
+			};
+
+		case INACTIVE_KYC_SUCCESS:
+			return {
+				...state,
+				inActiveKycLoading: false,
+				inActiveKyc: payload,
+				inActiveKycError: null,
+			};
+
+		case INACTIVE_KYC_FAIL:
+			return {
+				...state,
+				inActiveKycLoading: false,
+				inActiveKyc: null,
+				inActiveKycError: payload,
 			};
 
 		default:

@@ -49,8 +49,7 @@ const ActionButtons = ({
 						status === 'Rejected' ||
 						status === 'Not Provided'
 					}
-					onClick={(e) => {
-						e.preventDefault();
+					onClick={() => {
 						handleVerifyDocument({
 							documentLabelId,
 						});
@@ -79,8 +78,7 @@ const ActionButtons = ({
 						status === 'Rejected' ||
 						status === 'Not Provided'
 					}
-					onClick={(e) => {
-						e.preventDefault();
+					onClick={() => {
 						toggleModal(documentLabelId);
 					}}
 				>

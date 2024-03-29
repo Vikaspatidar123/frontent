@@ -100,7 +100,10 @@ const createCasinoSubCategory = (data) =>
 	);
 
 const createUserCommentEntry = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/comment`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/create-comment`,
+		data
+	);
 
 const createWageringTemplate = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template`, data);
@@ -461,6 +464,24 @@ const deleteSubCategory = (data) =>
 		data
 	);
 
+const activateKyc = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}kyc/activate`,
+		data
+	);
+
+const inActiveKyc = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}kyc/inactive`,
+		data
+	);
+
+const updateComment = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/update-comment`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -536,4 +557,7 @@ export {
 	editCasinoProvider,
 	removeGamesFromSubCategory,
 	deleteSubCategory,
+	activateKyc,
+	inActiveKyc,
+	updateComment,
 };

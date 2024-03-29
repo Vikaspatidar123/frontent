@@ -17,6 +17,7 @@ import { getUserDetails, resetUserLimitData } from '../../store/actions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import UserDocsList from './components/UserDocsList';
 import Ledger from './Ledger';
+import Notes from './Notes';
 
 const PlayerDetailsPage = ({ t }) => {
 	const { isGranted } = usePermission();
@@ -34,6 +35,11 @@ const PlayerDetailsPage = ({ t }) => {
 		createTag: createTagSuccess,
 		attachTag: attachTagSuccess,
 		removeUserTag: removeUserTagSuccess,
+		activeKyc,
+		inActiveKyc,
+		createUserCommentsSuccess,
+		updateUserCommentSuccess,
+		deleteUserCommentSuccess,
 	} = useSelector((state) => state.UserDetails);
 
 	const toggle = (tab) => {
@@ -53,7 +59,12 @@ const PlayerDetailsPage = ({ t }) => {
 			updateUserInfoSuccess ||
 			createTagSuccess ||
 			attachTagSuccess ||
-			removeUserTagSuccess
+			removeUserTagSuccess ||
+			activeKyc ||
+			inActiveKyc ||
+			updateUserCommentSuccess ||
+			deleteUserCommentSuccess ||
+			createUserCommentsSuccess
 		) {
 			dispatch(getUserDetails({ playerId }));
 			dispatch(resetUserLimitData());
@@ -69,6 +80,11 @@ const PlayerDetailsPage = ({ t }) => {
 		createTagSuccess,
 		attachTagSuccess,
 		removeUserTagSuccess,
+		activeKyc,
+		inActiveKyc,
+		updateUserCommentSuccess,
+		deleteUserCommentSuccess,
+		createUserCommentsSuccess,
 	]);
 
 	const { userWalletData, userDetails, userDetailsLoading, duplicateUsers } =
@@ -144,12 +160,12 @@ const PlayerDetailsPage = ({ t }) => {
 		// 	component: <YourBonuses userId={playerId} />,
 		// 	isHidden: !isGranted(modules.bonus, 'R'),
 		// },
-		// {
-		// 	id: 9,
-		// 	title: 'Notes',
-		// 	component: <Notes userId={playerId} />,
-		// 	isHidden: !isGranted(modules.comment, 'R'),
-		// },
+		{
+			id: 9,
+			title: 'Notes',
+			component: <Notes userId={playerId} userDetails={userDetails} />,
+			isHidden: !isGranted(modules.comment, 'R'),
+		},
 	];
 
 	const leftTitle = userDetailsLoading
