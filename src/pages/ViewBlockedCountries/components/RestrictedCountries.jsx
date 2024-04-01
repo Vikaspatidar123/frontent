@@ -10,13 +10,18 @@ const RestrictedCountries = ({ restrictedCountries }) => {
 	return (
 		<Card className="p-2">
 			<CardBody>
-				<TableContainer
-					columns={columns}
-					data={restrictedCountries}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-				/>
+				{restrictedCountries?.length ? (
+					<TableContainer
+						columns={columns}
+						data={restrictedCountries}
+						customPageSize={restrictedCountries?.length || 10}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+					/>
+				) : (
+					<h4 className="text-center text-primary p-5">No data found.</h4>
+				)}
 			</CardBody>
 		</Card>
 	);

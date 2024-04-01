@@ -40,7 +40,7 @@ const CreateCMS = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={galleryList} title="CMS" />
+							<CrudSection buttonList={galleryList} title="Create CMS" />
 							<FormPage
 								// formTitle={header}
 								validation={validation}

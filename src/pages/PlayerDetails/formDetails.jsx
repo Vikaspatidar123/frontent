@@ -276,7 +276,7 @@ const sportsBetFiltersFields = () => [
 		name: 'settlementStatus',
 		fieldType: 'select',
 		label: '',
-		placeholder: 'Bet Slip Settlement Status',
+		placeholder: 'Bet Settlement Status',
 		optionList: BET_SLIP_SETTLEMENT_STATUS.map(({ value, label }) => ({
 			id: value,
 			value,
