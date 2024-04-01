@@ -121,7 +121,7 @@ const EmailTemplate = () => {
 				<Modal
 					openModal={clickId}
 					toggleModal={toggleView}
-					headerTitle={emailTemplate?.[0]?.label}
+					headerTitle={emailTemplate?.label}
 					className="modal-dialog modal-lg"
 					isLoading={isEmailTemplateLoading}
 					hideFooter

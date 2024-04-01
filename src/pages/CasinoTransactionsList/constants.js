@@ -39,3 +39,8 @@ export const LEDGER_PURPOSE = [
 	// { label: 'ResettlementOpenToRefund', value: 'ResettlementOpenToRefund' },
 	{ label: 'SportsBookExchangeBet', value: 'SportsBookExchangeBet' },
 ];
+
+export const BET_TYPES = [
+	{ label: 'Single', value: 'single' },
+	{ label: 'Multiple', value: 'multiple' },
+];

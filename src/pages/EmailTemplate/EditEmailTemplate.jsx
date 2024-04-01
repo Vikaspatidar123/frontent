@@ -16,7 +16,7 @@ const EditEmailTemplate = () => {
 		validation,
 		formFields,
 		customComponent,
-		emailTemplateId,
+		emailTemplate,
 	} = useEditEmailTemplate();
 
 	return (
@@ -37,7 +37,7 @@ const EditEmailTemplate = () => {
 						<Card>
 							<CrudSection
 								buttonList={galleryList}
-								title={`Edit Email Template ${emailTemplateId}`}
+								title={`Edit Email Template - ${emailTemplate?.label}`}
 							/>
 							<FormPage
 								validation={validation}

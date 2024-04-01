@@ -10,7 +10,7 @@ const staticFiltersFields = () => [
 		placeholder: 'Search by name',
 	},
 	{
-		name: 'eventStatus',
+		name: 'status',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Match Status',
@@ -100,7 +100,7 @@ const filterValues = () => ({
 	sportId: null,
 	// isLive: null,
 	isFeatured: null,
-	eventStatus: null,
+	status: null,
 });
 
 const filterValidationSchema = () =>
@@ -109,7 +109,7 @@ const filterValidationSchema = () =>
 		sportId: Yup.string().nullable(),
 		// isLive: Yup.string().nullable(),
 		isFeatured: Yup.string().nullable(),
-		eventStatus: Yup.string().nullable(),
+		status: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

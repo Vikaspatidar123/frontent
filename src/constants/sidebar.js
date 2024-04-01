@@ -450,7 +450,7 @@ const sideBarElements = [
 			{
 				id: 29,
 				link: '/sports-transactions',
-				label: 'Sports Transactions',
+				label: 'Sport Bet Slips',
 				searchString: 'sports transactions',
 				iconName: '',
 				linkClass: '',

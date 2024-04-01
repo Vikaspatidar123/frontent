@@ -27,5 +27,4 @@ export const walletType = ['Cash', 'Bonus'];
 export const statusType = [
 	{ label: 'Completed', value: 'completed' },
 	{ label: 'Pending', value: 'pending' },
-	{ label: 'Failed', value: 'failed' },
 ];

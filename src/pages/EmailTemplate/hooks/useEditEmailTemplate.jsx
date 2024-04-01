@@ -142,6 +142,7 @@ const useEditEmailTemplate = () => {
 		setShowGallery,
 		handleGalleryClick,
 		emailTemplateId,
+		emailTemplate,
 	};
 };
 

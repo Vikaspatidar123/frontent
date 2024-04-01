@@ -16,7 +16,7 @@ const emailTemplateSchema = Yup.object().shape({
 	type: Yup.string().required('Type Required!'),
 });
 
-const staticFormFields = (isEdit) => [
+const staticFormFields = () => [
 	{
 		name: 'label',
 		fieldType: 'textField',
@@ -30,7 +30,7 @@ const staticFormFields = (isEdit) => [
 		placeholder: 'Select Template Type',
 		fieldType: 'select',
 		fieldColOptions: { lg: 3 },
-		isDisabled: isEdit || false,
+		// isDisabled: isEdit || false,
 		optionList: Object.keys(EMAIL_TEMPLATE_EVENT_TYPES || {})?.map((item) => ({
 			value: EMAIL_TEMPLATE_EVENT_TYPES[item],
 			optionLabel: item,
@@ -41,7 +41,7 @@ const staticFormFields = (isEdit) => [
 		label: 'Mark Default',
 		fieldType: 'toggle',
 		containerClass: 'form-switch-md mt-4',
-		isDisabled: isEdit || false,
+		// isDisabled: isEdit || false,
 	},
 ];
 

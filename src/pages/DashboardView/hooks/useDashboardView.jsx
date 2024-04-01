@@ -281,13 +281,13 @@ const useDashboardView = () => {
 	);
 
 	const kPIReportColumn = useMemo(() => {
-		if (kPIReport?.length) {
+		if (kPIReport) {
 			return [
 				{
 					Header: 'NAME',
 					accessor: 'name',
 					filterable: true,
-					Cell: ({ cell }) => <ProviderName cell={cell?.value || '-'} />,
+					Cell: ({ cell }) => <ProviderName cell={cell?.value?.EN || '-'} />,
 				},
 				{
 					Header: 'GGR',

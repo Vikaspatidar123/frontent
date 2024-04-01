@@ -116,7 +116,7 @@ const usePlayersListing = (filterValues = {}) => {
 					fullName: `${player.firstName} ${player.lastName}`,
 					status: player.isActive ? 'Active' : 'In-Active',
 					isInternal: player.isInternalUser ? 'YES' : 'NO',
-					kycStatus: player?.kycStatus === 'true' ? 'Completed' : 'Pending',
+					kycStatus: player?.kycStatus ? 'Approved' : 'Pending',
 					randomColor,
 				};
 			});
