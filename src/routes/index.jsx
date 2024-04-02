@@ -413,7 +413,7 @@ const authProtectedRoutes = [
 	{
 		path: '/image-gallery',
 		component: <ImageGallery />,
-		modules: [modules.galley],
+		modules: [modules.gallery],
 		operation: 'R',
 	},
 	{

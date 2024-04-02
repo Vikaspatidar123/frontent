@@ -199,7 +199,7 @@ const sideBarElements = [
 			modules.page,
 			modules.banner,
 			modules.emailTemplate,
-			modules.galley,
+			modules.gallery,
 		],
 		subMenu: [
 			{
@@ -239,7 +239,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.galley,
+				module: modules.gallery,
 			},
 			{
 				id: 21,
