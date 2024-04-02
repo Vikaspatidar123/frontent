@@ -13,7 +13,7 @@ const modules = {
 
 	banner: 'banner',
 
-	galley: 'galley',
+	gallery: 'gallery',
 
 	limits: 'limits',
 
@@ -64,7 +64,7 @@ const permissionIcons = () => ({
 	[modules.gameReport]: <i className="bx bx-football" />,
 	[modules.comment]: <i className="bx bx-comment-dots" />,
 	[modules.BetSettings]: <i className="bx bx-wrench" />,
-	[modules.galley]: <i className="bx bxs-image" />,
+	[modules.gallery]: <i className="bx bxs-image" />,
 	[modules.report]: <i className="bx bx-wallet-alt" />,
 	[modules.emailTemplate]: <i className="bx bx-mail-send" />,
 	[modules.language]: <i className="mdi mdi-google-translate" />,

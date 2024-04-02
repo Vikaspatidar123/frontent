@@ -1,17 +1,8 @@
 import React from 'react';
 
-import {
-	Row,
-	Col,
-	Card,
-	CardBody,
-	Container,
-	UncontrolledTooltip,
-	Button,
-} from 'reactstrap';
+import { Row, Col, Card, CardBody, Container } from 'reactstrap';
 
 // Breadcrumb
-import PropTypes from 'prop-types';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
 import { projectName } from '../../constants/config';
@@ -22,63 +13,7 @@ import { modules } from '../../constants/permissions';
 import CrudSection from '../../components/Common/CrudSection';
 import ModalView from '../../components/Common/Modal';
 import ImageUploader from '../../components/Common/ImageUploader';
-
-const ImageGalleryGrid = ({ imageGalleryList, isGranted, deleteImage }) =>
-	imageGalleryList.length ? (
-		imageGalleryList?.map((f) => (
-			<div className="col-sm-4 col-md-3 col-lg-2 p-0 mb-4">
-				<div
-					key={`${f}-file`}
-					className="bg-transparent h-100 align-items-center dz-processing dz-image-preview dz-success dz-complete"
-				>
-					<div className="img-parent h-100 position-relative ">
-						<img
-							data-dz-thumbnail=""
-							className="rounded bg-light h-100"
-							alt={f}
-							src={f}
-						/>
-						<Col className="trash-btn position-absolute top-0 end-0">
-							<Button
-								hidden={!isGranted(modules.galley, 'D')}
-								className="btn btn-sm btn-soft-danger"
-								onClick={() => deleteImage(f)}
-							>
-								<i className="mdi mdi-delete-outline" id="deletetooltip" />
-								<UncontrolledTooltip placement="top" target="deletetooltip">
-									Delete
-								</UncontrolledTooltip>
-							</Button>
-						</Col>
-					</div>
-				</div>
-			</div>
-		))
-	) : (
-		<div className="text-center mb-3">No Images Available</div>
-	);
-
-ImageGalleryGrid.defaultProps = {
-	imageGalleryList: [],
-	isGranted: true,
-	deleteImage: () => null,
-};
-
-ImageGalleryGrid.propTypes = {
-	imageGalleryList: PropTypes.arrayOf(
-		PropTypes.objectOf(
-			PropTypes.oneOfType([
-				PropTypes.object,
-				PropTypes.func,
-				PropTypes.bool,
-				PropTypes.number,
-				PropTypes.string,
-			])
-		)
-	),
-	isGranted: PropTypes.bool,
-	deleteImage: PropTypes.func,
-};
+import ImageGalleryGrid from '../../components/Common/ImageGalleryGrid';
 
 const ImageGallery = () => {
 	// meta title
@@ -99,7 +34,7 @@ const ImageGallery = () => {
 
 	return (
 		<div className="page-content">
-			{isGranted(modules.galley, 'R') && (
+			{isGranted(modules.gallery, 'R') && (
 				<Container fluid>
 					<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
 					<Row>
@@ -122,6 +57,7 @@ const ImageGallery = () => {
 													imageGalleryList={imageGallery}
 													isGranted={isGranted}
 													deleteImage={deleteImage}
+													imageColClass="col-sm-4 col-md-3 col-lg-2 p-0 mb-4"
 												/>
 											)}
 										</Row>

@@ -4,7 +4,6 @@ import { Row, Col, Card, Button } from 'reactstrap';
 import { Buffer } from 'buffer';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import TabsPage from '../../components/Common/TabsPage';
 import { showToastr } from '../../utils/helpers';
 import FormModal from '../../components/Common/FormModal';
@@ -17,6 +16,8 @@ import {
 } from './formDetails';
 import { testEmailTemplate, getImageGallery } from '../../store/actions';
 import CodeEditor from '../../components/Common/CodeEditor';
+import ImageGalleryGrid from '../../components/Common/ImageGalleryGrid';
+import usePermission from '../../components/Common/Hooks/usePermission';
 
 const CreateTemplate = ({
 	languageData,
@@ -36,6 +37,7 @@ const CreateTemplate = ({
 	const [isTestTemplateModalVisible, setIsTestTemplateModalVisible] =
 		useState(false);
 	const dispatch = useDispatch();
+	const { isGranted } = usePermission();
 	const [activeTab, setActiveTab] = useState(1);
 
 	useEffect(() => {
@@ -45,46 +47,23 @@ const CreateTemplate = ({
 	}, [showGallery]);
 
 	useEffect(() => {
-		if (imageGallery?.length) {
-			setImageComponent(
-				<div
-					className="d-flex justify-content-center flex-wrap gap-3 dropzone-previews mt-3"
-					id="file-previews"
-				>
-					{imageGallery.map((f) => (
-						<Col key={`${f}-file`}>
-							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
-								<div className="p-2">
-									<CopyToClipboard
-										text={f}
-										onCopy={() => {
-											setShowGallery(false);
-											showToastr({
-												message: 'Copied To ClipBoard',
-												type: 'success',
-											});
-										}}
-									>
-										<img
-											data-dz-thumbnail=""
-											height="200"
-											width="250"
-											className="rounded me-2 bg-light"
-											alt={f}
-											src={f}
-										/>
-									</CopyToClipboard>
-								</div>
-							</Card>
-						</Col>
-					))}
-				</div>
-			);
-		} else {
-			setImageComponent(
-				<div className="text-center text-danger">No Images Found</div>
-			);
-		}
+		setImageComponent(
+			<Row>
+				<ImageGalleryGrid
+					imageGalleryList={imageGallery}
+					isGranted={isGranted}
+					deleteImage={false}
+					imageColClass="col-sm-4 col-md-4 col-lg-4 px-2 mb-4"
+					onCopyClipboard={() => {
+						setShowGallery(false);
+						showToastr({
+							message: 'Copied To ClipBoard',
+							type: 'success',
+						});
+					}}
+				/>
+			</Row>
+		);
 	}, [imageGallery]);
 
 	const tabData = languageData?.languages?.map((item) => ({

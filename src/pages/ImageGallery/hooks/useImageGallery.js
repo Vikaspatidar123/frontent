@@ -66,7 +66,7 @@ const useImageGallery = () => {
 	});
 
 	const handleFileUpload = (files) => {
-		if (isGranted(modules.galley, 'U')) {
+		if (isGranted(modules.gallery, 'U')) {
 			const formattedFiles = files.map((file) =>
 				Object.assign(file, {
 					preview: URL.createObjectURL(file),

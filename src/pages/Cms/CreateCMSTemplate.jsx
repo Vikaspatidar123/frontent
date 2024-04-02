@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Card, Label } from 'reactstrap';
+import { Row, Col, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import TabsPage from '../../components/Common/TabsPage';
 import { CustomInputField } from '../../helpers/customForms';
 import Modal from '../../components/Common/Modal';
@@ -10,6 +9,8 @@ import CodeEditor from '../../components/Common/CodeEditor';
 import { showToastr } from '../../utils/helpers';
 
 import { getImageGallery } from '../../store/actions';
+import ImageGalleryGrid from '../../components/Common/ImageGalleryGrid';
+import usePermission from '../../components/Common/Hooks/usePermission';
 
 const CreateCMSTemplate = ({
 	languageData,
@@ -30,6 +31,7 @@ const CreateCMSTemplate = ({
 	const { imageGallery } = useSelector((state) => state.EmailTemplate);
 	const [imageComponent, setImageComponent] = useState();
 	const [activeTab, setActiveTab] = useState(1);
+	const { isGranted } = usePermission();
 
 	const tabData = useMemo(
 		() =>
@@ -86,46 +88,23 @@ const CreateCMSTemplate = ({
 	}, [showGallery]);
 
 	useEffect(() => {
-		if (imageGallery?.length) {
-			setImageComponent(
-				<div
-					className="d-flex justify-content-center flex-wrap gap-3 dropzone-previews mt-3"
-					id="file-previews"
-				>
-					{imageGallery.map((f) => (
-						<Col key={`${f}-file`}>
-							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
-								<div className="p-2">
-									<CopyToClipboard
-										text={f}
-										onCopy={() => {
-											setShowGallery(false);
-											showToastr({
-												message: 'Copied To ClipBoard',
-												type: 'success',
-											});
-										}}
-									>
-										<img
-											data-dz-thumbnail=""
-											height="200"
-											width="250"
-											className="rounded me-2 bg-light"
-											alt={f}
-											src={f}
-										/>
-									</CopyToClipboard>
-								</div>
-							</Card>
-						</Col>
-					))}
-				</div>
-			);
-		} else {
-			setImageComponent(
-				<div className="text-center text-danger">No Images Found</div>
-			);
-		}
+		setImageComponent(
+			<Row>
+				<ImageGalleryGrid
+					imageGalleryList={imageGallery}
+					isGranted={isGranted}
+					deleteImage={false}
+					imageColClass="col-sm-4 col-md-4 col-lg-4 px-2 mb-4"
+					onCopyClipboard={() => {
+						setShowGallery(false);
+						showToastr({
+							message: 'Copied To ClipBoard',
+							type: 'success',
+						});
+					}}
+				/>
+			</Row>
+		);
 	}, [imageGallery]);
 
 	const toggle = (tab) => {
