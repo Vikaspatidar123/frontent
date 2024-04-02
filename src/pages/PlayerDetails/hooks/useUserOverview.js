@@ -9,6 +9,11 @@ const useUserOverview = ({ user }) => {
 	const showStyle = (data) => (data ? 'text-success' : 'text-danger');
 	const printData = (data) => (data ? 'Yes' : 'No');
 	const address = user?.addresses?.[0];
+	let tags = '';
+	user?.userTags?.forEach((t, idx) => {
+		tags += `${t?.tag?.tag} ${idx + 1 !== user?.userTags?.length ? ',' : ''}`;
+	});
+
 	const basicInfo = [
 		{ label: 'ID', value: playerId },
 		{ label: 'Email', value: user?.email },
@@ -37,11 +42,7 @@ const useUserOverview = ({ user }) => {
 		{ label: 'Reason', value: !user?.isActive ? user?.reason : '' },
 		{
 			label: 'Tags',
-			value: user?.tags
-				? user?.tags?.length < 1
-					? 'NA'
-					: user?.tags?.join(', ')
-				: 'NA',
+			value: tags || 'NA',
 		},
 		// { label: 'SumSub Applicant Id', value: user?.applicantId },
 	];

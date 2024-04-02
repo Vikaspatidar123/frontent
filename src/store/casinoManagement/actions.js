@@ -47,9 +47,6 @@ import {
 	DELETE_CASINO_SUB_CATEGORY_START,
 	DELETE_CASINO_SUB_CATEGORY_SUCCESS,
 	DELETE_CASINO_SUB_CATEGORY_FAIL,
-	DELETE_CASINO_GAMES_START,
-	DELETE_CASINO_GAMES_SUCCESS,
-	DELETE_CASINO_GAMES_FAIL,
 	REORDER_CASINO_CATEGORY_START,
 	REORDER_CASINO_CATEGORY_SUCCESS,
 	REORDER_CASINO_CATEGORY_FAIL,
@@ -315,21 +312,6 @@ export const deleteCasinoSubCategorySuccess = (payload) => ({
 
 export const deleteCasinoSubCategoryFail = (payload) => ({
 	type: DELETE_CASINO_SUB_CATEGORY_FAIL,
-	payload,
-});
-
-export const deleteCasinoGamesStart = (payload) => ({
-	type: DELETE_CASINO_GAMES_START,
-	payload,
-});
-
-export const deleteCasinoGamesSuccess = (payload) => ({
-	type: DELETE_CASINO_GAMES_SUCCESS,
-	payload,
-});
-
-export const deleteCasinoGamesFail = (payload) => ({
-	type: DELETE_CASINO_GAMES_FAIL,
 	payload,
 });
 

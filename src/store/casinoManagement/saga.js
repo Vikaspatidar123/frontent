@@ -35,8 +35,6 @@ import {
 	addGameToSubCategoryFail,
 	deleteCasinoSubCategorySuccess,
 	deleteCasinoSubCategoryFail,
-	deleteCasinoGamesSuccess,
-	deleteCasinoGamesFail,
 	reorderCasinoCategorySuccess,
 	reorderCasinoCategoryFail,
 	reorderCasinoSubCategorySuccess,
@@ -66,7 +64,6 @@ import {
 	UPDATE_GAME_ISFEATURED_START,
 	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
 	DELETE_CASINO_SUB_CATEGORY_START,
-	DELETE_CASINO_GAMES_START,
 	REORDER_CASINO_CATEGORY_START,
 	REORDER_CASINO_SUB_CATEGORY_START,
 	REORDER_CASINO_GAMES_START,
@@ -101,7 +98,6 @@ import {
 	deleteSubCategory,
 } from '../../network/postRequests';
 
-import { deleteCasinoGames } from '../../network/deleteRequests';
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { clearEmptyProperty, showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
@@ -504,31 +500,6 @@ function* deleteCasinoSubCategoryWorker(action) {
 	}
 }
 
-function* deleteCasinoGamesWorker(action) {
-	try {
-		const { casinoGameId, limit, pageNo, search } = action && action.payload;
-
-		yield deleteCasinoGames({
-			casinoGameId,
-		});
-
-		showToastr({
-			message: 'Game Deleted Successfully',
-			type: 'success',
-		});
-
-		yield put(deleteCasinoGamesSuccess());
-		yield getAllCasinoGames({
-			casinoGameId,
-			limit,
-			pageNo,
-			search,
-		});
-	} catch (e) {
-		yield put(deleteCasinoGamesFail());
-	}
-}
-
 function* updateCategoryOrder(action) {
 	try {
 		const { data, navigate } = action && action.payload;
@@ -608,7 +579,6 @@ export function* casinoManagementWatcher() {
 		DELETE_CASINO_SUB_CATEGORY_START,
 		deleteCasinoSubCategoryWorker
 	);
-	yield takeLatest(DELETE_CASINO_GAMES_START, deleteCasinoGamesWorker);
 	yield takeLatest(REORDER_CASINO_CATEGORY_START, updateCategoryOrder);
 	yield takeLatest(REORDER_CASINO_SUB_CATEGORY_START, updateSubCategoryOrder);
 	yield takeLatest(REORDER_CASINO_GAMES_START, updateReorderGamesWorker);

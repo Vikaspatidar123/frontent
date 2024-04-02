@@ -48,9 +48,6 @@ import {
 	DELETE_CASINO_SUB_CATEGORY_START,
 	DELETE_CASINO_SUB_CATEGORY_SUCCESS,
 	DELETE_CASINO_SUB_CATEGORY_FAIL,
-	DELETE_CASINO_GAMES_START,
-	DELETE_CASINO_GAMES_SUCCESS,
-	DELETE_CASINO_GAMES_FAIL,
 	REORDER_CASINO_CATEGORY_START,
 	REORDER_CASINO_CATEGORY_SUCCESS,
 	REORDER_CASINO_CATEGORY_FAIL,
@@ -119,9 +116,6 @@ const INIT_STATE = {
 	isDeleteCasinoSubCategorySuccess: false,
 	isDeleteCasinoSubCategoryError: null,
 	isDeleteCasinoSubCategoryLoading: false,
-	isDeleteCasinoGamesSuccess: false,
-	isDeleteCasinoGamesError: null,
-	isDeleteCasinoGamesLoading: false,
 	isReorderCasinoCategorySuccess: false,
 	isReorderCasinoCategoryError: null,
 	isReorderCasinoCategoryLoading: false,
@@ -514,30 +508,6 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isDeleteCasinoSubCategoryLoading: false,
 				isDeleteCasinoSubCategorySuccess: false,
 				isDeleteCasinoSubCategoryError: payload,
-			};
-
-		case DELETE_CASINO_GAMES_START:
-			return {
-				...state,
-				isDeleteCasinoGamesLoading: true,
-				isDeleteCasinoGamesSuccess: false,
-				isDeleteCasinoGamesError: null,
-			};
-
-		case DELETE_CASINO_GAMES_SUCCESS:
-			return {
-				...state,
-				isDeleteCasinoGamesLoading: false,
-				isDeleteCasinoGamesSuccess: true,
-				isDeleteCasinoGamesError: null,
-			};
-
-		case DELETE_CASINO_GAMES_FAIL:
-			return {
-				...state,
-				isDeleteCasinoGamesLoading: false,
-				isDeleteCasinoGamesSuccess: false,
-				isDeleteCasinoGamesError: payload,
 			};
 
 		case REORDER_CASINO_CATEGORY_START:

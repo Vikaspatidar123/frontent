@@ -6,16 +6,10 @@ import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({
-	row: { original },
-	handleStatus,
-	onClickEdit,
-	handleDeleteItem,
-}) => {
+const ActionButtons = ({ row: { original }, handleStatus, onClickEdit }) => {
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
 	const casinoGameId = original?.id;
-	const isDisabled = !!original?.parentId;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li data-bs-toggle="tooltip" data-bs-placement="top">
@@ -114,30 +108,6 @@ const ActionButtons = ({
 					</UncontrolledTooltip>
 				</Button>
 			</li>
-
-			<li>
-				<Button
-					type="button"
-					hidden={!isGranted(modules.casinoManagement, 'D')}
-					disabled={!isDisabled}
-					className="btn btn-sm btn-soft-danger"
-					onClick={(e) => {
-						e.preventDefault();
-						handleDeleteItem(casinoGameId);
-					}}
-				>
-					<i
-						className="mdi mdi-delete-outline"
-						id={`deletetooltip-${casinoGameId}`}
-					/>
-					<UncontrolledTooltip
-						placement="top"
-						target={`deletetooltip-${casinoGameId}`}
-					>
-						Delete
-					</UncontrolledTooltip>
-				</Button>
-			</li>
 		</ul>
 	);
 };
@@ -146,7 +116,6 @@ ActionButtons.prototype = {
 	original: PropTypes.objectOf.isRequired,
 	handleStatus: PropTypes.func.isRequired,
 	onClickEdit: PropTypes.func.isRequired,
-	handleDeleteItem: PropTypes.func.isRequired,
 };
 
 export default ActionButtons;
