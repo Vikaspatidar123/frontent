@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Row, Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 import { CSVLink } from 'react-csv';
 import { isEmpty } from 'lodash';
 import GraphicChart from './GraphicChart';
 import DemoGraphicTable from './DemoGraphicTable';
 import { dateConstants } from '../constant';
+import useDemoGraphicReport from './hooks/useDemoGraphicReport';
 
-const DemographicReport = (props) => {
+const DemographicReport = () => {
 	const {
 		demoGrapFormatedData,
 		demoGraphOptions,
@@ -18,7 +18,7 @@ const DemographicReport = (props) => {
 		setDemoDateOptions,
 		isDemographicLoading,
 		fetchData,
-	} = props;
+	} = useDemoGraphicReport();
 
 	return (
 		<Col xl="12">
@@ -88,16 +88,6 @@ const DemographicReport = (props) => {
 			</Card>
 		</Col>
 	);
-};
-DemographicReport.propTypes = {
-	demoGraphOptions: PropTypes.arrayOf.isRequired,
-	demoGraphicData: PropTypes.arrayOf.isRequired,
-	demoGraphColumn: PropTypes.arrayOf.isRequired,
-	demoDateOptions: PropTypes.arrayOf.isRequired,
-	setDemoDateOptions: PropTypes.func.isRequired,
-	isDemographicLoading: PropTypes.bool.isRequired,
-	demoGrapFormatedData: PropTypes.arrayOf.isRequired,
-	fetchData: PropTypes.func.isRequired,
 };
 
 export default DemographicReport;

@@ -1,31 +1,26 @@
-// import React from 'react';
-// import { Badge } from 'reactstrap';
-// import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
-
 const ProviderName = ({ cell }) => cell;
 
-const GGR = ({ cell }) => cell;
+const Ggr = ({ cell }) => cell;
 
-const DELTAGGR = ({ cell }) => cell;
+const DeltaGgr = ({ cell }) => cell;
 
-const REALBET = ({ cell }) => cell;
+const RealBet = ({ cell }) => cell;
 
-const REALWIN = ({ cell }) => cell;
+const RealWin = ({ cell }) => cell;
 
-const BONUSWIN = ({ cell }) => cell;
-const BONUSGGR = ({ cell }) => cell;
-const TOTALBETS = ({ cell }) => cell;
-const DELTATOTALBETS = ({ cell }) => cell;
+const BonusWin = ({ cell }) => cell;
+const BonusGgr = ({ cell }) => cell;
+const TotalBets = ({ cell }) => cell;
+const DeltaTotalBets = ({ cell }) => cell;
 
 export {
 	ProviderName,
-	GGR,
-	DELTAGGR,
-	REALBET,
-	REALWIN,
-	BONUSWIN,
-	BONUSGGR,
-	TOTALBETS,
-	DELTATOTALBETS,
+	Ggr,
+	DeltaGgr,
+	RealBet,
+	BonusWin,
+	RealWin,
+	BonusGgr,
+	TotalBets,
+	DeltaTotalBets,
 };

@@ -1,27 +1,17 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
-import PropTypes from 'prop-types';
-import {
-	Col,
-	Card,
-	Nav,
-	CardBody,
-	NavItem,
-	NavLink,
-	TabContent,
-	TabPane,
-	UncontrolledTooltip,
-} from 'reactstrap';
-import classnames from 'classnames';
+import { Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 
-// Simple bar
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/TableContainer';
+import TabsPage from '../../../components/Common/TabsPage';
 import { tableCustomClass } from '../../../constants/config';
 import { TABS, dateConstants } from '../constant';
+import { CustomSelectField } from '../../../helpers/customForms';
+import useKpiSummary from './hooks/useKpiSummary';
 
-const KpiSummary = (props) => {
+const KpiSummary = () => {
 	const {
 		activeKpiSummTab,
 		setActiveKpiSummTab,
@@ -32,30 +22,64 @@ const KpiSummary = (props) => {
 		kpiSummaryDate,
 		setKpiSummaryDate,
 		loadKPISummary,
-	} = props;
+	} = useKpiSummary();
 	const lastDate = new Date();
 
 	// add a day
 	lastDate.setDate(lastDate.getDate() + 1);
+
+	const tabComponent = (
+		<SimpleBar style={{ maxHeight: '300px' }}>
+			<TableContainer
+				isLoading={isKpiSummaryLoading}
+				columns={kPISummaryColumn || []}
+				data={formattedKpiSummary || []}
+				isGlobalFilter={false}
+				customPageSize={kPISummary?.length || 300}
+				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+			/>
+		</SimpleBar>
+	);
+
+	const tabData = [
+		{
+			id: TABS.SPORT,
+			title: 'SPORTS',
+			component: tabComponent,
+		},
+		{
+			id: TABS.CASINO,
+			title: 'CASINO',
+			component: tabComponent,
+		},
+	];
+
+	const toggle = (tab) => {
+		if (activeKpiSummTab !== tab) {
+			setActiveKpiSummTab(tab);
+		}
+	};
+
 	return (
 		<Col xl="12">
 			<Card>
 				<CardBody>
 					<div className="float-end">
 						<div className="d-flex justify-content-between align-items-center">
-							<select
+							<CustomSelectField
+								name="kpiSummaryDateFilter"
+								type="select"
 								value={kpiSummaryDate}
-								className="form-select ms-2"
+								key="my_unique_select_key__kpiSummaryDateFilter"
 								onChange={(e) => {
 									setKpiSummaryDate(e.target.value);
 								}}
-							>
-								{dateConstants?.map((item) => (
+								options={dateConstants?.map((item) => (
 									<option value={item.value} key={item.value}>
 										{item.label}
 									</option>
 								))}
-							</select>
+							/>
 							<CSVLink
 								data={formattedKpiSummary || []}
 								filename="downloaded_data.csv"
@@ -86,109 +110,16 @@ const KpiSummary = (props) => {
 						</UncontrolledTooltip>
 					</div>
 
-					<Nav pills className="bg-light rounded" role="tablist">
-						<NavItem>
-							<NavLink
-								className={classnames({
-									active: activeKpiSummTab === TABS.SPORT,
-								})}
-								onClick={() => setActiveKpiSummTab(TABS.SPORT)}
-							>
-								Sports
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink
-								className={classnames({
-									active: activeKpiSummTab === TABS.CASINO,
-								})}
-								onClick={() => setActiveKpiSummTab(TABS.CASINO)}
-							>
-								Casino
-							</NavLink>
-						</NavItem>
-					</Nav>
-					<TabContent
+					<TabsPage
 						activeTab={activeKpiSummTab}
-						className="mt-2 kpi-dashboard-tab"
-					>
-						<TabPane tabId="banking">
-							<SimpleBar style={{ maxHeight: '310px' }}>
-								<TableContainer
-									isLoading={isKpiSummaryLoading}
-									columns={kPISummaryColumn || []}
-									data={formattedKpiSummary || []}
-									isGlobalFilter={false}
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass="kpiTableWrap"
-									// theadClass={theadClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									pageCount={1}
-									customPageSize={kPISummary?.count || 100}
-									// tbodyHeight="300"
-									// isLoading={!isLoading}
-								/>
-							</SimpleBar>
-						</TabPane>
-						<TabPane tabId="sport">
-							<SimpleBar style={{ maxHeight: '310px' }}>
-								<TableContainer
-									isLoading={isKpiSummaryLoading}
-									columns={kPISummaryColumn || []}
-									data={formattedKpiSummary || []}
-									isGlobalFilter
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass={tbodyClass}
-									// theadClass={theadClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									pageCount={1}
-									customPageSize={kPISummary?.count || 100}
-									// isLoading={!isLoading}
-									// tbodyHeight="300"
-								/>
-							</SimpleBar>
-						</TabPane>
-
-						<TabPane tabId="casino">
-							<SimpleBar style={{ maxHeight: '310px' }}>
-								<TableContainer
-									isLoading={isKpiSummaryLoading}
-									columns={kPISummaryColumn || []}
-									data={formattedKpiSummary || []}
-									isGlobalFilter
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass={tbodyClass}
-									// theadClass={theadClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									pageCount={1}
-									customPageSize={kPISummary?.count || 100}
-									// isLoading={!isLoading}
-									// tbodyHeight="300"
-								/>
-							</SimpleBar>
-						</TabPane>
-					</TabContent>
+						tabsData={tabData}
+						toggle={toggle}
+						navClass="bg-light rounded p-0"
+					/>
 				</CardBody>
 			</Card>
 		</Col>
 	);
-};
-KpiSummary.propTypes = {
-	activeKpiSummTab: PropTypes.string.isRequired,
-	setActiveKpiSummTab: PropTypes.func.isRequired,
-	kPISummaryColumn: PropTypes.arrayOf.isRequired,
-	kPISummary: PropTypes.arrayOf.isRequired,
-	formattedKpiSummary: PropTypes.arrayOf.isRequired,
-	isKpiSummaryLoading: PropTypes.bool.isRequired,
-	kpiSummaryDate: PropTypes.string.isRequired,
-	setKpiSummaryDate: PropTypes.func.isRequired,
-	loadKPISummary: PropTypes.func.isRequired,
 };
 
 export default KpiSummary;

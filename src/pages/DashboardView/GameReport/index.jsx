@@ -1,28 +1,16 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-
 import React from 'react';
-import PropTypes from 'prop-types';
-import {
-	Col,
-	Card,
-	Nav,
-	CardBody,
-	NavItem,
-	NavLink,
-	TabContent,
-	TabPane,
-	UncontrolledTooltip,
-} from 'reactstrap';
-import classnames from 'classnames';
-
-// Simple bar
+import { Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/TableContainer';
 import { tableCustomClass } from '../../../constants/config';
 import { TABS, dateConstants } from '../constant';
+import { CustomSelectField } from '../../../helpers/customForms';
+import TabsPage from '../../../components/Common/TabsPage';
+import useGameReport from './hooks/useGameReport';
 
-const GameReport = (props) => {
+const GameReport = () => {
 	const {
 		activeGameReportTab,
 		setActiveGameReportTab,
@@ -32,7 +20,39 @@ const GameReport = (props) => {
 		gameReportDateOption,
 		setGameReportDateOption,
 		loadGameReport,
-	} = props;
+	} = useGameReport();
+
+	const tabComponent = (
+		<SimpleBar style={{ maxHeight: '300px' }}>
+			<TableContainer
+				isLoading={isGameReportLoading}
+				columns={gameReportColumn || []}
+				data={gameReport || []}
+				isGlobalFilter={false}
+				customPageSize={gameReport?.length || 300}
+				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+			/>
+		</SimpleBar>
+	);
+
+	const tabData = [
+		{
+			id: TABS.GAME,
+			title: 'GAME',
+			component: tabComponent,
+		},
+		{
+			id: TABS.PROVIDER,
+			title: 'PROVIDER',
+			component: tabComponent,
+		},
+	];
+
+	const toggle = (tab) => {
+		if (activeGameReportTab !== tab) {
+			setActiveGameReportTab(tab);
+		}
+	};
 
 	return (
 		<Col xl="12">
@@ -40,19 +60,20 @@ const GameReport = (props) => {
 				<CardBody>
 					<div className="float-end">
 						<div className="d-flex justify-content-between align-items-center">
-							<select
-								value={gameReportDateOption}
-								className="form-select ms-2"
+							<CustomSelectField
+								name="gameReportDateFilter"
+								type="select"
 								onChange={(e) => {
 									setGameReportDateOption(e.target.value);
 								}}
-							>
-								{dateConstants?.map((item) => (
+								value={gameReportDateOption}
+								key="my_unique_select_key__gameReportDateFilter"
+								options={dateConstants?.map((item) => (
 									<option value={item.value} key={item.value}>
 										{item.label}
 									</option>
 								))}
-							</select>
+							/>
 							<CSVLink
 								data={gameReport || []}
 								filename="downloaded_data.csv"
@@ -83,89 +104,16 @@ const GameReport = (props) => {
 						</UncontrolledTooltip>
 					</div>
 
-					<Nav pills className="bg-light rounded" role="tablist">
-						<NavItem>
-							<NavLink
-								className={classnames({
-									active: activeGameReportTab === TABS.GAME,
-								})}
-								onClick={() => {
-									setActiveGameReportTab(TABS.GAME);
-								}}
-							>
-								GAME
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink
-								className={classnames({
-									active: activeGameReportTab === TABS.PROVIDER,
-								})}
-								onClick={() => {
-									setActiveGameReportTab(TABS.PROVIDER);
-								}}
-							>
-								PROVIDER
-							</NavLink>
-						</NavItem>
-					</Nav>
-					<TabContent
+					<TabsPage
 						activeTab={activeGameReportTab}
-						className="mt-2 kpi-dashboard-tab"
-					>
-						<TabPane tabId="game">
-							<SimpleBar style={{ maxHeight: '310px' }}>
-								<TableContainer
-									isLoading={isGameReportLoading}
-									columns={gameReportColumn || []}
-									data={gameReport || []}
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass="kpiTableWrap"
-									// theadClass={theadClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									pageCount={1}
-									customPageSize={gameReport?.length || 50}
-									// tbodyHeight="300"
-									// isLoading={!isLoading}
-								/>
-							</SimpleBar>
-						</TabPane>
-						<TabPane tabId="provider">
-							<SimpleBar style={{ maxHeight: '310px' }}>
-								<TableContainer
-									isLoading={isGameReportLoading}
-									columns={gameReportColumn || []}
-									data={gameReport || []}
-									isGlobalFilter
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass={tbodyClass}
-									// theadClass={theadClass}
-									customPageSize={gameReport?.length || 50}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									// isLoading={!isLoading}
-									// tbodyHeight="300"
-								/>
-							</SimpleBar>
-						</TabPane>
-					</TabContent>
+						tabsData={tabData}
+						toggle={toggle}
+						navClass="bg-light rounded p-0"
+					/>
 				</CardBody>
 			</Card>
 		</Col>
 	);
-};
-GameReport.propTypes = {
-	activeGameReportTab: PropTypes.string.isRequired,
-	setActiveGameReportTab: PropTypes.func.isRequired,
-	gameReportColumn: PropTypes.arrayOf.isRequired,
-	gameReport: PropTypes.arrayOf.isRequired,
-	isGameReportLoading: PropTypes.bool.isRequired,
-	gameReportDateOption: PropTypes.string.isRequired,
-	setGameReportDateOption: PropTypes.func.isRequired,
-	loadGameReport: PropTypes.func.isRequired,
 };
 
 export default GameReport;
