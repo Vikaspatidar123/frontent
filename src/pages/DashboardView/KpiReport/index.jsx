@@ -1,29 +1,17 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-
 import React from 'react';
-import PropTypes from 'prop-types';
-import {
-	Col,
-	Card,
-	Nav,
-	CardBody,
-	NavItem,
-	NavLink,
-	TabContent,
-	TabPane,
-	UncontrolledTooltip,
-} from 'reactstrap';
-import classnames from 'classnames';
+import { Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 
-// Simple bar
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/TableContainer';
-// import { tableCustomClass } from '../../../constants/config';
 import { TABS, dateConstants } from '../constant';
 import { tableCustomClass } from '../../../constants/config';
+import TabsPage from '../../../components/Common/TabsPage';
+import { CustomSelectField } from '../../../helpers/customForms';
+import useKpiReport from './hooks/useKpiReport';
 
-const KpiReport = (props) => {
+const KpiReport = () => {
 	const {
 		activeKpiReportTab,
 		setActiveKpiReportTab,
@@ -33,26 +21,59 @@ const KpiReport = (props) => {
 		kpiReportDateOption,
 		setKpiReportDateOption,
 		loadKPIReport,
-	} = props;
+	} = useKpiReport();
+
+	const tabComponent = (
+		<SimpleBar style={{ maxHeight: '300px', minHeight: '300px' }}>
+			<TableContainer
+				isLoading={isKpiReportLoading}
+				columns={kPIReportColumn}
+				data={kPIReport || []}
+				isGlobalFilter={false}
+				customPageSize={kPIReport || 300}
+				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+			/>
+		</SimpleBar>
+	);
+
+	const tabData = [
+		{
+			id: TABS.GAME,
+			title: 'GAME',
+			component: tabComponent,
+		},
+		{
+			id: TABS.PROVIDER,
+			title: 'PROVIDER',
+			component: tabComponent,
+		},
+	];
+
+	const toggle = (tab) => {
+		if (activeKpiReportTab !== tab) {
+			setActiveKpiReportTab(tab);
+		}
+	};
 	return (
 		<Col xl="12">
 			<Card>
 				<CardBody>
 					<div className="float-end">
 						<div className="d-flex justify-content-between align-items-center">
-							<select
-								value={kpiReportDateOption}
-								className="form-select ms-2"
+							<CustomSelectField
+								name="kpiReportDateFilter"
+								type="select"
 								onChange={(e) => {
 									setKpiReportDateOption(e.target.value);
 								}}
-							>
-								{dateConstants?.map((item) => (
+								value={kpiReportDateOption}
+								key="my_unique_select_key__kpiReportDateFilter"
+								options={dateConstants?.map((item) => (
 									<option value={item.value} key={item.value}>
 										{item.label}
 									</option>
 								))}
-							</select>
+							/>
 							<CSVLink
 								data={kPIReport || []}
 								filename="downloaded_data.csv"
@@ -83,87 +104,16 @@ const KpiReport = (props) => {
 						</UncontrolledTooltip>
 					</div>
 
-					<Nav pills className="bg-light rounded" role="tablist">
-						<NavItem>
-							<NavLink
-								className={classnames({
-									active: activeKpiReportTab === TABS.GAME,
-								})}
-								onClick={() => {
-									setActiveKpiReportTab(TABS.GAME);
-								}}
-							>
-								GAME
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink
-								className={classnames({
-									active: activeKpiReportTab === TABS.PROVIDER,
-								})}
-								onClick={() => {
-									setActiveKpiReportTab(TABS.PROVIDER);
-								}}
-							>
-								PROVIDER
-							</NavLink>
-						</NavItem>
-					</Nav>
-					<TabContent
+					<TabsPage
 						activeTab={activeKpiReportTab}
-						className="mt-2 kpi-dashboard-tab"
-					>
-						<TabPane tabId="game">
-							<SimpleBar style={{ maxHeight: '310px' }}>
-								<TableContainer
-									isLoading={isKpiReportLoading}
-									columns={kPIReportColumn || []}
-									data={kPIReport || []}
-									isGlobalFilter={false}
-									customPageSize={kPIReport?.length || 50}
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass="kpiTableWrap"
-									// theadClass={theadClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									pageCount={1}
-								/>
-							</SimpleBar>
-						</TabPane>
-						<TabPane tabId="provider">
-							<SimpleBar style={{ maxHeight: '310px' }}>
-								<TableContainer
-									isLoading={isKpiReportLoading}
-									columns={kPIReportColumn || []}
-									data={kPIReport || []}
-									isGlobalFilter={false}
-									customPageSize={kPIReport?.length || 50}
-									isPagination={false}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									// tbodyClass="kpiTableWrap"
-									// theadClass={theadClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									pageCount={1}
-								/>
-							</SimpleBar>
-						</TabPane>
-					</TabContent>
+						tabsData={tabData}
+						toggle={toggle}
+						navClass="bg-light rounded p-0"
+					/>
 				</CardBody>
 			</Card>
 		</Col>
 	);
-};
-KpiReport.propTypes = {
-	activeKpiReportTab: PropTypes.string.isRequired,
-	setActiveKpiReportTab: PropTypes.func.isRequired,
-	kPIReportColumn: PropTypes.arrayOf.isRequired,
-	kPIReport: PropTypes.arrayOf.isRequired,
-	isKpiReportLoading: PropTypes.bool.isRequired,
-	kpiReportDateOption: PropTypes.string.isRequired,
-	setKpiReportDateOption: PropTypes.func.isRequired,
-	loadKPIReport: PropTypes.func.isRequired,
 };
 
 export default KpiReport;
