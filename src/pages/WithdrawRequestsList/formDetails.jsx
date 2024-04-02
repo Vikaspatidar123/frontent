@@ -34,8 +34,8 @@ const staticFiltersFields = () => [
 const filterValues = () => ({
 	searchString: '',
 	status: null,
-	startDate: null,
-	endDate: null,
+	fromDate: null,
+	toDate: null,
 	paymentProvider: '',
 });
 
@@ -43,8 +43,8 @@ const filterValidationSchema = () =>
 	Yup.object({
 		searchString: Yup.string().nullable(),
 		status: Yup.string().nullable(),
-		startDate: Yup.string().nullable(),
-		endDate: Yup.string().nullable(),
+		fromDate: Yup.string().nullable(),
+		toDate: Yup.string().nullable(),
 		paymentProvider: Yup.string().nullable(),
 	});
 

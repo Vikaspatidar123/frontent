@@ -31,7 +31,7 @@ const Live = ({ cell }) =>
 		<span className="text-danger">NO</span>
 	);
 
-const StartDate = ({ cell }) => (cell?.value ? getDateTime(cell?.value) : '-');
+const FromDate = ({ cell }) => (cell?.value ? getDateTime(cell?.value) : '-');
 
 const eventColumns = [
 	{
@@ -75,9 +75,9 @@ const eventColumns = [
 	},
 	{
 		Header: 'Start Date',
-		accessor: 'startDate',
+		accessor: 'fromDate',
 		filterable: false,
-		Cell: ({ cell }) => <StartDate cell={cell} />,
+		Cell: ({ cell }) => <FromDate cell={cell} />,
 	},
 ];
 

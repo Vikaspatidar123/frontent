@@ -20,13 +20,13 @@ const useFilters = () => {
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
-	const fetchData = ({ endDate, startDate, ...rest }) => {
+	const fetchData = ({ toDate, fromDate, ...rest }) => {
 		dispatch(
 			fetchPlayersStart({
 				perPage: itemsPerPage,
 				page: 1,
-				dobStart: startDate ? moment(startDate).format('YYYY-MM-DD') : '',
-				dobEnd: endDate ? moment(endDate).format('YYYY-MM-DD') : '',
+				dobStart: fromDate ? moment(fromDate).format('YYYY-MM-DD') : '',
+				dobEnd: toDate ? moment(toDate).format('YYYY-MM-DD') : '',
 				...rest,
 			})
 		);

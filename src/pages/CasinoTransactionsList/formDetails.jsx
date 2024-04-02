@@ -68,12 +68,12 @@ const staticFiltersFields = () => [
 		placeholder: 'Date Range',
 	},
 ];
-const startDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
-const endDate = new Date(); // Do not define it inside filterValue function
+const fromDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
+const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
-	startDate: '',
-	endDate: '',
+	fromDate: '',
+	toDate: '',
 	gameId: '',
 	walletId: '',
 	actioneeId: '',
@@ -87,8 +87,8 @@ const filterValues = () => ({
 const filterValidationSchema = () =>
 	Yup.object({
 		status: Yup.string().nullable(),
-		startDate: Yup.string().nullable(),
-		endDate: Yup.string().nullable(),
+		fromDate: Yup.string().nullable(),
+		toDate: Yup.string().nullable(),
 		transactionType: Yup.string().nullable(),
 		gameId: Yup.string().nullable(),
 		walletId: Yup.string().nullable(),

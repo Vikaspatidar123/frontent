@@ -28,8 +28,6 @@ const useFilters = () => {
 			fetchTransactionBankingStart({
 				perPage: itemsPerPage,
 				page: 1,
-				fromDate: values?.startDate,
-				toDate: values?.endDate,
 				...values,
 			})
 		);
