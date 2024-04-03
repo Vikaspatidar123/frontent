@@ -1,14 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
-import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty, isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
 	staticFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { fetchPlayersStart } from '../../../store/actions';
+import {
+	fetchCountriesStart,
+	fetchPlayersStart,
+	getAllTags,
+} from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
@@ -19,15 +22,15 @@ const useFilters = () => {
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
+	const { userTags } = useSelector((state) => state.UserDetails);
+	const { countries } = useSelector((state) => state.Countries);
 
-	const fetchData = ({ toDate, fromDate, ...rest }) => {
+	const fetchData = (values) => {
 		dispatch(
 			fetchPlayersStart({
 				perPage: itemsPerPage,
 				page: 1,
-				dobStart: fromDate ? moment(fromDate).format('YYYY-MM-DD') : '',
-				dobEnd: toDate ? moment(toDate).format('YYYY-MM-DD') : '',
-				...rest,
+				...values,
 			})
 		);
 	};
@@ -36,7 +39,7 @@ const useFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields } = useForm({
+	const { validation, formFields, setFormFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
@@ -51,6 +54,46 @@ const useFilters = () => {
 		const initialValues = filterValues();
 		validation.resetForm(initialValues);
 	};
+
+	useEffect(() => {
+		if (isEmpty(userTags)) {
+			dispatch(getAllTags());
+		}
+
+		if (isEmpty(countries)) {
+			dispatch(fetchCountriesStart());
+		}
+	}, []);
+
+	useEffect(() => {
+		if (!isEmpty(userTags) && !isEmpty(countries)) {
+			const tags = userTags?.map((row) => ({
+				optionLabel: row?.tag,
+				value: row.id,
+			}));
+			const countriesData = countries?.countries?.map((row) => ({
+				optionLabel: row?.name,
+				value: row.id,
+			}));
+			setFormFields([
+				...staticFiltersFields(),
+				{
+					name: 'tagId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select tag',
+					optionList: tags,
+				},
+				{
+					name: 'countryId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select Country',
+					optionList: countriesData,
+				},
+			]);
+		}
+	}, [userTags, countries]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {

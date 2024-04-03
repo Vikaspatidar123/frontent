@@ -53,6 +53,7 @@ const filterValues = () => ({
 	toDate,
 	type: null,
 	purpose: null,
+	tagId: null,
 });
 
 const filterValidationSchema = () =>
@@ -62,6 +63,7 @@ const filterValidationSchema = () =>
 		toDate: Yup.string().nullable(),
 		type: Yup.string().nullable(),
 		purpose: Yup.string().nullable(),
+		tagId: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

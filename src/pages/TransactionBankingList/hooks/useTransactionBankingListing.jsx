@@ -16,6 +16,7 @@ import {
 	Status,
 	FromWallet,
 	ToWallet,
+	Tags,
 } from '../TransactionBankingCol';
 
 const useTransactionBankingListing = (userId, filterValues = {}) => {
@@ -62,6 +63,10 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 					createdAt: moment(transaction?.createdAt)
 						.local()
 						.format('YYYY-MM-DD HH:mm:ss'),
+					userTags:
+						transaction?.toUserWallet?.user?.userTags
+							?.map((tags) => tags?.tag?.tag)
+							?.join(', ') || '-',
 				};
 
 				if (transaction?.fromAdminWallet && transaction?.toUserWallet) {
@@ -110,6 +115,12 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				accessor: 'purpose',
 				filterable: true,
 				Cell: ({ cell }) => <Purpose value={cell.value} />,
+			},
+			{
+				Header: 'Tags',
+				accessor: 'userTags',
+				filterable: true,
+				Cell: ({ cell }) => <Tags value={cell?.value} />,
 			},
 			{
 				Header: 'Transaction Type',

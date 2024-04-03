@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty, isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -10,6 +10,7 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	fetchCasinoTransactionsStart,
+	getAllTags,
 	// fetchCurrenciesStart,
 } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
@@ -23,6 +24,7 @@ const useFilters = () => {
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
+	const { userTags } = useSelector((state) => state.UserDetails);
 
 	const fetchData = (values) => {
 		dispatch(
@@ -38,7 +40,7 @@ const useFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields } = useForm({
+	const { validation, formFields, setFormFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
@@ -48,6 +50,32 @@ const useFilters = () => {
 	// const handleAdvance = () => {
 	//   toggleAdvance();
 	// };
+
+	useEffect(() => {
+		if (isEmpty(userTags)) {
+			dispatch(getAllTags());
+		}
+	}, []);
+
+	useEffect(() => {
+		if (!isEmpty(userTags)) {
+			const tags = userTags?.map((row) => ({
+				optionLabel: row?.tag,
+				value: row.id,
+			}));
+
+			setFormFields([
+				...staticFiltersFields(),
+				{
+					name: 'tagId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select tag',
+					optionList: tags,
+				},
+			]);
+		}
+	}, [userTags]);
 
 	const handleClear = () => {
 		const initialValues = filterValues();
