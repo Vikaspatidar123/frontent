@@ -30,8 +30,6 @@ const useFilters = () => {
 				perPage: itemsPerPage,
 				page: 1,
 				...values,
-				fromDate: values?.startDate,
-				toDate: values?.endDate,
 			})
 		);
 	};

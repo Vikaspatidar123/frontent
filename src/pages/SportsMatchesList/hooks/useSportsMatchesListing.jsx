@@ -14,7 +14,7 @@ import {
 	// IsFeatured,
 	// Live,
 	Sport,
-	StartDate,
+	FromDate,
 	Status,
 	Title,
 	Tournament,
@@ -58,7 +58,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 					title: `${match?.eventParticipants?.[0]?.participant?.name} vs ${match?.eventParticipants?.[1]?.participant?.name}`,
 					tournamentName: match?.league?.name,
 					sportName: match?.league?.sport?.name,
-					startDate: getDateTime(match.startDate),
+					fromDate: getDateTime(match.fromDate),
 				})
 			);
 		}
@@ -120,8 +120,8 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			// },
 			{
 				Header: 'Start Date',
-				accessor: 'startDate',
-				Cell: ({ cell }) => <StartDate value={cell.value} />,
+				accessor: 'fromDate',
+				Cell: ({ cell }) => <FromDate value={cell.value} />,
 			},
 			{
 				Header: 'Status',

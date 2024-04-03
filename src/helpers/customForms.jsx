@@ -198,8 +198,8 @@ export const CustomRangeSelector = ({
 				maxDate,
 			}}
 			onChange={(date) => {
-				validation.setFieldValue('startDate', date[0]);
-				validation.setFieldValue('endDate', date[1]);
+				validation.setFieldValue('fromDate', date[0]);
+				validation.setFieldValue('toDate', date[1]);
 			}}
 			monthsShown={2}
 			// maxDate={maxDate}
@@ -211,11 +211,11 @@ export const CustomRangeSelector = ({
 			selectsRange
 			// dateFormat="MMMM dd, yyyy O"
 			placeholderText={placeholder}
-			startDate={value[0]}
-			endDate={value[1]}
+			fromDate={value[0]}
+			toDate={value[1]}
 			onChange={(date) => {
-				validation.setFieldValue('startDate', date[0]);
-				validation.setFieldValue('endDate', date[1]);
+				validation.setFieldValue('fromDate', date[0]);
+				validation.setFieldValue('toDate', date[1]);
 			}}
 			monthsShown={2}
 			maxDate={maxDate}
@@ -565,7 +565,7 @@ export const getField = (
 					name={name}
 					label={label}
 					placeholder={placeholder}
-					value={[validation.values.startDate, validation.values.endDate]}
+					value={[validation.values.fromDate, validation.values.toDate]}
 					onChange={validation.onChange}
 					isError
 					invalid={!!(validation.touched[name] && validation.errors[name])}

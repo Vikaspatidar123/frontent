@@ -52,7 +52,7 @@ const IsFeatured = ({ cell, toggleIsFeatured }) => {
 
 // const IsFeatured = ({value}) => (cell.value ? 'YES' : 'NO');
 
-const StartDate = ({ value }) => value ?? '';
+const FromDate = ({ value }) => value ?? '';
 
 const Status = ({ value }) => {
 	const status = {
@@ -107,7 +107,7 @@ export {
 	Tournament,
 	Sport,
 	IsFeatured,
-	StartDate,
+	FromDate,
 	Status,
 	// Live,
 	Action,

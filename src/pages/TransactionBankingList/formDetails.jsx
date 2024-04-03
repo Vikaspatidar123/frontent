@@ -44,13 +44,13 @@ const staticFiltersFields = () => [
 	},
 ];
 
-const startDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
-const endDate = new Date(); // Do not define it inside filterValue function
+const fromDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
+const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
 	status: null,
-	startDate,
-	endDate,
+	fromDate,
+	toDate,
 	type: null,
 	purpose: null,
 });
@@ -58,8 +58,8 @@ const filterValues = () => ({
 const filterValidationSchema = () =>
 	Yup.object({
 		status: Yup.string().nullable(),
-		startDate: Yup.string().nullable(),
-		endDate: Yup.string().nullable(),
+		fromDate: Yup.string().nullable(),
+		toDate: Yup.string().nullable(),
 		type: Yup.string().nullable(),
 		purpose: Yup.string().nullable(),
 	});

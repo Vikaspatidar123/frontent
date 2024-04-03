@@ -233,8 +233,8 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	startDate: '',
-	endDate: '',
+	fromDate: '',
+	toDate: '',
 	// gameId: '',
 	walletId: '',
 	// actioneeId: '',
@@ -248,8 +248,8 @@ const filterValues = () => ({
 const filterValidationSchema = () =>
 	Yup.object({
 		status: Yup.string().nullable(),
-		startDate: Yup.string().nullable(),
-		endDate: Yup.string().nullable(),
+		fromDate: Yup.string().nullable(),
+		toDate: Yup.string().nullable(),
 		transactionType: Yup.string().nullable(),
 		gameId: Yup.string().nullable(),
 		walletId: Yup.string().nullable(),
@@ -294,16 +294,16 @@ const sportsBetFiltersFields = () => [
 const sportsBetFilterValues = () => ({
 	type: null,
 	settlementStatus: null,
-	startDate: null,
-	endDate: null,
+	fromDate: null,
+	toDate: null,
 });
 
 const sportsBetFilterValidationSchema = () =>
 	Yup.object({
 		type: Yup.string().nullable(),
 		settlementStatus: Yup.string().nullable(),
-		startDate: Yup.string().nullable(),
-		endDate: Yup.string().nullable(),
+		fromDate: Yup.string().nullable(),
+		toDate: Yup.string().nullable(),
 	});
 
 // Transaction filters
@@ -340,8 +340,8 @@ const transactionFiltersFields = () => [
 ];
 
 const transactionFilterValues = () => ({
-	startDate: null,
-	endDate: null,
+	fromDate: null,
+	toDate: null,
 	currencyCode: null,
 	type: null,
 	purpose: null,
@@ -349,8 +349,8 @@ const transactionFilterValues = () => ({
 
 const transactionFilterValidationSchema = () =>
 	Yup.object({
-		startDate: Yup.string().nullable(),
-		endDate: Yup.string().nullable(),
+		fromDate: Yup.string().nullable(),
+		toDate: Yup.string().nullable(),
 		currencyCode: Yup.string().nullable(),
 		type: Yup.string().nullable(),
 		purpose: Yup.string().nullable(),
