@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Badge, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { modules } from '../../constants/permissions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { updateSAUserStatus } from '../../store/actions';
-import { useDispatch } from 'react-redux';
 
 const PlayerId = ({ value }) => value ?? '';
 
@@ -22,11 +22,18 @@ const UserName = ({ cell }) =>
 
 const Email = ({ value }) => value ?? '';
 
+const CountryName = ({ value }) => value ?? '';
+
 const PhoneNumber = ({ value }) => value ?? '-';
 
 const KycStatus = ({ value }) => value ?? '';
 
+const RegistrationDate = ({ value }) => value ?? '';
+
 const IsInternal = ({ value }) => value ?? '';
+
+const Tags = ({ value }) =>
+	value?.map((tags) => tags?.tag?.tag)?.join(', ') || '-';
 
 const Action = ({ cell }) => {
 	const active = cell?.row?.original?.isActive;
@@ -148,4 +155,7 @@ export {
 	Email,
 	Action,
 	Status,
+	CountryName,
+	Tags,
+	RegistrationDate,
 };
