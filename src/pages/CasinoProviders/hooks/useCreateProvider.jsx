@@ -168,6 +168,7 @@ const useCreateProvider = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <CasinoProviderId value={cell.value} />,
 			},

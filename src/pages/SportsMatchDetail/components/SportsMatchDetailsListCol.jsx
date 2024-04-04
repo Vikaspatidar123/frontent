@@ -37,6 +37,7 @@ const eventColumns = [
 	{
 		Header: 'ID',
 		accessor: 'id',
+		notHidable: true,
 		filterable: false,
 		Cell: ({ cell }) => <CommonCell cell={cell} />,
 	},

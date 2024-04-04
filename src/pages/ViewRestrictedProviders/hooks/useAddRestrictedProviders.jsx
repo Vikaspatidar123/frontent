@@ -102,7 +102,7 @@ const useAddRestrictedProviders = () => {
 			},
 			{
 				Header: 'ACTIONS',
-				accessor: '',
+				accessor: 'actions',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const casinoProviderId = cell?.row?.original?.casinoProviderId;
@@ -160,7 +160,7 @@ const useAddRestrictedProviders = () => {
 			},
 			{
 				Header: 'ACTIONS',
-				accessor: '',
+				accessor: 'actions',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const casinoProviderId = cell?.row?.original?.casinoProviderId;

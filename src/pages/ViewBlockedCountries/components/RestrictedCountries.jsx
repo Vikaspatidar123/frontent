@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody } from 'reactstrap';
 import PropTypes from 'prop-types';
 import useRestrictedCountriesListing from '../hooks/useRestrictedCountriesListing';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const RestrictedCountries = ({ restrictedCountries }) => {
 	const { columns } = useRestrictedCountriesListing();

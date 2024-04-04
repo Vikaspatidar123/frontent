@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card, CardBody, Button } from 'reactstrap';
 import useRemoveAddedGames from '../hooks/useRemoveAddedGames';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const RemoveGamesFromCasinoSubcategory = () => {
 	const {

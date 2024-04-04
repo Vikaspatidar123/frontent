@@ -3,7 +3,7 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import { Card, Container } from 'reactstrap';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import { KeyValueCell } from './TableCol';
 
 const PlayerWallet = ({ userDetails }) => {

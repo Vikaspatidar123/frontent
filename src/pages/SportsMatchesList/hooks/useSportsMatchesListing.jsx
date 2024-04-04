@@ -91,6 +91,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			{
 				Header: 'Id',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -134,8 +135,8 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			// 	Cell: ({ cell }) => <Live value={cell.value} />,
 			// },
 			{
-				Header: 'Action',
-				accessor: '',
+				Header: 'Actions',
+				accessor: 'action',
 				disableSortBy: true,
 				Cell: ({ cell }) => <Action row={cell.row} />,
 			},

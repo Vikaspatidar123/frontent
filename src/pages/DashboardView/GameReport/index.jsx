@@ -3,7 +3,7 @@ import React from 'react';
 import { Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import { tableCustomClass } from '../../../constants/config';
 import { TABS, dateConstants } from '../constant';
 import { CustomSelectField } from '../../../helpers/customForms';

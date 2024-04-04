@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useEditWageringTemplate from './hooks/useEditWageringTemplate';
 import { getWageringTemplateDetail } from '../../store/actions';
 import {

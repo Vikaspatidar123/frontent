@@ -11,7 +11,7 @@ import {
 	Button,
 	UncontrolledTooltip,
 } from 'reactstrap';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useBetSettings from './hooks/useBetSettings';
 import { projectName } from '../../constants/config';
 

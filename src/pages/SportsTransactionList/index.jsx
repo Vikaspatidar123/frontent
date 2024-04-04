@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { useSelector } from 'react-redux';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsTransactionListing from './hooks/useSportsTransactionListing';
 import { projectName } from '../../constants/config';
@@ -95,6 +95,7 @@ const SportsTransactionList = ({ t }) => {
 										columns={betSlipColumns || []}
 										data={formattedBetSlips}
 										customPageSize={50}
+										isShowColSettings={false}
 									/>
 								</ModalView>
 							</CardBody>

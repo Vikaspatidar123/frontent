@@ -3,7 +3,7 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import CrudSection from '../../components/Common/CrudSection';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useSportsMatchDetail from './hooks/useSportsMatchDetail';
 import AccordionMatchDetails from './components/AccordionMatchDetails';
 import Breadcrumb from '../../components/Common/Breadcrumb';

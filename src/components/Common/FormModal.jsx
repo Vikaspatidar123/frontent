@@ -34,6 +34,7 @@ const FormModal = ({
 	responsiveFormFields,
 	className,
 	disableSubmit,
+	isSubmit,
 }) => {
 	const toggleFormModal = () => {
 		if (!isEditOpen) {
@@ -107,23 +108,25 @@ const FormModal = ({
 								)}
 							</Row>
 							<Row>{customComponent}</Row>
-							<Row>
-								<Col>
-									<div className="text-end">
-										<button
-											type="submit"
-											disabled={isSubmitLoading || disableSubmit}
-											className="btn btn-primary save-user"
-										>
-											{isSubmitLoading && !disableSubmit && (
-												<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
-											)}
-											{/* {isSubmitLoading && <i className="bx bx-loader bx-spin font-size-16 align-middle me-2" /> } */}{' '}
-											{submitLabel}
-										</button>
-									</div>
-								</Col>
-							</Row>
+							{isSubmit ? (
+								<Row>
+									<Col>
+										<div className="text-end">
+											<button
+												type="submit"
+												disabled={isSubmitLoading || disableSubmit}
+												className="btn btn-primary save-user"
+											>
+												{isSubmitLoading && !disableSubmit && (
+													<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
+												)}
+												{/* {isSubmitLoading && <i className="bx bx-loader bx-spin font-size-16 align-middle me-2" /> } */}{' '}
+												{submitLabel}
+											</button>
+										</div>
+									</Col>
+								</Row>
+							) : null}
 						</>
 					)}
 				</Form>
@@ -151,6 +154,7 @@ FormModal.defaultProps = {
 	showConfirmationModal: false,
 	setShowConfirmationModal: () => {},
 	disableSubmit: false,
+	isSubmit: true,
 };
 
 FormModal.propTypes = {
@@ -172,6 +176,7 @@ FormModal.propTypes = {
 	showConfirmationModal: PropTypes.bool,
 	setShowConfirmationModal: PropTypes.func,
 	disableSubmit: PropTypes.bool,
+	isSubmit: PropTypes.bool,
 };
 
 export default FormModal;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Simple bar
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import { tableCustomClass } from '../../../constants/config';
 
 const DemoGraphicTable = (props) => {

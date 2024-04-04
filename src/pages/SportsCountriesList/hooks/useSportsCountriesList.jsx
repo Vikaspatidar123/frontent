@@ -88,6 +88,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <CountryId value={cell.value} />,
 			},

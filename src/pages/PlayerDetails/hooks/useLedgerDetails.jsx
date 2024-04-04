@@ -57,6 +57,7 @@ const useLedgerDetails = (userId, filterValues = {}) => {
 			{
 				Header: 'Ledger Id',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},

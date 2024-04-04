@@ -11,7 +11,7 @@ import {
 	CustomSelectField,
 	CustomSwitchButton,
 } from '../../../helpers/customForms';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
@@ -35,7 +35,7 @@ const CheckboxInput = ({ cell, selectedGames, toggleSelectGame }) => (
 const columnsArray = ({ selectedGames, toggleSelectGame }) => [
 	{
 		Header: 'SELECT',
-		accessor: '',
+		accessor: 'select',
 		disableSortBy: true,
 		Cell: ({ cell }) => (
 			<CheckboxInput

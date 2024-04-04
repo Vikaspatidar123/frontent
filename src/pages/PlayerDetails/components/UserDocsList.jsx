@@ -1,9 +1,9 @@
-/* eslint-disable react/no-unstable-nested-component */
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Card, CardBody, Container } from 'reactstrap';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import {
 	activateKyc,
 	getDocumentLabel,
@@ -107,6 +107,7 @@ const UserDocsList = ({ userDetails, userId }) => {
 			{
 				Header: 'DOCUMENT ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -247,7 +248,5 @@ const UserDocsList = ({ userDetails, userId }) => {
 		</Container>
 	);
 };
-
-
 
 export default UserDocsList;

@@ -15,7 +15,7 @@ import {
 	issueBonus,
 } from '../../../store/actions';
 // import { safeStringify } from '../../../utils/helpers';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import { KeyValueCell } from '../TableCol';
 import { bonusKeyArray } from '../constants';
 import { formatDate } from '../../../utils/dateFormatter';
@@ -147,6 +147,7 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 							customPageSize={20}
 							hideHeader
 							isLoading={getBonusDetailsLoading}
+							isShowColSettings={false}
 						/>
 						{bonusDetails &&
 							['deposit', 'wagering'].includes(bonusDetails?.bonusType) && (

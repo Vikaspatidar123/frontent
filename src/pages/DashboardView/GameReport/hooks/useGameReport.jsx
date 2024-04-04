@@ -42,6 +42,7 @@ const useGameReport = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <IdValue cell={cell?.value || ''} />,
 			},

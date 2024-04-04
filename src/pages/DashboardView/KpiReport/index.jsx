@@ -4,7 +4,7 @@ import { Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import { TABS, dateConstants } from '../constant';
 import { tableCustomClass } from '../../../constants/config';
 import TabsPage from '../../../components/Common/TabsPage';

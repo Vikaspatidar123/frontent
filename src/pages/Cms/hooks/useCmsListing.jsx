@@ -79,6 +79,7 @@ const useCmsListing = (filterValues = {}) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <CmsPageId value={cell.value} />,
 			},

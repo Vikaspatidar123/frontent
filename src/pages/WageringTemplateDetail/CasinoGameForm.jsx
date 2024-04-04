@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 
 import { Container } from 'reactstrap';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 
 import {
 	RTP,

@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 import { CasinoGameId, Name, DeviceType, KeyValueCell } from '../GamesListCol';
 import useAddGamesToCasinoSubcategory from '../hooks/useAddGamesToCasinoSubcategory';
@@ -41,6 +41,7 @@ const AddGamesToCasinoSubcategory = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
 			},
@@ -97,6 +98,7 @@ const AddGamesToCasinoSubcategory = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
 			},

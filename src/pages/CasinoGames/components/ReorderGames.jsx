@@ -12,7 +12,7 @@ import {
 	CustomSelectField,
 } from '../../../helpers/customForms';
 import useReorderGames from '../hooks/useReorderGames';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const ReorderGames = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);

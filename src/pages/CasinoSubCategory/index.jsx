@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import { useSelector } from 'react-redux';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 
 import { projectName } from '../../constants/config';
 

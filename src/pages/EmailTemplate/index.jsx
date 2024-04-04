@@ -5,7 +5,7 @@ import { Container, Collapse, CardBody, Card } from 'reactstrap';
 import classnames from 'classnames';
 
 import { projectName } from '../../constants/config';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useEmailTemplate from './hooks/useEmailTemplate';
 import Spinners from '../../components/Common/Spinner';
 import CrudSection from '../../components/Common/CrudSection';

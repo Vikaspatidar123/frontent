@@ -129,6 +129,7 @@ const useSportsMatchDetail = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <CommonCell cell={cell} />,
 			},
@@ -152,7 +153,7 @@ const useSportsMatchDetail = () => {
 			},
 			{
 				Header: 'Actions',
-				accessor: '',
+				accessor: 'actions',
 				filterable: false,
 				Cell: () => (
 					<div className="d-flex justify-content-start align-items-start ">

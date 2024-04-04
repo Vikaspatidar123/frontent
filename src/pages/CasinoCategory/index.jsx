@@ -5,7 +5,7 @@ import { Col, Row, Card, CardBody } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import { projectName } from '../../constants/config';
 import useCasinoCategoryColumn from './hooks/useCasinoCategoryColumn';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCasinoCategoryListing from './hooks/useCasinoCategoryListing';
 import CrudSection from '../../components/Common/CrudSection';

@@ -84,6 +84,7 @@ const useSportsListing = (filterValues = {}) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <SportId value={cell.value} />,
 			},

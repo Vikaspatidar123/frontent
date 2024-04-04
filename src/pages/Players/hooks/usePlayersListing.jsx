@@ -28,6 +28,7 @@ const usePlayersListing = (filterValues = {}) => {
 				Header: '#',
 				disableFilters: true,
 				filterable: true,
+				notHidable: true,
 				disableSortBy: true,
 				accessor: (prop) => {
 					const { fullName, randomColor } = prop;
@@ -45,6 +46,7 @@ const usePlayersListing = (filterValues = {}) => {
 			{
 				Header: 'Player Id',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <PlayerId value={cell.value} />,
 			},
@@ -85,7 +87,7 @@ const usePlayersListing = (filterValues = {}) => {
 			// },
 			{
 				Header: 'Action',
-				accessor: '',
+				accessor: 'action',
 				disableSortBy: true,
 				Cell: ({ cell }) => <Action cell={cell} />,
 			},

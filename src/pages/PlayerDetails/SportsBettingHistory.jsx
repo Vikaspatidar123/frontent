@@ -9,7 +9,7 @@ import {
 	UncontrolledTooltip,
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import { CreatedAt, Id, KeyValueCell, StatusData } from './TableCol';
 import { fetchSportsTransactionStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
@@ -77,6 +77,7 @@ const SportsBettingHistory = ({ userId }) => {
 			{
 				Header: 'Id',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -164,6 +165,7 @@ const SportsBettingHistory = ({ userId }) => {
 			{
 				Header: 'Id',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -268,6 +270,7 @@ const SportsBettingHistory = ({ userId }) => {
 							columns={betSlipColumns || []}
 							data={formattedBetSlips}
 							customPageSize={50}
+							isShowColSettings={false}
 						/>
 					</ModalView>
 				</CardBody>

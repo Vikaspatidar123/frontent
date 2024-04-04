@@ -7,7 +7,7 @@ import {
 	CustomInputField,
 	CustomSelectField,
 } from '../../../helpers/customForms';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import { formPageTitle } from '../../../components/Common/constants';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');

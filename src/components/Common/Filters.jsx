@@ -1,30 +1,18 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
-import {
-	Card,
-	Col,
-	// Collapse,
-	Row,
-	Form,
-	// Label,
-	// Input,
-	UncontrolledTooltip,
-} from 'reactstrap';
+import { Card, Col, Row, Form, UncontrolledTooltip } from 'reactstrap';
 import PropTypes, { oneOfType } from 'prop-types';
 import { getField } from '../../helpers/customForms';
-// import { experienceData, jobType } from '../../common/data';
 
 const Filters = ({
 	filterFields,
 	validation,
 	actionButtons,
-	// isAdvanceOpen,
 	isFilterChanged,
 }) => (
 	<Row>
 		<Col lg={12}>
-			<Card className="job-filter">
+			<Card className="filter-card">
 				<Form
 					onSubmit={(e) => {
 						e.preventDefault();
@@ -68,14 +56,10 @@ const Filters = ({
 										!isHide && (
 											<Col xxl={1} xl={1} lg={1} md={1} sm={1} xs={1}>
 												<div className="position-relative h-100 hstack gap-3">
-													{/* <button
-												type={type === 'button' ? 'button' : 'submit'}
-												className={`btn h-100 w-100 ${color || 'btn-primary'}`}
-												onClick={handleClick}
-											> */}
 													<i
 														className={`${icon} align-middle filter-icons`}
 														onClick={handleClick}
+														onKeyDown={() => {}}
 														id={id || 'clear-filter'}
 													/>
 													<UncontrolledTooltip
@@ -84,93 +68,11 @@ const Filters = ({
 													>
 														{tooltip}
 													</UncontrolledTooltip>
-													{/* {label} */}
-													{/* </button> */}
 												</div>
 											</Col>
 										)
 								)}
 						</Col>
-						{/* <Collapse isOpen={isAdvanceOpen} id="advanceCollapse">
-							<div>
-								<Row className="g-3">
-									<Col xxl={4} lg={6}>
-										<div>
-											<Label
-												htmlFor="experience"
-												className="form-label fw-semibold"
-											>
-												Experience
-											</Label>
-										</div>
-										{(experienceData || []).map((item) => (
-											<div
-												className="form-check form-check-inline"
-												key={item?.id}
-											>
-												<Input
-													className="form-check-input"
-													type="checkbox"
-													id={`inlineCheckbox${item.id}`}
-													value={item.value}
-												/>
-												<Label
-													className="form-check-label"
-													htmlFor={`inlineCheckbox${item.id}`}
-												>
-													{item.label}
-												</Label>
-											</div>
-										))}
-									</Col>
-									<Col xxl={4} lg={6}>
-										<div>
-											<Label
-												htmlFor="jobType"
-												className="form-label fw-semibold"
-											>
-												Job Type
-											</Label>
-										</div>
-										{(jobType || []).map((item) => (
-											<div
-												className="form-check form-check-inline"
-												key={item.id}
-											>
-												<Input
-													type="checkbox"
-													id={`inlineCheckbox${item.id}`}
-													value={item.value}
-												/>
-												<Label
-													className="form-check-label"
-													htmlFor={`inlineCheckbox${item.id}`}
-												>
-													{item.label}
-												</Label>
-											</div>
-										))}
-									</Col>
-									<Col xxl={4} lg={4}>
-										<div className="position-relative">
-											<Label
-												htmlFor="qualificationInput"
-												className="fw-semibold"
-											>
-												Qualification
-											</Label>
-											<Input
-												type="text"
-												id="qualificationInput"
-												autoComplete="off"
-												placeholder="Qualification"
-											/>
-											<i className="ri-government-line filter-icon" />
-										</div>
-									</Col>
-								</Row>
-							</div>
-						</Collapse> */}
 					</Row>
 				</Form>
 			</Card>

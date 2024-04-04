@@ -41,6 +41,7 @@ const useRemoveFromRestrictedCountriesListing = (restrictedCountries) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -74,6 +75,7 @@ const useRemoveFromRestrictedCountriesListing = (restrictedCountries) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},

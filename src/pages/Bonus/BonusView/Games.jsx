@@ -6,7 +6,7 @@ import {
 	getCasinoProvidersDataStart,
 } from '../../../store/actions';
 import { CustomSelectField } from '../../../helpers/customForms';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 

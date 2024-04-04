@@ -3,7 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useSportsTounamentListing from './hooks/useSportsTournamentListing';
 import { projectName } from '../../constants/config';
 import Breadcrumb from '../../components/Common/Breadcrumb';

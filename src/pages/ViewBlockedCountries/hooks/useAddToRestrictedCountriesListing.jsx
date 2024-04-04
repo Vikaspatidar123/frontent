@@ -47,6 +47,7 @@ const useAddToRestrictedCountriesListing = (
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -80,6 +81,7 @@ const useAddToRestrictedCountriesListing = (
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},

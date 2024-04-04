@@ -103,7 +103,7 @@ const useRemoveRestrictedGame = () => {
 			},
 			{
 				Header: 'ACTIONS',
-				accessor: '',
+				accessor: 'actions',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const casinoGameId = cell?.row?.original?.casinoGameId;
@@ -165,7 +165,7 @@ const useRemoveRestrictedGame = () => {
 			},
 			{
 				Header: 'ACTIONS',
-				accessor: '',
+				accessor: 'actions',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const casinoGameId = cell?.row?.original?.casinoGameId;

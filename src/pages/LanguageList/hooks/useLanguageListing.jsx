@@ -49,6 +49,7 @@ const useLanguageListing = (filterValues = {}) => {
 			{
 				Header: 'Id',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},

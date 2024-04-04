@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Col, Row, Card, CardBody } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import {
 	projectName,
 	tableCustomClass,

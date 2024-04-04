@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 
 import useTransactionBankingListing from './hooks/useTransactionBankingListing';
 import { projectName } from '../../constants/config';

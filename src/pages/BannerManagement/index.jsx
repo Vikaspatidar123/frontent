@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useBannerManagement from './hooks/useBannerManagement';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';

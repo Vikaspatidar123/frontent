@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import { Comment, Id, KeyValueCell, KeyValueCellNA } from './TableCol';
 import FormModal from '../../components/Common/FormModal';
 import useCreateComment from './hooks/useCreateComment';
@@ -17,7 +17,7 @@ const Notes = ({ userDetails, userId }) => {
 
 	const [userComment, setUserComment] = useState(
 		userDetails?.userComment || []
-		);
+	);
 
 	useEffect(() => {
 		setUserComment(userDetails?.userComment ? [userDetails?.userComment] : []);
@@ -42,6 +42,7 @@ const Notes = ({ userDetails, userId }) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},

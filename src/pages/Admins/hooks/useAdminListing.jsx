@@ -109,6 +109,7 @@ const useAdminListing = (filterValues = {}) => {
 				Header: '#',
 				disableFilters: true,
 				filterable: true,
+				notHidable: true,
 				disableSortBy: true,
 				accessor: (prop) => {
 					const { fullName, randomColor } = prop;
@@ -126,6 +127,7 @@ const useAdminListing = (filterValues = {}) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <AdminUserID value={cell.value} />,
 			},

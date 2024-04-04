@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import { projectName } from '../../constants/config';
 import useCasinoGamesListings from './hooks/useCasinoGamesListing';
 import CrudSection from '../../components/Common/CrudSection';

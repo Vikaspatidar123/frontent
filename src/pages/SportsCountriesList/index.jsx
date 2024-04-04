@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useSportsCountriesListing from './hooks/useSportsCountriesList';
 import { projectName } from '../../constants/config';
 import Breadcrumb from '../../components/Common/Breadcrumb';

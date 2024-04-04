@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import PropTypes from 'prop-types';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useLedgerFilters from './hooks/useLedgerFilters';
 import Filters from '../../components/Common/Filters';
 import CrudSection from '../../components/Common/CrudSection';

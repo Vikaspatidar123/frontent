@@ -130,6 +130,7 @@ const useEmailTemplate = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <EmailTemplateId value={cell.value} />,
 			},
@@ -146,8 +147,8 @@ const useEmailTemplate = () => {
 				Cell: ({ cell }) => <Primary value={cell.value} />,
 			},
 			{
-				Header: 'ACTION',
-				accessor: 'action',
+				Header: 'ACTIONS',
+				accessor: 'actions',
 				disableFilters: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => (

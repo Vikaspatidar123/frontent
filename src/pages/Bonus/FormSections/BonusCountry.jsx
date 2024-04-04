@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
 import { CustomInputField } from '../../../helpers/customForms';
 import Spinners from '../../../components/Common/Spinner';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const tableColumns = ({
 	selectedCountries,

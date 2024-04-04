@@ -4,7 +4,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import { Amount, CurrencyCode, KeyValueCell, Status } from './TableCol';
 import { fetchCasinoTransactionsStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
@@ -70,6 +70,7 @@ const BetHistory = ({ userId }) => {
 			{
 				Header: 'Id',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},

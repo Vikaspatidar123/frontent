@@ -124,6 +124,7 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			{
 				Header: 'GAME ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
 			},

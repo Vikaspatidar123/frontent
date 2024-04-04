@@ -65,6 +65,7 @@ const useSportsTounamentListing = (filterValues = {}) => {
 		{
 			Header: 'ID',
 			accessor: 'id',
+			notHidable: true,
 			filterable: true,
 			Cell: ({ cell }) => <TournamentId value={cell.value} />,
 		},

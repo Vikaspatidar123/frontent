@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card, CardBody, Button } from 'reactstrap';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import useAddRestrictedProviders from '../hooks/useAddRestrictedProviders';
 
 const AddRestrictedProviders = () => {

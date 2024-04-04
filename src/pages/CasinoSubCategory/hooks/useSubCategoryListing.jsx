@@ -121,6 +121,7 @@ const useSubCategoryListing = (filterValidation, onClickEdit) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <GameSubCategoryId value={cell.value} />,
 			},

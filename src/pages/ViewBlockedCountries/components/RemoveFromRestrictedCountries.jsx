@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card, Spinner } from 'reactstrap';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import useRemoveFromRestrictedCountriesListing from '../hooks/useRemoveFromRestrictedCountries';
 
 const RemoveFromRestrictedCountries = ({ restrictedCountries }) => {

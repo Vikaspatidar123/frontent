@@ -5,7 +5,7 @@ import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
 import ReorderComponent from '../ReorderCategories';
 import useBonusReorder from './hooks/useBonusReorder';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 
 const ReorderBonus = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);

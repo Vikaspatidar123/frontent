@@ -12,6 +12,7 @@ const useAggregatorList = (handleStatus) => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <ID value={cell.value} />,
 			},

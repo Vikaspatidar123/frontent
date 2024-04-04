@@ -76,6 +76,7 @@ const useRemoveAddedGames = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -108,7 +109,7 @@ const useRemoveAddedGames = () => {
 			},
 			{
 				Header: 'ACTIONS',
-				accessor: '',
+				accessor: 'actions',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const gameId = cell?.row?.original?.id;
@@ -145,6 +146,7 @@ const useRemoveAddedGames = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
@@ -177,7 +179,7 @@ const useRemoveAddedGames = () => {
 			},
 			{
 				Header: 'ACTIONS',
-				accessor: '',
+				accessor: 'actions',
 				disableSortBy: true,
 				Cell: ({ cell }) => {
 					const id = cell?.row?.original?.id;

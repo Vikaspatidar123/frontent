@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import useRestrictedGamesListing from '../hooks/useRestrictedGamesListing';
 
 const RestrictedGames = () => {

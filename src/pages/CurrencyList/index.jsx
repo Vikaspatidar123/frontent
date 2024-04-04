@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 // import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import useCurrencyListing from './hooks/useCurrencyListing';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';

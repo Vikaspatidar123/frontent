@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 import { getDuplicateUsers } from '../../../store/actions';
 import { KeyValueCellNA } from '../TableCol';
 import { formatDateYMD } from '../../../helpers/dateFormatter';
@@ -34,6 +34,7 @@ const Duplicates = ({ show, toggle, header }) => {
 			{
 				Header: 'USER ID',
 				accessor: 'id',
+				notHidable: true,
 				subLabel: userDetails?.userId,
 				// filterable: true,
 				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
@@ -145,6 +146,7 @@ const Duplicates = ({ show, toggle, header }) => {
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}
 					changeRowsPerPageCallback={onChangeRowsPerPage}
+					isShowColSettings={false}
 				/>
 			</ModalBody>
 		</Modal>

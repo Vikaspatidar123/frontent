@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Col, Container, Row } from 'reactstrap';
 import { fetchCountriesStart } from '../../../store/actions';
 import Spinners from '../../../components/Common/Spinner';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const columns = [
 	{

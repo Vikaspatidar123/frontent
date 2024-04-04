@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'reactstrap';
 import { getWageringTemplateDetail } from '../../../store/actions';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 

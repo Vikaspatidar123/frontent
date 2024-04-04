@@ -4,7 +4,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import { Id, KeyValueCell, PromotionTitle } from './TableCol';
 import { cancelUserBonus, getUserBonus } from '../../store/actions';
 import { formatDate } from '../../utils/dateFormatter';

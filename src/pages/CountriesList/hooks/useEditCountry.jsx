@@ -105,6 +105,7 @@ const useEditCountry = () => {
 			{
 				Header: 'Id',
 				accessor: 'id',
+				notHidable: true,
 				// filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -136,7 +137,7 @@ const useEditCountry = () => {
 			{
 				Header: 'Actions',
 				disableSortBy: true,
-				// accessor: "actions",
+				accessor: 'actions',
 				// filterable: true,
 				Cell: ({ cell }) => (
 					<ActionButtons

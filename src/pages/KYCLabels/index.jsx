@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 
 import classnames from 'classnames';
-import TableContainer from '../../components/Common/TableContainer';
+import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import Spinners from '../../components/Common/Spinner';
 

@@ -28,9 +28,9 @@ import VerticalIcon from '../../../assets/images/VerticalDots.svg';
 import PencilIcon from '../../../assets/images/pencilIcon.svg';
 import AttatchIcon from '../../../assets/images/attatchIcon.svg';
 import DeatachIcon from '../../../assets/images/deatechIcon.svg';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 // import { marketColumns } from './SportsMatchDetailsListCol';
-// import TableContainer from '../../../components/Common/TableContainer';
+// import TableContainer from '../../../components/Common/Table';
 
 const AccordionMatchDetails = ({
 	toggleModal,

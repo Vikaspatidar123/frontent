@@ -7,6 +7,7 @@ const useRestrictedCountriesListing = () => {
 		{
 			Header: 'ID',
 			accessor: 'id',
+			notHidable: true,
 			filterable: true,
 			Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 		},

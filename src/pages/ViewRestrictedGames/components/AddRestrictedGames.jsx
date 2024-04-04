@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card, CardBody, Button } from 'reactstrap';
 import useAddRestrictedGame from '../hooks/useAddRestrictedGame';
-import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/Table';
 
 const AddRestrictedGames = () => {
 	const {
