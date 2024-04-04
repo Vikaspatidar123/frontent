@@ -4,15 +4,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlayersStart, resetPlayersData } from '../../../store/actions';
 import {
 	Action,
+	CountryName,
 	Email,
 	// IsInternal,
 	KycStatus,
 	PhoneNumber,
 	PlayerId,
+	RegistrationDate,
 	Status,
+	Tags,
 	UserName,
 } from '../PlayersListCol';
 import { getRandomColor } from '../../../helpers/common';
+import { getDateTime } from '../../../helpers/dateFormatter';
 
 const usePlayersListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -63,10 +67,22 @@ const usePlayersListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <Email value={cell.value} />,
 			},
 			{
+				Header: 'Country',
+				accessor: 'country',
+				filterable: true,
+				Cell: ({ cell }) => <CountryName value={cell?.value?.name} />,
+			},
+			{
 				Header: 'Phone Number',
 				accessor: 'phone',
 				filterable: true,
 				Cell: ({ cell }) => <PhoneNumber value={cell.value} />,
+			},
+			{
+				Header: 'Tags',
+				accessor: 'userTags',
+				filterable: true,
+				Cell: ({ cell }) => <Tags value={cell?.value} />,
 			},
 			{
 				Header: 'Status',
@@ -79,6 +95,13 @@ const usePlayersListing = (filterValues = {}) => {
 				Header: 'Kyc Status',
 				accessor: 'kycStatus',
 				Cell: ({ cell }) => <KycStatus value={cell.value} />,
+			},
+			{
+				Header: 'Registration Date',
+				accessor: 'createdAt',
+				Cell: ({ cell }) => (
+					<RegistrationDate value={getDateTime(cell?.value)} />
+				),
 			},
 			// {
 			// 	Header: 'Is Internal',

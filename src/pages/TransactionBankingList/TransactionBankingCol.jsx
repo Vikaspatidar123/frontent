@@ -28,6 +28,8 @@ const Status = ({ value }) => value ?? '';
 
 const CreatedAt = ({ value }) => value ?? '';
 
+const Tags = ({ value }) => value ?? '';
+
 Amount.propTypes = {
 	value: PropTypes.string.isRequired,
 };
@@ -44,4 +46,5 @@ export {
 	TransactionType,
 	FromWallet,
 	ToWallet,
+	Tags,
 };

@@ -20,6 +20,7 @@ import {
 	Id,
 	Purpose,
 	Status,
+	Tags,
 	// UserEmail,
 } from '../CasinoTransactionsListCol';
 import { LEDGER_TYPES, statusType } from '../constants';
@@ -71,6 +72,9 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 					status: statusType.find((status) => status.value === txn?.status)
 						?.label,
 					createdAt: getDateTime(txn?.createdAt),
+					userTags:
+						txn?.user?.userTags?.map((tags) => tags?.tag?.tag)?.join(', ') ||
+						'-',
 				})
 			);
 		}
@@ -115,6 +119,12 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 				accessor: 'currencyCode',
 				filterable: true,
 				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
+			},
+			{
+				Header: 'Tags',
+				accessor: 'userTags',
+				filterable: true,
+				Cell: ({ cell }) => <Tags value={cell?.value} />,
 			},
 			{
 				Header: 'Conversion Rate',

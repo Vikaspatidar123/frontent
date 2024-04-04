@@ -33,6 +33,8 @@ const Status = ({ value }) => value ?? '';
 
 const CreatedAt = ({ value }) => value ?? '';
 
+const Tags = ({ value }) => value ?? '';
+
 Amount.protoTypes = {
 	value: PropTypes.string.isRequired,
 };
@@ -53,4 +55,5 @@ export {
 	CurrencyCode,
 	ConversionRate,
 	Purpose,
+	Tags,
 };

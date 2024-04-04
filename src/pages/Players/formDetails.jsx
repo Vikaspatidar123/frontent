@@ -2,13 +2,8 @@ import * as Yup from 'yup';
 
 // Player Filters
 export const kycLabels = [
-	// { value: '', label: 'All' },
-	// { value: 'APPROVED', label: 'Approved' },
 	{ value: false, label: 'Pending' },
 	{ value: true, label: 'Approved' },
-	// { value: 'REJECTED', label: 'Rejected' },
-	// { value: 'REQUESTED', label: 'Requested' },
-	// { value: 'RE_REQUESTED', label: 'Re Requested' },
 ];
 
 const staticFiltersFields = () => [
@@ -26,26 +21,19 @@ const staticFiltersFields = () => [
 	// 	label: '',
 	// 	placeholder: 'Search by Affiliate',
 	// },
-	// {
-	// 	name: 'userId',
-	// 	fieldType: 'textField',
-	// 	type: 'number',
-	// 	label: '',
-	// 	placeholder: 'Search by user Id',
-	// },
-	// {
-	// 	name: 'ranges',
-	// 	fieldType: 'dateRangeSelector',
-	// 	label: '',
-	// 	placeholder: 'Range',
-	// },
-	// {
-	// 	name: 'phoneNumber',
-	// 	fieldType: 'textField',
-	// 	type: 'tel',
-	// 	label: '',
-	// 	placeholder: 'Search by Phone number',
-	// },
+	{
+		name: 'userId',
+		fieldType: 'textField',
+		type: 'number',
+		label: '',
+		placeholder: 'Search by user Id',
+	},
+	{
+		name: 'ranges',
+		fieldType: 'dateRangeSelector',
+		label: '',
+		placeholder: 'Range',
+	},
 	{
 		name: 'kycStatus',
 		fieldType: 'select',
@@ -73,7 +61,7 @@ const filterValues = () => ({
 	fromDate: null,
 	toDate: null,
 	userId: '',
-	phoneNumber: '',
+	tagId: null,
 	orderBy: null,
 	sort: '',
 });
@@ -86,7 +74,7 @@ const filterValidationSchema = () =>
 		fromDate: Yup.string().nullable(),
 		toDate: Yup.string().nullable(),
 		userId: Yup.string().nullable(),
-		phoneNumber: Yup.string().nullable(),
+		tagId: Yup.string().nullable(),
 		orderBy: Yup.string().nullable(),
 		sort: Yup.string().nullable(),
 	});
