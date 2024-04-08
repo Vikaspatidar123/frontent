@@ -388,7 +388,7 @@ const updateLimitsRequest = (data) =>
 
 const updateSiteDetails = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application/site-layout`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}update-site-layout`,
 		data
 	);
 

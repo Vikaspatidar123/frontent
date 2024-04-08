@@ -299,11 +299,6 @@ const getBonus = ({ bonusId, userBonusId }) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/detail?bonusId=${bonusId}&userBonusId=${userBonusId}`
 	);
 
-const getSiteDetailApi = () =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}application?keys[]=siteLayout`
-	);
-
 const getGameReports = (payload) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-game-report`,
@@ -391,7 +386,6 @@ export {
 	getSuperAdminAllWageringTemplate,
 	getRestrictedItems,
 	getUnrestrictedItems,
-	getSiteDetailApi,
 	getAdminChildren,
 	getGameReports,
 	getKpiSummary,

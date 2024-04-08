@@ -13,8 +13,7 @@ import {
 	CHANGE_LAYOUT_MODE,
 	SET_TABLE_HEADER_THEME,
 	SET_BREADCRUMB,
-	GET_SITE_DETAILS_SUCCESS,
-	GET_SITE_DETAILS_FAIL,
+	SAVE_SITE_DETAILS,
 } from './actionTypes';
 
 // constants
@@ -116,17 +115,13 @@ const Layout = (state = LAYOUT_INIT_STATE, { type, payload } = {}) => {
 				showBreadcrumb: payload,
 			};
 
-		case GET_SITE_DETAILS_SUCCESS:
+		case SAVE_SITE_DETAILS:
 			return {
 				...state,
 				...payload,
 				error: '',
 			};
-		case GET_SITE_DETAILS_FAIL:
-			return {
-				...state,
-				error: payload,
-			};
+
 		default:
 			return state;
 	}

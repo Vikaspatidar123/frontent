@@ -7,7 +7,6 @@ import { isEmpty } from 'lodash';
 import { getAccessToken } from '../network/storageUtils';
 import { getSuperAdminStart } from '../store/auth/permissionDetails/actions';
 import { getRolesStart } from '../store/auth/roles/actions';
-import { getSiteDetails } from '../store/actions';
 import usePermission from '../components/Common/Hooks/usePermission';
 
 const Authmiddleware = ({ children, location, modules, operation, isHome }) => {
@@ -19,8 +18,6 @@ const Authmiddleware = ({ children, location, modules, operation, isHome }) => {
 		if (accessToken) {
 			dispatch(getSuperAdminStart());
 			dispatch(getRolesStart());
-			// dispatch(getTenantRoleStart())
-			dispatch(getSiteDetails());
 		}
 	}, []);
 

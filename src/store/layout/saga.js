@@ -10,18 +10,12 @@ import {
 	CHANGE_TOPBAR_THEME,
 	SHOW_RIGHT_SIDEBAR,
 	CHANGE_LAYOUT_MODE,
-	GET_SITE_DETAILS,
 	CHANGE_PRELOADER,
 	SET_TABLE_HEADER_THEME,
 	SET_BREADCRUMB,
 } from './actionTypes';
 
-import {
-	changeSidebarType as changeSidebarTypeAction,
-	getSiteDetailsSuccess,
-	getSiteDetailsFail,
-} from './actions';
-import { getSiteDetailApi } from '../../network/getRequests';
+import { changeSidebarType as changeSidebarTypeAction } from './actions';
 import { updateSiteDetails } from '../../network/postRequests';
 import { LAYOUT_INIT_STATE } from './reducer';
 
@@ -243,27 +237,6 @@ function* showRightSidebar() {
 	}
 }
 /**
- * Get site details
- */
-function* getSiteDetailsWorker(action) {
-	const payload = action && action.payload;
-	try {
-		let { data } = yield getSiteDetailApi(payload);
-		data = data.data.siteLayout.value;
-		if (typeof data === 'string') {
-			data = JSON.parse(data);
-		}
-		yield put(getSiteDetailsSuccess(data));
-	} catch (error) {
-		yield put(
-			getSiteDetailsFail(
-				error?.response?.data?.errors?.[0]?.description || null
-			)
-		);
-	}
-}
-
-/**
  * Watchers
  */
 export function* watchChangeLayoutType() {
@@ -301,10 +274,6 @@ export function* watchSChangeLayoutMode() {
 	yield takeEvery(SET_BREADCRUMB, setBreadcrumbWatcher);
 }
 
-export function* getSiteDetailsWatcher() {
-	yield takeEvery(GET_SITE_DETAILS, getSiteDetailsWorker);
-}
-
 function* LayoutSaga() {
 	yield all([
 		fork(watchSChangeLayoutMode),
@@ -315,7 +284,6 @@ function* LayoutSaga() {
 		fork(watchChangeLeftSidebarType),
 		fork(watchShowRightSidebar),
 		fork(watchChangeTopbarTheme),
-		fork(getSiteDetailsWatcher),
 	]);
 }
 
