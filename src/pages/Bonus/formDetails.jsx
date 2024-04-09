@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import moment from 'moment';
 import { bonusTypes } from './constants';
+import { dateFormat } from '../../constants/config';
 
 const currentDate = moment().toDate();
 const nextDayDate = moment().add(1, 'days').toDate();
@@ -8,8 +9,8 @@ const nextDayDate = moment().add(1, 'days').toDate();
 const initialData = {
 	promotionTitle: {},
 	depositBonusPercent: 1,
-	startDate: moment().format('DD-MM-YYYY'),
-	endDate: moment().add(1, 'day').format('DD-MM-YYYY'),
+	startDate: moment().format(dateFormat),
+	endDate: moment().add(1, 'day').format(dateFormat),
 	bonusType: 'deposit',
 	wageringMultiplier: 1,
 	isSticky: false,

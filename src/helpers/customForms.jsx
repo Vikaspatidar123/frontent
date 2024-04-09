@@ -139,32 +139,37 @@ export const CustomDateField = ({
 	placeholder,
 	value,
 	// eslint-disable-next-line no-unused-vars
-	onChange = () => {},
+	onChange = () => {}, // need for preventing code break
 	onBlur,
 	isError,
-	dateFormat = 'Y-M-D',
 	errorMsg,
+	maxDate = moment().utc().startOf('day').toDate(),
+	minDate = moment().subtract(100, 'years').utc().toDate(),
 	validation,
-	...props
+	dateFormat = 'd M Y',
+	minDateField,
+	...rest
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
 		<FlatPickr
 			className="form-control"
-			name={name}
+			// name={name}
+			value={value}
 			placeholder={placeholder}
 			options={{
 				dateFormat,
+				minDate: minDateField ? validation.values[minDateField] : minDate,
+				maxDate,
 			}}
-			value={value}
 			onChange={(date) => {
 				validation.setFieldValue(name, date[0]);
 			}}
-			{...props}
+			monthsShown={2}
+			// maxDate={maxDate}
+			// minDate={minDate}
+			{...rest}
 		/>
-		{isError && errorMsg ? (
-			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
-		) : null}
 	</div>
 );
 
@@ -182,7 +187,7 @@ export const CustomRangeSelector = ({
 	minDate = moment().subtract(100, 'years').utc().toDate(),
 	validation,
 	dateFormat = 'd M Y',
-	...props
+	...rest
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
@@ -204,25 +209,8 @@ export const CustomRangeSelector = ({
 			monthsShown={2}
 			// maxDate={maxDate}
 			// minDate={minDate}
-			{...props}
+			{...rest}
 		/>
-		{/* {label && <Label for={name}>{label}</Label>}
-		<ReactDatePicker
-			selectsRange
-			// dateFormat="MMMM dd, yyyy O"
-			placeholderText={placeholder}
-			fromDate={value[0]}
-			toDate={value[1]}
-			onChange={(date) => {
-				validation.setFieldValue('fromDate', date[0]);
-				validation.setFieldValue('toDate', date[1]);
-			}}
-			monthsShown={2}
-			maxDate={maxDate}
-			minDate={minDate}
-			className="form-control"
-			{...props}
-		/> */}
 	</div>
 );
 
@@ -413,6 +401,7 @@ export const getField = (
 		onDelete,
 		type = 'text',
 		minDate,
+		minDateField,
 		maxDate,
 		showThumbnail,
 		multiple = false,
@@ -545,17 +534,20 @@ export const getField = (
 			);
 		case 'datePicker':
 			return (
-				<CustomInputField
+				<CustomDateField
 					name={name}
 					label={label}
-					type="date"
+					placeholder={placeholder}
 					value={validation.values[name]}
-					onChange={validation.handleChange}
+					onChange={validation.onChange}
 					isError
 					invalid={!!(validation.touched[name] && validation.errors[name])}
 					errorMsg={validation.touched[name] && validation.errors[name]}
 					disabled={!!isDisabled}
+					maxDate={maxDate}
+					minDate={minDate}
 					validation={validation}
+					minDateField={minDateField}
 				/>
 			);
 

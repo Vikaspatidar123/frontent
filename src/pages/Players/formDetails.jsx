@@ -29,10 +29,24 @@ const staticFiltersFields = () => [
 		placeholder: 'Search by user Id',
 	},
 	{
-		name: 'ranges',
-		fieldType: 'dateRangeSelector',
+		name: 'pincode',
+		fieldType: 'textField',
+		type: 'number',
 		label: '',
-		placeholder: 'Range',
+		placeholder: 'Search by Pincode',
+	},
+	{
+		name: 'fromDate',
+		fieldType: 'datePicker',
+		label: '',
+		placeholder: 'Registration from date',
+	},
+	{
+		name: 'toDate',
+		fieldType: 'datePicker',
+		label: '',
+		placeholder: 'Registration to date',
+		minDateField: 'fromDate',
 	},
 	{
 		name: 'kycStatus',
@@ -52,17 +66,36 @@ const staticFiltersFields = () => [
 			},
 		],
 	},
+	{
+		name: 'isActive',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Status',
+		optionList: [
+			{
+				id: 1,
+				optionLabel: 'Active',
+				value: true,
+			},
+			{
+				id: 2,
+				optionLabel: 'In Active',
+				value: false,
+			},
+		],
+	},
 ];
 
 const filterValues = () => ({
 	searchString: '',
+	pincode: '',
 	kycStatus: null,
-	// affiliateName: '',
-	fromDate: null,
-	toDate: null,
 	userId: '',
 	tagId: null,
 	orderBy: null,
+	isActive: null,
+	fromDate: '',
+	toDate: '',
 	sort: '',
 });
 
@@ -70,13 +103,13 @@ const filterValidationSchema = () =>
 	Yup.object({
 		searchString: Yup.string().nullable(),
 		kycStatus: Yup.string().nullable(),
-		// affiliateName: Yup.string().nullable(),
-		fromDate: Yup.string().nullable(),
-		toDate: Yup.string().nullable(),
 		userId: Yup.string().nullable(),
 		tagId: Yup.string().nullable(),
 		orderBy: Yup.string().nullable(),
 		sort: Yup.string().nullable(),
+		fromDate: Yup.string().nullable(),
+		toDate: Yup.string().nullable(),
+		pincode: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

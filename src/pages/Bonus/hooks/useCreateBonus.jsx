@@ -24,6 +24,7 @@ import { formatDateYMD, safeStringify } from '../../../utils/helpers';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import { initialData } from '../formDetails';
+import { dateFormat } from '../../../constants/config';
 
 const useCreateBonus = ({ isEdit }) => {
 	const { bonusId } = useParams();
@@ -303,8 +304,8 @@ const useCreateBonus = ({ isEdit }) => {
 		if (!isEmpty(existingFilledFields)) {
 			const existingFilledFieldsCopy = {
 				...existingFilledFields,
-				startDate: moment(existingFilledFields?.startDate).format('DD-MM-YYYY'),
-				endDate: moment(existingFilledFields?.endDate).format('DD-MM-YYYY'),
+				startDate: moment(existingFilledFields?.startDate).format(dateFormat),
+				endDate: moment(existingFilledFields?.endDate).format(dateFormat),
 			};
 			const isDataEqual = isEqual(existingFilledFieldsCopy, initialData);
 			if (!isDataEqual) {

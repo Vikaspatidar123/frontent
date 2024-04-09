@@ -54,11 +54,7 @@ const useFilters = () => {
 	useEffect(() => {
 		if (isEmpty(userTags)) {
 			dispatch(getAllTags());
-		}
-	}, []);
-
-	useEffect(() => {
-		if (!isEmpty(userTags)) {
+		} else {
 			const tags = userTags?.map((row) => ({
 				optionLabel: row?.tag,
 				value: row.id,

@@ -38,12 +38,6 @@ const staticFiltersFields = () => [
 			optionLabel: label,
 		})),
 	},
-	// {
-	// 	name: 'searchString',
-	// 	fieldType: 'textField',
-	// 	label: '',
-	// 	placeholder: 'Event Name',
-	// },
 	{
 		name: 'ranges',
 		fieldType: 'dateRangeSelector',

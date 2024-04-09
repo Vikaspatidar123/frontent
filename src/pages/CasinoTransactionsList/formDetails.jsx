@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
-import moment from 'moment';
-import { ACTION_TYPES, statusType } from './constants';
+import { statusType } from './constants';
 
 const staticFiltersFields = () => [
 	// {
@@ -68,8 +67,8 @@ const staticFiltersFields = () => [
 		placeholder: 'Date Range',
 	},
 ];
-const fromDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
-const toDate = new Date(); // Do not define it inside filterValue function
+// const fromDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
+// const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
 	fromDate: '',

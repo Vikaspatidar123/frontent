@@ -7,9 +7,11 @@ import React from 'react';
 import { Badge, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 import { modules } from '../../constants/permissions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { updateSAUserStatus } from '../../store/actions';
+import { dateFormat } from '../../constants/config';
 
 const PlayerId = ({ value }) => value ?? '';
 
@@ -28,7 +30,8 @@ const PhoneNumber = ({ value }) => value ?? '-';
 
 const KycStatus = ({ value }) => value ?? '';
 
-const RegistrationDate = ({ value }) => value ?? '';
+const RegistrationDate = ({ value }) =>
+	value ? moment(value).format(dateFormat) : '';
 
 const IsInternal = ({ value }) => value ?? '';
 

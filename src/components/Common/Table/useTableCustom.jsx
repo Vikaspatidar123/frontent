@@ -47,8 +47,6 @@ const useTableCustom = (
 		onSubmitEntry: () => {},
 	});
 
-	console.log(validation.values, formFields);
-
 	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
 		useTable(
 			{

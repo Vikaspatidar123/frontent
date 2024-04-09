@@ -59,7 +59,7 @@ function* updateSiteDetailsWorker() {
 		const siteLayout = yield select((state) => state.Layout);
 		if (!isEqual(siteLayoutPrevious, siteLayout)) {
 			siteLayoutPrevious = siteLayout;
-			yield updateSiteDetails(siteLayout);
+			yield updateSiteDetails({ siteLayout });
 		}
 	} catch (err) {
 		console.log('Error', err);

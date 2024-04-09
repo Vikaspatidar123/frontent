@@ -20,6 +20,8 @@ const debounceTime = 700;
 
 const selectedLanguage = 'EN';
 
+const dateFormat = 'DD-MM-YYYY';
+
 export {
 	projectName,
 	role,
@@ -30,4 +32,5 @@ export {
 	itemsPerPage,
 	debounceTime,
 	selectedLanguage,
+	dateFormat,
 };

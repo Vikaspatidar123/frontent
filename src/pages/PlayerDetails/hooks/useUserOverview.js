@@ -8,7 +8,6 @@ const useUserOverview = ({ user }) => {
 	const { playerId } = useParams();
 	const showStyle = (data) => (data ? 'text-success' : 'text-danger');
 	const printData = (data) => (data ? 'Yes' : 'No');
-	const address = user?.addresses?.[0];
 	let tags = '';
 	user?.userTags?.forEach((t, idx) => {
 		tags += `${t?.tag?.tag} ${idx + 1 !== user?.userTags?.length ? ',' : ''}`;
@@ -58,13 +57,16 @@ const useUserOverview = ({ user }) => {
 
 	const contactInfo = [
 		{ label: 'Phone Number', value: user?.phone },
-		{
-			label: 'Address',
+		...(user?.addresses?.map((address, idx) => ({
+			label: `Address ${idx + 1}`,
 			value: address
-				? `${address?.address}, ${address?.city}, ${address?.zipCode}`
+				? `${address?.address || ''}, ${address?.city || ''}, ${
+						address?.zipCode || ''
+				  }
+					, ${address?.countryCode || ''}`
 				: 'NA',
-		},
-		{ label: 'Country Code', value: address?.countryCode },
+		})) || []),
+		// { label: 'Country Code', value: address?.countryCode },
 		// {
 		// 	label: 'NewsLetter',
 		// 	value: user?.newsLetter ? 'True' : 'False',
