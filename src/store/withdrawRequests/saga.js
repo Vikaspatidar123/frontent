@@ -1,6 +1,4 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { clearEmptyProperty } from '../../utils/helpers';
-
 // Login Redux States
 import { FETCH_WITHDRAW_REQUESTS_START } from './actionTypes';
 import {
@@ -11,7 +9,7 @@ import { getWithdrawRequests } from '../../network/getRequests';
 
 function* fetchWithdrawRequests(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const response = yield call(getWithdrawRequests, payload);
 		yield put(fetchWithdrawRequestsSuccess(response?.data?.data?.users));
 	} catch (error) {

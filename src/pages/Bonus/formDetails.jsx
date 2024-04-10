@@ -130,7 +130,6 @@ const getCreateBonusInitialValues = () => ({
 	visibleInPromotions: false,
 	isSticky: false,
 	paymentMethods: {},
-	// wageringTemplateId: wageringTemplateList?.[0]?.wageringTemplateId,
 	appliedBonusId: '',
 	// adminId: '',
 	description: '',

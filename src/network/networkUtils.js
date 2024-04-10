@@ -11,6 +11,7 @@ const MANAGEMENT = {
 	REPORT: '/report/',
 	TRANSACTION: '/transaction/',
 	DASHBOARD: '/dashboard/',
+	BONUS: '/bonus-management/',
 };
 
 const METHODS = {

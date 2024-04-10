@@ -11,7 +11,7 @@ import {
 } from './actions';
 import { CREATE_BONUS, UPDATE_BONUS } from './actionTypes';
 
-import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { showToastr } from '../../utils/helpers';
 import { createBonusCall } from '../../network/postRequests';
 import { updateBonusCall } from '../../network/putRequests';
 import { formPageTitle } from '../../components/Common/constants';
@@ -19,7 +19,6 @@ import { formPageTitle } from '../../components/Common/constants';
 function* createBonusWorker(action) {
 	try {
 		let payload = action && action.payload;
-		payload = clearEmptyProperty(payload);
 		payload = serialize(payload);
 		const { data } = yield createBonusCall(payload);
 
@@ -41,7 +40,6 @@ function* createBonusWorker(action) {
 function* updateBonusWorker(action) {
 	try {
 		let payload = action && action.payload;
-		payload = clearEmptyProperty(payload);
 		payload = serialize(payload);
 		const { data } = yield updateBonusCall(payload);
 

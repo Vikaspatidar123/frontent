@@ -23,7 +23,9 @@ import {
 	leftStaticFormFields,
 	rightStaticFormFields,
 } from '../formDetails';
+import { debounceTime, selectedLanguage } from '../../../constants/config';
 
+let debounce;
 const useEditWageringTemplate = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -58,7 +60,7 @@ const useEditWageringTemplate = () => {
 		const templateData = {
 			name: values.name,
 			gameContribution: Object.fromEntries(
-				selectedId?.map((id) => [id.casinoGameId, values.customValue])
+				selectedId?.map((sel) => [sel.id, values.customValue])
 			),
 			wageringTemplateId: Number(wageringTemplateId),
 		};
@@ -117,7 +119,7 @@ const useEditWageringTemplate = () => {
 	);
 
 	useEffect(() => {
-		if (casinoProvidersData) {
+		if (casinoProvidersData?.providers) {
 			setLeftFormFields([
 				...leftStaticFormFields(),
 				{
@@ -126,29 +128,30 @@ const useEditWageringTemplate = () => {
 					label: 'Provider Name ',
 					placeholder: 'Provider',
 					optionList: casinoProvidersData?.providers?.map(({ id, name }) => ({
-						optionLabel: name,
+						optionLabel: name?.[selectedLanguage],
 						value: id,
 					})),
 				},
 			]);
+		} else {
+			dispatch(getCasinoProvidersDataStart());
 		}
 	}, [casinoProvidersData]);
 
 	useEffect(() => {
-		dispatch(getCasinoProvidersDataStart());
-		dispatch(
-			getCasinoGamesStart({
-				perPage: itemsPerPage,
-				page,
-				casinoCategoryId: '',
-				searchString: validation?.values?.search || '',
-				isActive: '',
-				tenantId: '',
-				providerId: validation?.values?.provider || '',
-			})
-		);
+		debounce = setTimeout(() => {
+			dispatch(
+				getCasinoGamesStart({
+					perPage: itemsPerPage,
+					page,
+					searchString: validation?.values?.searchString || '',
+					providerId: validation?.values?.provider || '',
+				})
+			);
+		}, debounceTime);
+		return () => clearTimeout(debounce);
 	}, [
-		validation?.values?.search,
+		validation?.values?.searchString,
 		validation?.values?.provider,
 		itemsPerPage,
 		page,
@@ -173,7 +176,7 @@ const useEditWageringTemplate = () => {
 	}, [
 		validation?.values,
 		casinoGames,
-		validation?.values?.search,
+		validation?.values?.searchString,
 		itemsPerPage,
 		page,
 		selectedId,

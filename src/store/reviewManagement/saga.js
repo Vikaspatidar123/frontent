@@ -17,12 +17,12 @@ import {
 import { getReviewManagement } from '../../network/getRequests';
 import { createReview } from '../../network/postRequests';
 import { updateReview } from '../../network/putRequests';
-import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
 function* fetchReviewManagement(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const response = yield call(getReviewManagement, payload);
 		yield put(
 			fetchReviewManagementSuccess(response?.data?.data?.reviewDetails)

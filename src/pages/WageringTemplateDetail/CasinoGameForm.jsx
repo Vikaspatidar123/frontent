@@ -58,15 +58,13 @@ const CasinoGamesForm = ({
 	const formattedCasinoGames = useMemo(() => {
 		if (casinoGames) {
 			return casinoGames?.games?.map((game) => {
-				const data = wageringTemplateDetail?.rows?.find(
+				const data = wageringTemplateDetail?.wageringTemplates?.find(
 					(templateData) =>
 						templateData.gameContribution &&
-						templateData.gameContribution[game.casinoGameId]
+						templateData.gameContribution[game.id]
 				);
 
-				const gameContribution = data
-					? data.gameContribution[game.casinoGameId]
-					: null;
+				const gameContribution = data ? data.gameContribution[game.id] : null;
 
 				return {
 					...game,
@@ -84,16 +82,14 @@ const CasinoGamesForm = ({
 				return [
 					...prevSelectedId,
 					{
-						casinoGameId: cell?.row?.original?.casinoGameId,
+						id: cell?.row?.original?.id,
 					},
 				];
 			});
 		} else {
 			setSelectedId((prevSelectedId) =>
 				prevSelectedId.filter(
-					(item) =>
-						!item.casinoGameId ||
-						item.casinoGameId !== cell?.row?.original?.casinoGameId
+					(item) => !item.id || item.id !== cell?.row?.original?.id
 				)
 			);
 		}

@@ -8,11 +8,6 @@ import withRouter from '../Common/withRouter';
 // i18n
 import SidebarContent from './SidebarContent';
 
-// import logo from '../../assets/images/logo.svg';
-// import logoLightPng from '../../assets/images/logo-light.png';
-// import logoLightSvg from '../../assets/images/logo-light.svg';
-// import logoDark from '../../assets/images/logo-dark.png';
-
 const Sidebar = () => {
 	const superAdminUser = useSelector(
 		(state) => state.PermissionDetails.superAdminUser

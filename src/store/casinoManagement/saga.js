@@ -99,7 +99,7 @@ import {
 } from '../../network/postRequests';
 
 import { objectToFormData } from '../../utils/objectToFormdata';
-import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
 function* getCasinoCategoryWorker(action) {
@@ -157,8 +157,7 @@ function* removeSubCategoryAddedGamesWorker(action) {
 
 function* getCasinoSubCategoryWorker(action) {
 	try {
-		let payload = action && action.payload;
-		payload = clearEmptyProperty(payload);
+		const payload = action && action.payload;
 		const { data } = yield getCasinoSubCategoryListing(payload);
 		yield put(getCasinoSubCategoryDetailSuccess(data?.data));
 	} catch (error) {
@@ -204,8 +203,7 @@ function* getAllCasinoProvidersWorker(action) {
 
 function* getAllCasinoGamesWorker(action) {
 	try {
-		let payload = action && action.payload;
-		payload = clearEmptyProperty(payload);
+		const payload = action && action.payload;
 
 		const { data } = yield getAllCasinoGames(payload);
 

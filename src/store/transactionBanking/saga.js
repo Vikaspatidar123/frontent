@@ -15,11 +15,10 @@ import {
 	getLedgerDetails,
 	getTransactionBanking,
 } from '../../network/getRequests';
-import { clearEmptyProperty } from '../../utils/helpers';
 
 function* fetchTransactionBanking(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const response = yield call(getTransactionBanking, payload);
 		yield put(fetchTransactionBankingSuccess(response?.data?.data));
 	} catch (error) {
@@ -29,7 +28,7 @@ function* fetchTransactionBanking(action) {
 
 function* getLedgerDetailsWorker(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const response = yield call(getLedgerDetails, payload);
 		yield put(getLedgerDetailsSuccess(response?.data?.data));
 	} catch (error) {

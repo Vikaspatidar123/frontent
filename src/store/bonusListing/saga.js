@@ -35,13 +35,12 @@ import {
 	// superAdminViewToggleStatus,
 	reorderBonus,
 } from '../../network/putRequests';
-import { showToastr, clearEmptyProperty } from '../../utils/helpers';
+import { showToastr } from '../../utils/helpers';
 import { deleteBonus } from '../../network/deleteRequests';
 
 function* getBonusListingWorker(action) {
 	try {
-		let payload = action && action.payload;
-		payload = clearEmptyProperty(payload);
+		const payload = action && action.payload;
 		const { data } = yield getAllBonus(payload);
 
 		yield put(getBonusDetailsSuccess(data?.data?.bonus));
@@ -86,8 +85,7 @@ function* updateSABonusStatusWorker(action) {
 
 function* getBonusCurrencyConversionsWorker(action) {
 	try {
-		let payload = action && action.payload;
-		payload = clearEmptyProperty(payload);
+		const payload = action && action.payload;
 		const { data } = yield getBonusCurrenciesConvertAmount(payload);
 		yield put(getBonusCurrencyConversionsSuccess(data?.data?.currenciesAmount));
 	} catch (error) {

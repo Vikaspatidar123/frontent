@@ -1,5 +1,4 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { clearEmptyProperty } from '../../utils/helpers';
 // Login Redux States
 import { FETCH_SPORTS_TRANSACTION_START } from './actionTypes';
 import {
@@ -10,7 +9,7 @@ import { getSportsTransaction } from '../../network/getRequests';
 
 function* fetchSportsTransaction(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const response = yield call(getSportsTransaction, payload);
 		yield put(fetchSportsTransactionSuccess(response?.data?.data));
 	} catch (error) {

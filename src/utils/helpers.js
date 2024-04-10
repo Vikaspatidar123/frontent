@@ -30,13 +30,6 @@ const showToastr = ({ type, message, title }) => {
 	else toastr.success(message, title);
 };
 
-const clearEmptyProperty = (payload = {}) =>
-	Object.fromEntries(
-		Object.entries(payload).filter(
-			([, v]) => v != null || v !== undefined || v !== ''
-		)
-	);
-
 const getDateDaysAgo = (days) => {
 	const now = new Date();
 	now.setDate(now.getDate() - days);
@@ -98,7 +91,6 @@ export {
 	showToastr,
 	getDateDaysAgo,
 	formatDateYMD,
-	clearEmptyProperty,
 	downloadFileInSameWindow,
 	downloadFileInNewWindow,
 	dataURLtoBlob,

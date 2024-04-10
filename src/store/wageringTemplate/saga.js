@@ -1,5 +1,5 @@
 import { put, takeLatest, all, fork } from 'redux-saga/effects';
-import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { showToastr } from '../../utils/helpers';
 // Crypto Redux States
 import {
 	getWageringTemplateDetailSuccess,
@@ -33,9 +33,9 @@ import { formPageTitle } from '../../components/Common/constants';
 
 function* getWageringTemplateDetailWorker(action) {
 	try {
-		const payload = clearEmptyProperty(action && action.payload);
+		const payload = action && action.payload;
 		const { data } = yield getSuperAdminWageringTemplate(payload);
-		yield put(getWageringTemplateDetailsSuccess(data?.data?.wageringTemplates));
+		yield put(getWageringTemplateDetailsSuccess(data?.data));
 	} catch (e) {
 		yield put(getWageringTemplateDetailsFail(e.message));
 	}
@@ -43,7 +43,7 @@ function* getWageringTemplateDetailWorker(action) {
 
 function* getSAWageringTemplateDetailWorker(action) {
 	try {
-		const payload = clearEmptyProperty(action && action.payload);
+		const payload = action && action.payload;
 		const { data } = yield getSuperAdminWageringTemplateDetail(payload);
 		yield put(getWageringTemplateDetailSuccess(data?.data));
 	} catch (e) {

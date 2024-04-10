@@ -54,6 +54,7 @@ const ReorderBonus = () => {
 										paginationDiv="justify-content-center"
 										pagination="pagination justify-content-start pagination-rounded"
 										isLoading={isBonusDetailsLoading}
+										isShowColSettings={false}
 									/>
 								</Row>
 							</CardBody>

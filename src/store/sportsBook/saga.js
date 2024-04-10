@@ -49,7 +49,7 @@ import {
 	updateCompanyOddApi,
 	updateOddsVariationApi,
 } from '../../network/putRequests';
-import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { showToastr } from '../../utils/helpers';
 import {
 	updateLocationStatus,
 	updateSportStatus,
@@ -59,7 +59,7 @@ import {
 
 function* sportsListingWorker(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const { data } = yield getSportsList(payload);
 		yield put(getSportsListSuccess(data?.data));
 	} catch (error) {
@@ -69,7 +69,7 @@ function* sportsListingWorker(action) {
 
 function* sportsCountriesWorker(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const { data } = yield getCountriesList(payload);
 		yield put(getSportsCountriesSuccess(data?.data));
 	} catch (error) {
@@ -81,7 +81,7 @@ function* sportsCountriesWorker(action) {
 
 function* sportsTournamentListWorker(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const { data } = yield getTournamentsList(payload);
 		yield put(getSportsTournamentListSuccess(data?.data));
 	} catch (error) {

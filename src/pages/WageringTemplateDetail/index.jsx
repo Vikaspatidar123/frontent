@@ -66,7 +66,7 @@ const WageringTemplate = () => {
 								/>
 								<TableContainer
 									columns={columns}
-									data={wageringTemplateDetail?.rows || []}
+									data={wageringTemplateDetail?.wageringTemplates || []}
 									isAddOptions={false}
 									isPagination
 									customPageSize={itemsPerPage}

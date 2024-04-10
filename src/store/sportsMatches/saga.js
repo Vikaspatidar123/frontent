@@ -12,12 +12,11 @@ import {
 	updateFeaturedMatchSuccess,
 } from './actions';
 import { getSportsMatches } from '../../network/getRequests';
-import { clearEmptyProperty } from '../../utils/helpers';
 import { updateMatchFeaturedTemplate } from '../../network/postRequests';
 
 function* fetchSportsMatches(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
+		const payload = action && action.payload;
 		const response = yield call(getSportsMatches, payload);
 		yield put(fetchSportsMatchesSuccess(response?.data?.data));
 	} catch (error) {

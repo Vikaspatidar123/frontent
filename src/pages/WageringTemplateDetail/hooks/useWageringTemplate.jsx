@@ -6,7 +6,7 @@ import {
 	getWageringTemplateDetails,
 	resetWageringTemplateDetail,
 } from '../../../store/wageringTemplate/actions';
-import { WageringTemplateId, TemplateName } from '../WageringTemplateListCol';
+import { WageringTemplateId, CustomValues } from '../WageringTemplateListCol';
 import ActionButtons from '../ActionButtons';
 import { showLinearProgress } from '../../../store/progressLoading/actions';
 
@@ -55,19 +55,31 @@ const useWageringTemplate = (filterValues = {}) => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'TEMPLATE ID',
-				accessor: 'wageringTemplateId',
+				Header: 'Template Id',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <WageringTemplateId cell={cell} />,
 			},
 			{
-				Header: 'TEMPLATE NAME',
+				Header: 'Template Name',
 				accessor: 'name',
 				filterable: true,
-				Cell: ({ cell }) => <TemplateName cell={cell} />,
+				Cell: ({ cell }) => <CustomValues cell={cell} />,
 			},
 			{
-				Header: 'ACTION',
+				Header: 'Wagering Requirement Type',
+				accessor: 'wageringRequirementType',
+				filterable: true,
+				Cell: ({ cell }) => <CustomValues cell={cell} />,
+			},
+			{
+				Header: 'Wagering Multiplier',
+				accessor: 'wageringMultiplier',
+				filterable: true,
+				Cell: ({ cell }) => <CustomValues cell={cell} />,
+			},
+			{
+				Header: 'Action',
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
@@ -87,7 +99,7 @@ const useWageringTemplate = (filterValues = {}) => {
 		wageringTemplateDetail,
 		wageringTemplateDetailLoading,
 		itemsPerPage,
-		totalwageringTemplateDetailCount: wageringTemplateDetail?.count,
+		totalwageringTemplateDetailCount: wageringTemplateDetail?.totalPages,
 		page,
 		setPage,
 		onChangeRowsPerPage,

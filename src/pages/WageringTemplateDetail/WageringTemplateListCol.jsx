@@ -2,10 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomSwitchButton } from '../../helpers/customForms';
+import { selectedLanguage } from '../../constants/config';
 
 const WageringTemplateId = ({ cell }) => cell.value ?? '';
 
-const TemplateName = ({ cell }) => cell.value ?? '';
+const TemplateName = ({ cell }) => cell.value?.[selectedLanguage] ?? '';
 
 const RTP = ({ cell }) => `${cell?.value} %`;
 
@@ -22,16 +23,8 @@ const Select = ({ cell, handleChange, selectedId }) => (
 		id="customRadioInline1"
 		name="select"
 		inputClassName="form-check-input"
-		checked={
-			!!selectedId?.find(
-				(id) => id.casinoGameId === cell.row.original.casinoGameId
-			)
-		}
-		value={
-			!!selectedId?.find(
-				(id) => id.casinoGameId === cell.row.original.casinoGameId
-			)
-		}
+		checked={!!selectedId?.find((sel) => sel.id === cell.row.original.id)}
+		value={!!selectedId?.find((sel) => sel.id === cell.row.original.id)}
 		onClick={(e) => handleChange(e, cell)}
 	/>
 );

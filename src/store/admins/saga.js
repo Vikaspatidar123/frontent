@@ -21,13 +21,12 @@ import {
 
 import { getAllAdminsList, getAdminChildren } from '../../network/getRequests';
 import { addSuperAdminUser, updateAdmin } from '../../network/postRequests';
-import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
 function* getAllAdmins(action) {
 	try {
-		const payload = clearEmptyProperty(action.payload);
-		const { data } = yield getAllAdminsList(payload);
+		const { data } = yield getAllAdminsList(action.payload);
 		yield put(getAllAdminsSuccess(data?.data));
 	} catch (error) {
 		yield put(getAllAdminsFail(error?.response?.data?.errors[0]?.description));

@@ -21,7 +21,9 @@ import {
 } from '../formDetails';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import { debounceTime, selectedLanguage } from '../../../constants/config';
 
+let debounce;
 const useCreateWageringTemplate = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -84,7 +86,7 @@ const useCreateWageringTemplate = () => {
 	});
 
 	useEffect(() => {
-		if (casinoProvidersData) {
+		if (casinoProvidersData?.providers) {
 			setLeftFormFields([
 				...leftStaticFormFields(),
 				{
@@ -93,29 +95,30 @@ const useCreateWageringTemplate = () => {
 					label: 'Provider Name ',
 					placeholder: 'Provider',
 					optionList: casinoProvidersData?.providers?.map(({ id, name }) => ({
-						optionLabel: name,
+						optionLabel: name?.[selectedLanguage],
 						value: id,
 					})),
 				},
 			]);
+		} else {
+			dispatch(getCasinoProvidersDataStart());
 		}
 	}, [casinoProvidersData]);
 
 	useEffect(() => {
-		dispatch(getCasinoProvidersDataStart());
-		dispatch(
-			getCasinoGamesStart({
-				perPage: itemsPerPage,
-				page,
-				casinoCategoryId: '',
-				searchString: validation?.values?.search || '',
-				isActive: '',
-				tenantId: '',
-				providerId: validation?.values?.provider || '',
-			})
-		);
+		debounce = setTimeout(() => {
+			dispatch(
+				getCasinoGamesStart({
+					perPage: itemsPerPage,
+					page,
+					searchString: validation?.values?.searchString || '',
+					providerId: validation?.values?.provider || '',
+				})
+			);
+		}, debounceTime);
+		return () => clearTimeout(debounce);
 	}, [
-		validation?.values?.search,
+		validation?.values?.searchString,
 		validation?.values?.provider,
 		itemsPerPage,
 		page,
@@ -140,7 +143,7 @@ const useCreateWageringTemplate = () => {
 	}, [
 		validation?.values,
 		casinoGames,
-		validation?.values?.search,
+		validation?.values?.searchString,
 		itemsPerPage,
 		page,
 		isCasinoGamesLoading,
@@ -164,7 +167,7 @@ const useCreateWageringTemplate = () => {
 			);
 			validation.setValues({
 				name: values?.name,
-				search: values?.search || '',
+				searchString: values?.searchString || '',
 				customValue: values?.customValue || '',
 			});
 			setSelectedId(values?.selectedId || []);

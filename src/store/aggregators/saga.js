@@ -19,13 +19,12 @@ import {
 	createAggregator,
 } from '../../network/postRequests';
 // import { superAdminViewToggleStatus } from '../../network/putRequests';
-import { clearEmptyProperty, showToastr } from '../../utils/helpers';
+import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
 function* getAggregatorsWorker(action) {
 	try {
-		const payload = clearEmptyProperty(action && action.payload);
-		const { data } = yield getAggregators(payload);
+		const { data } = yield getAggregators(action.payload);
 		yield put(getAggregatorsListSuccess(data?.data));
 	} catch (e) {
 		yield showToastr({
