@@ -39,7 +39,7 @@ const ImageGallery = () => {
 					<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
 					<Row>
 						<Col>
-							<Card className="bg-white">
+							<Card>
 								<CrudSection buttonList={buttonList} title="Images" />
 								<CardBody>
 									<div

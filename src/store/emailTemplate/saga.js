@@ -87,7 +87,11 @@ function* getAllEmailTemplatesWorker() {
 function* getImageGalleryWorker() {
 	try {
 		const { data } = yield getImageGalleryData();
-		yield put(getImageGallerySuccess(data?.data?.gallery));
+		const gallery =
+			typeof data?.data?.gallery == 'string'
+				? JSON.parse(data?.data?.gallery)
+				: data?.data?.gallery;
+		yield put(getImageGallerySuccess(gallery));
 	} catch (e) {
 		yield put(getImageGalleryFail());
 	}
