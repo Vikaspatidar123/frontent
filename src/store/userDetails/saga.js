@@ -350,7 +350,7 @@ function* getAllBonusWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield getAllBonus(payload);
-		yield put(getAllBonusSuccess(data?.data?.bonus));
+		yield put(getAllBonusSuccess(data?.data));
 	} catch (e) {
 		yield put(getAllBonusFail(e.message));
 	}

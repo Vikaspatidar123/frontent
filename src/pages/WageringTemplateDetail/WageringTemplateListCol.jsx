@@ -15,19 +15,22 @@ const WageringContribution = ({ cell }) =>
 
 const CustomValues = ({ cell }) => `${cell?.value} %`;
 
-const Select = ({ cell, handleChange, selectedId }) => (
-	<CustomSwitchButton
-		labelClassName="form-check-label"
-		htmlFor="customRadioInline1"
-		type="switch"
-		id="customRadioInline1"
-		name="select"
-		inputClassName="form-check-input"
-		checked={!!selectedId?.find((sel) => sel.id === cell.row.original.id)}
-		value={!!selectedId?.find((sel) => sel.id === cell.row.original.id)}
-		onClick={(e) => handleChange(e, cell)}
-	/>
-);
+const Select = ({ cell, handleChange, selectedId }) => {
+	const value = selectedId[cell.row.original.id] || false;
+	return (
+		<CustomSwitchButton
+			labelClassName="form-check-label"
+			htmlFor="customRadioInline1"
+			type="switch"
+			id="customRadioInline1"
+			name="select"
+			inputClassName="form-check-input"
+			checked={value}
+			value={value}
+			onClick={(e) => handleChange(e, cell)}
+		/>
+	);
+};
 
 WageringTemplateId.propTypes = {
 	cell: PropTypes.shape({

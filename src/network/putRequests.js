@@ -24,9 +24,6 @@ const updateloyaltyLevel = ({ data }) =>
 const markUserAsInternal = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/user/internal`, data);
 
-const updateWageringTemplate = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template`, data);
-
 const cancelDocumentRequest = (data) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/user/cancel-document-request`,
@@ -83,7 +80,6 @@ export {
 	editBetSettings,
 	updateloyaltyLevel,
 	markUserAsInternal,
-	updateWageringTemplate,
 	cancelDocumentRequest,
 	cancelBonus,
 	verifyUserDocument,

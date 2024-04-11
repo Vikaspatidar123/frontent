@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import useWageringTemplate from './useWageringTemplate';
 import CasinoGameForm from '../CasinoGameForm';
 
 import {
@@ -33,7 +32,9 @@ const useEditWageringTemplate = () => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [customComponent, setCustomComponent] = useState();
-	const { wageringTemplateDetail } = useWageringTemplate();
+	const { wageringTemplateDetail } = useSelector(
+		(state) => state.WageringTemplate
+	);
 	const [selectedId, setSelectedId] = useState([]);
 
 	const { casinoProvidersData, casinoGames, isCasinoGamesLoading } =
@@ -48,23 +49,21 @@ const useEditWageringTemplate = () => {
 			dispatch(
 				getWageringTemplateDetail({
 					wageringTemplateId: Number(wageringTemplateId),
-					providerId: '',
-					perPage: itemsPerPage,
-					page,
 				})
 			);
 		}
-	}, [itemsPerPage, page]);
+	}, []);
 
 	const formSubmitHandler = (values) => {
 		const templateData = {
 			name: values.name,
-			gameContribution: Object.fromEntries(
-				selectedId?.map((sel) => [sel.id, values.customValue])
-			),
-			wageringTemplateId: Number(wageringTemplateId),
+			gameContributions: Object.keys(selectedId || {})?.map((id) => ({
+				casinoGameId: id,
+				contributionPercentage: values.contributionPercentage,
+			})),
+			wageringTemplateId,
 		};
-		if (Object.keys(templateData.gameContribution).length < 1) {
+		if (Object.keys(templateData.gameContributions).length < 1) {
 			showToastr({
 				message: 'Select At Least One Game',
 				type: 'error',
@@ -99,12 +98,11 @@ const useEditWageringTemplate = () => {
 	useEffect(() => {
 		if (SAWageringTemplate && !SAWageringTemplateLoading) {
 			validation.setValues(getInitialValues(SAWageringTemplate));
-			const data = Object.keys(SAWageringTemplate?.gameContribution || {}).map(
-				(key) => ({
-					casinoGameId: Number(key),
-				})
-			);
-			setSelectedId(data);
+			const selectedIds = {};
+			SAWageringTemplate?.template?.forEach(({ casinoGame }) => {
+				selectedIds[casinoGame.id] = true;
+			});
+			setSelectedId(selectedIds);
 		}
 	}, [SAWageringTemplate, SAWageringTemplateLoading]);
 

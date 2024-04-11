@@ -43,12 +43,12 @@ const useWageringTemplate = (filterValues = {}) => {
 	useEffect(() => () => dispatch(resetWageringTemplateDetail()), []);
 
 	const handleEditClick = (row) => {
-		navigate(`edit/${row.wageringTemplateId}`);
+		navigate(`edit/${row.id}`);
 		dispatch(showLinearProgress());
 	};
 
 	const handleViewClick = (row) => {
-		navigate(`details/${row.wageringTemplateId}`);
+		navigate(`details/${row.id}`);
 		dispatch(showLinearProgress());
 	};
 

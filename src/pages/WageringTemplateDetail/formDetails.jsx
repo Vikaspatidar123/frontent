@@ -5,7 +5,6 @@ const staticFiltersFields = () => [
 	{
 		name: 'searchString',
 		fieldType: 'textField',
-		// type: 'search',
 		label: '',
 		placeholder: 'Search by template name',
 	},
@@ -22,13 +21,13 @@ const filterValidationSchema = () =>
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
-	customValue: '',
-	search: '',
+	contributionPercentage: '',
+	searchString: '',
 });
 
 const createWageringTemplate = Yup.object().shape({
 	name: Yup.string().required('Template Name Required'),
-	customValue: Yup.string().required('Custom Value Required'),
+	contributionPercentage: Yup.string().required('Custom Value Required'),
 	searchString: Yup.string().nullable(),
 });
 
@@ -43,10 +42,10 @@ const leftStaticFormFields = () => [
 
 const rightStaticFormFields = () => [
 	{
-		name: 'customValue',
+		name: 'contributionPercentage',
 		fieldType: 'textField',
-		label: 'Custom Value',
-		placeholder: 'Custom Value',
+		label: 'Contribution Percentage',
+		placeholder: 'Contribution Percentage',
 		type: 'number',
 		minimum: 0,
 	},
@@ -54,7 +53,7 @@ const rightStaticFormFields = () => [
 		name: 'searchString',
 		fieldType: 'textField',
 		label: 'Search',
-		placeholder: 'Search Game Name',
+		placeholder: 'Search by game name',
 	},
 ];
 

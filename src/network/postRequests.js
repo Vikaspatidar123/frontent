@@ -106,7 +106,17 @@ const createUserCommentEntry = (data) =>
 	);
 
 const createWageringTemplate = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}wagering-template/create
+	`,
+		data
+	);
+
+const updateWageringTemplate = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}wagering-template/update`,
+		data
+	);
 
 const resetUserLimitCall = (data) =>
 	postRequest(
@@ -560,4 +570,5 @@ export {
 	activateKyc,
 	inActiveKyc,
 	updateComment,
+	updateWageringTemplate,
 };

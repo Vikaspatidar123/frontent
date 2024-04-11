@@ -1,4 +1,3 @@
-/* eslint-disable arrow-body-style */
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 
@@ -9,20 +8,19 @@ import {
 	RTP,
 	TemplateName,
 	WageringContribution,
-	CustomValues,
 	Select,
 } from './WageringTemplateListCol';
 
 const columns = (handleChange, selectedId) => [
 	{
-		Header: 'SELECT',
+		Header: 'Select',
 		accessor: 'checkField',
 		Cell: ({ cell }) => (
 			<Select cell={cell} handleChange={handleChange} selectedId={selectedId} />
 		),
 	},
 	{
-		Header: 'NAME',
+		Header: 'Name',
 		accessor: 'name',
 		Cell: ({ cell }) => <TemplateName cell={cell} />,
 	},
@@ -32,20 +30,14 @@ const columns = (handleChange, selectedId) => [
 		Cell: ({ cell }) => <RTP cell={cell} />,
 	},
 	{
-		Header: 'DEFAULT',
+		Header: 'Default',
 		accessor: 'wageringContribution',
 		Cell: ({ cell }) => <WageringContribution cell={cell} />,
-	},
-	{
-		Header: 'CUSTOM VALUE',
-		accessor: 'gameContribution',
-		Cell: ({ cell }) => <CustomValues cell={cell} />,
 	},
 ];
 
 const CasinoGamesForm = ({
 	casinoGames,
-	validation,
 	wageringTemplateDetail,
 	selectedId,
 	setSelectedId,
@@ -56,42 +48,25 @@ const CasinoGamesForm = ({
 	setPage,
 }) => {
 	const formattedCasinoGames = useMemo(() => {
-		if (casinoGames) {
-			return casinoGames?.games?.map((game) => {
-				const data = wageringTemplateDetail?.wageringTemplates?.find(
-					(templateData) =>
-						templateData.gameContribution &&
-						templateData.gameContribution[game.id]
-				);
-
-				const gameContribution = data ? data.gameContribution[game.id] : null;
-
-				return {
-					...game,
-					gameContribution:
-						validation?.values?.customValue || gameContribution || 100,
-				};
-			});
+		if (casinoGames?.games) {
+			return casinoGames?.games?.map((game) => ({
+				...game,
+			}));
 		}
 		return [];
 	}, [casinoGames, wageringTemplateDetail]);
 
 	const handleChange = (e, cell) => {
+		const id = cell?.row?.original?.id;
+		if (!id) return;
 		if (e.target.checked) {
-			setSelectedId((prevSelectedId) => {
-				return [
-					...prevSelectedId,
-					{
-						id: cell?.row?.original?.id,
-					},
-				];
-			});
+			setSelectedId((prevSelectedId) => ({ ...prevSelectedId, [id]: true }));
 		} else {
-			setSelectedId((prevSelectedId) =>
-				prevSelectedId.filter(
-					(item) => !item.id || item.id !== cell?.row?.original?.id
-				)
-			);
+			setSelectedId((prevSelectedId) => {
+				const prev = prevSelectedId;
+				delete prev[id];
+				return prev;
+			});
 		}
 	};
 

@@ -40,8 +40,8 @@ const useBonusListing = (filterValues = {}) => {
 	};
 
 	const formattedBonusDetails = useMemo(() => {
-		if (bonusDetails?.rows?.length) {
-			return bonusDetails?.rows.map((bonus) => {
+		if (bonusDetails?.bonus?.length) {
+			return bonusDetails?.bonus.map((bonus) => {
 				const {
 					promotionTitle,
 					bonusType: type,
@@ -156,51 +156,51 @@ const useBonusListing = (filterValues = {}) => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'ID',
-				accessor: 'bonusId',
+				Header: 'Id',
+				accessor: 'id',
 				filterable: true,
 				Cell: ({ cell }) => <BonusId value={cell.value} />,
 			},
 			{
-				Header: 'TITLE',
+				Header: 'Title',
 				accessor: 'title',
 				filterable: true,
 				Cell: ({ cell }) => <Title value={cell.value} />,
 			},
 			{
-				Header: 'BONUS TYPE',
+				Header: 'Bonus Type',
 				accessor: 'bonusType',
 				filterable: true,
 				Cell: ({ cell }) => <BonusType value={cell.value} />,
 			},
 			{
-				Header: 'VALID TILL',
+				Header: 'Valid Till',
 				accessor: 'validTill',
 				filterable: true,
 				Cell: ({ cell }) => <ValidTill value={cell.value} />,
 			},
 			{
-				Header: 'IS EXPIRED',
+				Header: 'Is Expired',
 				accessor: 'isExpired',
 				filterable: true,
 				Cell: ({ cell }) => <IsExpired value={cell.value} />,
 			},
 			{
-				Header: 'IS CLAIMED',
+				Header: 'Is Claimed',
 				accessor: 'isClaimed',
 				filterable: true,
 				Cell: ({ cell }) => <IsClaimed value={cell.value} />,
 			},
 			{
-				Header: 'STATUS',
+				Header: 'Status',
 				accessor: 'isActive',
 				disableSortBy: true,
 				disableFilters: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
-				Header: 'ACTION',
-				accessor: 'action',
+				Header: 'Actions',
+				accessor: 'actions',
 				disableSortBy: true,
 				disableFilters: true,
 				Cell: ({ cell }) => (

@@ -74,13 +74,13 @@ const getAggregators = (payload) =>
 
 const getSuperAdminWageringTemplateDetail = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template/details`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}wagering-template`,
 		payload
 	);
 
 const getSuperAdminWageringTemplate = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}get-all-wagering-templates`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}wagering-templates`,
 		payload
 	);
 
@@ -91,7 +91,10 @@ const getAllCasinoGames = (payload) =>
 	);
 
 const getAllBonus = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonuses`,
+		payload
+	);
 
 const getBonusDetails = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/detail`, payload);

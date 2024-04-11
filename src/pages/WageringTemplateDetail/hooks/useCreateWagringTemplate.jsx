@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import useWageringTemplate from './useWageringTemplate';
 import CasinoGameForm from '../CasinoGameForm';
 import { modules } from '../../../constants/permissions';
 import {
@@ -30,13 +29,12 @@ const useCreateWageringTemplate = () => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [customComponent, setCustomComponent] = useState();
-	const { wageringTemplateDetail } = useWageringTemplate();
+	const { wageringTemplateDetail } = useSelector(
+		(state) => state.WageringTemplate
+	);
 	const [selectedId, setSelectedId] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [existingFilledData, setExistingFilledData] = useState({});
-	// console.log('existingFilledData: ', existingFilledData);
-
-	// const [isEdit, setIsEdit] = useState(isEditPage || false);
 
 	const {
 		casinoProvidersData,
@@ -48,11 +46,12 @@ const useCreateWageringTemplate = () => {
 	const formSubmitHandler = (values) => {
 		const templateData = {
 			name: values.name,
-			gameContribution: Object.fromEntries(
-				selectedId?.map((id) => [id.casinoGameId, values.customValue])
-			),
+			gameContributions: Object.keys(selectedId || {})?.map((id) => ({
+				casinoGameId: id,
+				contributionPercentage: values.contributionPercentage,
+			})),
 		};
-		if (Object.keys(templateData.gameContribution).length < 1) {
+		if (Object.keys(templateData.gameContributions).length < 1) {
 			showToastr({
 				message: 'Select At Least One Game',
 				type: 'error',

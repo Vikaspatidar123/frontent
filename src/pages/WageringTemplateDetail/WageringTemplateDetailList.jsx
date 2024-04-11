@@ -1,78 +1,68 @@
-/* eslint-disable arrow-body-style */
 /* eslint-disable react/prop-types */
 import React, { useMemo, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
-import useEditWageringTemplate from './hooks/useEditWageringTemplate';
 import { getWageringTemplateDetail } from '../../store/actions';
 import {
 	RTP,
 	TemplateName,
 	WageringContribution,
-	CustomValues,
 } from './WageringTemplateListCol';
 
 const columns = [
 	{
-		Header: 'NAME',
-		accessor: 'name',
+		Header: 'Game Name',
+		accessor: 'casinoGameName',
 		Cell: ({ cell }) => <TemplateName cell={cell} />,
 	},
 	{
-		Header: 'RTP',
-		accessor: 'returnToPlayer',
+		Header: 'Contribution Percentage',
+		accessor: 'contributionPercentage',
 		Cell: ({ cell }) => <RTP cell={cell} />,
 	},
 	{
-		Header: 'DEFAULT',
+		Header: 'Default',
 		accessor: 'wageringContribution',
 		Cell: ({ cell }) => <WageringContribution cell={cell} />,
-	},
-	{
-		Header: 'CUSTOM VALUE',
-		accessor: 'gameContribution',
-		Cell: ({ cell }) => <CustomValues cell={cell} />,
 	},
 ];
 
 const WageringTemplateDetailList = () => {
 	const dispatch = useDispatch();
 	const { wageringTemplateId } = useParams();
-
-	const {
-		SAWageringTemplate,
-		SAWageringTemplateLoading,
-		itemsPerPage,
-		onChangeRowsPerPage,
-		page,
-		setPage,
-	} = useEditWageringTemplate();
+	const { SAWageringTemplate, SAWageringTemplateLoading } = useSelector(
+		(state) => state.WageringTemplate
+	);
+	// const {
+	// 	SAWageringTemplate,
+	// 	SAWageringTemplateLoading,
+	// 	itemsPerPage,
+	// 	onChangeRowsPerPage,
+	// 	page,
+	// 	setPage,
+	// } = useEditWageringTemplate();
 
 	useEffect(() => {
 		if (wageringTemplateId) {
 			dispatch(
 				getWageringTemplateDetail({
 					wageringTemplateId: Number(wageringTemplateId),
-					perPage: itemsPerPage,
-					page,
+					// perPage: itemsPerPage,
+					// page,
 				})
 			);
 		}
-	}, [itemsPerPage, page]);
+	}, []);
 
 	const formattedSAWageringTemplateData = useMemo(() => {
-		if (SAWageringTemplate) {
-			return SAWageringTemplate?.gameDetail?.rows?.map((template) => {
-				return {
-					...template,
-					gameContribution:
-						SAWageringTemplate?.gameContribution?.[template?.casinoGameId] ||
-						100,
-				};
-			});
+		if (SAWageringTemplate?.template) {
+			return SAWageringTemplate?.template?.map((template) => ({
+				...template,
+				casinoGameName: template.casinoGame?.name || '-',
+			}));
 		}
 		return [];
 	}, [SAWageringTemplate]);
@@ -95,17 +85,10 @@ const WageringTemplateDetailList = () => {
 						<TableContainer
 							columns={columns}
 							data={formattedSAWageringTemplateData}
-							isPagination
-							customPageSize={itemsPerPage}
 							tableClass="table-bordered align-middle nowrap mt-2"
 							paginationDiv="justify-content-center"
 							pagination="pagination justify-content-start pagination-rounded"
-							totalPageCount={SAWageringTemplate?.gameDetail?.count}
-							isManualPagination
-							onChangePagination={setPage}
-							currentPage={page}
 							isLoading={SAWageringTemplateLoading}
-							changeRowsPerPageCallback={onChangeRowsPerPage}
 						/>
 					</Col>
 				</Row>

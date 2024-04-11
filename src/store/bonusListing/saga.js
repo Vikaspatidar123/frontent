@@ -43,7 +43,7 @@ function* getBonusListingWorker(action) {
 		const payload = action && action.payload;
 		const { data } = yield getAllBonus(payload);
 
-		yield put(getBonusDetailsSuccess(data?.data?.bonus));
+		yield put(getBonusDetailsSuccess(data?.data));
 	} catch (error) {
 		yield put(
 			getBonusDetailsFail(error?.response?.data?.errors[0]?.description)

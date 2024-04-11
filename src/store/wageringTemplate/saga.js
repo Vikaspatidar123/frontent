@@ -27,8 +27,10 @@ import {
 	getSuperAdminWageringTemplate,
 	getSuperAdminWageringTemplateDetail,
 } from '../../network/getRequests';
-import { createWageringTemplate } from '../../network/postRequests';
-import { updateWageringTemplate } from '../../network/putRequests';
+import {
+	createWageringTemplate,
+	updateWageringTemplate,
+} from '../../network/postRequests';
 import { formPageTitle } from '../../components/Common/constants';
 
 function* getWageringTemplateDetailWorker(action) {

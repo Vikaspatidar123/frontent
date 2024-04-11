@@ -106,7 +106,7 @@ const WageringContribution = ({
 
 	const formattedWageringTemplates = useMemo(() => {
 		if (SAWageringTemplate) {
-			return SAWageringTemplate?.gameDetail?.rows.map((item) => ({
+			return SAWageringTemplate?.casinoGame.map((item) => ({
 				...item,
 				rtp: `${item.returnToPlayer} %`,
 				contribution: `${item.wageringContribution ?? 0} %`,
