@@ -1,16 +1,16 @@
 import {
-	GET_BONUS_DETAILS_DATA,
-	GET_BONUS_DETAILS_DATA_SUCCESS,
-	GET_BONUS_DETAILS_DATA_FAIL,
+	GET_BONUSES_START,
+	GET_BONUSES_SUCCESS,
+	GET_BONUSES_FAIL,
 	UPDATE_SA_BONUS_STATUS,
 	UPDATE_SA_BONUS_STATUS_SUCCESS,
 	UPDATE_SA_BONUS_STATUS_FAIL,
 	GET_BONUS_CURRENCY_CONVERSION,
 	GET_BONUS_CURRENCY_CONVERSION_SUCCESS,
 	GET_BONUS_CURRENCY_CONVERSION_FAIL,
-	GET_BONUS_START,
-	GET_BONUS_SUCCESS,
-	GET_BONUS__FAIL,
+	GET_BONUS_DETAIL,
+	GET_BONUS_DETAIL_SUCCESS,
+	GET_BONUS_DETAIL_FAIL,
 	DELETE_BONUS_START,
 	DELETE_BONUS_FAIL,
 	DELETE_BONUS_COMPLETE,
@@ -38,7 +38,6 @@ const INIT_STATE = {
 			zeroOutThreshold: '',
 		},
 	},
-	gameBonusDetail: null,
 	reorderBonusSuccess: false,
 	reorderBonusLoading: false,
 	reorderBonusError: null,
@@ -46,13 +45,13 @@ const INIT_STATE = {
 
 const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 	switch (type) {
-		case GET_BONUS_DETAILS_DATA:
+		case GET_BONUSES_START:
 			return {
 				...state,
 				isLoading: false,
 			};
 
-		case GET_BONUS_DETAILS_DATA_SUCCESS:
+		case GET_BONUSES_SUCCESS:
 			return {
 				...state,
 				isLoading: true,
@@ -60,7 +59,7 @@ const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				error: null,
 			};
 
-		case GET_BONUS_DETAILS_DATA_FAIL:
+		case GET_BONUSES_FAIL:
 			return {
 				...state,
 				error: payload,
@@ -128,13 +127,13 @@ const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				bonusCurrencies: INIT_STATE.bonusCurrencies,
 			};
 
-		case GET_BONUS_START:
+		case GET_BONUS_DETAIL:
 			return {
 				...state,
 				isBonusDetailsLoading: true,
 			};
 
-		case GET_BONUS_SUCCESS:
+		case GET_BONUS_DETAIL_SUCCESS:
 			return {
 				...state,
 				gameBonusDetail: payload,
@@ -142,7 +141,7 @@ const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				isBonusDetailsLoading: false,
 			};
 
-		case GET_BONUS__FAIL:
+		case GET_BONUS_DETAIL_FAIL:
 			return {
 				...state,
 				error: payload,

@@ -2,19 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import moment from 'moment/moment';
+import { dateFormat, selectedLanguage } from '../../constants/config';
 
 const BonusId = ({ value }) => (
 	<Link to="/" className="text-body fw-bold">
 		{value ?? ''}
 	</Link>
 );
-const Title = ({ value }) => value ?? '';
+const Title = ({ value }) => value[selectedLanguage] ?? '-';
 
 const BonusType = ({ value }) => value ?? '';
 
-const ValidTill = ({ value }) => value ?? '';
+const Date = ({ value }) => (value ? moment(value).format(dateFormat) : '-');
 
-const IsExpired = ({ value }) => value ?? '';
+const Custom = ({ value }) => value ?? '';
 
 const IsClaimed = ({ value }) => value ?? '';
 
@@ -33,4 +35,4 @@ Status.propTypes = {
 	value: PropTypes.bool.isRequired,
 };
 
-export { BonusId, Title, BonusType, ValidTill, IsExpired, IsClaimed, Status };
+export { BonusId, Title, BonusType, Date, Custom, IsClaimed, Status };

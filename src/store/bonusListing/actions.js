@@ -1,7 +1,7 @@
 import {
-	GET_BONUS_DETAILS_DATA,
-	GET_BONUS_DETAILS_DATA_SUCCESS,
-	GET_BONUS_DETAILS_DATA_FAIL,
+	GET_BONUSES_START,
+	GET_BONUSES_SUCCESS,
+	GET_BONUSES_FAIL,
 	UPDATE_SA_BONUS_STATUS,
 	UPDATE_SA_BONUS_STATUS_SUCCESS,
 	UPDATE_SA_BONUS_STATUS_FAIL,
@@ -9,9 +9,9 @@ import {
 	GET_BONUS_CURRENCY_CONVERSION_SUCCESS,
 	GET_BONUS_CURRENCY_CONVERSION_FAIL,
 	RESET_BONUS_CURRENCY_CONVERSION,
-	GET_BONUS_START,
-	GET_BONUS_SUCCESS,
-	GET_BONUS__FAIL,
+	GET_BONUS_DETAIL,
+	GET_BONUS_DETAIL_SUCCESS,
+	GET_BONUS_DETAIL_FAIL,
 	DELETE_BONUS_START,
 	DELETE_BONUS_FAIL,
 	DELETE_BONUS_COMPLETE,
@@ -21,18 +21,18 @@ import {
 	RESET_BONUS_DETAILS_DATA,
 } from './actionTypes';
 
-export const getBonusDetailsSuccess = (payload) => ({
-	type: GET_BONUS_DETAILS_DATA_SUCCESS,
+export const getBonusesSuccess = (payload) => ({
+	type: GET_BONUSES_SUCCESS,
 	payload,
 });
 
-export const getBonusDetailsFail = (payload) => ({
-	type: GET_BONUS_DETAILS_DATA_FAIL,
+export const getBonusesFail = (payload) => ({
+	type: GET_BONUSES_FAIL,
 	payload,
 });
 
-export const getBonusDetails = (payload) => ({
-	type: GET_BONUS_DETAILS_DATA,
+export const getBonusesStart = (payload) => ({
+	type: GET_BONUSES_START,
 	payload,
 });
 
@@ -76,16 +76,16 @@ export const resetBonusCurrencyConversion = (payload) => ({
 	payload,
 });
 
-export const getBonusStart = (payload) => ({
-	type: GET_BONUS_START,
+export const getBonusDetail = (payload) => ({
+	type: GET_BONUS_DETAIL,
 	payload,
 });
-export const getBonusSuccess = (payload) => ({
-	type: GET_BONUS_SUCCESS,
+export const getBonusDetailSuccess = (payload) => ({
+	type: GET_BONUS_DETAIL_SUCCESS,
 	payload,
 });
-export const getBonusFailure = (payload) => ({
-	type: GET_BONUS__FAIL,
+export const getBonusDetailFail = (payload) => ({
+	type: GET_BONUS_DETAIL_FAIL,
 	payload,
 });
 

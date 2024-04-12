@@ -13,7 +13,7 @@ import {
 import FormPage from '../../../components/Common/FormPage';
 import Spinners from '../../../components/Common/Spinner';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { bonusTypes, daysOfWeek } from '../constants';
+import { BONUS_TYPES, bonusTypes, daysOfWeek } from '../constants';
 import { generalFormSchema } from '../Validation/schema';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
@@ -84,7 +84,7 @@ const General = ({
 			validation.setFieldValue('visibleInPromotions', false);
 			validation.setFieldValue('validOnDays', []);
 			validation.setFieldValue('wageringRequirementType', 'bonus');
-			if (bonusType === 'freespins') {
+			if (bonusType === BONUS_TYPES.FREESPINS) {
 				validation.setFieldValue('isSticky', true);
 			} else {
 				validation.setFieldValue('isSticky', false);
@@ -96,13 +96,13 @@ const General = ({
 				visibleInPromotions: false,
 				validOnDays: [],
 				wageringRequirementType: 'bonus',
-				isSticky: bonusType === 'freespins',
+				isSticky: bonusType === BONUS_TYPES.FREESPINS,
 			});
 			window.localStorage.removeItem(formPageTitle.bonusManagement);
 		}
 		setSelectedBonus(bonusType);
 		switch (bonusType) {
-			case 'deposit':
+			case BONUS_TYPES.DEPOSIT:
 				setFormFields([
 					...generalStaticFormFields(
 						bonusDetails?.claimedCount,
@@ -127,7 +127,7 @@ const General = ({
 					),
 				]);
 				break;
-			case 'freespins':
+			case BONUS_TYPES.FREESPINS:
 				setFormFields([
 					...generalStaticFormFieldsWithoutPercent(
 						bonusDetails?.claimedCount,
@@ -149,7 +149,7 @@ const General = ({
 					...typeFreeSpinAdditionalFields(bonusDetails?.claimedCount),
 				]);
 				break;
-			case 'joining':
+			case BONUS_TYPES.JOINING:
 				setFormFields([
 					...generalStaticFormFieldsWithoutPercent(
 						bonusDetails?.claimedCount,
@@ -185,14 +185,18 @@ const General = ({
 	};
 
 	useEffect(() => {
-		handleBonusTypeChange(null, bonusDetails?.bonusType || 'deposit', true);
+		handleBonusTypeChange(
+			null,
+			bonusDetails?.bonusType || BONUS_TYPES.DEPOSIT,
+			true
+		);
 	}, [bonusDetails]);
 
 	useEffect(() => {
 		if (isInitialFieldRendered) {
 			if (
 				validation?.values?.visibleInPromotions &&
-				validation?.values?.bonusType !== 'joining'
+				validation?.values?.bonusType !== BONUS_TYPES.JOINING
 			) {
 				const copyArray = [...formFields];
 				copyArray.splice(11, 0, {
@@ -222,7 +226,10 @@ const General = ({
 	}, [validation.values.visibleInPromotions, isInitialFieldRendered]);
 
 	useEffect(() => {
-		if (isInitialFieldRendered && validation?.values?.bonusType === 'joining') {
+		if (
+			isInitialFieldRendered &&
+			validation?.values?.bonusType === BONUS_TYPES.JOINING
+		) {
 			const excludedFields = [
 				'depositBonusPercent',
 				'ranges',

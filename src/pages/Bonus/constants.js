@@ -1,13 +1,9 @@
-const types = [
-	{ label: 'DEPOSIT', value: 'deposit', id: 0 },
-	{ label: 'BALANCE', value: 'balance', id: 1 },
-	{ label: 'FREESPINS', value: 'freespins', id: 2 },
-	{ label: 'CASH FREESPINS', value: 'cashfreespins', id: 3 },
-	{ label: 'DEPOSIT', value: 'deposit', id: 4 },
-	{ label: 'WAGERING(CASHBACK)', value: 'wagering', id: 5 },
-	{ label: 'PROMOTION', value: 'promotion', id: 6 },
-	{ label: 'JOINING', value: 'joining', id: 7 },
-];
+export const BONUS_TYPES = {
+	FREESPINS: 'freespins',
+	DEPOSIT: 'deposit',
+	JOINING: 'joining',
+	BET: 'bet',
+};
 
 const daysOfWeek = [
 	{ label: 'Monday', value: 'Monday', id: 0 },
@@ -20,9 +16,10 @@ const daysOfWeek = [
 ];
 
 const bonusTypes = [
-	{ label: 'DEPOSIT', value: 'deposit', id: 1 },
-	{ label: 'FREESPINS', value: 'freespins', id: 2 },
-	{ label: 'JOINING', value: 'joining', id: 3 },
+	{ label: 'DEPOSIT', value: BONUS_TYPES.DEPOSIT, id: 1 },
+	{ label: 'FREESPINS', value: BONUS_TYPES.FREESPINS, id: 2 },
+	{ label: 'JOINING', value: BONUS_TYPES.JOINING, id: 3 },
+	{ label: 'BET', value: BONUS_TYPES.BET, id: 4 },
 ];
 
 const convertAmountOptions = [
@@ -37,9 +34,12 @@ const convertAmountOptions = [
 
 const checkLabels = (bonusType) => {
 	if (
-		['freespins', 'cashfreespins', 'balance', 'deposit', 'promotion'].includes(
-			bonusType
-		)
+		[
+			BONUS_TYPES.FREESPINS,
+			BONUS_TYPES.DEPOSIT,
+			BONUS_TYPES.promotion,
+			BONUS_TYPES.promotion,
+		].includes(bonusType)
 	) {
 		return [
 			{
@@ -72,13 +72,13 @@ const daysLabels = [
 	'Saturday',
 	'Sunday',
 ];
+
 const wageringRequirementType = [
 	{ label: 'BONUS', value: 'bonus', id: 1 },
 	{ label: 'BONUS+DEPOSIT', value: 'bonusdeposit', id: 2 },
 ];
 
 export {
-	types,
 	bonusTypes,
 	daysOfWeek,
 	convertAmountOptions,

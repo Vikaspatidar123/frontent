@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import moment from 'moment';
-import { bonusTypes } from './constants';
+import { BONUS_TYPES, bonusTypes } from './constants';
 import { dateFormat } from '../../constants/config';
 
 const currentDate = moment().toDate();
@@ -11,7 +11,7 @@ const initialData = {
 	depositBonusPercent: 1,
 	startDate: moment().format(dateFormat),
 	endDate: moment().add(1, 'day').format(dateFormat),
-	bonusType: 'deposit',
+	bonusType: BONUS_TYPES.DEPOSIT,
 	wageringMultiplier: 1,
 	isSticky: false,
 	wageringRequirementType: 'bonus',
@@ -43,7 +43,7 @@ const generalStepInitialValues = ({ bonusDetails }) => ({
 	//  change to ValidFrom and validTo
 	startDate: bonusDetails?.validFrom || currentDate,
 	endDate: bonusDetails?.validTo || nextDayDate,
-	bonusType: bonusDetails?.bonusType || 'deposit',
+	bonusType: bonusDetails?.bonusType || BONUS_TYPES.DEPOSIT,
 	wageringMultiplier: bonusDetails?.wageringMultiplier || 1,
 	isSticky: bonusDetails?.isSticky || false,
 	wageringRequirementType: bonusDetails?.wageringRequirementType || 'bonus',
@@ -74,7 +74,7 @@ const generalStepInitialValuesFromLocalStorage = (values) => ({
 	depositBonusPercent: values?.depositBonusPercent || 1,
 	startDate: values?.startDate || currentDate,
 	endDate: values?.endDate || nextDayDate,
-	bonusType: values?.bonusType || 'deposit',
+	bonusType: values?.bonusType || BONUS_TYPES.DEPOSIT,
 	wageringMultiplier: values?.wageringMultiplier || 1,
 	isSticky: values?.isSticky || false,
 	wageringRequirementType: values?.wageringRequirementType || 'bonus',
@@ -95,7 +95,7 @@ const generalStepInitialValuesFromLocalStorage = (values) => ({
 
 const getCreateBonusInitialValues = () => ({
 	promotionTitle: '',
-	bonusType: 'deposit',
+	bonusType: BONUS_TYPES.DEPOSIT,
 	//  change to ValidFrom and validTo
 	startDate: currentDate,
 	endDate: nextDayDate,

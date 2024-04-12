@@ -2,24 +2,22 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import {
 	deleteBonusStart,
-	getBonusDetails,
-	getBonusStart,
+	getBonusesStart,
+	getBonusDetail,
 	resetBonusDetails,
 	updateSABonusStatus,
 } from '../../../store/actions';
-import { formatDate } from '../../../utils/dateFormatter';
 import { safeStringify } from '../../../utils/helpers';
-import { types } from '../constants';
 import {
 	BonusId,
 	Title,
 	BonusType,
-	ValidTill,
-	IsExpired,
-	IsClaimed,
 	Status,
+	Date,
+	Custom,
 } from '../BonusListCol';
 import ActionButtons from '../ActionButtons';
 
@@ -42,48 +40,38 @@ const useBonusListing = (filterValues = {}) => {
 	const formattedBonusDetails = useMemo(() => {
 		if (bonusDetails?.bonus?.length) {
 			return bonusDetails?.bonus.map((bonus) => {
-				const {
-					promotionTitle,
-					bonusType: type,
-					validTo,
-					claimedCount,
-					isSticky,
-				} = bonus;
+				// const bonusType =
+				// 	type === BONUS_TYPES.FREESPINS && !isSticky
+				// 		? 'CASH FREESPINS'
+				// 		: types.find((val) => val.value === type)?.label;
 
-				const title = promotionTitle.EN || 'NA';
+				// const validTill =
+				// 	type === 'depositCashback' ||
+				// 	type === 'wagering' ||
+				// 	type === BONUS_TYPES.JOINING
+				// 		? '-'
+				// 		: formatDate(validTo);
 
-				const bonusType =
-					type === 'freespins' && !isSticky
-						? 'CASH FREESPINS'
-						: types.find((val) => val.value === type)?.label;
-
-				const validTill =
-					type === 'depositCashback' ||
-					type === 'wagering' ||
-					type === 'joining'
-						? '-'
-						: formatDate(validTo);
-
-				let isExpired;
-				if (
-					type === 'depositCashback' ||
-					type === 'wagering' ||
-					type === 'joining'
-				) {
-					isExpired = 'No';
-				} else {
-					isExpired =
-						formatDate(validTo) < formatDate(new Date()) ? 'Yes' : 'No';
-				}
-				const isClaimed = claimedCount ? 'Yes' : 'No';
-
+				// let isExpired;
+				// if (
+				// 	type === 'depositCashback' ||
+				// 	type === 'wagering' ||
+				// 	type === BONUS_TYPES.JOINING
+				// ) {
+				// 	isExpired = 'No';
+				// } else {
+				// 	isExpired =
+				// 		formatDate(validTo) < formatDate(new Date()) ? 'Yes' : 'No';
+				// }
+				// const isClaimed = claimedCount ? 'Yes' : 'No';
+				const isExpired =
+					moment(bonus.validTill).valueOf() < moment().valueOf() ? 'Yes' : 'No';
 				return {
 					...bonus,
-					title,
-					bonusType,
-					validTill,
+					// bonusType,
+					// validTill,
 					isExpired,
-					isClaimed,
+					// isClaimed,
 				};
 			});
 		}
@@ -93,7 +81,7 @@ const useBonusListing = (filterValues = {}) => {
 	const fetchData = () => {
 		const { bonusType, ...rest } = filterValues;
 		dispatch(
-			getBonusDetails({
+			getBonusesStart({
 				perPage: itemsPerPage,
 				page,
 				bonusType: bonusType ? safeStringify([bonusType]) : null,
@@ -133,7 +121,7 @@ const useBonusListing = (filterValues = {}) => {
 		setDeleteConfirmation(true);
 		setDeleteBonusId(bonusId);
 		setBonusName(title);
-		dispatch(getBonusStart({ bonusId }));
+		dispatch(getBonusDetail({ bonusId }));
 	};
 
 	const bonusDeleteHandler = () => {
@@ -149,8 +137,8 @@ const useBonusListing = (filterValues = {}) => {
 	};
 
 	const handleView = (props) => {
-		const { bonusId } = props;
-		navigate(`/bonus/${bonusId}`);
+		const { id } = props;
+		navigate(`/bonus/${id}`);
 	};
 
 	const columns = useMemo(
@@ -163,7 +151,7 @@ const useBonusListing = (filterValues = {}) => {
 			},
 			{
 				Header: 'Title',
-				accessor: 'title',
+				accessor: 'promotionTitle',
 				filterable: true,
 				Cell: ({ cell }) => <Title value={cell.value} />,
 			},
@@ -174,22 +162,34 @@ const useBonusListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <BonusType value={cell.value} />,
 			},
 			{
-				Header: 'Valid Till',
-				accessor: 'validTill',
+				Header: 'Days To Clear',
+				accessor: 'daysToClear',
 				filterable: true,
-				Cell: ({ cell }) => <ValidTill value={cell.value} />,
+				Cell: ({ cell }) => <Custom value={cell.value} />,
+			},
+			{
+				Header: 'Claimed Count',
+				accessor: 'claimedCount',
+				filterable: true,
+				Cell: ({ cell }) => <Custom value={cell.value} />,
+			},
+			{
+				Header: 'Valid From',
+				accessor: 'validFrom',
+				filterable: true,
+				Cell: ({ cell }) => <Date value={cell.value} />,
+			},
+			{
+				Header: 'Valid Till',
+				accessor: 'validTo',
+				filterable: true,
+				Cell: ({ cell }) => <Date value={cell.value} />,
 			},
 			{
 				Header: 'Is Expired',
 				accessor: 'isExpired',
 				filterable: true,
-				Cell: ({ cell }) => <IsExpired value={cell.value} />,
-			},
-			{
-				Header: 'Is Claimed',
-				accessor: 'isClaimed',
-				filterable: true,
-				Cell: ({ cell }) => <IsClaimed value={cell.value} />,
+				Cell: ({ cell }) => <Custom value={cell.value} />,
 			},
 			{
 				Header: 'Status',

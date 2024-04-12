@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Col, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { CustomInputField } from '../../../helpers/customForms';
-import { convertAmountOptions } from '../constants';
+import { BONUS_TYPES, convertAmountOptions } from '../constants';
 
 const Currencies = ({ bonusDetail }) => (
 	<Card className="p-3">
@@ -25,10 +25,10 @@ const Currencies = ({ bonusDetail }) => (
 								currKey === 'minDeposit' ||
 								currKey === 'maxBonusThreshold' ||
 								currKey === 'maxWinAmount';
-						} else if (bonusDetail?.bonusType === 'joining') {
+						} else if (bonusDetail?.bonusType === BONUS_TYPES.JOINING) {
 							hide = currKey !== 'joiningAmount';
 						} else if (
-							bonusDetail?.bonusType === 'freespins' ||
+							bonusDetail?.bonusType === BONUS_TYPES.FREESPINS ||
 							bonusDetail?.bonusType === 'cashfreespins'
 						) {
 							hide =

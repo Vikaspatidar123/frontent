@@ -96,8 +96,11 @@ const getAllBonus = (payload) =>
 		payload
 	);
 
-const getBonusDetails = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/detail`, payload);
+const getBonusDetail = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus`,
+		payload
+	);
 
 const getCurrencies = (payload) =>
 	getRequest(
@@ -300,11 +303,6 @@ const getUnrestrictedItems = (data) =>
 		data
 	);
 
-const getBonus = ({ bonusId, userBonusId }) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/detail?bonusId=${bonusId}&userBonusId=${userBonusId}`
-	);
-
 const getGameReports = (payload) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-game-report`,
@@ -336,7 +334,7 @@ const getAllUserTags = (payload) =>
 	);
 
 export {
-	getBonus,
+	getBonusDetail,
 	getAllCurrencies,
 	getAdminRole,
 	getCountries,
@@ -384,7 +382,6 @@ export {
 	getCMSDynamicKeys,
 	getCmsByPageId,
 	getDuplicateUsers,
-	getBonusDetails,
 	getEmailTypes,
 	getEmailTemplate,
 	getSportsMatchesDetailApi,

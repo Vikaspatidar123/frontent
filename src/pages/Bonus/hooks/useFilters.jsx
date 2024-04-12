@@ -7,7 +7,7 @@ import {
 	staticFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getBonusDetails } from '../../../store/actions';
+import { getBonusesStart } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 import { safeStringify } from '../../../utils/helpers';
 
@@ -22,7 +22,7 @@ const useFilters = () => {
 
 	const fetchData = ({ bonusType, ...rest }) => {
 		dispatch(
-			getBonusDetails({
+			getBonusesStart({
 				perPage: itemsPerPage,
 				page: 1,
 				bonusType: bonusType ? safeStringify([bonusType]) : null,

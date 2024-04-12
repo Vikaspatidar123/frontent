@@ -7,7 +7,7 @@ import {
 	getBonusCurrencyConversions,
 	resetBonusCurrencyConversion,
 } from '../../../store/actions';
-import { convertAmountOptions } from '../constants';
+import { BONUS_TYPES, convertAmountOptions } from '../constants';
 import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getCreateBonusInitialValues } from '../formDetails';
@@ -117,9 +117,8 @@ const Currencies = ({
 		const joiningAmount = validation?.values?.[code]?.joiningAmount;
 
 		if (
-			allFields?.bonusType !== 'freespins' &&
-			allFields?.bonusType !== 'cashfreespins' &&
-			allFields?.bonusType !== 'joining'
+			allFields?.bonusType !== BONUS_TYPES.FREESPINS &&
+			allFields?.bonusType !== BONUS_TYPES.JOINING
 		) {
 			if (
 				maxBonusThreshold === '' &&
@@ -157,7 +156,7 @@ const Currencies = ({
 					})
 				);
 			}
-		} else if (bonusCurrencies?.bonusType === 'joining') {
+		} else if (bonusCurrencies?.bonusType === BONUS_TYPES.JOINING) {
 			if (joiningAmount === '') {
 				showToastr({ message: 'Enter Joining Amount ', type: 'error' });
 			} else {
@@ -245,10 +244,10 @@ const Currencies = ({
 									currKey === 'minDeposit' ||
 									currKey === 'maxBonusThreshold' ||
 									currKey === 'maxWinAmount';
-							} else if (selectedBonus === 'joining') {
+							} else if (selectedBonus === BONUS_TYPES.JOINING) {
 								hide = currKey !== 'joiningAmount';
 							} else if (
-								selectedBonus === 'freespins' ||
+								selectedBonus === BONUS_TYPES.FREESPINS ||
 								selectedBonus === 'cashfreespins'
 							) {
 								hide =

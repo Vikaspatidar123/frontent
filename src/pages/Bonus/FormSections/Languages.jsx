@@ -6,6 +6,7 @@ import {
 	CustomInputField,
 	CustomTextEditor,
 } from '../../../helpers/customForms';
+import { BONUS_TYPES } from '../constants';
 
 const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
 	<>
@@ -65,7 +66,10 @@ const Languages = ({
 	// bonusDetails,
 }) => {
 	useEffect(() => {
-		if (nextPressed.currentTab === 'languages' && selectedBonus !== 'joining') {
+		if (
+			nextPressed.currentTab === 'languages' &&
+			selectedBonus !== BONUS_TYPES.JOINING
+		) {
 			setActiveTab(nextPressed.nextTab);
 			window.scrollTo(0, 0);
 			setNextPressed({});

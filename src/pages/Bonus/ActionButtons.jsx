@@ -14,7 +14,7 @@ const ActionButtons = ({
 	const navigate = useNavigate();
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
-	const bonusId = original?.bonusId;
+	const bonusId = original?.id;
 	const handleEdit = () => navigate(`/bonus/edit/${bonusId}`);
 
 	return (
@@ -111,7 +111,7 @@ const ActionButtons = ({
 ActionButtons.propTypes = {
 	row: PropTypes.shape({
 		original: PropTypes.shape({
-			bonusId: PropTypes.number.isRequired,
+			id: PropTypes.number.isRequired,
 			isActive: PropTypes.bool.isRequired,
 		}).isRequired,
 	}).isRequired,

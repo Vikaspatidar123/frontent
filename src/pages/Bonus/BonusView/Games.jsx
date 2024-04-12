@@ -14,21 +14,21 @@ const columns = [
 	{
 		Header: 'GAME ID',
 		disableSortBy: true,
-		accessor: 'casinoGameId',
+		accessor: 'id',
 		Cell: (cell) => <KeyValueCell cell={cell} />,
 	},
-	{
-		Header: 'NAME',
-		disableSortBy: true,
-		accessor: 'name',
-		Cell: (cell) => <KeyValueCell cell={cell} />,
-	},
-	{
-		Header: 'PROVIDER',
-		disableSortBy: true,
-		accessor: 'providerName',
-		Cell: (cell) => <KeyValueCell cell={cell} />,
-	},
+	// {
+	// 	Header: 'NAME',
+	// 	disableSortBy: true,
+	// 	accessor: 'name',
+	// 	Cell: (cell) => <KeyValueCell cell={cell} />,
+	// },
+	// {
+	// 	Header: 'PROVIDER',
+	// 	disableSortBy: true,
+	// 	accessor: 'providerName',
+	// 	Cell: (cell) => <KeyValueCell cell={cell} />,
+	// },
 ];
 
 const Games = () => {
@@ -68,9 +68,9 @@ const Games = () => {
 		if (casinoGames) {
 			return casinoGames?.games?.map((game) => ({
 				...game,
-				providerName: casinoProvidersData?.providers?.find(
-					(obj) => obj.id === game.casinoProviderId
-				)?.name,
+				// providerName: casinoProvidersData?.providers?.find(
+				// 	(obj) => obj.id === game.casinoProviderId
+				// )?.name[selectedLanguage],
 			}));
 		}
 		return [];

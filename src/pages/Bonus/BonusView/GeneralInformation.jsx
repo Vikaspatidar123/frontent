@@ -5,8 +5,14 @@ import React from 'react';
 import { Badge, Card, Col, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Parser from 'html-react-parser';
-import { checkLabels, daysLabels, wageringRequirementType } from '../constants';
+import {
+	BONUS_TYPES,
+	checkLabels,
+	daysLabels,
+	wageringRequirementType,
+} from '../constants';
 import { formatDateYMD } from '../../../utils/helpers';
+import { selectedLanguage } from '../../../constants/config';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
@@ -19,50 +25,50 @@ const GeneralDetails = ({ bonusDetail }) => (
 						<h3 className="h6 text-nowrap">Promotion Title:</h3>
 					</Col>
 					<Col>
-						<p>{bonusDetail?.promotionTitle?.EN}</p>
+						<p>{bonusDetail?.promotionTitle?.[selectedLanguage] || '-'}</p>
 					</Col>
 				</Row>
 
-				{bonusDetail?.visibleInPromotions &&
-					bonusDetail?.bonusType !== 'promotion' && (
-						<Row>
-							<Col>
-								<h3 className="h6 text-nowrap">Valid on Days:</h3>
-							</Col>
-							<Col>
-								{daysLabels?.map((day) => (
-									<Col
-										key={day}
-										className="d-flex"
-										style={{
-											verticalAlign: 'middle',
-											justifyContent: 'flex-start',
-										}}
-									>
-										<p>{day}</p>
-										{bonusDetail?.validOnDays.includes(day) && (
-											<div
-												className="rounded-circle mt-2 mx-2"
-												style={{
-													width: '10px',
-													height: '10px',
-													background: '#1aa509',
-												}}
-											/>
-										)}
-									</Col>
-								))}
-							</Col>
-						</Row>
-					)}
-				{bonusDetail?.bonusType !== 'joining' && (
+				{bonusDetail?.visibleInPromotions && (
+					<Row>
+						<Col>
+							<h3 className="h6 text-nowrap">Valid on Days:</h3>
+						</Col>
+						<Col>
+							{daysLabels?.map((day) => (
+								<Col
+									key={day}
+									className="d-flex"
+									style={{
+										verticalAlign: 'middle',
+										justifyContent: 'flex-start',
+									}}
+								>
+									<p>{day}</p>
+									{bonusDetail?.validOnDays.includes(day) && (
+										<div
+											className="rounded-circle mt-2 mx-2"
+											style={{
+												width: '10px',
+												height: '10px',
+												background: '#1aa509',
+											}}
+										/>
+									)}
+								</Col>
+							))}
+						</Col>
+					</Row>
+				)}
+				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 					<Row>
 						<Col>
 							<h3 className="h6 text-nowrap">Terms and Conditions:</h3>
 						</Col>
 						<Col>
-							{bonusDetail?.termCondition?.EN &&
-								Parser(bonusDetail?.termCondition?.EN)}
+							{bonusDetail?.termCondition?.[selectedLanguage]
+								? Parser(bonusDetail?.termCondition?.[selectedLanguage])
+								: '-'}
 						</Col>
 					</Row>
 				)}
@@ -75,29 +81,11 @@ const GeneralDetails = ({ bonusDetail }) => (
 						<h3 className="h6 text-nowrap">Bonus Type:</h3>
 					</Col>
 					<Col>
-						<p>
-							{bonusDetail?.bonusType === 'freespins'
-								? bonusDetail?.isSticky
-									? 'BONUS FREESPINS'
-									: 'CASH FREESPINS'
-								: bonusDetail?.bonusType?.toUpperCase()}
-						</p>
+						<p>{bonusDetail?.bonusType?.toUpperCase()}</p>
 					</Col>
 				</Row>
-				{bonusDetail?.bonusType === 'balance' && (
-					<Row>
-						<Col>
-							<h3 className="h6 text-nowrap">Applied Bonus:</h3>
-						</Col>
-						<Col>
-							<p>
-								{bonusDetail?.appliedBonusTitle?.EN} (
-								{bonusDetail?.appliedBonusId})
-							</p>
-						</Col>
-					</Row>
-				)}
-				{bonusDetail?.bonusType === 'freespins' && (
+
+				{bonusDetail?.bonusType === BONUS_TYPES.FREESPINS && (
 					<Row>
 						<Col>
 							<h3 className="h6 text-nowrap">Quantity:</h3>
@@ -107,16 +95,11 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				)}
-				{(bonusDetail?.bonusType === 'deposit' ||
-					bonusDetail?.bonusType === 'balance') && (
+
+				{bonusDetail?.bonusType === BONUS_TYPES.DEPOSIT && (
 					<Row>
 						<Col>
-							<h3 className="h6 text-nowrap">
-								{bonusDetail?.bonusType === 'balance'
-									? 'Min Balance Percentage'
-									: 'Bonus Percentage'}
-								:
-							</h3>
+							<h3 className="h6 text-nowrap">Bonus Percentage</h3>
 						</Col>
 						<Col>
 							<p>{bonusDetail?.depositBonusPercent}%</p>
@@ -124,12 +107,10 @@ const GeneralDetails = ({ bonusDetail }) => (
 					</Row>
 				)}
 				{!(
-					(bonusDetail?.bonusType === 'freespins' ||
-						bonusDetail?.bonusType === 'balance') &&
+					bonusDetail?.bonusType === BONUS_TYPES.FREESPINS &&
 					!bonusDetail?.isSticky
 				) &&
-					bonusDetail?.bonusType !== 'promotion' &&
-					bonusDetail?.bonusType !== 'joining' && (
+					bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 						<>
 							<Row>
 								<Col>
@@ -156,17 +137,15 @@ const GeneralDetails = ({ bonusDetail }) => (
 							</Row>
 						</>
 					)}
-				{bonusDetail?.bonusType !== 'promotion' && (
-					<Row>
-						<Col>
-							<h3 className="h6 text-nowrap">Days To Clear:</h3>
-						</Col>
-						<Col>
-							<p>{bonusDetail?.daysToClear}</p>
-						</Col>
-					</Row>
-				)}
-				{bonusDetail?.bonusType === 'freespins' && (
+				<Row>
+					<Col>
+						<h3 className="h6 text-nowrap">Days To Clear:</h3>
+					</Col>
+					<Col>
+						<p>{bonusDetail?.daysToClear}</p>
+					</Col>
+				</Row>
+				{bonusDetail?.bonusType === BONUS_TYPES.FREESPINS && (
 					<Row>
 						<Col>
 							<h3 className="h6 text-nowrap">Bet Level:</h3>
@@ -195,9 +174,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				))}
-				{!['depositCashback', 'wagering', 'joining'].includes(
-					bonusDetail?.bonusType
-				) && (
+				{![BONUS_TYPES.JOINING].includes(bonusDetail?.bonusType) && (
 					<Row>
 						<Col>
 							<h3 className="h6 text-nowrap">Show Validity:</h3>
@@ -216,10 +193,9 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				)}
-				{bonusDetail?.bonusType !== 'freespins' &&
-					bonusDetail?.bonusType !== 'promotion' &&
-					bonusDetail?.bonusType !== 'balance' &&
-					bonusDetail?.bonusType !== 'joining' && (
+				{bonusDetail?.bonusType !== BONUS_TYPES.FREESPINS &&
+					bonusDetail?.bonusType !== BONUS_TYPES.promotion &&
+					bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 						<Row>
 							<Col>
 								<h3 className="h6 text-nowrap">isSticky:</h3>
@@ -251,7 +227,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 						<p>{bonusDetail?.code}</p>
 					</Col>
 				</Row>
-				{bonusDetail?.bonusType !== 'joining' && (
+				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 					<Row>
 						<Col sm={4}>
 							<h3 className="h6 text-nowrap">Description:</h3>
@@ -264,7 +240,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 				)}
 				{bonusDetail?.bonusType !== 'depositCashback' &&
 					bonusDetail?.bonusType !== 'wagering' &&
-					bonusDetail?.bonusType !== 'joining' && (
+					bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 						<>
 							<Row>
 								<Col sm={4}>
@@ -301,7 +277,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				)}
-				{bonusDetail?.bonusType !== 'joining' && (
+				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 					<Row>
 						<Col>
 							{bonusDetail?.imageUrl && (

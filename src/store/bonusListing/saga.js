@@ -3,33 +3,33 @@ import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
 
 // Crypto Redux States
 import {
-	getBonusDetailsSuccess,
-	getBonusDetailsFail,
+	getBonusesSuccess,
+	getBonusesFail,
 	updateSABonusStatusSuccess,
 	updateSABonusStatusFail,
 	getBonusCurrencyConversionsSuccess,
 	getBonusCurrencyConversionsFail,
-	getBonusSuccess,
-	getBonusFailure,
 	deleteBonusComplete,
 	deleteBonusFailure,
 	reorderBonusSuccess,
 	reorderBonusFailure,
+	getBonusDetailSuccess,
+	getBonusDetailFail,
 } from './actions';
 
 import {
 	DELETE_BONUS_START,
 	GET_BONUS_CURRENCY_CONVERSION,
-	GET_BONUS_DETAILS_DATA,
-	GET_BONUS_START,
+	GET_BONUSES_START,
 	UPDATE_SA_BONUS_STATUS,
 	REORDER_BONUS_START,
+	GET_BONUS_DETAIL,
 } from './actionTypes';
 
 import {
 	getAllBonus,
-	getBonus,
 	getBonusCurrenciesConvertAmount,
+	getBonusDetail,
 } from '../../network/getRequests';
 import {
 	// superAdminViewToggleStatus,
@@ -43,11 +43,9 @@ function* getBonusListingWorker(action) {
 		const payload = action && action.payload;
 		const { data } = yield getAllBonus(payload);
 
-		yield put(getBonusDetailsSuccess(data?.data));
+		yield put(getBonusesSuccess(data?.data));
 	} catch (error) {
-		yield put(
-			getBonusDetailsFail(error?.response?.data?.errors[0]?.description)
-		);
+		yield put(getBonusesFail(error?.response?.data?.errors[0]?.description));
 	}
 }
 
@@ -68,7 +66,7 @@ function* updateSABonusStatusWorker(action) {
 		});
 
 		yield put(
-			getBonusDetailsSuccess({
+			getBonusesSuccess({
 				...bonusDetails,
 				rows: updatedBonusDetails,
 			})
@@ -97,13 +95,15 @@ function* getBonusCurrencyConversionsWorker(action) {
 	}
 }
 
-function* getBonusStartWorker(action) {
+function* getBonusDetailStartWorker(action) {
 	try {
 		const { bonusId, userBonusId = '' } = action && action.payload;
-		const { data } = yield getBonus({ bonusId, userBonusId });
-		yield put(getBonusSuccess(data?.data?.bonusDetails));
+		const { data } = yield getBonusDetail({ bonusId, userBonusId });
+		yield put(getBonusDetailSuccess(data?.data?.bonusDetails));
 	} catch (error) {
-		yield put(getBonusFailure(error?.response?.data?.errors[0]?.description));
+		yield put(
+			getBonusDetailFail(error?.response?.data?.errors[0]?.description)
+		);
 	}
 }
 
@@ -149,9 +149,9 @@ function* updateReorderBonusWorker(action) {
 }
 
 export function* watchBonusData() {
-	yield takeLatest(GET_BONUS_START, getBonusStartWorker);
+	yield takeLatest(GET_BONUS_DETAIL, getBonusDetailStartWorker);
 	yield takeLatest(DELETE_BONUS_START, deleteBonusWorker);
-	yield takeLatest(GET_BONUS_DETAILS_DATA, getBonusListingWorker);
+	yield takeLatest(GET_BONUSES_START, getBonusListingWorker);
 	yield takeLatest(UPDATE_SA_BONUS_STATUS, updateSABonusStatusWorker);
 	yield takeLatest(
 		GET_BONUS_CURRENCY_CONVERSION,

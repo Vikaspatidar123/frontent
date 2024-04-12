@@ -1,10 +1,11 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
 import * as Yup from 'yup';
+import { BONUS_TYPES } from '../constants';
 
 const currencyValidate = ({ curr, bonusType, isSticky }) => {
 	const validationObject = {};
-	if (bonusType === 'deposit') {
+	if (bonusType === BONUS_TYPES.DEPOSIT) {
 		for (const file in curr) {
 			validationObject[file] = Yup.object().shape({
 				maxBonusThreshold: Yup.number()
@@ -32,7 +33,10 @@ const currencyValidate = ({ curr, bonusType, isSticky }) => {
 					.required('Required.'),
 			});
 		}
-	} else if (bonusType === 'freespins' && (isSticky === 'true' || isSticky)) {
+	} else if (
+		bonusType === BONUS_TYPES.FREESPINS &&
+		(isSticky === 'true' || isSticky)
+	) {
 		for (const file in curr) {
 			validationObject[file] = Yup.object().shape({
 				maxWinAmount: Yup.number()
@@ -43,7 +47,7 @@ const currencyValidate = ({ curr, bonusType, isSticky }) => {
 					.required('Required.'),
 			});
 		}
-	} else if (bonusType === 'joining') {
+	} else if (bonusType === BONUS_TYPES.JOINING) {
 		for (const file in curr) {
 			validationObject[file] = Yup.object().shape({
 				joiningAmount: Yup.number()
@@ -72,7 +76,7 @@ const generalFormSchema = () =>
 		betLevel: Yup.number()
 			.when(['bonusType'], {
 				is: (bonusType) => {
-					if (bonusType === 'freespins') {
+					if (bonusType === BONUS_TYPES.FREESPINS) {
 						return true;
 					}
 					return false;
@@ -87,7 +91,7 @@ const generalFormSchema = () =>
 		termCondition: Yup.string()
 			.when(['bonusType'], {
 				is: (bonusType) => {
-					if (bonusType !== 'joining') {
+					if (bonusType !== BONUS_TYPES.JOINING) {
 						return true;
 					}
 					return false;
@@ -98,7 +102,7 @@ const generalFormSchema = () =>
 		description: Yup.string()
 			.when(['bonusType'], {
 				is: (bonusType) => {
-					if (bonusType !== 'joining') {
+					if (bonusType !== BONUS_TYPES.JOINING) {
 						return true;
 					}
 					return false;
@@ -132,7 +136,7 @@ const generalFormSchema = () =>
 			),
 		// Yup.mixed().when(['bonusType'], {
 		//   is: (bonusType) => {
-		//     if (bonusType !== 'joining') {
+		//     if (bonusType !== BONUS_TYPES.JOINING) {
 		//       return true;
 		//     }
 		//     return false;
@@ -176,7 +180,7 @@ const generalFormSchema = () =>
 		validOnDays: Yup.array()
 			.when(['visibleInPromotions', 'bonusType'], {
 				is: (visibleInPromotions, bonusType) => {
-					if (visibleInPromotions && bonusType !== 'promotion') {
+					if (visibleInPromotions && bonusType !== BONUS_TYPES.promotion) {
 						return true;
 					}
 					return false;
@@ -186,7 +190,7 @@ const generalFormSchema = () =>
 			.nullable(),
 		quantity: Yup.number().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType === 'freespins') {
+				if (bonusType === BONUS_TYPES.FREESPINS) {
 					return true;
 				}
 				return false;
@@ -210,7 +214,7 @@ const generalFormSchema = () =>
 		}),
 		depositBonusPercent: Yup.number().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType === 'deposit') {
+				if (bonusType === BONUS_TYPES.DEPOSIT) {
 					return true;
 				}
 				return false;
@@ -239,7 +243,7 @@ const generalFormSchema = () =>
 
 		daysToClear: Yup.number().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType !== 'promotion') {
+				if (bonusType !== BONUS_TYPES.promotion) {
 					return true;
 				}
 				return false;
@@ -254,7 +258,7 @@ const generalFormSchema = () =>
 
 		joiningAmount: Yup.number().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType === 'joining') {
+				if (bonusType === BONUS_TYPES.JOINING) {
 					return true;
 				}
 				return false;
@@ -288,7 +292,10 @@ const bonusSchema = (curr, { bonusDetail }) => [
 		betLevel: Yup.number()
 			.when(['bonusType'], {
 				is: (bonusType) => {
-					if (bonusType === 'freespins' || bonusType === 'cashfreespins') {
+					if (
+						bonusType === BONUS_TYPES.FREESPINS ||
+						bonusType === 'cashfreespins'
+					) {
 						return true;
 					}
 					return false;
@@ -302,7 +309,7 @@ const bonusSchema = (curr, { bonusDetail }) => [
 		termCondition: Yup.string()
 			.when(['bonusType'], {
 				is: (bonusType) => {
-					if (bonusType !== 'joining') {
+					if (bonusType !== BONUS_TYPES.JOINING) {
 						return true;
 					}
 					return false;
@@ -313,7 +320,7 @@ const bonusSchema = (curr, { bonusDetail }) => [
 		description: Yup.string()
 			.when(['bonusType'], {
 				is: (bonusType) => {
-					if (bonusType !== 'joining') {
+					if (bonusType !== BONUS_TYPES.JOINING) {
 						return true;
 					}
 					return false;
@@ -323,7 +330,7 @@ const bonusSchema = (curr, { bonusDetail }) => [
 			.nullable(),
 		bonusImage: Yup.mixed().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType !== 'joining') {
+				if (bonusType !== BONUS_TYPES.JOINING) {
 					return true;
 				}
 				return false;
@@ -364,7 +371,7 @@ const bonusSchema = (curr, { bonusDetail }) => [
 		validOnDays: Yup.array()
 			.when(['visibleInPromotions', 'bonusType'], {
 				is: (visibleInPromotions, bonusType) => {
-					if (visibleInPromotions && bonusType !== 'promotion') {
+					if (visibleInPromotions && bonusType !== BONUS_TYPES.promotion) {
 						return true;
 					}
 					return false;
@@ -374,7 +381,7 @@ const bonusSchema = (curr, { bonusDetail }) => [
 			.nullable(),
 		quantity: Yup.number().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType === 'freespins') {
+				if (bonusType === BONUS_TYPES.FREESPINS) {
 					return true;
 				}
 				return false;
@@ -397,7 +404,7 @@ const bonusSchema = (curr, { bonusDetail }) => [
 		}),
 		depositBonusPercent: Yup.number().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType === 'deposit' || bonusType === 'balance') {
+				if (bonusType === BONUS_TYPES.DEPOSIT || bonusType === 'balance') {
 					return true;
 				}
 				return false;
@@ -424,7 +431,7 @@ const bonusSchema = (curr, { bonusDetail }) => [
 
 		daysToClear: Yup.number().when(['bonusType'], {
 			is: (bonusType) => {
-				if (bonusType !== 'promotion') {
+				if (bonusType !== BONUS_TYPES.promotion) {
 					return true;
 				}
 				return false;

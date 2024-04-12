@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import { modules } from '../../../constants/permissions';
-import { getBonusDetails, reorderBonusStart } from '../../../store/actions';
+import { getBonusesStart, reorderBonusStart } from '../../../store/actions';
 import { BonusId, BonusType } from '../BonusListCol';
 
 const useBonusReorder = () => {
@@ -23,7 +23,7 @@ const useBonusReorder = () => {
 
 	const fetchData = () => {
 		dispatch(
-			getBonusDetails({
+			getBonusesStart({
 				reorder: true,
 			})
 		);

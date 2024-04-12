@@ -25,6 +25,7 @@ import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import { initialData } from '../formDetails';
 import { dateFormat } from '../../../constants/config';
+import { BONUS_TYPES } from '../constants';
 
 const useCreateBonus = ({ isEdit }) => {
 	const { bonusId } = useParams();
@@ -33,7 +34,7 @@ const useCreateBonus = ({ isEdit }) => {
 	const [selectedGames, setSelectedGames] = useState([]);
 	const [bonusTypeChanged, setBonusTypeChanged] = useState(false);
 	const [activeLangTab, setActiveLangTab] = useState('');
-	const [selectedBonus, setSelectedBonus] = useState('deposit');
+	const [selectedBonus, setSelectedBonus] = useState(BONUS_TYPES.DEPOSIT);
 	const [activeTab, setActiveTab] = useState('general');
 	const [allFields, setAllFields] = useState({});
 	const [existingFilledFields, setExistingFilledFields] = useState({});
@@ -174,7 +175,7 @@ const useCreateBonus = ({ isEdit }) => {
 	useEffect(() => {
 		if (nextPressed.nextTab === 'submit') {
 			if (isEdit) {
-				if (bonusDetails?.bonusType === 'joining') {
+				if (bonusDetails?.bonusType === BONUS_TYPES.JOINING) {
 					dispatch(
 						updateBonus({
 							bonusId,
@@ -211,7 +212,7 @@ const useCreateBonus = ({ isEdit }) => {
 						})
 					);
 				}
-			} else if (allFields?.bonusType === 'joining') {
+			} else if (allFields?.bonusType === BONUS_TYPES.JOINING) {
 				dispatch(
 					createBonus({
 						promotionTitle: safeStringify(langContent?.promoTitle),
@@ -379,7 +380,8 @@ const useCreateBonus = ({ isEdit }) => {
 				/>
 			),
 			isHidden:
-				['joining'].includes(selectedBonus) || bonusDetails?.claimedCount,
+				[BONUS_TYPES.JOINING].includes(selectedBonus) ||
+				bonusDetails?.claimedCount,
 		},
 		{
 			id: 'wageringContribution',
@@ -397,7 +399,8 @@ const useCreateBonus = ({ isEdit }) => {
 				/>
 			),
 			isHidden:
-				['joining'].includes(selectedBonus) || bonusDetails?.claimedCount,
+				[BONUS_TYPES.JOINING].includes(selectedBonus) ||
+				bonusDetails?.claimedCount,
 		},
 		{
 			id: 'games',
@@ -413,7 +416,7 @@ const useCreateBonus = ({ isEdit }) => {
 				/>
 			),
 			isHidden:
-				['joining', 'deposit'].includes(selectedBonus) ||
+				[BONUS_TYPES.JOINING, BONUS_TYPES.DEPOSIT].includes(selectedBonus) ||
 				bonusDetails?.claimedCount,
 		},
 		{
@@ -427,7 +430,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setExistingFilledFields={setExistingFilledFields}
 				/>
 			),
-			isHidden: ['joining'].includes(selectedBonus),
+			isHidden: [BONUS_TYPES.JOINING].includes(selectedBonus),
 		},
 	];
 

@@ -91,7 +91,7 @@ import {
 import {
 	getAllBonus,
 	getAllUserTags,
-	getBonusDetails,
+	getBonusDetail,
 	getDuplicateUsers,
 	getUserBonuses,
 	getUserDetails,
@@ -339,7 +339,7 @@ function* getDuplicateUsersWorker(action) {
 function* getBonusDetailsWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield getBonusDetails(payload);
+		const { data } = yield getBonusDetail(payload);
 		yield put(getUserBonusDetailsSuccess(data?.data?.bonusDetails));
 	} catch (e) {
 		yield put(getUserBonusDetailsFail(e.message));

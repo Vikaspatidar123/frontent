@@ -7,11 +7,12 @@ import WageringContribution from './WageringContribution';
 import BonusCountry from './BonusCountry';
 import Breadcrumb from '../../../components/Common/Breadcrumb';
 import TabsPage from '../../../components/Common/TabsPage';
-import { getBonusStart } from '../../../store/actions';
+import { getBonusDetail } from '../../../store/actions';
 import GeneralDetails from './GeneralInformation';
 // import LoyaltyManagement from '../../LoyaltyManagement';
-import Games from './Games';
+// import Games from './Games';
 import Spinners from '../../../components/Common/Spinner';
+import { BONUS_TYPES } from '../constants';
 
 const BonusPreview = () => {
 	const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const BonusPreview = () => {
 		}
 	};
 	useEffect(() => {
-		dispatch(getBonusStart({ bonusId }));
+		dispatch(getBonusDetail({ bonusId }));
 	}, [bonusId]);
 
 	const tabData = [
@@ -41,7 +42,7 @@ const BonusPreview = () => {
 			id: '2',
 			title: 'Currency',
 			component: <Currencies bonusDetail={gameBonusDetail} />,
-			isHidden: ['promotion'].includes(gameBonusDetail?.bonusType),
+			isHidden: [BONUS_TYPES.promotion].includes(gameBonusDetail?.bonusType),
 		},
 		{
 			id: '3',
@@ -53,9 +54,9 @@ const BonusPreview = () => {
 			),
 			isHidden: !(
 				gameBonusDetail?.bonusType !== 'balance' &&
-				gameBonusDetail?.bonusType !== 'freespins' &&
-				gameBonusDetail?.bonusType !== 'promotion' &&
-				gameBonusDetail?.bonusType !== 'joining'
+				gameBonusDetail?.bonusType !== BONUS_TYPES.FREESPINS &&
+				gameBonusDetail?.bonusType !== BONUS_TYPES.promotion &&
+				gameBonusDetail?.bonusType !== BONUS_TYPES.JOINING
 			),
 		},
 		{
@@ -64,7 +65,7 @@ const BonusPreview = () => {
 			component: (
 				<BonusCountry bonusCountryData={gameBonusDetail?.other?.countries} />
 			),
-			isHidden: gameBonusDetail?.bonusType === 'joining',
+			isHidden: gameBonusDetail?.bonusType === BONUS_TYPES.JOINING,
 		},
 		// {
 		// 	id: '5',
@@ -75,12 +76,12 @@ const BonusPreview = () => {
 		// 		gameBonusDetail?.bonusType === 'wagering'
 		// 	),
 		// },
-		{
-			id: '6',
-			title: 'Games',
-			component: <Games bonusDetails={gameBonusDetail?.other} />,
-			isHidden: gameBonusDetail?.bonusType !== 'freespins',
-		},
+		// {
+		// 	id: '6',
+		// 	title: 'Games',
+		// 	component: <Games bonusDetails={gameBonusDetail?.other} />,
+		// 	isHidden: gameBonusDetail?.bonusType !== BONUS_TYPES.FREESPINS,
+		// },
 	];
 
 	return (
