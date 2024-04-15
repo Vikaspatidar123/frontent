@@ -26,10 +26,6 @@ import {
 
 import './rightbar.scss';
 
-// Import images
-import layout1 from '../../assets/images/layouts/layout-1.jpg';
-import layout2 from '../../assets/images/layouts/layout-2.jpg';
-
 // constants
 import {
 	layoutTypes,
@@ -560,32 +556,6 @@ const RightSidebar = (props) => (
 								</label>
 							</div>
 						</FormGroup>
-
-						<h6 className="text-center">Choose Layouts</h6>
-
-						<div className="mb-2">
-							<Link
-								to="#!"
-								onClick={() => props.changeLayoutMode(layoutModeTypes.LIGHT)}
-							>
-								<img src={layout1} className="img-fluid img-thumbnail" alt="" />
-							</Link>
-						</div>
-
-						<div className="mb-2">
-							<Link
-								to="#!"
-								onClick={() => props.changeLayoutMode(layoutModeTypes.DARK)}
-							>
-								<img src={layout2} className="img-fluid img-thumbnail" alt="" />
-							</Link>
-						</div>
-
-						{/* <div className="mb-2">
-                <Link to="#!" target="_blank" onClick={() => {}}>
-                  <img src={layout3} className="img-fluid img-thumbnail" alt="" />
-                </Link>
-              </div> */}
 					</div>
 				</div>
 			</SimpleBar>

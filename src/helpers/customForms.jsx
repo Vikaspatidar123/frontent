@@ -24,10 +24,8 @@ import 'flatpickr/dist/themes/material_blue.css';
 import Select from 'react-select';
 import FlatPickr from 'react-flatpickr';
 import moment from 'moment';
-import CreatableSelect from 'react-select/creatable';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { showToastr } from '../utils/helpers';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
@@ -690,61 +688,6 @@ export const getField = (
 					</Col>
 				</div>
 			));
-		case 'creatableSelect':
-			return (
-				<>
-					{label && <Label for={name}>{label}</Label>}
-					<CreatableSelect
-						isClearable={false}
-						isMulti
-						name={name}
-						onCreateOption={(option) => {
-							// only number and alphabets accepted
-							if (option && option.match(/^[A-Za-z0-9_-]*$/)) {
-								if (optionList) {
-									validation.setFieldValue(name, [
-										...validation.values[name],
-										{ label: option, value: option, isNew: true },
-									]);
-								} else {
-									validation.setFieldValue(name, [
-										{ label: option, value: option, isNew: true },
-									]);
-								}
-							} else {
-								showToastr({
-									message: 'Only Alphabets and Numbers Allowed',
-									type: 'error',
-								});
-							}
-						}}
-						classNamePrefix="select"
-						options={optionList}
-						value={validation.values[name]}
-						onChange={callBack}
-					/>
-				</>
-			);
-		case 'creatableSingleSelect':
-			return (
-				<>
-					{label && <Label for={name}>{label}</Label>}
-					<CreatableSelect
-						isClearable={false}
-						name={name}
-						onCreateOption={(option) => {
-							validation.setFieldValue(name, option);
-						}}
-						classNamePrefix="select"
-						options={optionList}
-						value={{
-							label: validation.values[name],
-							value: validation.values[name],
-						}}
-						onChange={callBack}
-					/>
-				</>
-			);
 		case 'radioGroup':
 			return (
 				<>
@@ -945,11 +888,6 @@ export const getField = (
 						// buttonStyle={{ backgroundColor: '#22214b' }}
 						inputStyle={{ width: '100%' }}
 					/>
-					{/* <ErrorMessage
-            component='div'
-            name='phone'
-            className='error-message'
-          /> */}
 				</>
 			);
 		default:
