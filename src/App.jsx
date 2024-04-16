@@ -14,7 +14,6 @@ import Authmiddleware from './routes/route';
 import VerticalLayout from './components/VerticalLayout';
 import HorizontalLayout from './components/HorizontalLayout';
 import NonAuthLayout from './components/NonAuthLayout';
-import './assets/scss/theme.scss';
 import LinearLoading from './components/Common/LinearLoading';
 
 const App = () => {

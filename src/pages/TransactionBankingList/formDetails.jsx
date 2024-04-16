@@ -1,5 +1,4 @@
 import * as Yup from 'yup';
-import moment from 'moment';
 import { statusType, LEDGER_TYPES, LEDGER_PURPOSE } from './constants';
 
 const staticFiltersFields = () => [
@@ -44,13 +43,13 @@ const staticFiltersFields = () => [
 	},
 ];
 
-const fromDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
-const toDate = new Date(); // Do not define it inside filterValue function
+// const fromDate = moment().subtract(1, 'month').toDate(); // Do not define it inside filterValue function
+// const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
 	status: null,
-	fromDate,
-	toDate,
+	fromDate: null,
+	toDate: null,
 	type: null,
 	purpose: null,
 	tagId: null,
