@@ -17,7 +17,9 @@ export const setupInterceptors = () => {
 				removeLoginToken();
 				redirect('/login');
 			}
-			const errorCode = error.response?.data?.errors[0]?.fields;
+			const errorCode =
+				error.response?.data?.errors[0]?.fields ||
+				error.response?.data?.errors[0]?.description;
 			if (errorCode) {
 				showToastr({
 					message: MESSAGES[errorCode],

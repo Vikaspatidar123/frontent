@@ -32,7 +32,7 @@ const profilePasswordSchema = Yup.object().shape({
 	newPassword: Yup.string()
 		.matches(
 			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-			'Invalid Password'
+			'Password must include at least 1 lowercase letter, 1 uppercase letter, 1 digit, 1 special character (@$!%*?&), and be at least 8 characters long'
 		)
 		.test(
 			'match',
