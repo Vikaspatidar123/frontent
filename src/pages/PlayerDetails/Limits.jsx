@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Card, Col, Container, Row, Spinner } from 'reactstrap';
 import moment from 'moment';
 import useEditLimits from './hooks/useEditLimits';
@@ -10,10 +10,11 @@ import { userLimitTypes } from '../../utils/constant';
 
 const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 	const { limitLabels, userLimits } = useEditLimits({ userDetails });
-	const currencyCode = useMemo(
-		() => userDetails?.wallets?.[0]?.currency?.code,
-		[userDetails]
-	);
+
+	const currencyCode =
+		userDetails?.wallets?.find((wal) => wal?.currency?.default === true)
+			?.currency?.code || '';
+
 	const selfExclusionLimit = userLimits?.filter(
 		(key) => key.key === 'self_exclusion'
 	)?.[0];

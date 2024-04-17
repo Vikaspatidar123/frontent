@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { depositSchema } from '../formDetails';
 import FormModal from '../../../components/Common/FormModal';
@@ -56,10 +56,9 @@ const ManageMoney = ({ show, header, toggle }) => {
 		(state) => state.UserDetails
 	);
 
-	const currencyCode = useMemo(
-		() => userDetails?.wallets?.[0]?.currency?.code,
-		[userDetails]
-	);
+	const currencyCode =
+		userDetails?.wallets?.find((wal) => wal?.currency?.default === true)
+			?.currency?.code || '';
 
 	const handleDepositToOther = (values) => {
 		let purpose = '';
