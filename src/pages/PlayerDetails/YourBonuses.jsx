@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
 import { Id, KeyValueCell, PromotionTitle } from './TableCol';
 import { cancelUserBonus, getUserBonus } from '../../store/actions';
-import { formatDate } from '../../utils/dateFormatter';
+import { formatDateYMD } from '../../utils/dateFormatter';
 import useBonusFilter from './hooks/useBonusFilter';
 import Filters from '../../components/Common/Filters';
 import BonusActionButtons from './BonusActionButtons';
@@ -36,22 +36,22 @@ const YourBonuses = ({ userId }) => {
 				formattedValues.push({
 					...bonus,
 					cancelledBy: bonus?.cancelledBy || '-',
-					updatedAt: bonus?.updatedAt ? formatDate(bonus?.updatedAt) : '-',
+					updatedAt: bonus?.updatedAt ? formatDateYMD(bonus?.updatedAt) : '-',
 					wageredAmount:
 						bonus?.wageredAmount || (bonus?.amountToWager ? '0' : '-'),
 					amountToWager: bonus?.amountToWager || '-',
-					issuedAt: formatDate(bonus?.createdAt),
+					issuedAt: formatDateYMD(bonus?.createdAt),
 					issuedBy: bonus?.issuerRole
 						? bonus?.issuerRole === 'user'
 							? 'SYSTEM'
 							: bonus?.issuerRole?.toUpperCase()
 						: '-',
 					isExpired:
-						formatDate(new Date(String(bonus?.expireAt))) <
-						formatDate(new Date())
+						formatDateYMD(new Date(String(bonus?.expireAt))) <
+						formatDateYMD(new Date())
 							? 'Yes'
 							: 'No',
-					expiredAt: formatDate(bonus?.expireAt),
+					expiredAt: formatDateYMD(bonus?.expireAt),
 					promotionTitle:
 						bonus?.other?.bonusTitle || bonus?.bonus?.promotionTitle?.EN,
 				})

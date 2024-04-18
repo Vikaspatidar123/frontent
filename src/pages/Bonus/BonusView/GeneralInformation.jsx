@@ -4,6 +4,7 @@
 import React from 'react';
 import { Badge, Card, Col, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Parser from 'html-react-parser';
 import {
 	BONUS_TYPES,
@@ -11,8 +12,7 @@ import {
 	daysLabels,
 	wageringRequirementType,
 } from '../constants';
-import { formatDateYMD } from '../../../utils/helpers';
-import { selectedLanguage } from '../../../constants/config';
+import { YMDFormat, selectedLanguage } from '../../../constants/config';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
@@ -247,7 +247,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 									<h3 className="h6 text-nowrap">Valid From:</h3>
 								</Col>
 								<Col>
-									<p>{formatDateYMD(bonusDetail?.validFrom)}</p>
+									<p>{moment(bonusDetail?.validFrom).format(YMDFormat)}</p>
 								</Col>
 							</Row>
 							<Row>
@@ -255,7 +255,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 									<h3 className="h6 text-nowrap">Valid To:</h3>
 								</Col>
 								<Col>
-									<p>{formatDateYMD(bonusDetail?.validTo)}</p>
+									<p>{moment(bonusDetail?.validTo).format(YMDFormat)}</p>
 								</Col>
 							</Row>
 						</>

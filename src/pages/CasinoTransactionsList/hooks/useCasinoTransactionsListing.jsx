@@ -7,7 +7,7 @@ import {
 	fetchCasinoTransactionsStart,
 	resetCasinoTransactionsData,
 } from '../../../store/actions';
-import { getDateTime } from '../../../helpers/dateFormatter';
+import { getDateTime } from '../../../utils/dateFormatter';
 // import { statusType } from '../constants';
 import {
 	ActionType,

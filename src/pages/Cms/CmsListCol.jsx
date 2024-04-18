@@ -9,11 +9,11 @@ const CmsPageId = ({ value }) => (
 	</Link>
 );
 
-const Title = ({ value }) => value ?? '';
+const Title = ({ value }) => value || '-';
 
-const Slug = ({ value }) => value ?? '';
+const Slug = ({ value }) => value || '-';
 
-const Portal = ({ value }) => value ?? '';
+const Portal = ({ value }) => value ?? '-';
 
 const Status = ({ value }) =>
 	value ? (

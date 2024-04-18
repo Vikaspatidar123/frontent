@@ -30,23 +30,6 @@ const showToastr = ({ type, message, title }) => {
 	else toastr.success(message, title);
 };
 
-const getDateDaysAgo = (days) => {
-	const now = new Date();
-	now.setDate(now.getDate() - days);
-	return now;
-};
-const formatDateYMD = (date) => {
-	const d = new Date(date);
-	let month = `${d.getMonth() + 1}`;
-	let day = `${d.getDate()}`;
-	const year = d.getFullYear();
-
-	if (month.length < 2) month = `0${month}`;
-	if (day.length < 2) day = `0${day}`;
-
-	return [year, month, day].join('-');
-};
-
 const downloadFileInSameWindow = (url) => {
 	const element = document.createElement('a');
 	element.setAttribute('href', url);
@@ -89,8 +72,6 @@ const dataURLtoBlob = (dataURL) => {
 export {
 	safeStringify,
 	showToastr,
-	getDateDaysAgo,
-	formatDateYMD,
 	downloadFileInSameWindow,
 	downloadFileInNewWindow,
 	dataURLtoBlob,

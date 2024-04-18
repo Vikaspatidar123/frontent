@@ -1,17 +1,12 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Badge, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import moment from 'moment';
 import { modules } from '../../constants/permissions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { updateSAUserStatus } from '../../store/actions';
-import { dateFormat } from '../../constants/config';
 
 const PlayerId = ({ value }) => value ?? '';
 
@@ -22,18 +17,17 @@ const UserName = ({ cell }) =>
 		''
 	);
 
-const Email = ({ value }) => value ?? '';
+const Email = ({ value }) => value ?? '-';
 
-const CountryName = ({ value }) => value ?? '';
+const CountryName = ({ value }) => value ?? '-';
 
 const PhoneNumber = ({ value }) => value ?? '-';
 
-const KycStatus = ({ value }) => value ?? '';
+const KycStatus = ({ value }) => value ?? '-';
 
-const RegistrationDate = ({ value }) =>
-	value ? moment(value).format(dateFormat) : '';
+const RegistrationDate = ({ value }) => value ?? '-';
 
-const IsInternal = ({ value }) => value ?? '';
+const IsInternal = ({ value }) => value ?? '-';
 
 const Tags = ({ value }) =>
 	value?.map((tags) => tags?.tag?.tag)?.join(', ') || '-';
@@ -140,6 +134,7 @@ Action.propTypes = {
 		row: PropTypes.shape({
 			original: PropTypes.shape({
 				id: PropTypes.string.isRequired,
+				isActive: PropTypes.bool.isRequired,
 			}).isRequired,
 		}).isRequired,
 	}).isRequired,

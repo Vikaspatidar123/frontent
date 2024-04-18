@@ -6,14 +6,14 @@ import { selectedLanguage } from '../../constants/config';
 
 const WageringTemplateId = ({ cell }) => cell.value ?? '';
 
-const TemplateName = ({ cell }) => cell.value?.[selectedLanguage] ?? '';
+const TemplateName = ({ cell }) => cell.value?.[selectedLanguage] ?? '-';
 
-const RTP = ({ cell }) => `${cell?.value} %`;
+const RTP = ({ cell }) => (cell?.value ? ` ${cell?.value} %` : '-');
 
 const WageringContribution = ({ cell }) =>
 	`${cell?.value ? cell?.value : 100} %`;
 
-const CustomValues = ({ cell }) => `${cell?.value} %`;
+const CustomValues = ({ cell }) => (cell?.value ? `${cell?.value} %` : '-');
 
 const Select = ({ cell, handleChange, selectedId }) => {
 	const value = selectedId[cell.row.original.id] || false;

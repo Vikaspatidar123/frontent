@@ -6,11 +6,11 @@ import ImageCell from '../../components/Common/ImageCell';
 
 const CountryId = ({ value }) => (
 	<Link to="/" className="text-body fw-bold">
-		{value ?? ''}
+		{value ?? '-'}
 	</Link>
 );
 
-const CountryName = ({ value }) => value ?? '';
+const CountryName = ({ value }) => value ?? '-';
 
 const Icon = ({ value }) => (
 	<ImageCell

@@ -20,7 +20,9 @@ const debounceTime = 700;
 
 const selectedLanguage = 'EN';
 
-const dateFormat = 'DD-MM-YYYY';
+const YMDFormat = 'DD-MM-YYYY';
+
+const dateTimeFormat = `${YMDFormat} hh:mm`;
 
 export {
 	projectName,
@@ -32,5 +34,6 @@ export {
 	itemsPerPage,
 	debounceTime,
 	selectedLanguage,
-	dateFormat,
+	YMDFormat,
+	dateTimeFormat,
 };

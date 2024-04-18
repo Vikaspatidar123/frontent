@@ -50,7 +50,7 @@ const useBonusListing = (filterValues = {}) => {
 				// 	type === 'wagering' ||
 				// 	type === BONUS_TYPES.JOINING
 				// 		? '-'
-				// 		: formatDate(validTo);
+				// 		: formatDateYMD(validTo);
 
 				// let isExpired;
 				// if (
@@ -61,7 +61,7 @@ const useBonusListing = (filterValues = {}) => {
 				// 	isExpired = 'No';
 				// } else {
 				// 	isExpired =
-				// 		formatDate(validTo) < formatDate(new Date()) ? 'Yes' : 'No';
+				// 		formatDateYMD(validTo) < formatDateYMD(new Date()) ? 'Yes' : 'No';
 				// }
 				// const isClaimed = claimedCount ? 'Yes' : 'No';
 				const isExpired =

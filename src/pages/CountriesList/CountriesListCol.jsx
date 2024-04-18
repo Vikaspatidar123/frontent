@@ -2,13 +2,13 @@ import React from 'react';
 import { Badge } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-const Id = ({ value }) => value ?? '';
+const Id = ({ value }) => value ?? '-';
 
-const CountryName = ({ value }) => value ?? '';
+const CountryName = ({ value }) => value ?? '-';
 
-const CountryCode = ({ value }) => value ?? '';
+const CountryCode = ({ value }) => value ?? '-';
 
-const Language = ({ value }) => value ?? '';
+const Language = ({ value }) => value ?? '-';
 
 const Status = ({ value }) =>
 	value ?? '' ? (

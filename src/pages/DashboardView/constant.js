@@ -2,8 +2,8 @@
 export const dateConstants = [
 	{ label: 'Today', value: 'today' },
 	{ label: 'Yesterday', value: 'yesterday' },
-	{ label: 'Month To Date', value: 'monthtodate' },
 	// { label: 'Custom', value: 'custom' },
+	{ label: 'Month To Date', value: 'monthtodate' },
 	{ label: 'Last 7 Days', value: 'last7days' },
 	{ label: 'Last 30 Days', value: 'last30days' },
 	{ label: 'Last 90 Days', value: 'last90days' },

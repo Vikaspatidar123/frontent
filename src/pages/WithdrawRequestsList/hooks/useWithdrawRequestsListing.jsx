@@ -6,7 +6,7 @@ import {
 	fetchWithdrawRequestsStart,
 	resetWithdrawRequestsData,
 } from '../../../store/actions';
-import { formatDateYMD } from '../../../helpers/dateFormatter';
+import { formatDateYMD } from '../../../utils/dateFormatter';
 import {
 	ActionableType,
 	Amount,

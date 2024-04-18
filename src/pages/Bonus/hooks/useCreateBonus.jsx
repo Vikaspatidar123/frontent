@@ -5,6 +5,7 @@ import { isEmpty, isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import General from '../FormSections/General';
 import Languages from '../FormSections/Languages';
+import { formatDateYMD } from '../../../utils/dateFormatter';
 // import { getSiteConfiguration } from '../../../network/getRequests';
 import Currencies from '../FormSections/Currency';
 import WageringContribution from '../FormSections/WageringContribution';
@@ -20,11 +21,11 @@ import {
 	resetUpdateBonus,
 	updateBonus,
 } from '../../../store/actions';
-import { formatDateYMD, safeStringify } from '../../../utils/helpers';
+import { safeStringify } from '../../../utils/helpers';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import { initialData } from '../formDetails';
-import { dateFormat } from '../../../constants/config';
+import { YMDFormat } from '../../../constants/config';
 import { BONUS_TYPES } from '../constants';
 
 const useCreateBonus = ({ isEdit }) => {
@@ -305,8 +306,8 @@ const useCreateBonus = ({ isEdit }) => {
 		if (!isEmpty(existingFilledFields)) {
 			const existingFilledFieldsCopy = {
 				...existingFilledFields,
-				startDate: moment(existingFilledFields?.startDate).format(dateFormat),
-				endDate: moment(existingFilledFields?.endDate).format(dateFormat),
+				startDate: moment(existingFilledFields?.startDate).format(YMDFormat),
+				endDate: moment(existingFilledFields?.endDate).format(YMDFormat),
 			};
 			const isDataEqual = isEqual(existingFilledFieldsCopy, initialData);
 			if (!isDataEqual) {

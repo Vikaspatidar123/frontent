@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { formatDate } from '../../../utils/dateFormatter';
+import { formatDateYMD } from '../../../utils/dateFormatter';
 import {
 	getCasinoCategoryDetailStart,
 	getLanguagesStart,
@@ -32,8 +32,8 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 			return casinoCategoryDetails?.categories.map((category) => ({
 				...category,
 				nameEN: category?.name?.EN,
-				createdAt: formatDate(category?.createdAt),
-				updatedAt: formatDate(category?.updatedAt),
+				createdAt: formatDateYMD(category?.createdAt),
+				updatedAt: formatDateYMD(category?.updatedAt),
 			}));
 		}
 		return [];

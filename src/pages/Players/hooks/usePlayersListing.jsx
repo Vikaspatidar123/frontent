@@ -16,7 +16,7 @@ import {
 	UserName,
 } from '../PlayersListCol';
 import { getRandomColor } from '../../../helpers/common';
-import { getDateTime } from '../../../helpers/dateFormatter';
+import { getDateTime } from '../../../utils/dateFormatter';
 
 const usePlayersListing = (filterValues = {}) => {
 	const dispatch = useDispatch();

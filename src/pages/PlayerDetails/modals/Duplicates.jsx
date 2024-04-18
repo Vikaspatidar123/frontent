@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import TableContainer from '../../../components/Common/Table';
 import { getDuplicateUsers } from '../../../store/actions';
 import { KeyValueCellNA } from '../TableCol';
-import { formatDateYMD } from '../../../helpers/dateFormatter';
+import { formatDateYMD } from '../../../utils/dateFormatter';
 
 const Duplicates = ({ show, toggle, header }) => {
 	const dispatch = useDispatch();

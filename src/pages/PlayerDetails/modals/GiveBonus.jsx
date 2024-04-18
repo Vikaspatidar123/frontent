@@ -18,7 +18,7 @@ import {
 import TableContainer from '../../../components/Common/Table';
 import { KeyValueCell } from '../TableCol';
 import { bonusKeyArray } from '../constants';
-import { formatDate } from '../../../utils/dateFormatter';
+import { formatDateYMD } from '../../../utils/dateFormatter';
 
 const GiveBonusModal = ({ show, toggle, header }) => {
 	const { playerId } = useParams();
@@ -80,8 +80,8 @@ const GiveBonusModal = ({ show, toggle, header }) => {
 				bonusPercentage: `${bonusDetails?.depositBonusPercent}%`,
 				isSticky: bonusDetails?.isSticky ? 'YES' : 'NO',
 				bonusBetOnly: bonusDetails?.bonusBetOnly ? 'YES' : 'NO',
-				validFrom: formatDate(bonusDetails?.validFrom),
-				validTo: formatDate(bonusDetails?.validTo),
+				validFrom: formatDateYMD(bonusDetails?.validFrom),
+				validTo: formatDateYMD(bonusDetails?.validTo),
 			};
 			bonusKeyArray?.map((key) =>
 				arrayToReturn.push({ key: key.label, value: copyArray[key.accessor] })

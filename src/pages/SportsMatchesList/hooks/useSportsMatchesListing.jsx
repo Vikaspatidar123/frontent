@@ -7,7 +7,7 @@ import {
 	resetSportsMatchesData,
 	// updateFeaturedMatchStart,
 } from '../../../store/actions';
-import { getDateTime } from '../../../helpers/dateFormatter';
+import { getDateTime } from '../../../utils/dateFormatter';
 import {
 	Action,
 	Id,

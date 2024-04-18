@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { useParams } from 'react-router-dom';
-import { formatDate } from '../../../utils/dateFormatter';
-import { formatDateYMD } from '../../../helpers/dateFormatter';
+import { formatDateYMD } from '../../../utils/dateFormatter';
 import { genderTypes } from '../constants';
 
 const useUserOverview = ({ user }) => {
@@ -48,7 +47,7 @@ const useUserOverview = ({ user }) => {
 
 	const moreInfo = [
 		{ label: 'IP Address', value: user?.signInIp, subValue: 'text-success' },
-		{ label: 'Date Of Birth', value: formatDate(user?.dateOfBirth) },
+		{ label: 'Date Of Birth', value: formatDateYMD(user?.dateOfBirth) },
 		{ label: 'Phone Number', value: user?.phone },
 		{ label: 'City', value: user?.city },
 		{ label: 'ZipCode', value: user?.zipCode },

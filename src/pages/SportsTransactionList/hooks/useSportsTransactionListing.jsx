@@ -7,7 +7,7 @@ import {
 	fetchSportsTransactionStart,
 	resetSportsTransactionsData,
 } from '../../../store/actions';
-import { getDateTime } from '../../../helpers/dateFormatter';
+import { getDateTime } from '../../../utils/dateFormatter';
 import {
 	CreatedAt,
 	Id,

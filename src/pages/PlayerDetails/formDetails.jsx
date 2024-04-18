@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
-import { formatDateYMD } from '../../utils/helpers';
 import { statusType } from '../TransactionBankingList/constants';
+import { formatDateYMD } from '../../utils/dateFormatter';
 import {
 	BET_SLIP_SETTLEMENT_STATUS,
 	BET_TYPES,
