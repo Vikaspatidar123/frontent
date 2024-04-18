@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Col, Row, Form, Card, UncontrolledTooltip } from 'reactstrap';
+import { Col, Row, Form, Card, UncontrolledTooltip, Button } from 'reactstrap';
 import { getField } from '../../helpers/customForms';
 
 const LoyaltyFormPage = ({
@@ -66,9 +66,9 @@ const LoyaltyFormPage = ({
 								)}
 								<Col lg={1} sm={1}>
 									{formFields.length - 1 === index ? (
-										<button
-											type="button"
-											className="btn btn-sm btn-soft-danger m-1"
+										<Button
+											className="btn-sm m-1"
+											color="danger"
 											onClick={() => {
 												deleteLevel();
 											}}
@@ -81,7 +81,7 @@ const LoyaltyFormPage = ({
 											>
 												Delete this Level
 											</UncontrolledTooltip>
-										</button>
+										</Button>
 									) : (
 										''
 									)}
@@ -93,13 +93,14 @@ const LoyaltyFormPage = ({
 				<Row>
 					<Col>
 						<div className="text-end">
-							<button
+							<Button
 								type="submit"
-								className="btn btn-primary waves-effect waves-light"
+								className="waves-effect waves-light"
+								color="primary"
 								disabled={isSubmitLoading || bonusDetails}
 							>
 								{submitLabel}
-							</button>
+							</Button>
 						</div>
 					</Col>
 				</Row>

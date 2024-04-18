@@ -90,7 +90,7 @@ const CodeEditor = ({
 			<div style={{ height: height || '350px' }} className="codepen-display td">
 				<div className="codepen-editors">
 					<div className="codepen-editor-picker td">
-						<button
+						<Button
 							type="button"
 							disabled={details}
 							className={`td ${
@@ -99,7 +99,7 @@ const CodeEditor = ({
 							onClick={() => setSelected('HTML')}
 						>
 							HTML
-						</button>
+						</Button>
 					</div>
 
 					<div

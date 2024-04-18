@@ -11,6 +11,7 @@ import {
 	Form,
 	Spinner,
 	UncontrolledTooltip,
+	Button,
 } from 'reactstrap';
 import { isEmpty } from 'lodash';
 import { getField } from '../../helpers/customForms';
@@ -112,17 +113,18 @@ const FormModal = ({
 								<Row>
 									<Col>
 										<div className="text-end">
-											<button
+											<Button
 												type="submit"
 												disabled={isSubmitLoading || disableSubmit}
-												className="btn btn-primary save-user"
+												className="save-user"
+												color="primary"
 											>
 												{isSubmitLoading && !disableSubmit && (
 													<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
 												)}
 												{/* {isSubmitLoading && <i className="bx bx-loader bx-spin font-size-16 align-middle me-2" /> } */}{' '}
 												{submitLabel}
-											</button>
+											</Button>
 										</div>
 									</Col>
 								</Row>

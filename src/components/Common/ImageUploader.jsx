@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Container, Row } from 'reactstrap';
+import { Button, Container, Row } from 'reactstrap';
 import Dropzone from 'react-dropzone';
 import PropTypes from 'prop-types';
 
@@ -50,18 +50,16 @@ const ImageUploader = ({
 				)}
 			</Dropzone>
 			<div className="d-flex justify-content-between mt-4">
-				<button
-					type="button"
-					className="btn btn-danger"
+				<Button
+					color="danger"
 					disabled={!uploadedFile || isUploading || error}
 					onClick={handleClear}
 					hidden={!uploadedFile}
 				>
 					Reset
-				</button>
-				<button
-					type="button"
-					className="btn btn-primary"
+				</Button>
+				<Button
+					color="primary"
 					disabled={!uploadedFile || isUploading || error}
 					onClick={handleSubmit}
 					hidden={!uploadedFile}
@@ -70,7 +68,7 @@ const ImageUploader = ({
 						<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
 					)}
 					Submit
-				</button>
+				</Button>
 			</div>
 		</Row>
 	</Container>

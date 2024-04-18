@@ -10,32 +10,6 @@ export const formatDateYMD = (date) => {
 	return [year, month, day].join('-');
 };
 
-const monthNames = [
-	'Jan',
-	'Feb',
-	'Mar',
-	'Apr',
-	'May',
-	'Jun',
-	'Jul',
-	'Aug',
-	'Sep',
-	'Oct',
-	'Nov',
-	'Dec',
-];
-
-export const formatDateYMDAlt = (date) => {
-	const d = new Date(date);
-	const month = `${d.getMonth() + 1}`;
-	let day = `${d.getDate()}`;
-	const year = d.getFullYear();
-
-	if (day.length < 2) day = `0${day}`;
-
-	return `${day} ${monthNames[month]},${year}`;
-};
-
 export const getDateTime = (dateTime) => {
 	const d = new Date(dateTime);
 	let month = `${d.getMonth() + 1}`;
@@ -52,7 +26,7 @@ export const getDateTime = (dateTime) => {
 	if (month.length < 2) month = `0${month}`;
 	if (day.length < 2) day = `0${day}`;
 
-	const formatedDateTime = `${month}-${day}-${year} ${time}`;
+	const formattedDateTime = `${month}-${day}-${year} ${time}`;
 
-	return formatedDateTime;
+	return formattedDateTime;
 };

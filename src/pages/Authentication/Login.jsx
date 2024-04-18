@@ -24,6 +24,7 @@ import {
 	Input,
 	FormFeedback,
 	Label,
+	Button,
 } from 'reactstrap';
 import withRouter from '../../components/Common/withRouter';
 
@@ -178,12 +179,13 @@ const Login = (props) => {
 												) : null}
 											</div>
 											<div className="mt-3 d-grid">
-												<button
-													className="btn btn-primary btn-block"
+												<Button
+													className="btn-block"
+													color="primary"
 													type="submit"
 												>
 													Log In
-												</button>
+												</Button>
 											</div>
 
 											{/* <div className="mt-4 text-center">

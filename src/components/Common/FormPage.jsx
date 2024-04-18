@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Col, Row, Form, Card, UncontrolledTooltip } from 'reactstrap';
+import { Col, Row, Form, Card, UncontrolledTooltip, Button } from 'reactstrap';
 import { getField } from '../../helpers/customForms';
 
 const FormPage = ({
@@ -98,9 +98,10 @@ const FormPage = ({
 					<Col>
 						<div className="text-end">
 							{isSubmit && (
-								<button
+								<Button
 									type="submit"
-									className="btn btn-primary waves-effect waves-light"
+									className="waves-effect waves-light"
+									color="primary"
 									disabled={isSubmitLoading}
 								>
 									{isSubmitLoading && (
@@ -108,7 +109,7 @@ const FormPage = ({
 									)}
 									{/* {isSubmitLoading && <i className="bx bx-loader bx-spin font-size-16 align-middle me-2" /> } */}{' '}
 									{submitLabel}
-								</button>
+								</Button>
 							)}
 						</div>
 					</Col>
@@ -117,14 +118,14 @@ const FormPage = ({
 					<Col>
 						<div className="text-end">
 							{isEdit && (
-								<button
-									className="btn btn-success waves-effect waves-light"
+								<Button
+									className="waves-effect waves-light"
+									color="success"
 									disabled={isSubmitLoading}
-									type="button"
 									onClick={() => enableEdit(false)}
 								>
 									Edit
-								</button>
+								</Button>
 							)}
 						</div>
 					</Col>

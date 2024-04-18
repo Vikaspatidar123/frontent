@@ -22,6 +22,7 @@ const DemoGraphicTable = (props) => {
 				customPageSize={demoGraphicData?.demograph?.length || 15}
 				// tbodyHeight="300"
 				isLoading={isDemographicLoading}
+				isShowColSettings={false}
 			/>
 		</div>
 	);
