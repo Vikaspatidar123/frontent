@@ -9,6 +9,9 @@ import { TABS, dateConstants } from '../constant';
 import { CustomSelectField } from '../../../helpers/customForms';
 import TabsPage from '../../../components/Common/TabsPage';
 import useGameReport from './hooks/useGameReport';
+import { GAME_REPORT } from '../../../constants/messages';
+import { modules } from '../../../constants/permissions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const GameReport = () => {
 	const {
@@ -21,6 +24,7 @@ const GameReport = () => {
 		setGameReportDateOption,
 		loadGameReport,
 	} = useGameReport();
+	const { isGranted } = usePermission();
 
 	const tabComponent = (
 		<SimpleBar style={{ maxHeight: '300px' }}>
@@ -58,58 +62,65 @@ const GameReport = () => {
 		<Col xl="12">
 			<Card>
 				<CardBody>
-					<div className="float-end">
-						<div className="d-flex justify-content-between align-items-center">
-							<CustomSelectField
-								name="gameReportDateFilter"
-								type="select"
-								onChange={(e) => {
-									setGameReportDateOption(e.target.value);
-								}}
-								value={gameReportDateOption}
-								key="my_unique_select_key__gameReportDateFilter"
-								options={dateConstants?.map((item) => (
-									<option value={item.value} key={item.value}>
-										{item.label}
-									</option>
-								))}
+					{isGranted(modules.kpiReport, 'R') ? (
+						<>
+							<div className="float-end">
+								<div className="d-flex justify-content-between align-items-center">
+									<CustomSelectField
+										name="gameReportDateFilter"
+										type="select"
+										onChange={(e) => {
+											setGameReportDateOption(e.target.value);
+										}}
+										value={gameReportDateOption}
+										key="my_unique_select_key__gameReportDateFilter"
+										options={dateConstants?.map((item) => (
+											<option value={item.value} key={item.value}>
+												{item.label}
+											</option>
+										))}
+									/>
+									<CSVLink
+										data={gameReport || []}
+										filename="downloaded_data.csv"
+										className="btn btn-primary dashboard-export-btn"
+									>
+										Export Details{' '}
+										<i className="bx bx-download align-baseline" />
+									</CSVLink>
+								</div>
+							</div>
+
+							<div className="d-flex align-items-center">
+								<h4 className="card-title font-size-18 mb-3">Game Report</h4>
+								<i
+									role="button"
+									tabIndex="0"
+									className="mdi mdi-refresh mx-2 font-size-24 mb-3"
+									style={{ cursor: 'pointer' }}
+									id="refreshGameReport"
+									onClick={loadGameReport}
+									onKeyDown={(e) => {
+										if (e.key === 'Enter') {
+											loadGameReport();
+										}
+									}}
+								/>
+								<UncontrolledTooltip placement="top" target="refreshGameReport">
+									Refresh
+								</UncontrolledTooltip>
+							</div>
+
+							<TabsPage
+								activeTab={activeGameReportTab}
+								tabsData={tabData}
+								toggle={toggle}
+								navClass="bg-light rounded p-0"
 							/>
-							<CSVLink
-								data={gameReport || []}
-								filename="downloaded_data.csv"
-								className="btn btn-primary dashboard-export-btn"
-							>
-								Export Details <i className="bx bx-download align-baseline" />
-							</CSVLink>
-						</div>
-					</div>
-
-					<div className="d-flex align-items-center">
-						<h4 className="card-title font-size-18 mb-3">Game Report</h4>
-						<i
-							role="button"
-							tabIndex="0"
-							className="mdi mdi-refresh mx-2 font-size-24 mb-3"
-							style={{ cursor: 'pointer' }}
-							id="refreshGameReport"
-							onClick={loadGameReport}
-							onKeyDown={(e) => {
-								if (e.key === 'Enter') {
-									loadGameReport();
-								}
-							}}
-						/>
-						<UncontrolledTooltip placement="top" target="refreshGameReport">
-							Refresh
-						</UncontrolledTooltip>
-					</div>
-
-					<TabsPage
-						activeTab={activeGameReportTab}
-						tabsData={tabData}
-						toggle={toggle}
-						navClass="bg-light rounded p-0"
-					/>
+						</>
+					) : (
+						<h6>{GAME_REPORT}</h6>
+					)}
 				</CardBody>
 			</Card>
 		</Col>

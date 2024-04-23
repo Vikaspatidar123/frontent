@@ -1,10 +1,14 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, CardBody, Card } from 'reactstrap';
 import ReportList from './ReportList';
+import { modules } from '../../../constants/permissions';
+import { LIVE_PLAYER } from '../../../constants/messages';
+import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const Reports = (props) => {
 	const { livePlayerData, isLivePlayerLoading } = props;
+	const { isGranted } = usePermission();
 
 	const reportList = useMemo(
 		() => [
@@ -41,17 +45,27 @@ const Reports = (props) => {
 
 	return (
 		<Row>
-			{reportList.map((report) => (
-				<Col md="6" lg="6" xl="3">
-					<ReportList
-						title={report.title}
-						description={report.description}
-						iconClass={report.iconClass}
-						isLoading={isLivePlayerLoading}
-						reportClass={report.reportClass}
-					/>
+			{isGranted(modules.livePlayerDetail, 'R') ? (
+				reportList.map((report) => (
+					<Col md="6" lg="6" xl="3">
+						<ReportList
+							title={report.title}
+							description={report.description}
+							iconClass={report.iconClass}
+							isLoading={isLivePlayerLoading}
+							reportClass={report.reportClass}
+						/>
+					</Col>
+				))
+			) : (
+				<Col xl="12">
+					<Card>
+						<CardBody>
+							<h6>{LIVE_PLAYER}</h6>
+						</CardBody>
+					</Card>
 				</Col>
-			))}
+			)}
 		</Row>
 	);
 };
