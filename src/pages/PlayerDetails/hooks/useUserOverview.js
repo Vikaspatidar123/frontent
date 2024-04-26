@@ -7,88 +7,96 @@ const useUserOverview = ({ user }) => {
 	const { playerId } = useParams();
 	const showStyle = (data) => (data ? 'text-success' : 'text-danger');
 	const printData = (data) => (data ? 'Yes' : 'No');
+
+	const {
+		addresses,
+		emailVerified,
+		firstName,
+		lastName,
+		username,
+		gender,
+		dateOfBirth,
+		email,
+		defaultDisableReason,
+		isActive,
+		reason,
+		kycMethod,
+		phone,
+		sumsubKycStatus,
+		kycStatus,
+		userTags,
+	} = user || {};
+
+	const address = addresses?.length
+		? `${addresses[addresses.length - 1]?.address || '-'}, ${
+				addresses[addresses.length - 1]?.city || '-'
+		  }, ${addresses[addresses.length - 1]?.zipCode || '-'}, ${
+				addresses[addresses.length - 1]?.countryCode || '-'
+		  } `
+		: '-';
 	let tags = '';
-	user?.userTags?.forEach((t, idx) => {
-		tags += `${t?.tag?.tag} ${idx + 1 !== user?.userTags?.length ? ',' : ''}`;
+	userTags?.forEach((t, idx) => {
+		tags += `${t?.tag?.tag} ${idx + 1 !== userTags?.length ? ',' : ''}`;
 	});
 
 	const basicInfo = [
 		{ label: 'ID', value: playerId },
-		{ label: 'Email', value: user?.email },
+		{ label: 'Email', value: email },
 		{
 			label: 'Email Verified',
-			value: printData(user?.emailVerified),
-			subValue: showStyle(user?.emailVerified),
+			value: printData(emailVerified),
+			subValue: showStyle(emailVerified),
 		},
-		{ label: 'Full Name', value: `${user?.firstName} ${user?.lastName}` },
-		{ label: 'User Name', value: user?.username },
+		{ label: 'Full Name', value: `${firstName} ${lastName}` },
+		{ label: 'User Name', value: username },
 		{
 			label: 'Gender',
-			value:
-				genderTypes.find((gender) => gender.value === user?.gender)?.label ||
-				'',
+			value: genderTypes.find((gen) => gen.value === gender)?.label || '',
 		},
-		{ label: 'Date Of Birth', value: formatDateYMD(user?.dateOfBirth) },
+		{ label: 'Date Of Birth', value: formatDateYMD(dateOfBirth) },
 
 		{
 			label: 'Status',
-			value: user?.isActive ? 'Active' : 'In -Active',
-			subValue: showStyle(user?.isActive),
+			value: isActive ? 'Active' : 'In -Active',
+			subValue: showStyle(isActive),
 		},
-		{ label: 'In-Active Reason', value: user?.defaultDisableReason || '-' },
-		// { label: 'Portal', value: `${user?.tenant?.name} (${user?.tenant?.domain})` },
-		{ label: 'Reason', value: !user?.isActive ? user?.reason : '' },
+		{ label: 'In-Active Reason', value: defaultDisableReason || '-' },
+		// { label: 'Portal', value: `${tenant?.name} (${tenant?.domain})` },
+		{ label: 'Reason', value: !isActive ? reason : '' },
 		{
 			label: 'Tags',
 			value: tags || 'NA',
 		},
-		// { label: 'SumSub Applicant Id', value: user?.applicantId },
-	];
-
-	const moreInfo = [
-		{ label: 'IP Address', value: user?.signInIp, subValue: 'text-success' },
-		{ label: 'Date Of Birth', value: formatDateYMD(user?.dateOfBirth) },
-		{ label: 'Phone Number', value: user?.phone },
-		{ label: 'City', value: user?.city },
-		{ label: 'ZipCode', value: user?.zipCode },
-		{ label: 'Country Code', value: user?.countryCode },
+		// { label: 'SumSub Applicant Id', value: applicantId },
 	];
 
 	const contactInfo = [
-		{ label: 'Phone Number', value: user?.phone },
-		...(user?.addresses?.map((address, idx) => ({
-			label: `Address ${idx + 1}`,
-			value: address
-				? `${address?.address || ''}, ${address?.city || ''}, ${
-						address?.zipCode || ''
-				  }
-					, ${address?.countryCode || ''}`
-				: 'NA',
-		})) || []),
+		{ label: 'Phone Number', value: phone },
+		{ label: 'Address', value: address },
 		// { label: 'Country Code', value: address?.countryCode },
 		// {
 		// 	label: 'NewsLetter',
-		// 	value: user?.newsLetter ? 'True' : 'False',
-		// 	subValue: showStyle(user?.newsLetter),
+		// 	value: newsLetter ? 'True' : 'False',
+		// 	subValue: showStyle(newsLetter),
 		// },
 		// {
 		// 	label: 'SMS',
-		// 	value: user?.sms ? 'True' : 'False',
-		// 	subValue: showStyle(user?.sms),
+		// 	value: sms ? 'True' : 'False',
+		// 	subValue: showStyle(sms),
 		// },
 	];
 
 	const kycInfo = [
 		{
 			label: 'KYC Method',
-			value: user?.kycMethod === 1 ? 'Sumsub' : 'System KYC',
+			value: kycMethod === 1 ? 'Sumsub' : 'System KYC',
 		},
 		{
 			label: 'KYC Status',
 			value:
-				user?.kycMethod === 1
-					? user?.sumsubKycStatus?.toUpperCase()
-					: user?.kycStatus
+				kycMethod === 1
+					? sumsubKycStatus?.toUpperCase()
+					: kycStatus
 					? 'Completed'
 					: 'Pending',
 		},
@@ -98,7 +106,6 @@ const useUserOverview = ({ user }) => {
 		showStyle,
 		printData,
 		basicInfo,
-		moreInfo,
 		contactInfo,
 		kycInfo,
 	};
