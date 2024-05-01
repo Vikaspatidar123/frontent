@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { statusType, LEDGER_TYPES, LEDGER_PURPOSE } from './constants';
+import { STATUS_TYPE, LEDGER_TYPES, LEDGER_PURPOSE } from './constants';
 
 const staticFiltersFields = () => [
 	{
@@ -29,7 +29,7 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: statusType.map(({ value, label }) => ({
+		optionList: STATUS_TYPE.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,

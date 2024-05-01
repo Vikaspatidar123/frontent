@@ -24,7 +24,7 @@ export const LEDGER_TYPES = [
 
 export const walletType = ['Cash', 'Bonus'];
 
-export const statusType = [
+export const STATUS_TYPE = [
 	{ label: 'Completed', value: 'completed' },
 	{ label: 'Pending', value: 'pending' },
 ];

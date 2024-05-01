@@ -384,7 +384,7 @@ export const genderTypes = [
 	{ label: 'Other', value: 'other' },
 ];
 
-export const statusType = [
+export const STATUS_TYPE = [
 	{ label: 'Completed', value: 'completed' },
 	{ label: 'Pending', value: 'pending' },
 	{ label: 'Failed', value: 'failed' },

@@ -155,12 +155,6 @@ const useAdminListing = (filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => <Role value={cell.value} />,
 			},
-			// {
-			//   Header: 'Group',
-			//   accessor: 'group',
-			//   filterable: true,
-			//   Cell: ({ cell }) => <Group value={cell.value} />,
-			// },
 			{
 				Header: 'Status',
 				accessor: 'isActive',

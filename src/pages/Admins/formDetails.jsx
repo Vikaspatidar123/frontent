@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
+import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 
 // Add staff and edit staff
 const getInitialValues = (defaultValue) => ({
@@ -120,18 +121,11 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: [
-			{
-				id: 1,
-				optionLabel: 'Active',
-				value: true,
-			},
-			{
-				id: 2,
-				optionLabel: 'In Active',
-				value: false,
-			},
-		],
+		optionList: IS_ACTIVE_TYPES?.map(({ id, label, value }) => ({
+			id,
+			optionLabel: label,
+			value,
+		})),
 	},
 	{
 		name: 'searchString',

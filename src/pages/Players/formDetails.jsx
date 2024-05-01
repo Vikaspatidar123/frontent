@@ -1,4 +1,8 @@
 import * as Yup from 'yup';
+import {
+	GENDER_TYPES,
+	IS_ACTIVE_TYPES,
+} from '../CasinoTransactionsList/constants';
 
 // Player Filters
 export const kycLabels = [
@@ -67,22 +71,32 @@ const staticFiltersFields = () => [
 		],
 	},
 	{
+		name: 'gender',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Gender',
+		optionList: GENDER_TYPES?.map(({ id, label, value }) => ({
+			id,
+			optionLabel: label,
+			value,
+		})),
+	},
+	{
+		name: 'dateOfBirth',
+		fieldType: 'datePicker',
+		label: '',
+		placeholder: 'Date of Birth',
+	},
+	{
 		name: 'isActive',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: [
-			{
-				id: 1,
-				optionLabel: 'Active',
-				value: true,
-			},
-			{
-				id: 2,
-				optionLabel: 'In Active',
-				value: false,
-			},
-		],
+		optionList: IS_ACTIVE_TYPES?.map(({ id, label, value }) => ({
+			id,
+			optionLabel: label,
+			value,
+		})),
 	},
 ];
 

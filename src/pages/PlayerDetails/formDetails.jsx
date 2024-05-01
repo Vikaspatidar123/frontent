@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { statusType } from '../TransactionBankingList/constants';
+import { STATUS_TYPE } from '../TransactionBankingList/constants';
 import { formatDateYMD } from '../../utils/dateFormatter';
 import {
 	BET_SLIP_SETTLEMENT_STATUS,
@@ -196,29 +196,12 @@ const staticFiltersFields = () => [
 		placeholder: 'Search by conversionRate',
 		type: 'search',
 	},
-	// {
-	// 	name: 'previousTransactionId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by previousTransactionId',
-	// 	type: 'search',
-	// },
-	// {
-	// 	name: 'transactionType',
-	// 	fieldType: 'select',
-	// 	label: '',
-	// 	placeholder: 'Action Type',
-	// 	optionList: ACTION_TYPES.map(({ value, label }) => ({
-	// 		id: value,
-	// 		value,
-	// 		optionLabel: label,
-	// 	})),
-	// },
 	{
 		name: 'status',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: statusType.map(({ value, label }) => ({
+		optionList: STATUS_TYPE.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,

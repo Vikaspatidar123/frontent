@@ -6,7 +6,7 @@ import {
 	fetchTransactionBankingStart,
 	resetTransactionBankingData,
 } from '../../../store/actions';
-import { LEDGER_TYPES, statusType } from '../constants';
+import { LEDGER_TYPES, STATUS_TYPE } from '../constants';
 import {
 	Purpose,
 	TransactionType,
@@ -57,7 +57,7 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 					transactionType: LEDGER_TYPES.find(
 						(type) => type.value === transaction?.ledger?.type
 					)?.label,
-					status: statusType.find(
+					status: STATUS_TYPE.find(
 						(status) => status.value === transaction?.status
 					)?.label,
 					createdAt: moment(transaction?.createdAt)

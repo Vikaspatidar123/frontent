@@ -11,7 +11,7 @@ import { getDateTime } from '../../utils/dateFormatter';
 import Filters from '../../components/Common/Filters';
 import useBetHistoryFilters from './hooks/useBetHistoryFilters';
 import CrudSection from '../../components/Common/CrudSection';
-import { LEDGER_TYPES, statusType } from './constants';
+import { LEDGER_TYPES, STATUS_TYPE } from './constants';
 
 const BetHistory = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const BetHistory = ({ userId }) => {
 						(type) => type.value === txn?.ledger?.type
 					)?.label,
 					purpose: txn?.ledger?.purpose,
-					status: statusType.find((status) => status.value === txn?.status)
+					status: STATUS_TYPE.find((status) => status.value === txn?.status)
 						?.label,
 					createdAt: getDateTime(txn?.createdAt),
 				})

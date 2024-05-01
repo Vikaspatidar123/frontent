@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { statusType } from './constants';
+import { STATUS_TYPE } from './constants';
 
 const staticFiltersFields = () => [
 	// {
@@ -32,29 +32,12 @@ const staticFiltersFields = () => [
 		placeholder: 'Search by conversionRate',
 		type: 'search',
 	},
-	// {
-	// 	name: 'previousTransactionId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by previousTransactionId',
-	// 	type: 'search',
-	// },
-	// {
-	// 	name: 'transactionType',
-	// 	fieldType: 'select',
-	// 	label: '',
-	// 	placeholder: 'Action Type',
-	// 	optionList: ACTION_TYPES.map(({ value, label }) => ({
-	// 		id: value,
-	// 		value,
-	// 		optionLabel: label,
-	// 	})),
-	// },
 	{
 		name: 'status',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: statusType.map(({ value, label }) => ({
+		optionList: STATUS_TYPE.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,

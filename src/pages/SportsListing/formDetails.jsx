@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 
 // CMS Filter
 const staticFiltersFields = () => [
@@ -14,18 +15,11 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: [
-			{
-				id: 1,
-				optionLabel: 'Active',
-				value: true,
-			},
-			{
-				id: 2,
-				optionLabel: 'In Active',
-				value: false,
-			},
-		],
+		optionList: IS_ACTIVE_TYPES?.map(({ id, label, value }) => ({
+			id,
+			optionLabel: label,
+			value,
+		})),
 	},
 ];
 

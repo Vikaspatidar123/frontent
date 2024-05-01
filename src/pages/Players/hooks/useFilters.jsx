@@ -9,6 +9,7 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	fetchCountriesStart,
+	fetchLanguagesStart,
 	fetchPlayersStart,
 	getAllTags,
 } from '../../../store/actions';
@@ -24,6 +25,7 @@ const useFilters = () => {
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 	const { userTags } = useSelector((state) => state.UserDetails);
 	const { countries } = useSelector((state) => state.Countries);
+	const { languages } = useSelector((state) => state.Languages);
 
 	const fetchData = (values) => {
 		dispatch(
@@ -63,17 +65,25 @@ const useFilters = () => {
 		if (isEmpty(countries)) {
 			dispatch(fetchCountriesStart());
 		}
+
+		if (isEmpty(languages)) {
+			dispatch(fetchLanguagesStart({}));
+		}
 	}, []);
 
 	useEffect(() => {
-		if (!isEmpty(userTags) && !isEmpty(countries)) {
-			const tags = userTags?.map((row) => ({
-				optionLabel: row?.tag,
-				value: row.id,
+		if (!isEmpty(userTags) && !isEmpty(countries) && !isEmpty(languages)) {
+			const tags = userTags?.map((userTag) => ({
+				optionLabel: userTag?.tag,
+				value: userTag.id,
 			}));
-			const countriesData = countries?.countries?.map((row) => ({
-				optionLabel: row?.name,
-				value: row.id,
+			const countriesData = countries?.countries?.map((country) => ({
+				optionLabel: country?.name,
+				value: country.id,
+			}));
+			const languageData = languages?.languages?.map((language) => ({
+				optionLabel: language?.name,
+				value: language.id,
 			}));
 			setFormFields([
 				...staticFiltersFields(),
@@ -83,6 +93,13 @@ const useFilters = () => {
 					label: '',
 					placeholder: 'Select tag',
 					optionList: tags,
+				},
+				{
+					name: 'languageId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select Language',
+					optionList: languageData,
 				},
 				{
 					name: 'countryId',

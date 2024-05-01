@@ -8,7 +8,7 @@ import {
 	resetCasinoTransactionsData,
 } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
-// import { statusType } from '../constants';
+// import { STATUS_TYPE } from '../constants';
 import {
 	ActionType,
 	Amount,
@@ -23,7 +23,7 @@ import {
 	Tags,
 	// UserEmail,
 } from '../CasinoTransactionsListCol';
-import { LEDGER_TYPES, statusType } from '../constants';
+import { LEDGER_TYPES, STATUS_TYPE } from '../constants';
 // import { modules } from '../../../constants/permissions';
 // import { getAccessToken } from '../../../network/storageUtils';
 // import { downloadFileInNewWindow } from '../../../utils/helpers';
@@ -69,7 +69,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 						(type) => type.value === txn?.ledger?.type
 					)?.label,
 					purpose: txn?.ledger?.purpose,
-					status: statusType.find((status) => status.value === txn?.status)
+					status: STATUS_TYPE.find((status) => status.value === txn?.status)
 						?.label,
 					createdAt: getDateTime(txn?.createdAt),
 					userTags:
