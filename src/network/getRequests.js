@@ -6,13 +6,13 @@ const { VITE_APP_API_URL } = import.meta.env;
 
 const getCasinoCategoryListing = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-categories`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}categories`,
 		payload
 	);
 
 const getCasinoSubCategoryListing = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-sub-categories`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}sub-categories`,
 		payload
 	);
 
@@ -35,7 +35,7 @@ const getCountries = (payload) =>
 
 const getAllCasinoProviders = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-providers`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}providers`,
 		payload
 	);
 
@@ -68,7 +68,7 @@ const getAllCms = (payload) =>
 
 const getAggregators = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-aggregators`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}aggregators`,
 		payload
 	);
 
@@ -86,7 +86,7 @@ const getSuperAdminWageringTemplate = (payload) =>
 
 const getAllCasinoGames = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-games`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}games`,
 		payload
 	);
 
