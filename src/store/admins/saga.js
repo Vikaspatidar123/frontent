@@ -37,13 +37,13 @@ function* addSuperAdminUserWorker(action) {
 	try {
 		const { data, navigate } = action && action.payload;
 
-		const adminRole = data.role;
+		const adminRole = data?.role;
 
 		delete data.role;
 		yield addSuperAdminUser(data);
 
 		showToastr({
-			message: `${adminRole} Created Successfully`,
+			message: `${adminRole || ''} Created Successfully`,
 			type: 'success',
 		});
 
