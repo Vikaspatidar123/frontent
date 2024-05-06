@@ -36,13 +36,14 @@ function* getAllAdmins(action) {
 function* addSuperAdminUserWorker(action) {
 	try {
 		const { data, navigate } = action && action.payload;
-		delete data.role;
-		yield addSuperAdminUser(data);
 
 		showToastr({
-			message: `${data?.role} Created Successfully`,
+			message: `${data?.role || ''} Created Successfully`,
 			type: 'success',
 		});
+
+		delete data.role;
+		yield addSuperAdminUser(data);
 
 		yield put(addSuperAdminUserSuccess());
 		window.localStorage.removeItem(formPageTitle.staff);
