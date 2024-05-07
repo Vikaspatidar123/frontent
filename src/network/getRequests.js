@@ -323,7 +323,7 @@ const getKpiReport = (payload) =>
 
 const getSubCategoryAddedGames = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}get-games`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}games`,
 		payload
 	);
 
