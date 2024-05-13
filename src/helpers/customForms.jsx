@@ -445,6 +445,7 @@ export const getField = (
 					min={minimum}
 					description={description}
 					isRequired={isRequired}
+					step="0.0001"
 				/>
 			);
 		case 'select':

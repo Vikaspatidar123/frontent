@@ -6,9 +6,14 @@ import {
 	getWageringTemplateDetails,
 	resetWageringTemplateDetail,
 } from '../../../store/wageringTemplate/actions';
-import { WageringTemplateId, CustomValues } from '../WageringTemplateListCol';
+import {
+	WageringTemplateId,
+	CustomValues,
+	WagerMultiplier,
+} from '../WageringTemplateListCol';
 import ActionButtons from '../ActionButtons';
 import { showLinearProgress } from '../../../store/progressLoading/actions';
+import { modules } from '../../../constants/permissions';
 
 const useWageringTemplate = (filterValues = {}) => {
 	const { wageringTemplateDetail, wageringTemplateDetailLoading } = useSelector(
@@ -52,6 +57,21 @@ const useWageringTemplate = (filterValues = {}) => {
 		dispatch(showLinearProgress());
 	};
 
+	const handleCreateClick = (e) => {
+		e.preventDefault();
+		navigate('create');
+	};
+
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleCreateClick,
+			link: '#!',
+			module: modules.bonus,
+			operation: 'C',
+		},
+	]);
+
 	const columns = useMemo(
 		() => [
 			{
@@ -76,7 +96,7 @@ const useWageringTemplate = (filterValues = {}) => {
 				Header: 'Wagering Multiplier',
 				accessor: 'wageringMultiplier',
 				filterable: true,
-				Cell: ({ cell }) => <CustomValues cell={cell} />,
+				Cell: ({ cell }) => <WagerMultiplier cell={cell} />,
 			},
 			{
 				Header: 'Action',
@@ -104,6 +124,7 @@ const useWageringTemplate = (filterValues = {}) => {
 		setPage,
 		onChangeRowsPerPage,
 		columns,
+		buttonList,
 	};
 };
 

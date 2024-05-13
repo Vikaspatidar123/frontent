@@ -75,6 +75,7 @@ const useEditWageringTemplate = () => {
 	};
 
 	const onChangeRowsPerPage = (value) => {
+		setPage(1);
 		setItemsPerPage(value);
 	};
 
@@ -97,11 +98,13 @@ const useEditWageringTemplate = () => {
 
 	useEffect(() => {
 		if (SAWageringTemplate && !SAWageringTemplateLoading) {
-			validation.setValues(getInitialValues(SAWageringTemplate));
+			validation.setValues(getInitialValues(SAWageringTemplate?.template?.[0]));
 			const selectedIds = {};
-			SAWageringTemplate?.template?.forEach(({ casinoGame }) => {
-				selectedIds[casinoGame.id] = true;
-			});
+			SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails?.forEach(
+				({ casinoGame }) => {
+					selectedIds[casinoGame.id] = true;
+				}
+			);
 			setSelectedId(selectedIds);
 		}
 	}, [SAWageringTemplate, SAWageringTemplateLoading]);

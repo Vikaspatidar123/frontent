@@ -1,11 +1,10 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import CasinoGameForm from '../CasinoGameForm';
-import { modules } from '../../../constants/permissions';
 import {
 	getCasinoProvidersDataStart,
 	getCasinoGamesStart,
@@ -64,6 +63,7 @@ const useCreateWageringTemplate = () => {
 	};
 
 	const onChangeRowsPerPage = (value) => {
+		setPage(1);
 		setItemsPerPage(value);
 	};
 
@@ -74,7 +74,6 @@ const useCreateWageringTemplate = () => {
 		setLeftFormFields,
 		rightFormFields,
 		setRightFormFields,
-		setHeader,
 	} = useForm({
 		header: 'Create',
 		initialValues: getInitialValues(),
@@ -173,22 +172,6 @@ const useCreateWageringTemplate = () => {
 		}
 	}, []);
 
-	const handleCreateClick = (e) => {
-		e.preventDefault();
-		setHeader('Create');
-		navigate('create');
-	};
-
-	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleCreateClick,
-			link: '#!',
-			module: modules.bonus,
-			operation: 'C',
-		},
-	]);
-
 	return {
 		header,
 		validation,
@@ -196,8 +179,6 @@ const useCreateWageringTemplate = () => {
 		rightFormFields,
 		setLeftFormFields,
 		setRightFormFields,
-		setHeader,
-		buttonList,
 		customComponent,
 		setCustomComponent,
 		selectedId,

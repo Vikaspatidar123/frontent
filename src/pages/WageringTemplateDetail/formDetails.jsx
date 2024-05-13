@@ -21,7 +21,7 @@ const filterValidationSchema = () =>
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
-	contributionPercentage: '',
+	contributionPercentage: defaultValue?.wageringMultiplier || '',
 	searchString: '',
 });
 
@@ -48,6 +48,7 @@ const rightStaticFormFields = () => [
 		placeholder: 'Contribution Percentage',
 		type: 'number',
 		minimum: 0,
+		step: '.01',
 	},
 	{
 		name: 'searchString',

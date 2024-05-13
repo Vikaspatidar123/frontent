@@ -13,7 +13,6 @@ import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
-import useCreateWageringTemplate from './hooks/useCreateWagringTemplate';
 
 const WageringTemplate = () => {
 	// Set meta title
@@ -38,9 +37,8 @@ const WageringTemplate = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		buttonList,
 	} = useWageringTemplate(filterValidation.values);
-
-	const { buttonList } = useCreateWageringTemplate();
 
 	return (
 		<div className="page-content">
