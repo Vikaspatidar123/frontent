@@ -49,12 +49,14 @@ const WageringContribution = ({ wageringId }) => {
 	}, [currentPage, itemsPerPage, wageringId]);
 
 	const formattedWageringTemplates = useMemo(() => {
-		if (SAWageringTemplate) {
-			return SAWageringTemplate?.casinoGame.map((item) => ({
-				...item,
-				rtp: `${item.returnToPlayer} %`,
-				contribution: `${item.wageringContribution ?? 0} %`,
-			}));
+		if (SAWageringTemplate?.template) {
+			return SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails?.map(
+				(item) => ({
+					...item,
+					rtp: `${item.returnToPlayer} %`,
+					contribution: `${item.wageringContribution ?? 0} %`,
+				})
+			);
 		}
 		return [];
 	}, [SAWageringTemplate]);

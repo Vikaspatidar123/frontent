@@ -36,14 +36,6 @@ const WageringTemplateDetailList = () => {
 	const { SAWageringTemplate, SAWageringTemplateLoading } = useSelector(
 		(state) => state.WageringTemplate
 	);
-	// const {
-	// 	SAWageringTemplate,
-	// 	SAWageringTemplateLoading,
-	// 	itemsPerPage,
-	// 	onChangeRowsPerPage,
-	// 	page,
-	// 	setPage,
-	// } = useEditWageringTemplate();
 
 	useEffect(() => {
 		if (wageringTemplateId) {
@@ -59,10 +51,12 @@ const WageringTemplateDetailList = () => {
 
 	const formattedSAWageringTemplateData = useMemo(() => {
 		if (SAWageringTemplate?.template) {
-			return SAWageringTemplate?.template?.map((template) => ({
-				...template,
-				casinoGameName: template.casinoGame?.name || '-',
-			}));
+			return SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails?.map(
+				(template) => ({
+					...template,
+					casinoGameName: template.casinoGame?.name || '-',
+				})
+			);
 		}
 		return [];
 	}, [SAWageringTemplate]);
