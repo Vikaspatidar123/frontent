@@ -19,15 +19,6 @@ const ActionButtons = ({
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-				<Link to="#" className="btn btn-sm btn-soft-primary">
-					<i className="mdi mdi-eye-outline" id={`view-${bonusId}`} />
-				</Link>
-			</li>
-			<UncontrolledTooltip placement="top" target={`view-${bonusId}`}>
-				View
-			</UncontrolledTooltip> */}
-
 			<li>
 				{active ? (
 					<Button

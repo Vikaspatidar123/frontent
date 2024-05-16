@@ -173,9 +173,13 @@ const addGamesToSubCategory = (data) =>
 	);
 
 const createBonusCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/create`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 const uploadGallery = (data) =>
 	postRequest(

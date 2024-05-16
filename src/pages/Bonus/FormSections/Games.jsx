@@ -12,34 +12,31 @@ import {
 	CustomSwitchButton,
 } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/Table';
+import { selectedLanguage } from '../../../constants/config';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
-const CheckboxInput = ({ cell, selectedGames, toggleSelectGame }) => (
+const CheckboxInput = ({ cell, gameIds, toggleSelectGame }) => (
 	<div className=" d-flex justify-content-center">
 		<CustomSwitchButton
 			type="checkbox"
 			containerClass="false"
 			className="form-check-input"
-			checked={selectedGames?.includes(
-				cell?.row?.original?.casinoGameId?.toString()
-			)}
+			checked={gameIds?.includes(cell?.row?.original?.id?.toString())}
 			switchSizeClass="form-switch-sm"
-			onClick={() =>
-				toggleSelectGame(cell?.row?.original?.casinoGameId?.toString())
-			}
+			onClick={() => toggleSelectGame(cell?.row?.original?.id?.toString())}
 		/>
 	</div>
 );
 
-const columnsArray = ({ selectedGames, toggleSelectGame }) => [
+const columnsArray = ({ gameIds, toggleSelectGame }) => [
 	{
 		Header: 'SELECT',
 		accessor: 'select',
 		disableSortBy: true,
 		Cell: ({ cell }) => (
 			<CheckboxInput
-				selectedGames={selectedGames}
+				gameIds={gameIds}
 				toggleSelectGame={toggleSelectGame}
 				cell={cell}
 			/>
@@ -48,7 +45,7 @@ const columnsArray = ({ selectedGames, toggleSelectGame }) => [
 	{
 		Header: 'GAME ID',
 		disableSortBy: true,
-		accessor: 'casinoGameId',
+		accessor: 'id',
 		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
 	},
 	{
@@ -70,7 +67,7 @@ const Games = ({
 	setAllFields,
 	setActiveTab,
 	setNextPressed,
-	selectedGames,
+	gameIds,
 	setSelectedGames,
 }) => {
 	const dispatch = useDispatch();
@@ -89,18 +86,18 @@ const Games = ({
 		if (nextPressed.currentTab === 'games') {
 			setAllFields((prev) => ({
 				...prev,
-				selectedGames,
+				gameIds,
 			}));
-			setActiveTab(nextPressed.nextTab);
+			if (nextPressed.nextTab !== 'submit') setActiveTab(nextPressed.nextTab);
 			window.scrollTo(0, 0);
 			setNextPressed('');
 		}
 	}, [nextPressed]);
 
 	const providerOptions = useMemo(() => {
-		if (casinoProvidersData) {
+		if (casinoProvidersData?.providers) {
 			return casinoProvidersData?.providers?.map((provider) => ({
-				optionLabel: provider.name,
+				optionLabel: provider.name[selectedLanguage],
 				value: provider.id,
 			}));
 		}
@@ -120,29 +117,30 @@ const Games = ({
 	}, [itemsPerPage, currentPage, searchText, selectedProvider]);
 
 	const formattedCasinoGames = useMemo(() => {
-		if (casinoGames) {
+		if (casinoGames?.games) {
 			return casinoGames?.games?.map((game) => ({
 				...game,
+				name: game.name[selectedLanguage],
 				providerName: casinoProvidersData?.providers?.find(
 					(obj) => obj.id === game.casinoProviderId
-				)?.name,
+				)?.name[selectedLanguage],
 			}));
 		}
 		return [];
 	}, [casinoGames, casinoProvidersData]);
 
-	const toggleSelectGame = (gameId) => {
-		if (selectedGames.includes(gameId)) {
-			const array = selectedGames.filter((game) => game !== gameId);
+	const toggleSelectGame = (id) => {
+		if (gameIds.includes(id)) {
+			const array = gameIds.filter((game) => game !== id);
 			setSelectedGames(array);
 		} else {
-			setSelectedGames((prev) => [...prev, gameId]);
+			setSelectedGames((prev) => [...prev, id]);
 		}
 	};
 
 	const columns = useMemo(
-		() => columnsArray({ selectedGames, toggleSelectGame }),
-		[selectedGames]
+		() => columnsArray({ gameIds, toggleSelectGame }),
+		[gameIds]
 	);
 
 	return (

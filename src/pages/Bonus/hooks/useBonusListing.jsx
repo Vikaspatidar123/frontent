@@ -20,6 +20,7 @@ import {
 	Custom,
 } from '../BonusListCol';
 import ActionButtons from '../ActionButtons';
+import { modules } from '../../../constants/permissions';
 
 const useBonusListing = (filterValues = {}) => {
 	const { bonusDetails, isLoading, gameBonusDetail, isDeleteBonusLoading } =
@@ -40,30 +41,6 @@ const useBonusListing = (filterValues = {}) => {
 	const formattedBonusDetails = useMemo(() => {
 		if (bonusDetails?.bonus?.length) {
 			return bonusDetails?.bonus.map((bonus) => {
-				// const bonusType =
-				// 	type === BONUS_TYPES.FREESPINS && !isSticky
-				// 		? 'CASH FREESPINS'
-				// 		: types.find((val) => val.value === type)?.label;
-
-				// const validTill =
-				// 	type === 'depositCashback' ||
-				// 	type === 'wagering' ||
-				// 	type === BONUS_TYPES.JOINING
-				// 		? '-'
-				// 		: formatDateYMD(validTo);
-
-				// let isExpired;
-				// if (
-				// 	type === 'depositCashback' ||
-				// 	type === 'wagering' ||
-				// 	type === BONUS_TYPES.JOINING
-				// ) {
-				// 	isExpired = 'No';
-				// } else {
-				// 	isExpired =
-				// 		formatDateYMD(validTo) < formatDateYMD(new Date()) ? 'Yes' : 'No';
-				// }
-				// const isClaimed = claimedCount ? 'Yes' : 'No';
 				const isExpired =
 					moment(bonus.validTill).valueOf() < moment().valueOf() ? 'Yes' : 'No';
 				return {
@@ -140,6 +117,28 @@ const useBonusListing = (filterValues = {}) => {
 		const { id } = props;
 		navigate(`/bonus/${id}`);
 	};
+
+	const handleAddClick = (e) => {
+		e.preventDefault();
+		navigate('/bonus/create');
+	};
+
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+			module: modules.bonus,
+			operation: 'C',
+		},
+		{
+			label: 'Reorder',
+			handleClick: '',
+			link: 'reorder',
+			module: modules.bonus,
+			operation: 'U',
+		},
+	]);
 
 	const columns = useMemo(
 		() => [
@@ -231,6 +230,7 @@ const useBonusListing = (filterValues = {}) => {
 		bonusDeleteHandler,
 		bonusName,
 		isDeleteBonusLoading,
+		buttonList,
 	};
 };
 

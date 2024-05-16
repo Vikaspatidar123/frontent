@@ -1,23 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'reactstrap';
-import {
-	generalStaticFormFields,
-	typeDepositAdditionalFields,
-	typeFreeSpinAdditionalFields,
-	commonFields,
-	generalStepInitialValues,
-	generalStaticFormFieldsWithoutPercent,
-	generalStepInitialValuesFromLocalStorage,
-} from '../formDetails';
+import { commonFields, getCreateBonusInitialValues } from '../formDetails';
 import FormPage from '../../../components/Common/FormPage';
 import Spinners from '../../../components/Common/Spinner';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { BONUS_TYPES, bonusTypes, daysOfWeek } from '../constants';
+import { BONUS_TYPES, bonusTypes } from '../constants';
 import { generalFormSchema } from '../Validation/schema';
-import { formPageTitle } from '../../../components/Common/constants';
-import { decryptCredentials } from '../../../network/storageUtils';
-import { dataURLtoBlob } from '../../../utils/helpers';
 
 const General = ({
 	isLoading,
@@ -27,87 +16,55 @@ const General = ({
 	setAllFields,
 	setSelectedBonus,
 	setLangContent,
-	setSelectedCountries,
 	setSelectedGames,
 	setBonusTypeChanged,
 	bonusDetails,
-	existingFilledFields,
-	setExistingFilledFields,
 }) => {
-	const [isDaysFieldAdded, setIsDaysFieldAdded] = useState(false);
 	const [isInitialFieldRendered, setIsInitialFieldsRendered] = useState(false);
 
 	const handleSubmit = (values) => {
 		setAllFields((prev) => ({
 			...prev,
 			...values,
-			validFrom: values.startDate,
-			validTo: values.endDate,
 		}));
-		setActiveTab(values.nextTab);
 		window.scrollTo(0, 0);
+
 		setLangContent((prev) => ({
 			promoTitle: { ...prev.promoTitle, EN: values.promotionTitle },
 			terms: { ...prev.terms, EN: values.termCondition },
 			desc: { ...prev.desc, EN: values.description },
 		}));
+		setActiveTab(nextPressed.nextTab);
 	};
 
 	const { formFields, setFormFields, validation } = useForm({
-		initialValues: generalStepInitialValues({ bonusDetails }),
+		initialValues: getCreateBonusInitialValues({ bonusDetails }),
 		validationSchema: generalFormSchema(),
 		onSubmitEntry: handleSubmit,
 	});
 
 	useEffect(() => {
 		if (nextPressed.currentTab === 'general') {
-			validation.setFieldValue('nextTab', nextPressed.nextTab);
 			validation.submitForm();
 			setNextPressed({});
 		}
 	}, [nextPressed]);
-
-	const isStickyChangeCallback = (e) => {
-		validation.setFieldValue(
-			'wageringRequirementType',
-			e.target.value === 'true' ? 'bonusdeposit' : 'bonus'
-		);
-	};
 
 	const handleBonusTypeChange = (e, type, firstRender = false) => {
 		e?.preventDefault();
 		const bonusType = e?.target?.value || type;
 		if (!firstRender) {
 			setBonusTypeChanged(true);
-			setSelectedCountries([]);
 			setSelectedGames([]);
 			validation.setFieldValue('visibleInPromotions', false);
 			validation.setFieldValue('validOnDays', []);
-			validation.setFieldValue('wageringRequirementType', 'bonus');
-			if (bonusType === BONUS_TYPES.FREESPINS) {
-				validation.setFieldValue('isSticky', true);
-			} else {
-				validation.setFieldValue('isSticky', false);
-			}
-			setExistingFilledFields({
-				...existingFilledFields,
-				bonusType,
-				selectedCountries: [],
-				visibleInPromotions: false,
-				validOnDays: [],
-				wageringRequirementType: 'bonus',
-				isSticky: bonusType === BONUS_TYPES.FREESPINS,
-			});
-			window.localStorage.removeItem(formPageTitle.bonusManagement);
 		}
 		setSelectedBonus(bonusType);
+
+		// FIXME:
 		switch (bonusType) {
 			case BONUS_TYPES.DEPOSIT:
 				setFormFields([
-					...generalStaticFormFields(
-						bonusDetails?.claimedCount,
-						bonusDetails ? [bonusDetails.validFrom, bonusDetails.validTo] : []
-					),
 					{
 						name: 'bonusType',
 						fieldType: 'select',
@@ -121,18 +78,14 @@ const General = ({
 						})),
 						isDisabled: !!bonusDetails,
 					},
-					...typeDepositAdditionalFields(
+					...commonFields(
 						bonusDetails?.claimedCount,
-						isStickyChangeCallback
+						bonusDetails ? [bonusDetails.validFrom, bonusDetails.validTo] : []
 					),
 				]);
 				break;
 			case BONUS_TYPES.FREESPINS:
 				setFormFields([
-					...generalStaticFormFieldsWithoutPercent(
-						bonusDetails?.claimedCount,
-						bonusDetails ? [bonusDetails.validFrom, bonusDetails.validTo] : []
-					),
 					{
 						name: 'bonusType',
 						fieldType: 'select',
@@ -146,15 +99,14 @@ const General = ({
 						})),
 						isDisabled: !!bonusDetails,
 					},
-					...typeFreeSpinAdditionalFields(bonusDetails?.claimedCount),
+					...commonFields(
+						bonusDetails?.claimedCount,
+						bonusDetails ? [bonusDetails.validFrom, bonusDetails.validTo] : []
+					),
 				]);
 				break;
 			case BONUS_TYPES.JOINING:
 				setFormFields([
-					...generalStaticFormFieldsWithoutPercent(
-						bonusDetails?.claimedCount,
-						bonusDetails ? [bonusDetails?.validFrom, bonusDetails?.validTo] : []
-					),
 					{
 						name: 'bonusType',
 						fieldType: 'select',
@@ -168,14 +120,10 @@ const General = ({
 						})),
 						isDisabled: !!bonusDetails,
 					},
-					{
-						name: 'joiningAmount',
-						fieldType: 'textField',
-						type: 'number',
-						label: 'Joining Amount',
-						placeholder: 'Joining Amount',
-					},
-					...commonFields(bonusDetails?.claimedCount),
+					...commonFields(
+						bonusDetails?.claimedCount,
+						bonusDetails ? [bonusDetails?.validFrom, bonusDetails?.validTo] : []
+					),
 				]);
 				break;
 			default:
@@ -193,94 +141,25 @@ const General = ({
 	}, [bonusDetails]);
 
 	useEffect(() => {
-		if (isInitialFieldRendered) {
-			if (
-				validation?.values?.visibleInPromotions &&
-				validation?.values?.bonusType !== BONUS_TYPES.JOINING
-			) {
-				const copyArray = [...formFields];
-				copyArray.splice(11, 0, {
-					name: 'validOnDays',
-					fieldType: 'radioGroupMulti',
-					label: 'Valid On Days',
-					optionList: daysOfWeek.map(({ label, value, id }) => ({
-						optionLabel: label,
-						value,
-						id,
-					})),
-					fieldColOptions: { lg: 12 },
-					isNewRow: true,
-					isDisabled: bonusDetails?.claimedCount,
-				});
-				setFormFields(copyArray);
-				setIsDaysFieldAdded(true);
-			} else if (isDaysFieldAdded) {
-				const copyArray = formFields.filter(
-					(field) => field.name !== 'validOnDays'
-				);
-				setFormFields(copyArray);
-				validation.setFieldValue('validOnDays', []);
-				setIsDaysFieldAdded(false);
-			}
-		}
-	}, [validation.values.visibleInPromotions, isInitialFieldRendered]);
-
-	useEffect(() => {
 		if (
 			isInitialFieldRendered &&
 			validation?.values?.bonusType === BONUS_TYPES.JOINING
 		) {
 			const excludedFields = [
-				'depositBonusPercent',
 				'ranges',
-				'isSticky',
-				'wageringMultiplier',
-				'wageringRequirementType',
 				'daysToClear',
 				'visibleInPromotions',
 				'showBonusValidity',
-				'toggle',
+				'validOnDays',
 			];
 
-			const copyArray = formFields.filter(
+			const newFormFields = formFields.filter(
 				(field) => !excludedFields.includes(field?.name)
 			);
 
-			setFormFields(copyArray);
+			setFormFields(newFormFields);
 		}
 	}, [isInitialFieldRendered, validation?.values?.bonusType]);
-
-	useEffect(() => {
-		if (existingFilledFields) {
-			setExistingFilledFields((prev) => ({
-				...prev,
-				...validation.values,
-			}));
-		}
-	}, [validation.values]);
-
-	useEffect(() => {
-		if (localStorage.getItem(formPageTitle.bonusManagement)) {
-			const storedValues = JSON.parse(
-				decryptCredentials(localStorage.getItem(formPageTitle.bonusManagement))
-			);
-			if (storedValues?.bonusImage?.thumbnail) {
-				const base64Content = storedValues.bonusImage?.thumbnail;
-				const blob = dataURLtoBlob(base64Content);
-
-				storedValues.bonusImage = new File(
-					[blob],
-					storedValues.bonusImage.name,
-					{
-						type: blob.type,
-					}
-				);
-			}
-			validation.setValues(
-				generalStepInitialValuesFromLocalStorage(storedValues)
-			);
-		}
-	}, []);
 
 	return (
 		<Row>

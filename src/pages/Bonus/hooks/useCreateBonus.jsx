@@ -1,60 +1,52 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import moment from 'moment';
-import { isEmpty, isEqual } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import General from '../FormSections/General';
 import Languages from '../FormSections/Languages';
 import { formatDateYMD } from '../../../utils/dateFormatter';
-// import { getSiteConfiguration } from '../../../network/getRequests';
 import Currencies from '../FormSections/Currency';
 import WageringContribution from '../FormSections/WageringContribution';
 import Games from '../FormSections/Games';
-import BonusCountry from '../FormSections/BonusCountry';
 import {
 	createBonus,
-	fetchCountriesStart,
-	getAllSAWageringTemplates,
 	getUserBonusDetails,
 	getUserBonusDetailsReset,
+	getWageringTemplateDetails,
 	resetCreateBonus,
 	resetUpdateBonus,
 	updateBonus,
 } from '../../../store/actions';
 import { safeStringify } from '../../../utils/helpers';
-import { formPageTitle } from '../../../components/Common/constants';
-import { decryptCredentials } from '../../../network/storageUtils';
-import { initialData } from '../formDetails';
-import { YMDFormat } from '../../../constants/config';
-import { BONUS_TYPES } from '../constants';
+import { BONUS_TYPES, LANGUAGES } from '../constants';
 
 const useCreateBonus = ({ isEdit }) => {
 	const { bonusId } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [selectedGames, setSelectedGames] = useState([]);
+	const [gameIds, setSelectedGames] = useState([]);
 	const [bonusTypeChanged, setBonusTypeChanged] = useState(false);
-	const [activeLangTab, setActiveLangTab] = useState('');
+	const [activeLangTab, setActiveLangTab] = useState('EN');
 	const [selectedBonus, setSelectedBonus] = useState(BONUS_TYPES.DEPOSIT);
 	const [activeTab, setActiveTab] = useState('general');
 	const [allFields, setAllFields] = useState({});
-	const [existingFilledFields, setExistingFilledFields] = useState({});
-	const [showModal, setShowModal] = useState(false);
 	const [selectedTemplate, setSelectedTemplate] = useState(1);
-	const [langList, setLangList] = useState({});
+	const [langList] = useState(LANGUAGES);
 	const [nextPressed, setNextPressed] = useState({});
+	const [isNextDisabled, setNextDisabled] = useState(false);
+
 	const [langContent, setLangContent] = useState({
-		promoTitle: {},
-		desc: {},
-		terms: {},
+		promoTitle: { EN: '' },
+		desc: { EN: '' },
+		terms: { EN: '' },
 	});
-	const [selectedCountries, setSelectedCountries] = useState([]);
+
 	const {
 		createBonusSuccess,
 		createBonusLoading,
 		updateBonusSuccess,
 		updateBonusLoading,
 	} = useSelector((state) => state.CreateUpdateBonus);
+
 	const { bonusDetails, getBonusDetailsLoading } = useSelector(
 		(state) => state.UserDetails
 	);
@@ -72,12 +64,11 @@ const useCreateBonus = ({ isEdit }) => {
 
 	useEffect(() => {
 		if (bonusDetails) {
-			setSelectedCountries(bonusDetails?.other?.countries);
 			setSelectedGames(bonusDetails?.gameIds);
 			setLangContent({
-				promoTitle: bonusDetails?.promotionTitle,
-				terms: bonusDetails?.termCondition,
-				desc: bonusDetails?.description,
+				promoTitle: bonusDetails?.promotionTitle[activeLangTab],
+				terms: bonusDetails?.termCondition[activeLangTab],
+				desc: bonusDetails?.description[activeLangTab],
 			});
 		}
 	}, [bonusDetails, nextPressed]);
@@ -93,11 +84,7 @@ const useCreateBonus = ({ isEdit }) => {
 	}, [nextPressed.currentTab]);
 
 	useEffect(() => {
-		dispatch(getAllSAWageringTemplates());
-	}, []);
-
-	useEffect(() => {
-		dispatch(fetchCountriesStart());
+		dispatch(getWageringTemplateDetails());
 	}, []);
 
 	useEffect(() => {
@@ -114,59 +101,12 @@ const useCreateBonus = ({ isEdit }) => {
 		}
 	}, [updateBonusSuccess]);
 
-	const checkAllEmptyCondition = () =>
-		(langContent?.promoTitle?.[activeLangTab] === '' ||
-			langContent?.promoTitle?.[activeLangTab] === undefined) &&
-		(langContent?.desc?.[activeLangTab] === '' ||
-			langContent?.desc?.[activeLangTab] === undefined ||
-			(langContent?.desc?.[activeLangTab] &&
-				!langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')
-					?.length)) &&
-		(langContent?.terms?.[activeLangTab] === '' ||
-			langContent?.terms?.[activeLangTab] === undefined ||
-			(langContent?.terms?.[activeLangTab] &&
-				!langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length));
-
-	const checkAllFilled = () =>
-		langContent?.promoTitle?.[activeLangTab] &&
-		langContent?.desc?.[activeLangTab] &&
-		langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length &&
-		langContent?.terms?.[activeLangTab] &&
-		langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length;
-
-	const isNextDisabled = useMemo(
-		() => !(checkAllEmptyCondition() || checkAllFilled()),
-		[langContent, activeLangTab]
-	);
-
 	const toggleTab = (tab) => {
+		setNextDisabled(false);
 		if (activeTab !== tab) {
 			setActiveTab(tab);
 		}
 	};
-
-	useEffect(() => {
-		// async function fetchData () {
-		//   await getSiteConfiguration().then((res) => {
-		//     setLangList(res?.siteInformation?.[1]?.value?.languages);
-		//   });
-		// }
-		// if (!langList.length) {
-		//   fetchData();
-		// }
-		const staticLanguages = {
-			DE: 'German',
-			EN: 'English',
-			ES: 'Spanish',
-			HI: 'Hindi',
-			MS: 'Malay',
-			NO: 'Norwegian',
-			PS: 'Pasto',
-			RO: 'Romanian',
-			RU: 'Russian',
-		};
-		setLangList(staticLanguages);
-	}, []);
 
 	const onNextClick = (current, next) => {
 		setNextPressed({ currentTab: current, nextTab: next });
@@ -176,146 +116,40 @@ const useCreateBonus = ({ isEdit }) => {
 	useEffect(() => {
 		if (nextPressed.nextTab === 'submit') {
 			if (isEdit) {
-				if (bonusDetails?.bonusType === BONUS_TYPES.JOINING) {
-					dispatch(
-						updateBonus({
-							bonusId,
-							promotionTitle: safeStringify(langContent?.promoTitle),
-							description: safeStringify(langContent?.desc),
-							termCondition: safeStringify(langContent?.terms),
-							bonusType: allFields.bonusType,
-							currency: safeStringify({
-								USD: {
-									joiningAmount: allFields.joiningAmount,
-								},
-							}),
-							isActive: allFields.isActive,
-							bonusImage: allFields.bonusImage,
-						})
-					);
-				} else {
-					dispatch(
-						updateBonus({
-							...allFields,
-							bonusId,
-							promotionTitle: safeStringify(langContent?.promoTitle),
-							description: safeStringify(langContent?.desc),
-							termCondition: safeStringify(langContent?.terms),
-							validFrom: formatDateYMD(allFields.validFrom),
-							validTo: formatDateYMD(allFields.validTo),
-							wageringTemplateId: allFields.selectedTemplateId,
-							gameIds: selectedGames,
-							currency: safeStringify(allFields?.currency),
-							other: safeStringify({
-								countries: selectedCountries,
-								showBonusValidity: allFields.showBonusValidity,
-							}),
-						})
-					);
-				}
-			} else if (allFields?.bonusType === BONUS_TYPES.JOINING) {
 				dispatch(
-					createBonus({
-						promotionTitle: safeStringify(langContent?.promoTitle),
-						description: safeStringify(langContent?.desc),
-						termCondition: safeStringify(langContent?.terms),
-						bonusType: allFields.bonusType,
-						currency: safeStringify({
-							USD: {
-								joiningAmount: allFields.joiningAmount,
-							},
-						}),
-						isActive: allFields.isActive,
-						bonusImage: allFields.bonusImage,
-					})
-				);
-			} else {
-				dispatch(
-					createBonus({
+					updateBonus({
 						...allFields,
-						currency: safeStringify(allFields.currency),
+						bonusId,
 						promotionTitle: safeStringify(langContent?.promoTitle),
 						description: safeStringify(langContent?.desc),
 						termCondition: safeStringify(langContent?.terms),
 						validFrom: formatDateYMD(allFields.validFrom),
 						validTo: formatDateYMD(allFields.validTo),
 						wageringTemplateId: allFields.selectedTemplateId,
-						gameIds: selectedGames,
-						other: safeStringify({
-							countries: selectedCountries,
-							showBonusValidity: allFields.showBonusValidity,
-						}),
+						gameIds,
+						currencyDetails: safeStringify(allFields?.currencyDetails),
 					})
 				);
+			} else {
+				const payload = {
+					...allFields,
+					currencyDetails: safeStringify(allFields.currencyDetails),
+					promotionTitle: safeStringify(langContent?.promoTitle),
+					description: safeStringify(langContent?.desc),
+					termCondition: safeStringify(langContent?.terms),
+					validFrom: formatDateYMD(allFields.validFrom),
+					validTo: formatDateYMD(allFields.validTo),
+					wageringTemplateId: allFields.selectedTemplateId,
+					gameIds,
+				};
+
+				dispatch(createBonus(payload));
 			}
 		}
 	}, [nextPressed]);
 
-	useEffect(() => {
-		setExistingFilledFields((prev) => ({
-			...prev,
-			promotionTitle: langContent?.promoTitle,
-			description: langContent?.desc,
-			termCondition: langContent?.terms,
-		}));
-	}, [langContent]);
-
-	useEffect(() => {
-		setExistingFilledFields((prev) => ({
-			...prev,
-			selectedTemplateId: selectedTemplate,
-		}));
-	}, [selectedTemplate]);
-
-	useEffect(() => {
-		if (selectedGames?.length) {
-			setExistingFilledFields((prev) => ({
-				...prev,
-				selectedGames,
-			}));
-		}
-	}, [selectedGames]);
-
-	useEffect(() => {
-		if (selectedCountries?.length) {
-			setExistingFilledFields((prev) => ({
-				...prev,
-				selectedCountries,
-			}));
-		}
-	}, [selectedCountries]);
-
-	useEffect(() => {
-		if (localStorage.getItem(formPageTitle.bonusManagement)) {
-			const storedValues = JSON.parse(
-				decryptCredentials(localStorage.getItem(formPageTitle.bonusManagement))
-			);
-			setSelectedBonus(storedValues?.bonusType);
-			setLangContent({
-				promoTitle: storedValues?.promotionTitle,
-				desc: storedValues?.description,
-				terms: storedValues?.termCondition,
-			});
-			setSelectedGames(storedValues?.selectedGames);
-			setSelectedTemplate(storedValues?.selectedTemplateId);
-			setSelectedCountries(storedValues?.selectedCountries || []);
-		}
-	}, []);
-
 	const onBackClick = () => {
-		if (!isEmpty(existingFilledFields)) {
-			const existingFilledFieldsCopy = {
-				...existingFilledFields,
-				startDate: moment(existingFilledFields?.startDate).format(YMDFormat),
-				endDate: moment(existingFilledFields?.endDate).format(YMDFormat),
-			};
-			const isDataEqual = isEqual(existingFilledFieldsCopy, initialData);
-			if (!isDataEqual) {
-				setShowModal(true);
-			} else {
-				navigate('/bonus');
-			}
-		}
+		navigate('/bonus');
 	};
 
 	const tabData = [
@@ -332,13 +166,11 @@ const useCreateBonus = ({ isEdit }) => {
 					setAllFields={setAllFields}
 					setSelectedBonus={setSelectedBonus}
 					setLangContent={setLangContent}
-					setSelectedCountries={setSelectedCountries}
 					setSelectedGames={setSelectedGames}
 					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
 					isEdit={isEdit}
-					existingFilledFields={existingFilledFields}
-					setExistingFilledFields={setExistingFilledFields}
+					setNextDisabled={setNextDisabled}
 				/>
 			),
 		},
@@ -359,6 +191,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setAllFields={setAllFields}
 					bonusDetails={bonusDetails}
 					selectedBonus={selectedBonus}
+					setNextDisabled={setNextDisabled}
 				/>
 			),
 		},
@@ -376,13 +209,10 @@ const useCreateBonus = ({ isEdit }) => {
 					bonusTypeChanged={bonusTypeChanged}
 					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
-					existingFilledFields={existingFilledFields}
-					setExistingFilledFields={setExistingFilledFields}
+					setNextDisabled={setNextDisabled}
 				/>
 			),
-			isHidden:
-				[BONUS_TYPES.JOINING].includes(selectedBonus) ||
-				bonusDetails?.claimedCount,
+			isHidden: bonusDetails?.claimedCount,
 		},
 		{
 			id: 'wageringContribution',
@@ -399,9 +229,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setSelectedTemplate={setSelectedTemplate}
 				/>
 			),
-			isHidden:
-				[BONUS_TYPES.JOINING].includes(selectedBonus) ||
-				bonusDetails?.claimedCount,
+			isHidden: [BONUS_TYPES.JOINING].includes(selectedBonus),
 		},
 		{
 			id: 'games',
@@ -412,26 +240,13 @@ const useCreateBonus = ({ isEdit }) => {
 					setNextPressed={setNextPressed}
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
-					selectedGames={selectedGames}
+					gameIds={gameIds}
 					setSelectedGames={setSelectedGames}
 				/>
 			),
 			isHidden:
 				[BONUS_TYPES.JOINING, BONUS_TYPES.DEPOSIT].includes(selectedBonus) ||
 				bonusDetails?.claimedCount,
-		},
-		{
-			id: 'countries',
-			title: 'Countries',
-			component: (
-				<BonusCountry
-					selectedCountries={selectedCountries}
-					setSelectedCountries={setSelectedCountries}
-					existingFilledFields={existingFilledFields}
-					setExistingFilledFields={setExistingFilledFields}
-				/>
-			),
-			isHidden: [BONUS_TYPES.JOINING].includes(selectedBonus),
 		},
 	];
 
@@ -446,10 +261,7 @@ const useCreateBonus = ({ isEdit }) => {
 		createBonusLoading,
 		updateBonusLoading,
 		getBonusDetailsLoading,
-		showModal,
-		setShowModal,
 		onBackClick,
-		existingFilledFields,
 		navigate,
 	};
 };

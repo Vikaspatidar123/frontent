@@ -6,7 +6,6 @@ import {
 	CustomInputField,
 	CustomTextEditor,
 } from '../../../helpers/customForms';
-import { BONUS_TYPES } from '../constants';
 
 const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
 	<>
@@ -62,14 +61,10 @@ const Languages = ({
 	nextPressed,
 	setNextPressed,
 	setActiveTab,
-	selectedBonus,
-	// bonusDetails,
+	setNextDisabled,
 }) => {
 	useEffect(() => {
-		if (
-			nextPressed.currentTab === 'languages' &&
-			selectedBonus !== BONUS_TYPES.JOINING
-		) {
+		if (nextPressed.currentTab === 'languages') {
 			setActiveTab(nextPressed.nextTab);
 			window.scrollTo(0, 0);
 			setNextPressed({});
@@ -96,6 +91,30 @@ const Languages = ({
 		}));
 	}, [langList, langContent]);
 
+	const checkAllEmptyCondition = () =>
+		(langContent?.promoTitle?.[activeLangTab] === '' ||
+			langContent?.promoTitle?.[activeLangTab] === undefined) &&
+		(langContent?.desc?.[activeLangTab] === '' ||
+			langContent?.desc?.[activeLangTab] === undefined ||
+			(langContent?.desc?.[activeLangTab] &&
+				!langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')
+					?.length)) &&
+		(langContent?.terms?.[activeLangTab] === '' ||
+			langContent?.terms?.[activeLangTab] === undefined ||
+			(langContent?.terms?.[activeLangTab] &&
+				!langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length));
+
+	const checkAllFilled = () =>
+		langContent?.promoTitle?.[activeLangTab] &&
+		langContent?.desc?.[activeLangTab] &&
+		langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length &&
+		langContent?.terms?.[activeLangTab] &&
+		langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length;
+
+	useEffect(() => {
+		setNextDisabled(!(checkAllEmptyCondition() || checkAllFilled()));
+	}, [activeLangTab, langContent]);
+
 	useEffect(() => {
 		if (tabData.length) {
 			setActiveLangTab(tabData[0]?.id);
@@ -104,7 +123,7 @@ const Languages = ({
 
 	return (
 		<Row>
-			<Row className="text-danger">
+			<Row className="text-info">
 				<strong>
 					All fields are required or cleared before switching to another
 					language or moving Previous or Next/Submit.

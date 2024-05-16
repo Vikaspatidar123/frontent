@@ -8,11 +8,18 @@ import {
 	CustomSelectField,
 } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/Table';
-import { formPageTitle } from '../../../components/Common/constants';
+import { selectedLanguage } from '../../../constants/config';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
 const columns = [
+	{
+		Header: 'Id',
+		accessor: 'wageringTemplateId',
+		disableSortBy: true,
+		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
+	},
+
 	{
 		Header: 'NAME',
 		accessor: 'name',
@@ -48,8 +55,8 @@ const WageringContribution = ({
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [searchText, setSearchText] = useState('');
 	const {
-		allSAWageringTemplates,
-		SAWageringTemplateLoading,
+		wageringTemplateDetail,
+		wageringTemplateDetailLoading,
 		SAWageringTemplate,
 	} = useSelector((state) => state.WageringTemplate);
 
@@ -65,31 +72,27 @@ const WageringContribution = ({
 				...prev,
 				selectedTemplateId: selectedTemplate,
 			}));
-			setActiveTab(nextPressed.nextTab);
+			if (nextPressed.nextTab !== 'submit') setActiveTab(nextPressed.nextTab);
 			window.scrollTo(0, 0);
 			setNextPressed({});
 		}
 	}, [nextPressed]);
 
 	const wageringTemplateOptions = useMemo(() => {
-		if (allSAWageringTemplates?.rows?.length) {
-			return allSAWageringTemplates.rows.map((template) => ({
+		if (wageringTemplateDetail?.wageringTemplates?.length) {
+			return wageringTemplateDetail.wageringTemplates.map((template) => ({
 				optionLabel: template.name,
-				value: template.wageringTemplateId,
+				value: template.id,
 			}));
 		}
 		return [];
-	}, [allSAWageringTemplates]);
+	}, [wageringTemplateDetail]);
 
 	useEffect(() => {
-		if (
-			allSAWageringTemplates?.length &&
-			!isEdit &&
-			!localStorage.getItem(formPageTitle.bonusManagement)
-		) {
-			setSelectedTemplate(allSAWageringTemplates[0].wageringTemplateId);
+		if (wageringTemplateDetail?.wageringTemplates?.length && !isEdit) {
+			setSelectedTemplate(wageringTemplateDetail?.wageringTemplates?.[0]?.id);
 		}
-	}, [allSAWageringTemplates, isEdit]);
+	}, [wageringTemplateDetail, isEdit]);
 
 	useEffect(() => {
 		if (selectedTemplate) {
@@ -109,8 +112,9 @@ const WageringContribution = ({
 			return SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails?.map(
 				(item) => ({
 					...item,
-					rtp: `${item.returnToPlayer} %`,
-					contribution: `${item.wageringContribution ?? 0} %`,
+					name: item?.casinoGame?.name?.[selectedLanguage] || '',
+					rtp: `${item?.casinoGame?.returnToPlayer ?? 0} %`,
+					contribution: `${item.contributionPercentage ?? 0} %`,
 				})
 			);
 		}
@@ -154,7 +158,7 @@ const WageringContribution = ({
 			</Col>
 			<Col lg="12" className="mb-3">
 				<TableContainer
-					isLoading={SAWageringTemplateLoading}
+					isLoading={wageringTemplateDetailLoading}
 					columns={columns}
 					data={formattedWageringTemplates}
 					isPagination
@@ -163,7 +167,10 @@ const WageringContribution = ({
 					// paginationDiv="col-sm-12 col-md-7"
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={SAWageringTemplate?.gameDetail?.count}
+					totalPageCount={
+						SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails
+							?.length
+					}
 					isManualPagination
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}

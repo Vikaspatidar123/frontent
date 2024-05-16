@@ -14,7 +14,6 @@ import { CREATE_BONUS, UPDATE_BONUS } from './actionTypes';
 import { showToastr } from '../../utils/helpers';
 import { createBonusCall } from '../../network/postRequests';
 import { updateBonusCall } from '../../network/putRequests';
-import { formPageTitle } from '../../components/Common/constants';
 
 function* createBonusWorker(action) {
 	try {
@@ -27,7 +26,6 @@ function* createBonusWorker(action) {
 			type: 'success',
 		});
 		yield put(createBonusSuccess(data?.data));
-		window.localStorage.removeItem(formPageTitle.bonusManagement);
 	} catch (error) {
 		yield put(
 			createBonusFail(

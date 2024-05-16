@@ -23,13 +23,11 @@ const bonusTypes = [
 ];
 
 const convertAmountOptions = [
-	{ label: 'Max Bonus Claimed', value: 'maxBonusThreshold' },
-	{ label: 'Min Deposit', value: 'minDeposit' },
-	{ label: 'Max Win Amount', value: 'maxWinAmount' },
-	{ label: 'Zero Out Threshold', value: 'zeroOutThreshold' },
-	{ label: 'Min Wallet Balance', value: 'minBalance' },
-	{ label: 'Max Allowed Balance', value: 'minBalanceCash' },
-	{ label: 'Joining Bonus', value: 'joiningAmount' },
+	{ label: 'Zero Out Threshold', key: 'zeroOutThreshold' },
+	{ label: 'Joining Amount', key: 'joiningAmount' },
+	{ label: 'Max Amount Claimed', key: 'maxAmountClaimed' },
+	{ label: 'Min Bet Amount', key: 'minBetAmount' },
+	{ label: 'Min Deposit Amount', key: 'minDepositAmount' },
 ];
 
 const checkLabels = (bonusType) => {
@@ -73,6 +71,18 @@ const daysLabels = [
 	'Sunday',
 ];
 
+const LANGUAGES = {
+	DE: 'German',
+	EN: 'English',
+	ES: 'Spanish',
+	HI: 'Hindi',
+	MS: 'Malay',
+	NO: 'Norwegian',
+	PS: 'Pasto',
+	RO: 'Romanian',
+	RU: 'Russian',
+};
+
 const wageringRequirementType = [
 	{ label: 'BONUS', value: 'bonus', id: 1 },
 	{ label: 'BONUS+DEPOSIT', value: 'bonusdeposit', id: 2 },
@@ -85,4 +95,5 @@ export {
 	checkLabels,
 	daysLabels,
 	wageringRequirementType,
+	LANGUAGES,
 };

@@ -10,8 +10,6 @@ import {
 	createWageringTemplateDetailsFail,
 	editWageringTemplateDetailsSuccess,
 	editWageringTemplateDetailsFail,
-	getAllSAWageringTemplatesSuccess,
-	getAllSAWageringTemplatesFail,
 } from './actions';
 
 import {
@@ -19,11 +17,9 @@ import {
 	GET_WAGERING_TEMPLATE_DETAILS,
 	CREATE_WAGERING_TEMPLATE_DETAILS,
 	EDIT_WAGERING_TEMPLATE_DETAILS,
-	GET_ALL_SA_WAGERING_TEMPLATES,
 } from './actionTypes';
 
 import {
-	getSuperAdminAllWageringTemplate,
 	getSuperAdminWageringTemplate,
 	getSuperAdminWageringTemplateDetail,
 } from '../../network/getRequests';
@@ -100,15 +96,6 @@ function* editWageringTemplateWorker(action) {
 	}
 }
 
-function* getAllSAWageringTemplatesWorker() {
-	try {
-		const { data } = yield getSuperAdminAllWageringTemplate();
-		yield put(getAllSAWageringTemplatesSuccess(data?.data?.getTemplates));
-	} catch (e) {
-		yield put(getAllSAWageringTemplatesFail(e.message));
-	}
-}
-
 function* wageringTemplateWatcher() {
 	yield takeLatest(
 		GET_WAGERING_TEMPLATE_DETAILS,
@@ -123,10 +110,6 @@ function* wageringTemplateWatcher() {
 		createWageringTemplateWorker
 	);
 	yield takeLatest(EDIT_WAGERING_TEMPLATE_DETAILS, editWageringTemplateWorker);
-	yield takeLatest(
-		GET_ALL_SA_WAGERING_TEMPLATES,
-		getAllSAWageringTemplatesWorker
-	);
 }
 
 function* WageringTemplateDetailsSaga() {

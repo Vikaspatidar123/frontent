@@ -1,8 +1,8 @@
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 
-const safeStringify = (object) =>
-	JSON.stringify(object)?.replace(/</g, '\\u003c');
+const safeStringify = (object) => object;
+// JSON.stringify(object)?.replace(/</g, '\\u003c');
 
 const showToastr = ({ type, message, title }) => {
 	toastr.options = {
