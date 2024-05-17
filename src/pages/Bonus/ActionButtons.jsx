@@ -15,7 +15,8 @@ const ActionButtons = ({
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
 	const bonusId = original?.id;
-	const handleEdit = () => navigate(`/bonus/edit/${bonusId}`);
+	const bonusType = original?.bonusType;
+	const handleEdit = () => navigate(`/bonus/edit/${bonusId}/${bonusType}`);
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -104,6 +105,7 @@ ActionButtons.propTypes = {
 		original: PropTypes.shape({
 			id: PropTypes.number.isRequired,
 			isActive: PropTypes.bool.isRequired,
+			bonusType: PropTypes.string.isRequired,
 		}).isRequired,
 	}).isRequired,
 	handleStatus: PropTypes.func.isRequired,

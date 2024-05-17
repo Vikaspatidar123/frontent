@@ -5,23 +5,49 @@ import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 
 const currentDate = moment().toDate();
 const nextDayDate = moment().add(1, 'days').toDate();
+// {
+//     "validOnDays": 1111111,
+//     "claimedCount": 0,
+//     "termAndCondition": {
+//      "DE": "Freespin 2.0",
+//     },
+//     "promotionTitle": {
+//         "DE": "Freespin 2.0",
+//     },
+//     "description": {
+//         "DE": "<p>Get 6 freespin on top games to maximize your earnings.</p>\n",
+//     },
+//     "freespinBonus": {
+//         "id": "2",
+//         "bonusId": "7",
+//         "freespinQuantity": 5,
+//         "gameIds": [
+//             "4",
+//             "2",
+//             "6",
+//             "8",
+//             "7"
+//         ],
+//         "wageringTemplateId": "2"
+//     }
+// }
 
-const getCreateBonusInitialValues = () => ({
-	promotionTitle: '',
-	description: '',
-	termAndCondition: '',
+const getCreateBonusInitialValues = (bonusDetails) => ({
+	promotionTitle: bonusDetails?.promotionTitle?.EN || '',
+	description: bonusDetails?.description?.EN || '',
+	termAndCondition: bonusDetails?.termAndCondition?.EN || '',
 
 	wageringTemplateId: '',
 	percentage: '',
-	validFrom: currentDate,
-	validTo: nextDayDate,
-	bonusType: BONUS_TYPES.JOINING,
-	daysToClear: '1',
+	validFrom: bonusDetails?.validFrom || currentDate,
+	validTo: bonusDetails?.validTo || nextDayDate,
+	bonusType: bonusDetails?.bonusType || BONUS_TYPES.JOINING,
+	daysToClear: bonusDetails?.daysToClear || '1',
 	quantity: '',
-	isActive: true,
-	visibleInPromotions: false,
+	isActive: bonusDetails?.isActive || true,
+	visibleInPromotions: bonusDetails?.visibleInPromotions || false,
 	validOnDays: [],
-	bonusImage: null,
+	bonusImage: bonusDetails?.imageUrl || null,
 	currencyDetails: {
 		zeroOutThreshold: '',
 		currencyId: '',

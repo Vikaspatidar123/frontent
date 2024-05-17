@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { isEmpty } from 'lodash';
 import General from '../FormSections/General';
 import Languages from '../FormSections/Languages';
 import Currencies from '../FormSections/Currency';
@@ -21,7 +22,7 @@ import { YMDdate } from '../../../constants/config';
 import { filterEmptyPayload } from '../../../network/networkUtils';
 
 const useCreateBonus = ({ isEdit }) => {
-	const { bonusId } = useParams();
+	const { bonusId, bonusType } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [gameIds, setGameIds] = useState([]);
@@ -58,6 +59,7 @@ const useCreateBonus = ({ isEdit }) => {
 			dispatch(
 				getUserBonusDetails({
 					bonusId,
+					bonusType,
 				})
 			);
 		}
@@ -65,7 +67,7 @@ const useCreateBonus = ({ isEdit }) => {
 	}, [bonusId]);
 
 	useEffect(() => {
-		if (bonusDetails) {
+		if (!isEmpty(bonusDetails)) {
 			setGameIds(bonusDetails?.gameIds);
 			setLangContent({
 				promoTitle: bonusDetails?.promotionTitle[activeLangTab],

@@ -159,7 +159,7 @@ const Currencies = ({
 					</label>
 					<CustomInputField
 						name={key}
-						value={validation?.values[key]}
+						value={validation?.values?.[key]}
 						onBlur={validation?.handleBlur}
 						onChange={validation?.handleChange}
 						type="number"

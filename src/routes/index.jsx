@@ -218,7 +218,7 @@ const authProtectedRoutes = [
 		operation: 'C',
 	},
 	{
-		path: '/bonus/edit/:bonusId',
+		path: '/bonus/edit/:bonusId/:bonusType',
 		component: <EditBonus />,
 		modules: [modules.bonus],
 		operation: 'U',
