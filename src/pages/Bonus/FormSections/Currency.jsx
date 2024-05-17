@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
@@ -13,8 +13,7 @@ import {
 	// getBonusCurrencyConversions,
 	resetBonusCurrencyConversion,
 } from '../../../store/actions';
-import { convertAmountOptions } from '../constants';
-import { showToastr } from '../../../utils/helpers';
+import { BONUS_TYPES, commonCurrencyFields } from '../constants';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getCreateBonusInitialValues } from '../formDetails';
 import { currencyValidate } from '../Validation/schema';
@@ -28,6 +27,7 @@ const Currencies = ({
 	setBonusTypeChanged,
 	bonusDetails,
 	setNextDisabled,
+	allFields,
 }) => {
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
@@ -35,16 +35,49 @@ const Currencies = ({
 		(state) => state.AllBonusDetails
 	);
 
-	const handleSubmit = (values) => {
-		setAllFields((prev) => ({ ...prev, currencyDetails: values }));
-		window.scrollTo(0, 0);
-	};
+	const [currencyFields, setCurrencyFields] = useState(commonCurrencyFields);
+
+	useEffect(() => {
+		switch (allFields.bonusType) {
+			case BONUS_TYPES.JOINING: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Joining Amount', key: 'joiningAmount' },
+				]);
+				break;
+			}
+			case BONUS_TYPES.DEPOSIT: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Min Deposit Amount', key: 'minDepositAmount' },
+				]);
+				break;
+			}
+			case BONUS_TYPES.BET: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Min Bet Amount', key: 'minBetAmount' },
+				]);
+				break;
+			}
+			default:
+				break;
+		}
+	}, [allFields?.bonusType]);
+
+	// const handleSubmit = (values) => {
+	// 	window.scrollTo(0, 0);
+	// };
 
 	const { validation } = useForm({
 		initialValues: getCreateBonusInitialValues()?.currencyDetails,
-		validationSchema: currencyValidate(),
-		onSubmitEntry: (values) => handleSubmit(values),
+		validationSchema: currencyValidate(allFields),
+		// onSubmitEntry: (values) => handleSubmit(values),
 	});
+
+	useEffect(() => {
+		setAllFields((prev) => ({ ...prev, currencyDetails: validation.values }));
+	}, [validation.values]);
 
 	useEffect(() => {
 		if (bonusDetails) {
@@ -64,18 +97,10 @@ const Currencies = ({
 	}, [bonusTypeChanged]);
 
 	useEffect(() => {
-		const isAnyErrors = !isEmpty(validation.errors);
 		if (nextPressed.currentTab === 'currency') {
 			validation.submitForm();
-			if (isAnyErrors) {
-				showToastr({
-					message: 'Please fill every required field',
-					type: 'error',
-				});
-			} else {
-				if (nextPressed.nextTab !== 'submit') setActiveTab(nextPressed.nextTab);
-				setNextPressed({});
-			}
+			if (nextPressed.nextTab !== 'submit') setActiveTab(nextPressed.nextTab);
+			setNextPressed({});
 		} else if (nextPressed.nextTab === 'currency') {
 			validation.submitForm();
 		}
@@ -120,8 +145,8 @@ const Currencies = ({
 					{validation.errors.currencyId || ''}
 				</span>
 			</Col>
-			{convertAmountOptions?.map(({ key, label }) => (
-				<Col sm={12} lg={2} className="mx-1">
+			{currencyFields?.map(({ key, label }) => (
+				<Col sm={12} lg={3} className="mx-1">
 					<label htmlFor={key} style={{ fontSize: '14px' }}>
 						{label}
 					</label>
@@ -130,7 +155,7 @@ const Currencies = ({
 						value={validation?.values[key]}
 						onBlur={validation?.handleBlur}
 						onChange={validation?.handleChange}
-						type="number"
+						type="text"
 						required
 					/>
 					<span className="text-danger">{validation.errors[key] || ''}</span>

@@ -17,8 +17,8 @@ import { updateBonusCall } from '../../network/putRequests';
 
 function* createBonusWorker(action) {
 	try {
-		let payload = action && action.payload;
-		payload = serialize(payload);
+		const payload = action && action.payload;
+		// payload = serialize(payload);
 		const { data } = yield createBonusCall(payload);
 
 		showToastr({

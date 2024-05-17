@@ -16,8 +16,7 @@ import {
 	resetUpdateBonus,
 	updateBonus,
 } from '../../../store/actions';
-import { safeStringify } from '../../../utils/helpers';
-import { BONUS_TYPES, LANGUAGES } from '../constants';
+import { BONUS_TYPES, daysLabels, LANGUAGES } from '../constants';
 
 const useCreateBonus = ({ isEdit }) => {
 	const { bonusId } = useParams();
@@ -26,9 +25,10 @@ const useCreateBonus = ({ isEdit }) => {
 	const [gameIds, setSelectedGames] = useState([]);
 	const [bonusTypeChanged, setBonusTypeChanged] = useState(false);
 	const [activeLangTab, setActiveLangTab] = useState('EN');
-	const [selectedBonus, setSelectedBonus] = useState(BONUS_TYPES.DEPOSIT);
 	const [activeTab, setActiveTab] = useState('general');
-	const [allFields, setAllFields] = useState({});
+	const [allFields, setAllFields] = useState({
+		bonusType: BONUS_TYPES.JOINING,
+	});
 	const [selectedTemplate, setSelectedTemplate] = useState(1);
 	const [langList] = useState(LANGUAGES);
 	const [nextPressed, setNextPressed] = useState({});
@@ -67,7 +67,7 @@ const useCreateBonus = ({ isEdit }) => {
 			setSelectedGames(bonusDetails?.gameIds);
 			setLangContent({
 				promoTitle: bonusDetails?.promotionTitle[activeLangTab],
-				terms: bonusDetails?.termCondition[activeLangTab],
+				terms: bonusDetails?.termAndCondition[activeLangTab],
 				desc: bonusDetails?.description[activeLangTab],
 			});
 		}
@@ -77,7 +77,7 @@ const useCreateBonus = ({ isEdit }) => {
 		if (nextPressed.currentTab === 'languages' && bonusDetails) {
 			setLangContent({
 				promoTitle: bonusDetails?.promotionTitle,
-				terms: bonusDetails?.termCondition,
+				terms: bonusDetails?.termAndCondition,
 				desc: bonusDetails?.description,
 			});
 		}
@@ -120,23 +120,35 @@ const useCreateBonus = ({ isEdit }) => {
 					updateBonus({
 						...allFields,
 						bonusId,
-						promotionTitle: safeStringify(langContent?.promoTitle),
-						description: safeStringify(langContent?.desc),
-						termCondition: safeStringify(langContent?.terms),
+						currencyDetails: (0)[allFields?.currencyDetails],
+						promotionTitle: langContent?.promoTitle,
+						description: langContent?.desc,
+						termAndCondition: langContent?.terms,
 						validFrom: formatDateYMD(allFields.validFrom),
 						validTo: formatDateYMD(allFields.validTo),
 						wageringTemplateId: allFields.selectedTemplateId,
 						gameIds,
-						currencyDetails: safeStringify(allFields?.currencyDetails),
 					})
 				);
 			} else {
+				let validOnDays = '';
+				if (allFields?.validOnDays?.length) {
+					daysLabels?.forEach((val) => {
+						if (allFields.validOnDays.includes(val)) {
+							validOnDays += '1';
+						} else {
+							validOnDays += '0';
+						}
+					});
+				}
+
 				const payload = {
 					...allFields,
-					currencyDetails: safeStringify(allFields.currencyDetails),
-					promotionTitle: safeStringify(langContent?.promoTitle),
-					description: safeStringify(langContent?.desc),
-					termCondition: safeStringify(langContent?.terms),
+					validOnDays,
+					currencyDetails: [allFields.currencyDetails],
+					promotionTitle: langContent?.promoTitle,
+					description: langContent?.desc,
+					termAndCondition: langContent?.terms,
 					validFrom: formatDateYMD(allFields.validFrom),
 					validTo: formatDateYMD(allFields.validTo),
 					wageringTemplateId: allFields.selectedTemplateId,
@@ -164,7 +176,6 @@ const useCreateBonus = ({ isEdit }) => {
 					setActiveTab={setActiveTab}
 					setNextPressed={setNextPressed}
 					setAllFields={setAllFields}
-					setSelectedBonus={setSelectedBonus}
 					setLangContent={setLangContent}
 					setSelectedGames={setSelectedGames}
 					setBonusTypeChanged={setBonusTypeChanged}
@@ -190,7 +201,6 @@ const useCreateBonus = ({ isEdit }) => {
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
 					bonusDetails={bonusDetails}
-					selectedBonus={selectedBonus}
 					setNextDisabled={setNextDisabled}
 				/>
 			),
@@ -204,7 +214,6 @@ const useCreateBonus = ({ isEdit }) => {
 					setNextPressed={setNextPressed}
 					setAllFields={setAllFields}
 					allFields={allFields}
-					selectedBonus={selectedBonus}
 					nextPressed={nextPressed}
 					bonusTypeChanged={bonusTypeChanged}
 					setBonusTypeChanged={setBonusTypeChanged}
@@ -229,7 +238,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setSelectedTemplate={setSelectedTemplate}
 				/>
 			),
-			isHidden: [BONUS_TYPES.JOINING].includes(selectedBonus),
+			isHidden: [BONUS_TYPES.JOINING].includes(allFields?.bonusType),
 		},
 		{
 			id: 'games',
@@ -245,8 +254,9 @@ const useCreateBonus = ({ isEdit }) => {
 				/>
 			),
 			isHidden:
-				[BONUS_TYPES.JOINING, BONUS_TYPES.DEPOSIT].includes(selectedBonus) ||
-				bonusDetails?.claimedCount,
+				[BONUS_TYPES.JOINING, BONUS_TYPES.DEPOSIT].includes(
+					allFields?.bonusType
+				) || bonusDetails?.claimedCount,
 		},
 	];
 

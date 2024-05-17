@@ -176,6 +176,7 @@ export const CustomRangeSelector = ({
 	label,
 	placeholder,
 	value = ['', ''],
+	rangeKeys = ['fromDate', 'toDate'],
 	// eslint-disable-next-line no-unused-vars
 	onChange = () => {}, // need for preventing code break
 	onBlur,
@@ -201,8 +202,8 @@ export const CustomRangeSelector = ({
 				maxDate,
 			}}
 			onChange={(date) => {
-				validation.setFieldValue('fromDate', date[0]);
-				validation.setFieldValue('toDate', date[1]);
+				validation.setFieldValue(rangeKeys[0], date[0]);
+				validation.setFieldValue(rangeKeys[1], date[1]);
 			}}
 			monthsShown={2}
 			// maxDate={maxDate}
@@ -416,6 +417,7 @@ export const getField = (
 		customPadding,
 		description,
 		countryCodes,
+		rangeKeys,
 		...rest
 	},
 	validation
@@ -555,7 +557,10 @@ export const getField = (
 					name={name}
 					label={label}
 					placeholder={placeholder}
-					value={[validation.values.fromDate, validation.values.toDate]}
+					value={[
+						validation.values[rangeKeys?.[0] || 'fromDate'],
+						validation.values[rangeKeys?.[1] || 'toDate'],
+					]}
 					onChange={validation.onChange}
 					isError
 					invalid={!!(validation.touched[name] && validation.errors[name])}
@@ -564,6 +569,7 @@ export const getField = (
 					maxDate={maxDate}
 					minDate={minDate}
 					validation={validation}
+					rangeKeys={rangeKeys}
 				/>
 			);
 		case 'file':

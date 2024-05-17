@@ -3,24 +3,53 @@
 import * as Yup from 'yup';
 import { BONUS_TYPES } from '../constants';
 
-const currencyValidate = () =>
+const currencyValidate = (allFields) =>
 	Yup.object({
-		joiningAmount: Yup.number()
-			.typeError('Only Numbers Allowed')
-			.required('Required.'),
+		currencyId: Yup.string().required('Currency required'),
 		maxAmountClaimed: Yup.number()
 			.typeError('Only Numbers Allowed')
-			.required('Required.'),
-		minBetAmount: Yup.number()
-			.typeError('Only Numbers Allowed')
-			.required('Required.'),
+			.required('Max Amount claimed required'),
 		zeroOutThreshold: Yup.number()
 			.typeError('Only Numbers Allowed')
-			.required('Required.'),
+			.required('Zero out threshold required'),
+
+		joiningAmount: Yup.number()
+			.typeError('Only Numbers Allowed')
+			.when(['dummy'], {
+				is: () => {
+					if (allFields.bonusType === BONUS_TYPES.JOINING) {
+						return true;
+					}
+					return false;
+				},
+				then: (schema) => schema.required('Joining amount required'),
+			})
+			.nullable(),
+
+		minBetAmount: Yup.number()
+			.typeError('Only Numbers Allowed')
+			.when(['dummy'], {
+				is: () => {
+					if (allFields.bonusType === BONUS_TYPES.BET) {
+						return true;
+					}
+					return false;
+				},
+				then: (schema) => schema.required('Min bet amount required'),
+			})
+			.nullable(),
 		minDepositAmount: Yup.number()
 			.typeError('Only Numbers Allowed')
-			.required('Required.'),
-		currencyId: Yup.string().required('Required.'),
+			.when(['dummy'], {
+				is: () => {
+					if (allFields.bonusType === BONUS_TYPES.DEPOSIT) {
+						return true;
+					}
+					return false;
+				},
+				then: (schema) => schema.required('Min deposit amount required'),
+			})
+			.nullable(),
 	});
 
 const generalFormSchema = () =>
@@ -78,9 +107,9 @@ const generalFormSchema = () =>
 							['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
 			),
 		validOnDays: Yup.array()
-			.when(['visibleInPromotions', 'bonusType'], {
-				is: (visibleInPromotions, bonusType) => {
-					if (visibleInPromotions && bonusType !== BONUS_TYPES.promotion) {
+			.when('visibleInPromotions', {
+				is: (visibleInPromotions) => {
+					if (visibleInPromotions) {
 						return true;
 					}
 					return false;

@@ -16,7 +16,7 @@ const getCreateBonusInitialValues = () => ({
 	validFrom: currentDate,
 	validTo: nextDayDate,
 	bonusType: BONUS_TYPES.JOINING,
-	daysToClear: 1,
+	daysToClear: '1',
 	isActive: false,
 	visibleInPromotions: false,
 	validOnDays: [],
@@ -31,14 +31,29 @@ const getCreateBonusInitialValues = () => ({
 	},
 });
 
-const commonFields = (isDisabled, presetDates = []) => [
+const commonFields = (
+	values,
+	presetDates = [],
+	handleBonusTypeChange = () => {}
+) => [
 	{
 		name: 'promotionTitle',
 		fieldType: 'textField',
 		type: 'text',
 		label: 'Promotion Title',
 		placeholder: 'Promotion Title',
-		isDisabled,
+	},
+	{
+		name: 'bonusType',
+		fieldType: 'select',
+		label: 'Bonus Type',
+		placeholder: 'Select Bonus type',
+		optionList: bonusTypes.map(({ label, value, id }) => ({
+			optionLabel: label,
+			value,
+			id,
+		})),
+		callBack: handleBonusTypeChange,
 	},
 	{
 		name: 'percentage',
@@ -46,7 +61,6 @@ const commonFields = (isDisabled, presetDates = []) => [
 		type: 'number',
 		label: 'Bonus Percentage',
 		placeholder: 'Bonus Percentage',
-		isDisabled,
 	},
 	{
 		name: 'ranges',
@@ -59,12 +73,11 @@ const commonFields = (isDisabled, presetDates = []) => [
 		maxDate: presetDates?.length
 			? moment(presetDates[1]).add(100, 'years').utc().toDate()
 			: moment().add(100, 'years').utc().toDate(),
-		isDisabled,
+		rangeKeys: ['validFrom', 'validTo'],
 	},
 	{
 		name: 'daysToClear',
 		fieldType: 'textField',
-		type: 'number',
 		label: 'Days to Clear',
 		placeholder: 'Days to Clear',
 	},
@@ -73,14 +86,12 @@ const commonFields = (isDisabled, presetDates = []) => [
 		fieldType: 'toggle',
 		label: 'Active',
 		isNewRow: true,
-		isDisabled,
 		tooltipContent: 'If True Status is Active else In-Active',
 	},
 	{
 		name: 'visibleInPromotions',
 		fieldType: 'toggle',
 		label: 'Visible in Promotions',
-		isDisabled,
 		tooltipContent: 'If true visible in promotions else not',
 	},
 	{
@@ -92,6 +103,7 @@ const commonFields = (isDisabled, presetDates = []) => [
 			value,
 			id,
 		})),
+		dependsOn: 'visibleInPromotions',
 		fieldColOptions: { lg: 12 },
 		isNewRow: true,
 	},

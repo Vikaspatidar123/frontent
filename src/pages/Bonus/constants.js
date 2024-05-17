@@ -19,15 +19,15 @@ const bonusTypes = [
 	{ label: 'DEPOSIT', value: BONUS_TYPES.DEPOSIT, id: 1 },
 	{ label: 'FREESPINS', value: BONUS_TYPES.FREESPINS, id: 2 },
 	{ label: 'JOINING', value: BONUS_TYPES.JOINING, id: 3 },
-	{ label: 'BET', value: BONUS_TYPES.BET, id: 4 },
+	// { label: 'BET', value: BONUS_TYPES.BET, id: 4 },
 ];
 
-const convertAmountOptions = [
+const commonCurrencyFields = [
 	{ label: 'Zero Out Threshold', key: 'zeroOutThreshold' },
-	{ label: 'Joining Amount', key: 'joiningAmount' },
 	{ label: 'Max Amount Claimed', key: 'maxAmountClaimed' },
-	{ label: 'Min Bet Amount', key: 'minBetAmount' },
-	{ label: 'Min Deposit Amount', key: 'minDepositAmount' },
+	// { label: 'Min Bet Amount', key: 'minBetAmount' },
+	// { label: 'Min Deposit Amount', key: 'minDepositAmount' },
+	// { label: 'Joining Amount', key: 'joiningAmount' },
 ];
 
 const checkLabels = (bonusType) => {
@@ -91,7 +91,7 @@ const wageringRequirementType = [
 export {
 	bonusTypes,
 	daysOfWeek,
-	convertAmountOptions,
+	commonCurrencyFields,
 	checkLabels,
 	daysLabels,
 	wageringRequirementType,

@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Col, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { CustomInputField } from '../../../helpers/customForms';
-import { BONUS_TYPES, convertAmountOptions } from '../constants';
+import { BONUS_TYPES, commonCurrencyFields } from '../constants';
 
 const Currencies = ({ bonusDetail }) => (
 	<Card className="p-3">
@@ -50,12 +50,12 @@ const Currencies = ({ bonusDetail }) => (
 											{['depositCashback', 'wagering'].includes(
 												bonusDetail?.bonusType
 											)
-												? convertAmountOptions?.find((val) =>
+												? commonCurrencyFields?.find((val) =>
 														currKey === 'minBalance'
 															? val.value === 'minBalanceCash'
 															: val.value === currKey
 												  )?.label
-												: convertAmountOptions?.find(
+												: commonCurrencyFields?.find(
 														(val) => val.value === currKey
 												  )?.label}
 											<span className="text-danger"> *</span>

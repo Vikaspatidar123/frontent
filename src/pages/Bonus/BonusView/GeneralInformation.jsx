@@ -66,8 +66,8 @@ const GeneralDetails = ({ bonusDetail }) => (
 							<h3 className="h6 text-nowrap">Terms and Conditions:</h3>
 						</Col>
 						<Col>
-							{bonusDetail?.termCondition?.[selectedLanguage]
-								? Parser(bonusDetail?.termCondition?.[selectedLanguage])
+							{bonusDetail?.termAndCondition?.[selectedLanguage]
+								? Parser(bonusDetail?.termAndCondition?.[selectedLanguage])
 								: '-'}
 						</Col>
 					</Row>
