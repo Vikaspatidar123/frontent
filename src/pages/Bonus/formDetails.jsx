@@ -17,7 +17,8 @@ const getCreateBonusInitialValues = () => ({
 	validTo: nextDayDate,
 	bonusType: BONUS_TYPES.JOINING,
 	daysToClear: '1',
-	isActive: false,
+	quantity: '',
+	isActive: true,
 	visibleInPromotions: false,
 	validOnDays: [],
 	bonusImage: null,
@@ -61,6 +62,7 @@ const commonFields = (
 		type: 'number',
 		label: 'Bonus Percentage',
 		placeholder: 'Bonus Percentage',
+		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
 	{
 		name: 'ranges',
@@ -74,12 +76,24 @@ const commonFields = (
 			? moment(presetDates[1]).add(100, 'years').utc().toDate()
 			: moment().add(100, 'years').utc().toDate(),
 		rangeKeys: ['validFrom', 'validTo'],
+		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
 	{
 		name: 'daysToClear',
 		fieldType: 'textField',
 		label: 'Days to Clear',
 		placeholder: 'Days to Clear',
+		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
+	},
+	{
+		name: 'quantity',
+		fieldType: 'textField',
+		type: 'number',
+		label: 'Quantity',
+		placeholder: 'Enter quantity',
+		isHidable: (form) =>
+			form.bonusType === BONUS_TYPES.JOINING ||
+			form.bonusType === BONUS_TYPES.DEPOSIT,
 	},
 	{
 		name: 'isActive',
@@ -87,12 +101,14 @@ const commonFields = (
 		label: 'Active',
 		isNewRow: true,
 		tooltipContent: 'If True Status is Active else In-Active',
+		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
 	{
 		name: 'visibleInPromotions',
 		fieldType: 'toggle',
 		label: 'Visible in Promotions',
 		tooltipContent: 'If true visible in promotions else not',
+		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
 	{
 		name: 'validOnDays',
@@ -106,6 +122,7 @@ const commonFields = (
 		dependsOn: 'visibleInPromotions',
 		fieldColOptions: { lg: 12 },
 		isNewRow: true,
+		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
 	{
 		name: 'description',

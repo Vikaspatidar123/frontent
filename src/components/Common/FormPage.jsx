@@ -73,9 +73,10 @@ const FormPage = ({
 						(field) =>
 							!(
 								field?.isHide ||
-								!(field?.dependsOn
+								!(field?.dependsOn // Condition mainly used in bonus
 									? validation?.values[field?.dependsOn]
-									: true)
+									: true) ||
+								(field?.isHidable && field.isHidable(validation.values))
 							) && (
 								<>
 									{field?.isNewRow && <div className="row" />}

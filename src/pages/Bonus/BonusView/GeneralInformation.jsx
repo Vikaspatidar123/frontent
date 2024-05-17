@@ -194,7 +194,6 @@ const GeneralDetails = ({ bonusDetail }) => (
 					</Row>
 				)}
 				{bonusDetail?.bonusType !== BONUS_TYPES.FREESPINS &&
-					bonusDetail?.bonusType !== BONUS_TYPES.promotion &&
 					bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 						<Row>
 							<Col>

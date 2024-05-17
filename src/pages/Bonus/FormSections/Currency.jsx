@@ -60,6 +60,10 @@ const Currencies = ({
 				]);
 				break;
 			}
+			case BONUS_TYPES.FREESPINS: {
+				setCurrencyFields([...commonCurrencyFields]);
+				break;
+			}
 			default:
 				break;
 		}
@@ -74,6 +78,7 @@ const Currencies = ({
 		validationSchema: currencyValidate(allFields),
 		// onSubmitEntry: (values) => handleSubmit(values),
 	});
+	console.log('Validation values = ', validation.values);
 
 	useEffect(() => {
 		setAllFields((prev) => ({ ...prev, currencyDetails: validation.values }));
@@ -105,6 +110,8 @@ const Currencies = ({
 			validation.submitForm();
 		}
 	}, [nextPressed]);
+
+	console.log('VAlues= ', validation.errors);
 
 	useEffect(() => {
 		setNextDisabled(!isEmpty(validation.errors));
@@ -155,7 +162,7 @@ const Currencies = ({
 						value={validation?.values[key]}
 						onBlur={validation?.handleBlur}
 						onChange={validation?.handleChange}
-						type="text"
+						type="number"
 						required
 					/>
 					<span className="text-danger">{validation.errors[key] || ''}</span>

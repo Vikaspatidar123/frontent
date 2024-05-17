@@ -97,8 +97,8 @@ function* getBonusCurrencyConversionsWorker(action) {
 
 function* getBonusDetailStartWorker(action) {
 	try {
-		const { bonusId, userBonusId = '' } = action && action.payload;
-		const { data } = yield getBonusDetail({ bonusId, userBonusId });
+		const { bonusId, bonusType = '' } = action && action.payload;
+		const { data } = yield getBonusDetail({ bonusId, bonusType });
 		yield put(getBonusDetailSuccess(data?.data?.bonusDetails));
 	} catch (error) {
 		yield put(

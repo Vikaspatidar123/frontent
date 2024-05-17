@@ -68,7 +68,7 @@ const Games = ({
 	setActiveTab,
 	setNextPressed,
 	gameIds,
-	setSelectedGames,
+	setGameIds,
 }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
@@ -132,9 +132,9 @@ const Games = ({
 	const toggleSelectGame = (id) => {
 		if (gameIds.includes(id)) {
 			const array = gameIds.filter((game) => game !== id);
-			setSelectedGames(array);
+			setGameIds(array);
 		} else {
-			setSelectedGames((prev) => [...prev, id]);
+			setGameIds((prev) => [...prev, id]);
 		}
 	};
 

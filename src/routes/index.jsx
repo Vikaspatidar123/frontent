@@ -206,7 +206,7 @@ const authProtectedRoutes = [
 		operation: 'U',
 	},
 	{
-		path: '/bonus/:bonusId',
+		path: '/bonus/:bonusId/:bonusType',
 		component: <BonusPreview />,
 		modules: [modules.bonus],
 		operation: 'R',

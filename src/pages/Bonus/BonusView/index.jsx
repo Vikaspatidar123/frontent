@@ -16,7 +16,7 @@ import { BONUS_TYPES } from '../constants';
 
 const BonusPreview = () => {
 	const dispatch = useDispatch();
-	const { bonusId } = useParams();
+	const { bonusId, bonusType } = useParams();
 	const [activeTab, setActiveTab] = useState('1');
 
 	const { isBonusDetailsLoading, gameBonusDetail } = useSelector(
@@ -29,7 +29,7 @@ const BonusPreview = () => {
 		}
 	};
 	useEffect(() => {
-		dispatch(getBonusDetail({ bonusId }));
+		dispatch(getBonusDetail({ bonusId, bonusType }));
 	}, [bonusId]);
 
 	const tabData = [
@@ -42,7 +42,6 @@ const BonusPreview = () => {
 			id: '2',
 			title: 'Currency',
 			component: <Currencies bonusDetail={gameBonusDetail} />,
-			isHidden: [BONUS_TYPES.promotion].includes(gameBonusDetail?.bonusType),
 		},
 		{
 			id: '3',
@@ -55,7 +54,6 @@ const BonusPreview = () => {
 			isHidden: !(
 				gameBonusDetail?.bonusType !== 'balance' &&
 				gameBonusDetail?.bonusType !== BONUS_TYPES.FREESPINS &&
-				gameBonusDetail?.bonusType !== BONUS_TYPES.promotion &&
 				gameBonusDetail?.bonusType !== BONUS_TYPES.JOINING
 			),
 		},

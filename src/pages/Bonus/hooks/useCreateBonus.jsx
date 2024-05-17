@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import General from '../FormSections/General';
 import Languages from '../FormSections/Languages';
-import { formatDateYMD } from '../../../utils/dateFormatter';
 import Currencies from '../FormSections/Currency';
 import WageringContribution from '../FormSections/WageringContribution';
 import Games from '../FormSections/Games';
@@ -17,12 +17,14 @@ import {
 	updateBonus,
 } from '../../../store/actions';
 import { BONUS_TYPES, daysLabels, LANGUAGES } from '../constants';
+import { YMDdate } from '../../../constants/config';
+import { filterEmptyPayload } from '../../../network/networkUtils';
 
 const useCreateBonus = ({ isEdit }) => {
 	const { bonusId } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [gameIds, setSelectedGames] = useState([]);
+	const [gameIds, setGameIds] = useState([]);
 	const [bonusTypeChanged, setBonusTypeChanged] = useState(false);
 	const [activeLangTab, setActiveLangTab] = useState('EN');
 	const [activeTab, setActiveTab] = useState('general');
@@ -64,7 +66,7 @@ const useCreateBonus = ({ isEdit }) => {
 
 	useEffect(() => {
 		if (bonusDetails) {
-			setSelectedGames(bonusDetails?.gameIds);
+			setGameIds(bonusDetails?.gameIds);
 			setLangContent({
 				promoTitle: bonusDetails?.promotionTitle[activeLangTab],
 				terms: bonusDetails?.termAndCondition[activeLangTab],
@@ -120,14 +122,17 @@ const useCreateBonus = ({ isEdit }) => {
 					updateBonus({
 						...allFields,
 						bonusId,
-						currencyDetails: (0)[allFields?.currencyDetails],
+						currencyDetails: [allFields?.currencyDetails],
 						promotionTitle: langContent?.promoTitle,
 						description: langContent?.desc,
 						termAndCondition: langContent?.terms,
-						validFrom: formatDateYMD(allFields.validFrom),
-						validTo: formatDateYMD(allFields.validTo),
+						validFrom: allFields.validFrom
+							? moment(allFields.validFrom).format(YMDdate)
+							: allFields.validFrom,
+						validTo: allFields.validTo
+							? moment(allFields.validTo).format(YMDdate)
+							: allFields.validTo,
 						wageringTemplateId: allFields.selectedTemplateId,
-						gameIds,
 					})
 				);
 			} else {
@@ -145,14 +150,18 @@ const useCreateBonus = ({ isEdit }) => {
 				const payload = {
 					...allFields,
 					validOnDays,
-					currencyDetails: [allFields.currencyDetails],
+					currencyDetails: [filterEmptyPayload(allFields.currencyDetails)],
 					promotionTitle: langContent?.promoTitle,
 					description: langContent?.desc,
 					termAndCondition: langContent?.terms,
-					validFrom: formatDateYMD(allFields.validFrom),
-					validTo: formatDateYMD(allFields.validTo),
+					validFrom: allFields.validFrom
+						? moment(allFields.validFrom).format(YMDdate)
+						: allFields.validFrom,
+					validTo: allFields.validTo
+						? moment(allFields.validTo).format(YMDdate)
+						: allFields.validTo,
 					wageringTemplateId: allFields.selectedTemplateId,
-					gameIds,
+					...(gameIds?.length ? { gameIds } : {}),
 				};
 
 				dispatch(createBonus(payload));
@@ -177,7 +186,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setNextPressed={setNextPressed}
 					setAllFields={setAllFields}
 					setLangContent={setLangContent}
-					setSelectedGames={setSelectedGames}
+					setGameIds={setGameIds}
 					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
 					isEdit={isEdit}
@@ -250,7 +259,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
 					gameIds={gameIds}
-					setSelectedGames={setSelectedGames}
+					setGameIds={setGameIds}
 				/>
 			),
 			isHidden:

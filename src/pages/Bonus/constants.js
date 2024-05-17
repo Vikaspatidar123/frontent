@@ -25,9 +25,6 @@ const bonusTypes = [
 const commonCurrencyFields = [
 	{ label: 'Zero Out Threshold', key: 'zeroOutThreshold' },
 	{ label: 'Max Amount Claimed', key: 'maxAmountClaimed' },
-	// { label: 'Min Bet Amount', key: 'minBetAmount' },
-	// { label: 'Min Deposit Amount', key: 'minDepositAmount' },
-	// { label: 'Joining Amount', key: 'joiningAmount' },
 ];
 
 const checkLabels = (bonusType) => {
@@ -35,8 +32,8 @@ const checkLabels = (bonusType) => {
 		[
 			BONUS_TYPES.FREESPINS,
 			BONUS_TYPES.DEPOSIT,
-			BONUS_TYPES.promotion,
-			BONUS_TYPES.promotion,
+			BONUS_TYPES.BET,
+			BONUS_TYPES.JOINING,
 		].includes(bonusType)
 	) {
 		return [

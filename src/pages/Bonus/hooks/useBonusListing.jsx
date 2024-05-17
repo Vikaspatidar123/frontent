@@ -114,8 +114,8 @@ const useBonusListing = (filterValues = {}) => {
 	};
 
 	const handleView = (props) => {
-		const { id } = props;
-		navigate(`/bonus/${id}`);
+		const { id, bonusType } = props;
+		navigate(`/bonus/${id}/${bonusType}`);
 	};
 
 	const handleAddClick = (e) => {
