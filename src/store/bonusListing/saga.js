@@ -104,7 +104,7 @@ function* getBonusDetailStartWorker(action) {
 	try {
 		const { bonusId, bonusType = '' } = action && action.payload;
 		const { data } = yield getBonusDetail({ bonusId, bonusType });
-		yield put(getBonusDetailSuccess(data?.data?.bonusDetails));
+		yield put(getBonusDetailSuccess(data?.data?.bonus));
 	} catch (error) {
 		yield put(
 			getBonusDetailFail(error?.response?.data?.errors[0]?.description)

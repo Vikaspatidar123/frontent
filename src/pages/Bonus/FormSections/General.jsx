@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { Row, Col } from 'reactstrap';
-import { commonFields, getCreateBonusInitialValues } from '../formDetails';
+import { commonFields, getBonusInitialValues } from '../formDetails';
 import FormPage from '../../../components/Common/FormPage';
 import Spinners from '../../../components/Common/Spinner';
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -39,7 +39,7 @@ const General = ({
 	};
 
 	const { formFields, validation } = useForm({
-		initialValues: getCreateBonusInitialValues(bonusDetails),
+		initialValues: getBonusInitialValues(bonusDetails),
 		validationSchema: generalFormSchema(),
 		staticFormFields: commonFields(bonusDetails, handleBonusTypeChange),
 		onSubmitEntry: handleSubmit,

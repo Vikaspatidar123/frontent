@@ -15,7 +15,7 @@ import {
 } from '../../../store/actions';
 import { BONUS_TYPES, commonCurrencyFields } from '../constants';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getCreateBonusInitialValues } from '../formDetails';
+import { getBonusInitialValues } from '../formDetails';
 import { currencyValidate } from '../Validation/schema';
 
 const Currencies = ({
@@ -74,7 +74,7 @@ const Currencies = ({
 	// };
 
 	const { validation } = useForm({
-		initialValues: getCreateBonusInitialValues()?.currencyDetails,
+		initialValues: getBonusInitialValues()?.currencyDetails,
 		validationSchema: currencyValidate(allFields),
 		// onSubmitEntry: (values) => handleSubmit(values),
 	});
@@ -86,7 +86,7 @@ const Currencies = ({
 	useEffect(() => {
 		if (bonusDetails) {
 			validation.setValues(
-				getCreateBonusInitialValues(bonusDetails)?.currencyDetails
+				getBonusInitialValues(bonusDetails)?.currencyDetails
 			);
 		}
 	}, [bonusDetails]);

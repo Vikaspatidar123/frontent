@@ -25,6 +25,7 @@ const INIT_STATE = {
 	bonusDetails: null,
 	error: null,
 	isLoading: true,
+	gameBonusDetail: null,
 	isBonusDetailsLoading: false,
 	isUpdateSABonusStatusLoading: false,
 	isUpdateSABonusStatusError: null,

@@ -7,7 +7,7 @@ const currencyValidate = (allFields) =>
 	Yup.object({
 		currencyId: Yup.string().required('Currency required'),
 
-		maxAmountClaimed: Yup.number()
+		maxBonusClaimed: Yup.number()
 			.typeError('Only Numbers Allowed')
 			.required('Max Amount claimed required'),
 		zeroOutThreshold: Yup.number()

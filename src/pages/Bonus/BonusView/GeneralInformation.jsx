@@ -14,8 +14,6 @@ import {
 } from '../constants';
 import { YMDFormat, selectedLanguage } from '../../../constants/config';
 
-const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
-
 const GeneralDetails = ({ bonusDetail }) => (
 	<Row>
 		<Col sm={4}>
@@ -35,7 +33,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 							<h3 className="h6 text-nowrap">Valid on Days:</h3>
 						</Col>
 						<Col>
-							{daysLabels?.map((day) => (
+							{daysLabels?.map((day, idx) => (
 								<Col
 									key={day}
 									className="d-flex"
@@ -45,7 +43,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 									}}
 								>
 									<p>{day}</p>
-									{bonusDetail?.validOnDays.includes(day) && (
+									{`${bonusDetail?.validOnDays}`?.[idx] && (
 										<div
 											className="rounded-circle mt-2 mx-2"
 											style={{
@@ -106,10 +104,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				)}
-				{!(
-					bonusDetail?.bonusType === BONUS_TYPES.FREESPINS &&
-					!bonusDetail?.isSticky
-				) &&
+				{!bonusDetail?.bonusType === BONUS_TYPES.FREESPINS &&
 					bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 						<>
 							<Row>
@@ -193,26 +188,6 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				)}
-				{bonusDetail?.bonusType !== BONUS_TYPES.FREESPINS &&
-					bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
-						<Row>
-							<Col>
-								<h3 className="h6 text-nowrap">isSticky:</h3>
-							</Col>
-							<Col>
-								<Badge
-									className="mb-3"
-									bg={bonusDetail?.isSticky ? 'success' : 'dark'}
-								>
-									{bonusDetail?.isSticky ? (
-										<i className="mdi mdi-check-outline" />
-									) : (
-										<i className="mdi mdi-clock-outline" />
-									)}
-								</Badge>
-							</Col>
-						</Row>
-					)}
 			</Card>
 		</Col>
 
@@ -237,44 +212,25 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				)}
-				{bonusDetail?.bonusType !== 'depositCashback' &&
-					bonusDetail?.bonusType !== 'wagering' &&
-					bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
-						<>
-							<Row>
-								<Col sm={4}>
-									<h3 className="h6 text-nowrap">Valid From:</h3>
-								</Col>
-								<Col>
-									<p>{moment(bonusDetail?.validFrom).format(YMDFormat)}</p>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={4}>
-									<h3 className="h6 text-nowrap">Valid To:</h3>
-								</Col>
-								<Col>
-									<p>{moment(bonusDetail?.validTo).format(YMDFormat)}</p>
-								</Col>
-							</Row>
-						</>
-					)}
-				{(bonusDetail?.bonusType === 'depositCashback' ||
-					bonusDetail?.bonusType === 'wagering') && (
-					<Row>
-						<Col sm={4}>
-							<h3 className="h6 text-nowrap">Time Period:</h3>
-						</Col>
-						<Col>
-							<p>
-								{bonusDetail?.other?.timePeriod === '1'
-									? 'Daily'
-									: bonusDetail?.other?.timePeriod === '7'
-									? 'Weekly'
-									: 'Monthly'}
-							</p>
-						</Col>
-					</Row>
+				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
+					<>
+						<Row>
+							<Col sm={4}>
+								<h3 className="h6 text-nowrap">Valid From:</h3>
+							</Col>
+							<Col>
+								<p>{moment(bonusDetail?.validFrom).format(YMDFormat)}</p>
+							</Col>
+						</Row>
+						<Row>
+							<Col sm={4}>
+								<h3 className="h6 text-nowrap">Valid To:</h3>
+							</Col>
+							<Col>
+								<p>{moment(bonusDetail?.validTo).format(YMDFormat)}</p>
+							</Col>
+						</Row>
+					</>
 				)}
 				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
 					<Row>
@@ -283,7 +239,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 								<img
 									className="img-thumbnail"
 									width="200px"
-									src={`${VITE_APP_AWS_GALLERY_URL}/${bonusDetail?.imageUrl}`}
+									src={bonusDetail?.imageUrl}
 									alt="img"
 								/>
 							)}

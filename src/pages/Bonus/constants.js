@@ -24,7 +24,7 @@ const bonusTypes = [
 
 const commonCurrencyFields = [
 	{ label: 'Zero Out Threshold', key: 'zeroOutThreshold' },
-	{ label: 'Max Amount Claimed', key: 'maxAmountClaimed' },
+	{ label: 'Max Bonus Claimed', key: 'maxBonusClaimed' },
 ];
 
 const checkLabels = (bonusType) => {
@@ -85,6 +85,13 @@ const wageringRequirementType = [
 	{ label: 'BONUS+DEPOSIT', value: 'bonusdeposit', id: 2 },
 ];
 
+const BONUS_KEY_RELATION = {
+	[BONUS_TYPES.DEPOSIT]: 'depositBonus',
+	[BONUS_TYPES.JOINING]: 'joiningBonus',
+	[BONUS_TYPES.FREESPINS]: 'freespinBonus',
+	[BONUS_TYPES.BET]: 'betBonus',
+};
+
 export {
 	bonusTypes,
 	daysOfWeek,
@@ -93,4 +100,5 @@ export {
 	daysLabels,
 	wageringRequirementType,
 	LANGUAGES,
+	BONUS_KEY_RELATION,
 };

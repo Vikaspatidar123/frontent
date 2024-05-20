@@ -1,19 +1,17 @@
 import * as Yup from 'yup';
 import moment from 'moment';
-import { BONUS_TYPES, bonusTypes, daysOfWeek } from './constants';
+import {
+	BONUS_KEY_RELATION,
+	BONUS_TYPES,
+	bonusTypes,
+	daysOfWeek,
+} from './constants';
 import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 
 const currentDate = moment().toDate();
 const nextDayDate = moment().add(1, 'days').toDate();
 
-const BONUS_KEY_RELATION = {
-	[BONUS_TYPES.DEPOSIT]: 'depositBonus',
-	[BONUS_TYPES.JOINING]: 'joiningBonus',
-	[BONUS_TYPES.FREESPINS]: 'freespinBonus',
-	[BONUS_TYPES.BET]: 'betBonus',
-};
-
-const getCreateBonusInitialValues = (bonusDetails) => {
+const getBonusInitialValues = (bonusDetails) => {
 	const validOnDays = bonusDetails?.validOnDays
 		? daysOfWeek.map(({ value, id }) => {
 				if (`${bonusDetails.validOnDays}`?.[id]) {
@@ -31,7 +29,7 @@ const getCreateBonusInitialValues = (bonusDetails) => {
 				zeroOutThreshold: '',
 				currencyId: '',
 				joiningAmount: '',
-				maxAmountClaimed: '',
+				maxBonusClaimed: '',
 				minBetAmount: '',
 				minDepositAmount: '',
 		  };
@@ -239,6 +237,6 @@ export {
 	staticFiltersFields,
 	filterValues,
 	filterValidationSchema,
-	getCreateBonusInitialValues,
+	getBonusInitialValues,
 	commonFields,
 };

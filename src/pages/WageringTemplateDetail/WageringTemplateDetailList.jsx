@@ -50,7 +50,7 @@ const WageringTemplateDetailList = () => {
 	}, []);
 
 	const formattedSAWageringTemplateData = useMemo(() => {
-		if (SAWageringTemplate?.template) {
+		if (SAWageringTemplate?.template?.length) {
 			return SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails?.map(
 				(template) => ({
 					...template,

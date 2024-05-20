@@ -1,81 +1,92 @@
-import React from 'react';
-import { Card, Col, Row } from 'reactstrap';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useEffect, useState } from 'react';
+import { Col } from 'reactstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { CustomInputField } from '../../../helpers/customForms';
+import {
+	CustomInputField,
+	CustomSelectField,
+} from '../../../helpers/customForms';
 import { BONUS_TYPES, commonCurrencyFields } from '../constants';
+import { fetchCurrenciesStart } from '../../../store/actions';
 
-const Currencies = ({ bonusDetail }) => (
-	<Card className="p-3">
-		{bonusDetail &&
-			bonusDetail?.currency &&
-			Object.keys(bonusDetail?.currency).length > 0 &&
-			Object.keys(bonusDetail?.currency).map((key, index) => (
-				<Row>
-					<Col className="mb-3">
-						<CustomInputField
-							label={index < 1 ? 'Currency' : ''}
-							value={key}
-							disabled
-						/>
-					</Col>
-					{Object.keys(bonusDetail?.currency[key]).map((currKey, currIndex) => {
-						let hide = false;
-						if (bonusDetail?.bonusType === 'wagering') {
-							hide =
-								currKey === 'minDeposit' ||
-								currKey === 'maxBonusThreshold' ||
-								currKey === 'maxWinAmount';
-						} else if (bonusDetail?.bonusType === BONUS_TYPES.JOINING) {
-							hide = currKey !== 'joiningAmount';
-						} else if (
-							bonusDetail?.bonusType === BONUS_TYPES.FREESPINS ||
-							bonusDetail?.bonusType === 'cashfreespins'
-						) {
-							hide =
-								currKey !== 'maxWinAmount' && currKey !== 'zeroOutThreshold';
-						} else {
-							hide = currKey === 'joiningAmount' || currKey === 'minBalance';
-						}
+const Currencies = ({ bonusDetail }) => {
+	const dispatch = useDispatch();
+	const [currencyFields, setCurrencyFields] = useState(commonCurrencyFields);
+	const { currencies } = useSelector((state) => state.Currencies);
 
-						return (
-							currKey !== 'minBonusThreshold' &&
-							!hide && (
-								<Col
-									className="px-1 text-center"
-									key={`currencyCols ${currIndex + 1}`}
-									hidden={hide}
-								>
-									{index < 1 && !hide && (
-										<label htmlFor={currKey} style={{ fontSize: '14px' }}>
-											{['depositCashback', 'wagering'].includes(
-												bonusDetail?.bonusType
-											)
-												? commonCurrencyFields?.find((val) =>
-														currKey === 'minBalance'
-															? val.value === 'minBalanceCash'
-															: val.value === currKey
-												  )?.label
-												: commonCurrencyFields?.find(
-														(val) => val.value === currKey
-												  )?.label}
-											<span className="text-danger"> *</span>
-										</label>
-									)}
-									<CustomInputField
-										name={`[${key}][${currKey}]`}
-										value={bonusDetail?.currency[key][currKey]}
-										hidden={hide}
-										type="number"
-										disabled
-									/>
-								</Col>
-							)
-						);
-					})}
-				</Row>
+	useEffect(() => {
+		dispatch(fetchCurrenciesStart({}));
+	}, []);
+
+	useEffect(() => {
+		switch (bonusDetail.bonusType) {
+			case BONUS_TYPES.JOINING: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Joining Amount', key: 'joiningAmount' },
+				]);
+				break;
+			}
+			case BONUS_TYPES.DEPOSIT: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Min Deposit Amount', key: 'minDepositAmount' },
+				]);
+				break;
+			}
+			case BONUS_TYPES.BET: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Min Bet Amount', key: 'minBetAmount' },
+				]);
+				break;
+			}
+			case BONUS_TYPES.FREESPINS: {
+				setCurrencyFields([...commonCurrencyFields]);
+				break;
+			}
+			default:
+				break;
+		}
+	}, [bonusDetail?.bonusType]);
+
+	return bonusDetail?.bonusCurrencies?.map((currency) => (
+		<Col className="px-1 text-center d-flex">
+			<Col sm={12} lg={2} className="mx-1">
+				<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
+					Currency
+				</label>
+				<CustomSelectField
+					id="currencyId"
+					type="select"
+					name="currencyId"
+					disabled
+					options={
+						<option value={null} selected disabled>
+							{currencies?.currencies?.find(
+								(cur) => cur.id === currency.currencyId
+							)?.name || ''}
+						</option>
+					}
+				/>
+			</Col>
+			{currencyFields?.map(({ key, label }) => (
+				<Col sm={12} lg={3} className="mx-1">
+					<label htmlFor={key} style={{ fontSize: '14px' }}>
+						{label}
+					</label>
+					<CustomInputField
+						name={key}
+						value={currency?.[key]}
+						type="number"
+						disabled
+					/>
+				</Col>
 			))}
-	</Card>
-);
+		</Col>
+	));
+};
 
 Currencies.defaultProps = {
 	bonusDetail: {},

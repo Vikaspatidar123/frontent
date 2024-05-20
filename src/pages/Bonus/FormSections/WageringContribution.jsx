@@ -108,7 +108,7 @@ const WageringContribution = ({
 	}, [searchText, selectedTemplate, currentPage, itemsPerPage]);
 
 	const formattedWageringTemplates = useMemo(() => {
-		if (SAWageringTemplate?.template) {
+		if (SAWageringTemplate?.template?.length) {
 			return SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails?.map(
 				(item) => ({
 					...item,
