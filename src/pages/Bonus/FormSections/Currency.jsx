@@ -28,6 +28,7 @@ const Currencies = ({
 	bonusDetails,
 	setNextDisabled,
 	allFields,
+	activeTab,
 }) => {
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
@@ -113,8 +114,10 @@ const Currencies = ({
 	}, [nextPressed]);
 
 	useEffect(() => {
-		setNextDisabled(!isEmpty(validation.errors));
-	}, [validation.errors]);
+		if (activeTab === 'currency') {
+			setNextDisabled(!isEmpty(validation.errors));
+		}
+	}, [validation.errors, activeTab]);
 
 	useEffect(() => {
 		if (bonusCurrenciesFetched) {

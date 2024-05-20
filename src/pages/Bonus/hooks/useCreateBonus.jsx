@@ -74,10 +74,10 @@ const useCreateBonus = ({ isEdit }) => {
 				terms: bonusDetails?.termAndCondition[activeLangTab],
 				desc: bonusDetails?.description[activeLangTab],
 			});
-			// setAllFields((prev) => ({
-			// 	...prev,
-			// 	bonusType: bonusDetails.bonusType
-			// }))
+			setAllFields((prev) => ({
+				...prev,
+				bonusType: bonusDetails.bonusType,
+			}));
 		}
 	}, [bonusDetails]);
 
@@ -240,6 +240,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setActiveTab={setActiveTab}
 					setNextPressed={setNextPressed}
 					setAllFields={setAllFields}
+					activeTab={activeTab}
 					allFields={allFields}
 					nextPressed={nextPressed}
 					bonusTypeChanged={bonusTypeChanged}
