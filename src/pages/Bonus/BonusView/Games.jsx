@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row } from 'reactstrap';
+import { Card, Col, Row } from 'reactstrap';
+import PropTypes from 'prop-types';
 import { getCasinoGamesStart } from '../../../store/actions';
 import TableContainer from '../../../components/Common/Table';
 import { selectedLanguage } from '../../../constants/config';
@@ -28,7 +29,7 @@ const columns = [
 	},
 ];
 
-const Games = () => {
+const Games = ({ bonusDetails }) => {
 	const dispatch = useDispatch();
 	const { casinoGames, isCasinoGamesLoading } = useSelector(
 		(state) => state.CasinoManagementData
@@ -37,7 +38,7 @@ const Games = () => {
 	useEffect(() => {
 		dispatch(
 			getCasinoGamesStart({
-				freespins: true,
+				gameIds: bonusDetails?.gameIds,
 			})
 		);
 	}, []);
@@ -47,25 +48,36 @@ const Games = () => {
 			return casinoGames?.games?.map((game) => ({
 				...game,
 				name: game.name[selectedLanguage],
+				providerName: game?.casinoProvider?.name?.[selectedLanguage],
 			}));
 		}
 		return [];
 	}, [casinoGames]);
 
 	return (
-		<Row>
-			<Col lg="12" className="mb-3">
-				<TableContainer
-					isLoading={!isCasinoGamesLoading}
-					columns={columns}
-					data={formattedCasinoGames}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-				/>
-			</Col>
-		</Row>
+		<Card className="p-3">
+			<Row>
+				<Col lg="12" className="mb-3">
+					<TableContainer
+						isLoading={!isCasinoGamesLoading}
+						columns={columns}
+						data={formattedCasinoGames}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+					/>
+				</Col>
+			</Row>
+		</Card>
 	);
 };
 
 export default Games;
+
+Games.defaultProps = {
+	bonusDetails: {},
+};
+
+Games.propTypes = {
+	bonusDetails: PropTypes.objectOf,
+};

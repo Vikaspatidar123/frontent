@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useState } from 'react';
-import { Col } from 'reactstrap';
+import { Card, Col } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -10,7 +10,7 @@ import {
 import { BONUS_TYPES, commonCurrencyFields } from '../constants';
 import { fetchCurrenciesStart } from '../../../store/actions';
 
-const Currencies = ({ bonusDetail }) => {
+const Currencies = ({ bonusDetails }) => {
 	const dispatch = useDispatch();
 	const [currencyFields, setCurrencyFields] = useState(commonCurrencyFields);
 	const { currencies } = useSelector((state) => state.Currencies);
@@ -20,7 +20,7 @@ const Currencies = ({ bonusDetail }) => {
 	}, []);
 
 	useEffect(() => {
-		switch (bonusDetail.bonusType) {
+		switch (bonusDetails.bonusType) {
 			case BONUS_TYPES.JOINING: {
 				setCurrencyFields([
 					...commonCurrencyFields,
@@ -49,51 +49,55 @@ const Currencies = ({ bonusDetail }) => {
 			default:
 				break;
 		}
-	}, [bonusDetail?.bonusType]);
+	}, [bonusDetails?.bonusType]);
 
-	return bonusDetail?.bonusCurrencies?.map((currency) => (
-		<Col className="px-1 text-center d-flex">
-			<Col sm={12} lg={2} className="mx-1">
-				<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
-					Currency
-				</label>
-				<CustomSelectField
-					id="currencyId"
-					type="select"
-					name="currencyId"
-					disabled
-					options={
-						<option value={null} selected disabled>
-							{currencies?.currencies?.find(
-								(cur) => cur.id === currency.currencyId
-							)?.name || ''}
-						</option>
-					}
-				/>
-			</Col>
-			{currencyFields?.map(({ key, label }) => (
-				<Col sm={12} lg={3} className="mx-1">
-					<label htmlFor={key} style={{ fontSize: '14px' }}>
-						{label}
-					</label>
-					<CustomInputField
-						name={key}
-						value={currency?.[key]}
-						type="number"
-						disabled
-					/>
+	return (
+		<Card className="p-3">
+			{bonusDetails?.bonusCurrencies?.map((currency) => (
+				<Col className="px-1 text-center d-flex">
+					<Col sm={12} lg={2} className="mx-1">
+						<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
+							Currency
+						</label>
+						<CustomSelectField
+							id="currencyId"
+							type="select"
+							name="currencyId"
+							disabled
+							options={
+								<option value={null} selected disabled>
+									{currencies?.currencies?.find(
+										(cur) => cur.id === currency.currencyId
+									)?.name || ''}
+								</option>
+							}
+						/>
+					</Col>
+					{currencyFields?.map(({ key, label }) => (
+						<Col sm={12} lg={3} className="mx-1">
+							<label htmlFor={key} style={{ fontSize: '14px' }}>
+								{label}
+							</label>
+							<CustomInputField
+								name={key}
+								value={currency?.[key]}
+								type="number"
+								disabled
+							/>
+						</Col>
+					))}
 				</Col>
 			))}
-		</Col>
-	));
+		</Card>
+	);
 };
 
 Currencies.defaultProps = {
-	bonusDetail: {},
+	bonusDetails: {},
 };
 
 Currencies.propTypes = {
-	bonusDetail: PropTypes.objectOf,
+	bonusDetails: PropTypes.objectOf,
 };
 
 export default Currencies;

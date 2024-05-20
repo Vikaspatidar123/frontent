@@ -14,23 +14,23 @@ import {
 } from '../constants';
 import { YMDFormat, selectedLanguage } from '../../../constants/config';
 
-const GeneralDetails = ({ bonusDetail }) => (
+const GeneralDetails = ({ bonusDetails }) => (
 	<Row>
 		<Col sm={4}>
 			<Card className="p-3">
 				<Row>
 					<Col>
-						<h3 className="h6 text-nowrap">Promotion Title:</h3>
+						<h6 className="text-nowrap">Promotion Title:</h6>
 					</Col>
 					<Col>
-						<p>{bonusDetail?.promotionTitle?.[selectedLanguage] || '-'}</p>
+						<p>{bonusDetails?.promotionTitle?.[selectedLanguage] || '-'}</p>
 					</Col>
 				</Row>
 
-				{bonusDetail?.visibleInPromotions && (
+				{bonusDetails?.visibleInPromotions && (
 					<Row>
 						<Col>
-							<h3 className="h6 text-nowrap">Valid on Days:</h3>
+							<h6 className="text-nowrap">Valid on Days:</h6>
 						</Col>
 						<Col>
 							{daysLabels?.map((day, idx) => (
@@ -43,7 +43,7 @@ const GeneralDetails = ({ bonusDetail }) => (
 									}}
 								>
 									<p>{day}</p>
-									{`${bonusDetail?.validOnDays}`?.[idx] && (
+									{`${bonusDetails?.validOnDays}`?.[idx] && (
 										<div
 											className="rounded-circle mt-2 mx-2"
 											style={{
@@ -58,14 +58,14 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				)}
-				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
+				{bonusDetails?.bonusType !== BONUS_TYPES.JOINING && (
 					<Row>
 						<Col>
-							<h3 className="h6 text-nowrap">Terms and Conditions:</h3>
+							<h6 className="text-nowrap">Terms and Conditions:</h6>
 						</Col>
 						<Col>
-							{bonusDetail?.termAndCondition?.[selectedLanguage]
-								? Parser(bonusDetail?.termAndCondition?.[selectedLanguage])
+							{bonusDetails?.termAndCondition?.[selectedLanguage]
+								? Parser(bonusDetails?.termAndCondition?.[selectedLanguage])
 								: '-'}
 						</Col>
 					</Row>
@@ -76,47 +76,47 @@ const GeneralDetails = ({ bonusDetail }) => (
 			<Card className="p-3">
 				<Row>
 					<Col>
-						<h3 className="h6 text-nowrap">Bonus Type:</h3>
+						<h6 className="text-nowrap">Bonus Type:</h6>
 					</Col>
 					<Col>
-						<p>{bonusDetail?.bonusType?.toUpperCase()}</p>
+						<p>{bonusDetails?.bonusType?.toUpperCase()}</p>
 					</Col>
 				</Row>
 
-				{bonusDetail?.bonusType === BONUS_TYPES.FREESPINS && (
+				{bonusDetails?.bonusType === BONUS_TYPES.FREESPINS && (
 					<Row>
 						<Col>
-							<h3 className="h6 text-nowrap">Quantity:</h3>
+							<h6 className="text-nowrap">Quantity:</h6>
 						</Col>
 						<Col>
-							<p>{bonusDetail?.quantity}</p>
+							<p>{bonusDetails?.quantity}</p>
 						</Col>
 					</Row>
 				)}
 
-				{bonusDetail?.bonusType === BONUS_TYPES.DEPOSIT && (
+				{bonusDetails?.bonusType === BONUS_TYPES.DEPOSIT && (
 					<Row>
 						<Col>
-							<h3 className="h6 text-nowrap">Bonus Percentage</h3>
+							<h6 className="text-nowrap">Bonus Percentage</h6>
 						</Col>
 						<Col>
-							<p>{bonusDetail?.depositBonusPercent}%</p>
+							<p>{bonusDetails?.depositBonusPercent}%</p>
 						</Col>
 					</Row>
 				)}
-				{!bonusDetail?.bonusType === BONUS_TYPES.FREESPINS &&
-					bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
+				{!bonusDetails?.bonusType === BONUS_TYPES.FREESPINS &&
+					bonusDetails?.bonusType !== BONUS_TYPES.JOINING && (
 						<>
 							<Row>
 								<Col>
-									<h3 className="h6 text-nowrap">Wagering Type:</h3>
+									<h6 className="text-nowrap">Wagering Type:</h6>
 								</Col>
 								<Col>
 									<p>
 										{
 											wageringRequirementType?.find(
 												(val) =>
-													val.value === bonusDetail?.wageringRequirementType
+													val.value === bonusDetails?.wageringRequirementType
 											)?.label
 										}
 									</p>
@@ -124,43 +124,43 @@ const GeneralDetails = ({ bonusDetail }) => (
 							</Row>
 							<Row>
 								<Col>
-									<h3 className="h6 text-nowrap">Wagering Multiplier :</h3>
+									<h6 className="text-nowrap">Wagering Multiplier :</h6>
 								</Col>
 								<Col>
-									<p>{bonusDetail?.wageringMultiplier}</p>
+									<p>{bonusDetails?.wageringMultiplier}</p>
 								</Col>
 							</Row>
 						</>
 					)}
 				<Row>
 					<Col>
-						<h3 className="h6 text-nowrap">Days To Clear:</h3>
+						<h6 className="text-nowrap">Days To Clear:</h6>
 					</Col>
 					<Col>
-						<p>{bonusDetail?.daysToClear}</p>
+						<p>{bonusDetails?.daysToClear}</p>
 					</Col>
 				</Row>
-				{bonusDetail?.bonusType === BONUS_TYPES.FREESPINS && (
+				{bonusDetails?.bonusType === BONUS_TYPES.FREESPINS && (
 					<Row>
 						<Col>
-							<h3 className="h6 text-nowrap">Bet Level:</h3>
+							<h6 className="text-nowrap">Bet Level:</h6>
 						</Col>
 						<Col>
-							<p>{bonusDetail?.other?.betLevel}</p>
+							<p>{bonusDetails?.other?.betLevel}</p>
 						</Col>
 					</Row>
 				)}
-				{checkLabels(bonusDetail?.bonusType).map(({ label, value }) => (
+				{checkLabels(bonusDetails?.bonusType).map(({ label, value }) => (
 					<Row key={label}>
 						<Col>
-							<h3 className="h6 text-nowrap">{label}:</h3>
+							<h6 className="text-nowrap">{label}:</h6>
 						</Col>
 						<Col>
 							<Badge
 								className="mb-3"
-								bg={bonusDetail?.[value] ? 'success' : 'dark'}
+								bg={bonusDetails?.[value] ? 'success' : 'dark'}
 							>
-								{bonusDetail?.[value] ? (
+								{bonusDetails?.[value] ? (
 									<i className="mdi mdi-check-outline" />
 								) : (
 									<i className="mdi mdi-clock-outline" />
@@ -169,17 +169,17 @@ const GeneralDetails = ({ bonusDetail }) => (
 						</Col>
 					</Row>
 				))}
-				{![BONUS_TYPES.JOINING].includes(bonusDetail?.bonusType) && (
+				{![BONUS_TYPES.JOINING].includes(bonusDetails?.bonusType) && (
 					<Row>
 						<Col>
-							<h3 className="h6 text-nowrap">Show Validity:</h3>
+							<h6 className="text-nowrap">Show Validity:</h6>
 						</Col>
 						<Col>
 							<Badge
 								className="mb-3"
-								bg={bonusDetail?.other?.showBonusValidity ? 'success' : 'dark'}
+								bg={bonusDetails?.other?.showBonusValidity ? 'success' : 'dark'}
 							>
-								{bonusDetail?.other?.showBonusValidity ? (
+								{bonusDetails?.other?.showBonusValidity ? (
 									<i className="mdi mdi-check-outline" />
 								) : (
 									<i className="mdi mdi-clock-outline" />
@@ -195,51 +195,51 @@ const GeneralDetails = ({ bonusDetail }) => (
 			<Card className="p-3">
 				<Row>
 					<Col sm={4}>
-						<h3 className="h6 text-nowrap">Code:</h3>
+						<h6 className="text-nowrap">Code:</h6>
 					</Col>
 					<Col>
-						<p>{bonusDetail?.code}</p>
+						<p>{bonusDetails?.code}</p>
 					</Col>
 				</Row>
-				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
+				{bonusDetails?.bonusType !== BONUS_TYPES.JOINING && (
 					<Row>
 						<Col sm={4}>
-							<h3 className="h6 text-nowrap">Description:</h3>
+							<h6 className="text-nowrap">Description:</h6>
 						</Col>
 						<Col>
-							{bonusDetail?.description?.EN &&
-								Parser(bonusDetail?.description?.EN)}
+							{bonusDetails?.description?.EN &&
+								Parser(bonusDetails?.description?.EN)}
 						</Col>
 					</Row>
 				)}
-				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
+				{bonusDetails?.bonusType !== BONUS_TYPES.JOINING && (
 					<>
 						<Row>
 							<Col sm={4}>
-								<h3 className="h6 text-nowrap">Valid From:</h3>
+								<h6 className="text-nowrap">Valid From:</h6>
 							</Col>
 							<Col>
-								<p>{moment(bonusDetail?.validFrom).format(YMDFormat)}</p>
+								<p>{moment(bonusDetails?.validFrom).format(YMDFormat)}</p>
 							</Col>
 						</Row>
 						<Row>
 							<Col sm={4}>
-								<h3 className="h6 text-nowrap">Valid To:</h3>
+								<h6 className="text-nowrap">Valid To:</h6>
 							</Col>
 							<Col>
-								<p>{moment(bonusDetail?.validTo).format(YMDFormat)}</p>
+								<p>{moment(bonusDetails?.validTo).format(YMDFormat)}</p>
 							</Col>
 						</Row>
 					</>
 				)}
-				{bonusDetail?.bonusType !== BONUS_TYPES.JOINING && (
+				{bonusDetails?.bonusType !== BONUS_TYPES.JOINING && (
 					<Row>
 						<Col>
-							{bonusDetail?.imageUrl && (
+							{bonusDetails?.imageUrl && (
 								<img
 									className="img-thumbnail"
 									width="200px"
-									src={bonusDetail?.imageUrl}
+									src={bonusDetails?.imageUrl}
 									alt="img"
 								/>
 							)}
@@ -252,11 +252,11 @@ const GeneralDetails = ({ bonusDetail }) => (
 );
 
 GeneralDetails.defaultProps = {
-	bonusDetail: {},
+	bonusDetails: {},
 };
 
 GeneralDetails.propTypes = {
-	bonusDetail: PropTypes.objectOf,
+	bonusDetails: PropTypes.objectOf,
 };
 
 export default GeneralDetails;

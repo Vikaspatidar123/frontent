@@ -8,7 +8,7 @@ import Breadcrumb from '../../../components/Common/Breadcrumb';
 import TabsPage from '../../../components/Common/TabsPage';
 import { getBonusDetail } from '../../../store/actions';
 import GeneralDetails from './GeneralInformation';
-// import Games from './Games';
+import Games from './Games';
 import Spinners from '../../../components/Common/Spinner';
 import { BONUS_TYPES } from '../constants';
 import getViewBonusInitialValues from './helperFunctions';
@@ -40,12 +40,12 @@ const BonusPreview = () => {
 		{
 			id: '1',
 			title: 'General',
-			component: <GeneralDetails bonusDetail={bonusDetails} />,
+			component: <GeneralDetails bonusDetails={bonusDetails} />,
 		},
 		{
 			id: '2',
 			title: 'Currency',
-			component: <Currencies bonusDetail={bonusDetails} />,
+			component: <Currencies bonusDetails={bonusDetails} />,
 		},
 		{
 			id: '3',
@@ -55,12 +55,12 @@ const BonusPreview = () => {
 			),
 			isHidden: gameBonusDetail?.bonusType === BONUS_TYPES.JOINING,
 		},
-		// {
-		// 	id: '6',
-		// 	title: 'Games',
-		// 	component: <Games bonusDetails={bonusDetails} />,
-		// 	isHidden: gameBonusDetail?.bonusType !== BONUS_TYPES.FREESPINS,
-		// },
+		{
+			id: '6',
+			title: 'Games',
+			component: <Games bonusDetails={bonusDetails} />,
+			isHidden: gameBonusDetail?.bonusType !== BONUS_TYPES.FREESPINS,
+		},
 	];
 
 	return (
