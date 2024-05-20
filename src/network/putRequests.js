@@ -71,9 +71,6 @@ const updateReview = ({ data }) =>
 		data
 	);
 
-const reorderBonus = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/order`, data);
-
 export {
 	updateStatus,
 	updateGlobalRegistration,
@@ -89,5 +86,4 @@ export {
 	addRestrictedItems,
 	updateBonusCall,
 	updateReview,
-	reorderBonus,
 };

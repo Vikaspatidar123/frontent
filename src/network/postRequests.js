@@ -175,10 +175,10 @@ const addGamesToSubCategory = (data) =>
 const createBonusCall = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/create`,
-		data
-		// {
-		// 	'Content-Type': 'multipart/form-data',
-		// }
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
 	);
 
 const uploadGallery = (data) =>
@@ -496,6 +496,12 @@ const updateComment = (data) =>
 		data
 	);
 
+const reorderBonus = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/reorder`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -575,4 +581,5 @@ export {
 	inActiveKyc,
 	updateComment,
 	updateWageringTemplate,
+	reorderBonus,
 };

@@ -31,12 +31,9 @@ import {
 	getBonusCurrenciesConvertAmount,
 	getBonusDetail,
 } from '../../network/getRequests';
-import {
-	// superAdminViewToggleStatus,
-	reorderBonus,
-} from '../../network/putRequests';
 import { showToastr } from '../../utils/helpers';
 import { deleteBonus } from '../../network/deleteRequests';
+import { reorderBonus } from '../../network/postRequests';
 
 function* getBonusListingWorker(action) {
 	try {
