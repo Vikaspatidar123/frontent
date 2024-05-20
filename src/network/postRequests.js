@@ -509,6 +509,15 @@ const toggleBonusStatus = (data) => {
 	);
 };
 
+const updateBonusCall = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/update`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -590,4 +599,5 @@ export {
 	updateWageringTemplate,
 	reorderBonus,
 	toggleBonusStatus,
+	updateBonusCall,
 };

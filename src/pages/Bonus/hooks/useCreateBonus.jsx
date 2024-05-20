@@ -124,23 +124,35 @@ const useCreateBonus = ({ isEdit }) => {
 	useEffect(() => {
 		if (nextPressed.nextTab === 'submit') {
 			if (isEdit) {
-				dispatch(
-					updateBonus({
-						...allFields,
-						bonusId,
-						currencyDetails: [allFields?.currencyDetails],
-						promotionTitle: langContent?.promoTitle,
-						description: langContent?.desc,
-						termAndCondition: langContent?.terms,
-						validFrom: allFields.validFrom
-							? moment(allFields.validFrom).format(YMDdate)
-							: allFields.validFrom,
-						validTo: allFields.validTo
-							? moment(allFields.validTo).format(YMDdate)
-							: allFields.validTo,
-						wageringTemplateId: allFields.selectedTemplateId,
-					})
-				);
+				let validOnDays = '';
+				if (allFields?.validOnDays?.length) {
+					daysLabels?.forEach((val) => {
+						if (allFields.validOnDays.includes(val)) {
+							validOnDays += '1';
+						} else {
+							validOnDays += '0';
+						}
+					});
+				}
+
+				const payload = {
+					...allFields,
+					validOnDays,
+					currencyDetails: [filterEmptyPayload(allFields.currencyDetails)],
+					promotionTitle: langContent?.promoTitle,
+					description: langContent?.desc,
+					termAndCondition: langContent?.terms,
+					validFrom: allFields.validFrom
+						? moment(allFields.validFrom).format(YMDdate)
+						: allFields.validFrom,
+					validTo: allFields.validTo
+						? moment(allFields.validTo).format(YMDdate)
+						: allFields.validTo,
+					wageringTemplateId: allFields.selectedTemplateId,
+					...(gameIds?.length ? { gameIds } : {}),
+				};
+
+				dispatch(updateBonus(payload));
 			} else {
 				let validOnDays = '';
 				if (allFields?.validOnDays?.length) {
