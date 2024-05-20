@@ -2,7 +2,7 @@
 import { put, takeLatest, all, fork } from 'redux-saga/effects';
 
 // Create Bonus Redux States
-// import { serialize } from 'object-to-formdata';
+import { serialize } from 'object-to-formdata';
 import {
 	createBonusSuccess,
 	createBonusFail,
@@ -13,11 +13,12 @@ import { CREATE_BONUS, UPDATE_BONUS } from './actionTypes';
 
 import { showToastr } from '../../utils/helpers';
 import { createBonusCall, updateBonusCall } from '../../network/postRequests';
+import { filterEmptyPayload } from '../../network/networkUtils';
 
 function* createBonusWorker(action) {
 	try {
-		const payload = action && action.payload;
-		// payload = serialize(payload);
+		let payload = action && action.payload;
+		payload = serialize(filterEmptyPayload(payload));
 		const { data } = yield createBonusCall(payload);
 
 		showToastr({
@@ -36,8 +37,8 @@ function* createBonusWorker(action) {
 
 function* updateBonusWorker(action) {
 	try {
-		const payload = action && action.payload;
-		// payload = serialize(payload);
+		let payload = action && action.payload;
+		payload = serialize(filterEmptyPayload(payload));
 		const { data } = yield updateBonusCall(payload);
 
 		showToastr({

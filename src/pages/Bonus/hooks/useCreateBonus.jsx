@@ -149,7 +149,7 @@ const useCreateBonus = ({ isEdit }) => {
 						? moment(allFields.validTo).format(YMDdate)
 						: allFields.validTo,
 					wageringTemplateId: allFields.selectedTemplateId,
-					...(gameIds?.length ? { gameIds } : {}),
+					gameIds: allFields.gameIds,
 				};
 
 				dispatch(updateBonus(payload));
@@ -179,7 +179,7 @@ const useCreateBonus = ({ isEdit }) => {
 						? moment(allFields.validTo).format(YMDdate)
 						: allFields.validTo,
 					wageringTemplateId: allFields.selectedTemplateId,
-					...(gameIds?.length ? { gameIds } : {}),
+					gameIds: allFields.gameIds,
 				};
 
 				dispatch(createBonus(payload));

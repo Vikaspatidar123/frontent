@@ -113,9 +113,7 @@ const Currencies = ({
 	}, [nextPressed]);
 
 	useEffect(() => {
-		if (nextPressed.currentTab === 'currency') {
-			setNextDisabled(!isEmpty(validation.errors));
-		}
+		setNextDisabled(!isEmpty(validation.errors));
 	}, [validation.errors]);
 
 	useEffect(() => {
