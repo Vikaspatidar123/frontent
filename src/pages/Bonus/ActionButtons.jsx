@@ -88,7 +88,7 @@ const ActionButtons = ({
 					hidden={!isGranted(modules.bonus, 'D')}
 					id="deleteToolTip"
 					className="btn btn-sm btn-soft-danger"
-					onClick={() => handleDelete(original)}
+					onClick={() => handleDelete(bonusId)}
 				>
 					<i className="mdi mdi-delete-outline" />
 					<UncontrolledTooltip placement="top" target="deleteToolTip">

@@ -6,7 +6,6 @@ import moment from 'moment';
 import {
 	deleteBonusStart,
 	getBonusesStart,
-	getBonusDetail,
 	resetBonusDetails,
 	updateSABonusStatus,
 } from '../../../store/actions';
@@ -23,12 +22,12 @@ import ActionButtons from '../ActionButtons';
 import { modules } from '../../../constants/permissions';
 
 const useBonusListing = (filterValues = {}) => {
-	const { bonusDetails, isLoading, gameBonusDetail, isDeleteBonusLoading } =
-		useSelector((state) => state.AllBonusDetails);
+	const { bonusDetails, isLoading, isDeleteBonusLoading } = useSelector(
+		(state) => state.AllBonusDetails
+	);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [isDeleteConfirmationOpen, setDeleteConfirmation] = useState(false);
 	const [deleteBonusId, setDeleteBonusId] = useState('');
-	const [bonusName, setBonusName] = useState('');
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -45,10 +44,7 @@ const useBonusListing = (filterValues = {}) => {
 					moment(bonus.validTill).valueOf() < moment().valueOf() ? 'Yes' : 'No';
 				return {
 					...bonus,
-					// bonusType,
-					// validTill,
 					isExpired,
-					// isClaimed,
 				};
 			});
 		}
@@ -89,16 +85,12 @@ const useBonusListing = (filterValues = {}) => {
 	const handleClose = () => {
 		setDeleteConfirmation(false);
 		setDeleteBonusId('');
-		setBonusName('');
 		fetchData();
 	};
 
-	const handleDelete = (props) => {
-		const { bonusId, title } = props;
+	const handleDelete = (bonusId) => {
 		setDeleteConfirmation(true);
 		setDeleteBonusId(bonusId);
-		setBonusName(title);
-		dispatch(getBonusDetail({ bonusId }));
 	};
 
 	const bonusDeleteHandler = () => {
@@ -106,7 +98,6 @@ const useBonusListing = (filterValues = {}) => {
 			deleteBonusStart({
 				data: {
 					bonusId: deleteBonusId,
-					balanceBonus: gameBonusDetail?.balanceBonus,
 				},
 				handleClose,
 			})
@@ -228,7 +219,6 @@ const useBonusListing = (filterValues = {}) => {
 		isDeleteConfirmationOpen,
 		setDeleteConfirmation,
 		bonusDeleteHandler,
-		bonusName,
 		isDeleteBonusLoading,
 		buttonList,
 	};

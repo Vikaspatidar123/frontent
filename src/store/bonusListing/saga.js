@@ -107,8 +107,7 @@ function* getBonusDetailStartWorker(action) {
 function* deleteBonusWorker(action) {
 	try {
 		const { data, handleClose } = action && action.payload;
-		const { balanceBonus, bonusId } = data;
-		const resData = yield deleteBonus({ bonusId, balanceBonus });
+		const resData = yield deleteBonus(data);
 		yield put(deleteBonusComplete());
 		showToastr({
 			message: resData?.data?.data?.message,

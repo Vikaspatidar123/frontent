@@ -23,7 +23,10 @@ const deleteRestrictedItems = (data) =>
 	);
 
 const deleteBonus = (data) =>
-	deleteRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, data);
+	deleteRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/delete`,
+		data
+	);
 
 const deleteUserComment = (data) =>
 	deleteRequest(

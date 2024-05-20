@@ -38,7 +38,6 @@ const BonusDetail = () => {
 		isDeleteConfirmationOpen,
 		setDeleteConfirmation,
 		bonusDeleteHandler,
-		bonusName,
 		isDeleteBonusLoading,
 		buttonList,
 	} = useBonusListing(filterValidation.values);
@@ -107,7 +106,7 @@ const BonusDetail = () => {
 				headerTitle="Bonus Delete Confirmation"
 				isDisabled={isDeleteBonusLoading}
 			>
-				<h5>Are you sure you want to delete {bonusName} bonus?</h5>
+				<h5>Are you sure you want to delete bonus?</h5>
 			</ModalView>
 		</div>
 	);
