@@ -41,7 +41,7 @@ const General = ({
 	const { formFields, validation } = useForm({
 		initialValues: getCreateBonusInitialValues(bonusDetails),
 		validationSchema: generalFormSchema(),
-		staticFormFields: commonFields(bonusDetails, null, handleBonusTypeChange),
+		staticFormFields: commonFields(bonusDetails, handleBonusTypeChange),
 		onSubmitEntry: handleSubmit,
 	});
 

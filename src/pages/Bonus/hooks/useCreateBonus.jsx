@@ -74,8 +74,12 @@ const useCreateBonus = ({ isEdit }) => {
 				terms: bonusDetails?.termAndCondition[activeLangTab],
 				desc: bonusDetails?.description[activeLangTab],
 			});
+			// setAllFields((prev) => ({
+			// 	...prev,
+			// 	bonusType: bonusDetails.bonusType
+			// }))
 		}
-	}, [bonusDetails, nextPressed]);
+	}, [bonusDetails]);
 
 	useEffect(() => {
 		if (nextPressed.currentTab === 'languages' && bonusDetails) {
@@ -249,7 +253,9 @@ const useCreateBonus = ({ isEdit }) => {
 					setSelectedTemplate={setSelectedTemplate}
 				/>
 			),
-			isHidden: [BONUS_TYPES.JOINING].includes(allFields?.bonusType),
+			isHidden:
+				[BONUS_TYPES.JOINING].includes(allFields?.bonusType) ||
+				bonusDetails?.claimedCount,
 		},
 		{
 			id: 'games',

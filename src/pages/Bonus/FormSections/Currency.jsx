@@ -78,7 +78,6 @@ const Currencies = ({
 		validationSchema: currencyValidate(allFields),
 		// onSubmitEntry: (values) => handleSubmit(values),
 	});
-	console.log('Validation values = ', validation.values);
 
 	useEffect(() => {
 		setAllFields((prev) => ({ ...prev, currencyDetails: validation.values }));
@@ -86,7 +85,9 @@ const Currencies = ({
 
 	useEffect(() => {
 		if (bonusDetails) {
-			validation.setValues(bonusDetails.currencyDetails);
+			validation.setValues(
+				getCreateBonusInitialValues(bonusDetails)?.currencyDetails
+			);
 		}
 	}, [bonusDetails]);
 
@@ -111,10 +112,10 @@ const Currencies = ({
 		}
 	}, [nextPressed]);
 
-	console.log('VAlues= ', validation.errors);
-
 	useEffect(() => {
-		setNextDisabled(!isEmpty(validation.errors));
+		if (nextPressed.currentTab === 'currency') {
+			setNextDisabled(!isEmpty(validation.errors));
+		}
 	}, [validation.errors]);
 
 	useEffect(() => {

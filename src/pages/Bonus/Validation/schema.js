@@ -145,7 +145,10 @@ const generalFormSchema = () =>
 			.typeError('Bonus Percent must be a Number')
 			.when(['bonusType'], {
 				is: (bonusType) => {
-					if (bonusType !== BONUS_TYPES.JOINING) {
+					if (
+						bonusType !== BONUS_TYPES.JOINING &&
+						bonusType !== BONUS_TYPES.FREESPINS
+					) {
 						return true;
 					}
 					return false;

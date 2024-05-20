@@ -5,64 +5,71 @@ import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 
 const currentDate = moment().toDate();
 const nextDayDate = moment().add(1, 'days').toDate();
-// {
-//     "validOnDays": 1111111,
-//     "claimedCount": 0,
-//     "termAndCondition": {
-//      "DE": "Freespin 2.0",
-//     },
-//     "promotionTitle": {
-//         "DE": "Freespin 2.0",
-//     },
-//     "description": {
-//         "DE": "<p>Get 6 freespin on top games to maximize your earnings.</p>\n",
-//     },
-//     "freespinBonus": {
-//         "id": "2",
-//         "bonusId": "7",
-//         "freespinQuantity": 5,
-//         "gameIds": [
-//             "4",
-//             "2",
-//             "6",
-//             "8",
-//             "7"
-//         ],
-//         "wageringTemplateId": "2"
-//     }
-// }
 
-const getCreateBonusInitialValues = (bonusDetails) => ({
-	promotionTitle: bonusDetails?.promotionTitle?.EN || '',
-	description: bonusDetails?.description?.EN || '',
-	termAndCondition: bonusDetails?.termAndCondition?.EN || '',
+const BONUS_KEY_RELATION = {
+	[BONUS_TYPES.DEPOSIT]: 'depositBonus',
+	[BONUS_TYPES.JOINING]: 'joiningBonus',
+	[BONUS_TYPES.FREESPINS]: 'freespinBonus',
+	[BONUS_TYPES.BET]: 'betBonus',
+};
 
-	wageringTemplateId: '',
-	percentage: '',
-	validFrom: bonusDetails?.validFrom || currentDate,
-	validTo: bonusDetails?.validTo || nextDayDate,
-	bonusType: bonusDetails?.bonusType || BONUS_TYPES.JOINING,
-	daysToClear: bonusDetails?.daysToClear || '1',
-	quantity: '',
-	isActive: bonusDetails?.isActive || true,
-	visibleInPromotions: bonusDetails?.visibleInPromotions || false,
-	validOnDays: [],
-	bonusImage: bonusDetails?.imageUrl || null,
-	currencyDetails: {
-		zeroOutThreshold: '',
-		currencyId: '',
-		joiningAmount: '',
-		maxAmountClaimed: '',
-		minBetAmount: '',
-		minDepositAmount: '',
-	},
-});
+const getCreateBonusInitialValues = (bonusDetails) => {
+	const validOnDays = bonusDetails?.validOnDays
+		? daysOfWeek.map(({ value, id }) => {
+				if (`${bonusDetails.validOnDays}`?.[id]) {
+					return value;
+				}
+				return '';
+		  })
+		: [];
 
-const commonFields = (
-	values,
-	presetDates = [],
-	handleBonusTypeChange = () => {}
-) => [
+	const currencyDetails = bonusDetails?.bonusCurrencies?.length
+		? {
+				...bonusDetails.bonusCurrencies?.[0],
+		  }
+		: {
+				zeroOutThreshold: '',
+				currencyId: '',
+				joiningAmount: '',
+				maxAmountClaimed: '',
+				minBetAmount: '',
+				minDepositAmount: '',
+		  };
+
+	const wageringTemplateId =
+		bonusDetails?.[BONUS_KEY_RELATION[bonusDetails?.bonusType]]
+			?.wageringTemplateId || '';
+	const quantity =
+		bonusDetails?.[BONUS_KEY_RELATION[bonusDetails?.bonusType]]
+			?.freespinQuantity || '';
+	const gameIds =
+		bonusDetails?.[BONUS_KEY_RELATION[bonusDetails?.bonusType]]?.gameIds || [];
+	const percentage =
+		bonusDetails?.[BONUS_KEY_RELATION[bonusDetails?.bonusType]]?.percentage ||
+		'';
+
+	return {
+		promotionTitle: bonusDetails?.promotionTitle?.EN || '',
+		description: bonusDetails?.description?.EN || '',
+		termAndCondition: bonusDetails?.termAndCondition?.EN || '',
+
+		wageringTemplateId,
+		percentage,
+		validFrom: new Date(bonusDetails?.validFrom || currentDate),
+		validTo: new Date(bonusDetails?.validTo || nextDayDate),
+		bonusType: bonusDetails?.bonusType || BONUS_TYPES.JOINING,
+		daysToClear: bonusDetails?.daysToClear || '1',
+		quantity,
+		isActive: bonusDetails?.isActive || true,
+		visibleInPromotions: bonusDetails?.visibleInPromotions || false,
+		validOnDays,
+		bonusImage: bonusDetails?.imageUrl || null,
+		currencyDetails,
+		gameIds,
+	};
+};
+
+const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
 	{
 		name: 'promotionTitle',
 		fieldType: 'textField',
@@ -80,6 +87,7 @@ const commonFields = (
 			value,
 			id,
 		})),
+		isDisabled: bonusDetails?.bonusType,
 		callBack: handleBonusTypeChange,
 	},
 	{
@@ -88,18 +96,20 @@ const commonFields = (
 		type: 'number',
 		label: 'Bonus Percentage',
 		placeholder: 'Bonus Percentage',
-		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
+		isHidable: (form) =>
+			form.bonusType === BONUS_TYPES.JOINING ||
+			form.bonusType === BONUS_TYPES.FREESPINS,
 	},
 	{
 		name: 'ranges',
 		fieldType: 'dateRangeSelector',
 		label: 'Bonus Validity',
 		placeholder: 'Select Range',
-		minDate: presetDates?.length
-			? moment(presetDates[0]).utc().startOf('day').toDate()
+		minDate: bonusDetails?.validFrom
+			? ''
 			: moment().utc().startOf('day').toDate(),
-		maxDate: presetDates?.length
-			? moment(presetDates[1]).add(100, 'years').utc().toDate()
+		maxDate: bonusDetails?.validFrom
+			? ''
 			: moment().add(100, 'years').utc().toDate(),
 		rangeKeys: ['validFrom', 'validTo'],
 		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,

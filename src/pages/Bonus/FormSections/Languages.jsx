@@ -112,7 +112,9 @@ const Languages = ({
 		langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length;
 
 	useEffect(() => {
-		setNextDisabled(!(checkAllEmptyCondition() || checkAllFilled()));
+		if (nextPressed.currentTab === 'languages') {
+			setNextDisabled(!(checkAllEmptyCondition() || checkAllFilled()));
+		}
 	}, [activeLangTab, langContent]);
 
 	useEffect(() => {
