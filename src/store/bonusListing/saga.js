@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
+import { orderBy } from 'lodash';
 
 // Crypto Redux States
 import {
@@ -33,14 +34,21 @@ import {
 } from '../../network/getRequests';
 import { showToastr } from '../../utils/helpers';
 import { deleteBonus } from '../../network/deleteRequests';
-import { reorderBonus } from '../../network/postRequests';
+import { reorderBonus, toggleBonusStatus } from '../../network/postRequests';
 
 function* getBonusListingWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield getAllBonus(payload);
+		let {
+			data: { data },
+		} = yield getAllBonus(payload);
 
-		yield put(getBonusesSuccess(data?.data));
+		data = {
+			...data,
+			bonus: orderBy(data?.bonus, 'orderId'),
+		};
+
+		yield put(getBonusesSuccess(data));
 	} catch (error) {
 		yield put(getBonusesFail(error?.response?.data?.errors[0]?.description));
 	}
@@ -50,14 +58,14 @@ function* updateSABonusStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		// yield superAdminViewToggleStatus(payload);
+		yield toggleBonusStatus(payload);
 		yield put(updateSABonusStatusSuccess());
 
 		const { bonusDetails } = yield select((state) => state.AllBonusDetails);
 
-		const updatedBonusDetails = bonusDetails?.rows?.map((bonus) => {
-			if (bonus.bonusId === payload.bonusId) {
-				bonus.isActive = payload.status;
+		const updatedBonusDetails = bonusDetails?.bonus?.map((bonus) => {
+			if (bonus.id === payload.bonusId) {
+				bonus.isActive = !bonus.isActive;
 			}
 			return bonus;
 		});
@@ -65,7 +73,7 @@ function* updateSABonusStatusWorker(action) {
 		yield put(
 			getBonusesSuccess({
 				...bonusDetails,
-				rows: updatedBonusDetails,
+				bonus: updatedBonusDetails,
 			})
 		);
 

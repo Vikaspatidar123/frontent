@@ -72,12 +72,10 @@ const useBonusListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active, bonusId } = props;
+		const { bonusId } = props;
 		dispatch(
 			updateSABonusStatus({
-				code: 'BONUS',
 				bonusId,
-				status: !active,
 			})
 		);
 	};

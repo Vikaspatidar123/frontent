@@ -502,6 +502,13 @@ const reorderBonus = (data) =>
 		data
 	);
 
+const toggleBonusStatus = (data) => {
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/toggle`,
+		data
+	);
+};
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -582,4 +589,5 @@ export {
 	updateComment,
 	updateWageringTemplate,
 	reorderBonus,
+	toggleBonusStatus,
 };
