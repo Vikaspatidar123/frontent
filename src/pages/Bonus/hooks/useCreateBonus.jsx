@@ -71,9 +71,9 @@ const useCreateBonus = ({ isEdit }) => {
 		if (!isEmpty(bonusDetails)) {
 			setGameIds(bonusDetails?.gameIds);
 			setLangContent({
-				promoTitle: bonusDetails?.promotionTitle[activeLangTab],
-				terms: bonusDetails?.termAndCondition[activeLangTab],
-				desc: bonusDetails?.description[activeLangTab],
+				promoTitle: bonusDetails?.promotionTitle,
+				terms: bonusDetails?.termAndCondition,
+				desc: bonusDetails?.description,
 			});
 			setAllFields((prev) => ({
 				...prev,
@@ -81,16 +81,6 @@ const useCreateBonus = ({ isEdit }) => {
 			}));
 		}
 	}, [bonusDetails]);
-
-	useEffect(() => {
-		if (nextPressed.currentTab === 'languages' && bonusDetails) {
-			setLangContent({
-				promoTitle: bonusDetails?.promotionTitle,
-				terms: bonusDetails?.termAndCondition,
-				desc: bonusDetails?.description,
-			});
-		}
-	}, [nextPressed.currentTab]);
 
 	useEffect(() => {
 		dispatch(getWageringTemplateDetails());
@@ -155,7 +145,10 @@ const useCreateBonus = ({ isEdit }) => {
 					wageringTemplateId: allFields.selectedTemplateId,
 					gameIds: allFields.gameIds,
 					file: allFields?.bonusImage,
+
+					// removed the unused payload
 					bonusImage: null,
+					selectedTemplate: null,
 				};
 
 				dispatch(updateBonus(payload));
@@ -189,7 +182,10 @@ const useCreateBonus = ({ isEdit }) => {
 					wageringTemplateId: allFields.selectedTemplateId,
 					gameIds: allFields.gameIds,
 					file: allFields?.bonusImage,
+
+					// removed the unused payload
 					bonusImage: null,
+					selectedTemplate: null,
 				};
 
 				dispatch(createBonus(payload));

@@ -21,34 +21,32 @@ const getBonusInitialValues = (bonusDetails) => {
 		  })
 		: [];
 
+	const {
+		zeroOutThreshold,
+		currencyId,
+		joiningAmount,
+		maxBonusClaimed,
+		minBetAmount,
+		minDepositAmount,
+	} = bonusDetails?.bonusCurrencies?.[0] || {};
+
 	const currencyDetails = bonusDetails?.bonusCurrencies?.length
-		? bonusDetails.bonusCurrencies?.map(
-				({
-					currencyId,
-					zeroOutThreshold,
-					joiningAmount,
-					maxBonusClaimed,
-					minBetAmount,
-					minDepositAmount,
-				}) => ({
-					currencyId,
-					zeroOutThreshold,
-					joiningAmount,
-					maxBonusClaimed,
-					minBetAmount,
-					minDepositAmount,
-				})
-		  )
-		: [
-				{
-					zeroOutThreshold: '',
-					currencyId: '',
-					joiningAmount: '',
-					maxBonusClaimed: '',
-					minBetAmount: '',
-					minDepositAmount: '',
-				},
-		  ];
+		? {
+				currencyId,
+				zeroOutThreshold,
+				joiningAmount,
+				maxBonusClaimed,
+				minBetAmount,
+				minDepositAmount,
+		  }
+		: {
+				zeroOutThreshold: '',
+				currencyId: '',
+				joiningAmount: '',
+				maxBonusClaimed: '',
+				minBetAmount: '',
+				minDepositAmount: '',
+		  };
 
 	const wageringTemplateId =
 		bonusDetails?.[BONUS_KEY_RELATION[bonusDetails?.bonusType]]
