@@ -30,6 +30,7 @@ const useCreateCurrency = () => {
 		currencies,
 		isEditCurrencyLoading,
 		isEditCurrencySuccess,
+		isCreateCurrencySuccess,
 	} = useSelector((state) => state.Currencies);
 
 	const handleCreateCurrency = (values) => {
@@ -68,7 +69,7 @@ const useCreateCurrency = () => {
 		header: 'Add Currency',
 		initialValues: getInitialValues(),
 		validationSchema,
-		staticFormFields,
+		staticFormFields: staticFormFields(),
 		onSubmitEntry: isEdit.open ? handleEditCurrency : handleCreateCurrency,
 	});
 
@@ -76,6 +77,7 @@ const useCreateCurrency = () => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
 		validation.resetForm(getInitialValues());
+		setFormFields(staticFormFields(false));
 		setHeader('Add Currency');
 		setIsEdit({ open: false, selectedRow: '' });
 	};
@@ -83,6 +85,10 @@ const useCreateCurrency = () => {
 	useEffect(() => {
 		if (isEditCurrencySuccess) setIsOpen(false);
 	}, [isEditCurrencySuccess]);
+
+	useEffect(() => {
+		if (isCreateCurrencySuccess) setIsOpen(false);
+	}, [isCreateCurrencySuccess]);
 
 	useEffect(() => {
 		setIsOpen(false);
@@ -114,6 +120,7 @@ const useCreateCurrency = () => {
 			? currencySymbols[selectedRow.code]
 			: '';
 		setIsEdit({ open: true, selectedRow });
+		setFormFields(staticFormFields(true));
 		setHeader('Edit Currency');
 		validation.setValues(
 			getInitialValues({
@@ -174,12 +181,6 @@ const useCreateCurrency = () => {
 				// filterable: true,
 				Cell: ({ cell }) => <ExchangeRate value={cell.value} />,
 			},
-			// {
-			//   Header: 'LOYALTY POINTS',
-			//   accessor: 'loyaltyPoint',
-			//   // filterable: true,
-			//   Cell: ({ cell }) => <LoyaltyPoints value={cell.value} />,
-			// },
 			{
 				Header: 'TYPE',
 				accessor: 'type',
@@ -236,36 +237,5 @@ const useCreateCurrency = () => {
 		toggleFormModal,
 	};
 };
-
-// useCreateCurrency.propTypes = {
-// 	columns: PropTypes.shape({
-// 		Header: PropTypes.string,
-// 		accessor: PropTypes.string,
-// 		Cell: PropTypes.shape({
-//
-// 				cell: PropTypes.shape({
-// 					row: PropTypes.shape({
-// 						original: PropTypes.shape({
-// 							currencyId: PropTypes.number,
-// 						}),
-// 					}),
-// 				}),
-// 			}),
-// 		}),
-// };
-
-// useCreateCurrency.columns.PropTypes = {
-// 	Header: PropTypes.string,
-// 	accessor: PropTypes.string,
-// 	Cell: PropTypes.shape({
-// 		cell: PropTypes.shape({
-// 			row: PropTypes.shape({
-// 				original: PropTypes.shape({
-// 					currencyId: PropTypes.number,
-// 				}),
-// 			}),
-// 		}),
-// 	}),
-// };
 
 export default useCreateCurrency;

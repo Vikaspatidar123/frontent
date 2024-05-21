@@ -11,7 +11,10 @@ const superAdminLogin = (data) =>
 	);
 
 const createCurrency = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/currency`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}currency/create`,
+		data
+	);
 
 const updateCurrency = (data) =>
 	postRequest(
