@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 import General from '../FormSections/General';
 import Languages from '../FormSections/Languages';
 import Currencies from '../FormSections/Currency';
+import { safeStringify } from '../../../utils/helpers';
 import WageringContribution from '../FormSections/WageringContribution';
 import Games from '../FormSections/Games';
 import {
@@ -137,8 +138,11 @@ const useCreateBonus = ({ isEdit }) => {
 
 				const payload = {
 					...allFields,
+					bonusId,
 					validOnDays,
-					currencyDetails: [filterEmptyPayload(allFields.currencyDetails)],
+					currencyDetails: safeStringify([
+						filterEmptyPayload(allFields.currencyDetails),
+					]),
 					promotionTitle: langContent?.promoTitle,
 					description: langContent?.desc,
 					termAndCondition: langContent?.terms,
@@ -150,6 +154,8 @@ const useCreateBonus = ({ isEdit }) => {
 						: allFields.validTo,
 					wageringTemplateId: allFields.selectedTemplateId,
 					gameIds: allFields.gameIds,
+					file: allFields?.bonusImage,
+					bonusImage: null,
 				};
 
 				dispatch(updateBonus(payload));
@@ -168,7 +174,9 @@ const useCreateBonus = ({ isEdit }) => {
 				const payload = {
 					...allFields,
 					validOnDays,
-					currencyDetails: [filterEmptyPayload(allFields.currencyDetails)],
+					currencyDetails: safeStringify([
+						filterEmptyPayload(allFields.currencyDetails),
+					]),
 					promotionTitle: langContent?.promoTitle,
 					description: langContent?.desc,
 					termAndCondition: langContent?.terms,
@@ -180,6 +188,8 @@ const useCreateBonus = ({ isEdit }) => {
 						: allFields.validTo,
 					wageringTemplateId: allFields.selectedTemplateId,
 					gameIds: allFields.gameIds,
+					file: allFields?.bonusImage,
+					bonusImage: null,
 				};
 
 				dispatch(createBonus(payload));

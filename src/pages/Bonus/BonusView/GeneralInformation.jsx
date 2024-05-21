@@ -232,20 +232,18 @@ const GeneralDetails = ({ bonusDetails }) => (
 						</Row>
 					</>
 				)}
-				{bonusDetails?.bonusType !== BONUS_TYPES.JOINING && (
-					<Row>
-						<Col>
-							{bonusDetails?.imageUrl && (
-								<img
-									className="img-thumbnail"
-									width="200px"
-									src={bonusDetails?.imageUrl}
-									alt="img"
-								/>
-							)}
-						</Col>
-					</Row>
-				)}
+				<Row>
+					<Col>
+						{bonusDetails?.imageUrl && (
+							<img
+								className="img-thumbnail"
+								width="200px"
+								src={bonusDetails.imageUrl}
+								alt="img"
+							/>
+						)}
+					</Col>
+				</Row>
 			</Card>
 		</Col>
 	</Row>

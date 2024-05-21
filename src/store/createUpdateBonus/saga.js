@@ -18,7 +18,7 @@ import { filterEmptyPayload } from '../../network/networkUtils';
 function* createBonusWorker(action) {
 	try {
 		let payload = action && action.payload;
-		payload = serialize(filterEmptyPayload(payload));
+		payload = serialize(filterEmptyPayload(payload), { indices: true });
 		const { data } = yield createBonusCall(payload);
 
 		showToastr({
@@ -38,7 +38,7 @@ function* createBonusWorker(action) {
 function* updateBonusWorker(action) {
 	try {
 		let payload = action && action.payload;
-		payload = serialize(filterEmptyPayload(payload));
+		payload = serialize(filterEmptyPayload(payload), { indices: true });
 		const { data } = yield updateBonusCall(payload);
 
 		showToastr({
