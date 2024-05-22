@@ -215,7 +215,7 @@ const staticFiltersFields = () => [
 		})),
 	},
 	{
-		name: 'searchString',
+		name: 'search',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
@@ -226,7 +226,7 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
-		optionList: IS_ACTIVE_TYPES?.map(({ id, label, value }) => ({
+		optionList: IS_ACTIVE_TYPES.map(({ id, label, value }) => ({
 			id,
 			optionLabel: label,
 			value,
@@ -236,14 +236,14 @@ const staticFiltersFields = () => [
 
 const filterValues = () => ({
 	isActive: null,
-	searchString: '',
+	search: '',
 	bonusType: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
 		isActive: Yup.string().nullable(),
-		searchString: Yup.string().nullable(),
+		search: Yup.string().nullable(),
 		bonusType: Yup.string().nullable(),
 	});
 

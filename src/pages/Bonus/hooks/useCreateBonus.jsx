@@ -255,7 +255,6 @@ const useCreateBonus = ({ isEdit }) => {
 					setNextDisabled={setNextDisabled}
 				/>
 			),
-			isHidden: bonusDetails?.claimedCount,
 		},
 		{
 			id: 'wageringContribution',
@@ -272,9 +271,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setSelectedTemplate={setSelectedTemplate}
 				/>
 			),
-			isHidden:
-				[BONUS_TYPES.JOINING].includes(allFields?.bonusType) ||
-				bonusDetails?.claimedCount,
+			isHidden: [BONUS_TYPES.JOINING].includes(allFields?.bonusType),
 		},
 		{
 			id: 'games',
@@ -289,10 +286,9 @@ const useCreateBonus = ({ isEdit }) => {
 					setGameIds={setGameIds}
 				/>
 			),
-			isHidden:
-				[BONUS_TYPES.JOINING, BONUS_TYPES.DEPOSIT].includes(
-					allFields?.bonusType
-				) || bonusDetails?.claimedCount,
+			isHidden: [BONUS_TYPES.JOINING, BONUS_TYPES.DEPOSIT].includes(
+				allFields?.bonusType
+			),
 		},
 	];
 

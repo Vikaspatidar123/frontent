@@ -140,13 +140,23 @@ const GeneralDetails = ({ bonusDetails }) => (
 						<p>{bonusDetails?.daysToClear}</p>
 					</Col>
 				</Row>
-				{bonusDetails?.bonusType === BONUS_TYPES.FREESPINS && (
+				{/* {bonusDetails?.bonusType === BONUS_TYPES.FREESPINS && (
 					<Row>
 						<Col>
 							<h6 className="text-nowrap">Bet Level:</h6>
 						</Col>
 						<Col>
 							<p>{bonusDetails?.other?.betLevel}</p>
+						</Col>
+					</Row>
+				)} */}
+				{bonusDetails?.claimedCount > 0 && (
+					<Row>
+						<Col>
+							<h6 className="text-nowrap">Claimed count:</h6>
+						</Col>
+						<Col>
+							<p>{bonusDetails?.claimedCount}</p>
 						</Col>
 					</Row>
 				)}

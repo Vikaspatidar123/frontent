@@ -9,7 +9,6 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getBonusesStart } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
-import { safeStringify } from '../../../utils/helpers';
 
 let debounce;
 const useFilters = () => {
@@ -20,13 +19,12 @@ const useFilters = () => {
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
-	const fetchData = ({ bonusType, ...rest }) => {
+	const fetchData = (values) => {
 		dispatch(
 			getBonusesStart({
 				perPage: itemsPerPage,
 				page: 1,
-				bonusType: bonusType ? safeStringify([bonusType]) : null,
-				...rest,
+				...values,
 			})
 		);
 	};
@@ -45,7 +43,6 @@ const useFilters = () => {
 	// const handleAdvance = () => {
 	// 	toggleAdvance();
 	// };
-
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
 			setIsFilterChanged(true);

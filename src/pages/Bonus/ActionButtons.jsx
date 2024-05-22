@@ -58,6 +58,7 @@ const ActionButtons = ({
 				<Button
 					hidden={!isGranted(modules.bonus, 'U')}
 					className="btn btn-sm btn-soft-info"
+					disabled={original?.claimedCount}
 					id="editToolTip"
 					onClick={handleEdit}
 				>
@@ -86,6 +87,7 @@ const ActionButtons = ({
 					hidden={!isGranted(modules.bonus, 'D')}
 					id="deleteToolTip"
 					className="btn btn-sm btn-soft-danger"
+					disabled={original?.claimedCount}
 					onClick={() => handleDelete(bonusId)}
 				>
 					<i className="mdi mdi-delete-outline" />
@@ -104,6 +106,7 @@ ActionButtons.propTypes = {
 			id: PropTypes.number.isRequired,
 			isActive: PropTypes.bool.isRequired,
 			bonusType: PropTypes.string.isRequired,
+			claimedCount: PropTypes.number.isRequired,
 		}).isRequired,
 	}).isRequired,
 	handleStatus: PropTypes.func.isRequired,

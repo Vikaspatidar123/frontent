@@ -9,7 +9,6 @@ import {
 	resetBonusDetails,
 	updateSABonusStatus,
 } from '../../../store/actions';
-import { safeStringify } from '../../../utils/helpers';
 import {
 	BonusId,
 	Title,
@@ -52,13 +51,11 @@ const useBonusListing = (filterValues = {}) => {
 	}, [bonusDetails]);
 
 	const fetchData = () => {
-		const { bonusType, ...rest } = filterValues;
 		dispatch(
 			getBonusesStart({
 				perPage: itemsPerPage,
 				page,
-				bonusType: bonusType ? safeStringify([bonusType]) : null,
-				...rest,
+				...filterValues,
 			})
 		);
 	};
