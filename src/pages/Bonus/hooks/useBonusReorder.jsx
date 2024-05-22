@@ -102,7 +102,7 @@ const useBonusReorder = () => {
 	const formattedState = useMemo(
 		() =>
 			state?.rows?.map((item) => ({
-				reorderId: item.orderId,
+				reorderId: item.orderId || '-',
 				bonusName: item.promotionTitle?.EN,
 				action: (
 					<ul className="list-unstyled hstack gap-1 mb-0">

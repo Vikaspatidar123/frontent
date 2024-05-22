@@ -142,7 +142,7 @@ const useCreateBonus = ({ isEdit }) => {
 					validTo: allFields.validTo
 						? moment(allFields.validTo).format(YMDdate)
 						: allFields.validTo,
-					wageringTemplateId: allFields.selectedTemplateId,
+					wageringTemplateId: selectedTemplate || allFields.selectedTemplateId,
 					gameIds: allFields.gameIds,
 					file: allFields?.bonusImage,
 
@@ -179,7 +179,7 @@ const useCreateBonus = ({ isEdit }) => {
 					validTo: allFields.validTo
 						? moment(allFields.validTo).format(YMDdate)
 						: allFields.validTo,
-					wageringTemplateId: allFields.selectedTemplateId,
+					wageringTemplateId: selectedTemplate || allFields.selectedTemplateId,
 					gameIds: allFields.gameIds,
 					file: allFields?.bonusImage,
 

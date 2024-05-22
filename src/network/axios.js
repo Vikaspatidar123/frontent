@@ -18,9 +18,9 @@ export const setupInterceptors = () => {
 				redirect('/login');
 			}
 			const errorCode =
-				error.response?.data?.errors[0]?.fields ||
+				error.response?.data?.errors[0]?.fields?.description ||
 				error.response?.data?.errors[0]?.description;
-			if (errorCode) {
+			if (typeof errorCode === 'string') {
 				showToastr({
 					message: MESSAGES[errorCode] ? MESSAGES[errorCode] : errorCode,
 					type: 'error',
