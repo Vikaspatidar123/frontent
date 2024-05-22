@@ -228,6 +228,7 @@ const useCreateBonus = ({ isEdit }) => {
 					langContent={langContent}
 					activeLangTab={activeLangTab}
 					setActiveLangTab={setActiveLangTab}
+					activeTab={activeTab}
 					disableTabSwitching={isNextDisabled}
 					nextPressed={nextPressed}
 					setNextPressed={setNextPressed}

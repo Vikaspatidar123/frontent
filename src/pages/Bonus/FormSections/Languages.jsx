@@ -61,6 +61,7 @@ const Languages = ({
 	nextPressed,
 	setNextPressed,
 	setActiveTab,
+	activeTab,
 	setNextDisabled,
 }) => {
 	useEffect(() => {
@@ -118,10 +119,10 @@ const Languages = ({
 	}, [activeLangTab, langContent]);
 
 	useEffect(() => {
-		if (tabData.length) {
+		if (activeTab === 'languages') {
 			setActiveLangTab(tabData[0]?.id);
 		}
-	}, [tabData]);
+	}, [activeTab]);
 
 	return (
 		<Row>
