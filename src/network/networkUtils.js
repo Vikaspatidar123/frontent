@@ -114,6 +114,7 @@ const MESSAGES = {
 		'Weekly limit cannot exceed the monthly limit or be lower than the monthly limit.',
 	ACTIVE_BONUS_EXISTS: 'Bonus already exists',
 	BONUS_UNDER_CLAIM: 'Bonus is under claim',
+	PLEASE_CHECK_REQUEST_DATA: 'Please check the requested data',
 };
 
 export { API_NAMESPACE, METHODS, filterEmptyPayload, MANAGEMENT, MESSAGES };

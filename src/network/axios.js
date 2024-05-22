@@ -22,7 +22,7 @@ export const setupInterceptors = () => {
 				error.response?.data?.errors[0]?.description;
 			if (errorCode) {
 				showToastr({
-					message: MESSAGES[errorCode],
+					message: MESSAGES[errorCode] ? MESSAGES[errorCode] : errorCode,
 					type: 'error',
 				});
 			}
