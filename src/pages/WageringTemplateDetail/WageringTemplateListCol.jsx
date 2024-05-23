@@ -15,7 +15,7 @@ const WageringContribution = ({ cell }) =>
 
 const CustomValues = ({ cell }) => (cell?.value ? `${cell?.value}` : '-');
 
-const WagerMultiplier = ({ cell }) => (cell?.value ? `${cell?.value} %` : '-');
+const WagerMultiplier = ({ cell }) => (cell?.value ? `${cell?.value}` : '-');
 
 const Select = ({ cell, handleChange, selectedId }) => {
 	const value = selectedId[cell.row.original.id] || false;
