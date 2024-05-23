@@ -55,23 +55,40 @@ const useEditWageringTemplate = () => {
 	}, []);
 
 	const formSubmitHandler = (values) => {
-		const templateData = {
-			name: values.name,
-			gameContributions: Object.keys(selectedId || {})?.map((id) => ({
-				casinoGameId: id,
-				contributionPercentage: values.contributionPercentage,
-			})),
-			wageringTemplateId,
-		};
-		if (Object.keys(templateData.gameContributions).length < 1) {
-			showToastr({
-				message: 'Select At Least One Game',
-				type: 'error',
-			});
-		} else {
-			dispatch(editWageringTemplateDetails({ templateData, navigate }));
+		try {
+			const templateData = {
+				name: values.name,
+				gameContributions: Object.keys(selectedId || {})?.map((id) => {
+					if (
+						selectedId[id].contributionPercentage <= 0 ||
+						selectedId[id].contributionPercentage > 100
+					) {
+						showToastr({
+							message: 'Contribution percentage must be in range 0 to 100',
+							type: 'error',
+						});
+						throw new Error();
+					}
+					return {
+						casinoGameId: id,
+						contributionPercentage: selectedId[id].contributionPercentage,
+					};
+				}),
+				wageringTemplateId,
+				...values,
+			};
+			if (Object.keys(templateData.gameContributions).length < 1) {
+				showToastr({
+					message: 'Select At Least One Game',
+					type: 'error',
+				});
+			} else {
+				dispatch(editWageringTemplateDetails({ templateData, navigate }));
+			}
+			setSelectedId([]);
+		} catch (err) {
+			console.log('error', err);
 		}
-		setSelectedId([]);
 	};
 
 	const onChangeRowsPerPage = (value) => {
@@ -124,7 +141,7 @@ const useEditWageringTemplate = () => {
 			setLeftFormFields([
 				...leftStaticFormFields(),
 				{
-					name: 'provider',
+					name: 'casinoProviderId',
 					fieldType: 'select',
 					label: 'Provider Name ',
 					placeholder: 'Provider',
@@ -146,14 +163,14 @@ const useEditWageringTemplate = () => {
 					perPage: itemsPerPage,
 					page,
 					searchString: validation?.values?.searchString || '',
-					providerId: validation?.values?.provider || '',
+					casinoProviderId: validation?.values?.casinoProviderId || '',
 				})
 			);
 		}, debounceTime);
 		return () => clearTimeout(debounce);
 	}, [
 		validation?.values?.searchString,
-		validation?.values?.provider,
+		validation?.values?.casinoProviderId,
 		itemsPerPage,
 		page,
 	]);

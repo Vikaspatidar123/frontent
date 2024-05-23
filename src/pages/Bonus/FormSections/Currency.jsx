@@ -85,7 +85,7 @@ const Currencies = ({
 	}, [validation.values]);
 
 	useEffect(() => {
-		if (bonusDetails) {
+		if (!isEmpty(bonusDetails)) {
 			validation.setValues(
 				getBonusInitialValues(bonusDetails)?.currencyDetails
 			);
@@ -136,6 +136,7 @@ const Currencies = ({
 					id="currencyId"
 					type="select"
 					name="currencyId"
+					value={validation?.values?.currencyId}
 					onChange={validation.handleChange}
 					options={
 						<>

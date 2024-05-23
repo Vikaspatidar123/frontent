@@ -43,23 +43,40 @@ const useCreateWageringTemplate = () => {
 	} = useSelector((state) => state.CasinoManagementData);
 
 	const formSubmitHandler = (values) => {
-		const templateData = {
-			name: values.name,
-			gameContributions: Object.keys(selectedId || {})?.map((id) => ({
-				casinoGameId: id,
-				contributionPercentage: values.contributionPercentage,
-			})),
-		};
-		if (Object.keys(templateData.gameContributions).length < 1) {
-			showToastr({
-				message: 'Select At Least One Game',
-				type: 'error',
-			});
-		} else {
-			dispatch(createWageringTemplateDetails({ templateData, navigate }));
-		}
+		try {
+			const templateData = {
+				name: values.name,
+				gameContributions: Object.keys(selectedId || {})?.map((id) => {
+					if (
+						selectedId[id].contributionPercentage <= 0 ||
+						selectedId[id].contributionPercentage > 100
+					) {
+						showToastr({
+							message: 'Contribution percentage must be in range 0 to 100',
+							type: 'error',
+						});
+						throw new Error();
+					}
+					return {
+						casinoGameId: id,
+						contributionPercentage: selectedId[id].contributionPercentage,
+					};
+				}),
+				...values,
+			};
+			if (Object.keys(templateData.gameContributions).length < 1) {
+				showToastr({
+					message: 'Select At Least One Game',
+					type: 'error',
+				});
+			} else {
+				dispatch(createWageringTemplateDetails({ templateData, navigate }));
+			}
 
-		setSelectedId([]);
+			setSelectedId([]);
+		} catch (err) {
+			console.log('error', err);
+		}
 	};
 
 	const onChangeRowsPerPage = (value) => {
