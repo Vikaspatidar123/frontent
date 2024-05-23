@@ -23,19 +23,19 @@ const Reports = (props) => {
 			},
 			{
 				title: 'Today Players',
-				description: `€ ${livePlayerData.totalPlayers || 0}`,
+				description: `${livePlayerData.totalPlayers || 0}`,
 				iconClass: 'bx bxs-user-plus',
 				reportClass: 'reportList2',
 			},
 			{
 				title: 'Total registrations',
-				description: `€ ${livePlayerData.totalRegistrationToday || 0}`,
+				description: `${livePlayerData.totalRegistrationToday || 0}`,
 				iconClass: 'bx bxs-contact',
 				reportClass: 'reportList3',
 			},
 			{
 				title: 'Deposit Conv. Rate',
-				description: `€ ${livePlayerData.depositConvRate || 0}`,
+				description: `${livePlayerData.depositConvRate || 0} %`,
 				iconClass: 'bx bxs-credit-card',
 				reportClass: 'reportList4',
 			},
