@@ -21,13 +21,15 @@ const filterValidationSchema = () =>
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
-	contributionPercentage: defaultValue?.wageringMultiplier || '',
+	wageringMultiplier: defaultValue?.wageringMultiplier || '',
+	wageringRequirementType: defaultValue?.wageringRequirementType || null,
 	searchString: '',
 });
 
 const createWageringTemplate = Yup.object().shape({
 	name: Yup.string().required('Template Name Required'),
-	contributionPercentage: Yup.string().required('Custom Value Required'),
+	wageringMultiplier: Yup.string().required('Wagering multiplier required'),
+	wageringRequirementType: Yup.string().required('Wagering type required'),
 	searchString: Yup.string().nullable(),
 });
 
@@ -38,14 +40,32 @@ const leftStaticFormFields = () => [
 		label: 'Template Name',
 		placeholder: 'Enter name',
 	},
+	{
+		name: 'wageringRequirementType',
+		fieldType: 'select',
+		label: 'Select wagering type',
+		placeholder: 'Select wagering type',
+		optionList: [
+			{
+				id: 1,
+				optionLabel: 'Bonus',
+				value: 'bonus',
+			},
+			{
+				id: 2,
+				optionLabel: 'Bonus Plus Cash',
+				value: 'bonus_plus_cash',
+			},
+		],
+	},
 ];
 
 const rightStaticFormFields = () => [
 	{
-		name: 'contributionPercentage',
+		name: 'wageringMultiplier',
 		fieldType: 'textField',
-		label: 'Contribution Percentage',
-		placeholder: 'Contribution Percentage',
+		label: 'Wagering Multiplier',
+		placeholder: 'Wagering Multiplier',
 		type: 'number',
 		minimum: 0,
 		step: '.01',
