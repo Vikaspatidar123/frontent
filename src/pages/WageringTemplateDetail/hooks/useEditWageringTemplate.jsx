@@ -101,8 +101,8 @@ const useEditWageringTemplate = () => {
 			validation.setValues(getInitialValues(SAWageringTemplate?.template?.[0]));
 			const selectedIds = {};
 			SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails?.forEach(
-				({ casinoGame }) => {
-					selectedIds[casinoGame.id] = true;
+				({ casinoGame, contributionPercentage }) => {
+					selectedIds[casinoGame.id] = { contributionPercentage };
 				}
 			);
 			setSelectedId(selectedIds);

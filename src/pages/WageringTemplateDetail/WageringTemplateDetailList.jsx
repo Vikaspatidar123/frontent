@@ -2,7 +2,7 @@
 import React, { useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Card, CardBody } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
 import { getWageringTemplateDetail } from '../../store/actions';
@@ -19,12 +19,17 @@ const columns = [
 		Cell: ({ cell }) => <TemplateName cell={cell} />,
 	},
 	{
+		Header: 'RTP',
+		accessor: 'returnToPlayer',
+		Cell: ({ cell }) => <RTP cell={cell} />,
+	},
+	{
 		Header: 'Contribution Percentage',
 		accessor: 'contributionPercentage',
 		Cell: ({ cell }) => <RTP cell={cell} />,
 	},
 	{
-		Header: 'Default',
+		Header: 'Default Contribution',
 		accessor: 'wageringContribution',
 		Cell: ({ cell }) => <WageringContribution cell={cell} />,
 	},
@@ -42,8 +47,6 @@ const WageringTemplateDetailList = () => {
 			dispatch(
 				getWageringTemplateDetail({
 					wageringTemplateId: Number(wageringTemplateId),
-					// perPage: itemsPerPage,
-					// page,
 				})
 			);
 		}
@@ -55,6 +58,7 @@ const WageringTemplateDetailList = () => {
 				(template) => ({
 					...template,
 					casinoGameName: template.casinoGame?.name || '-',
+					returnToPlayer: template?.casinoGame?.returnToPlayer || '-',
 				})
 			);
 		}
@@ -74,8 +78,8 @@ const WageringTemplateDetailList = () => {
 						</>
 					}
 				/>
-				<Row>
-					<Col>
+				<Card>
+					<CardBody>
 						<TableContainer
 							columns={columns}
 							data={formattedSAWageringTemplateData}
@@ -84,8 +88,8 @@ const WageringTemplateDetailList = () => {
 							pagination="pagination justify-content-start pagination-rounded"
 							isLoading={SAWageringTemplateLoading}
 						/>
-					</Col>
-				</Row>
+					</CardBody>
+				</Card>
 			</Container>
 		</div>
 	);

@@ -30,7 +30,12 @@ const columns = (handleChange, selectedId) => [
 		Cell: ({ cell }) => <RTP cell={cell} />,
 	},
 	{
-		Header: 'Default',
+		Header: 'Contribution Percentage',
+		accessor: 'gameContributionPercentage',
+		Cell: ({ cell }) => <RTP cell={cell} />,
+	},
+	{
+		Header: 'Default Contribution',
 		accessor: 'wageringContribution',
 		Cell: ({ cell }) => <WageringContribution cell={cell} />,
 	},
@@ -51,6 +56,9 @@ const CasinoGamesForm = ({
 		if (casinoGames?.games) {
 			return casinoGames?.games?.map((game) => ({
 				...game,
+				gameContributionPercentage: selectedId[game.id]
+					? selectedId[game.id].contributionPercentage
+					: '-',
 			}));
 		}
 		return [];
