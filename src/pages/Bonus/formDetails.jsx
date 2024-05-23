@@ -41,7 +41,7 @@ const getBonusInitialValues = (bonusDetails) => {
 		  }
 		: {
 				zeroOutThreshold: '',
-				currencyId: '',
+				currencyId: null,
 				joiningAmount: '',
 				maxBonusClaimed: '',
 				minBetAmount: '',
@@ -86,8 +86,8 @@ const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
 		name: 'promotionTitle',
 		fieldType: 'textField',
 		type: 'text',
-		label: 'Promotion Title',
-		placeholder: 'Promotion Title',
+		label: 'Bonus Title',
+		placeholder: 'Bonus Title',
 	},
 	{
 		name: 'bonusType',

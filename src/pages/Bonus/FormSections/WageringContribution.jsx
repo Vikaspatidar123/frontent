@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row } from 'reactstrap';
+import { isEmpty } from 'lodash';
 import { getWageringTemplateDetail } from '../../../store/actions';
 import {
 	CustomInputField,
@@ -9,6 +10,7 @@ import {
 } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/Table';
 import { selectedLanguage } from '../../../constants/config';
+import { BONUS_KEY_RELATION } from '../constants';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
@@ -61,8 +63,11 @@ const WageringContribution = ({
 	} = useSelector((state) => state.WageringTemplate);
 
 	useEffect(() => {
-		if (bonusDetails) {
-			setSelectedTemplate(bonusDetails?.wageringTemplateId);
+		if (!isEmpty(bonusDetails)) {
+			setSelectedTemplate(
+				bonusDetails[BONUS_KEY_RELATION[bonusDetails.bonusType]]
+					.wageringTemplateId
+			);
 		}
 	}, [bonusDetails]);
 

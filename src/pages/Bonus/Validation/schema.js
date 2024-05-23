@@ -64,9 +64,7 @@ const currencyValidate = (allFields) =>
 
 const generalFormSchema = () =>
 	Yup.object({
-		promotionTitle: Yup.string()
-			.required('Promotion Title Required')
-			.nullable(),
+		promotionTitle: Yup.string().required('Bonus Title Required').nullable(),
 		bonusType: Yup.string().required('Bonus Type Required').nullable(),
 		termAndCondition: Yup.string()
 			.when(['bonusType'], {

@@ -11,8 +11,8 @@ const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
 	<>
 		<Col className="mb-3" sm={6}>
 			<CustomInputField
-				placeholder="Enter Promotion Title"
-				label="Promotion Title"
+				placeholder="Enter Bonus Title"
+				label="Bonus Title"
 				value={langContent.promoTitle[lang]}
 				onChange={(e) =>
 					setLangContent((prev) => ({

@@ -87,11 +87,6 @@ function* editWageringTemplateWorker(action) {
 
 		if (navigate) yield navigate('/wagering-template');
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description,
-			type: 'error',
-		});
-
 		yield put(editWageringTemplateDetailsFail());
 	}
 }
