@@ -20,14 +20,12 @@ import {
 } from '../../../store/actions';
 import { BONUS_TYPES, daysLabels, LANGUAGES } from '../constants';
 import { YMDdate } from '../../../constants/config';
-import { filterEmptyPayload } from '../../../network/networkUtils';
 
 const useCreateBonus = ({ isEdit }) => {
 	const { bonusId, bonusType } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [gameIds, setGameIds] = useState([]);
-	const [bonusTypeChanged, setBonusTypeChanged] = useState(false);
 	const [activeLangTab, setActiveLangTab] = useState('EN');
 	const [activeTab, setActiveTab] = useState('general');
 	const [allFields, setAllFields] = useState({
@@ -130,9 +128,7 @@ const useCreateBonus = ({ isEdit }) => {
 					...allFields,
 					bonusId,
 					validOnDays,
-					currencyDetails: safeStringify([
-						filterEmptyPayload(allFields.currencyDetails),
-					]),
+					currencyDetails: safeStringify(allFields.currencyDetails),
 					promotionTitle: langContent?.promoTitle,
 					description: langContent?.desc,
 					termAndCondition: langContent?.terms,
@@ -167,9 +163,7 @@ const useCreateBonus = ({ isEdit }) => {
 				const payload = {
 					...allFields,
 					validOnDays,
-					currencyDetails: safeStringify([
-						filterEmptyPayload(allFields.currencyDetails),
-					]),
+					currencyDetails: safeStringify(allFields.currencyDetails),
 					promotionTitle: langContent?.promoTitle,
 					description: langContent?.desc,
 					termAndCondition: langContent?.terms,
@@ -211,7 +205,6 @@ const useCreateBonus = ({ isEdit }) => {
 					setAllFields={setAllFields}
 					setLangContent={setLangContent}
 					setGameIds={setGameIds}
-					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
 					isEdit={isEdit}
 					setNextDisabled={setNextDisabled}
@@ -250,10 +243,9 @@ const useCreateBonus = ({ isEdit }) => {
 					activeTab={activeTab}
 					allFields={allFields}
 					nextPressed={nextPressed}
-					bonusTypeChanged={bonusTypeChanged}
-					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
 					setNextDisabled={setNextDisabled}
+					isNextDisabled={isNextDisabled}
 				/>
 			),
 		},
