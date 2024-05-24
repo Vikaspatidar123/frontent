@@ -25,7 +25,9 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const { transactionBanking, loading: isTransactionBankingLoading } =
 		useSelector((state) => state.TransactionBanking);
-
+	const superAdminUser = useSelector(
+		(state) => state.PermissionDetails.superAdminUser
+	);
 	const onChangeRowsPerPage = (value) => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
@@ -51,12 +53,19 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 			transactionBanking?.transactions?.map((transaction) => {
 				const transactionData = {
 					...transaction,
-					ledgerId: transaction?.ledgerId,
-					amount: transaction?.ledger?.amount,
-					purpose: transaction?.ledger?.purpose,
+					ledgerId: transaction?.ledgerId || '-',
+					amount: transaction?.ledger?.amount || '-',
+					purpose: transaction?.ledger?.purpose || '-',
+					currency: transaction?.ledger?.currency?.code || '-',
 					transactionType: LEDGER_TYPES.find(
 						(type) => type.value === transaction?.ledger?.type
 					)?.label,
+					from: transaction?.ledger?.fromWalletId
+						? transaction?.user?.username
+						: superAdminUser?.username,
+					to: transaction?.ledger?.toWalletId
+						? transaction?.user?.username
+						: superAdminUser?.username,
 					status: STATUS_TYPE.find(
 						(status) => status.value === transaction?.status
 					)?.label,
@@ -89,6 +98,12 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 			{
 				Header: 'Ledger Id',
 				accessor: 'ledgerId',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'Currency',
+				accessor: 'currency',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
