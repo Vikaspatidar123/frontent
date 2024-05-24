@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -8,6 +8,7 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
+	fetchCurrenciesStart,
 	// fetchCurrenciesStart,
 	fetchTransactionBankingStart,
 	getAllTags,
@@ -19,7 +20,7 @@ const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	// const { currencies } = useSelector((state) => state.Currencies);
+	const { currencies } = useSelector((state) => state.Currencies);
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
@@ -51,16 +52,24 @@ const useFilters = () => {
 	// };
 
 	useEffect(() => {
-		if (isEmpty(userTags)) {
+		if (!userTags) {
 			dispatch(getAllTags());
+		}
+		if (!currencies) {
+			dispatch(fetchCurrenciesStart());
 		}
 	}, []);
 
 	useEffect(() => {
-		if (!isEmpty(userTags)) {
+		if (userTags && currencies) {
 			const tags = userTags?.map((row) => ({
 				optionLabel: row?.tag,
 				value: row.id,
+			}));
+
+			const currencyOptions = currencies?.currencies?.map((currency) => ({
+				optionLabel: currency.code,
+				value: currency.id,
 			}));
 
 			setFormFields([
@@ -71,6 +80,13 @@ const useFilters = () => {
 					label: '',
 					placeholder: 'Select tag',
 					optionList: tags,
+				},
+				{
+					name: 'currencyId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select currency',
+					optionList: currencyOptions,
 				},
 			]);
 		}

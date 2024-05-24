@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -56,7 +56,7 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(userTags)) {
+		if (!userTags) {
 			dispatch(getAllTags());
 		} else {
 			const tags = userTags?.map((row) => ({

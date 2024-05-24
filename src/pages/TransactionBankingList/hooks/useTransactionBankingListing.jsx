@@ -9,14 +9,12 @@ import {
 import { LEDGER_TYPES, STATUS_TYPE } from '../constants';
 import {
 	Purpose,
-	TransactionType,
 	Amount,
 	CreatedAt,
 	Id,
 	Status,
 	FromWallet,
 	ToWallet,
-	Tags,
 } from '../TransactionBankingCol';
 
 const useTransactionBankingListing = (userId, filterValues = {}) => {
@@ -131,17 +129,17 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => <Purpose value={cell.value} />,
 			},
-			{
-				Header: 'Tags',
-				accessor: 'userTags',
-				filterable: true,
-				Cell: ({ cell }) => <Tags value={cell?.value} />,
-			},
-			{
-				Header: 'Transaction Type',
-				accessor: 'transactionType',
-				Cell: ({ cell }) => <TransactionType value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Tags',
+			// 	accessor: 'userTags',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Tags value={cell?.value} />,
+			// },
+			// {
+			// 	Header: 'Transaction Type',
+			// 	accessor: 'transactionType',
+			// 	Cell: ({ cell }) => <TransactionType value={cell.value} />,
+			// },
 			{
 				Header: 'Status',
 				accessor: 'status',
