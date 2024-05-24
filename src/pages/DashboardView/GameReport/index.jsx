@@ -92,7 +92,7 @@ const GameReport = () => {
 							</div>
 
 							<div className="d-flex align-items-center">
-								<h4 className="card-title font-size-18 mb-3">Game Report</h4>
+								<h4 className="card-title font-size-18 mb-3">{`Top wagered ${activeGameReportTab}`}</h4>
 								<i
 									role="button"
 									tabIndex="0"
