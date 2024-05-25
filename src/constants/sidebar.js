@@ -342,12 +342,12 @@ const sideBarElements = [
 			},
 		],
 	},
-	{
-		id: 103,
-		isSeparator: true,
-		title: 'Reward administration',
-		groupedModules: [modules.bonus, modules.bonus],
-	},
+	// {
+	// 	id: 103,
+	// 	isSeparator: true,
+	// 	title: 'Reward administration',
+	// 	groupedModules: [modules.bonus, modules.bonus],
+	// },
 	{
 		id: 22,
 		link: '/#',
@@ -402,12 +402,12 @@ const sideBarElements = [
 			},
 		],
 	},
-	{
-		id: 104,
-		isSeparator: true,
-		title: 'Statements',
-		groupedModules: [modules.report, modules.review],
-	},
+	// {
+	// 	id: 104,
+	// 	isSeparator: true,
+	// 	title: 'Statements',
+	// 	groupedModules: [modules.report, modules.review],
+	// },
 	{
 		id: 26,
 		link: '/#',

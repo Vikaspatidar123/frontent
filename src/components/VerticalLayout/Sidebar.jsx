@@ -1,43 +1,37 @@
 // import PropTypes from 'prop-types';
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Logo from '../../assets/images/brand-logo2.png';
 import withRouter from '../Common/withRouter';
-
 // i18n
 import SidebarContent from './SidebarContent';
 
-const Sidebar = () => {
-	const superAdminUser = useSelector(
-		(state) => state.PermissionDetails.superAdminUser
-	);
-	return (
-		<div className="vertical-menu">
-			<div className="navbar-brand-box">
-				<Link to="/" className="logo logo-light">
-					<span className="logo-sm">
-						{/* <img src={logoLightSvg} alt="" height="22" /> */}
-					</span>
-					<span className="logo-lg">
-						{/* <img src={logoLightPng} alt="" height="19" /> */}
-						<h4 className="text-wrap my-2 mt-5 text-muted">
-							{superAdminUser?.firstName || 'Admin'}
-						</h4>
-						{/* <h6 className="text-wrap my-2 text-muted">
-							{superAdminUser?.email}
-						</h6> */}
-					</span>
-				</Link>
-			</div>
-			<div data-simplebar className="h-100">
-				<SidebarContent />
-			</div>
-
-			<div className="sidebar-background" />
+const Sidebar = () => (
+	<div className="vertical-menu">
+		<div className="navbar-brand-box">
+			<Link to="/" className="logo logo-light">
+				<span className="logo-sm">
+					{/* <img src={logoLightSvg} alt="" height="22" /> */}
+				</span>
+				<span className="logo-lg">
+					<img
+						src={Logo}
+						style={{ height: '85px', width: '105px' }}
+						alt=""
+						height="19"
+					/>
+				</span>
+			</Link>
 		</div>
-	);
-};
+		<div data-simplebar className="h-100">
+			<SidebarContent />
+		</div>
+
+		<div className="sidebar-background" />
+	</div>
+);
 
 Sidebar.defaultProps = {
 	// type: '',
