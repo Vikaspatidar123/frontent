@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { LEDGER_PURPOSE, STATUS_TYPE } from './constants';
+import { STATUS_TYPE } from './constants';
 
 const staticFiltersFields = () => [
 	// {
@@ -8,12 +8,12 @@ const staticFiltersFields = () => [
 	// 	placeholder: 'Search by gameId',
 	// 	type: 'search',
 	// },
-	// {
-	// 	name: 'walletId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by walletId',
-	// 	type: 'search',
-	// },
+	{
+		name: 'walletId',
+		fieldType: 'textField',
+		placeholder: 'Search by walletId',
+		type: 'search',
+	},
 	// {
 	// 	name: 'actioneeId',
 	// 	fieldType: 'textField',
@@ -23,25 +23,14 @@ const staticFiltersFields = () => [
 	{
 		name: 'transactionId',
 		fieldType: 'textField',
-		placeholder: 'Search by transaction id',
+		placeholder: 'Search by transactionId',
 		type: 'search',
 	},
 	{
-		name: 'previousTransactionId',
+		name: 'conversionRate',
 		fieldType: 'textField',
-		placeholder: 'Search by previous transaction id',
+		placeholder: 'Search by conversionRate',
 		type: 'search',
-	},
-	{
-		name: 'purpose',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Transaction Type',
-		optionList: LEDGER_PURPOSE.map(({ value, label }) => ({
-			id: value,
-			value,
-			optionLabel: label,
-		})),
 	},
 	{
 		name: 'status',
@@ -74,7 +63,6 @@ const filterValues = () => ({
 	conversionRate: '',
 	previousTransactionId: '',
 	// transactionType: null,
-	purpose: null,
 	status: null,
 });
 
@@ -90,7 +78,6 @@ const filterValidationSchema = () =>
 		transactionId: Yup.string().nullable(),
 		conversionRate: Yup.string().nullable(),
 		previousTransactionId: Yup.string().nullable(),
-		purpose: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

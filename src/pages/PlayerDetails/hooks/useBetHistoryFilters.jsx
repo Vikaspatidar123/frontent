@@ -9,10 +9,7 @@ import {
 } from '../formDetails';
 
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	fetchCasinoTransactionsStart,
-	// fetchCurrenciesStart,
-} from '../../../store/actions';
+import { fetchCasinoTransactionsStart } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
@@ -56,32 +53,6 @@ const useBetHistoryFilters = () => {
 		const initialValues = filterValues();
 		validation.resetForm(initialValues);
 	};
-
-	// useEffect(() => {
-	// 	if (isEmpty(currencies)) {
-	// 		dispatch(
-	// 			fetchCurrenciesStart({
-	// 				// perPage: itemsPerPage,
-	// 				// page: page,
-	// 			})
-	// 		);
-	// 	} else {
-	// 		const currencyField = currencies?.rows?.map((row) => ({
-	// 			optionLabel: row.name,
-	// 			value: row.code,
-	// 		}));
-	// 		setFormFields([
-	// 			{
-	// 				name: 'currencyCode',
-	// 				fieldType: 'select',
-	// 				label: '',
-	// 				placeholder: 'Select a currency',
-	// 				optionList: currencyField,
-	// 			},
-	// 			...staticFiltersFields(),
-	// 		]);
-	// 	}
-	// }, [currencies]);
 
 	useEffect(() => {
 		if (!isFirst?.current && !isEqual(validation.values, prevValues.current)) {

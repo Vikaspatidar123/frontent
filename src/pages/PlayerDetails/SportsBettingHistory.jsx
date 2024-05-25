@@ -11,7 +11,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
 import { CreatedAt, Id, KeyValueCell, StatusData } from './TableCol';
-import { fetchSportsTransactionStart } from '../../store/actions';
+import { fetchSportsBetStart } from '../../store/actions';
 import { getDateTime } from '../../utils/dateFormatter';
 import Filters from '../../components/Common/Filters';
 import useSportBetHistoryFilters from './hooks/useSportBetHistoryFilters';
@@ -26,12 +26,13 @@ const SportsBettingHistory = ({ userId }) => {
 	const [viewModal, setViewModal] = useState(false);
 	const [betSlipData, setBetSlipData] = useState([]);
 
-	const { sportsTransaction, loading: isSportsTransactionLoading } =
-		useSelector((state) => state.SportsTransaction);
+	const { sportsBet, loading: isSportsBetLoading } = useSelector(
+		(state) => state.SportsBet
+	);
 
 	useEffect(() => {
 		dispatch(
-			fetchSportsTransactionStart({
+			fetchSportsBetStart({
 				perPage: itemsPerPage,
 				page: currentPage,
 				email: '',
@@ -40,10 +41,10 @@ const SportsBettingHistory = ({ userId }) => {
 		);
 	}, [currentPage, itemsPerPage]);
 
-	const formattedSportsTransaction = useMemo(() => {
+	const formattedSportsBet = useMemo(() => {
 		const formattedValues = [];
-		if (sportsTransaction) {
-			sportsTransaction?.sportsbookBets?.map((txn) =>
+		if (sportsBet) {
+			sportsBet?.betslips?.map((txn) =>
 				formattedValues.push({
 					id: txn?.id,
 					walletId: txn?.walletId,
@@ -60,7 +61,7 @@ const SportsBettingHistory = ({ userId }) => {
 			);
 		}
 		return formattedValues;
-	}, [sportsTransaction]);
+	}, [sportsBet]);
 
 	const exportComponent = useMemo(() => [
 		{
@@ -68,7 +69,7 @@ const SportsBettingHistory = ({ userId }) => {
 			isDownload: true,
 			tooltip: 'Download as CSV',
 			icon: <i className="mdi mdi-file-download-outline" />,
-			data: formattedSportsTransaction,
+			data: formattedSportsBet,
 		},
 	]);
 
@@ -243,16 +244,16 @@ const SportsBettingHistory = ({ userId }) => {
 						isFilterChanged={isFilterChanged}
 					/>
 					<TableContainer
-						isLoading={isSportsTransactionLoading}
+						isLoading={isSportsBetLoading}
 						columns={columns}
-						data={formattedSportsTransaction}
+						data={formattedSportsBet}
 						isPagination
 						customPageSize={itemsPerPage}
 						tableClass="table-bordered align-middle nowrap mt-2"
 						// paginationDiv="col-sm-12 col-md-7"
 						paginationDiv="justify-content-center"
 						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={sportsTransaction?.totalPages || 0}
+						totalPageCount={sportsBet?.totalPages || 0}
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}

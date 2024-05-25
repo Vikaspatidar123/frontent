@@ -7,14 +7,6 @@ export const LEDGER_PURPOSE = [
 		label: 'Withdraw',
 		value: 'Withdraw',
 	},
-	{
-		label: 'BonusDeposit',
-		value: 'BonusDeposit',
-	},
-	{
-		label: 'BonusWithdraw',
-		value: 'BonusWithdraw',
-	},
 ];
 
 export const LEDGER_TYPES = [

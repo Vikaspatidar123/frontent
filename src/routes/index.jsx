@@ -19,7 +19,7 @@ import SportsListing from '../pages/SportsListing';
 import ReviewManagementList from '../pages/ReviewManagementList';
 import SportsCountriesListing from '../pages/SportsCountriesList';
 import SportsTournamentList from '../pages/SportsTournamentList';
-import SportsTransactionList from '../pages/SportsTransactionList';
+import SportsBetList from '../pages/SportsBetList';
 import CasinoTransactionsList from '../pages/CasinoTransactionsList';
 import WithdrawRequestsList from '../pages/WithdrawRequestsList';
 import CasinoProviders from '../pages/CasinoProviders';
@@ -59,6 +59,7 @@ import ReorderBonus from '../pages/Bonus/ReorderBonus';
 import AddGamesCasinoSubcategory from '../pages/AddGamesCasinoSubcategory';
 import { modules } from '../constants/permissions';
 import ApplicationSettings from '../pages/ApplicationSettings';
+import SportsTransactionsList from '../pages/SportsTransactionsList';
 
 const authProtectedRoutes = [
 	{
@@ -284,8 +285,8 @@ const authProtectedRoutes = [
 		operation: 'R',
 	},
 	{
-		path: '/sports-transactions',
-		component: <SportsTransactionList />,
+		path: '/sports-bets',
+		component: <SportsBetList />,
 		modules: [modules.report],
 		operation: 'R',
 	},
@@ -293,6 +294,12 @@ const authProtectedRoutes = [
 		path: '/casino-transactions',
 		component: <CasinoTransactionsList />,
 		modules: [modules.report],
+		operation: 'R',
+	},
+	{
+		path: '/sports-transactions',
+		component: <SportsTransactionsList />,
+		modules: [modules.sportsbookManagement],
 		operation: 'R',
 	},
 	{

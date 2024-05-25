@@ -1,12 +1,12 @@
 import {
-	FETCH_SPORTS_TRANSACTION_FAIL,
-	FETCH_SPORTS_TRANSACTION_START,
-	FETCH_SPORTS_TRANSACTION_SUCCESS,
-	RESET_SPORTS_TRANSACTION_DATA,
+	FETCH_SPORTS_BET_FAIL,
+	FETCH_SPORTS_BET_START,
+	FETCH_SPORTS_BET_SUCCESS,
+	RESET_SPORTS_BET_DATA,
 } from './actionTypes';
 
 const initialState = {
-	sportsTransaction: null,
+	sportsBet: null,
 	error: '',
 	loading: false,
 };
@@ -16,28 +16,28 @@ const sportsTransactionReducer = (
 	{ type, payload } = {}
 ) => {
 	switch (type) {
-		case FETCH_SPORTS_TRANSACTION_START:
+		case FETCH_SPORTS_BET_START:
 			return {
 				...state,
 				loading: true,
 			};
-		case FETCH_SPORTS_TRANSACTION_FAIL:
+		case FETCH_SPORTS_BET_FAIL:
 			return {
 				...state,
 				loading: false,
 				error: true,
 			};
-		case FETCH_SPORTS_TRANSACTION_SUCCESS:
+		case FETCH_SPORTS_BET_SUCCESS:
 			return {
 				...state,
 				loading: false,
-				sportsTransaction: payload,
+				sportsBet: payload,
 			};
-		case RESET_SPORTS_TRANSACTION_DATA:
+		case RESET_SPORTS_BET_DATA:
 			return {
 				...state,
 				loading: false,
-				sportsTransaction: null,
+				sportsBet: null,
 				error: '',
 			};
 		default:
