@@ -34,6 +34,11 @@ export const LEDGER_PURPOSE = [
 ];
 
 export const BET_TYPES = [
+	{ label: 'Exchange', value: 'exchange' },
+	{ label: 'Sports Book', value: 'sportsbook' },
+];
+
+export const BETSLIP_TYPES = [
 	{ label: 'Single', value: 'single' },
 	{ label: 'Multiple', value: 'multiple' },
 ];

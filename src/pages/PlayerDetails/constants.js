@@ -405,7 +405,7 @@ export const LEDGER_TYPES = [
 	{ label: 'Credit', value: 'credit' },
 ];
 
-export const BET_TYPES = [
+export const BETSLIP_TYPES = [
 	{ label: 'Single', value: 'single' },
 	{ label: 'Multiple', value: 'multiple' },
 ];

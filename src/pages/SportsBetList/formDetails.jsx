@@ -10,7 +10,7 @@ const sportsBookStatus = [
 	{ label: 'Half_lost', value: 'half_lost' },
 ];
 
-const BET_TYPES = [
+const BETSLIP_TYPES = [
 	{ label: 'Single', value: 'single' },
 	{ label: 'Multiple', value: 'multiple' },
 ];
@@ -21,7 +21,7 @@ const staticFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Bet Type',
-		optionList: BET_TYPES.map(({ value, label }) => ({
+		optionList: BETSLIP_TYPES.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
@@ -70,5 +70,5 @@ export {
 	filterValues,
 	filterValidationSchema,
 	sportsBookStatus,
-	BET_TYPES,
+	BETSLIP_TYPES,
 };
