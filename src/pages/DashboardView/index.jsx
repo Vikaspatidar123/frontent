@@ -36,14 +36,14 @@ const DashboardView = ({ t }) => {
 				<Breadcrumbs title={t('Dashboards')} breadcrumbItem={t('Dashboard')} />
 
 				<Row>
-					<Col xl="3">
+					<Col xl="2">
 						<WelcomeComp />
 						<LoggedInPlayer
 							loggedInOptions={loggedInOptions}
 							isLivePlayerLoading={isLivePlayerLoading}
 						/>
 					</Col>
-					<Col xl="9">
+					<Col xl="10">
 						<LivePlayerReports
 							isLivePlayerLoading={isLivePlayerLoading}
 							livePlayerData={livePlayerData}

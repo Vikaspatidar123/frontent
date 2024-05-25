@@ -17,16 +17,21 @@ const useGameReport = () => {
 	const dispatch = useDispatch();
 	const [gameReportDateOption, setGameReportDateOption] = useState('last7days');
 	const [activeGameReportTab, setActiveGameReportTab] = useState(TABS.GAME);
-
+	const [currencyId, setCurrencyId] = useState('');
+	const [orderBy, setOrderBy] = useState('');
 	const { gameReport, isGameReportLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
+
+	const { currencies } = useSelector((state) => state.Currencies);
 
 	const loadGameReport = () => {
 		dispatch(
 			getGameReportStart({
 				tab: activeGameReportTab,
 				dateOptions: gameReportDateOption,
+				orderBy,
+				currencyId,
 			})
 		);
 	};
@@ -35,7 +40,7 @@ const useGameReport = () => {
 		if (activeGameReportTab) {
 			loadGameReport();
 		}
-	}, [activeGameReportTab, gameReportDateOption]);
+	}, [activeGameReportTab, gameReportDateOption, orderBy, currencyId]);
 
 	const gameReportColumn = useMemo(
 		() => [
@@ -95,6 +100,11 @@ const useGameReport = () => {
 		setGameReportDateOption,
 		loadGameReport,
 		isGameReportLoading,
+		currencyId,
+		setCurrencyId,
+		orderBy,
+		setOrderBy,
+		currencies,
 	};
 };
 
