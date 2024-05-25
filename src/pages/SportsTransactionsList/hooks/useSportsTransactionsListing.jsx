@@ -58,6 +58,7 @@ const useSportsTransactionsListing = (filterValues = {}) => {
 		if (sportsTransactions) {
 			sportsTransactions?.sportsbookTransactions?.map((txn) =>
 				formattedValues.push({
+					...txn,
 					id: txn?.id,
 					walletId: txn?.walletId,
 					transactionId: txn?.transactionId,
@@ -88,13 +89,6 @@ const useSportsTransactionsListing = (filterValues = {}) => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'Id',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
-			{
 				Header: 'Transaction Id',
 				accessor: 'transactionId',
 				filterable: true,
@@ -102,8 +96,8 @@ const useSportsTransactionsListing = (filterValues = {}) => {
 			},
 
 			{
-				Header: 'Game ID',
-				accessor: 'gameId',
+				Header: 'Bet id',
+				accessor: 'betId',
 				filterable: true,
 				Cell: ({ cell }) => <GameName value={cell.value} />,
 			},
