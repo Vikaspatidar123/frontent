@@ -806,22 +806,19 @@ export const getField = (
 			return (
 				<>
 					{label && <Label for={name}>{label}</Label>}
-					<InputGroup>
-						<InputGroupText>{adornmentText}</InputGroupText>
-						<CustomInputField
-							type={type}
-							name={name}
-							placeholder={placeholder}
-							value={validation?.values?.[name]}
-							onChange={validation.handleChange}
-							onBlur={validation.handleBlur}
-							invalid={
-								!!(validation.touched?.[name] && validation.errors?.[name])
-							}
-							isError
-							errorMsg={validation.touched?.[name] && validation.errors?.[name]}
-						/>
-					</InputGroup>
+					<CustomInputField
+						type={type}
+						name={name}
+						placeholder={placeholder}
+						value={validation?.values?.[name]}
+						onChange={validation.handleChange}
+						onBlur={validation.handleBlur}
+						invalid={
+							!!(validation.touched?.[name] && validation.errors?.[name])
+						}
+						isError
+						errorMsg={validation.touched?.[name] && validation.errors?.[name]}
+					/>
 				</>
 			);
 		case 'password':

@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { depositSchema } from '../formDetails';
 import FormModal from '../../../components/Common/FormModal';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { depositToOther } from '../../../store/actions';
+import { depositToOther, fetchCurrenciesStart } from '../../../store/actions';
+import { showToastr } from '../../../utils/helpers';
 
 const transactionTypeOptionsList = [
 	{
@@ -17,36 +18,19 @@ const transactionTypeOptionsList = [
 	},
 ];
 
-const walletTypeOptionsList = [
-	{
-		optionLabel: 'Cash',
-		value: 'cash',
-	},
-	{
-		optionLabel: 'Bonus',
-		value: 'bonus',
-	},
-];
-
-const staticFormFields = (currencyCode) => [
+const staticFormFields = (currencySelect) => [
 	{
 		name: 'transactionType',
 		fieldType: 'radioGroup',
 		label: 'Transaction Type',
 		optionList: transactionTypeOptionsList,
 	},
-	{
-		name: 'walletType',
-		fieldType: 'radioGroup',
-		label: 'Wallet Type',
-		optionList: walletTypeOptionsList,
-	},
+	{ ...currencySelect },
 	{
 		name: 'addAmount',
 		fieldType: 'textfieldWithAdornment',
 		label: 'Amount',
 		type: 'number',
-		adornmentText: currencyCode,
 	},
 ];
 
@@ -55,50 +39,76 @@ const ManageMoney = ({ show, header, toggle }) => {
 	const { userDetails, depositToOtherLoading } = useSelector(
 		(state) => state.UserDetails
 	);
-
-	const currencyCode =
-		userDetails?.wallets?.find((wal) => wal?.currency?.default === true)
-			?.currency?.code || '';
+	const { currencies } = useSelector((state) => state.Currencies);
 
 	const handleDepositToOther = (values) => {
 		let purpose = '';
 		if (values?.transactionType === 'deposit') {
-			purpose = values?.walletType === 'cash' ? 'Deposit' : 'BonusDeposit';
+			purpose = 'Deposit';
 		} else {
-			purpose = values?.walletType === 'cash' ? 'Withdraw' : 'BonusWithdraw';
+			purpose = 'Withdraw';
 		}
 
-		const walletId = userDetails?.wallets?.find((wallet) => {
-			if (values?.walletType === 'bonus') {
-				return wallet.currency.code === 'BONUS';
-			}
-			return wallet.currency.code !== 'BONUS';
-		})?.id;
+		const walletId = userDetails?.wallets?.find(
+			(wallet) => wallet.currencyId === values.currencyId
+		)?.currencyId;
+
+		if (!walletId) {
+			showToastr({
+				message: 'Unable to find wallet, please refresh and try again!',
+				type: 'error',
+			});
+			return;
+		}
 
 		dispatch(
 			depositToOther({
 				amount: parseFloat(values?.addAmount.toFixed(2)),
 				walletId: Number(walletId),
 				purpose,
+				userId: userDetails.id,
 			})
 		);
 	};
 
-	const { isOpen, setIsOpen, validation, formFields } = useForm({
+	const { isOpen, setIsOpen, validation, formFields, setFormFields } = useForm({
 		header,
 		validationSchema: depositSchema,
 		initialValues: {
 			addAmount: '',
 			transactionType: '',
-			walletType: '',
+			currencyId: null,
 		},
 		onSubmitEntry: (values, { resetForm }) => {
 			handleDepositToOther(values);
 			resetForm();
 			toggle();
 		},
-		staticFormFields: staticFormFields(currencyCode),
+		staticFormFields: staticFormFields(),
 	});
+
+	useEffect(() => {
+		if (currencies) {
+			setFormFields(
+				staticFormFields({
+					name: 'currencyId',
+					fieldType: 'select',
+					placeholder: 'Select currency',
+					label: 'Select currency',
+					optionList: currencies?.currencies?.map((currency) => ({
+						optionLabel: currency.name,
+						value: currency.id,
+					})),
+				})
+			);
+		}
+	}, [currencies]);
+
+	useEffect(() => {
+		if (!currencies) {
+			dispatch(fetchCurrenciesStart());
+		}
+	}, []);
 
 	useEffect(() => {
 		if (show) setIsOpen(true);
