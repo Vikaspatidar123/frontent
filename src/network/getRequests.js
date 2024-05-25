@@ -126,7 +126,7 @@ const getTransactionBanking = (payload) =>
 
 const getLedgerDetails = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-legders`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}get-ledgers`,
 		payload
 	);
 
@@ -148,9 +148,9 @@ const getCountriesList = (payload) =>
 		payload
 	);
 
-const getSportsTransaction = (payload) =>
+const getSportsBet = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-sportsbook-bets`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}betslip-report`,
 		payload
 	);
 
@@ -162,7 +162,13 @@ const getTournamentsList = (payload) =>
 
 const getCasinoTransactions = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-casino-bets`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}casino-transactions`,
+		payload
+	);
+
+const getSportsTransactions = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}sportsbook-transactions`,
 		payload
 	);
 
@@ -353,7 +359,7 @@ export {
 	getReviewManagement,
 	getCountriesList,
 	getTournamentsList,
-	getSportsTransaction,
+	getSportsBet,
 	getCasinoTransactions,
 	getWithdrawRequests,
 	getAllCasinoProviders,
@@ -393,4 +399,5 @@ export {
 	getSubCategoryAddedGames,
 	getAllUserTags,
 	getLedgerDetails,
+	getSportsTransactions,
 };

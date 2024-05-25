@@ -6,10 +6,10 @@ import {
 	filterValues,
 	staticFiltersFields,
 } from '../formDetails';
+
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
-	// fetchCurrenciesStart,
-	fetchSportsTransactionStart,
+	fetchCasinoTransactionsStart,
 	getAllTags,
 } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
@@ -18,16 +18,16 @@ let debounce;
 const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
-	const { userTags } = useSelector((state) => state.UserDetails);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 	// const { currencies } = useSelector((state) => state.Currencies);
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
+	const { userTags } = useSelector((state) => state.UserDetails);
 
 	const fetchData = (values) => {
 		dispatch(
-			fetchSportsTransactionStart({
+			fetchCasinoTransactionsStart({
 				perPage: itemsPerPage,
 				page: 1,
 				...values,
@@ -43,17 +43,12 @@ const useFilters = () => {
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields,
+		staticFormFields: staticFiltersFields(),
 	});
 
 	// const handleAdvance = () => {
 	//   toggleAdvance();
 	// };
-
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
-	};
 
 	useEffect(() => {
 		if (!userTags) {
@@ -77,16 +72,10 @@ const useFilters = () => {
 		}
 	}, [userTags]);
 
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
+	const handleClear = () => {
+		const initialValues = filterValues();
+		validation.resetForm(initialValues);
+	};
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
@@ -102,6 +91,17 @@ const useFilters = () => {
 		}
 		return () => clearTimeout(debounce);
 	}, [validation.values]);
+
+	const actionButtons = useMemo(() => [
+		{
+			type: 'button', // if you pass type button handle the click event
+			label: '',
+			icon: 'mdi mdi-refresh',
+			handleClick: handleClear,
+			tooltip: 'Clear filter',
+			id: 'clear',
+		},
+	]);
 
 	return {
 		toggleAdvance,

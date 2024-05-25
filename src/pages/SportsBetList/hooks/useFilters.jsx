@@ -7,27 +7,23 @@ import {
 	staticFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	fetchCurrenciesStart,
-	fetchTransactionBankingStart,
-	getAllTags,
-} from '../../../store/actions';
+import { fetchSportsBetStart, getAllTags } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
 const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
+	const { userTags } = useSelector((state) => state.UserDetails);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const { currencies } = useSelector((state) => state.Currencies);
+	// const { currencies } = useSelector((state) => state.Currencies);
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
-	const { userTags } = useSelector((state) => state.UserDetails);
 
 	const fetchData = (values) => {
 		dispatch(
-			fetchTransactionBankingStart({
+			fetchSportsBetStart({
 				perPage: itemsPerPage,
 				page: 1,
 				...values,
@@ -43,32 +39,25 @@ const useFilters = () => {
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields(),
+		staticFormFields: staticFiltersFields,
 	});
 
 	// const handleAdvance = () => {
-	// 	toggleAdvance();
+	//   toggleAdvance();
 	// };
+
+	const handleClear = () => {
+		const initialValues = filterValues();
+		validation.resetForm(initialValues);
+	};
 
 	useEffect(() => {
 		if (!userTags) {
 			dispatch(getAllTags());
-		}
-		if (!currencies) {
-			dispatch(fetchCurrenciesStart());
-		}
-	}, []);
-
-	useEffect(() => {
-		if (userTags && currencies) {
+		} else {
 			const tags = userTags?.map((row) => ({
 				optionLabel: row?.tag,
 				value: row.id,
-			}));
-
-			const currencyOptions = currencies?.currencies?.map((currency) => ({
-				optionLabel: currency.code,
-				value: currency.id,
 			}));
 
 			setFormFields([
@@ -80,21 +69,20 @@ const useFilters = () => {
 					placeholder: 'Select tag',
 					optionList: tags,
 				},
-				{
-					name: 'currencyId',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Select currency',
-					optionList: currencyOptions,
-				},
 			]);
 		}
-	}, [userTags, currencies]);
+	}, [userTags]);
 
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
-	};
+	const actionButtons = useMemo(() => [
+		{
+			type: 'button', // if you pass type button handle the click event
+			label: '',
+			icon: 'mdi mdi-refresh',
+			handleClick: handleClear,
+			tooltip: 'Clear filter',
+			id: 'clear',
+		},
+	]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
@@ -110,17 +98,6 @@ const useFilters = () => {
 		}
 		return () => clearTimeout(debounce);
 	}, [validation.values]);
-
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
 
 	return {
 		toggleAdvance,

@@ -51,7 +51,7 @@ const ManageMoney = ({ show, header, toggle }) => {
 
 		const walletId = userDetails?.wallets?.find(
 			(wallet) => wallet.currencyId === values.currencyId
-		)?.currencyId;
+		)?.id;
 
 		if (!walletId) {
 			showToastr({

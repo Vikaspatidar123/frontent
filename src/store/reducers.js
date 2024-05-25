@@ -56,7 +56,7 @@ import SportsList from './sportsBook/reducer';
 import ReviewManagement from './reviewManagement/reducer';
 
 // Sports Transaction
-import SportsTransaction from './sportsTransaction/reducer';
+import SportsBet from './sportsBet/reducer';
 
 // Casino Transaction
 import CasinoTransactions from './casinoTransactions/reducer';
@@ -101,6 +101,8 @@ import RestrictedCountries from './restrictedCountries/reducer';
 // Create Update Bonus
 import CreateUpdateBonus from './createUpdateBonus/reducer';
 
+import SportsTransaction from './sportsTransactions/reducer';
+
 const rootReducer = combineReducers({
 	AdminRoles,
 	Countries,
@@ -127,8 +129,9 @@ const rootReducer = combineReducers({
 	Currencies,
 	LanguageManagement,
 	TransactionBanking,
-	ReviewManagement,
 	SportsTransaction,
+	ReviewManagement,
+	SportsBet,
 	CasinoTransactions,
 	WithdrawRequests,
 	SportsMatches,

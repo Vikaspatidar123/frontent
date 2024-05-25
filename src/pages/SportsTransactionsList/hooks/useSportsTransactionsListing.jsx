@@ -3,10 +3,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import moment from 'moment';
-import {
-	fetchCasinoTransactionsStart,
-	resetCasinoTransactionsData,
-} from '../../../store/actions';
+import { resetCasinoTransactionsData } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 // import { STATUS_TYPE } from '../constants';
 import {
@@ -23,25 +20,24 @@ import {
 	Tags,
 	ToWallet,
 	// UserEmail,
-} from '../CasinoTransactionsListCol';
+} from '../SportsTransactionsListCol';
 import { STATUS_TYPE } from '../constants';
-// import { modules } from '../../../constants/permissions';
-// import { getAccessToken } from '../../../network/storageUtils';
-// import { downloadFileInNewWindow } from '../../../utils/helpers';
+import { fetchSportsTransactionsStart } from '../../../store/sportsTransactions/actions';
 
-const useCasinoTransactionsListing = (filterValues = {}) => {
+const useSportsTransactionsListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
-	const { casinoTransactions, loading: isCasinoTransactionsLoading } =
-		useSelector((state) => state.CasinoTransactions);
+	const { sportsTransactions, loading } = useSelector(
+		(state) => state.SportsTransaction
+	);
 	const superAdminUser = useSelector(
 		(state) => state.PermissionDetails.superAdminUser
 	);
 
 	useEffect(() => {
 		dispatch(
-			fetchCasinoTransactionsStart({
+			fetchSportsTransactionsStart({
 				perPage: itemsPerPage,
 				page: currentPage,
 				...filterValues,
@@ -57,12 +53,11 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		setItemsPerPage(value);
 	};
 
-	const formattedCasinoTransactions = useMemo(() => {
+	const formattedSportsTransactions = useMemo(() => {
 		const formattedValues = [];
-		if (casinoTransactions) {
-			casinoTransactions?.casinoTransactions?.map((txn) =>
+		if (sportsTransactions) {
+			sportsTransactions?.sportsbookTransactions?.map((txn) =>
 				formattedValues.push({
-					...txn,
 					id: txn?.id,
 					walletId: txn?.walletId,
 					transactionId: txn?.transactionId,
@@ -88,23 +83,24 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 			);
 		}
 		return formattedValues;
-	}, [casinoTransactions]);
+	}, [sportsTransactions]);
 
 	const columns = useMemo(
 		() => [
+			{
+				Header: 'Id',
+				accessor: 'id',
+				notHidable: true,
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
 			{
 				Header: 'Transaction Id',
 				accessor: 'transactionId',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
-			{
-				Header: 'Previous Transaction',
-				accessor: 'previousTransactionId',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+
 			{
 				Header: 'Game ID',
 				accessor: 'gameId',
@@ -175,16 +171,16 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 			isDownload: true,
 			tooltip: 'Download as CSV',
 			icon: <i className="mdi mdi-file-download-outline" />,
-			data: formattedCasinoTransactions,
+			data: formattedSportsTransactions,
 		},
 	]);
 
 	return {
 		currentPage,
 		setCurrentPage,
-		totalCasinoTransactionsCount: casinoTransactions?.totalPages || 0,
-		isCasinoTransactionsLoading,
-		formattedCasinoTransactions,
+		totalSportsTransactionsCount: sportsTransactions?.totalPages || 0,
+		loading,
+		formattedSportsTransactions,
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
@@ -192,4 +188,4 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 	};
 };
 
-export default useCasinoTransactionsListing;
+export default useSportsTransactionsListing;

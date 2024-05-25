@@ -4,26 +4,22 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import {
-	fetchSportsTransactionStart,
-	resetSportsTransactionsData,
+	fetchSportsBetStart,
+	resetSportsBetData,
 } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
-import {
-	CreatedAt,
-	Id,
-	KeyValueCell,
-	Status,
-} from '../SportsTransactionListCol';
+import { CreatedAt, Id, KeyValueCell, Status } from '../SportsBetListCol';
 import { BET_TYPES, sportsBookStatus } from '../formDetails';
 
-const useSportsTransactionListing = (filterValues = {}) => {
+const useSportsBetListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [viewModal, setViewModal] = useState(false);
 	const [betSlipData, setBetSlipData] = useState([]);
-	const { sportsTransaction, loading: isSportsTransactionLoading } =
-		useSelector((state) => state.SportsTransaction);
+	const { sportsBet, loading: isSportsBetLoading } = useSelector(
+		(state) => state.SportsBet
+	);
 
 	const onChangeRowsPerPage = (value) => {
 		setCurrentPage(1);
@@ -31,7 +27,7 @@ const useSportsTransactionListing = (filterValues = {}) => {
 	};
 	useEffect(() => {
 		dispatch(
-			fetchSportsTransactionStart({
+			fetchSportsBetStart({
 				perPage: itemsPerPage,
 				page: currentPage,
 				...filterValues,
@@ -39,13 +35,13 @@ const useSportsTransactionListing = (filterValues = {}) => {
 		);
 	}, [currentPage, itemsPerPage]);
 
-	// resetting sports transactions listing redux state
-	useEffect(() => () => dispatch(resetSportsTransactionsData()), []);
+	// resetting sports bet listing redux state
+	useEffect(() => () => dispatch(resetSportsBetData()), []);
 
-	const formattedSportsTransaction = useMemo(() => {
+	const formattedSportsBet = useMemo(() => {
 		const formattedValues = [];
-		if (sportsTransaction) {
-			sportsTransaction?.sportsbookBets?.map((txn) =>
+		if (sportsBet) {
+			sportsBet?.betslips?.map((txn) =>
 				formattedValues.push({
 					id: txn?.id,
 					walletId: txn?.walletId,
@@ -62,7 +58,7 @@ const useSportsTransactionListing = (filterValues = {}) => {
 			);
 		}
 		return formattedValues;
-	}, [sportsTransaction]);
+	}, [sportsBet]);
 
 	const columns = useMemo(
 		() => [
@@ -210,16 +206,16 @@ const useSportsTransactionListing = (filterValues = {}) => {
 			isDownload: true,
 			tooltip: 'Download as CSV',
 			icon: <i className="mdi mdi-file-download-outline" />,
-			data: formattedSportsTransaction,
+			data: formattedSportsBet,
 		},
 	]);
 
 	return {
 		currentPage,
 		setCurrentPage,
-		totalSportsTransactionCount: sportsTransaction?.totalPages || 0,
-		isSportsTransactionLoading,
-		formattedSportsTransaction,
+		totalSportsBetCount: sportsBet?.totalPages || 0,
+		isSportsBetLoading,
+		formattedSportsBet,
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
@@ -231,4 +227,4 @@ const useSportsTransactionListing = (filterValues = {}) => {
 	};
 };
 
-export default useSportsTransactionListing;
+export default useSportsBetListing;

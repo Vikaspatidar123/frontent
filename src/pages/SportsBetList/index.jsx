@@ -4,14 +4,14 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import useSportsTransactionListing from './hooks/useSportsTransactionListing';
+import useSportsBetListing from './hooks/useSportsBetListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import ModalView from '../../components/Common/Modal';
 
-const SportsTransactionList = ({ t }) => {
+const SportsBetList = ({ t }) => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
@@ -27,9 +27,9 @@ const SportsTransactionList = ({ t }) => {
 	const {
 		currentPage,
 		setCurrentPage,
-		totalSportsTransactionCount,
-		isSportsTransactionLoading,
-		formattedSportsTransaction,
+		totalSportsBetCount,
+		isSportsBetLoading,
+		formattedSportsBet,
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
@@ -38,17 +38,14 @@ const SportsTransactionList = ({ t }) => {
 		setViewModal,
 		formattedBetSlips,
 		betSlipColumns,
-	} = useSportsTransactionListing(filterValidation.values);
+	} = useSportsBetListing(filterValidation.values);
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				{showBreadcrumb && (
-					<Breadcrumb
-						title={t('Reports')}
-						breadcrumbItem={t('Sports Transactions')}
-					/>
+					<Breadcrumb title={t('Reports')} breadcrumbItem={t('Sports Bets')} />
 				)}
 				<Row>
 					<Col lg="12">
@@ -56,7 +53,7 @@ const SportsTransactionList = ({ t }) => {
 							<CrudSection
 								buttonList={[]}
 								exportComponent={exportComponent}
-								title="Sports Transactions"
+								title="Sports Bets"
 							/>
 							<CardBody>
 								<Filters
@@ -68,16 +65,16 @@ const SportsTransactionList = ({ t }) => {
 									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
-									isLoading={isSportsTransactionLoading}
+									isLoading={isSportsBetLoading}
 									columns={columns}
-									data={formattedSportsTransaction}
+									data={formattedSportsBet}
 									isPagination
 									customPageSize={itemsPerPage}
 									tableClass="table-bordered align-middle nowrap mt-2"
 									// paginationDiv="col-sm-12 col-md-7"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalSportsTransactionCount}
+									totalPageCount={totalSportsBetCount}
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
@@ -107,12 +104,12 @@ const SportsTransactionList = ({ t }) => {
 	);
 };
 
-SportsTransactionList.propTypes = {
+SportsBetList.propTypes = {
 	t: PropTypes.func,
 };
 
-SportsTransactionList.defaultProps = {
+SportsBetList.defaultProps = {
 	t: (string) => string,
 };
 
-export default SportsTransactionList;
+export default SportsBetList;
