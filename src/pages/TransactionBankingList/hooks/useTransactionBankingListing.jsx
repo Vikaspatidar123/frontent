@@ -6,7 +6,7 @@ import {
 	fetchTransactionBankingStart,
 	resetTransactionBankingData,
 } from '../../../store/actions';
-import { LEDGER_TYPES, STATUS_TYPE } from '../constants';
+import { STATUS_TYPE } from '../constants';
 import {
 	Purpose,
 	Amount,
@@ -15,6 +15,7 @@ import {
 	Status,
 	FromWallet,
 	ToWallet,
+	Tags,
 } from '../TransactionBankingCol';
 
 const useTransactionBankingListing = (userId, filterValues = {}) => {
@@ -55,9 +56,6 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 					amount: transaction?.ledger?.amount || '-',
 					purpose: transaction?.ledger?.purpose || '-',
 					currency: transaction?.ledger?.currency?.code || '-',
-					transactionType: LEDGER_TYPES.find(
-						(type) => type.value === transaction?.ledger?.type
-					)?.label,
 					from: transaction?.ledger?.fromWalletId
 						? transaction?.user?.username
 						: superAdminUser?.username,
@@ -75,15 +73,6 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 							?.map((tags) => tags?.tag?.tag)
 							?.join(', ') || '-',
 				};
-
-				if (transaction?.fromAdminWallet && transaction?.toUserWallet) {
-					transactionData.from = transaction?.adminUser?.username;
-					transactionData.to = transaction?.toUserWallet?.user?.username;
-				} else if (transaction?.fromUserWallet && transaction?.toAdminWallet) {
-					transactionData.from = transaction?.fromUserWallet?.user?.username;
-					transactionData.to = transaction?.adminUser?.username;
-				}
-
 				formattedValues.push(transactionData);
 				return [];
 			});
@@ -96,12 +85,6 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 			{
 				Header: 'Ledger Id',
 				accessor: 'ledgerId',
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
-			{
-				Header: 'Currency',
-				accessor: 'currency',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -121,7 +104,18 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
-				Cell: ({ cell }) => <Amount value={cell.value} />,
+				Cell: ({ cell }) => (
+					<Amount
+						value={cell.value}
+						type={cell?.row?.original?.ledger?.fromWalletId}
+					/>
+				),
+			},
+			{
+				Header: 'Currency',
+				accessor: 'currency',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'Purpose',
@@ -129,17 +123,12 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => <Purpose value={cell.value} />,
 			},
-			// {
-			// 	Header: 'Tags',
-			// 	accessor: 'userTags',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <Tags value={cell?.value} />,
-			// },
-			// {
-			// 	Header: 'Transaction Type',
-			// 	accessor: 'transactionType',
-			// 	Cell: ({ cell }) => <TransactionType value={cell.value} />,
-			// },
+			{
+				Header: 'Tags',
+				accessor: 'userTags',
+				filterable: true,
+				Cell: ({ cell }) => <Tags value={cell?.value} />,
+			},
 			{
 				Header: 'Status',
 				accessor: 'status',

@@ -8,17 +8,26 @@ const UserEmail = ({ value }) => value ?? '';
 
 const GameName = ({ value }) => value ?? '-';
 
-const ActionType = ({ value }) => value ?? '';
+const ActionType = ({ value }) => value ?? '-';
 
-const CurrencyCode = ({ value }) =>
-	value ? <div className="text-primary">{value}</div> : '-';
+const CurrencyCode = ({ value }) => value ?? '-';
+
+const FromWallet = ({ value }) => value ?? '-';
+
+const ToWallet = ({ value }) => value ?? '-';
 
 const ConversionRate = ({ value }) => value ?? '';
 
 const Purpose = ({ value }) => value ?? '';
 
-const Amount = ({ value }) =>
-	value ? <div className="text-success">{value}</div> : '-';
+const Amount = ({ value, type }) =>
+	value ? (
+		<div className={type === 'Debit' ? 'text-danger' : 'text-success'}>
+			{value}
+		</div>
+	) : (
+		'-'
+	);
 
 const BonusMoney = ({ value }) =>
 	value ? (
@@ -56,4 +65,6 @@ export {
 	ConversionRate,
 	Purpose,
 	Tags,
+	FromWallet,
+	ToWallet,
 };
