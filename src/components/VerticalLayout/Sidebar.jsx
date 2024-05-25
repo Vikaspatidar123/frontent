@@ -18,7 +18,7 @@ const Sidebar = () => (
 				<span className="logo-lg">
 					<img
 						src={Logo}
-						style={{ height: '85px', width: '105px' }}
+						style={{ height: '59px', width: '60px' }}
 						alt=""
 						height="19"
 					/>

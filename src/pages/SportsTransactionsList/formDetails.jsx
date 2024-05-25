@@ -1,36 +1,29 @@
 import * as Yup from 'yup';
-import { STATUS_TYPE } from './constants';
+import { LEDGER_PURPOSE, STATUS_TYPE } from './constants';
 
 const staticFiltersFields = () => [
-	// {
-	// 	name: 'gameId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by gameId',
-	// 	type: 'search',
-	// },
-	{
-		name: 'walletId',
-		fieldType: 'textField',
-		placeholder: 'Search by walletId',
-		type: 'search',
-	},
-	// {
-	// 	name: 'actioneeId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by actioneeId',
-	// 	type: 'search',
-	// },
 	{
 		name: 'transactionId',
 		fieldType: 'textField',
-		placeholder: 'Search by transactionId',
+		placeholder: 'Search by transaction id',
 		type: 'search',
 	},
 	{
-		name: 'conversionRate',
+		name: 'betId',
 		fieldType: 'textField',
-		placeholder: 'Search by conversionRate',
+		placeholder: 'Search by bet id',
 		type: 'search',
+	},
+	{
+		name: 'purpose',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Transaction Type',
+		optionList: LEDGER_PURPOSE.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
 	},
 	{
 		name: 'status',

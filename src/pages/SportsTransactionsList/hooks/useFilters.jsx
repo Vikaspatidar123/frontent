@@ -8,11 +8,9 @@ import {
 } from '../formDetails';
 
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	fetchCasinoTransactionsStart,
-	getAllTags,
-} from '../../../store/actions';
+import { fetchCurrenciesStart, getAllTags } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { fetchSportsTransactionsStart } from '../../../store/sportsTransactions/actions';
 
 let debounce;
 const useFilters = () => {
@@ -24,10 +22,11 @@ const useFilters = () => {
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 	const { userTags } = useSelector((state) => state.UserDetails);
+	const { currencies } = useSelector((state) => state.Currencies);
 
 	const fetchData = (values) => {
 		dispatch(
-			fetchCasinoTransactionsStart({
+			fetchSportsTransactionsStart({
 				perPage: itemsPerPage,
 				page: 1,
 				...values,
@@ -46,17 +45,25 @@ const useFilters = () => {
 		staticFormFields: staticFiltersFields(),
 	});
 
-	// const handleAdvance = () => {
-	//   toggleAdvance();
-	// };
-
 	useEffect(() => {
 		if (!userTags) {
 			dispatch(getAllTags());
-		} else {
+		}
+		if (!currencies) {
+			dispatch(fetchCurrenciesStart());
+		}
+	}, []);
+
+	useEffect(() => {
+		if (userTags && currencies) {
 			const tags = userTags?.map((row) => ({
 				optionLabel: row?.tag,
 				value: row.id,
+			}));
+
+			const currencyOptions = currencies?.currencies?.map((currency) => ({
+				optionLabel: currency.code,
+				value: currency.id,
 			}));
 
 			setFormFields([
@@ -68,9 +75,16 @@ const useFilters = () => {
 					placeholder: 'Select tag',
 					optionList: tags,
 				},
+				{
+					name: 'currencyId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select currency',
+					optionList: currencyOptions,
+				},
 			]);
 		}
-	}, [userTags]);
+	}, [userTags, currencies]);
 
 	const handleClear = () => {
 		const initialValues = filterValues();
