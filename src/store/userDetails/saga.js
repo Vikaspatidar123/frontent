@@ -378,7 +378,7 @@ function* depositToOtherWorker(action) {
 		showToastr({
 			message:
 				payload.amount > 0
-					? `Deposit Successful`
+					? `${payload?.purpose || 'Deposit'} Successful`
 					: 'Amount Removed from Wallet Successful',
 			type: 'success',
 		});

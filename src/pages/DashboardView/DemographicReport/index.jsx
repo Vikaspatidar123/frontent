@@ -76,13 +76,13 @@ const DemographicReport = () => {
 							</div>
 
 							<Row>
-								<Col xl="4">
+								<Col xl="7">
 									<GraphicChart
 										demoGrapFormatedData={demoGrapFormatedData}
 										demoGraphOptions={demoGraphOptions}
 									/>
 								</Col>
-								<Col xl="8">
+								<Col xl="5">
 									<DemoGraphicTable
 										demoGraphicData={demoGraphicData}
 										demoGraphColumn={demoGraphColumn}

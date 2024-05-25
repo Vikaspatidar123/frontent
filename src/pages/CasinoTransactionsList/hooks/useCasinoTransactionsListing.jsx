@@ -13,17 +13,18 @@ import {
 	ActionType,
 	Amount,
 	// BonusMoney,
-	ConversionRate,
 	CreatedAt,
 	CurrencyCode,
+	FromWallet,
 	GameName,
 	Id,
 	Purpose,
 	Status,
 	Tags,
+	ToWallet,
 	// UserEmail,
 } from '../CasinoTransactionsListCol';
-import { LEDGER_TYPES, STATUS_TYPE } from '../constants';
+import { STATUS_TYPE } from '../constants';
 // import { modules } from '../../../constants/permissions';
 // import { getAccessToken } from '../../../network/storageUtils';
 // import { downloadFileInNewWindow } from '../../../utils/helpers';
@@ -34,6 +35,9 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const { casinoTransactions, loading: isCasinoTransactionsLoading } =
 		useSelector((state) => state.CasinoTransactions);
+	const superAdminUser = useSelector(
+		(state) => state.PermissionDetails.superAdminUser
+	);
 
 	useEffect(() => {
 		dispatch(
@@ -63,11 +67,15 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 					transactionId: txn?.transactionId,
 					gameId: txn?.gameId,
 					amount: txn?.ledger?.amount,
-					currencyCode: txn?.wallet?.currency?.code,
+					currencyCode: txn?.ledger?.currency?.code,
 					conversionRate: txn?.conversionRate,
-					actionType: LEDGER_TYPES.find(
-						(type) => type.value === txn?.ledger?.type
-					)?.label,
+					actionType: txn?.ledger?.fromWalletId ? 'Debit' : 'Credit',
+					from: txn?.ledger?.fromWalletId
+						? txn?.user?.username
+						: superAdminUser?.username,
+					to: txn?.ledger?.toWalletId
+						? txn?.user?.username
+						: superAdminUser?.username,
 					purpose: txn?.ledger?.purpose,
 					status: STATUS_TYPE.find((status) => status.value === txn?.status)
 						?.label,
@@ -96,6 +104,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
+
 			{
 				Header: 'Game ID',
 				accessor: 'gameId',
@@ -103,16 +112,24 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <GameName value={cell.value} />,
 			},
 			{
-				Header: 'Wallet Id',
-				accessor: 'walletId',
+				Header: 'From',
+				accessor: 'from',
 				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
+				Cell: ({ cell }) => <FromWallet value={cell.value} />,
+			},
+			{
+				Header: 'To',
+				accessor: 'to',
+				filterable: true,
+				Cell: ({ cell }) => <ToWallet value={cell.value} />,
 			},
 			{
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
-				Cell: ({ cell }) => <Amount value={cell.value} />,
+				Cell: ({ cell }) => (
+					<Amount value={cell.value} type={cell?.row?.original?.actionType} />
+				),
 			},
 			{
 				Header: 'Currency',
@@ -121,21 +138,16 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
 			},
 			{
-				Header: 'Tags',
-				accessor: 'userTags',
-				filterable: true,
-				Cell: ({ cell }) => <Tags value={cell?.value} />,
-			},
-			{
-				Header: 'Conversion Rate',
-				accessor: 'conversionRate',
-				Cell: ({ cell }) => <ConversionRate value={cell.value} />,
-			},
-			{
 				Header: 'Action Type',
 				accessor: 'actionType',
 				filterable: true,
 				Cell: ({ cell }) => <ActionType value={cell.value} />,
+			},
+			{
+				Header: 'Tags',
+				accessor: 'userTags',
+				filterable: true,
+				Cell: ({ cell }) => <Tags value={cell?.value} />,
 			},
 			{
 				Header: 'Purpose',

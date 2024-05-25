@@ -7,17 +7,20 @@ import { Delta, RowName, Today, Yesterday } from '../KpiListCol';
 
 const useKpiSummary = () => {
 	const dispatch = useDispatch();
-	const [activeKpiSummTab, setActiveKpiSummTab] = useState(TABS.SPORT);
+	const [activeKpiSummTab, setActiveKpiSummTab] = useState(TABS.CASINO);
 	const [kpiSummaryDate, setKpiSummaryDate] = useState('today');
+	const [currencyId, setCurrencyId] = useState('');
 	const { kPISummary, isKpiSummaryLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
+	const { currencies } = useSelector((state) => state.Currencies);
 
 	const loadKPISummary = () => {
 		dispatch(
 			getKpiSummaryStart({
 				tab: activeKpiSummTab,
 				dateOptions: kpiSummaryDate,
+				currencyId,
 			})
 		);
 	};
@@ -26,7 +29,7 @@ const useKpiSummary = () => {
 		if (activeKpiSummTab) {
 			loadKPISummary();
 		}
-	}, [activeKpiSummTab, kpiSummaryDate]);
+	}, [activeKpiSummTab, kpiSummaryDate, currencyId]);
 
 	const formattedKpiSummary = useMemo(() => {
 		if (kPISummary?.length) {
@@ -99,6 +102,9 @@ const useKpiSummary = () => {
 		loadKPISummary,
 		kpiSummaryDate,
 		setKpiSummaryDate,
+		currencyId,
+		setCurrencyId,
+		currencies,
 	};
 };
 

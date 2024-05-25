@@ -6,10 +6,9 @@ import {
 	fetchTransactionBankingStart,
 	resetTransactionBankingData,
 } from '../../../store/actions';
-import { LEDGER_TYPES, STATUS_TYPE } from '../constants';
+import { STATUS_TYPE } from '../constants';
 import {
 	Purpose,
-	TransactionType,
 	Amount,
 	CreatedAt,
 	Id,
@@ -25,7 +24,9 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const { transactionBanking, loading: isTransactionBankingLoading } =
 		useSelector((state) => state.TransactionBanking);
-
+	const superAdminUser = useSelector(
+		(state) => state.PermissionDetails.superAdminUser
+	);
 	const onChangeRowsPerPage = (value) => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
@@ -51,12 +52,16 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 			transactionBanking?.transactions?.map((transaction) => {
 				const transactionData = {
 					...transaction,
-					ledgerId: transaction?.ledgerId,
-					amount: transaction?.ledger?.amount,
-					purpose: transaction?.ledger?.purpose,
-					transactionType: LEDGER_TYPES.find(
-						(type) => type.value === transaction?.ledger?.type
-					)?.label,
+					ledgerId: transaction?.ledgerId || '-',
+					amount: transaction?.ledger?.amount || '-',
+					purpose: transaction?.ledger?.purpose || '-',
+					currency: transaction?.ledger?.currency?.code || '-',
+					from: transaction?.ledger?.fromWalletId
+						? transaction?.user?.username
+						: superAdminUser?.username,
+					to: transaction?.ledger?.toWalletId
+						? transaction?.user?.username
+						: superAdminUser?.username,
 					status: STATUS_TYPE.find(
 						(status) => status.value === transaction?.status
 					)?.label,
@@ -68,15 +73,6 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 							?.map((tags) => tags?.tag?.tag)
 							?.join(', ') || '-',
 				};
-
-				if (transaction?.fromAdminWallet && transaction?.toUserWallet) {
-					transactionData.from = transaction?.adminUser?.username;
-					transactionData.to = transaction?.toUserWallet?.user?.username;
-				} else if (transaction?.fromUserWallet && transaction?.toAdminWallet) {
-					transactionData.from = transaction?.fromUserWallet?.user?.username;
-					transactionData.to = transaction?.adminUser?.username;
-				}
-
 				formattedValues.push(transactionData);
 				return [];
 			});
@@ -108,7 +104,18 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
-				Cell: ({ cell }) => <Amount value={cell.value} />,
+				Cell: ({ cell }) => (
+					<Amount
+						value={cell.value}
+						type={cell?.row?.original?.ledger?.fromWalletId}
+					/>
+				),
+			},
+			{
+				Header: 'Currency',
+				accessor: 'currency',
+				filterable: true,
+				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
 				Header: 'Purpose',
@@ -121,11 +128,6 @@ const useTransactionBankingListing = (userId, filterValues = {}) => {
 				accessor: 'userTags',
 				filterable: true,
 				Cell: ({ cell }) => <Tags value={cell?.value} />,
-			},
-			{
-				Header: 'Transaction Type',
-				accessor: 'transactionType',
-				Cell: ({ cell }) => <TransactionType value={cell.value} />,
 			},
 			{
 				Header: 'Status',

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { getLivePlayerInfoStart } from '../../../store/dashboardView/actions';
 
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+import { fetchCurrenciesStart } from '../../../store/actions';
 
 const useDashboardView = () => {
 	const dispatch = useDispatch();
@@ -11,6 +12,8 @@ const useDashboardView = () => {
 	const { isLivePlayerLoading, livePlayerData } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
+
+	const { currencies } = useSelector((state) => state.Currencies);
 
 	const [loggedInOptions, setLoggedInOptions] = useState({});
 
@@ -20,6 +23,12 @@ const useDashboardView = () => {
 			// Dispatch an action to reset Redux state here
 			dispatch({ type: 'RESET_DASHBOARD_STATE' });
 		};
+	}, []);
+
+	useEffect(() => {
+		if (!currencies) {
+			dispatch(fetchCurrenciesStart());
+		}
 	}, []);
 
 	useEffect(() => {

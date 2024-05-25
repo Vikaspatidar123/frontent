@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
-import { Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
+import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/Table';
@@ -24,6 +24,9 @@ const KpiSummary = () => {
 		kpiSummaryDate,
 		setKpiSummaryDate,
 		loadKPISummary,
+		currencyId,
+		setCurrencyId,
+		currencies,
 	} = useKpiSummary();
 
 	const { isGranted } = usePermission();
@@ -48,13 +51,13 @@ const KpiSummary = () => {
 
 	const tabData = [
 		{
-			id: TABS.SPORT,
-			title: 'SPORTS',
+			id: TABS.CASINO,
+			title: 'CASINO',
 			component: tabComponent,
 		},
 		{
-			id: TABS.CASINO,
-			title: 'CASINO',
+			id: TABS.SPORT,
+			title: 'SPORTS',
 			component: tabComponent,
 		},
 	];
@@ -70,9 +73,43 @@ const KpiSummary = () => {
 			<Card>
 				<CardBody>
 					{isGranted(modules.kpiSummaryReport, 'R') ? (
-						<>
-							<div className="float-end">
+						<Row>
+							<Col xl={6} className="d-flex align-items-center my-2">
+								<h4 className="card-title font-size-18 mb-3">KPI Summary</h4>
+								<i
+									role="button"
+									tabIndex="0"
+									className="mdi mdi-refresh mx-2 font-size-24 mb-3"
+									style={{ cursor: 'pointer' }}
+									id="refreshKpiSummary"
+									onClick={loadKPISummary}
+									onKeyDown={(e) => {
+										if (e.key === 'Enter') {
+											loadKPISummary();
+										}
+									}}
+								/>
+								<UncontrolledTooltip placement="top" target="refreshKpiSummary">
+									Refresh
+								</UncontrolledTooltip>
+							</Col>
+							<Col xl={6} className="float-end  my-2">
 								<div className="d-flex justify-content-between align-items-center">
+									<CustomSelectField
+										name="kpiSummaryDateFilter"
+										type="select"
+										value={currencyId}
+										className="mx-2"
+										key="my_unique_select_key__kpiSummaryDateFilter"
+										onChange={(e) => {
+											setCurrencyId(e.target.value);
+										}}
+										options={currencies?.currencies?.map((currency) => (
+											<option value={currency.id} key={currency.id}>
+												{currency.name}
+											</option>
+										))}
+									/>
 									<CustomSelectField
 										name="kpiSummaryDateFilter"
 										type="select"
@@ -92,31 +129,10 @@ const KpiSummary = () => {
 										filename="downloaded_data.csv"
 										className="btn btn-primary dashboard-export-btn"
 									>
-										Export Details{' '}
 										<i className="bx bx-download align-baseline" />
 									</CSVLink>
 								</div>
-							</div>
-
-							<div className="d-flex align-items-center">
-								<h4 className="card-title font-size-18 mb-3">KPI Summary</h4>
-								<i
-									role="button"
-									tabIndex="0"
-									className="mdi mdi-refresh mx-2 font-size-24 mb-3"
-									style={{ cursor: 'pointer' }}
-									id="refreshKpiSummary"
-									onClick={loadKPISummary}
-									onKeyDown={(e) => {
-										if (e.key === 'Enter') {
-											loadKPISummary();
-										}
-									}}
-								/>
-								<UncontrolledTooltip placement="top" target="refreshKpiSummary">
-									Refresh
-								</UncontrolledTooltip>
-							</div>
+							</Col>
 
 							<TabsPage
 								activeTab={activeKpiSummTab}
@@ -124,7 +140,7 @@ const KpiSummary = () => {
 								toggle={toggle}
 								navClass="bg-light rounded p-0"
 							/>
-						</>
+						</Row>
 					) : (
 						<h6>{KPI_SUMMARY}</h6>
 					)}

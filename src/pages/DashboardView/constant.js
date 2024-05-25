@@ -13,6 +13,25 @@ export const dateConstants = [
 	{ label: 'Previous Year', value: 'previousyear' },
 ];
 
+export const GAME_ORDER_BY = [
+	{
+		label: 'All',
+		value: '',
+	},
+	{
+		label: 'Total Bet Amount',
+		value: 'totalBetAmount',
+	},
+	{
+		label: 'Total Players',
+		value: 'totalPlayers',
+	},
+	{
+		label: 'Total Win Amount',
+		value: 'totalWinAmount',
+	},
+];
+
 export const TABS = {
 	GAME: 'game',
 	PROVIDER: 'provider',
