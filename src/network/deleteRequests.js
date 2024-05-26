@@ -34,10 +34,17 @@ const deleteUserComment = (data) =>
 		data
 	);
 
+const deleteCmsRequest = (data) =>
+	deleteRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}page`,
+		data
+	);
+
 export {
 	deleteFromGallery,
 	deleteEmailTemplate,
 	deleteRestrictedItems,
 	deleteBonus,
 	deleteUserComment,
+	deleteCmsRequest,
 };

@@ -19,6 +19,9 @@ import {
 	UPDATE_SA_CMS_FAIL,
 	RESET_ALL_CMS_DATA,
 	RESET_CMS_BY_PAGE_ID,
+	DELETE_CMS,
+	DELETE_CMS_FAIL,
+	DELETE_CMS_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -40,6 +43,7 @@ const INIT_STATE = {
 	updateCms: false,
 	updateCmsLoading: false,
 	updateCmsError: null,
+	isDeleteCmsLoading: false,
 };
 
 const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
@@ -189,6 +193,19 @@ const getAllCms = (state = INIT_STATE, { type, payload } = {}) => {
 				updateCmsLoading: false,
 				updateCms: true,
 				updateCmsError: null,
+			};
+
+		case DELETE_CMS:
+			return {
+				...state,
+				isDeleteCmsLoading: true,
+			};
+
+		case DELETE_CMS_FAIL:
+		case DELETE_CMS_SUCCESS:
+			return {
+				...state,
+				isDeleteCmsLoading: false,
 			};
 
 		default:

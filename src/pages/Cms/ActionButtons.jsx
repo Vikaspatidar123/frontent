@@ -10,6 +10,7 @@ const ActionButtons = ({
 	handleStatus,
 	handleEditClick,
 	handleViewClick,
+	handleDelete,
 }) => {
 	const { isGranted } = usePermission();
 	const status = row?.original?.isActive;
@@ -77,6 +78,19 @@ const ActionButtons = ({
 					</Button>
 				)}
 			</li>
+			<li>
+				<Button
+					hidden={!isGranted(modules.page, 'D')}
+					id="deleteToolTip"
+					className="btn btn-sm btn-soft-danger"
+					onClick={() => handleDelete(id)}
+				>
+					<i className="mdi mdi-delete-outline" />
+					<UncontrolledTooltip placement="top" target="deleteToolTip">
+						Delete
+					</UncontrolledTooltip>
+				</Button>
+			</li>
 		</ul>
 	);
 };
@@ -85,6 +99,7 @@ ActionButtons.propTypes = {
 	handleEditClick: PropTypes.func.isRequired,
 	handleViewClick: PropTypes.func.isRequired,
 	handleStatus: PropTypes.func.isRequired,
+	handleDelete: PropTypes.func.isRequired,
 	row: PropTypes.objectOf.isRequired,
 };
 
