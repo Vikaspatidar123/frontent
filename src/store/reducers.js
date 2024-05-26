@@ -103,6 +103,8 @@ import CreateUpdateBonus from './createUpdateBonus/reducer';
 
 import SportsTransaction from './sportsTransactions/reducer';
 
+import GameTransactions from './gameTransactions/reducer';
+
 const rootReducer = combineReducers({
 	AdminRoles,
 	Countries,
@@ -118,7 +120,6 @@ const rootReducer = combineReducers({
 	ProgressLoading,
 	ProfileData,
 	FormFields,
-	// public
 	Layout,
 	Login,
 	AllAdmins,
@@ -141,6 +142,7 @@ const rootReducer = combineReducers({
 	RestrictedCountries,
 	Dashboard,
 	CreateUpdateBonus,
+	GameTransactions,
 });
 
 export default rootReducer;

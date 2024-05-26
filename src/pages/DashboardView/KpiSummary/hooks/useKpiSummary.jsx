@@ -9,7 +9,7 @@ const useKpiSummary = () => {
 	const dispatch = useDispatch();
 	const [activeKpiSummTab, setActiveKpiSummTab] = useState(TABS.CASINO);
 	const [kpiSummaryDate, setKpiSummaryDate] = useState('today');
-	const [currencyId, setCurrencyId] = useState('');
+	const [currencyId, setCurrencyId] = useState(null);
 	const { kPISummary, isKpiSummaryLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);

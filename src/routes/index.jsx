@@ -60,6 +60,7 @@ import AddGamesCasinoSubcategory from '../pages/AddGamesCasinoSubcategory';
 import { modules } from '../constants/permissions';
 import ApplicationSettings from '../pages/ApplicationSettings';
 import SportsTransactionsList from '../pages/SportsTransactionsList';
+import GameTransactionsList from '../pages/CasinoGameTransactions';
 
 const authProtectedRoutes = [
 	{
@@ -299,7 +300,13 @@ const authProtectedRoutes = [
 	{
 		path: '/sports-transactions',
 		component: <SportsTransactionsList />,
-		modules: [modules.sportsbookManagement],
+		modules: [modules.report],
+		operation: 'R',
+	},
+	{
+		path: '/game-reports',
+		component: <GameTransactionsList />,
+		modules: [modules.report],
 		operation: 'R',
 	},
 	{

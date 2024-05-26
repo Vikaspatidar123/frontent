@@ -94,6 +94,7 @@ const KpiReport = () => {
 										type="select"
 										value={currencyId}
 										className="mx-2"
+										placeholder="Select Currency"
 										key="my_unique_select_key__kpiSummaryDateFilter"
 										onChange={(e) => {
 											setCurrencyId(e.target.value);
@@ -121,7 +122,7 @@ const KpiReport = () => {
 									<CSVLink
 										data={kPIReport || []}
 										filename="downloaded_data.csv"
-										className="btn btn-primary dashboard-export-btn"
+										className="btn btn-primary dashboard-export-btn w-80"
 									>
 										<i className="bx bx-download align-baseline" />
 									</CSVLink>

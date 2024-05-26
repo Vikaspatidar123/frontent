@@ -15,16 +15,12 @@ export const dateConstants = [
 
 export const GAME_ORDER_BY = [
 	{
-		label: 'All',
-		value: '',
+		label: 'Total Players',
+		value: 'totalPlayers',
 	},
 	{
 		label: 'Total Bet Amount',
 		value: 'totalBetAmount',
-	},
-	{
-		label: 'Total Players',
-		value: 'totalPlayers',
 	},
 	{
 		label: 'Total Win Amount',

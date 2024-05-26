@@ -105,7 +105,7 @@ const sideBarElements = [
 				module: modules.currency,
 			},
 			{
-				id: 7,
+				id: 8,
 				link: '/countries',
 				label: 'Countries',
 				searchString: 'countries',
@@ -118,7 +118,7 @@ const sideBarElements = [
 				module: modules.country,
 			},
 			{
-				id: 8,
+				id: 9,
 				link: '/languages',
 				label: 'Languages',
 				searchString: 'languages',
@@ -131,7 +131,7 @@ const sideBarElements = [
 				module: modules.language,
 			},
 			{
-				id: 40,
+				id: 10,
 				link: '/application-settings',
 				label: 'Application Settings',
 				searchString: 'application settings',
@@ -242,7 +242,7 @@ const sideBarElements = [
 				module: modules.gallery,
 			},
 			{
-				id: 21,
+				id: 15,
 				link: '/banner-management',
 				label: 'Banner Management',
 				searchString: 'banner management home banner',
@@ -263,7 +263,7 @@ const sideBarElements = [
 	// 	groupedModules: [modules.bonus, modules.bonus],
 	// },
 	{
-		id: 22,
+		id: 16,
 		link: '/#',
 		label: 'Bonus Management',
 		searchString: 'bonus management',
@@ -289,7 +289,7 @@ const sideBarElements = [
 			// 	module: modules.LoyaltyManagement,
 			// },
 			{
-				id: 24,
+				id: 17,
 				link: '/wagering-template',
 				label: 'Wagering Template',
 				searchString: 'wagering template',
@@ -302,7 +302,7 @@ const sideBarElements = [
 				module: modules.bonus,
 			},
 			{
-				id: 25,
+				id: 18,
 				link: '/bonus',
 				label: 'Bonus',
 				searchString: 'bonus',
@@ -323,7 +323,7 @@ const sideBarElements = [
 	// 	groupedModules: [modules.report, modules.review],
 	// },
 	{
-		id: 26,
+		id: 19,
 		link: '/#',
 		label: 'Reports',
 		searchString: 'reports',
@@ -336,7 +336,7 @@ const sideBarElements = [
 		groupedModules: [modules.report, modules.review],
 		subMenu: [
 			{
-				id: 27,
+				id: 20,
 				link: '/transaction-banking',
 				label: 'Transactions Banking',
 				searchString: 'transaction banking',
@@ -349,7 +349,7 @@ const sideBarElements = [
 				module: modules.report,
 			},
 			{
-				id: 28,
+				id: 21,
 				link: '/casino-transactions',
 				label: 'Casino Transactions',
 				searchString: 'casino transactions',
@@ -362,7 +362,7 @@ const sideBarElements = [
 				module: modules.report,
 			},
 			{
-				id: 28,
+				id: 22,
 				link: '/sports-transactions',
 				label: 'Sports Transactions',
 				searchString: 'sports transactions',
@@ -375,7 +375,20 @@ const sideBarElements = [
 				module: modules.report,
 			},
 			{
-				id: 29,
+				id: 23,
+				link: '/game-reports',
+				label: 'Game Reports',
+				searchString: 'game report transactions',
+				iconName: '',
+				linkClass: '',
+				anchorClass: '',
+				spanClass: '',
+				liTagClass: '',
+				ulTagClass: '',
+				module: modules.report,
+			},
+			{
+				id: 24,
 				link: '/sports-bets',
 				label: 'Sport Bet Slips',
 				searchString: 'sports bets',
@@ -409,7 +422,7 @@ const sideBarElements = [
 		groupedModules: [modules.casinoManagement, modules.banner],
 	},
 	{
-		id: 15,
+		id: 25,
 		link: '/#',
 		label: 'Casino Management',
 		searchString: 'casino management slot',
@@ -422,7 +435,7 @@ const sideBarElements = [
 		groupedModules: [modules.casinoManagement],
 		subMenu: [
 			{
-				id: 16,
+				id: 26,
 				link: '/casino-aggregators',
 				label: 'Aggregators',
 				searchString: 'casino aggregators',
@@ -435,7 +448,7 @@ const sideBarElements = [
 				module: modules.casinoManagement,
 			},
 			{
-				id: 17,
+				id: 27,
 				link: '/casino-providers',
 				label: 'Providers',
 				searchString: 'casino providers',
@@ -448,7 +461,7 @@ const sideBarElements = [
 				module: modules.casinoManagement,
 			},
 			{
-				id: 18,
+				id: 28,
 				link: '/categories',
 				label: 'Categories',
 				searchString: 'casino categories',
@@ -461,7 +474,7 @@ const sideBarElements = [
 				module: modules.casinoManagement,
 			},
 			{
-				id: 19,
+				id: 29,
 				link: '/sub-categories',
 				label: 'Sub Categories',
 				searchString: 'casino sub categories',
@@ -474,7 +487,7 @@ const sideBarElements = [
 				module: modules.casinoManagement,
 			},
 			{
-				id: 20,
+				id: 30,
 				link: '/casino-games',
 				label: 'Games',
 				searchString: 'casino games',
@@ -508,7 +521,7 @@ const sideBarElements = [
 	// 	module: modules.BetSettings,
 	// },
 	{
-		id: 33,
+		id: 31,
 		link: '/#',
 		label: 'Sports Book',
 		searchString: 'sportsbook sports book',
@@ -521,7 +534,7 @@ const sideBarElements = [
 		groupedModules: [modules.sportsbookManagement],
 		subMenu: [
 			{
-				id: 34,
+				id: 32,
 				link: '/sports',
 				label: 'Sports',
 				searchString: 'all sports',
@@ -534,7 +547,7 @@ const sideBarElements = [
 				module: modules.sportsbookManagement,
 			},
 			{
-				id: 35,
+				id: 33,
 				link: '/sports/countries',
 				label: 'Countries',
 				searchString: 'sports countries',
@@ -547,7 +560,7 @@ const sideBarElements = [
 				module: modules.sportsbookManagement,
 			},
 			{
-				id: 36,
+				id: 34,
 				link: '/sports/leagues',
 				label: 'Leagues',
 				searchString: 'sports leagues',
@@ -560,7 +573,7 @@ const sideBarElements = [
 				module: modules.sportsbookManagement,
 			},
 			{
-				id: 38,
+				id: 35,
 				link: '/matches',
 				label: 'Matches',
 				searchString: 'sports matches',
@@ -573,7 +586,7 @@ const sideBarElements = [
 				module: modules.sportsbookManagement,
 			},
 			{
-				id: 39,
+				id: 36,
 				link: '/markets',
 				label: 'Markets',
 				searchString: 'sport match markets',

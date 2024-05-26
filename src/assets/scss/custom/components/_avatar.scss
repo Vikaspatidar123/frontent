@@ -81,6 +81,10 @@
 	color: #fff;
 }
 .dashboard-prof-logo {
+	@media (min-width: 1200px) and (max-width: 1550px) {
+		display: none;
+	}
+	display: block;
 	margin-top: 10px !important;
 	height: 3rem !important;
 	width: 3rem !important;

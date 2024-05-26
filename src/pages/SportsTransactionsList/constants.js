@@ -6,17 +6,6 @@ export const STATUS_TYPE = [
 	// { label: 'RollBack', value: 'rollback' },
 ];
 
-export const IS_ACTIVE_TYPES = [
-	{ id: '1', label: 'Active', value: true },
-	{ id: '2', label: 'In Active', value: false },
-];
-
-export const GENDER_TYPES = [
-	{ id: '1', label: 'Male', value: 'male' },
-	{ id: '2', label: 'Female', value: 'female' },
-	// {id: '3', label: 'Other', value: 'other'}
-];
-
 export const LEDGER_TYPES = [
 	{ label: 'Debit', value: 'debit' },
 	{ label: 'Credit', value: 'credit' },
