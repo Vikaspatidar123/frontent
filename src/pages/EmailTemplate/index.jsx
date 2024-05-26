@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Collapse, CardBody, Card } from 'reactstrap';
+import { Container, Collapse, CardBody, Card, Table } from 'reactstrap';
 import classnames from 'classnames';
 
 import { projectName } from '../../constants/config';
-import TableContainer from '../../components/Common/Table';
 import useEmailTemplate from './hooks/useEmailTemplate';
 import Spinners from '../../components/Common/Spinner';
 import CrudSection from '../../components/Common/CrudSection';
@@ -76,7 +75,7 @@ const EmailTemplate = () => {
 						<Collapse isOpen={expanded === key} className="accordion-collapse">
 							{expanded === key ? (
 								<div className="accordion-body accordion-body-padding">
-									<TableContainer
+									{/* <TableContainer
 										columns={columns}
 										data={expanded === key ? emailTemplates?.[key] : []}
 										tableClass="table-bordered align-middle nowrap mt-2"
@@ -85,7 +84,31 @@ const EmailTemplate = () => {
 										isLoading={emailTemplateloading}
 										thCustomClass="col-3"
 										customPageSize={10}
-									/>
+									/> */}
+									<Table striped>
+										<thead>
+											<tr>
+												{columns.map((col) => (
+													<th>{col.Header}</th>
+												))}
+											</tr>
+										</thead>
+										<tbody>
+											{emailTemplates?.[key]?.map((row) => (
+												<tr>
+													{columns.map((col) => (
+														<th>
+															{col.Cell(
+																row?.[col.accessor],
+																row?.eventType,
+																row?.isDefault
+															)}
+														</th>
+													))}
+												</tr>
+											))}
+										</tbody>
+									</Table>
 								</div>
 							) : null}
 						</Collapse>

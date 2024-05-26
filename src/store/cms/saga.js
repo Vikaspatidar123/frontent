@@ -16,6 +16,8 @@ import {
 	getCmsByPageIdFail,
 	updateSaCmsSuccess,
 	updateSaCmsFail,
+	deleteCmsSuccess,
+	deleteCmsFail,
 } from './actions';
 
 import {
@@ -25,6 +27,7 @@ import {
 	CREATE_SA_CMS,
 	GET_CMS_BY_PAGE_ID,
 	UPDATE_SA_CMS,
+	DELETE_CMS,
 } from './actionTypes';
 
 import {
@@ -40,6 +43,7 @@ import {
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
+import { deleteCmsRequest } from '../../network/deleteRequests';
 
 function* getCmsDetails(action) {
 	const payload = action && action.payload;
@@ -153,6 +157,23 @@ function* updateSuperAdminCMSWorker(action) {
 	}
 }
 
+function* deleteCmsWorker(action) {
+	try {
+		const { data, handleClose } = action && action.payload;
+		const resData = yield deleteCmsRequest(data);
+		yield put(deleteCmsSuccess());
+		showToastr({
+			message: resData?.data?.data?.message,
+			type: 'success',
+		});
+		if (handleClose) {
+			handleClose();
+		}
+	} catch (error) {
+		yield put(deleteCmsFail(error?.response?.data?.errors[0]?.description));
+	}
+}
+
 export function* watchGetAllCmsData() {
 	yield takeLatest(GET_ALL_CMS_DATA, getCmsDetails);
 	yield takeLatest(UPDATE_SA_CMS_STATUS, updateSACMSStatusWorker);
@@ -160,6 +181,7 @@ export function* watchGetAllCmsData() {
 	yield takeLatest(CREATE_SA_CMS, createSuperAdminCMSWorker);
 	yield takeLatest(GET_CMS_BY_PAGE_ID, getCmsByPageIdWorker);
 	yield takeLatest(UPDATE_SA_CMS, updateSuperAdminCMSWorker);
+	yield takeLatest(DELETE_CMS, deleteCmsWorker);
 }
 
 function* CmsDetailsSaga() {

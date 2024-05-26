@@ -19,6 +19,9 @@ import {
 	UPDATE_SA_CMS_FAIL,
 	RESET_ALL_CMS_DATA,
 	RESET_CMS_BY_PAGE_ID,
+	DELETE_CMS_SUCCESS,
+	DELETE_CMS_FAIL,
+	DELETE_CMS,
 } from './actionTypes';
 
 export const getAllCmsDetailsSuccess = (payload) => ({
@@ -118,5 +121,20 @@ export const updateSaCmsFail = (payload) => ({
 
 export const updateSaCms = (payload) => ({
 	type: UPDATE_SA_CMS,
+	payload,
+});
+
+export const deleteCmsSuccess = (payload) => ({
+	type: DELETE_CMS_SUCCESS,
+	payload,
+});
+
+export const deleteCmsFail = (payload) => ({
+	type: DELETE_CMS_FAIL,
+	payload,
+});
+
+export const deleteCms = (payload) => ({
+	type: DELETE_CMS,
 	payload,
 });

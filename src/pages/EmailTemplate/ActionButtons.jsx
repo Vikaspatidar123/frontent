@@ -8,15 +8,15 @@ import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({
-	row: { original },
+	id,
+	eventType,
+	isDefault,
 	handleEditClick,
 	handleViewClick,
 	handleDeleteClick,
 }) => {
 	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
-	const id = original?.id;
-	const eventType = original?.eventType;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
@@ -72,7 +72,7 @@ const ActionButtons = ({
 					hidden={!isGranted(modules.emailTemplate, 'D')}
 					className="btn btn-sm btn-soft-danger"
 					onClick={(e) => handleDeleteClick(e, id, eventType)}
-					disabled={original.isDefault}
+					disabled={isDefault}
 				>
 					<i className="mdi mdi-delete-outline" id={`delete-${id}`} />
 					<UncontrolledTooltip placement="top" target={`delete-${id}`}>
@@ -88,13 +88,9 @@ ActionButtons.propTypes = {
 	handleEditClick: PropTypes.func.isRequired,
 	handleViewClick: PropTypes.func.isRequired,
 	handleDeleteClick: PropTypes.func.isRequired,
-	row: PropTypes.shape({
-		original: PropTypes.shape({
-			id: PropTypes.number.isRequired,
-			eventType: PropTypes.string.isRequired,
-			isDefault: PropTypes.bool.isRequired,
-		}).isRequired,
-	}).isRequired,
+	id: PropTypes.number.isRequired,
+	eventType: PropTypes.string.isRequired,
+	isDefault: PropTypes.bool.isRequired,
 };
 
 export default ActionButtons;
