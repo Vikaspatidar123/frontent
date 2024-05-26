@@ -6,7 +6,8 @@ import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/Table';
 import TabsPage from '../../../components/Common/TabsPage';
 import { tableCustomClass } from '../../../constants/config';
-import { TABS, dateConstants } from '../constant';
+// import { TABS, dateConstants } from '../constant';
+import { TABS } from '../constant';
 import { CustomSelectField } from '../../../helpers/customForms';
 import useKpiSummary from './hooks/useKpiSummary';
 import { modules } from '../../../constants/permissions';
@@ -21,8 +22,8 @@ const KpiSummary = () => {
 		kPISummary,
 		formattedKpiSummary,
 		isKpiSummaryLoading,
-		kpiSummaryDate,
-		setKpiSummaryDate,
+		// kpiSummaryDate,
+		// setKpiSummaryDate,
 		loadKPISummary,
 		currencyId,
 		setCurrencyId,
@@ -93,13 +94,14 @@ const KpiSummary = () => {
 									Refresh
 								</UncontrolledTooltip>
 							</Col>
-							<Col xl={6} className="float-end  my-2">
+							<Col xl={6} className="float-end my-2">
 								<div className="d-flex justify-content-between align-items-center">
 									<CustomSelectField
 										name="kpiSummaryDateFilter"
 										type="select"
 										value={currencyId}
 										className="mx-2"
+										placeholder="Select Currency"
 										key="my_unique_select_key__kpiSummaryDateFilter"
 										onChange={(e) => {
 											setCurrencyId(e.target.value);
@@ -110,7 +112,7 @@ const KpiSummary = () => {
 											</option>
 										))}
 									/>
-									<CustomSelectField
+									{/* <CustomSelectField
 										name="kpiSummaryDateFilter"
 										type="select"
 										value={kpiSummaryDate}
@@ -123,11 +125,11 @@ const KpiSummary = () => {
 												{item.label}
 											</option>
 										))}
-									/>
+									/> */}
 									<CSVLink
 										data={formattedKpiSummary || []}
 										filename="downloaded_data.csv"
-										className="btn btn-primary dashboard-export-btn"
+										className="btn btn-primary dashboard-export-btn w-80"
 									>
 										<i className="bx bx-download align-baseline" />
 									</CSVLink>

@@ -3,7 +3,7 @@ import { STATUS_TYPE } from '../TransactionBankingList/constants';
 import { formatDateYMD } from '../../utils/dateFormatter';
 import {
 	BET_SLIP_SETTLEMENT_STATUS,
-	BET_TYPES,
+	BETSLIP_TYPES,
 	LEDGER_PURPOSE,
 	LEDGER_TYPES,
 	bonusStatus,
@@ -249,7 +249,7 @@ const sportsBetFiltersFields = () => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Bet Slip Type',
-		optionList: BET_TYPES.map(({ value, label }) => ({
+		optionList: BETSLIP_TYPES.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,

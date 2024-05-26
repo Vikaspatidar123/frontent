@@ -17,8 +17,8 @@ const useGameReport = () => {
 	const dispatch = useDispatch();
 	const [gameReportDateOption, setGameReportDateOption] = useState('last7days');
 	const [activeGameReportTab, setActiveGameReportTab] = useState(TABS.GAME);
-	const [currencyId, setCurrencyId] = useState('');
-	const [orderBy, setOrderBy] = useState('');
+	const [currencyId, setCurrencyId] = useState(null);
+	const [orderBy, setOrderBy] = useState(null);
 	const { gameReport, isGameReportLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);

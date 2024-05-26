@@ -16,7 +16,7 @@ import { getDateTime } from '../../utils/dateFormatter';
 import Filters from '../../components/Common/Filters';
 import useSportBetHistoryFilters from './hooks/useSportBetHistoryFilters';
 import CrudSection from '../../components/Common/CrudSection';
-import { BET_TYPES, sportsBookStatus } from './constants';
+import { BETSLIP_TYPES, sportsBookStatus } from './constants';
 import ModalView from '../../components/Common/Modal';
 
 const SportsBettingHistory = ({ userId }) => {
@@ -48,7 +48,7 @@ const SportsBettingHistory = ({ userId }) => {
 				formattedValues.push({
 					id: txn?.id,
 					walletId: txn?.walletId,
-					type: BET_TYPES.find((type) => type.value === txn?.type)?.label,
+					type: BETSLIP_TYPES.find((type) => type.value === txn?.type)?.label,
 					stake: txn?.stake,
 					multipliedOdds: txn?.multipliedOdds,
 					status: sportsBookStatus.find(

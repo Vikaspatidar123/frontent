@@ -9,7 +9,7 @@ import {
 } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 import { CreatedAt, Id, KeyValueCell, Status } from '../SportsBetListCol';
-import { BET_TYPES, sportsBookStatus } from '../formDetails';
+import { BETSLIP_TYPES, sportsBookStatus } from '../formDetails';
 
 const useSportsBetListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -45,7 +45,7 @@ const useSportsBetListing = (filterValues = {}) => {
 				formattedValues.push({
 					id: txn?.id,
 					walletId: txn?.walletId,
-					type: BET_TYPES.find((type) => type.value === txn?.type)?.label,
+					type: BETSLIP_TYPES.find((type) => type.value === txn?.type)?.label,
 					stake: txn?.stake,
 					multipliedOdds: txn?.multipliedOdds,
 					status: sportsBookStatus.find(

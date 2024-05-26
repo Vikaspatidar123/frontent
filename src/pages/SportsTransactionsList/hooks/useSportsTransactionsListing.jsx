@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 // import moment from 'moment';
 import { resetCasinoTransactionsData } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
-// import { STATUS_TYPE } from '../constants';
 import {
 	ActionType,
 	Amount,

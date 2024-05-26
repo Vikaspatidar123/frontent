@@ -18,7 +18,7 @@ const WelcomeComp = () => {
 							<h5 className="text-primary">Welcome Back !</h5>
 						</div>
 					</Col>
-					<Col xs="5" className="align-self-end">
+					<Col xs="5" className="">
 						<img src={profileImg} alt="" className="img-fluid" />
 					</Col>
 				</Row>
@@ -27,18 +27,26 @@ const WelcomeComp = () => {
 				<Row>
 					<Col xl={3} sm="3">
 						<div className="avatar-md profile-user-wid mb-4 dashboard-prof-logo">
-							<p className="profile-logo-avatar">A</p>
+							<p className="profile-logo-avatar">
+								{
+									`${
+										superAdminUser?.firstName || superAdminUser?.username
+									}`?.[0]
+								}
+							</p>
 						</div>
 					</Col>
 
-					<Col xl={9} sm="9">
+					<Col xl={9} sm="9" className="align-self-end">
 						<div className="pt-4">
 							<Row>
-								<Col xs="12">
+								<Col xs="12" className="justify-content-end d-flex">
 									<h5 className="font-size-15 text-truncate">
-										{superAdminUser?.firstName
-											? `${superAdminUser?.firstName} ${superAdminUser?.lastName}`
-											: superAdminUser.adminUsername}
+										{`${superAdminUser?.firstName || ''} ${
+											superAdminUser?.lastName || ''
+										}` ||
+											superAdminUser?.username ||
+											''}
 									</h5>
 								</Col>
 								<Col xs="12 mt-3">

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { LEDGER_PURPOSE, STATUS_TYPE } from './constants';
+import { BET_TYPES, LEDGER_PURPOSE, STATUS_TYPE } from './constants';
 
 const staticFiltersFields = () => [
 	{
@@ -13,6 +13,17 @@ const staticFiltersFields = () => [
 		fieldType: 'textField',
 		placeholder: 'Search by bet id',
 		type: 'search',
+	},
+	{
+		name: 'betType',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Bet Type',
+		optionList: BET_TYPES.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
 	},
 	{
 		name: 'purpose',

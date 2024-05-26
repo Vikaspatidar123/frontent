@@ -27,8 +27,3 @@ export const LEDGER_PURPOSE = [
 	{ label: 'Casino Win', value: 'CasinoWin' },
 	{ label: 'Casino Refund', value: 'CasinoRefund' },
 ];
-
-export const BET_TYPES = [
-	{ label: 'Single', value: 'single' },
-	{ label: 'Multiple', value: 'multiple' },
-];

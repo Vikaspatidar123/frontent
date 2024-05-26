@@ -16,7 +16,7 @@ const useKpiReport = () => {
 	const dispatch = useDispatch();
 	const [kpiReportDateOption, setKpiReportDateOption] = useState('today');
 	const [activeKpiReportTab, setActiveKpiReportTab] = useState(TABS.GAME);
-	const [currencyId, setCurrencyId] = useState('');
+	const [currencyId, setCurrencyId] = useState(null);
 	const { kPIReport, isKpiReportLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);

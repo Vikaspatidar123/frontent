@@ -95,6 +95,7 @@ const GameReport = () => {
 										type="select"
 										value={orderBy}
 										className="mx-2"
+										placeholder="Order By"
 										key="my_unique_select_key__kpiSummaryDateFilter"
 										onChange={(e) => {
 											setOrderBy(e.target.value);
@@ -110,6 +111,7 @@ const GameReport = () => {
 										type="select"
 										value={currencyId}
 										className="mx-2"
+										placeholder="Select Currency"
 										key="my_unique_select_key__kpiSummaryDateFilter"
 										onChange={(e) => {
 											setCurrencyId(e.target.value);
@@ -137,7 +139,7 @@ const GameReport = () => {
 									<CSVLink
 										data={gameReport || []}
 										filename="downloaded_data.csv"
-										className="btn btn-primary dashboard-export-btn"
+										className="btn btn-primary dashboard-export-btn w-80"
 									>
 										<i className="bx bx-download align-baseline" />
 									</CSVLink>

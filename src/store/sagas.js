@@ -32,7 +32,8 @@ import DashboardViewSaga from './dashboardView/saga';
 import UserDetailsSaga from './userDetails/saga';
 import RestrictedCountriesSaga from './restrictedCountries/saga';
 import CreateUpdateBonusSaga from './createUpdateBonus/saga';
-import sportsTransactionsSaga from './sportsTransactions/saga';
+import SportsTransactionsSaga from './sportsTransactions/saga';
+import GameTransactionSaga from './gameTransactions/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -53,7 +54,7 @@ export default function* rootSaga() {
 		fork(SportsBetSaga),
 		fork(CasinoManagementSaga),
 		fork(CasinoTransactionsSaga),
-		fork(sportsTransactionsSaga),
+		fork(SportsTransactionsSaga),
 		fork(WithdrawRequestsSaga),
 		fork(SASettingsSaga),
 		fork(SportsMatchesSaga),
@@ -70,5 +71,6 @@ export default function* rootSaga() {
 		fork(aggregatorsSaga),
 		fork(DashboardViewSaga),
 		fork(CreateUpdateBonusSaga),
+		fork(GameTransactionSaga),
 	]);
 }
