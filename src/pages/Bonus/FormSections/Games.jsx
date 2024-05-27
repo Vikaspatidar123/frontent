@@ -110,7 +110,7 @@ const Games = ({
 				perPage: itemsPerPage,
 				page: currentPage,
 				search: searchText,
-				providerId: selectedProvider || '',
+				casinoProviderId: selectedProvider || '',
 				freespins: true,
 			})
 		);

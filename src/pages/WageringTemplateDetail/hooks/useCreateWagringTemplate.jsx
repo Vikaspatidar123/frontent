@@ -127,7 +127,7 @@ const useCreateWageringTemplate = () => {
 					perPage: itemsPerPage,
 					page,
 					searchString: validation?.values?.searchString || '',
-					providerId: validation?.values?.provider || '',
+					casinoProviderId: validation?.values?.provider || '',
 				})
 			);
 		}, debounceTime);
