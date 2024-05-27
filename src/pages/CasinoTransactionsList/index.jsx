@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
@@ -10,7 +10,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 
-const CasinoTransactionsList = () => {
+const CasinoTransactionsList = ({ userId }) => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
@@ -33,10 +33,10 @@ const CasinoTransactionsList = () => {
 		onChangeRowsPerPage,
 		columns,
 		exportComponent,
-	} = useCasinoTransactionsListing(filterValidation.values);
+	} = useCasinoTransactionsListing(filterValidation.values, userId);
 
 	return (
-		<div className="page-content">
+		<div className={`${userId ? '' : 'page-content'}`}>
 			<Container fluid>
 				{showBreadcrumb && (
 					<Breadcrumb title="Reports" breadcrumbItem="Casino Transactions" />
@@ -82,13 +82,12 @@ const CasinoTransactionsList = () => {
 		</div>
 	);
 };
-
-CasinoTransactionsList.propTypes = {
-	// t: PropTypes.func,
+CasinoTransactionsList.defaultProps = {
+	userId: '',
 };
 
-CasinoTransactionsList.defaultProps = {
-	t: (string) => string,
+CasinoTransactionsList.propTypes = {
+	userId: PropTypes.string,
 };
 
 export default CasinoTransactionsList;

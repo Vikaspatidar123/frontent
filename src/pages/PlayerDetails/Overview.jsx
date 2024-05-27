@@ -124,7 +124,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 													className="d-flex justify-content-between m-1"
 												>
 													<h6 className="px-2">{label}</h6>
-													<span className={`${subValue} px-2`}>
+													<span className={`${subValue} px-2 email-ellipsis`}>
 														{value || 'NA'}
 													</span>
 												</div>

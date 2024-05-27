@@ -29,7 +29,7 @@ import { STATUS_TYPE } from '../constants';
 // import { getAccessToken } from '../../../network/storageUtils';
 // import { downloadFileInNewWindow } from '../../../utils/helpers';
 
-const useCasinoTransactionsListing = (filterValues = {}) => {
+const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -44,6 +44,7 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 			fetchCasinoTransactionsStart({
 				perPage: itemsPerPage,
 				page: currentPage,
+				userId,
 				...filterValues,
 			})
 		);

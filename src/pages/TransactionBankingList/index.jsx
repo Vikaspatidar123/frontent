@@ -1,16 +1,17 @@
 import React from 'react';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
-
 import useTransactionBankingListing from './hooks/useTransactionBankingListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 
-const TransactionBankingList = () => {
+const TransactionBankingList = ({ userId }) => {
+	// For user specific transactions
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
@@ -33,10 +34,10 @@ const TransactionBankingList = () => {
 		onChangeRowsPerPage,
 		columns,
 		exportComponent,
-	} = useTransactionBankingListing('', filterValidation.values);
+	} = useTransactionBankingListing(filterValidation.values, userId);
 
 	return (
-		<div className="page-content">
+		<div className={`${userId ? '' : 'page-content'}`}>
 			<Container fluid>
 				{showBreadcrumb && (
 					<Breadcrumb title="Reports" breadcrumbItem="Transactions Banking" />
@@ -83,12 +84,13 @@ const TransactionBankingList = () => {
 	);
 };
 
-TransactionBankingList.propTypes = {
+TransactionBankingList.defaultProps = {
 	// t: PropTypes.func,
+	userId: '',
 };
 
-TransactionBankingList.defaultProps = {
-	t: (string) => string,
+TransactionBankingList.propTypes = {
+	userId: PropTypes.string,
 };
 
 export default TransactionBankingList;

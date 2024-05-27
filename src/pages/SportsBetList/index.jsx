@@ -11,7 +11,7 @@ import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import ModalView from '../../components/Common/Modal';
 
-const SportsBetList = ({ t }) => {
+const SportsBetList = ({ t, userId }) => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
@@ -38,10 +38,10 @@ const SportsBetList = ({ t }) => {
 		setViewModal,
 		formattedBetSlips,
 		betSlipColumns,
-	} = useSportsBetListing(filterValidation.values);
+	} = useSportsBetListing(filterValidation.values, userId);
 
 	return (
-		<div className="page-content">
+		<div className={`${userId ? '' : 'page-content'}`}>
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				{showBreadcrumb && (
@@ -104,12 +104,13 @@ const SportsBetList = ({ t }) => {
 	);
 };
 
-SportsBetList.propTypes = {
-	t: PropTypes.func,
+SportsBetList.defaultProps = {
+	userId: '',
 };
 
-SportsBetList.defaultProps = {
-	t: (string) => string,
+SportsBetList.propTypes = {
+	t: PropTypes.func.isRequired,
+	userId: PropTypes.string,
 };
 
 export default SportsBetList;

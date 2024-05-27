@@ -14,7 +14,7 @@ const Reports = (props) => {
 		() => [
 			{
 				title: 'Today GGR',
-				description: `€ ${
+				description: `$ ${
 					livePlayerData.todayTotalCasinoGGR +
 						livePlayerData.todayTotalSportsbookGGR || 0
 				}`,

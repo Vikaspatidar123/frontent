@@ -8,16 +8,17 @@ import Breadcrumb from '../../components/Common/Breadcrumb';
 import Overview from './Overview';
 import PlayerWallet from './PlayerWallet';
 import useUserDetails from './hooks/useUserDetails';
-import BetHistory from './BetHistory';
-import SportsBettingHistory from './SportsBettingHistory';
-// import YourBonuses from './YourBonuses';
 import Limits from './Limits';
 import { modules } from '../../constants/permissions';
 import { getUserDetails, resetUserLimitData } from '../../store/actions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import UserDocsList from './components/UserDocsList';
-import Ledger from './Ledger';
+// import Ledger from './Ledger';
 import Notes from './Notes';
+import TransactionBankingList from '../TransactionBankingList';
+import CasinoTransactionsList from '../CasinoTransactionsList';
+import SportsTransactionsList from '../SportsTransactionsList';
+import SportsBetList from '../SportsBetList';
 
 const PlayerDetailsPage = ({ t }) => {
 	const { isGranted } = usePermission();
@@ -127,39 +128,43 @@ const PlayerDetailsPage = ({ t }) => {
 		},
 		{
 			id: 5,
-			title: 'History', // Combined dropdown for Bet and Sports Betting History
+			title: 'Player Reports', // Combined dropdown for all player reports
 			isHidden: !isGranted(modules.report, 'R'),
 			isDropdown: true,
 			dropdownItems: [
 				{
 					id: 1,
-					title: 'Casino Bet History',
-					component: <BetHistory userId={playerId} />,
+					title: 'Banking',
+					component: <TransactionBankingList userId={playerId} />,
 				},
 				{
 					id: 2,
-					title: 'Sport Betting History',
-					component: <SportsBettingHistory userId={playerId} />,
+					title: 'Casino',
+					component: <CasinoTransactionsList userId={playerId} />,
+				},
+				{
+					id: 3,
+					title: 'Sports Book',
+					component: <SportsTransactionsList userId={playerId} />,
+				},
+				{
+					id: 4,
+					title: 'Betslips',
+					component: <SportsBetList userId={playerId} />,
 				},
 			],
 		},
-		{
-			id: 6,
-			title: 'Ledger',
-			component: <Ledger userId={playerId} />,
-			isHidden: !isGranted(modules.report, 'R'),
-		},
+		// {
+		// 	id: 6,
+		// 	title: 'Ledger',
+		// 	component: <Ledger userId={playerId} />,
+		// 	isHidden: !isGranted(modules.report, 'R'),
+		// },
 		{
 			id: 7,
 			title: 'KYC Settings',
 			component: <UserDocsList userDetails={userDetails} userId={playerId} />,
 		},
-		// {
-		// 	id: 8,
-		// 	title: 'Bonuses',
-		// 	component: <YourBonuses userId={playerId} />,
-		// 	isHidden: !isGranted(modules.bonus, 'R'),
-		// },
 		{
 			id: 9,
 			title: 'Notes',
@@ -170,7 +175,9 @@ const PlayerDetailsPage = ({ t }) => {
 
 	const leftTitle = userDetailsLoading
 		? 'Player Details'
-		: `Player Details : ${userDetails?.firstName} ${userDetails?.lastName}`;
+		: `Player Details : ${userDetails?.firstName || ''} ${
+				userDetails?.lastName || ''
+		  }`;
 
 	return (
 		<div className="page-content">

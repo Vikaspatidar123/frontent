@@ -473,3 +473,9 @@ pre::-webkit-scrollbar-thumb:hover {
 	white-space: nowrap;
 }
 /* -----------------------------------------*/
+
+.email-ellipsis {
+	text-overflow: ellipsis;
+	text-wrap: nowrap;
+	overflow: hidden;
+}

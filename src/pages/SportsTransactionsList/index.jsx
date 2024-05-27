@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
@@ -10,7 +10,7 @@ import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useSportsTransactionsListing from './hooks/useSportsTransactionsListing';
 
-const SportsTransactionsList = () => {
+const SportsTransactionsList = ({ userId }) => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
@@ -33,10 +33,10 @@ const SportsTransactionsList = () => {
 		onChangeRowsPerPage,
 		columns,
 		exportComponent,
-	} = useSportsTransactionsListing(filterValidation.values);
+	} = useSportsTransactionsListing(filterValidation.values, userId);
 
 	return (
-		<div className="page-content">
+		<div className={`${userId ? '' : 'page-content'}`}>
 			<Container fluid>
 				{showBreadcrumb && (
 					<Breadcrumb title="Reports" breadcrumbItem="Sports Transactions" />
@@ -83,12 +83,12 @@ const SportsTransactionsList = () => {
 	);
 };
 
-SportsTransactionsList.propTypes = {
-	// t: PropTypes.func,
+SportsTransactionsList.defaultProps = {
+	userId: '',
 };
 
-SportsTransactionsList.defaultProps = {
-	t: (string) => string,
+SportsTransactionsList.propTypes = {
+	userId: PropTypes.string,
 };
 
 export default SportsTransactionsList;

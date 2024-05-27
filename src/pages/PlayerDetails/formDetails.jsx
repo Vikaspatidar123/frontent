@@ -2,8 +2,6 @@ import * as Yup from 'yup';
 import { STATUS_TYPE } from '../TransactionBankingList/constants';
 import { formatDateYMD } from '../../utils/dateFormatter';
 import {
-	BET_SLIP_SETTLEMENT_STATUS,
-	BETSLIP_TYPES,
 	LEDGER_PURPOSE,
 	LEDGER_TYPES,
 	bonusStatus,
@@ -241,54 +239,6 @@ const filterValidationSchema = () =>
 		conversionRate: Yup.string().nullable(),
 		previousTransactionId: Yup.string().nullable(),
 	});
-
-// Sports Bet History filters
-const sportsBetFiltersFields = () => [
-	{
-		name: 'type',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Bet Slip Type',
-		optionList: BETSLIP_TYPES.map(({ value, label }) => ({
-			id: value,
-			value,
-			optionLabel: label,
-		})),
-	},
-	{
-		name: 'settlementStatus',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Bet Settlement Status',
-		optionList: BET_SLIP_SETTLEMENT_STATUS.map(({ value, label }) => ({
-			id: value,
-			value,
-			optionLabel: label,
-		})),
-	},
-	{
-		name: 'ranges',
-		fieldType: 'dateRangeSelector',
-		label: '',
-		placeholder: 'Date Range',
-	},
-];
-
-const sportsBetFilterValues = () => ({
-	type: null,
-	settlementStatus: null,
-	fromDate: null,
-	toDate: null,
-});
-
-const sportsBetFilterValidationSchema = () =>
-	Yup.object({
-		type: Yup.string().nullable(),
-		settlementStatus: Yup.string().nullable(),
-		fromDate: Yup.string().nullable(),
-		toDate: Yup.string().nullable(),
-	});
-
 // Transaction filters
 
 const transactionFiltersFields = () => [
@@ -448,9 +398,6 @@ export {
 	staticFiltersFields,
 	filterValidationSchema,
 	filterValues,
-	sportsBetFiltersFields,
-	sportsBetFilterValues,
-	sportsBetFilterValidationSchema,
 	transactionFiltersFields,
 	transactionFilterValues,
 	transactionFilterValidationSchema,
