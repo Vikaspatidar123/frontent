@@ -22,7 +22,7 @@ const SportsBetList = ({ t, userId }) => {
 		actionButtons,
 		filterValidation,
 		isFilterChanged,
-	} = useFilters();
+	} = useFilters(userId);
 
 	const {
 		currentPage,

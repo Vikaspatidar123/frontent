@@ -11,7 +11,7 @@ import { fetchSportsBetStart, getAllTags } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
-const useFilters = () => {
+const useFilters = (userId = '') => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const { userTags } = useSelector((state) => state.UserDetails);
@@ -26,6 +26,7 @@ const useFilters = () => {
 			fetchSportsBetStart({
 				perPage: itemsPerPage,
 				page: 1,
+				userId,
 				...values,
 			})
 		);
@@ -39,7 +40,7 @@ const useFilters = () => {
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields,
+		staticFormFields: staticFiltersFields(userId),
 	});
 
 	// const handleAdvance = () => {
@@ -61,7 +62,7 @@ const useFilters = () => {
 			}));
 
 			setFormFields([
-				...staticFiltersFields(),
+				...staticFiltersFields(userId),
 				{
 					name: 'tagId',
 					fieldType: 'select',

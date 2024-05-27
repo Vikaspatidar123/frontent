@@ -1,25 +1,22 @@
 import * as Yup from 'yup';
 import { LEDGER_PURPOSE, STATUS_TYPE } from './constants';
 
-const staticFiltersFields = () => [
-	// {
-	// 	name: 'gameId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by gameId',
-	// 	type: 'search',
-	// },
-	// {
-	// 	name: 'walletId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by walletId',
-	// 	type: 'search',
-	// },
-	// {
-	// 	name: 'actioneeId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by actioneeId',
-	// 	type: 'search',
-	// },
+const staticFiltersFields = (userId = '') => [
+	{
+		name: 'searchString',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by email or username',
+		isHide: !!userId,
+	},
+	{
+		name: 'gameName',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by game name',
+	},
 	{
 		name: 'transactionId',
 		fieldType: 'textField',
@@ -65,6 +62,8 @@ const staticFiltersFields = () => [
 // const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
+	gameName: '',
+	searchString: '',
 	fromDate: '',
 	toDate: '',
 	gameId: '',
@@ -80,6 +79,8 @@ const filterValues = () => ({
 
 const filterValidationSchema = () =>
 	Yup.object({
+		searchString: Yup.string().nullable(),
+		gameName: Yup.string().nullable(),
 		status: Yup.string().nullable(),
 		fromDate: Yup.string().nullable(),
 		toDate: Yup.string().nullable(),

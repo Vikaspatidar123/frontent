@@ -15,7 +15,15 @@ const BETSLIP_TYPES = [
 	{ label: 'Multiple', value: 'multiple' },
 ];
 
-const staticFiltersFields = () => [
+const staticFiltersFields = (userId = '') => [
+	{
+		name: 'searchString',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by email or username',
+		isHide: !!userId,
+	},
 	{
 		name: 'type',
 		fieldType: 'select',
@@ -47,12 +55,12 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
+	searchString: '',
 	status: null,
 	fromDate: null,
 	toDate: null,
 	type: null,
 	settlementStatus: null,
-	searchString: '',
 });
 
 const filterValidationSchema = () =>

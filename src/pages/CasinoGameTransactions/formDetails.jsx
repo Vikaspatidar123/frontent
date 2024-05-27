@@ -8,6 +8,13 @@ const TABS_TYPE = [
 
 const staticFiltersFields = () => [
 	{
+		name: 'gameName',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by game name',
+	},
+	{
 		name: 'orderBy',
 		fieldType: 'select',
 		label: '',
@@ -40,16 +47,20 @@ const staticFiltersFields = () => [
 // const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
+	gameName: '',
 	tab: 'game',
 	currencyId: null,
 	orderBy: null,
+	range: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
+		gameName: Yup.string().nullable(),
 		tab: Yup.string().nullable(),
 		currencyId: Yup.string().nullable(),
 		orderBy: Yup.string().nullable(),
+		range: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

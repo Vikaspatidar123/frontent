@@ -68,6 +68,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 					walletId: txn?.walletId,
 					transactionId: txn?.transactionId,
 					gameId: txn?.gameId,
+					gameName: txn?.casinoGame?.name || '-',
 					amount: txn?.ledger?.amount,
 					currencyCode: txn?.ledger?.currency?.code,
 					conversionRate: txn?.conversionRate,
@@ -109,6 +110,12 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 			{
 				Header: 'Game ID',
 				accessor: 'gameId',
+				filterable: true,
+				Cell: ({ cell }) => <GameName value={cell.value} />,
+			},
+			{
+				Header: 'Game Name',
+				accessor: 'gameName',
 				filterable: true,
 				Cell: ({ cell }) => <GameName value={cell.value} />,
 			},

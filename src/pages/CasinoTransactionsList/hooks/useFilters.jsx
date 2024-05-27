@@ -16,7 +16,7 @@ import {
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
-const useFilters = () => {
+const useFilters = (userId) => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
@@ -32,6 +32,7 @@ const useFilters = () => {
 			fetchCasinoTransactionsStart({
 				perPage: itemsPerPage,
 				page: 1,
+				userId,
 				...values,
 			})
 		);
@@ -45,7 +46,7 @@ const useFilters = () => {
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields(),
+		staticFormFields: staticFiltersFields(userId),
 	});
 
 	useEffect(() => {
@@ -70,7 +71,7 @@ const useFilters = () => {
 			}));
 
 			setFormFields([
-				...staticFiltersFields(),
+				...staticFiltersFields(userId),
 				{
 					name: 'tagId',
 					fieldType: 'select',

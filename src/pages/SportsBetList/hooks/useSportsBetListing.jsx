@@ -44,7 +44,9 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 		if (sportsBet) {
 			sportsBet?.betslips?.map((txn) =>
 				formattedValues.push({
+					...txn,
 					id: txn?.id,
+					username: txn?.user?.username || '-',
 					walletId: txn?.walletId,
 					type: BETSLIP_TYPES.find((type) => type.value === txn?.type)?.label,
 					stake: txn?.stake,
@@ -69,6 +71,12 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
+			},
+			{
+				Header: 'Username',
+				accessor: 'username',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'Wallet Id',

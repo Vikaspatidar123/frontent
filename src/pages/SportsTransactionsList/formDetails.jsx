@@ -1,7 +1,15 @@
 import * as Yup from 'yup';
 import { BET_TYPES, LEDGER_PURPOSE, STATUS_TYPE } from './constants';
 
-const staticFiltersFields = () => [
+const staticFiltersFields = (userId = '') => [
+	{
+		name: 'searchString',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by email or username',
+		isHide: !!userId,
+	},
 	{
 		name: 'transactionId',
 		fieldType: 'textField',
@@ -58,6 +66,7 @@ const staticFiltersFields = () => [
 // const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
+	searchString: '',
 	fromDate: '',
 	toDate: '',
 	gameId: '',
@@ -72,6 +81,7 @@ const filterValues = () => ({
 
 const filterValidationSchema = () =>
 	Yup.object({
+		searchString: Yup.string().nullable(),
 		status: Yup.string().nullable(),
 		fromDate: Yup.string().nullable(),
 		toDate: Yup.string().nullable(),
