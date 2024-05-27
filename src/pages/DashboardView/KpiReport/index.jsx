@@ -67,7 +67,7 @@ const KpiReport = () => {
 				<CardBody>
 					{isGranted(modules.kpiReport, 'R') ? (
 						<Row>
-							<Col className="d-flex align-items-center">
+							<Col xl={7} className="d-flex align-items-center">
 								<h4 className="card-title font-size-18 mb-3">KPI Report</h4>
 								<i
 									role="button"
@@ -86,8 +86,7 @@ const KpiReport = () => {
 									Refresh
 								</UncontrolledTooltip>
 							</Col>
-
-							<Col className="float-end">
+							<Col xl={5} className="float-end my-2">
 								<div className="d-flex justify-content-between align-items-center">
 									<CustomSelectField
 										name="kpiSummaryDateFilter"
