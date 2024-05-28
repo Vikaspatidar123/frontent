@@ -57,11 +57,11 @@ const DashboardView = ({ t }) => {
 					</Suspense>
 
 					<Suspense>
-						<KpiReport />
+						<GameReport />
 					</Suspense>
 
 					<Suspense>
-						<GameReport />
+						<KpiReport />
 					</Suspense>
 				</Row>
 			</Container>
