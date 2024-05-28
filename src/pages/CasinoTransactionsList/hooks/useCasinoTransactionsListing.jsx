@@ -69,7 +69,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 					transactionId: txn?.transactionId,
 					gameId: txn?.gameId,
 					gameName: txn?.casinoGame?.name || '-',
-					amount: txn?.ledger?.amount,
+					amount: txn?.ledger?.amount ?? '-',
 					currencyCode: txn?.ledger?.currency?.code,
 					conversionRate: txn?.conversionRate,
 					actionType: txn?.ledger?.fromWalletId ? 'Debit' : 'Credit',

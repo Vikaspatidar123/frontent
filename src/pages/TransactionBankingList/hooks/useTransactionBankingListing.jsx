@@ -53,7 +53,7 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 				const transactionData = {
 					...transaction,
 					ledgerId: transaction?.ledgerId || '-',
-					amount: transaction?.ledger?.amount || '-',
+					amount: transaction?.ledger?.amount ?? '-',
 					purpose: transaction?.ledger?.purpose || '-',
 					currency: transaction?.ledger?.currency?.code || '-',
 					from: transaction?.ledger?.fromWalletId

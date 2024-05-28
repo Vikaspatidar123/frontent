@@ -63,7 +63,7 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 					walletId: txn?.walletId,
 					transactionId: txn?.transactionId,
 					gameId: txn?.gameId,
-					amount: txn?.ledger?.amount,
+					amount: txn?.ledger?.amount ?? '-',
 					currencyCode: txn?.ledger?.currency?.code,
 					conversionRate: txn?.conversionRate,
 					actionType: txn?.ledger?.fromWalletId ? 'Debit' : 'Credit',
