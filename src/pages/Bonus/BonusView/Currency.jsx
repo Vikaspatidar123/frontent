@@ -16,7 +16,7 @@ const Currencies = ({ bonusDetails }) => {
 	const { currencies } = useSelector((state) => state.Currencies);
 
 	useEffect(() => {
-		dispatch(fetchCurrenciesStart({}));
+		if (!currencies) dispatch(fetchCurrenciesStart({}));
 	}, []);
 
 	useEffect(() => {

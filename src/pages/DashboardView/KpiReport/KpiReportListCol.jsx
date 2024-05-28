@@ -1,15 +1,20 @@
 const ProviderName = ({ cell }) => cell;
 
-const Ggr = ({ cell }) => cell;
+const Ggr = ({ cell, defaultCurrency }) => `${defaultCurrency.symbol} ${cell}`;
 
-const DeltaGgr = ({ cell }) => cell;
+const DeltaGgr = ({ cell, defaultCurrency }) =>
+	`${defaultCurrency.symbol} ${cell}`;
 
-const RealBet = ({ cell }) => cell;
+const RealBet = ({ cell, defaultCurrency }) =>
+	`${defaultCurrency.symbol} ${cell}`;
 
-const RealWin = ({ cell }) => cell;
+const RealWin = ({ cell, defaultCurrency }) =>
+	`${defaultCurrency.symbol} ${cell}`;
 
-const BonusWin = ({ cell }) => cell;
-const BonusGgr = ({ cell }) => cell;
+const BonusWin = ({ cell, defaultCurrency }) =>
+	`${defaultCurrency.symbol} ${cell}`;
+const BonusGgr = ({ cell, defaultCurrency }) =>
+	`${defaultCurrency.symbol} ${cell}`;
 const TotalBets = ({ cell }) => cell;
 const DeltaTotalBets = ({ cell }) => cell;
 

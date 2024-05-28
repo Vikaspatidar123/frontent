@@ -31,6 +31,7 @@ const Dropdown = ({ tab, selectedDropdown, setSelectedDropdown, toggle }) => (
 					<DropdownItem
 						key={item?.id}
 						active={selectedDropdown}
+						className="py-3"
 						onClick={() => {
 							toggle(tab?.id);
 							setSelectedDropdown(item?.id);

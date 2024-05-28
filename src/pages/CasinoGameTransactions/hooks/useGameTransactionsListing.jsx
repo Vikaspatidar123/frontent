@@ -24,6 +24,9 @@ const useGameTransactionsListing = (filterValues = {}) => {
 	const { gameTransactions, loading } = useSelector(
 		(state) => state.GameTransactions
 	);
+	const defaultCurrency = useSelector(
+		(state) => state.Currencies.defaultCurrency
+	);
 
 	useEffect(() => {
 		dispatch(
@@ -42,7 +45,6 @@ const useGameTransactionsListing = (filterValues = {}) => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
-
 	const columns = useMemo(
 		() => [
 			{
@@ -50,43 +52,60 @@ const useGameTransactionsListing = (filterValues = {}) => {
 				accessor: 'id',
 				notHidable: true,
 				filterable: true,
-				Cell: ({ cell }) => <IdValue cell={cell?.value || ''} />,
+				Cell: ({ cell }) => <IdValue cell={cell?.value || '-'} />,
 			},
 			{
 				Header: 'NAME',
 				accessor: 'name',
 				filterable: true,
-				Cell: ({ cell }) => <Name cell={cell?.value || ''} />,
+				Cell: ({ cell }) => <Name cell={cell?.value || '-'} />,
 			},
 			{
 				Header: 'TOTAL PLAYER',
 				accessor: 'totalPlayers',
 				filterable: true,
-				Cell: ({ cell }) => <NumberPlayer cell={cell?.value || ''} />,
+				Cell: ({ cell }) => <NumberPlayer cell={cell?.value ?? '0'} />,
 			},
 			{
 				Header: 'TOTAL BETS AMOUNT',
 				accessor: 'totalBetAmount',
 				filterable: true,
-				Cell: ({ cell }) => <TotalBetsAmount cell={cell?.value || ''} />,
+				Cell: ({ cell }) => (
+					<TotalBetsAmount
+						cell={cell?.value ?? 0}
+						defaultCurrency={defaultCurrency}
+					/>
+				),
 			},
 			{
 				Header: 'TOTAL WIN AMOUNT',
 				accessor: 'totalWinAmount',
 				disableFilters: true,
-				Cell: ({ cell }) => <TotalWins cell={cell?.value || ''} />,
+				Cell: ({ cell }) => (
+					<TotalWins
+						cell={cell?.value ?? 0}
+						defaultCurrency={defaultCurrency}
+					/>
+				),
 			},
 			{
 				Header: 'GAME REVENUE',
 				accessor: 'gameRevenue',
 				disableFilters: true,
-				Cell: ({ cell }) => <GameRevenue cell={cell?.value || ''} />,
+				Cell: ({ cell }) => (
+					<GameRevenue
+						cell={cell?.value ?? 0}
+						defaultCurrency={defaultCurrency}
+					/>
+				),
 			},
 			{
 				Header: 'PAYOUT',
 				accessor: 'payout',
 				disableFilters: true,
-				Cell: ({ cell }) => <Payout cell={cell?.value || ''} />,
+				Cell: ({ cell }) => (
+					<Payout cell={cell?.value ?? 0} defaultCurrency={defaultCurrency} />
+				),
 			},
 		],
 		[]

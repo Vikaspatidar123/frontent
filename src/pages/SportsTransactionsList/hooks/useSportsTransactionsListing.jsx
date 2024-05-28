@@ -33,6 +33,9 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 	const superAdminUser = useSelector(
 		(state) => state.PermissionDetails.superAdminUser
 	);
+	const defaultCurrency = useSelector(
+		(state) => state.Currencies.defaultCurrency
+	);
 
 	useEffect(() => {
 		dispatch(
@@ -118,7 +121,11 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 				accessor: 'amount',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<Amount value={cell.value} type={cell?.row?.original?.actionType} />
+					<Amount
+						value={cell.value}
+						type={cell?.row?.original?.actionType}
+						defaultCurrency={defaultCurrency}
+					/>
 				),
 			},
 			{

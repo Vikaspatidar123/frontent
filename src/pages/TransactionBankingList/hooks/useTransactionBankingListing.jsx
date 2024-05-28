@@ -27,6 +27,10 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 	const superAdminUser = useSelector(
 		(state) => state.PermissionDetails.superAdminUser
 	);
+	const defaultCurrency = useSelector(
+		(state) => state.Currencies.defaultCurrency
+	);
+
 	const onChangeRowsPerPage = (value) => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
@@ -108,6 +112,7 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 					<Amount
 						value={cell.value}
 						type={cell?.row?.original?.ledger?.fromWalletId}
+						defaultCurrency={defaultCurrency}
 					/>
 				),
 			},

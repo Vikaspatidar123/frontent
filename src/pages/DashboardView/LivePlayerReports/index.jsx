@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Row, Col, CardBody, Card } from 'reactstrap';
 import ReportList from './ReportList';
 import { modules } from '../../../constants/permissions';
@@ -8,13 +9,16 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const Reports = (props) => {
 	const { livePlayerData, isLivePlayerLoading } = props;
+	const defaultCurrency = useSelector(
+		(state) => state.Currencies.defaultCurrency
+	);
 	const { isGranted } = usePermission();
 
 	const reportList = useMemo(
 		() => [
 			{
 				title: 'Today GGR',
-				description: `$ ${
+				description: `${defaultCurrency?.symbol} ${
 					livePlayerData.todayTotalCasinoGGR +
 						livePlayerData.todayTotalSportsbookGGR || 0
 				}`,
@@ -69,12 +73,18 @@ const Reports = (props) => {
 		</Row>
 	);
 };
+
+Reports.defaultProps = {
+	livePlayerData: 0,
+	isLivePlayerLoading: 0,
+};
+
 Reports.propTypes = {
 	livePlayerData: PropTypes.string,
 	isLivePlayerLoading: PropTypes.bool,
+	defaultCurrency: PropTypes.shape({
+		symbol: PropTypes.string,
+	}).isRequired,
 };
-Reports.defaultProps = {
-	livePlayerData: PropTypes.string,
-	isLivePlayerLoading: PropTypes.bool,
-};
+
 export default Reports;

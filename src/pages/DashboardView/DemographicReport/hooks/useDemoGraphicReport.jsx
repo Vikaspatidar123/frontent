@@ -9,7 +9,9 @@ const useDemoGraphicReport = () => {
 	const dispatch = useDispatch();
 	const [demoDateOptions, setDemoDateOptions] = useState('yeartodate');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
-
+	const defaultCurrency = useSelector(
+		(state) => state.Currencies.defaultCurrency
+	);
 	const { demoGraphicData, isDemographicLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
@@ -99,10 +101,12 @@ const useDemoGraphicReport = () => {
 				Header: 'DEPOSIT AMOUNT',
 				accessor: 'depositAmount',
 				filterable: true,
-				Cell: ({ cell }) => <DepositAmount cell={cell} />,
+				Cell: ({ cell }) => (
+					<DepositAmount cell={cell} defaultCurrency={defaultCurrency} />
+				),
 			},
 		],
-		[]
+		[defaultCurrency.symbol]
 	);
 
 	return {

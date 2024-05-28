@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 const Id = ({ value }) => value ?? '-';
 
-const KeyValueCell = ({ value }) => value ?? '-';
+const KeyValueCell = ({ value, defaultCurrency }) =>
+	defaultCurrency ? `${defaultCurrency.symbol} ${value ?? 0}` : value ?? '-';
 
 const Amount = ({ value }) =>
 	value ? (

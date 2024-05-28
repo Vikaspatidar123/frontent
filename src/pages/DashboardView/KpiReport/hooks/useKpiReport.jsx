@@ -21,7 +21,9 @@ const useKpiReport = () => {
 		(state) => state.DashboardViewInfo
 	);
 
-	const { currencies } = useSelector((state) => state.Currencies);
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
+	);
 
 	const loadKPIReport = () => {
 		dispatch(
@@ -50,43 +52,53 @@ const useKpiReport = () => {
 			Header: 'GGR',
 			accessor: 'ggr',
 			filterable: true,
-			Cell: ({ cell }) => <Ggr cell={cell?.value || '0'} />,
+			Cell: ({ cell }) => (
+				<Ggr cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
+			),
 		},
 		{
 			Header: 'OLD GGR',
 			accessor: 'oldGgr',
 			filterable: true,
-			Cell: ({ cell }) => <Ggr cell={cell?.value || '0'} />,
+			Cell: ({ cell }) => (
+				<Ggr cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
+			),
 		},
 		{
 			Header: 'DELTA GGR',
 			accessor: 'deltaGgr',
 			filterable: true,
-			Cell: ({ cell }) => <DeltaGgr cell={cell?.value || '0'} />,
+			Cell: ({ cell }) => (
+				<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
+			),
 		},
 		{
 			Header: 'TOTAL BETS',
 			accessor: 'totalBets',
 			disableFilters: true,
-			Cell: ({ cell }) => <TotalBets cell={cell?.value || '0'} />,
+			Cell: ({ cell }) => <TotalBets cell={cell?.value ?? '0'} />,
 		},
 		{
 			Header: 'TOTAL WIN',
 			accessor: 'totalWinAmount',
 			disableFilters: true,
-			Cell: ({ cell }) => <TotalBets cell={cell?.value || '0'} />,
+			Cell: ({ cell }) => (
+				<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
+			),
 		},
 		{
 			Header: 'DELTA TOTAL BETS',
 			accessor: 'deltaTotalBetAmount',
 			disableFilters: true,
-			Cell: ({ cell }) => <DeltaTotalBets cell={cell?.value || '0'} />,
+			Cell: ({ cell }) => <DeltaTotalBets cell={cell?.value ?? '0'} />,
 		},
 		{
 			Header: 'TOTAL BET AMOUNT',
 			accessor: 'totalBetAmount',
 			filterable: true,
-			Cell: ({ cell }) => <RealBet cell={cell?.value || '0'} />,
+			Cell: ({ cell }) => (
+				<RealBet cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
+			),
 		},
 	]);
 	return {

@@ -128,7 +128,7 @@ const PlayerDetailsPage = ({ t }) => {
 		},
 		{
 			id: 5,
-			title: 'Player Reports', // Combined dropdown for all player reports
+			title: 'Reports', // Combined dropdown for all player reports
 			isHidden: !isGranted(modules.report, 'R'),
 			isDropdown: true,
 			dropdownItems: [

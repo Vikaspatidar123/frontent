@@ -13,7 +13,9 @@ const useKpiSummary = () => {
 	const { kPISummary, isKpiSummaryLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
-	const { currencies } = useSelector((state) => state.Currencies);
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
+	);
 
 	const loadKPISummary = () => {
 		dispatch(
@@ -46,7 +48,9 @@ const useKpiSummary = () => {
 									// CustomDate: 0,
 								};
 							}
-							acc[key][entry.data] = entry[key];
+							acc[key][entry.data] = ['betamount', 'winamount'].includes(key)
+								? `${defaultCurrency.symbol} ${entry[key]}`
+								: entry[key];
 						}
 					});
 					return acc;
@@ -89,7 +93,7 @@ const useKpiSummary = () => {
 				Cell: ({ cell }) => <Delta cell={cell?.value || ''} />,
 			},
 		],
-		[]
+		[defaultCurrency.symbol]
 	);
 
 	return {

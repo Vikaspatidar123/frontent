@@ -20,10 +20,10 @@ const ConversionRate = ({ value }) => value ?? '';
 
 const Purpose = ({ value }) => value ?? '';
 
-const Amount = ({ value, type }) =>
+const Amount = ({ value, type, defaultCurrency }) =>
 	value ? (
 		<div className={type === 'Debit' ? 'text-danger' : 'text-success'}>
-			{value}
+			{`${defaultCurrency.symbol} ${value}`}
 		</div>
 	) : (
 		'-'

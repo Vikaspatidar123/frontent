@@ -38,19 +38,17 @@ const useCreateCurrency = () => {
 			createCurrencyStart({
 				data: {
 					...values,
-					type: values.type,
 					isActive: false,
 				},
 			})
 		);
 	};
 
-	const handleEditCurrency = ({ name, exchangeRate }) => {
+	const handleEditCurrency = (values) => {
 		dispatch(
 			editCurrencyStart({
 				data: {
-					name,
-					exchangeRate,
+					...values,
 					currencyId: isEdit.selectedRow.id,
 				},
 			})
@@ -172,6 +170,12 @@ const useCreateCurrency = () => {
 			{
 				Header: 'CODE',
 				accessor: 'code',
+				// filterable: true,
+				Cell: ({ cell }) => <Code value={cell.value} />,
+			},
+			{
+				Header: 'Symbol',
+				accessor: 'symbol',
 				// filterable: true,
 				Cell: ({ cell }) => <Code value={cell.value} />,
 			},

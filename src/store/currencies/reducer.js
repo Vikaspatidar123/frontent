@@ -13,6 +13,7 @@ import {
 
 const initialState = {
 	currencies: null,
+	defaultCurrency: { symbol: '$' },
 	error: '',
 	loading: false,
 	isCreateCurrencyError: false,
@@ -43,6 +44,7 @@ const currenciesReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loading: false,
 				currencies: payload,
+				defaultCurrency: payload?.currencies?.find((curr) => curr.default),
 			};
 
 		case RESET_CURRENCIES_DATA:

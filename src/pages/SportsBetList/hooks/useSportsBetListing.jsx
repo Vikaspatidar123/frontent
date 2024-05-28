@@ -20,6 +20,9 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 	const { sportsBet, loading: isSportsBetLoading } = useSelector(
 		(state) => state.SportsBet
 	);
+	const defaultCurrency = useSelector(
+		(state) => state.Currencies.defaultCurrency
+	);
 
 	const onChangeRowsPerPage = (value) => {
 		setCurrentPage(1);
@@ -93,7 +96,9 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 				Header: 'Stake',
 				accessor: 'stake',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => (
+					<KeyValueCell value={cell.value} defaultCurrency={defaultCurrency} />
+				),
 			},
 			{
 				Header: 'Multiplied Odds',
@@ -105,7 +110,9 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 				Header: 'Winning Amount',
 				accessor: 'winningAmount',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => (
+					<KeyValueCell value={cell.value} defaultCurrency={defaultCurrency} />
+				),
 			},
 			{
 				Header: 'Status',
