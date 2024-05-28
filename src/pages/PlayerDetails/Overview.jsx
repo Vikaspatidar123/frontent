@@ -284,7 +284,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)}
-									{isGranted(modules.player, 'RP') && (
+									{isGranted(modules.player, 'U') && (
 										<ColumnContainer>
 											<Dropdown
 												isOpen={openResetMenu}
