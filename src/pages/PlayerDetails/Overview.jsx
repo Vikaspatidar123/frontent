@@ -30,6 +30,7 @@ import UpdateUserInfo from './modals/UpdateUserInfo';
 import ResetUserPassword from './modals/ResetUserPassword';
 import { modules } from '../../constants/permissions';
 import usePermission from '../../components/Common/Hooks/usePermission';
+import { showToastr } from '../../utils/helpers';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -171,13 +172,21 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)} */}
-									{(isGranted(modules.player, 'VE') ||
-										userDetails?.emailVerified) && (
-										<ColumnContainer hidden={userDetails?.emailVerified}>
+									{isGranted(modules.player, 'VE') && (
+										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
 												variant="outline-success"
-												onClick={() => openModal('verifyEmailModal')}
+												onClick={() => {
+													if (userDetails?.emailVerified) {
+														showToastr({
+															message: 'Email already verified',
+															type: 'info',
+														});
+													} else {
+														openModal('verifyEmailModal');
+													}
+												}}
 											>
 												Verify Email
 											</Button>
