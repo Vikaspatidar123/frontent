@@ -36,71 +36,80 @@ const useKpiReport = () => {
 	};
 
 	useEffect(() => {
+		setCurrencyId(defaultCurrency.id);
+	}, [defaultCurrency.id]);
+
+	useEffect(() => {
 		if (activeKpiReportTab) {
 			loadKPIReport();
 		}
 	}, [activeKpiReportTab, kpiReportDateOption, currencyId]);
 
-	const kPIReportColumn = useMemo(() => [
-		{
-			Header: 'NAME',
-			accessor: 'name',
-			filterable: true,
-			Cell: ({ cell }) => <ProviderName cell={cell?.value?.EN || '-'} />,
-		},
-		{
-			Header: 'GGR',
-			accessor: 'ggr',
-			filterable: true,
-			Cell: ({ cell }) => (
-				<Ggr cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
-			),
-		},
-		{
-			Header: 'OLD GGR',
-			accessor: 'oldGgr',
-			filterable: true,
-			Cell: ({ cell }) => (
-				<Ggr cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
-			),
-		},
-		{
-			Header: 'DELTA GGR',
-			accessor: 'deltaGgr',
-			filterable: true,
-			Cell: ({ cell }) => (
-				<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
-			),
-		},
-		{
-			Header: 'TOTAL BETS',
-			accessor: 'totalBets',
-			disableFilters: true,
-			Cell: ({ cell }) => <TotalBets cell={cell?.value ?? '0'} />,
-		},
-		{
-			Header: 'TOTAL WIN',
-			accessor: 'totalWinAmount',
-			disableFilters: true,
-			Cell: ({ cell }) => (
-				<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
-			),
-		},
-		{
-			Header: 'DELTA TOTAL BETS',
-			accessor: 'deltaTotalBetAmount',
-			disableFilters: true,
-			Cell: ({ cell }) => <DeltaTotalBets cell={cell?.value ?? '0'} />,
-		},
-		{
-			Header: 'TOTAL BET AMOUNT',
-			accessor: 'totalBetAmount',
-			filterable: true,
-			Cell: ({ cell }) => (
-				<RealBet cell={cell?.value ?? '0'} defaultCurrency={defaultCurrency} />
-			),
-		},
-	]);
+	const kPIReportColumn = useMemo(() => {
+		const currency =
+			currencies?.currencies?.find((curr) => curr.id === currencyId) ||
+			defaultCurrency;
+		return [
+			{
+				Header: 'NAME',
+				accessor: 'name',
+				filterable: true,
+				Cell: ({ cell }) => <ProviderName cell={cell?.value?.EN || '-'} />,
+			},
+			{
+				Header: 'GGR',
+				accessor: 'ggr',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<Ggr cell={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+			{
+				Header: 'OLD GGR',
+				accessor: 'oldGgr',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<Ggr cell={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+			{
+				Header: 'DELTA GGR',
+				accessor: 'deltaGgr',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+			{
+				Header: 'TOTAL BETS',
+				accessor: 'totalBets',
+				disableFilters: true,
+				Cell: ({ cell }) => <TotalBets cell={cell?.value ?? '0'} />,
+			},
+			{
+				Header: 'TOTAL WIN',
+				accessor: 'totalWinAmount',
+				disableFilters: true,
+				Cell: ({ cell }) => (
+					<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+			{
+				Header: 'DELTA TOTAL BETS',
+				accessor: 'deltaTotalBetAmount',
+				disableFilters: true,
+				Cell: ({ cell }) => <DeltaTotalBets cell={cell?.value ?? '0'} />,
+			},
+			{
+				Header: 'TOTAL BET AMOUNT',
+				accessor: 'totalBetAmount',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<RealBet cell={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+		];
+	}, [currencyId, defaultCurrency.symbol]);
 	return {
 		activeKpiReportTab,
 		setActiveKpiReportTab,

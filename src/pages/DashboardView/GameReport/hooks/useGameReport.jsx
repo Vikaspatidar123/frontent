@@ -39,13 +39,21 @@ const useGameReport = () => {
 	};
 
 	useEffect(() => {
+		setCurrencyId(defaultCurrency.id);
+	}, [defaultCurrency.id]);
+
+	useEffect(() => {
 		if (activeGameReportTab) {
 			loadGameReport();
 		}
 	}, [activeGameReportTab, gameReportDateOption, orderBy, currencyId]);
 
-	const gameReportColumn = useMemo(
-		() => [
+	const gameReportColumn = useMemo(() => {
+		const currency =
+			currencies?.currencies?.find((curr) => curr.id === currencyId) ||
+			defaultCurrency;
+
+		return [
 			{
 				Header: 'ID',
 				accessor: 'id',
@@ -70,10 +78,7 @@ const useGameReport = () => {
 				accessor: 'totalBetAmount',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<TotalBetsAmount
-						cell={cell?.value ?? 0}
-						defaultCurrency={defaultCurrency}
-					/>
+					<TotalBetsAmount cell={cell?.value ?? 0} defaultCurrency={currency} />
 				),
 			},
 			{
@@ -81,10 +86,7 @@ const useGameReport = () => {
 				accessor: 'totalWinAmount',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<TotalWins
-						cell={cell?.value ?? 0}
-						defaultCurrency={defaultCurrency}
-					/>
+					<TotalWins cell={cell?.value ?? 0} defaultCurrency={currency} />
 				),
 			},
 			{
@@ -92,10 +94,7 @@ const useGameReport = () => {
 				accessor: 'gameRevenue',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<GameRevenue
-						cell={cell?.value ?? 0}
-						defaultCurrency={defaultCurrency}
-					/>
+					<GameRevenue cell={cell?.value ?? 0} defaultCurrency={currency} />
 				),
 			},
 			{
@@ -103,12 +102,11 @@ const useGameReport = () => {
 				accessor: 'payout',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<Payout cell={cell?.value ?? 0} defaultCurrency={defaultCurrency} />
+					<Payout cell={cell?.value ?? 0} defaultCurrency={currency} />
 				),
 			},
-		],
-		[]
-	);
+		];
+	}, [currencyId]);
 
 	return {
 		gameReport,

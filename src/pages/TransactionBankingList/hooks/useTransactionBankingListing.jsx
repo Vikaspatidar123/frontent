@@ -27,8 +27,8 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 	const superAdminUser = useSelector(
 		(state) => state.PermissionDetails.superAdminUser
 	);
-	const defaultCurrency = useSelector(
-		(state) => state.Currencies.defaultCurrency
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
 	);
 
 	const onChangeRowsPerPage = (value) => {
@@ -84,8 +84,12 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 		return formattedValues;
 	}, [transactionBanking]);
 
-	const columns = useMemo(
-		() => [
+	const columns = useMemo(() => {
+		const currency =
+			currencies?.currencies?.find(
+				(curr) => curr.id === filterValues.currencyId
+			) || defaultCurrency;
+		return [
 			{
 				Header: 'Ledger Id',
 				accessor: 'ledgerId',
@@ -112,7 +116,7 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 					<Amount
 						value={cell.value}
 						type={cell?.row?.original?.ledger?.fromWalletId}
-						defaultCurrency={defaultCurrency}
+						defaultCurrency={currency}
 					/>
 				),
 			},
@@ -144,9 +148,8 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 				accessor: 'createdAt',
 				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},
-		],
-		[]
-	);
+		];
+	}, [filterValues.currencyId]);
 
 	const exportComponent = useMemo(() => [
 		{

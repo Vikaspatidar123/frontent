@@ -1,9 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-	fetchCurrenciesStart,
-	resetCurrenciesData,
-} from '../../../store/actions';
+import { fetchCurrenciesStart } from '../../../store/actions';
 
 const useCurrencyListing = () => {
 	const dispatch = useDispatch();
@@ -28,9 +25,6 @@ const useCurrencyListing = () => {
 	useEffect(() => {
 		fetchData();
 	}, [currentPage, itemsPerPage]);
-
-	// resetting currency list redux state
-	useEffect(() => () => dispatch(resetCurrenciesData()), []);
 
 	useEffect(() => {
 		if (isEditCurrencySuccess) fetchData();

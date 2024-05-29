@@ -56,6 +56,7 @@ const staticFiltersFields = (userId = '') => [
 
 const filterValues = () => ({
 	searchString: '',
+	currencyId: null,
 	status: null,
 	fromDate: null,
 	toDate: null,
@@ -71,6 +72,7 @@ const filterValidationSchema = () =>
 		searchString: Yup.string().nullable(),
 		type: Yup.string().nullable(),
 		settlementStatus: Yup.string().nullable(),
+		currencyId: Yup.string().nullable(),
 	});
 
 export {

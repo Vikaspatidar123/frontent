@@ -33,8 +33,8 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 	const superAdminUser = useSelector(
 		(state) => state.PermissionDetails.superAdminUser
 	);
-	const defaultCurrency = useSelector(
-		(state) => state.Currencies.defaultCurrency
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
 	);
 
 	useEffect(() => {
@@ -89,8 +89,13 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 		return formattedValues;
 	}, [sportsTransactions]);
 
-	const columns = useMemo(
-		() => [
+	const columns = useMemo(() => {
+		const currency =
+			currencies?.currencies?.find(
+				(curr) => curr.id === filterValues.currencyId
+			) || defaultCurrency;
+
+		return [
 			{
 				Header: 'Transaction Id',
 				accessor: 'transactionId',
@@ -124,7 +129,7 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 					<Amount
 						value={cell.value}
 						type={cell?.row?.original?.actionType}
-						defaultCurrency={defaultCurrency}
+						defaultCurrency={currency}
 					/>
 				),
 			},
@@ -162,9 +167,8 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 				accessor: 'createdAt',
 				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},
-		],
-		[]
-	);
+		];
+	}, [filterValues.currencyId]);
 
 	const exportComponent = useMemo(() => [
 		{

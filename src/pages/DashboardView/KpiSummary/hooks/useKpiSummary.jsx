@@ -28,6 +28,10 @@ const useKpiSummary = () => {
 	};
 
 	useEffect(() => {
+		setCurrencyId(defaultCurrency.id);
+	}, [defaultCurrency.id]);
+
+	useEffect(() => {
 		if (activeKpiSummTab) {
 			loadKPISummary();
 		}
@@ -49,7 +53,11 @@ const useKpiSummary = () => {
 								};
 							}
 							acc[key][entry.data] = ['betamount', 'winamount'].includes(key)
-								? `${defaultCurrency.symbol} ${entry[key]}`
+								? `${
+										currencies?.currencies?.find(
+											(curr) => curr.id === currencyId
+										)?.symbol || defaultCurrency.symbol
+								  } ${entry[key]}`
 								: entry[key];
 						}
 					});
@@ -58,7 +66,7 @@ const useKpiSummary = () => {
 			);
 		}
 		return [];
-	}, [kPISummary]);
+	}, [kPISummary, currencyId]);
 
 	const kPISummaryColumn = useMemo(
 		() => [
@@ -93,7 +101,7 @@ const useKpiSummary = () => {
 				Cell: ({ cell }) => <Delta cell={cell?.value || ''} />,
 			},
 		],
-		[defaultCurrency.symbol]
+		[]
 	);
 
 	return {

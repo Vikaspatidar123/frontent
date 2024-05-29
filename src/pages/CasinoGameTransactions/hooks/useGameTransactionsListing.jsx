@@ -24,8 +24,8 @@ const useGameTransactionsListing = (filterValues = {}) => {
 	const { gameTransactions, loading } = useSelector(
 		(state) => state.GameTransactions
 	);
-	const defaultCurrency = useSelector(
-		(state) => state.Currencies.defaultCurrency
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
 	);
 
 	useEffect(() => {
@@ -45,8 +45,12 @@ const useGameTransactionsListing = (filterValues = {}) => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
-	const columns = useMemo(
-		() => [
+	const columns = useMemo(() => {
+		const currency =
+			currencies?.currencies?.find(
+				(curr) => curr.id === filterValues.currencyId
+			) || defaultCurrency;
+		return [
 			{
 				Header: 'ID',
 				accessor: 'id',
@@ -71,10 +75,7 @@ const useGameTransactionsListing = (filterValues = {}) => {
 				accessor: 'totalBetAmount',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<TotalBetsAmount
-						cell={cell?.value ?? 0}
-						defaultCurrency={defaultCurrency}
-					/>
+					<TotalBetsAmount cell={cell?.value ?? 0} defaultCurrency={currency} />
 				),
 			},
 			{
@@ -82,10 +83,7 @@ const useGameTransactionsListing = (filterValues = {}) => {
 				accessor: 'totalWinAmount',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<TotalWins
-						cell={cell?.value ?? 0}
-						defaultCurrency={defaultCurrency}
-					/>
+					<TotalWins cell={cell?.value ?? 0} defaultCurrency={currency} />
 				),
 			},
 			{
@@ -93,10 +91,7 @@ const useGameTransactionsListing = (filterValues = {}) => {
 				accessor: 'gameRevenue',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<GameRevenue
-						cell={cell?.value ?? 0}
-						defaultCurrency={defaultCurrency}
-					/>
+					<GameRevenue cell={cell?.value ?? 0} defaultCurrency={currency} />
 				),
 			},
 			{
@@ -104,12 +99,11 @@ const useGameTransactionsListing = (filterValues = {}) => {
 				accessor: 'payout',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<Payout cell={cell?.value ?? 0} defaultCurrency={defaultCurrency} />
+					<Payout cell={cell?.value ?? 0} defaultCurrency={currency} />
 				),
 			},
-		],
-		[]
-	);
+		];
+	}, [filterValues.currencyId]);
 	const exportComponent = useMemo(() => [
 		{
 			label: '',

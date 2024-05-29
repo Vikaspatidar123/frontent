@@ -39,8 +39,8 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 		(state) => state.PermissionDetails.superAdminUser
 	);
 
-	const defaultCurrency = useSelector(
-		(state) => state.Currencies.defaultCurrency
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
 	);
 
 	useEffect(() => {
@@ -96,8 +96,12 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 		return formattedValues;
 	}, [casinoTransactions]);
 
-	const columns = useMemo(
-		() => [
+	const columns = useMemo(() => {
+		const currency =
+			currencies?.currencies?.find(
+				(curr) => curr.id === filterValues.currencyId
+			) || defaultCurrency;
+		return [
 			{
 				Header: 'Transaction Id',
 				accessor: 'transactionId',
@@ -143,7 +147,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 					<Amount
 						value={cell.value}
 						type={cell?.row?.original?.actionType}
-						defaultCurrency={defaultCurrency}
+						defaultCurrency={currency}
 					/>
 				),
 			},
@@ -181,9 +185,8 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 				accessor: 'createdAt',
 				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},
-		],
-		[]
-	);
+		];
+	}, [filterValues.currencyId]);
 
 	const exportComponent = useMemo(() => [
 		{

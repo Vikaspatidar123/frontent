@@ -20,8 +20,8 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 	const { sportsBet, loading: isSportsBetLoading } = useSelector(
 		(state) => state.SportsBet
 	);
-	const defaultCurrency = useSelector(
-		(state) => state.Currencies.defaultCurrency
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
 	);
 
 	const onChangeRowsPerPage = (value) => {
@@ -58,6 +58,7 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 						(status) => status.value === txn?.settlementStatus
 					)?.label,
 					winningAmount: txn?.winningAmount,
+					currency: txn?.wallet?.currency?.code || '-',
 					bets: txn?.bets,
 					createdAt: getDateTime(txn?.createdAt),
 				})
@@ -66,8 +67,13 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 		return formattedValues;
 	}, [sportsBet]);
 
-	const columns = useMemo(
-		() => [
+	const columns = useMemo(() => {
+		const currency =
+			currencies?.currencies?.find(
+				(curr) => curr.id === filterValues.currencyId
+			) || defaultCurrency;
+
+		return [
 			{
 				Header: 'Id',
 				accessor: 'id',
@@ -97,7 +103,7 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 				accessor: 'stake',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<KeyValueCell value={cell.value} defaultCurrency={defaultCurrency} />
+					<KeyValueCell value={cell.value} defaultCurrency={currency} />
 				),
 			},
 			{
@@ -111,8 +117,14 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 				accessor: 'winningAmount',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<KeyValueCell value={cell.value} defaultCurrency={defaultCurrency} />
+					<KeyValueCell value={cell.value} defaultCurrency={currency} />
 				),
+			},
+			{
+				Header: 'Currency',
+				accessor: 'currency',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'Status',
@@ -147,9 +159,8 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 					</ul>
 				),
 			},
-		],
-		[]
-	);
+		];
+	}, [filterValues.currencyId]);
 
 	const formattedBetSlips = useMemo(() => {
 		if (betSlipData?.length > 0) {
