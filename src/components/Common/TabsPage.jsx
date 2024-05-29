@@ -54,6 +54,7 @@ const TabsPage = ({
 	tabType = 'pills',
 	tabContentClass = '',
 	tabCardClass = '',
+	customComponent,
 }) => {
 	const [selectedDropdown, setSelectedDropdown] = useState('');
 	return (
@@ -137,6 +138,7 @@ const TabsPage = ({
 						)}
 					</TabPane>
 				))}
+				{customComponent}
 			</TabContent>
 		</div>
 	);
@@ -148,6 +150,7 @@ TabsPage.defaultProps = {
 	tabType: 'pills',
 	tabContentClass: '',
 	tabCardClass: '',
+	customComponent: null,
 };
 
 TabsPage.propTypes = {
@@ -164,6 +167,7 @@ TabsPage.propTypes = {
 	tabType: PropTypes.string,
 	tabContentClass: PropTypes.string,
 	tabCardClass: PropTypes.string,
+	customComponent: PropTypes.element,
 };
 
 Dropdown.defaultProps = {

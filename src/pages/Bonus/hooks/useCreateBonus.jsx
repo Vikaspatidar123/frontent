@@ -18,16 +18,19 @@ import {
 	resetUpdateBonus,
 	updateBonus,
 } from '../../../store/actions';
-import { BONUS_TYPES, daysLabels, LANGUAGES } from '../constants';
+import {
+	BONUS_KEY_RELATION,
+	BONUS_TYPES,
+	daysLabels,
+	LANGUAGES,
+} from '../constants';
 import { YMDdate } from '../../../constants/config';
-import { filterEmptyPayload } from '../../../network/networkUtils';
 
 const useCreateBonus = ({ isEdit }) => {
 	const { bonusId, bonusType } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [gameIds, setGameIds] = useState([]);
-	const [bonusTypeChanged, setBonusTypeChanged] = useState(false);
 	const [activeLangTab, setActiveLangTab] = useState('EN');
 	const [activeTab, setActiveTab] = useState('general');
 	const [allFields, setAllFields] = useState({
@@ -35,8 +38,6 @@ const useCreateBonus = ({ isEdit }) => {
 	});
 	const [selectedTemplate, setSelectedTemplate] = useState(1);
 	const [langList] = useState(LANGUAGES);
-	const [nextPressed, setNextPressed] = useState({});
-	const [isNextDisabled, setNextDisabled] = useState(false);
 
 	const [langContent, setLangContent] = useState({
 		promoTitle: { EN: '' },
@@ -69,7 +70,10 @@ const useCreateBonus = ({ isEdit }) => {
 
 	useEffect(() => {
 		if (!isEmpty(bonusDetails)) {
-			setGameIds(bonusDetails?.gameIds);
+			setGameIds(
+				bonusDetails?.[BONUS_KEY_RELATION[bonusDetails.bonusType]]?.gameIds ||
+					[]
+			);
 			setLangContent({
 				promoTitle: bonusDetails?.promotionTitle,
 				terms: bonusDetails?.termAndCondition,
@@ -100,102 +104,115 @@ const useCreateBonus = ({ isEdit }) => {
 		}
 	}, [updateBonusSuccess]);
 
+	const submitBonus = () => {
+		if (isEdit) {
+			let validOnDays = '';
+			if (allFields?.validOnDays?.length) {
+				daysLabels?.forEach((val) => {
+					if (allFields.validOnDays.includes(val)) {
+						validOnDays += '1';
+					} else {
+						validOnDays += '0';
+					}
+				});
+			}
+
+			const payload = {
+				...allFields,
+				bonusId,
+				validOnDays,
+				currencyDetails: safeStringify(allFields.currencyDetails),
+				promotionTitle: langContent?.promoTitle,
+				description: langContent?.desc,
+				termAndCondition: langContent?.terms,
+				validFrom: allFields.validFrom
+					? moment(allFields.validFrom).format(YMDdate)
+					: allFields.validFrom,
+				validTo: allFields.validTo
+					? moment(allFields.validTo).format(YMDdate)
+					: allFields.validTo,
+				wageringTemplateId: selectedTemplate || allFields.selectedTemplateId,
+				gameIds,
+				file: allFields?.bonusImage,
+
+				// removed the unused payload
+				bonusImage: null,
+				selectedTemplate: null,
+			};
+
+			dispatch(updateBonus(payload));
+		} else {
+			let validOnDays = '';
+			if (allFields?.validOnDays?.length) {
+				daysLabels?.forEach((val) => {
+					if (allFields.validOnDays.includes(val)) {
+						validOnDays += '1';
+					} else {
+						validOnDays += '0';
+					}
+				});
+			}
+
+			const payload = {
+				...allFields,
+				validOnDays,
+				currencyDetails: safeStringify(allFields.currencyDetails),
+				promotionTitle: langContent?.promoTitle,
+				description: langContent?.desc,
+				termAndCondition: langContent?.terms,
+				validFrom: allFields.validFrom
+					? moment(allFields.validFrom).format(YMDdate)
+					: allFields.validFrom,
+				validTo: allFields.validTo
+					? moment(allFields.validTo).format(YMDdate)
+					: allFields.validTo,
+				wageringTemplateId: selectedTemplate || allFields.selectedTemplateId,
+				gameIds,
+				file: allFields?.bonusImage,
+
+				// removed the unused payload
+				bonusImage: null,
+				selectedTemplate: null,
+			};
+
+			dispatch(createBonus(payload));
+		}
+	};
+
 	const toggleTab = (tab) => {
-		setNextDisabled(false);
-		if (activeTab !== tab) {
+		if (tab === 'submit') {
+			if (!updateBonusLoading || !createBonusLoading) {
+				submitBonus();
+			}
+		} else if (activeTab !== tab) {
 			setActiveTab(tab);
 		}
 	};
 
-	const onNextClick = (current, next) => {
-		setNextPressed({ currentTab: current, nextTab: next });
-	};
-
-	// final create api call
-	useEffect(() => {
-		if (nextPressed.nextTab === 'submit') {
-			if (isEdit) {
-				let validOnDays = '';
-				if (allFields?.validOnDays?.length) {
-					daysLabels?.forEach((val) => {
-						if (allFields.validOnDays.includes(val)) {
-							validOnDays += '1';
-						} else {
-							validOnDays += '0';
-						}
-					});
-				}
-
-				const payload = {
-					...allFields,
-					bonusId,
-					validOnDays,
-					currencyDetails: safeStringify([
-						filterEmptyPayload(allFields.currencyDetails),
-					]),
-					promotionTitle: langContent?.promoTitle,
-					description: langContent?.desc,
-					termAndCondition: langContent?.terms,
-					validFrom: allFields.validFrom
-						? moment(allFields.validFrom).format(YMDdate)
-						: allFields.validFrom,
-					validTo: allFields.validTo
-						? moment(allFields.validTo).format(YMDdate)
-						: allFields.validTo,
-					wageringTemplateId: selectedTemplate || allFields.selectedTemplateId,
-					gameIds: allFields.gameIds,
-					file: allFields?.bonusImage,
-
-					// removed the unused payload
-					bonusImage: null,
-					selectedTemplate: null,
-				};
-
-				dispatch(updateBonus(payload));
-			} else {
-				let validOnDays = '';
-				if (allFields?.validOnDays?.length) {
-					daysLabels?.forEach((val) => {
-						if (allFields.validOnDays.includes(val)) {
-							validOnDays += '1';
-						} else {
-							validOnDays += '0';
-						}
-					});
-				}
-
-				const payload = {
-					...allFields,
-					validOnDays,
-					currencyDetails: safeStringify([
-						filterEmptyPayload(allFields.currencyDetails),
-					]),
-					promotionTitle: langContent?.promoTitle,
-					description: langContent?.desc,
-					termAndCondition: langContent?.terms,
-					validFrom: allFields.validFrom
-						? moment(allFields.validFrom).format(YMDdate)
-						: allFields.validFrom,
-					validTo: allFields.validTo
-						? moment(allFields.validTo).format(YMDdate)
-						: allFields.validTo,
-					wageringTemplateId: selectedTemplate || allFields.selectedTemplateId,
-					gameIds: allFields.gameIds,
-					file: allFields?.bonusImage,
-
-					// removed the unused payload
-					bonusImage: null,
-					selectedTemplate: null,
-				};
-
-				dispatch(createBonus(payload));
-			}
-		}
-	}, [nextPressed]);
-
 	const onBackClick = () => {
 		navigate('/bonus');
 	};
+
+	const tabsToShow = [
+		// add same condition like tabsData
+		{
+			id: 'general',
+		},
+		{
+			id: 'languages',
+		},
+		{
+			id: 'currency',
+		},
+		...([BONUS_TYPES.JOINING].includes(allFields?.bonusType)
+			? []
+			: [{ id: 'wageringContribution' }]),
+		...([BONUS_TYPES.JOINING, BONUS_TYPES.DEPOSIT].includes(
+			allFields?.bonusType
+		)
+			? []
+			: [{ id: 'games' }]),
+	];
 
 	const tabData = [
 		{
@@ -204,17 +221,15 @@ const useCreateBonus = ({ isEdit }) => {
 			component: (
 				<General
 					isLoading={getBonusDetailsLoading}
-					activeTab={activeTab}
-					nextPressed={nextPressed}
 					setActiveTab={setActiveTab}
-					setNextPressed={setNextPressed}
 					setAllFields={setAllFields}
 					setLangContent={setLangContent}
-					setGameIds={setGameIds}
-					setBonusTypeChanged={setBonusTypeChanged}
 					bonusDetails={bonusDetails}
+					submitButtonLoading={createBonusLoading || updateBonusLoading}
+					toggleTab={toggleTab}
+					activeTab={activeTab}
+					tabsToShow={tabsToShow}
 					isEdit={isEdit}
-					setNextDisabled={setNextDisabled}
 				/>
 			),
 		},
@@ -229,13 +244,12 @@ const useCreateBonus = ({ isEdit }) => {
 					activeLangTab={activeLangTab}
 					setActiveLangTab={setActiveLangTab}
 					activeTab={activeTab}
-					disableTabSwitching={isNextDisabled}
-					nextPressed={nextPressed}
-					setNextPressed={setNextPressed}
 					setActiveTab={setActiveTab}
 					setAllFields={setAllFields}
 					bonusDetails={bonusDetails}
-					setNextDisabled={setNextDisabled}
+					tabsToShow={tabsToShow}
+					toggleTab={toggleTab}
+					submitButtonLoading={createBonusLoading || updateBonusLoading}
 				/>
 			),
 		},
@@ -245,15 +259,13 @@ const useCreateBonus = ({ isEdit }) => {
 			component: (
 				<Currencies
 					setActiveTab={setActiveTab}
-					setNextPressed={setNextPressed}
 					setAllFields={setAllFields}
 					activeTab={activeTab}
 					allFields={allFields}
-					nextPressed={nextPressed}
-					bonusTypeChanged={bonusTypeChanged}
-					setBonusTypeChanged={setBonusTypeChanged}
+					submitButtonLoading={createBonusLoading || updateBonusLoading}
 					bonusDetails={bonusDetails}
-					setNextDisabled={setNextDisabled}
+					tabsToShow={tabsToShow}
+					toggleTab={toggleTab}
 				/>
 			),
 		},
@@ -262,14 +274,15 @@ const useCreateBonus = ({ isEdit }) => {
 			title: 'Wagering Contribution',
 			component: (
 				<WageringContribution
-					nextPressed={nextPressed}
-					setNextPressed={setNextPressed}
-					setActiveTab={setActiveTab}
+					activeTab={activeTab}
 					setAllFields={setAllFields}
 					bonusDetails={bonusDetails}
 					isEdit={isEdit}
 					selectedTemplate={selectedTemplate}
 					setSelectedTemplate={setSelectedTemplate}
+					submitButtonLoading={createBonusLoading || updateBonusLoading}
+					tabsToShow={tabsToShow}
+					toggleTab={toggleTab}
 				/>
 			),
 			isHidden: [BONUS_TYPES.JOINING].includes(allFields?.bonusType),
@@ -279,12 +292,12 @@ const useCreateBonus = ({ isEdit }) => {
 			title: 'Games',
 			component: (
 				<Games
-					nextPressed={nextPressed}
-					setNextPressed={setNextPressed}
-					setActiveTab={setActiveTab}
-					setAllFields={setAllFields}
+					submitButtonLoading={createBonusLoading || updateBonusLoading}
+					activeTab={activeTab}
+					toggleTab={toggleTab}
 					gameIds={gameIds}
 					setGameIds={setGameIds}
+					tabsToShow={tabsToShow}
 				/>
 			),
 			isHidden: [BONUS_TYPES.JOINING, BONUS_TYPES.DEPOSIT].includes(
@@ -295,17 +308,8 @@ const useCreateBonus = ({ isEdit }) => {
 
 	return {
 		tabData,
-		toggleTab,
 		activeTab,
-		onNextClick,
-		allFields,
-		langContent,
-		isNextDisabled,
-		createBonusLoading,
-		updateBonusLoading,
-		getBonusDetailsLoading,
 		onBackClick,
-		navigate,
 	};
 };
 

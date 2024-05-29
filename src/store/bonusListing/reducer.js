@@ -5,16 +5,12 @@ import {
 	UPDATE_SA_BONUS_STATUS,
 	UPDATE_SA_BONUS_STATUS_SUCCESS,
 	UPDATE_SA_BONUS_STATUS_FAIL,
-	GET_BONUS_CURRENCY_CONVERSION,
-	GET_BONUS_CURRENCY_CONVERSION_SUCCESS,
-	GET_BONUS_CURRENCY_CONVERSION_FAIL,
 	GET_BONUS_DETAIL,
 	GET_BONUS_DETAIL_SUCCESS,
 	GET_BONUS_DETAIL_FAIL,
 	DELETE_BONUS_START,
 	DELETE_BONUS_FAIL,
 	DELETE_BONUS_COMPLETE,
-	RESET_BONUS_CURRENCY_CONVERSION,
 	REORDER_BONUS_START,
 	REORDER_BONUS_SUCCESS,
 	REORDER_BONUS_FAIL,
@@ -30,15 +26,6 @@ const INIT_STATE = {
 	isUpdateSABonusStatusLoading: false,
 	isUpdateSABonusStatusError: null,
 	isUpdateSABonusStatusSuccess: false,
-	bonusCurrenciesFetched: false,
-	bonusCurrencies: {
-		EUR: {
-			maxBonusThreshold: '',
-			minDeposit: '',
-			maxWinAmount: '',
-			zeroOutThreshold: '',
-		},
-	},
 	reorderBonusSuccess: false,
 	reorderBonusLoading: false,
 	reorderBonusError: null,
@@ -95,37 +82,6 @@ const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				isUpdateSABonusStatusLoading: false,
 				isUpdateSABonusStatusError: payload,
 				isUpdateSABonusStatusSuccess: false,
-			};
-
-		case GET_BONUS_CURRENCY_CONVERSION:
-			return {
-				...state,
-				isLoading: false,
-			};
-
-		case GET_BONUS_CURRENCY_CONVERSION_SUCCESS:
-			return {
-				...state,
-				isLoading: true,
-				bonusCurrencies: payload,
-				bonusCurrenciesFetched: true,
-				error: null,
-			};
-
-		case GET_BONUS_CURRENCY_CONVERSION_FAIL:
-			return {
-				...state,
-				error: payload,
-				bonusCurrenciesFetched: false,
-				isLoading: true,
-			};
-
-		case RESET_BONUS_CURRENCY_CONVERSION:
-			return {
-				...state,
-				error: false,
-				bonusCurrenciesFetched: false,
-				bonusCurrencies: INIT_STATE.bonusCurrencies,
 			};
 
 		case GET_BONUS_DETAIL:

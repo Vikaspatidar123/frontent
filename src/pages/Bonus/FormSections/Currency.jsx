@@ -1,42 +1,145 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Col } from 'reactstrap';
+import { Card, Col, Row } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import {
 	CustomInputField,
 	CustomSelectField,
 } from '../../../helpers/customForms';
-import {
-	fetchCurrenciesStart,
-	// getBonusCurrencyConversions,
-	resetBonusCurrencyConversion,
-} from '../../../store/actions';
+import { fetchCurrenciesStart } from '../../../store/actions';
 import { BONUS_TYPES, commonCurrencyFields } from '../constants';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getBonusInitialValues } from '../formDetails';
 import { currencyValidate } from '../Validation/schema';
+import { showToastr } from '../../../utils/helpers';
+import { filterEmptyPayload } from '../../../network/networkUtils';
+import Actions from './Actions';
 
 const Currencies = ({
 	setAllFields,
-	setActiveTab,
-	nextPressed,
-	setNextPressed,
-	bonusTypeChanged,
-	setBonusTypeChanged,
 	bonusDetails,
-	setNextDisabled,
 	allFields,
 	activeTab,
+	submitButtonLoading,
+	tabsToShow,
+	toggleTab,
 }) => {
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
-	const { bonusCurrencies, bonusCurrenciesFetched } = useSelector(
-		(state) => state.AllBonusDetails
-	);
-
+	const [remainingCurrency, setRemainingCurrency] = useState({});
 	const [currencyFields, setCurrencyFields] = useState(commonCurrencyFields);
+
+	const { validation } = useForm({
+		initialValues: getBonusInitialValues()?.currencyDetails,
+		validationSchema: currencyValidate(allFields),
+		// onSubmitEntry: (values) => handleSubmit(values),
+	});
+
+	const updateRemainingCurrencyDetails = (currencyDetails) => {
+		let remCur = {};
+		currencies?.currencies
+			?.filter((curr) => curr.id !== currencyDetails.currencyId)
+			.forEach((currency) => {
+				currencyFields?.forEach(({ key }) => {
+					remCur = {
+						...remCur,
+						[currency.id]: {
+							...remCur[currency.id],
+							currencyId: currency.id,
+							[key]: currencyDetails[key]
+								? currencyDetails[key] * Number(currency.exchangeRate)
+								: 0,
+						},
+					};
+				});
+			});
+		setRemainingCurrency(remCur);
+		setAllFields((prev) => ({
+			...prev,
+			currencyDetails: [
+				filterEmptyPayload(validation.values),
+				...Object.values(remCur),
+			],
+		}));
+	};
+
+	const handleRemainingCurrency = (e, currency, key) => {
+		setRemainingCurrency((prev) => {
+			const updated = {
+				...prev,
+				[currency.id]: {
+					...prev[currency.id],
+					currencyId: currency.id,
+					[key]: e.target.value,
+				},
+			};
+			setAllFields((allFlds) => ({
+				...allFlds,
+				currencyDetails: [
+					filterEmptyPayload(validation.values),
+					...Object.values(updated),
+				],
+			}));
+			return updated;
+		});
+	};
+
+	const validateRemainingCurrency = (nextTab) => {
+		let isValid = true;
+		Object.values(remainingCurrency).forEach((remCurrObject) => {
+			currencyValidate(allFields)
+				.validate(remCurrObject)
+				.then(() => {})
+				.catch((err) => {
+					isValid = false;
+					showToastr({
+						type: 'error',
+						message:
+							err?.errors?.[0] || 'Please enter amount for all currencies!.',
+					});
+				});
+		});
+		if (isValid) toggleTab(nextTab);
+	};
+
+	useEffect(() => {
+		if (!isEmpty(bonusDetails)) {
+			const currency = filterEmptyPayload(
+				getBonusInitialValues(bonusDetails)?.currencyDetails
+			);
+			validation.setValues(currency);
+			const remCur = {};
+			bonusDetails?.bonusCurrencies?.slice(1)?.forEach((curr) => {
+				remCur[curr.currencyId] = filterEmptyPayload(curr);
+			});
+			setRemainingCurrency(remCur);
+		}
+	}, [bonusDetails, currencyFields]);
+
+	useEffect(() => {
+		dispatch(fetchCurrenciesStart({}));
+	}, []);
+
+	const handleNextClick = (nextTab) => {
+		setAllFields((allFlds) => ({
+			...allFlds,
+			currencyDetails: [
+				filterEmptyPayload(validation.values),
+				...Object.values(remainingCurrency),
+			],
+		}));
+		validation.submitForm();
+		currencyValidate(allFields)
+			.validate(validation.values)
+			.then(() => {
+				validateRemainingCurrency(nextTab);
+			})
+			.catch((err) => {
+				console.log('Error in currency = ', err?.errors);
+			});
+	};
 
 	useEffect(() => {
 		switch (allFields.bonusType) {
@@ -68,110 +171,94 @@ const Currencies = ({
 			default:
 				break;
 		}
-	}, [allFields?.bonusType]);
-
-	// const handleSubmit = (values) => {
-	// 	window.scrollTo(0, 0);
-	// };
-
-	const { validation } = useForm({
-		initialValues: getBonusInitialValues()?.currencyDetails,
-		validationSchema: currencyValidate(allFields),
-		// onSubmitEntry: (values) => handleSubmit(values),
-	});
-
-	useEffect(() => {
-		setAllFields((prev) => ({ ...prev, currencyDetails: validation.values }));
-	}, [validation.values]);
-
-	useEffect(() => {
-		if (!isEmpty(bonusDetails)) {
-			validation.setValues(
-				getBonusInitialValues(bonusDetails)?.currencyDetails
-			);
-		}
-	}, [bonusDetails]);
-
-	useEffect(() => {
-		dispatch(fetchCurrenciesStart({}));
-	}, []);
-
-	useEffect(() => {
-		if (bonusTypeChanged) {
-			setBonusTypeChanged(false);
-			validation.resetForm();
-		}
-	}, [bonusTypeChanged]);
-
-	useEffect(() => {
-		if (nextPressed.currentTab === 'currency') {
-			validation.submitForm();
-			if (nextPressed.nextTab !== 'submit') setActiveTab(nextPressed.nextTab);
-			setNextPressed({});
-		} else if (nextPressed.nextTab === 'currency') {
-			validation.submitForm();
-		}
-	}, [nextPressed]);
-
-	useEffect(() => {
-		if (activeTab === 'currency') {
-			setNextDisabled(!isEmpty(validation.errors));
-		}
-	}, [validation.errors, activeTab]);
-
-	useEffect(() => {
-		if (bonusCurrenciesFetched) {
-			validation.setValues(bonusCurrencies);
-			dispatch(resetBonusCurrencyConversion());
-		}
-	}, [bonusCurrenciesFetched]);
+	}, [allFields?.bonusType, bonusDetails]);
 
 	return (
-		<Col className="px-1 text-center d-flex">
-			<Col sm={12} lg={2} className="mx-1">
-				<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
-					Select currency
-				</label>
-				<CustomSelectField
-					id="currencyId"
-					type="select"
-					name="currencyId"
-					value={validation?.values?.currencyId}
-					onChange={validation.handleChange}
-					options={
-						<>
-							<option value={null} selected disabled>
-								Select currency
-							</option>
-							{currencies?.currencies?.map(({ id, name }) => (
-								<option key={id} value={id}>
-									{name}
-								</option>
-							))}
-						</>
-					}
-				/>
-				<span className="text-danger">
-					{validation.errors.currencyId || ''}
-				</span>
-			</Col>
-			{currencyFields?.map(({ key, label }) => (
-				<Col sm={12} lg={3} className="mx-1">
-					<label htmlFor={key} style={{ fontSize: '14px' }}>
-						{label}
-					</label>
-					<CustomInputField
-						name={key}
-						value={validation?.values?.[key]}
-						onBlur={validation?.handleBlur}
-						onChange={validation?.handleChange}
-						type="number"
-						required
-					/>
-					<span className="text-danger">{validation.errors[key] || ''}</span>
-				</Col>
-			))}
-		</Col>
+		<div>
+			<Card className="px-1 text-center">
+				<Row>
+					<Col sm={12} lg={2} className="mx-1">
+						<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
+							Select currency
+						</label>
+						<CustomSelectField
+							id="currencyId"
+							type="select"
+							name="currencyId"
+							value={validation?.values?.currencyId}
+							onChange={validation.handleChange}
+							options={
+								<>
+									<option value={null} selected disabled>
+										Select currency
+									</option>
+									{currencies?.currencies?.map(({ id, name }) => (
+										<option key={id} value={id}>
+											{name}
+										</option>
+									))}
+								</>
+							}
+						/>
+						<span className="text-danger">
+							{validation.errors.currencyId || ''}
+						</span>
+					</Col>
+					{currencyFields?.map(({ key, label }) => (
+						<Col sm={12} lg={3} className="mx-1">
+							<label htmlFor={key} style={{ fontSize: '14px' }}>
+								{label}
+							</label>
+							<CustomInputField
+								name={key}
+								value={validation?.values?.[key]}
+								onBlur={(e) => {
+									validation?.handleBlur(e);
+									updateRemainingCurrencyDetails(validation.values);
+								}}
+								onChange={validation?.handleChange}
+								type="number"
+								required
+							/>
+							<span className="text-danger">
+								{validation.errors[key] || ''}
+							</span>
+						</Col>
+					))}
+				</Row>
+				{validation?.values?.currencyId
+					? currencies?.currencies
+							?.filter((curr) => curr.id !== validation.values.currencyId)
+							.map((currency) => (
+								<Row className="mt-4">
+									<Col sm={12} lg={2} className="mx-1">
+										<CustomInputField value={currency.name} disabled />
+									</Col>
+									{currencyFields?.map(({ key }) => (
+										<Col sm={12} lg={3} className="mx-1">
+											<CustomInputField
+												name={key}
+												value={remainingCurrency[currency.id]?.[key] || ''}
+												onChange={(e) =>
+													handleRemainingCurrency(e, currency, key)
+												}
+												type="number"
+												required
+											/>
+										</Col>
+									))}
+								</Row>
+							))
+					: null}
+			</Card>
+			<Actions
+				handleNextClick={handleNextClick}
+				submitButtonLoading={submitButtonLoading}
+				activeTab={activeTab}
+				toggleTab={toggleTab}
+				tabsToShow={tabsToShow}
+			/>
+		</div>
 	);
 };
 

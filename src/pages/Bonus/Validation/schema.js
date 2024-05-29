@@ -7,15 +7,10 @@ const currencyValidate = (allFields) =>
 	Yup.object({
 		currencyId: Yup.string().required('Currency required'),
 
-		maxBonusClaimed: Yup.number()
-			.typeError('Only Numbers Allowed')
-			.required('Max Amount claimed required'),
-		zeroOutThreshold: Yup.number()
-			.typeError('Only Numbers Allowed')
-			.required('Zero out threshold required'),
+		maxBonusClaimed: Yup.number().required('Max Amount claimed required'),
+		zeroOutThreshold: Yup.number().required('Zero out threshold required'),
 
 		joiningAmount: Yup.number()
-			.typeError('Only Numbers Allowed')
 			.when(['dummy'], {
 				is: () => {
 					if (allFields.bonusType === BONUS_TYPES.JOINING) {
@@ -29,9 +24,7 @@ const currencyValidate = (allFields) =>
 						.min(0.01, 'Amount should be greater than 0'),
 			})
 			.nullable(),
-
 		minBetAmount: Yup.number()
-			.typeError('Only Numbers Allowed')
 			.when(['dummy'], {
 				is: () => {
 					if (allFields.bonusType === BONUS_TYPES.BET) {
@@ -46,7 +39,6 @@ const currencyValidate = (allFields) =>
 			})
 			.nullable(),
 		minDepositAmount: Yup.number()
-			.typeError('Only Numbers Allowed')
 			.when(['dummy'], {
 				is: () => {
 					if (allFields.bonusType === BONUS_TYPES.DEPOSIT) {
@@ -64,8 +56,8 @@ const currencyValidate = (allFields) =>
 
 const generalFormSchema = () =>
 	Yup.object({
-		promotionTitle: Yup.string().required('Bonus Title Required').nullable(),
-		bonusType: Yup.string().required('Bonus Type Required').nullable(),
+		promotionTitle: Yup.string().required('Bonus Title Required'),
+		bonusType: Yup.string().required('Bonus Type Required'),
 		termAndCondition: Yup.string()
 			.when(['bonusType'], {
 				is: (bonusType) => {
@@ -139,8 +131,6 @@ const generalFormSchema = () =>
 			.nullable(),
 
 		percentage: Yup.number()
-			.min(1, '% Must be greater than or equal to 1')
-			.typeError('Bonus Percent must be a Number')
 			.when(['bonusType'], {
 				is: (bonusType) => {
 					if (
@@ -151,14 +141,14 @@ const generalFormSchema = () =>
 					}
 					return false;
 				},
-				then: (schema) => schema.required('Bonus percentage required'),
+				then: (schema) =>
+					schema
+						.required('Bonus percentage required')
+						.min(1, 'Bonus percentage Must be greater than or equal to 1'),
 			})
 			.nullable(),
 
 		daysToClear: Yup.number()
-			.min(1, 'Minimum Value Must be One')
-			.typeError('Only Numbers Allowed')
-			.integer('Only Integer Values Allowed')
 			.when(['bonusType'], {
 				is: (bonusType) => {
 					if (bonusType !== BONUS_TYPES.JOINING) {
@@ -166,7 +156,10 @@ const generalFormSchema = () =>
 					}
 					return false;
 				},
-				then: (schema) => schema.required('Days to clear required'),
+				then: (schema) =>
+					schema
+						.required('Days to clear required')
+						.min(1, 'Minimum Value Must be 1'),
 			})
 			.nullable(),
 	});

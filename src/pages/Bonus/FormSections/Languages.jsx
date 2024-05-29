@@ -6,6 +6,7 @@ import {
 	CustomInputField,
 	CustomTextEditor,
 } from '../../../helpers/customForms';
+import Actions from './Actions';
 
 const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
 	<>
@@ -58,21 +59,12 @@ const Languages = ({
 	langContent,
 	setLangContent,
 	disableTabSwitching,
-	nextPressed,
-	setNextPressed,
-	setActiveTab,
 	activeTab,
-	setNextDisabled,
+	submitButtonLoading,
+	toggleTab,
+	tabsToShow,
 }) => {
-	useEffect(() => {
-		if (nextPressed.currentTab === 'languages') {
-			setActiveTab(nextPressed.nextTab);
-			window.scrollTo(0, 0);
-			setNextPressed({});
-		}
-	}, [nextPressed]);
-
-	const toggle = (id) => !disableTabSwitching && setActiveLangTab(id);
+	const toggle = (id) => setActiveLangTab(id);
 
 	const tabData = useMemo(() => {
 		const langArray =
@@ -92,31 +84,29 @@ const Languages = ({
 		}));
 	}, [langList, langContent]);
 
-	const checkAllEmptyCondition = () =>
-		(langContent?.promoTitle?.[activeLangTab] === '' ||
-			langContent?.promoTitle?.[activeLangTab] === undefined) &&
-		(langContent?.desc?.[activeLangTab] === '' ||
-			langContent?.desc?.[activeLangTab] === undefined ||
-			(langContent?.desc?.[activeLangTab] &&
-				!langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')
-					?.length)) &&
-		(langContent?.terms?.[activeLangTab] === '' ||
-			langContent?.terms?.[activeLangTab] === undefined ||
-			(langContent?.terms?.[activeLangTab] &&
-				!langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length));
+	// const checkAllEmptyCondition = () =>
+	// 	(langContent?.promoTitle?.[activeLangTab] === '' ||
+	// 		langContent?.promoTitle?.[activeLangTab] === undefined) &&
+	// 	(langContent?.desc?.[activeLangTab] === '' ||
+	// 		langContent?.desc?.[activeLangTab] === undefined ||
+	// 		(langContent?.desc?.[activeLangTab] &&
+	// 			!langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')
+	// 				?.length)) &&
+	// 	(langContent?.terms?.[activeLangTab] === '' ||
+	// 		langContent?.terms?.[activeLangTab] === undefined ||
+	// 		(langContent?.terms?.[activeLangTab] &&
+	// 			!langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length));
 
-	const checkAllFilled = () =>
-		langContent?.promoTitle?.[activeLangTab] &&
-		langContent?.desc?.[activeLangTab] &&
-		langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length &&
-		langContent?.terms?.[activeLangTab] &&
-		langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length;
+	// const checkAllFilled = () =>
+	// 	langContent?.promoTitle?.[activeLangTab] &&
+	// 	langContent?.desc?.[activeLangTab] &&
+	// 	langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length &&
+	// 	langContent?.terms?.[activeLangTab] &&
+	// 	langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length;
 
-	useEffect(() => {
-		if (nextPressed.currentTab === 'languages') {
-			setNextDisabled(!(checkAllEmptyCondition() || checkAllFilled()));
-		}
-	}, [activeLangTab, langContent]);
+	const handleNextClick = (nextTab) => {
+		toggleTab(nextTab);
+	};
 
 	useEffect(() => {
 		if (activeTab === 'languages') {
@@ -138,6 +128,15 @@ const Languages = ({
 					tabsData={tabData}
 					toggle={toggle}
 					disableTabSwitching={disableTabSwitching}
+					customComponent={
+						<Actions
+							handleNextClick={handleNextClick}
+							submitButtonLoading={submitButtonLoading}
+							activeTab={activeTab}
+							toggleTab={toggleTab}
+							tabsToShow={tabsToShow}
+						/>
+					}
 				/>
 			</Col>
 		</Row>

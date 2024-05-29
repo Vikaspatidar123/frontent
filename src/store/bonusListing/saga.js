@@ -8,8 +8,6 @@ import {
 	getBonusesFail,
 	updateSABonusStatusSuccess,
 	updateSABonusStatusFail,
-	getBonusCurrencyConversionsSuccess,
-	getBonusCurrencyConversionsFail,
 	deleteBonusComplete,
 	deleteBonusFailure,
 	reorderBonusSuccess,
@@ -20,18 +18,13 @@ import {
 
 import {
 	DELETE_BONUS_START,
-	GET_BONUS_CURRENCY_CONVERSION,
 	GET_BONUSES_START,
 	UPDATE_SA_BONUS_STATUS,
 	REORDER_BONUS_START,
 	GET_BONUS_DETAIL,
 } from './actionTypes';
 
-import {
-	getAllBonus,
-	getBonusCurrenciesConvertAmount,
-	getBonusDetail,
-} from '../../network/getRequests';
+import { getAllBonus, getBonusDetail } from '../../network/getRequests';
 import { showToastr } from '../../utils/helpers';
 import { deleteBonus } from '../../network/deleteRequests';
 import { reorderBonus, toggleBonusStatus } from '../../network/postRequests';
@@ -83,20 +76,6 @@ function* updateSABonusStatusWorker(action) {
 		});
 	} catch (e) {
 		yield put(updateSABonusStatusFail());
-	}
-}
-
-function* getBonusCurrencyConversionsWorker(action) {
-	try {
-		const payload = action && action.payload;
-		const { data } = yield getBonusCurrenciesConvertAmount(payload);
-		yield put(getBonusCurrencyConversionsSuccess(data?.data?.currenciesAmount));
-	} catch (error) {
-		yield put(
-			getBonusCurrencyConversionsFail(
-				error?.response?.data?.errors[0]?.description
-			)
-		);
 	}
 }
 
@@ -157,10 +136,6 @@ export function* watchBonusData() {
 	yield takeLatest(DELETE_BONUS_START, deleteBonusWorker);
 	yield takeLatest(GET_BONUSES_START, getBonusListingWorker);
 	yield takeLatest(UPDATE_SA_BONUS_STATUS, updateSABonusStatusWorker);
-	yield takeLatest(
-		GET_BONUS_CURRENCY_CONVERSION,
-		getBonusCurrencyConversionsWorker
-	);
 	yield takeLatest(REORDER_BONUS_START, updateReorderBonusWorker);
 }
 

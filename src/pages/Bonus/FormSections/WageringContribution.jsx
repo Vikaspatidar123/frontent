@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row } from 'reactstrap';
+import { Card, Col, Row } from 'reactstrap';
 import { isEmpty } from 'lodash';
 import { getWageringTemplateDetail } from '../../../store/actions';
 import {
@@ -11,6 +11,7 @@ import {
 import TableContainer from '../../../components/Common/Table';
 import { selectedLanguage } from '../../../constants/config';
 import { BONUS_KEY_RELATION } from '../constants';
+import Actions from './Actions';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
@@ -43,14 +44,14 @@ const columns = [
 ];
 
 const WageringContribution = ({
-	nextPressed,
-	setActiveTab,
-	setNextPressed,
-	setAllFields,
 	bonusDetails,
 	isEdit,
 	selectedTemplate,
 	setSelectedTemplate,
+	activeTab,
+	submitButtonLoading,
+	toggleTab,
+	tabsToShow,
 }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
@@ -71,17 +72,9 @@ const WageringContribution = ({
 		}
 	}, [bonusDetails]);
 
-	useEffect(() => {
-		if (nextPressed.currentTab === 'wageringContribution') {
-			setAllFields((prev) => ({
-				...prev,
-				selectedTemplateId: selectedTemplate,
-			}));
-			if (nextPressed.nextTab !== 'submit') setActiveTab(nextPressed.nextTab);
-			window.scrollTo(0, 0);
-			setNextPressed({});
-		}
-	}, [nextPressed]);
+	const handleNextClick = (nextTab) => {
+		toggleTab(nextTab);
+	};
 
 	const wageringTemplateOptions = useMemo(() => {
 		if (wageringTemplateDetail?.wageringTemplates?.length) {
@@ -127,62 +120,68 @@ const WageringContribution = ({
 	}, [SAWageringTemplate]);
 
 	return (
-		<Row>
-			<Col sm="6" className="mb-3">
-				<CustomSelectField
-					label="Wagering Template"
-					type="select"
-					onChange={(e) => {
-						setSelectedTemplate(e.target.value);
-					}}
-					placeholder="Select Wagering Template"
-					value={selectedTemplate}
-					options={
-						<>
-							<option value={null} selected disabled>
-								Select Wagering Template
-							</option>
-							{wageringTemplateOptions?.map(({ optionLabel, value }) => (
-								<option key={value} value={value}>
-									{optionLabel}
+		<Card>
+			<Row>
+				<Col sm="6" className="mb-3">
+					<CustomSelectField
+						label="Wagering Template"
+						type="select"
+						onChange={(e) => {
+							setSelectedTemplate(e.target.value);
+						}}
+						placeholder="Select Wagering Template"
+						value={selectedTemplate}
+						options={
+							<>
+								<option value={null} selected disabled>
+									Select Wagering Template
 								</option>
-							))}
-						</>
-					}
-				/>
-			</Col>
-			<Col sm="6" className="mb-3">
-				<CustomInputField
-					label="Search"
-					onChange={(e) => {
-						setSearchText(e.target.value);
-					}}
-					placeholder="Enter Game Name"
-					value={searchText}
-				/>
-			</Col>
-			<Col lg="12" className="mb-3">
-				<TableContainer
-					isLoading={wageringTemplateDetailLoading}
-					columns={columns}
-					data={formattedWageringTemplates}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={
-						SAWageringTemplate?.template?.[0]?.wageringTemplateGameDetails
-							?.length
-					}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					changeRowsPerPageCallback={setItemsPerPage}
-				/>
-			</Col>
-		</Row>
+								{wageringTemplateOptions?.map(({ optionLabel, value }) => (
+									<option key={value} value={value}>
+										{optionLabel}
+									</option>
+								))}
+							</>
+						}
+					/>
+				</Col>
+				<Col sm="6" className="mb-3">
+					<CustomInputField
+						label="Search"
+						onChange={(e) => {
+							setSearchText(e.target.value);
+						}}
+						placeholder="Enter Game Name"
+						value={searchText}
+					/>
+				</Col>
+				<Col lg="12" className="mb-3">
+					<TableContainer
+						isLoading={wageringTemplateDetailLoading}
+						columns={columns}
+						data={formattedWageringTemplates}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						// paginationDiv="col-sm-12 col-md-7"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={SAWageringTemplate?.template?.totalPages}
+						isManualPagination
+						onChangePagination={setCurrentPage}
+						currentPage={currentPage}
+						changeRowsPerPageCallback={setItemsPerPage}
+					/>
+				</Col>
+			</Row>
+			<Actions
+				handleNextClick={handleNextClick}
+				submitButtonLoading={submitButtonLoading}
+				activeTab={activeTab}
+				toggleTab={toggleTab}
+				tabsToShow={tabsToShow}
+			/>
+		</Card>
 	);
 };
 

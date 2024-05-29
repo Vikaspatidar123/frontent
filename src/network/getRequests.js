@@ -1,4 +1,3 @@
-import { safeStringify } from '../utils/helpers';
 import { getRequest } from './axios';
 import { API_NAMESPACE, MANAGEMENT } from './networkUtils';
 
@@ -284,17 +283,6 @@ const getSportsMatchesDetailApi = ({ matchId = '' }) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}match-markets?matchId=${matchId}`
 	);
 
-const getBonusCurrenciesConvertAmount = ({
-	currencyFields,
-	currencyCode,
-	tenantIds,
-}) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/convert-amount?currencyFields=${safeStringify(
-			currencyFields
-		)}&currentCurrencyCode=${currencyCode}&tenantIds=${tenantIds}`
-	);
-
 const getRestrictedItems = (data) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted-items`,
@@ -389,7 +377,6 @@ export {
 	getEmailTypes,
 	getEmailTemplate,
 	getSportsMatchesDetailApi,
-	getBonusCurrenciesConvertAmount,
 	getRestrictedItems,
 	getUnrestrictedItems,
 	getAdminChildren,

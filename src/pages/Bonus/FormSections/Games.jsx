@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row } from 'reactstrap';
+import { Card, Col, Row } from 'reactstrap';
+import { isEmpty } from 'lodash';
 import {
 	getCasinoGamesStart,
 	getCasinoProvidersDataStart,
@@ -13,6 +14,8 @@ import {
 } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/Table';
 import { selectedLanguage } from '../../../constants/config';
+import Actions from './Actions';
+import { showToastr } from '../../../utils/helpers';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
@@ -63,12 +66,12 @@ const columnsArray = ({ gameIds, toggleSelectGame }) => [
 ];
 
 const Games = ({
-	nextPressed,
-	setAllFields,
-	setActiveTab,
-	setNextPressed,
 	gameIds,
 	setGameIds,
+	activeTab,
+	submitButtonLoading,
+	toggleTab,
+	tabsToShow,
 }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
@@ -82,17 +85,13 @@ const Games = ({
 		dispatch(getCasinoProvidersDataStart());
 	}, []);
 
-	useEffect(() => {
-		if (nextPressed.currentTab === 'games') {
-			setAllFields((prev) => ({
-				...prev,
-				gameIds,
-			}));
-			if (nextPressed.nextTab !== 'submit') setActiveTab(nextPressed.nextTab);
-			window.scrollTo(0, 0);
-			setNextPressed('');
+	const handleNextClick = (nextTab) => {
+		if (isEmpty(gameIds)) {
+			showToastr({ message: 'Please select at least 1 game', type: 'error' });
+		} else {
+			toggleTab(nextTab);
 		}
-	}, [nextPressed]);
+	};
 
 	const providerOptions = useMemo(() => {
 		if (casinoProvidersData?.providers) {
@@ -144,59 +143,68 @@ const Games = ({
 	);
 
 	return (
-		<Row>
-			<Col sm="6" className="mb-3">
-				<CustomSelectField
-					label="Provider"
-					type="select"
-					onChange={(e) => {
-						setSelectedProvider(e.target.value);
-					}}
-					placeholder="Select Provider"
-					value={selectedProvider}
-					options={
-						<>
-							<option value="" selected>
-								Select Provider
-							</option>
-							{providerOptions?.map(({ optionLabel, value }) => (
-								<option key={value} value={value}>
-									{optionLabel}
+		<Card>
+			<Row>
+				<Col sm="6" className="mb-3">
+					<CustomSelectField
+						label="Provider"
+						type="select"
+						onChange={(e) => {
+							setSelectedProvider(e.target.value);
+						}}
+						placeholder="Select Provider"
+						value={selectedProvider}
+						options={
+							<>
+								<option value="" selected>
+									Select Provider
 								</option>
-							))}
-						</>
-					}
-				/>
-			</Col>
-			<Col sm="6" className="mb-3">
-				<CustomInputField
-					label="Search"
-					onChange={(e) => {
-						setSearchText(e.target.value);
-					}}
-					placeholder="Enter Game Name"
-					value={searchText}
-				/>
-			</Col>
-			<Col lg="12" className="mb-3">
-				<TableContainer
-					isLoading={!isCasinoGamesLoading}
-					columns={columns}
-					data={formattedCasinoGames}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={casinoGames?.totalPages}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					changeRowsPerPageCallback={setItemsPerPage}
-				/>
-			</Col>
-		</Row>
+								{providerOptions?.map(({ optionLabel, value }) => (
+									<option key={value} value={value}>
+										{optionLabel}
+									</option>
+								))}
+							</>
+						}
+					/>
+				</Col>
+				<Col sm="6" className="mb-3">
+					<CustomInputField
+						label="Search"
+						onChange={(e) => {
+							setSearchText(e.target.value);
+						}}
+						placeholder="Enter Game Name"
+						value={searchText}
+					/>
+				</Col>
+				<Col lg="12" className="mb-3">
+					<TableContainer
+						isLoading={!isCasinoGamesLoading}
+						columns={columns}
+						data={formattedCasinoGames}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						// paginationDiv="col-sm-12 col-md-7"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={casinoGames?.totalPages}
+						isManualPagination
+						onChangePagination={setCurrentPage}
+						currentPage={currentPage}
+						changeRowsPerPageCallback={setItemsPerPage}
+					/>
+				</Col>
+			</Row>
+			<Actions
+				handleNextClick={handleNextClick}
+				submitButtonLoading={submitButtonLoading}
+				activeTab={activeTab}
+				toggleTab={toggleTab}
+				tabsToShow={tabsToShow}
+			/>
+		</Card>
 	);
 };
 

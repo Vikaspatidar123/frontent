@@ -5,15 +5,7 @@ import useCreateBonus from './hooks/useCreateBonus';
 import StepFormTabs from '../../components/Common/StepFormTabs';
 
 const CreateBonus = () => {
-	const {
-		tabData,
-		toggleTab,
-		activeTab,
-		onNextClick,
-		isNextDisabled,
-		createBonusLoading,
-		onBackClick,
-	} = useCreateBonus({ isEdit: false });
+	const { tabData, activeTab, onBackClick } = useCreateBonus({ isEdit: false });
 
 	return (
 		<div className="page-content">
@@ -29,15 +21,7 @@ const CreateBonus = () => {
 				callBack={onBackClick}
 			/>
 			<Container fluid>
-				<StepFormTabs
-					activeTab={activeTab}
-					tabsData={tabData}
-					toggleTab={toggleTab}
-					onNextClick={onNextClick}
-					isNextDisabled={isNextDisabled}
-					submitButtonText="Create Bonus"
-					submitButtonLoading={createBonusLoading}
-				/>
+				<StepFormTabs activeTab={activeTab} tabsData={tabData} />
 			</Container>
 		</div>
 	);

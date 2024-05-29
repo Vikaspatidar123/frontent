@@ -53,12 +53,14 @@ const Currencies = ({ bonusDetails }) => {
 
 	return (
 		<Card className="p-3">
-			{bonusDetails?.bonusCurrencies?.map((currency) => (
-				<Col className="px-1 text-center d-flex">
+			{bonusDetails?.bonusCurrencies?.map((currency, idx) => (
+				<Col className="px-1 text-center d-flex my-3">
 					<Col sm={12} lg={2} className="mx-1">
-						<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
-							Currency
-						</label>
+						{idx === 0 && (
+							<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
+								Currency
+							</label>
+						)}
 						<CustomSelectField
 							id="currencyId"
 							type="select"
@@ -75,9 +77,11 @@ const Currencies = ({ bonusDetails }) => {
 					</Col>
 					{currencyFields?.map(({ key, label }) => (
 						<Col sm={12} lg={3} className="mx-1">
-							<label htmlFor={key} style={{ fontSize: '14px' }}>
-								{label}
-							</label>
+							{idx === 0 && (
+								<label htmlFor={key} style={{ fontSize: '14px' }}>
+									{label}
+								</label>
+							)}
 							<CustomInputField
 								name={key}
 								value={currency?.[key]}
