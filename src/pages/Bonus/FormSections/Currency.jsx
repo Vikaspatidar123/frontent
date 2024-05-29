@@ -87,13 +87,13 @@ const Currencies = ({
 	};
 
 	const validateRemainingCurrency = (nextTab) => {
+		let isValid = true;
 		Object.values(remainingCurrency).forEach((remCurrObject) => {
 			currencyValidate(allFields)
 				.validate(remCurrObject)
-				.then(() => {
-					toggleTab(nextTab);
-				})
+				.then(() => {})
 				.catch((err) => {
+					isValid = false;
 					showToastr({
 						type: 'error',
 						message:
@@ -101,6 +101,7 @@ const Currencies = ({
 					});
 				});
 		});
+		if (isValid) toggleTab(nextTab);
 	};
 
 	useEffect(() => {
