@@ -3,7 +3,7 @@ import React from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/images/brand-logo2.png';
+import Logo from '../../assets/images/ARC-Logo.svg';
 import withRouter from '../Common/withRouter';
 // i18n
 import SidebarContent from './SidebarContent';
@@ -16,12 +16,7 @@ const Sidebar = () => (
 					{/* <img src={logoLightSvg} alt="" height="22" /> */}
 				</span>
 				<span className="logo-lg">
-					<img
-						src={Logo}
-						style={{ height: '59px', width: '60px' }}
-						alt=""
-						height="19"
-					/>
+					<img src={Logo} style={{ height: '85px', width: '115px' }} alt="" />
 				</span>
 			</Link>
 		</div>

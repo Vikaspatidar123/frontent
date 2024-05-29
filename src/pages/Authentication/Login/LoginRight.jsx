@@ -77,7 +77,7 @@ const Login = (props) => {
 				<Row className="g-0">
 					<Banner />
 
-					<Col xl={4}>
+					<Col xl={3}>
 						<div className="auth-full-page-content p-md-5 p-4">
 							<div className="w-100">
 								<div className="d-flex flex-column h-100">

@@ -18,7 +18,7 @@ import {
 // import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 
-import logoDark from '../../assets/images/brand-logo2.png';
+import logoDark from '../../assets/images/ARC-Logo.svg';
 
 // import images
 import MegaMenu from '../CommonForBoth/TopbarDropdown/MegaMenu';
@@ -68,7 +68,7 @@ const Header = (props) => {
 								<img
 									src={logoDark}
 									alt=""
-									style={{ filter: 'invert(1)', height: '59px', width: '60px' }}
+									style={{ filter: 'invert(1)', height: '70px', width: '90px' }}
 									height="30"
 								/>
 							</span>
