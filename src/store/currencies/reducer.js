@@ -9,6 +9,7 @@ import {
 	EDIT_CURRENCIES_SUCCESS,
 	EDIT_CURRENCIES_FAIL,
 	RESET_CURRENCIES_DATA,
+	TOGGLE_CURRENCY_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
@@ -98,6 +99,13 @@ const currenciesReducer = (state = initialState, { type, payload } = {}) => {
 				isEditCurrencyLoading: false,
 				isEditCurrencySuccess: false,
 			};
+
+		case TOGGLE_CURRENCY_SUCCESS:
+			return {
+				...state,
+				currencies: payload,
+			};
+
 		default:
 			return { ...state };
 	}

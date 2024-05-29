@@ -11,9 +11,13 @@ import {
 	staticFormFields,
 	validationSchema,
 } from '../formDetails';
-import { createCurrencyStart, editCurrencyStart } from '../../../store/actions';
+import {
+	createCurrencyStart,
+	editCurrencyStart,
+	toggleCurrency,
+} from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { Code, ExchangeRate, Id, Name, Type } from '../CurrencyListCol';
+import { Code, ExchangeRate, Id, Name, Status, Type } from '../CurrencyListCol';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { formPageTitle } from '../../../components/Common/constants';
@@ -192,32 +196,77 @@ const useCreateCurrency = () => {
 				Cell: ({ cell }) => <Type value={cell.value} />,
 			},
 			{
+				Header: 'Status',
+				accessor: 'isActive',
+				disableSortBy: true,
+				disableFilters: true,
+				Cell: ({ cell }) => <Status value={cell.value} />,
+			},
+			{
 				Header: 'ACTION',
 				accessor: 'actions',
 				disableSortBy: true,
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<Button
-						hidden={!isGranted(modules.currency, 'U')}
-						type="button"
-						className="btn btn-sm btn-soft-info"
-						disabled={cell?.row?.original?.code === 'BONUS'}
-						onClick={(e) => {
-							e.preventDefault();
-							onClickEdit(cell?.row?.original);
-						}}
-					>
-						<i
-							className="mdi mdi-pencil-outline"
-							id={`edittooltip-${cell?.row?.original?.id}`}
-						/>
-						<UncontrolledTooltip
-							placement="top"
-							target={`edittooltip-${cell?.row?.original?.id}`}
-						>
-							Edit
-						</UncontrolledTooltip>
-					</Button>
+					<ul className="list-unstyled hstack gap-1 mb-0">
+						<li>
+							<Button
+								hidden={!isGranted(modules.emailTemplate, 'TS')}
+								className="btn btn-sm btn-soft-success"
+								disabled={cell?.row?.original?.default}
+								onClick={(e) => {
+									e.preventDefault();
+									dispatch(
+										toggleCurrency({
+											data: {
+												currencyId: cell?.row?.original?.id,
+											},
+										})
+									);
+								}}
+							>
+								<i
+									className={`mdi ${
+										cell?.row?.original?.isActive
+											? 'mdi-close-thick'
+											: 'mdi-check-circle'
+									}`}
+									id={`active-${cell?.row?.original?.id}`}
+								/>
+								<UncontrolledTooltip
+									placement="top"
+									target={`active-${cell?.row?.original?.id}`}
+								>
+									{cell?.row?.original?.isActive
+										? 'Set Inactive'
+										: 'Set Active'}
+								</UncontrolledTooltip>
+							</Button>
+						</li>
+						<li>
+							<Button
+								hidden={!isGranted(modules.currency, 'U')}
+								type="button"
+								className="btn btn-sm btn-soft-info"
+								disabled={cell?.row?.original?.code === 'BONUS'}
+								onClick={(e) => {
+									e.preventDefault();
+									onClickEdit(cell?.row?.original);
+								}}
+							>
+								<i
+									className="mdi mdi-pencil-outline"
+									id={`edittooltip-${cell?.row?.original?.id}`}
+								/>
+								<UncontrolledTooltip
+									placement="top"
+									target={`edittooltip-${cell?.row?.original?.id}`}
+								>
+									Edit
+								</UncontrolledTooltip>
+							</Button>
+						</li>
+					</ul>
 				),
 			},
 		],

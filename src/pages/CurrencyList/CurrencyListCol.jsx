@@ -28,9 +28,17 @@ const Type = ({ value }) =>
 		? currencyTypes.find((currency) => currency.value === value)?.optionLabel
 		: '';
 
+// eslint-disable-next-line react/prop-types
+const Status = ({ value }) =>
+	value ? (
+		<Badge className="bg-success">Active</Badge>
+	) : (
+		<Badge className="bg-danger">In Active</Badge>
+	);
+
 const Actions = () => <i className="dripicons-dots-3" />;
 
-export { Id, Name, Actions, Code, Type, LoyaltyPoints, ExchangeRate };
+export { Id, Name, Actions, Code, Type, LoyaltyPoints, ExchangeRate, Status };
 
 Name.propTypes = {
 	cell: PropTypes.shape({
