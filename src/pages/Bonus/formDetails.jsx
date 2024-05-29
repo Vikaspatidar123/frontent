@@ -40,12 +40,12 @@ const getBonusInitialValues = (bonusDetails) => {
 				minDepositAmount,
 		  }
 		: {
-				zeroOutThreshold: '',
+				zeroOutThreshold: null,
 				currencyId: null,
-				joiningAmount: '',
-				maxBonusClaimed: '',
-				minBetAmount: '',
-				minDepositAmount: '',
+				joiningAmount: null,
+				maxBonusClaimed: null,
+				minBetAmount: null,
+				minDepositAmount: null,
 		  };
 
 	const wageringTemplateId =
@@ -53,12 +53,12 @@ const getBonusInitialValues = (bonusDetails) => {
 			?.wageringTemplateId || '';
 	const quantity =
 		bonusDetails?.[BONUS_KEY_RELATION[bonusDetails?.bonusType]]
-			?.freespinQuantity || '';
+			?.freespinQuantity || null;
 	const gameIds =
 		bonusDetails?.[BONUS_KEY_RELATION[bonusDetails?.bonusType]]?.gameIds || [];
 	const percentage =
 		bonusDetails?.[BONUS_KEY_RELATION[bonusDetails?.bonusType]]?.percentage ||
-		'';
+		null;
 
 	return {
 		promotionTitle: bonusDetails?.promotionTitle?.EN || '',
@@ -70,7 +70,7 @@ const getBonusInitialValues = (bonusDetails) => {
 		validFrom: new Date(bonusDetails?.validFrom || currentDate),
 		validTo: new Date(bonusDetails?.validTo || nextDayDate),
 		bonusType: bonusDetails?.bonusType || BONUS_TYPES.JOINING,
-		daysToClear: bonusDetails?.daysToClear || '1',
+		daysToClear: bonusDetails?.daysToClear || 1,
 		quantity,
 		isActive: bonusDetails?.isActive || true,
 		visibleInPromotions: bonusDetails?.visibleInPromotions || false,

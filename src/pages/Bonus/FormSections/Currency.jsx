@@ -15,17 +15,16 @@ import { getBonusInitialValues } from '../formDetails';
 import { currencyValidate } from '../Validation/schema';
 import { showToastr } from '../../../utils/helpers';
 import { filterEmptyPayload } from '../../../network/networkUtils';
+import Actions from './Actions';
 
 const Currencies = ({
 	setAllFields,
-	setActiveTab,
-	nextPressed,
-	setNextPressed,
 	bonusDetails,
-	setNextDisabled,
 	allFields,
 	activeTab,
-	isNextDisabled,
+	submitButtonLoading,
+	tabsToShow,
+	toggleTab,
 }) => {
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
@@ -38,10 +37,10 @@ const Currencies = ({
 		// onSubmitEntry: (values) => handleSubmit(values),
 	});
 
-	const updateRemainingCurrencyDetails = () => {
+	const updateRemainingCurrencyDetails = (currencyDetails) => {
 		let remCur = {};
 		currencies?.currencies
-			?.filter((curr) => curr.id !== validation.values.currencyId)
+			?.filter((curr) => curr.id !== currencyDetails.currencyId)
 			.forEach((currency) => {
 				currencyFields?.forEach(({ key }) => {
 					remCur = {
@@ -49,91 +48,97 @@ const Currencies = ({
 						[currency.id]: {
 							...remCur[currency.id],
 							currencyId: currency.id,
-							[key]: validation.values[key] * Number(currency.exchangeRate),
+							[key]: currencyDetails[key]
+								? currencyDetails[key] * Number(currency.exchangeRate)
+								: 0,
 						},
 					};
 				});
 			});
 		setRemainingCurrency(remCur);
-	};
-
-	const handleRemainingCurrency = (e, currency, key) => {
-		setRemainingCurrency((prev) => ({
+		setAllFields((prev) => ({
 			...prev,
-			[currency.id]: {
-				...prev[currency.id],
-				currencyId: currency.id,
-				[key]: e.target.value,
-			},
+			currencyDetails: [
+				filterEmptyPayload(validation.values),
+				...Object.values(remCur),
+			],
 		}));
 	};
 
-	const validateRemainingCurrency = () => {
-		Object.values(remainingCurrency).forEach((currencyObject) => {
+	const handleRemainingCurrency = (e, currency, key) => {
+		setRemainingCurrency((prev) => {
+			const updated = {
+				...prev,
+				[currency.id]: {
+					...prev[currency.id],
+					currencyId: currency.id,
+					[key]: e.target.value,
+				},
+			};
+			setAllFields((allFlds) => ({
+				...allFlds,
+				currencyDetails: [
+					filterEmptyPayload(validation.values),
+					...Object.values(updated),
+				],
+			}));
+			return updated;
+		});
+	};
+
+	const validateRemainingCurrency = (nextTab) => {
+		Object.values(remainingCurrency).forEach((remCurrObject) => {
 			currencyValidate(allFields)
-				.validate(currencyObject)
+				.validate(remCurrObject)
 				.then(() => {
-					setNextDisabled(!isEmpty(validation.errors));
+					toggleTab(nextTab);
 				})
-				.catch((error) => {
-					setNextDisabled(true);
+				.catch((err) => {
 					showToastr({
 						type: 'error',
-						message: error?.[0] || 'Please enter the required value.',
+						message:
+							err?.errors?.[0] || 'Please enter amount for all currencies!.',
 					});
 				});
 		});
 	};
 
 	useEffect(() => {
-		setAllFields((prev) => ({ ...prev, currencyDetails: validation.values }));
-	}, [validation.values]);
-
-	useEffect(() => {
 		if (!isEmpty(bonusDetails)) {
-			validation.setValues(
+			const currency = filterEmptyPayload(
 				getBonusInitialValues(bonusDetails)?.currencyDetails
 			);
+			validation.setValues(currency);
+			const remCur = {};
+			bonusDetails?.bonusCurrencies?.slice(1)?.forEach((curr) => {
+				remCur[curr.currencyId] = filterEmptyPayload(curr);
+			});
+			setRemainingCurrency(remCur);
 		}
-	}, [bonusDetails]);
+	}, [bonusDetails, currencyFields]);
 
 	useEffect(() => {
 		dispatch(fetchCurrenciesStart({}));
 	}, []);
 
-	useEffect(() => {
-		if (validation.values.currencyId) {
-			updateRemainingCurrencyDetails();
-		}
-	}, [validation.values.currencyId, currencyFields]);
-
-	useEffect(() => {
-		if (nextPressed.currentTab === 'currency') {
-			validation.submitForm();
-			if (nextPressed.nextTab !== 'submit') setActiveTab(nextPressed.nextTab);
-			setNextPressed({});
-		} else if (nextPressed.nextTab === 'currency') {
-			validation.submitForm();
-		}
-	}, [nextPressed]);
-
-	useEffect(() => {
-		if (activeTab === 'currency') {
-			setNextDisabled(!isEmpty(validation.errors));
-		}
-	}, [validation.errors, activeTab]);
-
-	useEffect(() => {
-		if (!isNextDisabled) {
-			setAllFields((prev) => ({
-				...prev,
-				currencyDetails: [
-					filterEmptyPayload(validation.values),
-					...Object.values(remainingCurrency),
-				],
-			}));
-		}
-	}, [isNextDisabled]);
+	const handleNextClick = (nextTab) => {
+		setAllFields((allFlds) => ({
+			...allFlds,
+			currencyDetails: [
+				filterEmptyPayload(validation.values),
+				...Object.values(remainingCurrency),
+			],
+		}));
+		validation.submitForm();
+		currencyValidate(allFields)
+			.validate(validation.values)
+			.then(() => {
+				validateRemainingCurrency(nextTab);
+			})
+			.catch((err) => {
+				console.log('Error in currency = ', err?.errors);
+			});
+	};
 
 	useEffect(() => {
 		switch (allFields.bonusType) {
@@ -165,83 +170,94 @@ const Currencies = ({
 			default:
 				break;
 		}
-	}, [allFields?.bonusType]);
+	}, [allFields?.bonusType, bonusDetails]);
 
 	return (
-		<Card className="px-1 text-center">
-			<Row>
-				<Col sm={12} lg={2} className="mx-1">
-					<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
-						Select currency
-					</label>
-					<CustomSelectField
-						id="currencyId"
-						type="select"
-						name="currencyId"
-						value={validation?.values?.currencyId}
-						onChange={validation.handleChange}
-						options={
-							<>
-								<option value={null} selected disabled>
-									Select currency
-								</option>
-								{currencies?.currencies?.map(({ id, name }) => (
-									<option key={id} value={id}>
-										{name}
-									</option>
-								))}
-							</>
-						}
-					/>
-					<span className="text-danger">
-						{validation.errors.currencyId || ''}
-					</span>
-				</Col>
-				{currencyFields?.map(({ key, label }) => (
-					<Col sm={12} lg={3} className="mx-1">
-						<label htmlFor={key} style={{ fontSize: '14px' }}>
-							{label}
+		<div>
+			<Card className="px-1 text-center">
+				<Row>
+					<Col sm={12} lg={2} className="mx-1">
+						<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
+							Select currency
 						</label>
-						<CustomInputField
-							name={key}
-							value={validation?.values?.[key]}
-							onBlur={(e) => {
-								validation?.handleBlur(e);
-								updateRemainingCurrencyDetails();
-							}}
-							onChange={validation?.handleChange}
-							type="number"
-							required
+						<CustomSelectField
+							id="currencyId"
+							type="select"
+							name="currencyId"
+							value={validation?.values?.currencyId}
+							onChange={validation.handleChange}
+							options={
+								<>
+									<option value={null} selected disabled>
+										Select currency
+									</option>
+									{currencies?.currencies?.map(({ id, name }) => (
+										<option key={id} value={id}>
+											{name}
+										</option>
+									))}
+								</>
+							}
 						/>
+						<span className="text-danger">
+							{validation.errors.currencyId || ''}
+						</span>
 					</Col>
-				))}
-			</Row>
-			{validation?.values?.currencyId
-				? currencies?.currencies
-						?.filter((curr) => curr.id !== validation.values.currencyId)
-						.map((currency) => (
-							<Row className="mt-4">
-								<Col sm={12} lg={2} className="mx-1">
-									<CustomInputField value={currency.name} disabled />
-								</Col>
-								{currencyFields?.map(({ key }) => (
-									<Col sm={12} lg={3} className="mx-1">
-										<CustomInputField
-											name={key}
-											value={remainingCurrency[currency.id]?.[key] || ''}
-											onBlur={() => validateRemainingCurrency()}
-											onChange={(e) =>
-												handleRemainingCurrency(e, currency, key)
-											}
-											type="number"
-											required
-										/>
+					{currencyFields?.map(({ key, label }) => (
+						<Col sm={12} lg={3} className="mx-1">
+							<label htmlFor={key} style={{ fontSize: '14px' }}>
+								{label}
+							</label>
+							<CustomInputField
+								name={key}
+								value={validation?.values?.[key]}
+								onBlur={(e) => {
+									validation?.handleBlur(e);
+									updateRemainingCurrencyDetails(validation.values);
+								}}
+								onChange={validation?.handleChange}
+								type="number"
+								required
+							/>
+							<span className="text-danger">
+								{validation.errors[key] || ''}
+							</span>
+						</Col>
+					))}
+				</Row>
+				{validation?.values?.currencyId
+					? currencies?.currencies
+							?.filter((curr) => curr.id !== validation.values.currencyId)
+							.map((currency) => (
+								<Row className="mt-4">
+									<Col sm={12} lg={2} className="mx-1">
+										<CustomInputField value={currency.name} disabled />
 									</Col>
-								))}
-							</Row>
-						))
-				: null}
-		</Card>
+									{currencyFields?.map(({ key }) => (
+										<Col sm={12} lg={3} className="mx-1">
+											<CustomInputField
+												name={key}
+												value={remainingCurrency[currency.id]?.[key] || ''}
+												onChange={(e) =>
+													handleRemainingCurrency(e, currency, key)
+												}
+												type="number"
+												required
+											/>
+										</Col>
+									))}
+								</Row>
+							))
+					: null}
+			</Card>
+			<Actions
+				handleNextClick={handleNextClick}
+				submitButtonLoading={submitButtonLoading}
+				activeTab={activeTab}
+				toggleTab={toggleTab}
+				tabsToShow={tabsToShow}
+			/>
+		</div>
 	);
 };
 

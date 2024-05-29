@@ -6,15 +6,9 @@ import StepFormTabs from '../../components/Common/StepFormTabs';
 import Spinners from '../../components/Common/Spinner';
 
 const EditBonus = () => {
-	const {
-		tabData,
-		toggleTab,
-		activeTab,
-		onNextClick,
-		isNextDisabled,
-		updateBonusLoading,
-		getBonusDetailsLoading,
-	} = useCreateBonus({ isEdit: true });
+	const { tabData, activeTab, getBonusDetailsLoading } = useCreateBonus({
+		isEdit: true,
+	});
 
 	return (
 		<div className="page-content">
@@ -35,16 +29,7 @@ const EditBonus = () => {
 						className="position-absolute top-50 start-50"
 					/>
 				) : (
-					<StepFormTabs
-						activeTab={activeTab}
-						tabsData={tabData}
-						toggleTab={toggleTab}
-						onNextClick={onNextClick}
-						isNextDisabled={isNextDisabled}
-						isPrevDisabled={isNextDisabled}
-						submitButtonText="Update Bonus"
-						submitButtonLoading={updateBonusLoading}
-					/>
+					<StepFormTabs activeTab={activeTab} tabsData={tabData} />
 				)}
 			</Container>
 		</div>
