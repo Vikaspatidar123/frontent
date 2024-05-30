@@ -40,7 +40,10 @@ const Currencies = ({
 	const updateRemainingCurrencyDetails = (currencyDetails) => {
 		let remCur = {};
 		currencies?.currencies
-			?.filter((curr) => curr.id !== currencyDetails.currencyId)
+			?.filter(
+				(curr) =>
+					curr.id !== validation.values.currencyId && curr.type !== 'point'
+			)
 			.forEach((currency) => {
 				currencyFields?.forEach(({ key }) => {
 					remCur = {
@@ -228,7 +231,11 @@ const Currencies = ({
 				</Row>
 				{validation?.values?.currencyId
 					? currencies?.currencies
-							?.filter((curr) => curr.id !== validation.values.currencyId)
+							?.filter(
+								(curr) =>
+									curr.id !== validation.values.currencyId &&
+									curr.type !== 'point'
+							)
 							.map((currency) => (
 								<Row className="mt-4">
 									<Col sm={12} lg={2} className="mx-1">
