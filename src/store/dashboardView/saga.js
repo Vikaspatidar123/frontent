@@ -7,6 +7,7 @@ import {
 	GET_KPI_REPORT_START,
 	GET_GAME_REPORT_START,
 	GET_KPI_SUMMARY_START,
+	GET_TOP_PLAYERS_START,
 } from './actionTypes';
 import {
 	getLivePlayerInfoSuccess,
@@ -20,6 +21,8 @@ import {
 	getGameReportFail,
 	getKpiSummarySuccess,
 	getKpiSummaryFail,
+	getTopPlayersSuccess,
+	getTopPlayersFail,
 } from './actions';
 import {
 	getDashboardLiveInfoService,
@@ -27,6 +30,7 @@ import {
 	getGameReports,
 	getKpiReport,
 	getKpiSummary,
+	getTopPlayersRequest,
 } from '../../network/getRequests';
 import kpiConstant from './config/kpisummary';
 
@@ -83,12 +87,24 @@ function* getGameReportWorker(action) {
 		yield put(getGameReportFail(e?.response?.data?.errors[0]?.description));
 	}
 }
+
+function* topPlayersWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getTopPlayersRequest(payload);
+		yield put(getTopPlayersSuccess(data?.data));
+	} catch (e) {
+		yield put(getTopPlayersFail(e?.response?.data?.errors[0]?.description));
+	}
+}
+
 export function* watchDashboardViewData() {
 	yield takeEvery(GET_LIVE_PLAYER_START, getLivePlayerData);
 	yield takeEvery(GET_DEMOGRAPHIC_START, getDemoGraphicData);
 	yield takeEvery(GET_KPI_REPORT_START, getKpiData);
 	yield takeEvery(GET_GAME_REPORT_START, getGameReportWorker);
 	yield takeEvery(GET_KPI_SUMMARY_START, getKpiSummaryWorker);
+	yield takeEvery(GET_TOP_PLAYERS_START, topPlayersWorker);
 }
 
 function* dashboardSaga() {

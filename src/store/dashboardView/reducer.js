@@ -14,7 +14,9 @@ import {
 	GET_GAME_REPORT_FAIL,
 	GET_KPI_SUMMARY_START,
 	GET_KPI_SUMMARY_SUCCESS,
-	GET_KPI_SUMMARY_FAIL,
+	GET_TOP_PLAYERS_START,
+	GET_TOP_PLAYERS_SUCCESS,
+	GET_TOP_PLAYERS_FAIL,
 } from './actionTypes';
 // import { kpiReportConstant } from './config/kpiReport';
 
@@ -32,6 +34,9 @@ const INIT_STATE = {
 	gameReport: null,
 	isGameReportLoading: false,
 	isGameReportError: false,
+	topPlayers: null,
+	topPlayersLoading: false,
+	topPlayersError: null,
 };
 
 function DashboardView(state = INIT_STATE, { type, payload } = {}) {
@@ -140,12 +145,24 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 				isKpiSummaryError: null,
 			};
 
-		case GET_KPI_SUMMARY_FAIL:
+		case GET_TOP_PLAYERS_START:
 			return {
 				...state,
-				isKpiSummaryLoading: false,
-				kPISummary: null,
-				isKpiSummaryError: payload,
+				topPlayersLoading: true,
+				topPlayersError: '',
+			};
+		case GET_TOP_PLAYERS_SUCCESS:
+			return {
+				...state,
+				topPlayersLoading: false,
+				topPlayers: payload,
+				topPlayersError: '',
+			};
+		case GET_TOP_PLAYERS_FAIL:
+			return {
+				...state,
+				topPlayersLoading: false,
+				topPlayersError: payload,
 			};
 
 		case RESET_DASHBOARD_STATE:

@@ -46,6 +46,7 @@ const KpiSummary = () => {
 				isGlobalFilter={false}
 				customPageSize={kPISummary?.length || 300}
 				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+				isShowColSettings={false}
 			/>
 		</SimpleBar>
 	);

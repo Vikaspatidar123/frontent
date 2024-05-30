@@ -17,6 +17,7 @@ import DemographicReport from './DemographicReport';
 import LoggedInPlayer from './LoggedInPlayer';
 
 import './dashboard.scss';
+import PlayerReport from './PlayerReport';
 
 const KpiSummary = lazy(() => import('./KpiSummary'));
 const KpiReport = lazy(() => import('./KpiReport'));
@@ -58,6 +59,10 @@ const DashboardView = ({ t }) => {
 
 					<Suspense>
 						<GameReport />
+					</Suspense>
+
+					<Suspense>
+						<PlayerReport />
 					</Suspense>
 
 					<Suspense>

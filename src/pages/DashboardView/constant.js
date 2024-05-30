@@ -28,6 +28,29 @@ export const GAME_ORDER_BY = [
 	},
 ];
 
+export const TOP_PLAYER_ORDER = [
+	{
+		label: 'Total Casino Bet',
+		value: 'total_casino_bet',
+	},
+	{
+		label: 'Total Deposit',
+		value: 'total_deposit',
+	},
+	{
+		label: 'Total SB Bet',
+		value: 'total_sb_bet',
+	},
+	{
+		label: 'Total Withdraw',
+		value: 'total_withdraw',
+	},
+	{
+		label: 'Profit',
+		value: 'profit',
+	},
+];
+
 export const TABS = {
 	GAME: 'game',
 	PROVIDER: 'provider',

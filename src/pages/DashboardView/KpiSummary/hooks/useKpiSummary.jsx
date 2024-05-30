@@ -32,7 +32,7 @@ const useKpiSummary = () => {
 	}, [defaultCurrency.id]);
 
 	useEffect(() => {
-		if (activeKpiSummTab) {
+		if (activeKpiSummTab && currencyId) {
 			loadKPISummary();
 		}
 	}, [activeKpiSummTab, kpiSummaryDate, currencyId]);

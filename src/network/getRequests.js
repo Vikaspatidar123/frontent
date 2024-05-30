@@ -325,6 +325,12 @@ const getAllUserTags = (payload) =>
 		payload
 	);
 
+const getTopPlayersRequest = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}player-performance-sapshot`,
+		payload
+	);
+
 export {
 	getBonusDetail,
 	getAllCurrencies,
@@ -387,4 +393,5 @@ export {
 	getAllUserTags,
 	getLedgerDetails,
 	getSportsTransactions,
+	getTopPlayersRequest,
 };

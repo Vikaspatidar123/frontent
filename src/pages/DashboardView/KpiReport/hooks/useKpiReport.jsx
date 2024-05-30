@@ -40,7 +40,7 @@ const useKpiReport = () => {
 	}, [defaultCurrency.id]);
 
 	useEffect(() => {
-		if (activeKpiReportTab) {
+		if (activeKpiReportTab && currencyId) {
 			loadKPIReport();
 		}
 	}, [activeKpiReportTab, kpiReportDateOption, currencyId]);

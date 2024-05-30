@@ -43,7 +43,7 @@ const useGameReport = () => {
 	}, [defaultCurrency.id]);
 
 	useEffect(() => {
-		if (activeGameReportTab) {
+		if (activeGameReportTab && currencyId) {
 			loadGameReport();
 		}
 	}, [activeGameReportTab, gameReportDateOption, orderBy, currencyId]);

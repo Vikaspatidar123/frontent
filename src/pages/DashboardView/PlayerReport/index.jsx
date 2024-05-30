@@ -1,68 +1,32 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
-import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/Table';
 import { tableCustomClass } from '../../../constants/config';
-import { GAME_ORDER_BY, TABS, dateConstants } from '../constant';
+import { TOP_PLAYER_ORDER, dateConstants } from '../constant';
 import { CustomSelectField } from '../../../helpers/customForms';
-import TabsPage from '../../../components/Common/TabsPage';
-import useGameReport from './hooks/useGameReport';
+import usePlayerReport from './hooks/usePlayerReport';
 import { GAME_REPORT } from '../../../constants/messages';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 
-const GameReport = () => {
+const PlayerReport = () => {
 	const {
-		activeGameReportTab,
-		setActiveGameReportTab,
-		gameReportColumn,
-		gameReport,
-		isGameReportLoading,
-		gameReportDateOption,
-		setGameReportDateOption,
-		loadGameReport,
+		columns,
+		topPlayers,
+		topPlayersLoading,
+		topPlayersDateOption,
+		setTopPlayersDateOption,
+		fetchTopPlayers,
 		currencyId,
 		setCurrencyId,
 		orderBy,
 		setOrderBy,
 		currencies,
-	} = useGameReport();
+	} = usePlayerReport();
+
 	const { isGranted } = usePermission();
-
-	const tabComponent = (
-		<SimpleBar style={{ maxHeight: '300px' }}>
-			<TableContainer
-				isLoading={isGameReportLoading}
-				columns={gameReportColumn || []}
-				data={gameReport || []}
-				isGlobalFilter={false}
-				customPageSize={gameReport?.length || 300}
-				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
-				isShowColSettings={false}
-			/>
-		</SimpleBar>
-	);
-
-	const tabData = [
-		{
-			id: TABS.GAME,
-			title: 'GAME',
-			component: tabComponent,
-		},
-		{
-			id: TABS.PROVIDER,
-			title: 'PROVIDER',
-			component: tabComponent,
-		},
-	];
-
-	const toggle = (tab) => {
-		if (activeGameReportTab !== tab) {
-			setActiveGameReportTab(tab);
-		}
-	};
 
 	return (
 		<Col xl="12">
@@ -70,18 +34,18 @@ const GameReport = () => {
 				<CardBody>
 					{isGranted(modules.kpiReport, 'R') ? (
 						<Row>
-							<Col xl={5} className="d-flex align-items-center my-2">
-								<h4 className="card-title font-size-18 mb-3">{`Top ${activeGameReportTab}s`}</h4>
+							<Col xl={7} className="d-flex align-items-center my-2">
+								<h4 className="card-title font-size-18 mb-3">Top Players</h4>
 								<i
 									role="button"
 									tabIndex="0"
 									className="mdi mdi-refresh mx-2 font-size-24 mb-3"
 									style={{ cursor: 'pointer' }}
 									id="refreshGameReport"
-									onClick={loadGameReport}
+									onClick={fetchTopPlayers}
 									onKeyDown={(e) => {
 										if (e.key === 'Enter') {
-											loadGameReport();
+											fetchTopPlayers();
 										}
 									}}
 								/>
@@ -89,7 +53,7 @@ const GameReport = () => {
 									Refresh
 								</UncontrolledTooltip>
 							</Col>
-							<Col xl={7} className="float-end my-2">
+							<Col xl={5} className="float-end my-2">
 								<div className="d-flex justify-content-between align-items-center">
 									<CustomSelectField
 										name="kpiSummaryDateFilter"
@@ -101,19 +65,18 @@ const GameReport = () => {
 										onChange={(e) => {
 											setOrderBy(e.target.value);
 										}}
-										options={GAME_ORDER_BY?.map((item) => (
+										options={TOP_PLAYER_ORDER?.map((item) => (
 											<option value={item.value} key={item.value}>
 												{item.label}
 											</option>
 										))}
 									/>
 									<CustomSelectField
-										name="kpiSummaryDateFilter"
 										type="select"
 										value={currencyId}
 										className="mx-2"
 										placeholder="Select Currency"
-										key="my_unique_select_key__kpiSummaryDateFilter"
+										key="my_unique_select_key__top_players"
 										onChange={(e) => {
 											setCurrencyId(e.target.value);
 										}}
@@ -124,13 +87,12 @@ const GameReport = () => {
 										))}
 									/>
 									<CustomSelectField
-										name="gameReportDateFilter"
 										type="select"
 										onChange={(e) => {
-											setGameReportDateOption(e.target.value);
+											setTopPlayersDateOption(e.target.value);
 										}}
-										value={gameReportDateOption}
-										key="my_unique_select_key__gameReportDateFilter"
+										value={topPlayersDateOption}
+										key="my_unique_select_key__topPlayersDateFilter"
 										options={dateConstants?.map((item) => (
 											<option value={item.value} key={item.value}>
 												{item.label}
@@ -138,7 +100,7 @@ const GameReport = () => {
 										))}
 									/>
 									<CSVLink
-										data={gameReport || []}
+										data={topPlayers?.reportData || []}
 										filename="downloaded_data.csv"
 										className="btn btn-primary dashboard-export-btn w-80"
 									>
@@ -147,11 +109,14 @@ const GameReport = () => {
 								</div>
 							</Col>
 
-							<TabsPage
-								activeTab={activeGameReportTab}
-								tabsData={tabData}
-								toggle={toggle}
-								navClass="bg-light rounded p-0"
+							<TableContainer
+								isLoading={topPlayersLoading}
+								columns={columns || []}
+								data={topPlayers?.reportData || []}
+								isGlobalFilter={false}
+								customPageSize={topPlayers?.reportData?.length}
+								tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+								isShowColSettings={false}
 							/>
 						</Row>
 					) : (
@@ -163,4 +128,4 @@ const GameReport = () => {
 	);
 };
 
-export default GameReport;
+export default PlayerReport;
