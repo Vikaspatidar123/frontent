@@ -66,7 +66,7 @@ const usePlayerReport = () => {
 			},
 			{
 				Header: 'Deposit',
-				accessor: 'total_deposit_count',
+				accessor: 'total_deposit',
 				filterable: true,
 				Cell: ({ cell }) => (
 					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
@@ -127,11 +127,9 @@ const usePlayerReport = () => {
 			},
 			{
 				Header: 'Deposit Count',
-				accessor: 'total_deposit',
+				accessor: 'total_deposit_count',
 				filterable: true,
-				Cell: ({ cell }) => (
-					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
-				),
+				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
 			},
 		];
 	}, [currencyId]);

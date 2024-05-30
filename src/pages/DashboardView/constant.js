@@ -15,38 +15,38 @@ export const dateConstants = [
 
 export const GAME_ORDER_BY = [
 	{
-		label: 'Total Players',
-		value: 'totalPlayers',
-	},
-	{
-		label: 'Total Bet Amount',
+		label: 'Top Wagered Games',
 		value: 'totalBetAmount',
 	},
 	{
-		label: 'Total Win Amount',
+		label: 'Most Played Games',
+		value: 'totalPlayers',
+	},
+	{
+		label: 'Top Payout Games',
 		value: 'totalWinAmount',
 	},
 ];
 
 export const TOP_PLAYER_ORDER = [
 	{
-		label: 'Total Casino Bet',
+		label: 'Top Casino Wagerer ',
 		value: 'total_casino_bet',
 	},
 	{
-		label: 'Total Deposit',
+		label: 'Top Depositor',
 		value: 'total_deposit',
 	},
 	{
-		label: 'Total SB Bet',
+		label: 'Top SportsBook Wagerer',
 		value: 'total_sb_bet',
 	},
 	{
-		label: 'Total Withdraw',
+		label: 'Top Withdrawer',
 		value: 'total_withdraw',
 	},
 	{
-		label: 'Profit',
+		label: 'Highest Profit Players',
 		value: 'profit',
 	},
 ];

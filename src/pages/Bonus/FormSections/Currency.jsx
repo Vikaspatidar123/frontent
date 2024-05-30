@@ -195,11 +195,13 @@ const Currencies = ({
 									<option value={null} selected disabled>
 										Select currency
 									</option>
-									{currencies?.currencies?.map(({ id, name }) => (
-										<option key={id} value={id}>
-											{name}
-										</option>
-									))}
+									{currencies?.currencies
+										?.filter((curr) => curr.type !== 'point')
+										?.map(({ id, name }) => (
+											<option key={id} value={id}>
+												{name}
+											</option>
+										))}
 								</>
 							}
 						/>

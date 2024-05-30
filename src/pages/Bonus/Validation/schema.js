@@ -8,7 +8,9 @@ const currencyValidate = (allFields) =>
 		currencyId: Yup.string().required('Currency required'),
 
 		maxBonusClaimed: Yup.number().required('Max Amount claimed required'),
-		zeroOutThreshold: Yup.number().required('Zero out threshold required'),
+		zeroOutThreshold: Yup.number()
+			.min(1, 'Amount should be greater than 1')
+			.required('Zero out threshold required'),
 
 		joiningAmount: Yup.number()
 			.when(['dummy'], {
