@@ -61,6 +61,7 @@ import { modules } from '../constants/permissions';
 import ApplicationSettings from '../pages/ApplicationSettings';
 import SportsTransactionsList from '../pages/SportsTransactionsList';
 import GameTransactionsList from '../pages/CasinoGameTransactions';
+import PlayerPerformance from '../pages/PlayerPerformance';
 
 const authProtectedRoutes = [
 	{
@@ -306,6 +307,12 @@ const authProtectedRoutes = [
 	{
 		path: '/game-reports',
 		component: <GameTransactionsList />,
+		modules: [modules.report],
+		operation: 'R',
+	},
+	{
+		path: '/player-performance',
+		component: <PlayerPerformance />,
 		modules: [modules.report],
 		operation: 'R',
 	},

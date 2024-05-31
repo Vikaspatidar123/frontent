@@ -1,17 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+// import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import useSportsBetListing from './hooks/useSportsBetListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
-import ModalView from '../../components/Common/Modal';
+import usePlayerPerformance from './hooks/usePlayerPerformance';
 
-const SportsBetList = ({ userId }) => {
+const PlayerPerformance = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
@@ -22,39 +21,34 @@ const SportsBetList = ({ userId }) => {
 		actionButtons,
 		filterValidation,
 		isFilterChanged,
-	} = useFilters(userId);
+	} = useFilters();
 
 	const {
 		currentPage,
 		setCurrentPage,
-		totalSportsBetCount,
-		isSportsBetLoading,
-		formattedSportsBet,
+		totalCount,
+		loading,
+		playerPerformance,
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
 		exportComponent,
-		viewModal,
-		setViewModal,
-		formattedBetSlips,
-		betSlipColumns,
-	} = useSportsBetListing(filterValidation.values, userId);
+	} = usePlayerPerformance(filterValidation.values);
 
 	return (
-		<div className={`${userId ? '' : 'page-content'}`}>
+		<div className="page-content">
 			<Container fluid>
-				{/* Render Breadcrumb */}
 				{showBreadcrumb && (
-					<Breadcrumb title="Reports" breadcrumbItem="Sports Bets" />
+					<Breadcrumb title="Reports" breadcrumbItem="Player Performance" />
 				)}
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection
+							{/* <CrudSection
 								buttonList={[]}
 								exportComponent={exportComponent}
-								title="Sports Bets"
-							/>
+								title="Player Performance"
+							/> */}
 							<CardBody>
 								<Filters
 									validation={filterValidation}
@@ -65,36 +59,21 @@ const SportsBetList = ({ userId }) => {
 									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
-									isLoading={isSportsBetLoading}
+									isLoading={loading}
 									columns={columns}
-									data={formattedSportsBet}
+									data={playerPerformance}
 									isPagination
 									customPageSize={itemsPerPage}
 									tableClass="table-bordered align-middle nowrap mt-2"
 									// paginationDiv="col-sm-12 col-md-7"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalSportsBetCount}
+									totalPageCount={totalCount}
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
-								<ModalView
-									openModal={viewModal}
-									toggleModal={() => setViewModal(!viewModal)}
-									headerTitle="Bet Slips"
-									className="modal-dialog modal-xl"
-									hideFooter
-								>
-									<TableContainer
-										isLoading={false}
-										columns={betSlipColumns || []}
-										data={formattedBetSlips}
-										customPageSize={50}
-										isShowColSettings={false}
-									/>
-								</ModalView>
 							</CardBody>
 						</Card>
 					</Col>
@@ -104,12 +83,12 @@ const SportsBetList = ({ userId }) => {
 	);
 };
 
-SportsBetList.defaultProps = {
-	userId: '',
+PlayerPerformance.propTypes = {
+	// t: PropTypes.func,
 };
 
-SportsBetList.propTypes = {
-	userId: PropTypes.string,
+PlayerPerformance.defaultProps = {
+	t: (string) => string,
 };
 
-export default SportsBetList;
+export default PlayerPerformance;
