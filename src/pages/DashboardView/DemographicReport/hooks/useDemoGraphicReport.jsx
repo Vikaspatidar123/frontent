@@ -106,7 +106,7 @@ const useDemoGraphicReport = () => {
 				),
 			},
 		],
-		[defaultCurrency.symbol]
+		[defaultCurrency]
 	);
 
 	return {

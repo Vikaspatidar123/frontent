@@ -213,7 +213,7 @@ const useCreateCurrency = () => {
 							<Button
 								hidden={!isGranted(modules.emailTemplate, 'TS')}
 								className="btn btn-sm btn-soft-success"
-								disabled={cell?.row?.original?.default}
+								disabled={cell?.row?.original?.isDefault}
 								onClick={(e) => {
 									e.preventDefault();
 									dispatch(

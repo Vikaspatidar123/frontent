@@ -45,7 +45,7 @@ const currenciesReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loading: false,
 				currencies: payload,
-				defaultCurrency: payload?.currencies?.find((curr) => curr.default),
+				defaultCurrency: payload?.currencies?.find((curr) => curr.isDefault),
 			};
 
 		case RESET_CURRENCIES_DATA:
