@@ -52,13 +52,15 @@ const useKpiSummary = () => {
 									// CustomDate: 0,
 								};
 							}
-							acc[key][entry.data] = ['betamount', 'winamount'].includes(key)
-								? `${
-										currencies?.currencies?.find(
-											(curr) => curr.id === currencyId
-										)?.symbol || defaultCurrency.symbol
-								  } ${entry[key]}`
-								: entry[key];
+							acc[key][entry.data] =
+								['betamount', 'winamount'].includes(key) &&
+								entry.data !== 'delta'
+									? `${
+											currencies?.currencies?.find(
+												(curr) => curr.id === currencyId
+											)?.symbol || defaultCurrency.symbol
+									  } ${entry[key]}`
+									: `${entry[key]} ${entry.data === 'delta' ? ' %' : ''}`;
 						}
 					});
 					return acc;

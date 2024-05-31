@@ -26,13 +26,13 @@ const Reports = (props) => {
 				reportClass: 'reportList1',
 			},
 			{
-				title: 'Today Players',
+				title: 'Total Players',
 				description: `${livePlayerData.totalPlayers || 0}`,
 				iconClass: 'bx bxs-user-plus',
 				reportClass: 'reportList2',
 			},
 			{
-				title: 'Total registrations',
+				title: 'Today registrations',
 				description: `${livePlayerData.totalRegistrationToday || 0}`,
 				iconClass: 'bx bxs-contact',
 				reportClass: 'reportList3',

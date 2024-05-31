@@ -117,6 +117,7 @@ const PlayerReport = () => {
 								customPageSize={topPlayers?.reportData?.length}
 								tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
 								isShowColSettings={false}
+								tbodyHeight="300px"
 							/>
 						</Row>
 					) : (

@@ -101,9 +101,7 @@ const useGameReport = () => {
 				Header: 'PAYOUT',
 				accessor: 'payout',
 				disableFilters: true,
-				Cell: ({ cell }) => (
-					<Payout cell={cell?.value ?? 0} defaultCurrency={currency} />
-				),
+				Cell: ({ cell }) => <Payout cell={cell?.value ?? 0} />,
 			},
 		];
 	}, [currencyId]);
