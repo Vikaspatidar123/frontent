@@ -13,33 +13,42 @@ import {
 	ActionType,
 	Amount,
 	// BonusMoney,
-	ConversionRate,
 	CreatedAt,
 	CurrencyCode,
+	FromWallet,
 	GameName,
 	Id,
 	Purpose,
 	Status,
 	Tags,
+	ToWallet,
 	// UserEmail,
 } from '../CasinoTransactionsListCol';
-import { LEDGER_TYPES, STATUS_TYPE } from '../constants';
+import { STATUS_TYPE } from '../constants';
 // import { modules } from '../../../constants/permissions';
 // import { getAccessToken } from '../../../network/storageUtils';
 // import { downloadFileInNewWindow } from '../../../utils/helpers';
 
-const useCasinoTransactionsListing = (filterValues = {}) => {
+const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const { casinoTransactions, loading: isCasinoTransactionsLoading } =
 		useSelector((state) => state.CasinoTransactions);
+	const superAdminUser = useSelector(
+		(state) => state.PermissionDetails.superAdminUser
+	);
+
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
+	);
 
 	useEffect(() => {
 		dispatch(
 			fetchCasinoTransactionsStart({
 				perPage: itemsPerPage,
 				page: currentPage,
+				userId,
 				...filterValues,
 			})
 		);
@@ -58,16 +67,22 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		if (casinoTransactions) {
 			casinoTransactions?.casinoTransactions?.map((txn) =>
 				formattedValues.push({
+					...txn,
 					id: txn?.id,
 					walletId: txn?.walletId,
 					transactionId: txn?.transactionId,
 					gameId: txn?.gameId,
-					amount: txn?.ledger?.amount,
-					currencyCode: txn?.wallet?.currency?.code,
+					gameName: txn?.casinoGame?.name || '-',
+					amount: txn?.ledger?.amount ?? '-',
+					currencyCode: txn?.ledger?.currency?.code,
 					conversionRate: txn?.conversionRate,
-					actionType: LEDGER_TYPES.find(
-						(type) => type.value === txn?.ledger?.type
-					)?.label,
+					actionType: txn?.ledger?.fromWalletId ? 'Debit' : 'Credit',
+					from: txn?.ledger?.fromWalletId
+						? txn?.user?.username
+						: superAdminUser?.username,
+					to: txn?.ledger?.toWalletId
+						? txn?.user?.username
+						: superAdminUser?.username,
 					purpose: txn?.ledger?.purpose,
 					status: STATUS_TYPE.find((status) => status.value === txn?.status)
 						?.label,
@@ -81,18 +96,22 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 		return formattedValues;
 	}, [casinoTransactions]);
 
-	const columns = useMemo(
-		() => [
+	const columns = useMemo(() => {
+		const currency =
+			currencies?.currencies?.find(
+				(curr) => curr.id === filterValues.currencyId
+			) || defaultCurrency;
+		return [
 			{
-				Header: 'Id',
-				accessor: 'id',
-				notHidable: true,
+				Header: 'Transaction Id',
+				accessor: 'transactionId',
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
-				Header: 'Transaction Id',
-				accessor: 'transactionId',
+				Header: 'Previous Transaction',
+				accessor: 'previousTransactionId',
+				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
@@ -103,16 +122,34 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <GameName value={cell.value} />,
 			},
 			{
-				Header: 'Wallet Id',
-				accessor: 'walletId',
+				Header: 'Game Name',
+				accessor: 'gameName',
 				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
+				Cell: ({ cell }) => <GameName value={cell.value} />,
+			},
+			{
+				Header: 'From',
+				accessor: 'from',
+				filterable: true,
+				Cell: ({ cell }) => <FromWallet value={cell.value} />,
+			},
+			{
+				Header: 'To',
+				accessor: 'to',
+				filterable: true,
+				Cell: ({ cell }) => <ToWallet value={cell.value} />,
 			},
 			{
 				Header: 'Amount',
 				accessor: 'amount',
 				filterable: true,
-				Cell: ({ cell }) => <Amount value={cell.value} />,
+				Cell: ({ cell }) => (
+					<Amount
+						value={cell.value}
+						type={cell?.row?.original?.actionType}
+						defaultCurrency={currency}
+					/>
+				),
 			},
 			{
 				Header: 'Currency',
@@ -121,21 +158,16 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <CurrencyCode value={cell.value} />,
 			},
 			{
-				Header: 'Tags',
-				accessor: 'userTags',
-				filterable: true,
-				Cell: ({ cell }) => <Tags value={cell?.value} />,
-			},
-			{
-				Header: 'Conversion Rate',
-				accessor: 'conversionRate',
-				Cell: ({ cell }) => <ConversionRate value={cell.value} />,
-			},
-			{
 				Header: 'Action Type',
 				accessor: 'actionType',
 				filterable: true,
 				Cell: ({ cell }) => <ActionType value={cell.value} />,
+			},
+			{
+				Header: 'Tags',
+				accessor: 'userTags',
+				filterable: true,
+				Cell: ({ cell }) => <Tags value={cell?.value} />,
 			},
 			{
 				Header: 'Purpose',
@@ -153,9 +185,8 @@ const useCasinoTransactionsListing = (filterValues = {}) => {
 				accessor: 'createdAt',
 				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},
-		],
-		[]
-	);
+		];
+	}, [filterValues.currencyId]);
 
 	const exportComponent = useMemo(() => [
 		{

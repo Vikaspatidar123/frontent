@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { currencyTypes } from './constants';
-import { currencySymbols } from '../../utils/constant';
+// import { currencySymbols } from '../../utils/constant';
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
@@ -16,7 +16,6 @@ const initialData = {
 	code: '',
 	symbol: '',
 	exchangeRate: '',
-	loyaltyPoint: '',
 	type: 'fiat',
 };
 
@@ -27,25 +26,21 @@ const validationSchema = () =>
 			.min(3, 'Name should be of more than 3 characters')
 			.max(50, 'Name Cannot be of more than 50 characters')
 			.required('Name cannot be Empty'),
-		// code: Yup.string()
-		// 	.matches(/^[aA-zZ\s]+$/, 'Enter only alphabets')
-		// 	.max(3, 'Code Cannot be of more than 3 characters')
-		// 	.required('Code cannot be Empty'),
-		// symbol: Yup.string()
-		// 	.max(5, 'Symbol Cannot be of more than 5 characters')
-		// 	.required('Symbol cannot be Empty'),
+		code: Yup.string()
+			.matches(/^[aA-zZ\s]+$/, 'Enter only alphabets')
+			.max(3, 'Code must be of 3 characters')
+			.required('Code cannot be Empty'),
+		symbol: Yup.string()
+			.max(5, 'Symbol Cannot be of more than 5 characters')
+			.required('Symbol cannot be Empty'),
 		exchangeRate: Yup.number('Only enter numbers')
 			.typeError('Exchange rate must be a number')
 			.positive('Exchange rate must be a positive number')
 			.required('Exchange Rate cannot be Empty'),
-		// loyaltyPoint: Yup.number('Only enter numbers')
-		//   .typeError('Loyalty Point must be a number')
-		//   .positive('Loyalty Point must be Greater Than Zero')
-		//   .required('Loyalty Point cannot be Empty'),
-		// type: Yup.string().required('Type cannot be Empty'),
+		type: Yup.string().required('Type cannot be Empty'),
 	});
 
-const staticFormFields = [
+const staticFormFields = (isEdit) => [
 	{
 		name: 'name',
 		fieldType: 'textField',
@@ -54,26 +49,20 @@ const staticFormFields = [
 	},
 	{
 		name: 'code',
-		fieldType: 'select',
+		fieldType: 'textField',
 		label: 'Code',
 		placeholder: 'Enter currency code',
-		optionList: Object.keys(currencySymbols)?.map((currency) => ({
-			optionLabel: currency,
-			value: currency,
-		})),
-		isDisabled: true,
 	},
 	{
 		name: 'symbol',
 		fieldType: 'textField',
 		label: 'Symbol',
 		placeholder: 'Enter currency symbol',
-		isDisabled: true,
 	},
 	{
 		name: 'exchangeRate',
 		fieldType: 'textField',
-		label: 'Exchange Rate (with base currency Euro)',
+		label: 'Exchange Rate (with primary currency)',
 		placeholder: 'Enter currency exchange rate',
 	},
 	// {
@@ -88,7 +77,7 @@ const staticFormFields = [
 		label: 'Type',
 		placeholder: 'Enter type',
 		optionList: currencyTypes,
-		isDisabled: true,
+		isDisabled: isEdit,
 	},
 ];
 

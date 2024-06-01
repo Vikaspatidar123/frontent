@@ -19,17 +19,12 @@ const bonusTypes = [
 	{ label: 'DEPOSIT', value: BONUS_TYPES.DEPOSIT, id: 1 },
 	{ label: 'FREESPINS', value: BONUS_TYPES.FREESPINS, id: 2 },
 	{ label: 'JOINING', value: BONUS_TYPES.JOINING, id: 3 },
-	{ label: 'BET', value: BONUS_TYPES.BET, id: 4 },
+	// { label: 'BET', value: BONUS_TYPES.BET, id: 4 },
 ];
 
-const convertAmountOptions = [
-	{ label: 'Max Bonus Claimed', value: 'maxBonusThreshold' },
-	{ label: 'Min Deposit', value: 'minDeposit' },
-	{ label: 'Max Win Amount', value: 'maxWinAmount' },
-	{ label: 'Zero Out Threshold', value: 'zeroOutThreshold' },
-	{ label: 'Min Wallet Balance', value: 'minBalance' },
-	{ label: 'Max Allowed Balance', value: 'minBalanceCash' },
-	{ label: 'Joining Bonus', value: 'joiningAmount' },
+const commonCurrencyFields = [
+	{ label: 'Zero Out Threshold', key: 'zeroOutThreshold' },
+	{ label: 'Max Bonus Claimed', key: 'maxBonusClaimed' },
 ];
 
 const checkLabels = (bonusType) => {
@@ -37,8 +32,8 @@ const checkLabels = (bonusType) => {
 		[
 			BONUS_TYPES.FREESPINS,
 			BONUS_TYPES.DEPOSIT,
-			BONUS_TYPES.promotion,
-			BONUS_TYPES.promotion,
+			BONUS_TYPES.BET,
+			BONUS_TYPES.JOINING,
 		].includes(bonusType)
 	) {
 		return [
@@ -73,16 +68,37 @@ const daysLabels = [
 	'Sunday',
 ];
 
+const LANGUAGES = {
+	DE: 'German',
+	EN: 'English',
+	ES: 'Spanish',
+	HI: 'Hindi',
+	MS: 'Malay',
+	NO: 'Norwegian',
+	PS: 'Pasto',
+	RO: 'Romanian',
+	RU: 'Russian',
+};
+
 const wageringRequirementType = [
 	{ label: 'BONUS', value: 'bonus', id: 1 },
 	{ label: 'BONUS+DEPOSIT', value: 'bonusdeposit', id: 2 },
 ];
 
+const BONUS_KEY_RELATION = {
+	[BONUS_TYPES.DEPOSIT]: 'depositBonus',
+	[BONUS_TYPES.JOINING]: 'joiningBonus',
+	[BONUS_TYPES.FREESPINS]: 'freespinBonus',
+	[BONUS_TYPES.BET]: 'betBonus',
+};
+
 export {
 	bonusTypes,
 	daysOfWeek,
-	convertAmountOptions,
+	commonCurrencyFields,
 	checkLabels,
 	daysLabels,
 	wageringRequirementType,
+	LANGUAGES,
+	BONUS_KEY_RELATION,
 };

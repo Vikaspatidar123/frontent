@@ -18,7 +18,7 @@ import {
 // import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 
-import logoDark from '../../assets/images/logo-dark.png';
+import logoDark from '../../assets/images/ARC-Logo.svg';
 
 // import images
 import MegaMenu from '../CommonForBoth/TopbarDropdown/MegaMenu';
@@ -57,10 +57,20 @@ const Header = (props) => {
 					<div className="navbar-brand-box">
 						<Link to="/" className="logo">
 							<span className="logo-sm">
-								<img src={logoDark} alt="" height="20" />
+								<img
+									src={logoDark}
+									alt=""
+									style={{ filter: 'invert(1)', height: '59px', width: '60px' }}
+									height="20"
+								/>
 							</span>
 							<span className="logo-lg">
-								<img src={logoDark} alt="" height="30" />
+								<img
+									src={logoDark}
+									alt=""
+									style={{ filter: 'invert(1)', height: '70px', width: '90px' }}
+									height="30"
+								/>
 							</span>
 						</Link>
 					</div>

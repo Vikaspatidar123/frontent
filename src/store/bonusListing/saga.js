@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { put, takeLatest, all, fork, select } from 'redux-saga/effects';
+import { orderBy } from 'lodash';
 
 // Crypto Redux States
 import {
@@ -7,8 +8,6 @@ import {
 	getBonusesFail,
 	updateSABonusStatusSuccess,
 	updateSABonusStatusFail,
-	getBonusCurrencyConversionsSuccess,
-	getBonusCurrencyConversionsFail,
 	deleteBonusComplete,
 	deleteBonusFailure,
 	reorderBonusSuccess,
@@ -19,31 +18,30 @@ import {
 
 import {
 	DELETE_BONUS_START,
-	GET_BONUS_CURRENCY_CONVERSION,
 	GET_BONUSES_START,
 	UPDATE_SA_BONUS_STATUS,
 	REORDER_BONUS_START,
 	GET_BONUS_DETAIL,
 } from './actionTypes';
 
-import {
-	getAllBonus,
-	getBonusCurrenciesConvertAmount,
-	getBonusDetail,
-} from '../../network/getRequests';
-import {
-	// superAdminViewToggleStatus,
-	reorderBonus,
-} from '../../network/putRequests';
+import { getAllBonus, getBonusDetail } from '../../network/getRequests';
 import { showToastr } from '../../utils/helpers';
 import { deleteBonus } from '../../network/deleteRequests';
+import { reorderBonus, toggleBonusStatus } from '../../network/postRequests';
 
 function* getBonusListingWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield getAllBonus(payload);
+		let {
+			data: { data },
+		} = yield getAllBonus(payload);
 
-		yield put(getBonusesSuccess(data?.data));
+		data = {
+			...data,
+			bonus: orderBy(data?.bonus, 'orderId'),
+		};
+
+		yield put(getBonusesSuccess(data));
 	} catch (error) {
 		yield put(getBonusesFail(error?.response?.data?.errors[0]?.description));
 	}
@@ -53,14 +51,14 @@ function* updateSABonusStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
 
-		// yield superAdminViewToggleStatus(payload);
+		yield toggleBonusStatus(payload);
 		yield put(updateSABonusStatusSuccess());
 
 		const { bonusDetails } = yield select((state) => state.AllBonusDetails);
 
-		const updatedBonusDetails = bonusDetails?.rows?.map((bonus) => {
-			if (bonus.bonusId === payload.bonusId) {
-				bonus.isActive = payload.status;
+		const updatedBonusDetails = bonusDetails?.bonus?.map((bonus) => {
+			if (bonus.id === payload.bonusId) {
+				bonus.isActive = !bonus.isActive;
 			}
 			return bonus;
 		});
@@ -68,7 +66,7 @@ function* updateSABonusStatusWorker(action) {
 		yield put(
 			getBonusesSuccess({
 				...bonusDetails,
-				rows: updatedBonusDetails,
+				bonus: updatedBonusDetails,
 			})
 		);
 
@@ -81,25 +79,11 @@ function* updateSABonusStatusWorker(action) {
 	}
 }
 
-function* getBonusCurrencyConversionsWorker(action) {
-	try {
-		const payload = action && action.payload;
-		const { data } = yield getBonusCurrenciesConvertAmount(payload);
-		yield put(getBonusCurrencyConversionsSuccess(data?.data?.currenciesAmount));
-	} catch (error) {
-		yield put(
-			getBonusCurrencyConversionsFail(
-				error?.response?.data?.errors[0]?.description
-			)
-		);
-	}
-}
-
 function* getBonusDetailStartWorker(action) {
 	try {
-		const { bonusId, userBonusId = '' } = action && action.payload;
-		const { data } = yield getBonusDetail({ bonusId, userBonusId });
-		yield put(getBonusDetailSuccess(data?.data?.bonusDetails));
+		const { bonusId, bonusType = '' } = action && action.payload;
+		const { data } = yield getBonusDetail({ bonusId, bonusType });
+		yield put(getBonusDetailSuccess(data?.data?.bonus));
 	} catch (error) {
 		yield put(
 			getBonusDetailFail(error?.response?.data?.errors[0]?.description)
@@ -110,8 +94,7 @@ function* getBonusDetailStartWorker(action) {
 function* deleteBonusWorker(action) {
 	try {
 		const { data, handleClose } = action && action.payload;
-		const { balanceBonus, bonusId } = data;
-		const resData = yield deleteBonus({ bonusId, balanceBonus });
+		const resData = yield deleteBonus(data);
 		yield put(deleteBonusComplete());
 		showToastr({
 			message: resData?.data?.data?.message,
@@ -153,10 +136,6 @@ export function* watchBonusData() {
 	yield takeLatest(DELETE_BONUS_START, deleteBonusWorker);
 	yield takeLatest(GET_BONUSES_START, getBonusListingWorker);
 	yield takeLatest(UPDATE_SA_BONUS_STATUS, updateSABonusStatusWorker);
-	yield takeLatest(
-		GET_BONUS_CURRENCY_CONVERSION,
-		getBonusCurrencyConversionsWorker
-	);
 	yield takeLatest(REORDER_BONUS_START, updateReorderBonusWorker);
 }
 

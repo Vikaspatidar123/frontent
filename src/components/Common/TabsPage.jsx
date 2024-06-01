@@ -31,6 +31,7 @@ const Dropdown = ({ tab, selectedDropdown, setSelectedDropdown, toggle }) => (
 					<DropdownItem
 						key={item?.id}
 						active={selectedDropdown}
+						className="py-3"
 						onClick={() => {
 							toggle(tab?.id);
 							setSelectedDropdown(item?.id);
@@ -53,6 +54,7 @@ const TabsPage = ({
 	tabType = 'pills',
 	tabContentClass = '',
 	tabCardClass = '',
+	customComponent,
 }) => {
 	const [selectedDropdown, setSelectedDropdown] = useState('');
 	return (
@@ -136,6 +138,7 @@ const TabsPage = ({
 						)}
 					</TabPane>
 				))}
+				{customComponent}
 			</TabContent>
 		</div>
 	);
@@ -147,6 +150,7 @@ TabsPage.defaultProps = {
 	tabType: 'pills',
 	tabContentClass: '',
 	tabCardClass: '',
+	customComponent: null,
 };
 
 TabsPage.propTypes = {
@@ -163,6 +167,7 @@ TabsPage.propTypes = {
 	tabType: PropTypes.string,
 	tabContentClass: PropTypes.string,
 	tabCardClass: PropTypes.string,
+	customComponent: PropTypes.element,
 };
 
 Dropdown.defaultProps = {

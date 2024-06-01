@@ -405,11 +405,6 @@ export const LEDGER_TYPES = [
 	{ label: 'Credit', value: 'credit' },
 ];
 
-export const BET_TYPES = [
-	{ label: 'Single', value: 'single' },
-	{ label: 'Multiple', value: 'multiple' },
-];
-
 export const DOCUMENT_STATUS_TYPES = [
 	{ label: 'Pending', value: 'pending' },
 	{ label: 'Approved', value: 'approved' },
@@ -498,14 +493,4 @@ export const LEDGER_PURPOSE = [
 		label: 'SportsbookExchangeCashout',
 		value: 'SportsbookExchangeCashout',
 	},
-];
-
-export const BET_SLIP_SETTLEMENT_STATUS = [
-	{ label: 'Won', value: 'won' },
-	{ label: 'Lost', value: 'lost' },
-	{ label: 'Refund', value: 'refund' },
-	{ label: 'Pending', value: 'pending' },
-	{ label: 'Cashout', value: 'cashout' },
-	{ label: 'HalfWon', value: 'half_won' },
-	{ label: 'HalfLost', value: 'half_lost' },
 ];

@@ -51,8 +51,8 @@ export * from './sportsBook/actions';
 // review management
 export * from './reviewManagement/actions';
 
-// Sports Transaction
-export * from './sportsTransaction/actions';
+// Sports Bet
+export * from './sportsBet/actions';
 
 // Casino Transaction
 export * from './casinoTransactions/actions';

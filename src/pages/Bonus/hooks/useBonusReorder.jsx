@@ -34,11 +34,9 @@ const useBonusReorder = () => {
 	}, []);
 
 	useEffect(() => {
-		if (state?.rows && bonusDetails?.length) {
-			const filteredArray = bonusDetails?.filter((item) => {
-				const exist = state?.rows.find(
-					(common) => common.bonusId === item.bonusId
-				);
+		if (state?.rows && bonusDetails?.bonus?.length) {
+			const filteredArray = bonusDetails?.bonus?.filter((item) => {
+				const exist = state?.rows.find((common) => common.id === item.id);
 				if (exist) {
 					return false;
 				}
@@ -46,7 +44,10 @@ const useBonusReorder = () => {
 			});
 			setBonuses({ rows: filteredArray, count: filteredArray?.length || 0 });
 		} else {
-			setBonuses({ rows: bonusDetails, count: bonusDetails?.length || 0 });
+			setBonuses({
+				rows: bonusDetails?.bonus,
+				count: bonusDetails?.bonus?.length || 0,
+			});
 		}
 	}, [bonusDetails]);
 
@@ -56,9 +57,7 @@ const useBonusReorder = () => {
 			return { rows: newArray, count: newArray.length };
 		});
 		setBonuses((oldItem) => {
-			const newArray = oldItem?.rows.filter(
-				(bonus) => bonus.bonusId !== item.bonusId
-			);
+			const newArray = oldItem?.rows.filter((bonus) => bonus.id !== item.id);
 			return { rows: newArray, count: newArray.length };
 		});
 	};
@@ -69,9 +68,7 @@ const useBonusReorder = () => {
 			return { rows: newArray, count: newArray.length };
 		});
 		setState((oldItem) => {
-			const newArray = oldItem?.rows.filter(
-				(bonus) => bonus.bonusId !== item.bonusId
-			);
+			const newArray = oldItem?.rows.filter((bonus) => bonus.id !== item.id);
 			return { rows: newArray, count: newArray.length };
 		});
 	};
@@ -79,8 +76,8 @@ const useBonusReorder = () => {
 	const handleSave = () => {
 		const orderedBonus = [];
 		const unOrderedBonus = [];
-		state && state.rows.map((list) => orderedBonus.push(list.bonusId));
-		bonuses && bonuses.rows.map((list) => unOrderedBonus.push(list.bonusId));
+		state && state.rows.map((list) => orderedBonus.push(list.id));
+		bonuses && bonuses.rows.map((list) => unOrderedBonus.push(list.id));
 
 		const data = {
 			order: [...orderedBonus, ...unOrderedBonus],
@@ -93,10 +90,10 @@ const useBonusReorder = () => {
 	const formattedBonus = useMemo(() => {
 		const formattedData = [];
 		if (bonuses?.rows?.length) {
-			return bonuses?.rows?.map((item, index) => ({
+			return bonuses?.rows?.map((item) => ({
 				...item,
-				reorderId: index + 1,
-				bonusName: `${item.promotionTitle?.EN} ${item.bonusId}`,
+				orderId: item.orderId,
+				bonusName: `${item.promotionTitle?.EN} ${item.id}`,
 			}));
 		}
 		return formattedData;
@@ -105,7 +102,7 @@ const useBonusReorder = () => {
 	const formattedState = useMemo(
 		() =>
 			state?.rows?.map((item) => ({
-				reorderId: item.reorderId,
+				reorderId: item.orderId || '-',
 				bonusName: item.promotionTitle?.EN,
 				action: (
 					<ul className="list-unstyled hstack gap-1 mb-0">
@@ -118,10 +115,10 @@ const useBonusReorder = () => {
 									handleRemoveBonus(item);
 								}}
 							>
-								<i className="mdi mdi-minus-box" id={`minus-${item.bonusId}`} />
+								<i className="mdi mdi-minus-box" id={`minus-${item.id}`} />
 								<UncontrolledTooltip
 									placement="top"
-									target={`minus-${item.bonusId}`}
+									target={`minus-${item.id}`}
 								>
 									Remove this Bonus
 								</UncontrolledTooltip>
@@ -137,7 +134,7 @@ const useBonusReorder = () => {
 		() => [
 			{
 				Header: 'ORDER ID',
-				accessor: 'reorderId',
+				accessor: 'orderId',
 				filterable: true,
 				Cell: ({ cell }) => <BonusId value={cell.value} />,
 			},
@@ -153,7 +150,7 @@ const useBonusReorder = () => {
 				disableSortBy: true,
 				disableFilters: true,
 				Cell: ({ cell }) => {
-					const bonusId = cell?.row?.original?.bonusId;
+					const id = cell?.row?.original?.id;
 					return (
 						<ul className="list-unstyled hstack gap-1 mb-0">
 							<li data-bs-toggle="tooltip" data-bs-placement="top">
@@ -165,11 +162,8 @@ const useBonusReorder = () => {
 										handleAddBonus(cell?.row?.original);
 									}}
 								>
-									<i className="mdi mdi-plus-box" id={`plus-${bonusId}`} />
-									<UncontrolledTooltip
-										placement="top"
-										target={`plus-${bonusId}`}
-									>
+									<i className="mdi mdi-plus-box" id={`plus-${id}`} />
+									<UncontrolledTooltip placement="top" target={`plus-${id}`}>
 										Add this Bonus
 									</UncontrolledTooltip>
 								</Button>

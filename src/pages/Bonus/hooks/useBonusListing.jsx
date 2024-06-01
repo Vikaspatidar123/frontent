@@ -6,11 +6,9 @@ import moment from 'moment';
 import {
 	deleteBonusStart,
 	getBonusesStart,
-	getBonusDetail,
 	resetBonusDetails,
 	updateSABonusStatus,
 } from '../../../store/actions';
-import { safeStringify } from '../../../utils/helpers';
 import {
 	BonusId,
 	Title,
@@ -20,14 +18,15 @@ import {
 	Custom,
 } from '../BonusListCol';
 import ActionButtons from '../ActionButtons';
+import { modules } from '../../../constants/permissions';
 
 const useBonusListing = (filterValues = {}) => {
-	const { bonusDetails, isLoading, gameBonusDetail, isDeleteBonusLoading } =
-		useSelector((state) => state.AllBonusDetails);
+	const { bonusDetails, isLoading, isDeleteBonusLoading } = useSelector(
+		(state) => state.AllBonusDetails
+	);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [isDeleteConfirmationOpen, setDeleteConfirmation] = useState(false);
 	const [deleteBonusId, setDeleteBonusId] = useState('');
-	const [bonusName, setBonusName] = useState('');
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -40,38 +39,11 @@ const useBonusListing = (filterValues = {}) => {
 	const formattedBonusDetails = useMemo(() => {
 		if (bonusDetails?.bonus?.length) {
 			return bonusDetails?.bonus.map((bonus) => {
-				// const bonusType =
-				// 	type === BONUS_TYPES.FREESPINS && !isSticky
-				// 		? 'CASH FREESPINS'
-				// 		: types.find((val) => val.value === type)?.label;
-
-				// const validTill =
-				// 	type === 'depositCashback' ||
-				// 	type === 'wagering' ||
-				// 	type === BONUS_TYPES.JOINING
-				// 		? '-'
-				// 		: formatDateYMD(validTo);
-
-				// let isExpired;
-				// if (
-				// 	type === 'depositCashback' ||
-				// 	type === 'wagering' ||
-				// 	type === BONUS_TYPES.JOINING
-				// ) {
-				// 	isExpired = 'No';
-				// } else {
-				// 	isExpired =
-				// 		formatDateYMD(validTo) < formatDateYMD(new Date()) ? 'Yes' : 'No';
-				// }
-				// const isClaimed = claimedCount ? 'Yes' : 'No';
 				const isExpired =
 					moment(bonus.validTill).valueOf() < moment().valueOf() ? 'Yes' : 'No';
 				return {
 					...bonus,
-					// bonusType,
-					// validTill,
 					isExpired,
-					// isClaimed,
 				};
 			});
 		}
@@ -79,13 +51,11 @@ const useBonusListing = (filterValues = {}) => {
 	}, [bonusDetails]);
 
 	const fetchData = () => {
-		const { bonusType, ...rest } = filterValues;
 		dispatch(
 			getBonusesStart({
 				perPage: itemsPerPage,
 				page,
-				bonusType: bonusType ? safeStringify([bonusType]) : null,
-				...rest,
+				...filterValues,
 			})
 		);
 	};
@@ -99,12 +69,10 @@ const useBonusListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { active, bonusId } = props;
+		const { bonusId } = props;
 		dispatch(
 			updateSABonusStatus({
-				code: 'BONUS',
 				bonusId,
-				status: !active,
 			})
 		);
 	};
@@ -112,16 +80,12 @@ const useBonusListing = (filterValues = {}) => {
 	const handleClose = () => {
 		setDeleteConfirmation(false);
 		setDeleteBonusId('');
-		setBonusName('');
 		fetchData();
 	};
 
-	const handleDelete = (props) => {
-		const { bonusId, title } = props;
+	const handleDelete = (bonusId) => {
 		setDeleteConfirmation(true);
 		setDeleteBonusId(bonusId);
-		setBonusName(title);
-		dispatch(getBonusDetail({ bonusId }));
 	};
 
 	const bonusDeleteHandler = () => {
@@ -129,7 +93,6 @@ const useBonusListing = (filterValues = {}) => {
 			deleteBonusStart({
 				data: {
 					bonusId: deleteBonusId,
-					balanceBonus: gameBonusDetail?.balanceBonus,
 				},
 				handleClose,
 			})
@@ -137,9 +100,31 @@ const useBonusListing = (filterValues = {}) => {
 	};
 
 	const handleView = (props) => {
-		const { id } = props;
-		navigate(`/bonus/${id}`);
+		const { id, bonusType } = props;
+		navigate(`/bonus/${id}/${bonusType}`);
 	};
+
+	const handleAddClick = (e) => {
+		e.preventDefault();
+		navigate('/bonus/create');
+	};
+
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleAddClick,
+			link: '#!',
+			module: modules.bonus,
+			operation: 'C',
+		},
+		{
+			label: 'Reorder',
+			handleClick: '',
+			link: 'reorder',
+			module: modules.bonus,
+			operation: 'U',
+		},
+	]);
 
 	const columns = useMemo(
 		() => [
@@ -229,8 +214,8 @@ const useBonusListing = (filterValues = {}) => {
 		isDeleteConfirmationOpen,
 		setDeleteConfirmation,
 		bonusDeleteHandler,
-		bonusName,
 		isDeleteBonusLoading,
+		buttonList,
 	};
 };
 

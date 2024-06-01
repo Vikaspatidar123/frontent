@@ -7,10 +7,14 @@ import { Delta, RowName, Today, Yesterday } from '../KpiListCol';
 
 const useKpiSummary = () => {
 	const dispatch = useDispatch();
-	const [activeKpiSummTab, setActiveKpiSummTab] = useState(TABS.SPORT);
+	const [activeKpiSummTab, setActiveKpiSummTab] = useState(TABS.CASINO);
 	const [kpiSummaryDate, setKpiSummaryDate] = useState('today');
+	const [currencyId, setCurrencyId] = useState(null);
 	const { kPISummary, isKpiSummaryLoading } = useSelector(
 		(state) => state.DashboardViewInfo
+	);
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
 	);
 
 	const loadKPISummary = () => {
@@ -18,15 +22,20 @@ const useKpiSummary = () => {
 			getKpiSummaryStart({
 				tab: activeKpiSummTab,
 				dateOptions: kpiSummaryDate,
+				currencyId,
 			})
 		);
 	};
 
 	useEffect(() => {
-		if (activeKpiSummTab) {
+		setCurrencyId(defaultCurrency.id);
+	}, [defaultCurrency.id]);
+
+	useEffect(() => {
+		if (activeKpiSummTab && currencyId) {
 			loadKPISummary();
 		}
-	}, [activeKpiSummTab, kpiSummaryDate]);
+	}, [activeKpiSummTab, kpiSummaryDate, currencyId]);
 
 	const formattedKpiSummary = useMemo(() => {
 		if (kPISummary?.length) {
@@ -43,7 +52,15 @@ const useKpiSummary = () => {
 									// CustomDate: 0,
 								};
 							}
-							acc[key][entry.data] = entry[key];
+							acc[key][entry.data] =
+								['betamount', 'winamount'].includes(key) &&
+								entry.data !== 'delta'
+									? `${
+											currencies?.currencies?.find(
+												(curr) => curr.id === currencyId
+											)?.symbol || defaultCurrency.symbol
+									  } ${entry[key]}`
+									: `${entry[key]} ${entry.data === 'delta' ? ' %' : ''}`;
 						}
 					});
 					return acc;
@@ -51,7 +68,7 @@ const useKpiSummary = () => {
 			);
 		}
 		return [];
-	}, [kPISummary]);
+	}, [kPISummary, currencyId]);
 
 	const kPISummaryColumn = useMemo(
 		() => [
@@ -99,6 +116,9 @@ const useKpiSummary = () => {
 		loadKPISummary,
 		kpiSummaryDate,
 		setKpiSummaryDate,
+		currencyId,
+		setCurrencyId,
+		currencies,
 	};
 };
 

@@ -1,23 +1,20 @@
 import * as Yup from 'yup';
-import { STATUS_TYPE, LEDGER_TYPES, LEDGER_PURPOSE } from './constants';
+import { STATUS_TYPE, LEDGER_PURPOSE } from './constants';
 
-const staticFiltersFields = () => [
+const staticFiltersFields = (userId = '') => [
 	{
-		name: 'type',
-		fieldType: 'select',
+		name: 'searchString',
+		fieldType: 'textField',
+		type: 'search',
 		label: '',
-		placeholder: 'Transaction type',
-		optionList: LEDGER_TYPES.map(({ value, label }) => ({
-			id: value,
-			value,
-			optionLabel: label,
-		})),
+		placeholder: 'Search by email or username',
+		isHide: !!userId,
 	},
 	{
 		name: 'purpose',
 		fieldType: 'select',
 		label: '',
-		placeholder: 'Ledger Purpose',
+		placeholder: 'Transaction Type',
 		optionList: LEDGER_PURPOSE.map(({ value, label }) => ({
 			id: value,
 			value,
@@ -47,6 +44,7 @@ const staticFiltersFields = () => [
 // const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
+	searchString: '',
 	status: null,
 	fromDate: null,
 	toDate: null,
@@ -57,6 +55,7 @@ const filterValues = () => ({
 
 const filterValidationSchema = () =>
 	Yup.object({
+		searchString: Yup.string().nullable(),
 		status: Yup.string().nullable(),
 		fromDate: Yup.string().nullable(),
 		toDate: Yup.string().nullable(),

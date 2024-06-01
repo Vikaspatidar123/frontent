@@ -1,308 +1,273 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Row } from 'reactstrap';
+import { Card, Col, Row } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { CustomInputField } from '../../../helpers/customForms';
+import { isEmpty } from 'lodash';
 import {
-	getBonusCurrencyConversions,
-	resetBonusCurrencyConversion,
-} from '../../../store/actions';
-import { BONUS_TYPES, convertAmountOptions } from '../constants';
-import { showToastr } from '../../../utils/helpers';
+	CustomInputField,
+	CustomSelectField,
+} from '../../../helpers/customForms';
+import { fetchCurrenciesStart } from '../../../store/actions';
+import { BONUS_TYPES, commonCurrencyFields } from '../constants';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getCreateBonusInitialValues } from '../formDetails';
-import { formPageTitle } from '../../../components/Common/constants';
-import { decryptCredentials } from '../../../network/storageUtils';
+import { getBonusInitialValues } from '../formDetails';
+import { currencyValidate } from '../Validation/schema';
+import { showToastr } from '../../../utils/helpers';
+import { filterEmptyPayload } from '../../../network/networkUtils';
+import Actions from './Actions';
 
 const Currencies = ({
-	selectedBonus,
-	allFields,
 	setAllFields,
-	setActiveTab,
-	nextPressed,
-	setNextPressed,
-	bonusTypeChanged,
-	setBonusTypeChanged,
 	bonusDetails,
-	setExistingFilledFields,
+	allFields,
+	activeTab,
+	submitButtonLoading,
+	tabsToShow,
+	toggleTab,
 }) => {
 	const dispatch = useDispatch();
-	const [nextTab, setNextTab] = useState('');
-	const [isNextButtonActive, setNextButtonActive] = useState(false);
-	const { bonusCurrencies, bonusCurrenciesFetched } = useSelector(
-		(state) => state.AllBonusDetails
-	);
-
-	const handleSubmit = ({ values, nextTabId }) => {
-		setAllFields((prev) => ({ ...prev, currency: values }));
-		setActiveTab(nextTabId);
-		window.scrollTo(0, 0);
-	};
+	const { currencies } = useSelector((state) => state.Currencies);
+	const [remainingCurrency, setRemainingCurrency] = useState({});
+	const [currencyFields, setCurrencyFields] = useState(commonCurrencyFields);
 
 	const { validation } = useForm({
-		initialValues: getCreateBonusInitialValues()?.currency,
-		onSubmitEntry: (values) => handleSubmit({ values, nextTabId: nextTab }),
+		initialValues: getBonusInitialValues()?.currencyDetails,
+		validationSchema: currencyValidate(allFields),
+		// onSubmitEntry: (values) => handleSubmit(values),
 	});
 
-	useEffect(() => {
-		if (bonusDetails) {
-			validation.setValues(bonusDetails.currency);
-			setNextButtonActive(true);
-		}
-	}, [bonusDetails]);
-
-	useEffect(() => {
-		if (bonusTypeChanged) {
-			setBonusTypeChanged(false);
-			validation.resetForm();
-		}
-	}, [bonusTypeChanged]);
-
-	useEffect(() => {
-		const isAnyErrors = document.getElementById('error-container');
-		if (nextPressed.currentTab === 'currency') {
-			if (typeof isAnyErrors !== 'undefined' && isAnyErrors != null) {
-				showToastr({
-					message: 'Please fill every required field',
-					type: 'error',
+	const updateRemainingCurrencyDetails = (currencyDetails) => {
+		let remCur = {};
+		currencies?.currencies
+			?.filter(
+				(curr) =>
+					curr.id !== validation.values.currencyId && curr.type !== 'point'
+			)
+			.forEach((currency) => {
+				currencyFields?.forEach(({ key }) => {
+					remCur = {
+						...remCur,
+						[currency.id]: {
+							...remCur[currency.id],
+							currencyId: currency.id,
+							[key]: currencyDetails[key]
+								? currencyDetails[key] * Number(currency.exchangeRate)
+								: 0,
+						},
+					};
 				});
-			} else if (!isNextButtonActive) {
-				showToastr({
-					message: 'Please generate currency conversions',
-					type: 'error',
-				});
-			} else {
-				setNextTab(nextPressed.nextTab);
-				setNextPressed({});
-			}
-		}
-	}, [nextPressed]);
+			});
+		setRemainingCurrency(remCur);
+		setAllFields((prev) => ({
+			...prev,
+			currencyDetails: [
+				filterEmptyPayload(validation.values),
+				...Object.values(remCur),
+			],
+		}));
+	};
 
-	useEffect(() => {
-		if (nextTab) {
-			validation.submitForm();
-			setNextTab('');
-		}
-	}, [nextTab]);
-
-	useEffect(() => {
-		if (localStorage.getItem(formPageTitle.bonusManagement)) {
-			const storedValues = JSON.parse(
-				decryptCredentials(localStorage.getItem(formPageTitle.bonusManagement))
-			);
-
-			validation.setValues(storedValues.currency);
-			if (Object.keys(storedValues.currency).length > 1) {
-				setNextButtonActive(true);
-			}
-		}
-	}, []);
-
-	useEffect(() => {
-		if (validation?.values) {
-			setExistingFilledFields((prev) => ({
+	const handleRemainingCurrency = (e, currency, key) => {
+		setRemainingCurrency((prev) => {
+			const updated = {
 				...prev,
-				currency: validation?.values,
+				[currency.id]: {
+					...prev[currency.id],
+					currencyId: currency.id,
+					[key]: e.target.value,
+				},
+			};
+			setAllFields((allFlds) => ({
+				...allFlds,
+				currencyDetails: [
+					filterEmptyPayload(validation.values),
+					...Object.values(updated),
+				],
 			}));
-		}
-	}, [validation?.values]);
+			return updated;
+		});
+	};
 
-	const fetchData = async () => {
-		const code = Object.keys(validation?.values)?.[0];
-		const maxBonusThreshold = validation?.values?.[code]?.maxBonusThreshold;
-		const minDeposit = validation?.values?.[code]?.minDeposit;
-		const maxWinAmount = validation?.values?.[code]?.maxWinAmount;
-		const zeroOutThreshold = validation?.values?.[code]?.zeroOutThreshold;
-		const minBalance = validation?.values?.[code]?.minBalance;
-		const joiningAmount = validation?.values?.[code]?.joiningAmount;
-
-		if (
-			allFields?.bonusType !== BONUS_TYPES.FREESPINS &&
-			allFields?.bonusType !== BONUS_TYPES.JOINING
-		) {
-			if (
-				maxBonusThreshold === '' &&
-				!['balance', 'wagering'].includes(allFields.bonusType)
-			) {
-				showToastr({ message: 'Enter Max Bonus Claimed', type: 'error' });
-			} else if (minBalance === '' && allFields?.bonusType === 'wagering') {
-				showToastr({ message: 'Enter Min Balance', type: 'error' });
-			} else if (
-				minDeposit === '' &&
-				allFields.bonusType !== 'balance' &&
-				allFields?.bonusType !== 'wagering'
-			) {
-				showToastr({ message: 'Enter Min Deposit', type: 'error' });
-			} else if (
-				maxWinAmount === '' &&
-				allFields.bonusType !== 'balance' &&
-				allFields?.bonusType !== 'wagering'
-			) {
-				showToastr({ message: 'Enter Max Win Amount', type: 'error' });
-			} else if (zeroOutThreshold === '' && allFields.bonusType !== 'balance') {
-				showToastr({ message: 'Enter Zero Out Threshold', type: 'error' });
-			} else {
-				setNextButtonActive(true);
-				dispatch(
-					getBonusCurrencyConversions({
-						currencyFields: {
-							maxBonusThreshold: maxBonusThreshold || 0,
-							minDeposit: minDeposit || 0,
-							maxWinAmount: maxWinAmount || 0,
-							zeroOutThreshold: zeroOutThreshold || 0,
-							minBalance: minBalance || 0,
-						},
-						currencyCode: code,
-					})
-				);
-			}
-		} else if (bonusCurrencies?.bonusType === BONUS_TYPES.JOINING) {
-			if (joiningAmount === '') {
-				showToastr({ message: 'Enter Joining Amount ', type: 'error' });
-			} else {
-				setNextButtonActive(true);
-				dispatch(
-					getBonusCurrencyConversions({
-						currencyFields: {
-							joiningAmount: joiningAmount || 0,
-						},
-						currencyCode: code,
-					})
-				);
-			}
-		} else if (maxWinAmount === '') {
-			showToastr({ message: 'Enter Max Win Amount', type: 'error' });
-		} else if (
-			zeroOutThreshold === '' &&
-			(bonusCurrencies?.isSticky === 'true' || bonusCurrencies?.isSticky)
-		) {
-			showToastr({ message: 'Enter Zero Out Threshold', type: 'error' });
-		} else {
-			setNextButtonActive(true);
-			dispatch(
-				getBonusCurrencyConversions({
-					currencyFields: {
-						maxBonusThreshold: maxBonusThreshold || 0,
-						minDeposit: minDeposit || 0,
-						maxWinAmount: maxWinAmount || 0,
-						zeroOutThreshold: zeroOutThreshold || 0,
-						minBalance: minBalance || 0,
-					},
-					currencyCode: code,
-				})
-			);
-		}
+	const validateRemainingCurrency = (nextTab) => {
+		let isValid = true;
+		Object.values(remainingCurrency).forEach((remCurrObject) => {
+			currencyValidate(allFields)
+				.validate(remCurrObject)
+				.then(() => {})
+				.catch((err) => {
+					isValid = false;
+					showToastr({
+						type: 'error',
+						message:
+							err?.errors?.[0] || 'Please enter amount for all currencies!.',
+					});
+				});
+		});
+		if (isValid) toggleTab(nextTab);
 	};
 
 	useEffect(() => {
-		if (bonusCurrenciesFetched) {
-			validation.setValues(bonusCurrencies);
-			dispatch(resetBonusCurrencyConversion());
+		if (!isEmpty(bonusDetails)) {
+			const currency = filterEmptyPayload(
+				getBonusInitialValues(bonusDetails)?.currencyDetails
+			);
+			validation.setValues(currency);
+			const remCur = {};
+			bonusDetails?.bonusCurrencies?.slice(1)?.forEach((curr) => {
+				remCur[curr.currencyId] = filterEmptyPayload(curr);
+			});
+			setRemainingCurrency(remCur);
 		}
-	}, [bonusCurrenciesFetched]);
+	}, [bonusDetails, currencyFields]);
+
+	useEffect(() => {
+		dispatch(fetchCurrenciesStart({}));
+	}, []);
+
+	const handleNextClick = (nextTab) => {
+		setAllFields((allFlds) => ({
+			...allFlds,
+			currencyDetails: [
+				filterEmptyPayload(validation.values),
+				...Object.values(remainingCurrency),
+			],
+		}));
+		validation.submitForm();
+		currencyValidate(allFields)
+			.validate(validation.values)
+			.then(() => {
+				validateRemainingCurrency(nextTab);
+			})
+			.catch((err) => {
+				console.log('Error in currency = ', err?.errors);
+			});
+	};
+
+	useEffect(() => {
+		switch (allFields.bonusType) {
+			case BONUS_TYPES.JOINING: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Joining Amount', key: 'joiningAmount' },
+				]);
+				break;
+			}
+			case BONUS_TYPES.DEPOSIT: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Min Deposit Amount', key: 'minDepositAmount' },
+				]);
+				break;
+			}
+			case BONUS_TYPES.BET: {
+				setCurrencyFields([
+					...commonCurrencyFields,
+					{ label: 'Min Bet Amount', key: 'minBetAmount' },
+				]);
+				break;
+			}
+			case BONUS_TYPES.FREESPINS: {
+				setCurrencyFields([...commonCurrencyFields]);
+				break;
+			}
+			default:
+				break;
+		}
+	}, [allFields?.bonusType, bonusDetails]);
 
 	return (
-		<>
-			<Row className="d-flex justify-content-end align-items-end mb-2">
-				<Col sm={1}>
-					<Button
-						type="submit"
-						className="float-right"
-						onClick={() => fetchData()}
-						title="Fetch Currency"
-					>
-						<i className="dripicons-swap d-flex" />
-					</Button>
-				</Col>
-			</Row>
-			{validation &&
-				validation?.values &&
-				Object.keys(validation?.values).length > 0 &&
-				Object.keys(validation?.values).map((key, index) => (
-					<Row>
-						<Col className="mb-3">
+		<div>
+			<Card className="px-1 text-center">
+				<Row>
+					<Col sm={12} lg={2} className="mx-1">
+						<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
+							Select currency
+						</label>
+						<CustomSelectField
+							id="currencyId"
+							type="select"
+							name="currencyId"
+							value={validation?.values?.currencyId}
+							onChange={validation.handleChange}
+							options={
+								<>
+									<option value={null} selected disabled>
+										Select currency
+									</option>
+									{currencies?.currencies
+										?.filter((curr) => curr.type !== 'point')
+										?.map(({ id, name }) => (
+											<option key={id} value={id}>
+												{name}
+											</option>
+										))}
+								</>
+							}
+						/>
+						<span className="text-danger">
+							{validation.errors.currencyId || ''}
+						</span>
+					</Col>
+					{currencyFields?.map(({ key, label }) => (
+						<Col sm={12} lg={3} className="mx-1">
+							<label htmlFor={key} style={{ fontSize: '14px' }}>
+								{label}
+							</label>
 							<CustomInputField
-								label={index < 1 ? 'Currency' : ''}
-								value={key}
-								disabled
+								name={key}
+								value={validation?.values?.[key]}
+								onBlur={(e) => {
+									validation?.handleBlur(e);
+									updateRemainingCurrencyDetails(validation.values);
+								}}
+								onChange={validation?.handleChange}
+								type="number"
+								required
 							/>
+							<span className="text-danger">
+								{validation.errors[key] || ''}
+							</span>
 						</Col>
-						{Object.keys(validation?.values[key]).map((currKey, currIndex) => {
-							let hide = false;
-							let validationError = false;
-							if (
-								currKey !== 'minBalance' &&
-								!validation?.values[key][currKey]
-							) {
-								validationError = true;
-							} else {
-								validationError = false;
-							}
-
-							if (selectedBonus === 'wagering') {
-								hide =
-									currKey === 'minDeposit' ||
-									currKey === 'maxBonusThreshold' ||
-									currKey === 'maxWinAmount';
-							} else if (selectedBonus === BONUS_TYPES.JOINING) {
-								hide = currKey !== 'joiningAmount';
-							} else if (
-								selectedBonus === BONUS_TYPES.FREESPINS ||
-								selectedBonus === 'cashfreespins'
-							) {
-								hide =
-									currKey !== 'maxWinAmount' && currKey !== 'zeroOutThreshold';
-							} else {
-								hide = currKey === 'joiningAmount' || currKey === 'minBalance';
-							}
-
-							return (
-								currKey !== 'minBonusThreshold' &&
-								!hide && (
-									<Col
-										className="px-1 text-center"
-										key={`currencyCols ${currIndex + 1}`}
-										hidden={hide}
-									>
-										{index < 1 && !hide && (
-											<label htmlFor={currKey} style={{ fontSize: '14px' }}>
-												{['wagering'].includes(allFields?.bonusType)
-													? convertAmountOptions?.find((val) =>
-															currKey === 'minBalance'
-																? val.value === 'minBalanceCash'
-																: val.value === currKey
-													  )?.label
-													: convertAmountOptions?.find(
-															(val) => val.value === currKey
-													  )?.label}
-												<span className="text-danger"> *</span>
-											</label>
-										)}
-										<CustomInputField
-											name={`[${key}][${currKey}]`}
-											value={validation?.values[key][currKey]}
-											hidden={hide}
-											onBlur={validation?.handleBlur}
-											onChange={validation?.handleChange}
-											type="number"
-											required
-										/>
-										{validationError && (
-											<span
-												value={`[${key}][${currKey}]`}
-												id="error-container"
-												className="text-danger"
-											>
-												Required *
-											</span>
-										)}
+					))}
+				</Row>
+				{validation?.values?.currencyId
+					? currencies?.currencies
+							?.filter(
+								(curr) =>
+									curr.id !== validation.values.currencyId &&
+									curr.type !== 'point'
+							)
+							.map((currency) => (
+								<Row className="mt-4">
+									<Col sm={12} lg={2} className="mx-1">
+										<CustomInputField value={currency.name} disabled />
 									</Col>
-								)
-							);
-						})}
-					</Row>
-				))}
-		</>
+									{currencyFields?.map(({ key }) => (
+										<Col sm={12} lg={3} className="mx-1">
+											<CustomInputField
+												name={key}
+												value={remainingCurrency[currency.id]?.[key] || ''}
+												onChange={(e) =>
+													handleRemainingCurrency(e, currency, key)
+												}
+												type="number"
+												required
+											/>
+										</Col>
+									))}
+								</Row>
+							))
+					: null}
+			</Card>
+			<Actions
+				handleNextClick={handleNextClick}
+				submitButtonLoading={submitButtonLoading}
+				activeTab={activeTab}
+				toggleTab={toggleTab}
+				tabsToShow={tabsToShow}
+			/>
+		</div>
 	);
 };
 

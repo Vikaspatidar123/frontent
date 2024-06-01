@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
+	deleteCms,
 	getAllCmsDetails,
 	resetAllCmsDetails,
 	updateSaCmsStatus,
@@ -12,11 +13,16 @@ import ActionButtons from '../ActionButtons';
 
 const useCmsListing = (filterValues = {}) => {
 	const navigate = useNavigate();
-	const { cmsDetails, isLoading, error } = useSelector((state) => state.AllCms);
+	const { cmsDetails, isLoading, error, isDeleteCmsLoading } = useSelector(
+		(state) => state.AllCms
+	);
 	const [limit, setLimit] = useState(10);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [selectedClient, setSelectedClient] = useState('');
+	const [deleteCmsId, setDeleteCmsId] = useState('');
+	const [isDeleteConfirmationOpen, setDeleteConfirmation] = useState(false);
+
 	const dispatch = useDispatch();
 
 	const formattedCmsDetails = useMemo(() => {
@@ -57,6 +63,23 @@ const useCmsListing = (filterValues = {}) => {
 		);
 	};
 
+	const handleClose = () => {
+		setDeleteConfirmation(false);
+		setDeleteCmsId('');
+		fetchData();
+	};
+
+	const cmsDeleteHandler = () => {
+		dispatch(
+			deleteCms({
+				data: {
+					pageId: deleteCmsId,
+				},
+				handleClose,
+			})
+		);
+	};
+
 	const handleEditClick = (e, cmsPageId) => {
 		e.preventDefault();
 		navigate(`edit/${cmsPageId}`);
@@ -65,6 +88,11 @@ const useCmsListing = (filterValues = {}) => {
 	const handleViewClick = (e, cmsPageId) => {
 		e.preventDefault();
 		navigate(`details/${cmsPageId}`);
+	};
+
+	const handleDelete = (id) => {
+		setDeleteConfirmation(true);
+		setDeleteCmsId(id);
 	};
 
 	useEffect(() => {
@@ -119,6 +147,7 @@ const useCmsListing = (filterValues = {}) => {
 						handleStatus={handleStatus}
 						handleEditClick={handleEditClick}
 						handleViewClick={handleViewClick}
+						handleDelete={handleDelete}
 					/>
 				),
 			},
@@ -139,6 +168,10 @@ const useCmsListing = (filterValues = {}) => {
 		handleStatus,
 		onChangeRowsPerPage,
 		columns,
+		isDeleteConfirmationOpen,
+		setDeleteConfirmation,
+		cmsDeleteHandler,
+		isDeleteCmsLoading,
 	};
 };
 

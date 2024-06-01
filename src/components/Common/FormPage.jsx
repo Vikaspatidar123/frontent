@@ -71,7 +71,13 @@ const FormPage = ({
 				<Row className={`justify-content-start ${formClass}`}>
 					{responsiveFormFields?.map(
 						(field) =>
-							!field?.isHide && (
+							!(
+								field?.isHide ||
+								!(field?.dependsOn // Condition mainly used in bonus
+									? validation?.values[field?.dependsOn]
+									: true) ||
+								(field?.isHidable && field.isHidable(validation.values))
+							) && (
 								<>
 									{field?.isNewRow && <div className="row" />}
 									<Col

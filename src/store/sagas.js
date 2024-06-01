@@ -16,7 +16,7 @@ import BetSettingsSaga from './betSettings/saga';
 import TransactionBankingSaga from './transactionBanking/saga';
 import sportsBookSaga from './sportsBook/saga';
 import ReviewManagementSaga from './reviewManagement/saga';
-import SportsTransactionSaga from './sportsTransaction/saga';
+import SportsBetSaga from './sportsBet/saga';
 import CasinoManagementSaga from './casinoManagement/saga';
 import CasinoTransactionsSaga from './casinoTransactions/saga';
 import WithdrawRequestsSaga from './withdrawRequests/saga';
@@ -32,6 +32,8 @@ import DashboardViewSaga from './dashboardView/saga';
 import UserDetailsSaga from './userDetails/saga';
 import RestrictedCountriesSaga from './restrictedCountries/saga';
 import CreateUpdateBonusSaga from './createUpdateBonus/saga';
+import SportsTransactionsSaga from './sportsTransactions/saga';
+import GameTransactionSaga from './gameTransactions/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -49,9 +51,10 @@ export default function* rootSaga() {
 		fork(TransactionBankingSaga),
 		fork(sportsBookSaga),
 		fork(ReviewManagementSaga),
-		fork(SportsTransactionSaga),
+		fork(SportsBetSaga),
 		fork(CasinoManagementSaga),
 		fork(CasinoTransactionsSaga),
+		fork(SportsTransactionsSaga),
 		fork(WithdrawRequestsSaga),
 		fork(SASettingsSaga),
 		fork(SportsMatchesSaga),
@@ -68,5 +71,6 @@ export default function* rootSaga() {
 		fork(aggregatorsSaga),
 		fork(DashboardViewSaga),
 		fork(CreateUpdateBonusSaga),
+		fork(GameTransactionSaga),
 	]);
 }

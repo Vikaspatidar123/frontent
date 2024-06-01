@@ -7,9 +7,11 @@ const TransactionId = ({ value }) => value ?? 'NA';
 
 const PaymentProvider = ({ value }) => value ?? 'NA';
 
-const Amount = ({ value }) =>
+const Amount = ({ value, type, defaultCurrency }) =>
 	value ? (
-		<div className={value < 0 ? 'text-danger' : 'text-success'}>{value}</div>
+		<div
+			className={type ? 'text-danger' : 'text-success'}
+		>{`${defaultCurrency.symbol} ${value}`}</div>
 	) : (
 		'-'
 	);
@@ -32,6 +34,10 @@ const Tags = ({ value }) => value ?? '';
 
 Amount.propTypes = {
 	value: PropTypes.string.isRequired,
+	type: PropTypes.string.isRequired,
+	defaultCurrency: PropTypes.shape({
+		symbol: PropTypes.string,
+	}).isRequired,
 };
 
 export {

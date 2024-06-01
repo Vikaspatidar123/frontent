@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getLivePlayerInfoStart } from '../../../store/dashboardView/actions';
-
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 
 const useDashboardView = () => {

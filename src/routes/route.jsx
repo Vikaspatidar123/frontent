@@ -8,6 +8,7 @@ import { getAccessToken } from '../network/storageUtils';
 import { getSuperAdminStart } from '../store/auth/permissionDetails/actions';
 import { getRolesStart } from '../store/auth/roles/actions';
 import usePermission from '../components/Common/Hooks/usePermission';
+import { fetchCurrenciesStart } from '../store/actions';
 
 const Authmiddleware = ({ children, location, modules, operation, isHome }) => {
 	const accessToken = getAccessToken();
@@ -18,6 +19,7 @@ const Authmiddleware = ({ children, location, modules, operation, isHome }) => {
 		if (accessToken) {
 			dispatch(getSuperAdminStart());
 			dispatch(getRolesStart());
+			dispatch(fetchCurrenciesStart());
 		}
 	}, []);
 

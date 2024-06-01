@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
-import { Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
+import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
 
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
@@ -24,6 +24,9 @@ const KpiReport = () => {
 		kpiReportDateOption,
 		setKpiReportDateOption,
 		loadKPIReport,
+		currencyId,
+		setCurrencyId,
+		currencies,
 	} = useKpiReport();
 	const { isGranted } = usePermission();
 
@@ -36,6 +39,7 @@ const KpiReport = () => {
 				isGlobalFilter={false}
 				customPageSize={kPIReport || 300}
 				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+				isShowColSettings={false}
 			/>
 		</SimpleBar>
 	);
@@ -63,35 +67,8 @@ const KpiReport = () => {
 			<Card>
 				<CardBody>
 					{isGranted(modules.kpiReport, 'R') ? (
-						<>
-							<div className="float-end">
-								<div className="d-flex justify-content-between align-items-center">
-									<CustomSelectField
-										name="kpiReportDateFilter"
-										type="select"
-										onChange={(e) => {
-											setKpiReportDateOption(e.target.value);
-										}}
-										value={kpiReportDateOption}
-										key="my_unique_select_key__kpiReportDateFilter"
-										options={dateConstants?.map((item) => (
-											<option value={item.value} key={item.value}>
-												{item.label}
-											</option>
-										))}
-									/>
-									<CSVLink
-										data={kPIReport || []}
-										filename="downloaded_data.csv"
-										className="btn btn-primary dashboard-export-btn"
-									>
-										Export Details{' '}
-										<i className="bx bx-download align-baseline" />
-									</CSVLink>
-								</div>
-							</div>
-
-							<div className="d-flex align-items-center">
+						<Row>
+							<Col xl={7} className="d-flex align-items-center">
 								<h4 className="card-title font-size-18 mb-3">KPI Report</h4>
 								<i
 									role="button"
@@ -109,7 +86,48 @@ const KpiReport = () => {
 								<UncontrolledTooltip placement="top" target="refreshKpiReport">
 									Refresh
 								</UncontrolledTooltip>
-							</div>
+							</Col>
+							<Col xl={5} className="float-end my-2">
+								<div className="d-flex justify-content-between align-items-center">
+									<CustomSelectField
+										name="kpiSummaryDateFilter"
+										type="select"
+										value={currencyId}
+										className="mx-2"
+										placeholder="Select Currency"
+										key="my_unique_select_key__kpiSummaryDateFilter"
+										onChange={(e) => {
+											setCurrencyId(e.target.value);
+										}}
+										options={currencies?.currencies?.map((currency) => (
+											<option value={currency.id} key={currency.id}>
+												{currency.name}
+											</option>
+										))}
+									/>
+									<CustomSelectField
+										name="kpiReportDateFilter"
+										type="select"
+										onChange={(e) => {
+											setKpiReportDateOption(e.target.value);
+										}}
+										value={kpiReportDateOption}
+										key="my_unique_select_key__kpiReportDateFilter"
+										options={dateConstants?.map((item) => (
+											<option value={item.value} key={item.value}>
+												{item.label}
+											</option>
+										))}
+									/>
+									<CSVLink
+										data={kPIReport || []}
+										filename="downloaded_data.csv"
+										className="btn btn-primary dashboard-export-btn w-80"
+									>
+										<i className="bx bx-download align-baseline" />
+									</CSVLink>
+								</div>
+							</Col>
 
 							<TabsPage
 								activeTab={activeKpiReportTab}
@@ -117,7 +135,7 @@ const KpiReport = () => {
 								toggle={toggle}
 								navClass="bg-light rounded p-0"
 							/>
-						</>
+						</Row>
 					) : (
 						<h6>{KPI_REPORT}</h6>
 					)}

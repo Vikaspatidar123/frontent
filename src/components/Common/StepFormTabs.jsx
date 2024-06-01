@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import {
-	Button,
 	Card,
 	CardBody,
 	Col,
@@ -13,25 +12,10 @@ import {
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const StepFormTabs = ({
-	tabsData,
-	title,
-	activeTab,
-	toggleTab,
-	passedSteps,
-	onNextClick,
-	isNextDisabled,
-	isPrevDisabled,
-	submitButtonText,
-	submitButtonLoading,
-}) => {
+const StepFormTabs = ({ tabsData, title, activeTab }) => {
 	const tabsToShow = useMemo(
 		() => tabsData.filter((tab) => !tab?.isHidden) || [],
 		[tabsData]
-	);
-	const currentTabIndex = useMemo(
-		() => tabsToShow.findIndex((tab) => tab.id === activeTab),
-		[tabsToShow, activeTab]
 	);
 
 	return (
@@ -54,7 +38,6 @@ const StepFormTabs = ({
 												onClick={() => {
 													// toggleTab(tab.id);
 												}}
-												disabled={!(passedSteps || []).includes(tab.id)}
 											>
 												<span className="number">{idx + 1}</span> {tab.title}
 											</NavLink>
@@ -69,48 +52,6 @@ const StepFormTabs = ({
 									))}
 								</TabContent>
 							</div>
-							<div className="actions clearfix">
-								<ul>
-									<li>
-										<Button
-											disabled={
-												currentTabIndex === 0 ||
-												isPrevDisabled ||
-												submitButtonLoading
-											}
-											onClick={() =>
-												toggleTab(
-													currentTabIndex !== 0
-														? tabsToShow[currentTabIndex - 1].id
-														: ''
-												)
-											}
-										>
-											Previous
-										</Button>
-									</li>
-									<li>
-										<Button
-											disabled={isNextDisabled || submitButtonLoading}
-											onClick={() => {
-												onNextClick(
-													activeTab,
-													currentTabIndex !== tabsToShow.length - 1
-														? tabsToShow[currentTabIndex + 1].id
-														: 'submit'
-												);
-											}}
-										>
-											{submitButtonLoading && (
-												<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
-											)}
-											{currentTabIndex === tabsToShow.length - 1
-												? submitButtonText || 'Submit'
-												: 'Next'}
-										</Button>
-									</li>
-								</ul>
-							</div>
 						</div>
 					</CardBody>
 				</Card>
@@ -120,27 +61,17 @@ const StepFormTabs = ({
 };
 
 StepFormTabs.defaultProps = {
-	isNextDisabled: false,
-	isPrevDisabled: false,
-	submitButtonText: '',
-	submitButtonLoading: false,
+	//
 };
 
 StepFormTabs.propTypes = {
 	title: PropTypes.string.isRequired,
 	activeTab: PropTypes.number.isRequired,
-	toggleTab: PropTypes.func.isRequired,
-	passedSteps: PropTypes.arrayOf(PropTypes.number).isRequired,
 	tabsData: PropTypes.arrayOf(
 		PropTypes.objectOf(
 			PropTypes.oneOfType([PropTypes.number, PropTypes.node, PropTypes.string])
 		)
 	).isRequired,
-	onNextClick: PropTypes.func.isRequired,
-	isNextDisabled: PropTypes.bool,
-	isPrevDisabled: PropTypes.bool,
-	submitButtonText: PropTypes.string,
-	submitButtonLoading: PropTypes.bool,
 };
 
 export default StepFormTabs;

@@ -23,11 +23,20 @@ const deleteRestrictedItems = (data) =>
 	);
 
 const deleteBonus = (data) =>
-	deleteRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, data);
+	deleteRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/delete`,
+		data
+	);
 
 const deleteUserComment = (data) =>
 	deleteRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/comment`,
+		data
+	);
+
+const deleteCmsRequest = (data) =>
+	deleteRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CONTENT}page`,
 		data
 	);
 
@@ -37,4 +46,5 @@ export {
 	deleteRestrictedItems,
 	deleteBonus,
 	deleteUserComment,
+	deleteCmsRequest,
 };

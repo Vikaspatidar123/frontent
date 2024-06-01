@@ -38,6 +38,7 @@ const CurrencyList = () => {
 		showModal,
 		setShowModal,
 		toggleFormModal,
+		buttonList,
 	} = useCreateCurrency();
 
 	return (
@@ -53,7 +54,7 @@ const CurrencyList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Currency" />
+							<CrudSection buttonList={buttonList} title="Currency" />
 							<CardBody>
 								<TableContainer
 									isLoading={isCurrenciesLoading}

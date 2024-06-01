@@ -24,6 +24,8 @@ const YMDFormat = 'DD-MM-YYYY';
 
 const dateTimeFormat = `${YMDFormat} hh:mm`;
 
+const YMDdate = 'YYYY-MM-DD';
+
 export {
 	projectName,
 	role,
@@ -36,4 +38,5 @@ export {
 	selectedLanguage,
 	YMDFormat,
 	dateTimeFormat,
+	YMDdate,
 };

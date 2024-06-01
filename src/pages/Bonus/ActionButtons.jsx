@@ -15,19 +15,11 @@ const ActionButtons = ({
 	const { isGranted } = usePermission();
 	const active = original?.isActive;
 	const bonusId = original?.id;
-	const handleEdit = () => navigate(`/bonus/edit/${bonusId}`);
+	const bonusType = original?.bonusType;
+	const handleEdit = () => navigate(`/bonus/edit/${bonusId}/${bonusType}`);
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			{/* <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
-				<Link to="#" className="btn btn-sm btn-soft-primary">
-					<i className="mdi mdi-eye-outline" id={`view-${bonusId}`} />
-				</Link>
-			</li>
-			<UncontrolledTooltip placement="top" target={`view-${bonusId}`}>
-				View
-			</UncontrolledTooltip> */}
-
 			<li>
 				{active ? (
 					<Button
@@ -35,7 +27,6 @@ const ActionButtons = ({
 						className="btn btn-sm btn-soft-danger"
 						onClick={(e) =>
 							handleStatus(e, {
-								active,
 								bonusId,
 							})
 						}
@@ -51,7 +42,6 @@ const ActionButtons = ({
 						className="btn btn-sm btn-soft-success"
 						onClick={(e) =>
 							handleStatus(e, {
-								active,
 								bonusId,
 							})
 						}
@@ -68,6 +58,7 @@ const ActionButtons = ({
 				<Button
 					hidden={!isGranted(modules.bonus, 'U')}
 					className="btn btn-sm btn-soft-info"
+					disabled={original?.claimedCount}
 					id="editToolTip"
 					onClick={handleEdit}
 				>
@@ -96,7 +87,8 @@ const ActionButtons = ({
 					hidden={!isGranted(modules.bonus, 'D')}
 					id="deleteToolTip"
 					className="btn btn-sm btn-soft-danger"
-					onClick={() => handleDelete(original)}
+					disabled={original?.claimedCount}
+					onClick={() => handleDelete(bonusId)}
 				>
 					<i className="mdi mdi-delete-outline" />
 					<UncontrolledTooltip placement="top" target="deleteToolTip">
@@ -113,6 +105,8 @@ ActionButtons.propTypes = {
 		original: PropTypes.shape({
 			id: PropTypes.number.isRequired,
 			isActive: PropTypes.bool.isRequired,
+			bonusType: PropTypes.string.isRequired,
+			claimedCount: PropTypes.number.isRequired,
 		}).isRequired,
 	}).isRequired,
 	handleStatus: PropTypes.func.isRequired,

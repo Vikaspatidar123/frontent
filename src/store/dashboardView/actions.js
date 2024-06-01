@@ -14,6 +14,9 @@ import {
 	GET_KPI_SUMMARY_START,
 	GET_KPI_SUMMARY_SUCCESS,
 	GET_KPI_SUMMARY_FAIL,
+	GET_TOP_PLAYERS_START,
+	GET_TOP_PLAYERS_SUCCESS,
+	GET_TOP_PLAYERS_FAIL,
 } from './actionTypes';
 
 export const getLivePlayerInfoStart = (payload) => ({
@@ -88,5 +91,20 @@ export const getKpiSummarySuccess = (payload) => ({
 
 export const getKpiSummaryFail = (payload) => ({
 	type: GET_KPI_SUMMARY_FAIL,
+	payload,
+});
+
+export const getTopPlayers = (payload) => ({
+	type: GET_TOP_PLAYERS_START,
+	payload,
+});
+
+export const getTopPlayersSuccess = (payload) => ({
+	type: GET_TOP_PLAYERS_SUCCESS,
+	payload,
+});
+
+export const getTopPlayersFail = (payload) => ({
+	type: GET_TOP_PLAYERS_FAIL,
 	payload,
 });

@@ -10,13 +10,13 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	fetchCasinoTransactionsStart,
+	fetchCurrenciesStart,
 	getAllTags,
-	// fetchCurrenciesStart,
 } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
-const useFilters = () => {
+const useFilters = (userId) => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
@@ -25,12 +25,14 @@ const useFilters = () => {
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 	const { userTags } = useSelector((state) => state.UserDetails);
+	const { currencies } = useSelector((state) => state.Currencies);
 
 	const fetchData = (values) => {
 		dispatch(
 			fetchCasinoTransactionsStart({
 				perPage: itemsPerPage,
 				page: 1,
+				userId,
 				...values,
 			})
 		);
@@ -44,24 +46,32 @@ const useFilters = () => {
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields(),
+		staticFormFields: staticFiltersFields(userId),
 	});
-
-	// const handleAdvance = () => {
-	//   toggleAdvance();
-	// };
 
 	useEffect(() => {
 		if (!userTags) {
 			dispatch(getAllTags());
-		} else {
+		}
+		if (!currencies) {
+			dispatch(fetchCurrenciesStart());
+		}
+	}, []);
+
+	useEffect(() => {
+		if (userTags && currencies) {
 			const tags = userTags?.map((row) => ({
 				optionLabel: row?.tag,
 				value: row.id,
 			}));
 
+			const currencyOptions = currencies?.currencies?.map((currency) => ({
+				optionLabel: currency.code,
+				value: currency.id,
+			}));
+
 			setFormFields([
-				...staticFiltersFields(),
+				...staticFiltersFields(userId),
 				{
 					name: 'tagId',
 					fieldType: 'select',
@@ -69,9 +79,16 @@ const useFilters = () => {
 					placeholder: 'Select tag',
 					optionList: tags,
 				},
+				{
+					name: 'currencyId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select currency',
+					optionList: currencyOptions,
+				},
 			]);
 		}
-	}, [userTags]);
+	}, [userTags, currencies]);
 
 	const handleClear = () => {
 		const initialValues = filterValues();
@@ -92,32 +109,6 @@ const useFilters = () => {
 		}
 		return () => clearTimeout(debounce);
 	}, [validation.values]);
-
-	// useEffect(() => {
-	// 	if (isEmpty(currencies)) {
-	// 		dispatch(
-	// 			fetchCurrenciesStart({
-	// 				// perPage: itemsPerPage,
-	// 				// page: page,
-	// 			})
-	// 		);
-	// 	} else {
-	// 		const currencyField = currencies?.rows?.map((row) => ({
-	// 			optionLabel: row.name,
-	// 			value: row.code,
-	// 		}));
-	// 		setFormFields([
-	// 			{
-	// 				name: 'currencyCode',
-	// 				fieldType: 'select',
-	// 				label: '',
-	// 				placeholder: 'Select a currency',
-	// 				optionList: currencyField,
-	// 			},
-	// 			...staticFiltersFields(),
-	// 		]);
-	// 	}
-	// }, [currencies]);
 
 	const actionButtons = useMemo(() => [
 		{

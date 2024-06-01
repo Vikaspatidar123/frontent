@@ -6,14 +6,14 @@ import {
 	CustomInputField,
 	CustomTextEditor,
 } from '../../../helpers/customForms';
-import { BONUS_TYPES } from '../constants';
+import Actions from './Actions';
 
 const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
 	<>
 		<Col className="mb-3" sm={6}>
 			<CustomInputField
-				placeholder="Enter Promotion Title"
-				label="Promotion Title"
+				placeholder="Enter Bonus Title"
+				label="Bonus Title"
 				value={langContent.promoTitle[lang]}
 				onChange={(e) =>
 					setLangContent((prev) => ({
@@ -59,24 +59,12 @@ const Languages = ({
 	langContent,
 	setLangContent,
 	disableTabSwitching,
-	nextPressed,
-	setNextPressed,
-	setActiveTab,
-	selectedBonus,
-	// bonusDetails,
+	activeTab,
+	submitButtonLoading,
+	toggleTab,
+	tabsToShow,
 }) => {
-	useEffect(() => {
-		if (
-			nextPressed.currentTab === 'languages' &&
-			selectedBonus !== BONUS_TYPES.JOINING
-		) {
-			setActiveTab(nextPressed.nextTab);
-			window.scrollTo(0, 0);
-			setNextPressed({});
-		}
-	}, [nextPressed]);
-
-	const toggle = (id) => !disableTabSwitching && setActiveLangTab(id);
+	const toggle = (id) => setActiveLangTab(id);
 
 	const tabData = useMemo(() => {
 		const langArray =
@@ -96,15 +84,39 @@ const Languages = ({
 		}));
 	}, [langList, langContent]);
 
+	// const checkAllEmptyCondition = () =>
+	// 	(langContent?.promoTitle?.[activeLangTab] === '' ||
+	// 		langContent?.promoTitle?.[activeLangTab] === undefined) &&
+	// 	(langContent?.desc?.[activeLangTab] === '' ||
+	// 		langContent?.desc?.[activeLangTab] === undefined ||
+	// 		(langContent?.desc?.[activeLangTab] &&
+	// 			!langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')
+	// 				?.length)) &&
+	// 	(langContent?.terms?.[activeLangTab] === '' ||
+	// 		langContent?.terms?.[activeLangTab] === undefined ||
+	// 		(langContent?.terms?.[activeLangTab] &&
+	// 			!langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length));
+
+	// const checkAllFilled = () =>
+	// 	langContent?.promoTitle?.[activeLangTab] &&
+	// 	langContent?.desc?.[activeLangTab] &&
+	// 	langContent?.desc?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length &&
+	// 	langContent?.terms?.[activeLangTab] &&
+	// 	langContent?.terms?.[activeLangTab]?.replace(/<[^>]+>/g, '')?.length;
+
+	const handleNextClick = (nextTab) => {
+		toggleTab(nextTab);
+	};
+
 	useEffect(() => {
-		if (tabData.length) {
+		if (activeTab === 'languages') {
 			setActiveLangTab(tabData[0]?.id);
 		}
-	}, [tabData]);
+	}, [activeTab]);
 
 	return (
 		<Row>
-			<Row className="text-danger">
+			<Row className="text-info">
 				<strong>
 					All fields are required or cleared before switching to another
 					language or moving Previous or Next/Submit.
@@ -116,6 +128,15 @@ const Languages = ({
 					tabsData={tabData}
 					toggle={toggle}
 					disableTabSwitching={disableTabSwitching}
+					customComponent={
+						<Actions
+							handleNextClick={handleNextClick}
+							submitButtonLoading={submitButtonLoading}
+							activeTab={activeTab}
+							toggleTab={toggleTab}
+							tabsToShow={tabsToShow}
+						/>
+					}
 				/>
 			</Col>
 		</Row>

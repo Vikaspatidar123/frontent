@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row } from 'reactstrap';
+import { Card, Col, Row } from 'reactstrap';
+import { isEmpty } from 'lodash';
 import {
 	getCasinoGamesStart,
 	getCasinoProvidersDataStart,
@@ -12,34 +13,33 @@ import {
 	CustomSwitchButton,
 } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/Table';
+import { selectedLanguage } from '../../../constants/config';
+import Actions from './Actions';
+import { showToastr } from '../../../utils/helpers';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
-const CheckboxInput = ({ cell, selectedGames, toggleSelectGame }) => (
+const CheckboxInput = ({ cell, gameIds, toggleSelectGame }) => (
 	<div className=" d-flex justify-content-center">
 		<CustomSwitchButton
 			type="checkbox"
 			containerClass="false"
 			className="form-check-input"
-			checked={selectedGames?.includes(
-				cell?.row?.original?.casinoGameId?.toString()
-			)}
+			checked={gameIds?.includes(cell?.row?.original?.id?.toString())}
 			switchSizeClass="form-switch-sm"
-			onClick={() =>
-				toggleSelectGame(cell?.row?.original?.casinoGameId?.toString())
-			}
+			onClick={() => toggleSelectGame(cell?.row?.original?.id?.toString())}
 		/>
 	</div>
 );
 
-const columnsArray = ({ selectedGames, toggleSelectGame }) => [
+const columnsArray = ({ gameIds, toggleSelectGame }) => [
 	{
 		Header: 'SELECT',
 		accessor: 'select',
 		disableSortBy: true,
 		Cell: ({ cell }) => (
 			<CheckboxInput
-				selectedGames={selectedGames}
+				gameIds={gameIds}
 				toggleSelectGame={toggleSelectGame}
 				cell={cell}
 			/>
@@ -48,7 +48,7 @@ const columnsArray = ({ selectedGames, toggleSelectGame }) => [
 	{
 		Header: 'GAME ID',
 		disableSortBy: true,
-		accessor: 'casinoGameId',
+		accessor: 'id',
 		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
 	},
 	{
@@ -66,12 +66,12 @@ const columnsArray = ({ selectedGames, toggleSelectGame }) => [
 ];
 
 const Games = ({
-	nextPressed,
-	setAllFields,
-	setActiveTab,
-	setNextPressed,
-	selectedGames,
-	setSelectedGames,
+	gameIds,
+	setGameIds,
+	activeTab,
+	submitButtonLoading,
+	toggleTab,
+	tabsToShow,
 }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
@@ -85,22 +85,18 @@ const Games = ({
 		dispatch(getCasinoProvidersDataStart());
 	}, []);
 
-	useEffect(() => {
-		if (nextPressed.currentTab === 'games') {
-			setAllFields((prev) => ({
-				...prev,
-				selectedGames,
-			}));
-			setActiveTab(nextPressed.nextTab);
-			window.scrollTo(0, 0);
-			setNextPressed('');
+	const handleNextClick = (nextTab) => {
+		if (isEmpty(gameIds)) {
+			showToastr({ message: 'Please select at least 1 game', type: 'error' });
+		} else {
+			toggleTab(nextTab);
 		}
-	}, [nextPressed]);
+	};
 
 	const providerOptions = useMemo(() => {
-		if (casinoProvidersData) {
+		if (casinoProvidersData?.providers) {
 			return casinoProvidersData?.providers?.map((provider) => ({
-				optionLabel: provider.name,
+				optionLabel: provider.name[selectedLanguage],
 				value: provider.id,
 			}));
 		}
@@ -113,92 +109,102 @@ const Games = ({
 				perPage: itemsPerPage,
 				page: currentPage,
 				search: searchText,
-				providerId: selectedProvider || '',
+				casinoProviderId: selectedProvider || '',
 				freespins: true,
 			})
 		);
 	}, [itemsPerPage, currentPage, searchText, selectedProvider]);
 
 	const formattedCasinoGames = useMemo(() => {
-		if (casinoGames) {
+		if (casinoGames?.games) {
 			return casinoGames?.games?.map((game) => ({
 				...game,
+				name: game.name[selectedLanguage],
 				providerName: casinoProvidersData?.providers?.find(
 					(obj) => obj.id === game.casinoProviderId
-				)?.name,
+				)?.name[selectedLanguage],
 			}));
 		}
 		return [];
 	}, [casinoGames, casinoProvidersData]);
 
-	const toggleSelectGame = (gameId) => {
-		if (selectedGames.includes(gameId)) {
-			const array = selectedGames.filter((game) => game !== gameId);
-			setSelectedGames(array);
+	const toggleSelectGame = (id) => {
+		if (gameIds.includes(id)) {
+			const array = gameIds.filter((game) => game !== id);
+			setGameIds(array);
 		} else {
-			setSelectedGames((prev) => [...prev, gameId]);
+			setGameIds((prev) => [...prev, id]);
 		}
 	};
 
 	const columns = useMemo(
-		() => columnsArray({ selectedGames, toggleSelectGame }),
-		[selectedGames]
+		() => columnsArray({ gameIds, toggleSelectGame }),
+		[gameIds]
 	);
 
 	return (
-		<Row>
-			<Col sm="6" className="mb-3">
-				<CustomSelectField
-					label="Provider"
-					type="select"
-					onChange={(e) => {
-						setSelectedProvider(e.target.value);
-					}}
-					placeholder="Select Provider"
-					value={selectedProvider}
-					options={
-						<>
-							<option value="" selected>
-								Select Provider
-							</option>
-							{providerOptions?.map(({ optionLabel, value }) => (
-								<option key={value} value={value}>
-									{optionLabel}
+		<Card>
+			<Row>
+				<Col sm="6" className="mb-3">
+					<CustomSelectField
+						label="Provider"
+						type="select"
+						onChange={(e) => {
+							setSelectedProvider(e.target.value);
+						}}
+						placeholder="Select Provider"
+						value={selectedProvider}
+						options={
+							<>
+								<option value="" selected>
+									Select Provider
 								</option>
-							))}
-						</>
-					}
-				/>
-			</Col>
-			<Col sm="6" className="mb-3">
-				<CustomInputField
-					label="Search"
-					onChange={(e) => {
-						setSearchText(e.target.value);
-					}}
-					placeholder="Enter Game Name"
-					value={searchText}
-				/>
-			</Col>
-			<Col lg="12" className="mb-3">
-				<TableContainer
-					isLoading={!isCasinoGamesLoading}
-					columns={columns}
-					data={formattedCasinoGames}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					// paginationDiv="col-sm-12 col-md-7"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={casinoGames?.totalPages}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					changeRowsPerPageCallback={setItemsPerPage}
-				/>
-			</Col>
-		</Row>
+								{providerOptions?.map(({ optionLabel, value }) => (
+									<option key={value} value={value}>
+										{optionLabel}
+									</option>
+								))}
+							</>
+						}
+					/>
+				</Col>
+				<Col sm="6" className="mb-3">
+					<CustomInputField
+						label="Search"
+						onChange={(e) => {
+							setSearchText(e.target.value);
+						}}
+						placeholder="Enter Game Name"
+						value={searchText}
+					/>
+				</Col>
+				<Col lg="12" className="mb-3">
+					<TableContainer
+						isLoading={!isCasinoGamesLoading}
+						columns={columns}
+						data={formattedCasinoGames}
+						isPagination
+						customPageSize={itemsPerPage}
+						tableClass="table-bordered align-middle nowrap mt-2"
+						// paginationDiv="col-sm-12 col-md-7"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						totalPageCount={casinoGames?.totalPages}
+						isManualPagination
+						onChangePagination={setCurrentPage}
+						currentPage={currentPage}
+						changeRowsPerPageCallback={setItemsPerPage}
+					/>
+				</Col>
+			</Row>
+			<Actions
+				handleNextClick={handleNextClick}
+				submitButtonLoading={submitButtonLoading}
+				activeTab={activeTab}
+				toggleTab={toggleTab}
+				tabsToShow={tabsToShow}
+			/>
+		</Card>
 	);
 };
 

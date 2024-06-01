@@ -1,10 +1,12 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+/* eslint-disable no-param-reassign */
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 
 // Login Redux States
 import {
 	CREATE_CURRENCIES_START,
 	EDIT_CURRENCIES_START,
 	FETCH_CURRENCIES_START,
+	TOGGLE_CURRENCY,
 } from './actionTypes';
 import {
 	createCurrencyFail,
@@ -13,9 +15,14 @@ import {
 	editCurrencySuccess,
 	fetchCurrenciesFail,
 	fetchCurrenciesSuccess,
+	toggleCurrencySuccess,
 } from './actions';
 import { getCurrencies } from '../../network/getRequests';
-import { createCurrency, updateCurrency } from '../../network/postRequests';
+import {
+	createCurrency,
+	updateCurrency,
+	updateCurrencyStatus,
+} from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 
@@ -64,10 +71,42 @@ function* editCurrencyWorker(action) {
 	}
 }
 
+function* toggleCurrencyWorker(action) {
+	try {
+		const { data } = action && action.payload;
+
+		yield updateCurrencyStatus(data);
+
+		const { currencies } = yield select((state) => state.Currencies);
+
+		const updatedCurrencies = currencies?.currencies?.map((currency) => {
+			if (currency.id === data.currencyId) {
+				currency.isActive = !currency.isActive;
+			}
+			return currency;
+		});
+
+		showToastr({
+			message: `Currency Updated Successfully`,
+			type: 'success',
+		});
+
+		yield put(
+			toggleCurrencySuccess({
+				...currencies,
+				currencies: updatedCurrencies,
+			})
+		);
+	} catch (e) {
+		// yield put(toggleCurrencyFail());
+	}
+}
+
 function* currenciesSaga() {
 	yield takeEvery(FETCH_CURRENCIES_START, fetchCurrencies);
 	yield takeEvery(CREATE_CURRENCIES_START, createCurrencyWorker);
 	yield takeEvery(EDIT_CURRENCIES_START, editCurrencyWorker);
+	yield takeEvery(TOGGLE_CURRENCY, toggleCurrencyWorker);
 }
 
 // function* AdminDetailsSaga() {

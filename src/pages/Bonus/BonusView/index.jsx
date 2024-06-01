@@ -1,26 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'reactstrap';
 import Currencies from './Currency';
 import WageringContribution from './WageringContribution';
-import BonusCountry from './BonusCountry';
 import Breadcrumb from '../../../components/Common/Breadcrumb';
 import TabsPage from '../../../components/Common/TabsPage';
 import { getBonusDetail } from '../../../store/actions';
 import GeneralDetails from './GeneralInformation';
-// import LoyaltyManagement from '../../LoyaltyManagement';
-// import Games from './Games';
+import Games from './Games';
 import Spinners from '../../../components/Common/Spinner';
 import { BONUS_TYPES } from '../constants';
+import getViewBonusInitialValues from './helperFunctions';
 
 const BonusPreview = () => {
 	const dispatch = useDispatch();
-	const { bonusId } = useParams();
+	const { bonusId, bonusType } = useParams();
 	const [activeTab, setActiveTab] = useState('1');
 
 	const { isBonusDetailsLoading, gameBonusDetail } = useSelector(
 		(state) => state.AllBonusDetails
+	);
+
+	const bonusDetails = useMemo(
+		() => getViewBonusInitialValues(gameBonusDetail),
+		[gameBonusDetail]
 	);
 
 	const toggle = (tab) => {
@@ -29,59 +33,34 @@ const BonusPreview = () => {
 		}
 	};
 	useEffect(() => {
-		dispatch(getBonusDetail({ bonusId }));
+		dispatch(getBonusDetail({ bonusId, bonusType }));
 	}, [bonusId]);
 
 	const tabData = [
 		{
 			id: '1',
 			title: 'General',
-			component: <GeneralDetails bonusDetail={gameBonusDetail} />,
+			component: <GeneralDetails bonusDetails={bonusDetails} />,
 		},
 		{
 			id: '2',
 			title: 'Currency',
-			component: <Currencies bonusDetail={gameBonusDetail} />,
-			isHidden: [BONUS_TYPES.promotion].includes(gameBonusDetail?.bonusType),
+			component: <Currencies bonusDetails={bonusDetails} />,
 		},
 		{
 			id: '3',
 			title: 'Wagering Contribution',
 			component: (
-				<WageringContribution
-					wageringId={gameBonusDetail?.wageringTemplateId}
-				/>
-			),
-			isHidden: !(
-				gameBonusDetail?.bonusType !== 'balance' &&
-				gameBonusDetail?.bonusType !== BONUS_TYPES.FREESPINS &&
-				gameBonusDetail?.bonusType !== BONUS_TYPES.promotion &&
-				gameBonusDetail?.bonusType !== BONUS_TYPES.JOINING
-			),
-		},
-		{
-			id: '4',
-			title: 'Countries',
-			component: (
-				<BonusCountry bonusCountryData={gameBonusDetail?.other?.countries} />
+				<WageringContribution wageringId={bonusDetails?.wageringTemplateId} />
 			),
 			isHidden: gameBonusDetail?.bonusType === BONUS_TYPES.JOINING,
 		},
-		// {
-		// 	id: '5',
-		// 	title: 'Loyalty',
-		// 	component: <LoyaltyManagement bonusDetails={gameBonusDetail?.other} />,
-		// 	isHidden: !(
-		// 		gameBonusDetail?.bonusType === 'depositCashback' ||
-		// 		gameBonusDetail?.bonusType === 'wagering'
-		// 	),
-		// },
-		// {
-		// 	id: '6',
-		// 	title: 'Games',
-		// 	component: <Games bonusDetails={gameBonusDetail?.other} />,
-		// 	isHidden: gameBonusDetail?.bonusType !== BONUS_TYPES.FREESPINS,
-		// },
+		{
+			id: '6',
+			title: 'Games',
+			component: <Games bonusDetails={bonusDetails} />,
+			isHidden: gameBonusDetail?.bonusType !== BONUS_TYPES.FREESPINS,
+		},
 	];
 
 	return (

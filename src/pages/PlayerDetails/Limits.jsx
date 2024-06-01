@@ -3,6 +3,7 @@
 import React from 'react';
 import { Card, Col, Container, Row, Spinner } from 'reactstrap';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 import useEditLimits from './hooks/useEditLimits';
 import SingleLimitCard from './components/SingleLimitCard';
 import SelfExclusionCard from './components/SelfExclusionCard';
@@ -11,9 +12,9 @@ import { userLimitTypes } from '../../utils/constant';
 const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 	const { limitLabels, userLimits } = useEditLimits({ userDetails });
 
-	const currencyCode =
-		userDetails?.wallets?.find((wal) => wal?.currency?.default === true)
-			?.currency?.code || '';
+	const defaultCurrency = useSelector(
+		(state) => state.Currencies.defaultCurrency
+	);
 
 	const selfExclusionLimit = userLimits?.filter(
 		(key) => key.key === 'self_exclusion'
@@ -34,7 +35,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 							<Col md={4}>
 								<SingleLimitCard
 									limit={limit}
-									currencyCode={currencyCode}
+									currencyCode={defaultCurrency?.code || 'USD'}
 									userId={userId}
 								/>
 							</Col>
@@ -91,7 +92,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 									// portal: userLimits?.selfExclusionType,
 								}}
 								userId={userId}
-								currencyCode={currencyCode}
+								currencyCode={defaultCurrency?.code || 'USD'}
 							/>
 						</Col>
 					</Row>

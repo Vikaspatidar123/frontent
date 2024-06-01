@@ -58,7 +58,7 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (isEmpty(userTags)) {
+		if (!userTags) {
 			dispatch(getAllTags());
 		}
 
@@ -72,7 +72,7 @@ const useFilters = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!isEmpty(userTags) && !isEmpty(countries) && !isEmpty(languages)) {
+		if (userTags && !isEmpty(countries) && !isEmpty(languages)) {
 			const tags = userTags?.map((userTag) => ({
 				optionLabel: userTag?.tag,
 				value: userTag.id,

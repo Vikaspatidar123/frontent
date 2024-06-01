@@ -1,36 +1,44 @@
 import * as Yup from 'yup';
-import { STATUS_TYPE } from './constants';
+import { LEDGER_PURPOSE, STATUS_TYPE } from './constants';
 
-const staticFiltersFields = () => [
-	// {
-	// 	name: 'gameId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by gameId',
-	// 	type: 'search',
-	// },
+const staticFiltersFields = (userId = '') => [
 	{
-		name: 'walletId',
+		name: 'searchString',
 		fieldType: 'textField',
-		placeholder: 'Search by walletId',
 		type: 'search',
+		label: '',
+		placeholder: 'Search by email or username',
+		isHide: !!userId,
 	},
-	// {
-	// 	name: 'actioneeId',
-	// 	fieldType: 'textField',
-	// 	placeholder: 'Search by actioneeId',
-	// 	type: 'search',
-	// },
+	{
+		name: 'gameName',
+		fieldType: 'textField',
+		type: 'search',
+		label: '',
+		placeholder: 'Search by game name',
+	},
 	{
 		name: 'transactionId',
 		fieldType: 'textField',
-		placeholder: 'Search by transactionId',
+		placeholder: 'Search by transaction id',
 		type: 'search',
 	},
 	{
-		name: 'conversionRate',
+		name: 'previousTransactionId',
 		fieldType: 'textField',
-		placeholder: 'Search by conversionRate',
+		placeholder: 'Search by previous transaction id',
 		type: 'search',
+	},
+	{
+		name: 'purpose',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Transaction Type',
+		optionList: LEDGER_PURPOSE.map(({ value, label }) => ({
+			id: value,
+			value,
+			optionLabel: label,
+		})),
 	},
 	{
 		name: 'status',
@@ -54,6 +62,8 @@ const staticFiltersFields = () => [
 // const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
+	gameName: '',
+	searchString: '',
 	fromDate: '',
 	toDate: '',
 	gameId: '',
@@ -63,11 +73,14 @@ const filterValues = () => ({
 	conversionRate: '',
 	previousTransactionId: '',
 	// transactionType: null,
+	purpose: null,
 	status: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
+		searchString: Yup.string().nullable(),
+		gameName: Yup.string().nullable(),
 		status: Yup.string().nullable(),
 		fromDate: Yup.string().nullable(),
 		toDate: Yup.string().nullable(),
@@ -78,6 +91,7 @@ const filterValidationSchema = () =>
 		transactionId: Yup.string().nullable(),
 		conversionRate: Yup.string().nullable(),
 		previousTransactionId: Yup.string().nullable(),
+		purpose: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

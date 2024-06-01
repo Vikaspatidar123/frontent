@@ -9,7 +9,7 @@ const Name = ({ cell }) =>
 	cell.value ? (
 		<>
 			{cell.value}{' '}
-			{cell.row.original.default && (
+			{cell.row.original.isDefault && (
 				<Badge className="bg-success">Primary</Badge>
 			)}
 		</>
@@ -28,16 +28,24 @@ const Type = ({ value }) =>
 		? currencyTypes.find((currency) => currency.value === value)?.optionLabel
 		: '';
 
+// eslint-disable-next-line react/prop-types
+const Status = ({ value }) =>
+	value ? (
+		<Badge className="bg-success">Active</Badge>
+	) : (
+		<Badge className="bg-danger">In Active</Badge>
+	);
+
 const Actions = () => <i className="dripicons-dots-3" />;
 
-export { Id, Name, Actions, Code, Type, LoyaltyPoints, ExchangeRate };
+export { Id, Name, Actions, Code, Type, LoyaltyPoints, ExchangeRate, Status };
 
 Name.propTypes = {
 	cell: PropTypes.shape({
 		value: PropTypes.string.isRequired,
 		row: PropTypes.shape({
 			original: PropTypes.shape({
-				default: PropTypes.bool.isRequired,
+				isDefault: PropTypes.bool.isRequired,
 			}).isRequired,
 		}).isRequired,
 	}).isRequired,

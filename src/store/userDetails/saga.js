@@ -340,7 +340,7 @@ function* getBonusDetailsWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield getBonusDetail(payload);
-		yield put(getUserBonusDetailsSuccess(data?.data?.bonusDetails));
+		yield put(getUserBonusDetailsSuccess(data?.data?.bonus));
 	} catch (e) {
 		yield put(getUserBonusDetailsFail(e.message));
 	}
@@ -378,7 +378,7 @@ function* depositToOtherWorker(action) {
 		showToastr({
 			message:
 				payload.amount > 0
-					? `Deposit Successful`
+					? `${payload?.purpose || 'Deposit'} Successful`
 					: 'Amount Removed from Wallet Successful',
 			type: 'success',
 		});

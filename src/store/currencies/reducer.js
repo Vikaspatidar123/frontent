@@ -9,10 +9,12 @@ import {
 	EDIT_CURRENCIES_SUCCESS,
 	EDIT_CURRENCIES_FAIL,
 	RESET_CURRENCIES_DATA,
+	TOGGLE_CURRENCY_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
 	currencies: null,
+	defaultCurrency: { symbol: '$' },
 	error: '',
 	loading: false,
 	isCreateCurrencyError: false,
@@ -43,6 +45,7 @@ const currenciesReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				loading: false,
 				currencies: payload,
+				defaultCurrency: payload?.currencies?.find((curr) => curr.isDefault),
 			};
 
 		case RESET_CURRENCIES_DATA:
@@ -96,6 +99,13 @@ const currenciesReducer = (state = initialState, { type, payload } = {}) => {
 				isEditCurrencyLoading: false,
 				isEditCurrencySuccess: false,
 			};
+
+		case TOGGLE_CURRENCY_SUCCESS:
+			return {
+				...state,
+				currencies: payload,
+			};
+
 		default:
 			return { ...state };
 	}

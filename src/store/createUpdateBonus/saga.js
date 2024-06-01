@@ -12,14 +12,13 @@ import {
 import { CREATE_BONUS, UPDATE_BONUS } from './actionTypes';
 
 import { showToastr } from '../../utils/helpers';
-import { createBonusCall } from '../../network/postRequests';
-import { updateBonusCall } from '../../network/putRequests';
-import { formPageTitle } from '../../components/Common/constants';
+import { createBonusCall, updateBonusCall } from '../../network/postRequests';
+import { filterEmptyPayload } from '../../network/networkUtils';
 
 function* createBonusWorker(action) {
 	try {
 		let payload = action && action.payload;
-		payload = serialize(payload);
+		payload = serialize(filterEmptyPayload(payload), { indices: true });
 		const { data } = yield createBonusCall(payload);
 
 		showToastr({
@@ -27,7 +26,6 @@ function* createBonusWorker(action) {
 			type: 'success',
 		});
 		yield put(createBonusSuccess(data?.data));
-		window.localStorage.removeItem(formPageTitle.bonusManagement);
 	} catch (error) {
 		yield put(
 			createBonusFail(
@@ -40,7 +38,7 @@ function* createBonusWorker(action) {
 function* updateBonusWorker(action) {
 	try {
 		let payload = action && action.payload;
-		payload = serialize(payload);
+		payload = serialize(filterEmptyPayload(payload), { indices: true });
 		const { data } = yield updateBonusCall(payload);
 
 		showToastr({

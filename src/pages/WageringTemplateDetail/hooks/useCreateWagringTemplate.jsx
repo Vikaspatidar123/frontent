@@ -1,11 +1,10 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import CasinoGameForm from '../CasinoGameForm';
-import { modules } from '../../../constants/permissions';
 import {
 	getCasinoProvidersDataStart,
 	getCasinoGamesStart,
@@ -44,26 +43,44 @@ const useCreateWageringTemplate = () => {
 	} = useSelector((state) => state.CasinoManagementData);
 
 	const formSubmitHandler = (values) => {
-		const templateData = {
-			name: values.name,
-			gameContributions: Object.keys(selectedId || {})?.map((id) => ({
-				casinoGameId: id,
-				contributionPercentage: values.contributionPercentage,
-			})),
-		};
-		if (Object.keys(templateData.gameContributions).length < 1) {
-			showToastr({
-				message: 'Select At Least One Game',
-				type: 'error',
-			});
-		} else {
-			dispatch(createWageringTemplateDetails({ templateData, navigate }));
-		}
+		try {
+			const templateData = {
+				name: values.name,
+				gameContributions: Object.keys(selectedId || {})?.map((id) => {
+					if (
+						selectedId[id].contributionPercentage <= 0 ||
+						selectedId[id].contributionPercentage > 100
+					) {
+						showToastr({
+							message: 'Contribution percentage must be in range 0 to 100',
+							type: 'error',
+						});
+						throw new Error();
+					}
+					return {
+						casinoGameId: id,
+						contributionPercentage: selectedId[id].contributionPercentage,
+					};
+				}),
+				...values,
+			};
+			if (Object.keys(templateData.gameContributions).length < 1) {
+				showToastr({
+					message: 'Select At Least One Game',
+					type: 'error',
+				});
+			} else {
+				dispatch(createWageringTemplateDetails({ templateData, navigate }));
+			}
 
-		setSelectedId([]);
+			setSelectedId([]);
+		} catch (err) {
+			console.log('error', err);
+		}
 	};
 
 	const onChangeRowsPerPage = (value) => {
+		setPage(1);
 		setItemsPerPage(value);
 	};
 
@@ -74,7 +91,6 @@ const useCreateWageringTemplate = () => {
 		setLeftFormFields,
 		rightFormFields,
 		setRightFormFields,
-		setHeader,
 	} = useForm({
 		header: 'Create',
 		initialValues: getInitialValues(),
@@ -111,7 +127,7 @@ const useCreateWageringTemplate = () => {
 					perPage: itemsPerPage,
 					page,
 					searchString: validation?.values?.searchString || '',
-					providerId: validation?.values?.provider || '',
+					casinoProviderId: validation?.values?.provider || '',
 				})
 			);
 		}, debounceTime);
@@ -173,22 +189,6 @@ const useCreateWageringTemplate = () => {
 		}
 	}, []);
 
-	const handleCreateClick = (e) => {
-		e.preventDefault();
-		setHeader('Create');
-		navigate('create');
-	};
-
-	const buttonList = useMemo(() => [
-		{
-			label: 'Create',
-			handleClick: handleCreateClick,
-			link: '#!',
-			module: modules.bonus,
-			operation: 'C',
-		},
-	]);
-
 	return {
 		header,
 		validation,
@@ -196,8 +196,6 @@ const useCreateWageringTemplate = () => {
 		rightFormFields,
 		setLeftFormFields,
 		setRightFormFields,
-		setHeader,
-		buttonList,
 		customComponent,
 		setCustomComponent,
 		selectedId,

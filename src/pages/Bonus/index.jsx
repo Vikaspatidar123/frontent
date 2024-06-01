@@ -11,7 +11,6 @@ import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 import ModalView from '../../components/Common/Modal';
-import useButtonList from './hooks/useButtonList';
 
 const BonusDetail = () => {
 	// meta title
@@ -39,11 +38,9 @@ const BonusDetail = () => {
 		isDeleteConfirmationOpen,
 		setDeleteConfirmation,
 		bonusDeleteHandler,
-		bonusName,
 		isDeleteBonusLoading,
+		buttonList,
 	} = useBonusListing(filterValidation.values);
-
-	const { buttonList } = useButtonList();
 
 	return (
 		<div className="page-content">
@@ -109,7 +106,7 @@ const BonusDetail = () => {
 				headerTitle="Bonus Delete Confirmation"
 				isDisabled={isDeleteBonusLoading}
 			>
-				<h5>Are you sure you want to delete {bonusName} bonus?</h5>
+				<h5>Are you sure you want to delete bonus?</h5>
 			</ModalView>
 		</div>
 	);

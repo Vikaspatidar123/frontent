@@ -1,4 +1,3 @@
-import { safeStringify } from '../utils/helpers';
 import { getRequest } from './axios';
 import { API_NAMESPACE, MANAGEMENT } from './networkUtils';
 
@@ -126,7 +125,7 @@ const getTransactionBanking = (payload) =>
 
 const getLedgerDetails = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-legders`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}get-ledgers`,
 		payload
 	);
 
@@ -148,9 +147,9 @@ const getCountriesList = (payload) =>
 		payload
 	);
 
-const getSportsTransaction = (payload) =>
+const getSportsBet = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-sportsbook-bets`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}betslip-report`,
 		payload
 	);
 
@@ -162,7 +161,13 @@ const getTournamentsList = (payload) =>
 
 const getCasinoTransactions = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/get-casino-bets`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}casino-transactions`,
+		payload
+	);
+
+const getSportsTransactions = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TRANSACTION}sportsbook-transactions`,
 		payload
 	);
 
@@ -278,19 +283,6 @@ const getSportsMatchesDetailApi = ({ matchId = '' }) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}match-markets?matchId=${matchId}`
 	);
 
-const getBonusCurrenciesConvertAmount = ({
-	currencyFields,
-	currencyCode,
-	tenantIds,
-}) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/convert-amount?currencyFields=${safeStringify(
-			currencyFields
-		)}&currentCurrencyCode=${currencyCode}&tenantIds=${tenantIds}`
-	);
-const getSuperAdminAllWageringTemplate = () =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/wagering-template/all`);
-
 const getRestrictedItems = (data) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.COUNTRY}restricted-items`,
@@ -333,6 +325,12 @@ const getAllUserTags = (payload) =>
 		payload
 	);
 
+const getTopPlayersRequest = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}player-performance-sapshot`,
+		payload
+	);
+
 export {
 	getBonusDetail,
 	getAllCurrencies,
@@ -355,7 +353,7 @@ export {
 	getReviewManagement,
 	getCountriesList,
 	getTournamentsList,
-	getSportsTransaction,
+	getSportsBet,
 	getCasinoTransactions,
 	getWithdrawRequests,
 	getAllCasinoProviders,
@@ -385,8 +383,6 @@ export {
 	getEmailTypes,
 	getEmailTemplate,
 	getSportsMatchesDetailApi,
-	getBonusCurrenciesConvertAmount,
-	getSuperAdminAllWageringTemplate,
 	getRestrictedItems,
 	getUnrestrictedItems,
 	getAdminChildren,
@@ -396,4 +392,6 @@ export {
 	getSubCategoryAddedGames,
 	getAllUserTags,
 	getLedgerDetails,
+	getSportsTransactions,
+	getTopPlayersRequest,
 };

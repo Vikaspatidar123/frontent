@@ -10,8 +10,6 @@ import {
 	createWageringTemplateDetailsFail,
 	editWageringTemplateDetailsSuccess,
 	editWageringTemplateDetailsFail,
-	getAllSAWageringTemplatesSuccess,
-	getAllSAWageringTemplatesFail,
 } from './actions';
 
 import {
@@ -19,11 +17,9 @@ import {
 	GET_WAGERING_TEMPLATE_DETAILS,
 	CREATE_WAGERING_TEMPLATE_DETAILS,
 	EDIT_WAGERING_TEMPLATE_DETAILS,
-	GET_ALL_SA_WAGERING_TEMPLATES,
 } from './actionTypes';
 
 import {
-	getSuperAdminAllWageringTemplate,
 	getSuperAdminWageringTemplate,
 	getSuperAdminWageringTemplateDetail,
 } from '../../network/getRequests';
@@ -91,21 +87,7 @@ function* editWageringTemplateWorker(action) {
 
 		if (navigate) yield navigate('/wagering-template');
 	} catch (e) {
-		showToastr({
-			message: e?.response?.data?.errors[0]?.description,
-			type: 'error',
-		});
-
 		yield put(editWageringTemplateDetailsFail());
-	}
-}
-
-function* getAllSAWageringTemplatesWorker() {
-	try {
-		const { data } = yield getSuperAdminAllWageringTemplate();
-		yield put(getAllSAWageringTemplatesSuccess(data?.data?.getTemplates));
-	} catch (e) {
-		yield put(getAllSAWageringTemplatesFail(e.message));
 	}
 }
 
@@ -123,10 +105,6 @@ function* wageringTemplateWatcher() {
 		createWageringTemplateWorker
 	);
 	yield takeLatest(EDIT_WAGERING_TEMPLATE_DETAILS, editWageringTemplateWorker);
-	yield takeLatest(
-		GET_ALL_SA_WAGERING_TEMPLATES,
-		getAllSAWageringTemplatesWorker
-	);
 }
 
 function* WageringTemplateDetailsSaga() {

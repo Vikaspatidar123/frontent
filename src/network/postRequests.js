@@ -11,7 +11,10 @@ const superAdminLogin = (data) =>
 	);
 
 const createCurrency = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/currency`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}currency/create`,
+		data
+	);
 
 const updateCurrency = (data) =>
 	postRequest(
@@ -173,9 +176,13 @@ const addGamesToSubCategory = (data) =>
 	);
 
 const createBonusCall = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/create`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 const uploadGallery = (data) =>
 	postRequest(
@@ -492,6 +499,28 @@ const updateComment = (data) =>
 		data
 	);
 
+const reorderBonus = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/reorder`,
+		data
+	);
+
+const toggleBonusStatus = (data) => {
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/toggle`,
+		data
+	);
+};
+
+const updateBonusCall = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/update`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -571,4 +600,7 @@ export {
 	inActiveKyc,
 	updateComment,
 	updateWageringTemplate,
+	reorderBonus,
+	toggleBonusStatus,
+	updateBonusCall,
 };

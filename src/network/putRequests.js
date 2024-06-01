@@ -60,19 +60,11 @@ const addRestrictedItems = (data) =>
 		data
 	);
 
-const updateBonusCall = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus`, data, {
-		'Content-Type': 'multipart/form-data',
-	});
-
 const updateReview = ({ data }) =>
 	putRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.ADMIN}review`,
 		data
 	);
-
-const reorderBonus = (data) =>
-	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/order`, data);
 
 export {
 	updateStatus,
@@ -87,7 +79,5 @@ export {
 	detachOddsVariationApi,
 	updateCompanyOddApi,
 	addRestrictedItems,
-	updateBonusCall,
 	updateReview,
-	reorderBonus,
 };

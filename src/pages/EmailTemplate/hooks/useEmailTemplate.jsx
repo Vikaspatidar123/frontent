@@ -130,30 +130,26 @@ const useEmailTemplate = () => {
 			{
 				Header: 'ID',
 				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <EmailTemplateId value={cell.value} />,
+				Cell: (id) => <EmailTemplateId value={id} />,
 			},
 			{
 				Header: 'LABEL',
 				accessor: 'label',
-				filterable: true,
-				Cell: ({ cell }) => <Label value={cell.value} />,
+				Cell: (label) => <Label value={label} />,
 			},
 			{
 				Header: 'PRIMARY',
 				accessor: 'isDefault',
-				filterable: true,
-				Cell: ({ cell }) => <Primary value={cell.value} />,
+				Cell: (isDefault) => <Primary value={isDefault} />,
 			},
 			{
 				Header: 'ACTIONS',
-				accessor: 'actions',
-				disableFilters: true,
-				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
+				accessor: 'id',
+				Cell: (id, eventType, isDefault) => (
+					<ActionButtons // Maintain different condition for action
+						id={id}
+						eventType={eventType}
+						isDefault={isDefault}
 						handleEditClick={handleEditClick}
 						handleViewClick={handleViewClick}
 						handleDeleteClick={handleDeleteClick}
