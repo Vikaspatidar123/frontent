@@ -1,28 +1,6 @@
-const IdValue = ({ cell }) => cell;
+const KeyValueData = ({ value, defaultCurrency }) =>
+	defaultCurrency ? `${defaultCurrency.symbol} ${value}` : value;
 
-const Name = ({ cell }) => cell;
+const Username = ({ value }) => value || '-';
 
-const NUMBEROFROUNDS = ({ cell }) => cell || 0;
-
-const NumberPlayer = ({ cell }) => cell || 0;
-
-const TotalBetsAmount = ({ cell, defaultCurrency }) =>
-	`${defaultCurrency.symbol} ${cell ?? 0}`;
-
-const TotalWins = ({ cell, defaultCurrency }) =>
-	`${defaultCurrency.symbol} ${cell ?? 0}`;
-const GameRevenue = ({ cell, defaultCurrency }) =>
-	`${defaultCurrency.symbol} ${cell ?? 0}`;
-const Payout = ({ cell, defaultCurrency }) =>
-	`${defaultCurrency.symbol} ${cell ?? 0}`;
-
-export {
-	IdValue,
-	Name,
-	NUMBEROFROUNDS,
-	NumberPlayer,
-	TotalBetsAmount,
-	TotalWins,
-	GameRevenue,
-	Payout,
-};
+export { KeyValueData, Username };

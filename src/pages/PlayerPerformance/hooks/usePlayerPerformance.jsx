@@ -1,16 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-	GameRevenue,
-	IdValue,
-	Name,
-	NumberPlayer,
-	Payout,
-	TotalBetsAmount,
-	TotalWins,
-	// UserEmail,
-} from '../PlayerPerformanceListCol';
+import { KeyValueData, Username } from '../PlayerPerformanceListCol';
 import { fetchPlayerPerformanceStart } from '../../../store/playerPerformance/actions';
 
 const usePlayerPerformance = (filterValues = {}) => {
@@ -38,65 +29,107 @@ const usePlayerPerformance = (filterValues = {}) => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
+
 	const columns = useMemo(() => {
 		const currency =
 			currencies?.currencies?.find(
 				(curr) => curr.id === filterValues.currencyId
 			) || defaultCurrency;
+
 		return [
 			{
-				Header: 'ID',
-				accessor: 'id',
+				Header: 'Username',
+				accessor: 'username',
 				notHidable: true,
 				filterable: true,
-				Cell: ({ cell }) => <IdValue cell={cell?.value || '-'} />,
+				Cell: ({ cell }) => <Username value={cell?.value || '-'} />,
 			},
 			{
-				Header: 'NAME',
-				accessor: 'name',
-				filterable: true,
-				Cell: ({ cell }) => <Name cell={cell?.value || '-'} />,
-			},
-			{
-				Header: 'TOTAL PLAYER',
-				accessor: 'totalPlayers',
-				filterable: true,
-				Cell: ({ cell }) => <NumberPlayer cell={cell?.value ?? '0'} />,
-			},
-			{
-				Header: 'TOTAL BETS AMOUNT',
-				accessor: 'totalBetAmount',
+				Header: 'Revenue',
+				accessor: 'totalrevenue',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<TotalBetsAmount cell={cell?.value ?? 0} defaultCurrency={currency} />
+					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
 			},
 			{
-				Header: 'TOTAL WIN AMOUNT',
-				accessor: 'totalWinAmount',
-				disableFilters: true,
+				Header: 'Profit',
+				accessor: 'profit',
+				filterable: true,
 				Cell: ({ cell }) => (
-					<TotalWins cell={cell?.value ?? 0} defaultCurrency={currency} />
+					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
 			},
 			{
-				Header: 'GAME REVENUE',
-				accessor: 'gameRevenue',
-				disableFilters: true,
+				Header: 'Deposit',
+				accessor: 'total_deposit',
+				filterable: true,
 				Cell: ({ cell }) => (
-					<GameRevenue cell={cell?.value ?? 0} defaultCurrency={currency} />
+					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
 			},
 			{
-				Header: 'PAYOUT',
-				accessor: 'payout',
+				Header: 'Withdraw',
+				accessor: 'total_withdraw',
 				disableFilters: true,
 				Cell: ({ cell }) => (
-					<Payout cell={cell?.value ?? 0} defaultCurrency={currency} />
+					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
+			},
+			{
+				Header: 'Casino Bet Count',
+				accessor: 'total_casino_bet_count',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
+			},
+			{
+				Header: 'Casino Bet',
+				accessor: 'total_casino_bet',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+			{
+				Header: 'Casino Win',
+				accessor: 'total_casino_win',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+
+			{
+				Header: 'SB Bet Count',
+				accessor: 'total_sb_bet_count',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
+			},
+			{
+				Header: 'SB Bet',
+				accessor: 'total_sb_bet',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+			{
+				Header: 'SB Win',
+				accessor: 'total_sb_win',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+			},
+			{
+				Header: 'Deposit Count',
+				accessor: 'total_deposit_count',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
 			},
 		];
 	}, [filterValues.currencyId]);
+
 	const exportComponent = useMemo(() => [
 		{
 			label: '',

@@ -5,7 +5,6 @@ import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import { projectName } from '../../constants/config';
-import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import usePlayerPerformance from './hooks/usePlayerPerformance';
@@ -32,7 +31,6 @@ const PlayerPerformance = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		exportComponent,
 	} = usePlayerPerformance(filterValidation.values);
 
 	return (
@@ -44,11 +42,6 @@ const PlayerPerformance = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							{/* <CrudSection
-								buttonList={[]}
-								exportComponent={exportComponent}
-								title="Player Performance"
-							/> */}
 							<CardBody>
 								<Filters
 									validation={filterValidation}
@@ -65,7 +58,6 @@ const PlayerPerformance = () => {
 									isPagination
 									customPageSize={itemsPerPage}
 									tableClass="table-bordered align-middle nowrap mt-2"
-									// paginationDiv="col-sm-12 col-md-7"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									totalPageCount={totalCount}

@@ -10,7 +10,7 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { fetchCurrenciesStart } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
-import { fetchGameTransactionsStart } from '../../../store/gameTransactions/actions';
+import { fetchPlayerPerformanceStart } from '../../../store/playerPerformance/actions';
 
 let debounce;
 const useFilters = () => {
@@ -25,7 +25,7 @@ const useFilters = () => {
 
 	const fetchData = (values) => {
 		dispatch(
-			fetchGameTransactionsStart({
+			fetchPlayerPerformanceStart({
 				perPage: itemsPerPage,
 				page: 1,
 				...values,
@@ -40,7 +40,6 @@ const useFilters = () => {
 	const { validation, formFields, setFormFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
-		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(),
 	});
 

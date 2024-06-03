@@ -1,36 +1,20 @@
 import * as Yup from 'yup';
-import { GAME_ORDER_BY } from '../DashboardView/constant';
-
-const TABS_TYPE = [
-	{ label: 'Game', value: 'game' },
-	{ label: 'Provider', value: 'provider' },
-];
+import { TOP_PLAYER_ORDER } from '../DashboardView/constant';
 
 const staticFiltersFields = () => [
 	{
-		name: 'gameName',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
-		placeholder: 'Search by game name',
+		placeholder: 'Search by username',
 	},
 	{
 		name: 'orderBy',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Order By',
-		optionList: GAME_ORDER_BY.map(({ value, label }) => ({
-			id: value,
-			value,
-			optionLabel: label,
-		})),
-	},
-	{
-		name: 'tab',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Report of',
-		optionList: TABS_TYPE.map(({ value, label }) => ({
+		optionList: TOP_PLAYER_ORDER.map(({ value, label }) => ({
 			id: value,
 			value,
 			optionLabel: label,
@@ -47,7 +31,7 @@ const staticFiltersFields = () => [
 // const toDate = new Date(); // Do not define it inside filterValue function
 
 const filterValues = () => ({
-	gameName: '',
+	searchString: '',
 	currencyId: null,
 	orderBy: null,
 	range: '',
@@ -55,8 +39,7 @@ const filterValues = () => ({
 
 const filterValidationSchema = () =>
 	Yup.object({
-		gameName: Yup.string().nullable(),
-		tab: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 		currencyId: Yup.string().nullable(),
 		orderBy: Yup.string().nullable(),
 		range: Yup.string().nullable(),
