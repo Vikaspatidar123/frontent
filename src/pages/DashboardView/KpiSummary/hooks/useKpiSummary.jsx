@@ -59,8 +59,8 @@ const useKpiSummary = () => {
 											currencies?.currencies?.find(
 												(curr) => curr.id === currencyId
 											)?.symbol || defaultCurrency.symbol
-									  } ${entry[key]}`
-									: `${entry[key]} ${entry.data === 'delta' ? ' %' : ''}`;
+									  } ${entry[key] || 0}`
+									: `${entry[key] || 0} ${entry.data === 'delta' ? ' %' : ''}`;
 						}
 					});
 					return acc;
