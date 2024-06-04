@@ -62,6 +62,9 @@ import ApplicationSettings from '../pages/ApplicationSettings';
 import SportsTransactionsList from '../pages/SportsTransactionsList';
 import GameTransactionsList from '../pages/CasinoGameTransactions';
 import PlayerPerformance from '../pages/PlayerPerformance';
+import Tournament from '../pages/Tournaments';
+import CreateTournament from '../pages/Tournaments/CreateTournment';
+import TournamentDetail from '../pages/Tournaments/TournamentDetail';
 
 const authProtectedRoutes = [
 	{
@@ -314,6 +317,24 @@ const authProtectedRoutes = [
 		path: '/player-performance',
 		component: <PlayerPerformance />,
 		modules: [modules.report],
+		operation: 'R',
+	},
+	{
+		path: '/tournaments',
+		component: <Tournament />,
+		modules: [modules.tournamentManagement],
+		operation: 'R',
+	},
+	{
+		path: '/tournaments/create',
+		component: <CreateTournament />,
+		modules: [modules.tournamentManagement],
+		operation: 'R',
+	},
+	{
+		path: '/tournaments/view/:id',
+		component: <TournamentDetail />,
+		modules: [modules.tournamentManagement],
 		operation: 'R',
 	},
 	{

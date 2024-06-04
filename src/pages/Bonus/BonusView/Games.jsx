@@ -59,7 +59,7 @@ const Games = ({ bonusDetails }) => {
 			<Row>
 				<Col lg="12" className="mb-3">
 					<TableContainer
-						isLoading={!isCasinoGamesLoading}
+						isLoading={isCasinoGamesLoading}
 						columns={columns}
 						data={formattedCasinoGames}
 						tableClass="table-bordered align-middle nowrap mt-2"

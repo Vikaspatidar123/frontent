@@ -331,6 +331,18 @@ const getTopPlayersRequest = (payload) =>
 		payload
 	);
 
+const getTournamentsDetails = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}`,
+		payload
+	);
+
+const getTournamentDetailById = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}/details`,
+		payload
+	);
+
 export {
 	getBonusDetail,
 	getAllCurrencies,
@@ -394,4 +406,6 @@ export {
 	getLedgerDetails,
 	getSportsTransactions,
 	getTopPlayersRequest,
+	getTournamentsDetails,
+	getTournamentDetailById,
 };

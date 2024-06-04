@@ -180,7 +180,7 @@ const AddGamesToCasinoSubcategory = () => {
 									isManualPagination
 									onChangePagination={setNewGamepageNo}
 									currentPage={newGamepageNo}
-									isLoading={!isCasinoGamesLoading}
+									isLoading={isCasinoGamesLoading}
 									changeRowsPerPageCallback={onChangeNewGameTableRowsPerPage}
 								/>
 							</CardBody>
@@ -209,7 +209,7 @@ const AddGamesToCasinoSubcategory = () => {
 								isManualPagination
 								onChangePagination={setPageNo}
 								currentPage={pageNo}
-								isLoading={!isCasinoGamesLoading}
+								isLoading={isCasinoGamesLoading}
 								changeRowsPerPageCallback={onChangeRowsPerPage}
 							/>
 						</CardBody>

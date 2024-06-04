@@ -150,7 +150,7 @@ const useCreateWageringTemplate = () => {
 				setSelectedId={setSelectedId}
 				onChangeRowsPerPage={onChangeRowsPerPage}
 				itemsPerPage={itemsPerPage}
-				isCasinoGamesLoading={!isCasinoGamesLoading}
+				isCasinoGamesLoading={isCasinoGamesLoading}
 				page={page}
 				setPage={setPage}
 			/>

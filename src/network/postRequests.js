@@ -521,6 +521,15 @@ const updateBonusCall = (data) =>
 		}
 	);
 
+const createTournament = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}/create`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -603,4 +612,6 @@ export {
 	reorderBonus,
 	toggleBonusStatus,
 	updateBonusCall,
+	createTournament,
+	// updateSettledStatus,
 };

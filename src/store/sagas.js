@@ -34,7 +34,8 @@ import RestrictedCountriesSaga from './restrictedCountries/saga';
 import CreateUpdateBonusSaga from './createUpdateBonus/saga';
 import SportsTransactionsSaga from './sportsTransactions/saga';
 import GameTransactionSaga from './gameTransactions/saga';
-import PlayerPerformanceSaga from './playerPerformance/saga'
+import PlayerPerformanceSaga from './playerPerformance/saga';
+import TournamentSaga from './tournaments/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -74,5 +75,6 @@ export default function* rootSaga() {
 		fork(CreateUpdateBonusSaga),
 		fork(GameTransactionSaga),
 		fork(PlayerPerformanceSaga),
+		fork(TournamentSaga),
 	]);
 }

@@ -80,7 +80,7 @@ const INIT_STATE = {
 	iscasinoSubCategoryDetailsLoading: true,
 	casinoGames: null,
 	casinoGamesError: null,
-	isCasinoGamesLoading: true,
+	isCasinoGamesLoading: false,
 	languageDataLoading: true,
 	languageData: null,
 	languageDataError: null,
@@ -209,13 +209,13 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 		case GET_CASINO_GAMES:
 			return {
 				...state,
-				isCasinoGamesLoading: false,
+				isCasinoGamesLoading: true,
 			};
 
 		case GET_CASINO_GAMES_SUCCESS:
 			return {
 				...state,
-				isCasinoGamesLoading: true,
+				isCasinoGamesLoading: false,
 				casinoGames: payload,
 				casinoGamesError: null,
 			};
@@ -224,7 +224,7 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				casinoGamesError: payload,
-				isCasinoGamesLoading: true,
+				isCasinoGamesLoading: false,
 			};
 
 		case RESET_CASINO_GAMES:
@@ -232,7 +232,7 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				casinoGames: null,
 				casinoGamesError: null,
-				isCasinoGamesLoading: true,
+				isCasinoGamesLoading: false,
 			};
 
 		case GET_LANGUAGE_DATA_START:
