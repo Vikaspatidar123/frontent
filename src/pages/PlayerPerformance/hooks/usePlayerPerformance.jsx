@@ -33,7 +33,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 	const columns = useMemo(() => {
 		const currency =
 			currencies?.currencies?.find(
-				(curr) => curr.id === filterValues.currencyId
+				(curr) => curr.id === filterValues?.currencyId
 			) || defaultCurrency;
 
 		return [
@@ -45,7 +45,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 				Cell: ({ cell }) => <Username value={cell?.value || '-'} />,
 			},
 			{
-				Header: 'Revenue',
+				Header: 'Wagered',
 				accessor: 'totalrevenue',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -53,7 +53,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 				),
 			},
 			{
-				Header: 'Profit',
+				Header: 'Revenue',
 				accessor: 'profit',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -83,7 +83,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
 			},
 			{
-				Header: 'Casino Bet',
+				Header: 'Casino Wagered Amount',
 				accessor: 'total_casino_bet',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -128,7 +128,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
 			},
 		];
-	}, [filterValues.currencyId]);
+	}, [filterValues?.currencyId]);
 
 	const exportComponent = useMemo(() => [
 		{

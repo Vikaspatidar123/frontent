@@ -49,7 +49,7 @@ const usePlayerReport = () => {
 				Cell: ({ cell }) => <Username value={cell?.value || '-'} />,
 			},
 			{
-				Header: 'Revenue',
+				Header: 'Wagered',
 				accessor: 'totalrevenue',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -57,7 +57,7 @@ const usePlayerReport = () => {
 				),
 			},
 			{
-				Header: 'Profit',
+				Header: 'Revenue',
 				accessor: 'profit',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -87,7 +87,7 @@ const usePlayerReport = () => {
 				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
 			},
 			{
-				Header: 'Casino Bet',
+				Header: 'Casino Wagered Amount',
 				accessor: 'total_casino_bet',
 				filterable: true,
 				Cell: ({ cell }) => (

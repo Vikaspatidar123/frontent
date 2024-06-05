@@ -69,10 +69,16 @@ const dataURLtoBlob = (dataURL) => {
 	return new Blob([arrayBuffer], { type: mimeString });
 };
 
+const getPercentage = (current = 0, previous = 0) => {
+	const percentage = ((current - previous) / (previous || 1)) * 100;
+	return percentage?.toFixed(2);
+};
+
 export {
 	safeStringify,
 	showToastr,
 	downloadFileInSameWindow,
 	downloadFileInNewWindow,
 	dataURLtoBlob,
+	getPercentage,
 };

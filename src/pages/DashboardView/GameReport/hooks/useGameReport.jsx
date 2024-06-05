@@ -68,29 +68,7 @@ const useGameReport = () => {
 				Cell: ({ cell }) => <Name cell={cell?.value || '-'} />,
 			},
 			{
-				Header: 'TOTAL PLAYER',
-				accessor: 'totalPlayers',
-				filterable: true,
-				Cell: ({ cell }) => <NumberPlayer cell={cell?.value ?? '0'} />,
-			},
-			{
-				Header: 'TOTAL BETS AMOUNT',
-				accessor: 'totalBetAmount',
-				filterable: true,
-				Cell: ({ cell }) => (
-					<TotalBetsAmount cell={cell?.value ?? 0} defaultCurrency={currency} />
-				),
-			},
-			{
-				Header: 'TOTAL WIN AMOUNT',
-				accessor: 'totalWinAmount',
-				disableFilters: true,
-				Cell: ({ cell }) => (
-					<TotalWins cell={cell?.value ?? 0} defaultCurrency={currency} />
-				),
-			},
-			{
-				Header: 'GAME REVENUE',
+				Header: 'TOTAL REVENUE',
 				accessor: 'gameRevenue',
 				disableFilters: true,
 				Cell: ({ cell }) => (
@@ -98,7 +76,30 @@ const useGameReport = () => {
 				),
 			},
 			{
-				Header: 'PAYOUT',
+				Header: 'PLAYER BY',
+				accessor: 'totalPlayers',
+				filterable: true,
+				Cell: ({ cell }) => <NumberPlayer cell={cell?.value ?? '0'} />,
+			},
+			{
+				Header: 'TOTAL WAGERED',
+				accessor: 'totalBetAmount',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<TotalBetsAmount cell={cell?.value ?? 0} defaultCurrency={currency} />
+				),
+			},
+			{
+				Header: 'TOTAL PAYOUT',
+				accessor: 'totalWinAmount',
+				disableFilters: true,
+				Cell: ({ cell }) => (
+					<TotalWins cell={cell?.value ?? 0} defaultCurrency={currency} />
+				),
+			},
+
+			{
+				Header: 'RTP',
 				accessor: 'payout',
 				disableFilters: true,
 				Cell: ({ cell }) => <Payout cell={cell?.value ?? 0} />,

@@ -104,6 +104,7 @@ const GameReport = () => {
 										options={GAME_ORDER_BY?.map((item) => (
 											<option value={item.value} key={item.value}>
 												{item.label}
+												{activeGameReportTab}
 											</option>
 										))}
 									/>

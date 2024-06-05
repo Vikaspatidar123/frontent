@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
+import { isEmpty } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { TABS } from '../../constant';
+import { KPI_SUMMARY_NAMES, TABS } from '../../constant';
 import { getKpiSummaryStart } from '../../../../store/dashboardView/actions';
 import { Delta, RowName, Today, Yesterday } from '../KpiListCol';
+import { getPercentage } from '../../../../utils/helpers';
 
 const useKpiSummary = () => {
 	const dispatch = useDispatch();
@@ -21,7 +23,7 @@ const useKpiSummary = () => {
 		dispatch(
 			getKpiSummaryStart({
 				tab: activeKpiSummTab,
-				dateOptions: kpiSummaryDate,
+				// dateOptions: kpiSummaryDate,
 				currencyId,
 			})
 		);
@@ -38,34 +40,32 @@ const useKpiSummary = () => {
 	}, [activeKpiSummTab, kpiSummaryDate, currencyId]);
 
 	const formattedKpiSummary = useMemo(() => {
-		if (kPISummary?.length) {
-			return Object.values(
-				kPISummary.reduce((acc, entry) => {
-					Object.keys(entry).forEach((key) => {
-						if (key !== 'data') {
-							if (!acc[key]) {
-								acc[key] = {
-									name: key,
-									today: 0,
-									yesterday: 0,
-									monthToDate: 0,
-									// CustomDate: 0,
-								};
-							}
-							acc[key][entry.data] =
-								['betamount', 'winamount'].includes(key) &&
-								entry.data !== 'delta'
-									? `${
-											currencies?.currencies?.find(
-												(curr) => curr.id === currencyId
-											)?.symbol || defaultCurrency.symbol
-									  } ${entry[key] || 0}`
-									: `${entry[key] || 0} ${entry.data === 'delta' ? ' %' : ''}`;
-						}
-					});
-					return acc;
-				}, {})
-			);
+		if (!isEmpty(kPISummary)) {
+			const currency =
+				currencies?.currencies?.find((curr) => curr.id === currencyId) ||
+				defaultCurrency;
+			return KPI_SUMMARY_NAMES.filter(
+				(names) =>
+					!(names.value === 'wincount' && activeKpiSummTab === TABS.SPORT)
+			).map(({ label, value, isAmount }) => {
+				const delta = getPercentage(
+					Number(kPISummary[`monthtodate${value}`] || 0),
+					Number(kPISummary[`pastmonthtodate${value}`] || 0)
+				);
+				return {
+					name: label,
+					today: `${isAmount ? currency.symbol : ''} ${
+						kPISummary[`today${value}`] || 0
+					}`,
+					yesterday: `${isAmount ? currency.symbol : ''} ${
+						kPISummary[`yesterday${value}`]
+					}`,
+					monthToDate: `${isAmount ? currency.symbol : ''} ${
+						kPISummary[`monthtodate${value}`]
+					}`,
+					delta: `${delta} %`,
+				};
+			});
 		}
 		return [];
 	}, [kPISummary, currencyId]);

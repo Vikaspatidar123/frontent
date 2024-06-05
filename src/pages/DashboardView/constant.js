@@ -15,15 +15,15 @@ export const dateConstants = [
 
 export const GAME_ORDER_BY = [
 	{
-		label: 'Top Wagered Games',
+		label: 'Top wagered ',
 		value: 'totalBetAmount',
 	},
 	{
-		label: 'Most Played Games',
+		label: 'Most played ',
 		value: 'totalPlayers',
 	},
 	{
-		label: 'Top Payout Games',
+		label: 'Top payout ',
 		value: 'totalWinAmount',
 	},
 ];
@@ -48,6 +48,27 @@ export const TOP_PLAYER_ORDER = [
 	{
 		label: 'Highest Profit Players',
 		value: 'profit',
+	},
+];
+
+export const KPI_SUMMARY_NAMES = [
+	{
+		label: 'Win Amount',
+		value: 'winamount',
+		isAmount: true,
+	},
+	{
+		label: 'Win Count',
+		value: 'wincount',
+	},
+	{
+		label: 'Bet Amount',
+		value: 'betamount',
+		isAmount: true,
+	},
+	{
+		label: 'Bet Count',
+		value: 'betcount',
 	},
 ];
 
