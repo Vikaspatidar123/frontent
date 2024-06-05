@@ -18,6 +18,7 @@ import LoggedInPlayer from './LoggedInPlayer';
 
 import './dashboard.scss';
 import PlayerReport from './PlayerReport';
+// import DashedLine from './RevenueChart';
 
 const KpiSummary = lazy(() => import('./KpiSummary'));
 const KpiReport = lazy(() => import('./KpiReport'));
@@ -35,7 +36,6 @@ const DashboardView = ({ t }) => {
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				<Breadcrumbs title={t('Dashboards')} breadcrumbItem={t('Dashboard')} />
-
 				<Row>
 					<Col xl="2">
 						<WelcomeComp />
@@ -49,7 +49,12 @@ const DashboardView = ({ t }) => {
 							isLivePlayerLoading={isLivePlayerLoading}
 							livePlayerData={livePlayerData}
 						/>
-						<DemographicReport />
+						<Row>
+							{/* <Col xl="12"><Card><CardBody><DashedLine livePlayerData={livePlayerData} isLivePlayerLoading={isLivePlayerLoading} /></CardBody></Card></Col> */}
+							<Col xl="12">
+								<DemographicReport />
+							</Col>
+						</Row>
 					</Col>
 				</Row>
 				<Row>
