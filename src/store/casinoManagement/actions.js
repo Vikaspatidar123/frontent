@@ -5,9 +5,6 @@ import {
 	GET_CASINO_CATEGORY_DATA,
 	GET_CASINO_CATEGORY_DATA_SUCCESS,
 	GET_CASINO_CATEGORY_DATA_FAIL,
-	GET_CASINO_SUB_CATEGORY_DATA_SUCCESS,
-	GET_CASINO_SUB_CATEGORY_DATA_FAIL,
-	GET_CASINO_SUB_CATEGORY_DATA,
 	GET_CASINO_GAMES,
 	GET_CASINO_GAMES_SUCCESS,
 	GET_CASINO_GAMES_FAIL,
@@ -20,9 +17,6 @@ import {
 	CREATE_CASINO_CATEGORY_SUCCESS,
 	CREATE_CASINO_CATEGORY_FAIL,
 	CREATE_CASINO_CATEGORY_START,
-	CREATE_CASINO_SUBCATEGORY_FAIL,
-	CREATE_CASINO_SUBCATEGORY_SUCCESS,
-	CREATE_CASINO_SUBCATEGORY_START,
 	UPDATE_CASINO_STATUS_START,
 	UPDATE_CASINO_STATUS_SUCCESS,
 	UPDATE_CASINO_STATUS_FAIL,
@@ -32,39 +26,33 @@ import {
 	EDIT_CASINO_PROVIDERS_SUCCESS,
 	EDIT_CASINO_PROVIDERS_FAIL,
 	EDIT_CASINO_PROVIDERS,
-	EDIT_CASINO_SUBCATEGORY_SUCCESS,
-	EDIT_CASINO_SUBCATEGORY_FAIL,
-	EDIT_CASINO_SUBCATEGORY_START,
 	EDIT_CASINO_GAMES_SUCCESS,
 	EDIT_CASINO_GAMES_FAIL,
 	EDIT_CASINO_GAMES_START,
 	UPDATE_GAME_ISFEATURED_START,
 	UPDATE_GAME_ISFEATURED_SUCCESS,
 	UPDATE_GAME_ISFEATURED_FAIL,
-	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
-	ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS,
-	ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
-	DELETE_CASINO_SUB_CATEGORY_START,
-	DELETE_CASINO_SUB_CATEGORY_SUCCESS,
-	DELETE_CASINO_SUB_CATEGORY_FAIL,
+	ADD_GAME_TO_CASINO_CATEGORY_START,
+	ADD_GAME_TO_CASINO_CATEGORY_SUCCESS,
+	ADD_GAME_TO_CASINO_CATEGORY_FAIL,
+	DELETE_CASINO_CATEGORY_START,
+	DELETE_CASINO_CATEGORY_SUCCESS,
+	DELETE_CASINO_CATEGORY_FAIL,
 	REORDER_CASINO_CATEGORY_START,
 	REORDER_CASINO_CATEGORY_SUCCESS,
 	REORDER_CASINO_CATEGORY_FAIL,
-	REORDER_CASINO_SUB_CATEGORY_START,
-	REORDER_CASINO_SUB_CATEGORY_SUCCESS,
-	REORDER_CASINO_SUB_CATEGORY_FAIL,
 	REORDER_CASINO_GAMES_START,
 	REORDER_CASINO_GAMES_SUCCESS,
 	REORDER_CASINO_GAMES_FAIL,
 	RESET_CASINO_STATE,
 	RESET_CASINO_PROVIDERS_DATA,
 	RESET_CASINO_GAMES,
-	GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
-	GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS,
-	GET_ADDED_GAMES_IN_SUB_CATEGORY_FAIL,
-	REMOVE_GAME_FROM_SUB_CATEGORY_START,
-	REMOVE_GAME_FROM_SUB_CATEGORY_SUCCESS,
-	REMOVE_GAME_FROM_SUB_CATEGORY_FAIL,
+	GET_ADDED_GAMES_IN_CATEGORY_START,
+	GET_ADDED_GAMES_IN_CATEGORY_SUCCESS,
+	GET_ADDED_GAMES_IN_CATEGORY_FAIL,
+	REMOVE_GAME_FROM_CATEGORY_START,
+	REMOVE_GAME_FROM_CATEGORY_SUCCESS,
+	REMOVE_GAME_FROM_CATEGORY_FAIL,
 } from './actionTypes';
 
 export const getCasinoProvidersDataSuccess = (payload) => ({
@@ -99,21 +87,6 @@ export const getCasinoCategoryDetailFailure = (payload) => ({
 
 export const getCasinoCategoryDetailStart = (payload) => ({
 	type: GET_CASINO_CATEGORY_DATA,
-	payload,
-});
-
-export const getCasinoSubCategoryDetailSuccess = (payload) => ({
-	type: GET_CASINO_SUB_CATEGORY_DATA_SUCCESS,
-	payload,
-});
-
-export const getCasinoSubCategoryDetailFailure = (payload) => ({
-	type: GET_CASINO_SUB_CATEGORY_DATA_FAIL,
-	payload,
-});
-
-export const getCasinoSubCategoryDetailStart = (payload) => ({
-	type: GET_CASINO_SUB_CATEGORY_DATA,
 	payload,
 });
 
@@ -197,21 +170,6 @@ export const editCasinoCategoryStart = (payload) => ({
 	payload,
 });
 
-export const createCasinoSubCategorySuccess = (payload) => ({
-	type: CREATE_CASINO_SUBCATEGORY_SUCCESS,
-	payload,
-});
-
-export const createCasinoSubCategoryFailure = (payload) => ({
-	type: CREATE_CASINO_SUBCATEGORY_FAIL,
-	payload,
-});
-
-export const createCasinoSubCategoryStart = (payload) => ({
-	type: CREATE_CASINO_SUBCATEGORY_START,
-	payload,
-});
-
 export const updateCasinoStatusSuccess = (payload) => ({
 	type: UPDATE_CASINO_STATUS_SUCCESS,
 	payload,
@@ -239,21 +197,6 @@ export const editCasinoProvidersFailure = (payload) => ({
 
 export const editCasinoProvidersStart = (payload) => ({
 	type: EDIT_CASINO_PROVIDERS,
-	payload,
-});
-
-export const editCasinoSubCategorySuccess = (payload) => ({
-	type: EDIT_CASINO_SUBCATEGORY_SUCCESS,
-	payload,
-});
-
-export const editCasinoSubCategoryFailure = (payload) => ({
-	type: EDIT_CASINO_SUBCATEGORY_FAIL,
-	payload,
-});
-
-export const editCasinoSubCategoryStart = (payload) => ({
-	type: EDIT_CASINO_SUBCATEGORY_START,
 	payload,
 });
 
@@ -286,32 +229,32 @@ export const updateCasinoIsFeaturedFailure = (payload) => ({
 	payload,
 });
 
-export const addGameToSubCategoryStart = (payload) => ({
-	type: ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
+export const addGameToCategoryStart = (payload) => ({
+	type: ADD_GAME_TO_CASINO_CATEGORY_START,
 	payload,
 });
-export const addGameToSubCategorySuccess = (payload) => ({
-	type: ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS,
-	payload,
-});
-
-export const addGameToSubCategoryFail = (payload) => ({
-	type: ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
+export const addGameToCategorySuccess = (payload) => ({
+	type: ADD_GAME_TO_CASINO_CATEGORY_SUCCESS,
 	payload,
 });
 
-export const deleteCasinoSubCategoryStart = (payload) => ({
-	type: DELETE_CASINO_SUB_CATEGORY_START,
+export const addGameToCategoryFail = (payload) => ({
+	type: ADD_GAME_TO_CASINO_CATEGORY_FAIL,
 	payload,
 });
 
-export const deleteCasinoSubCategorySuccess = (payload) => ({
-	type: DELETE_CASINO_SUB_CATEGORY_SUCCESS,
+export const deleteCasinoCategoryStart = (payload) => ({
+	type: DELETE_CASINO_CATEGORY_START,
 	payload,
 });
 
-export const deleteCasinoSubCategoryFail = (payload) => ({
-	type: DELETE_CASINO_SUB_CATEGORY_FAIL,
+export const deleteCasinoCategorySuccess = (payload) => ({
+	type: DELETE_CASINO_CATEGORY_SUCCESS,
+	payload,
+});
+
+export const deleteCasinoCategoryFail = (payload) => ({
+	type: DELETE_CASINO_CATEGORY_FAIL,
 	payload,
 });
 
@@ -327,21 +270,6 @@ export const reorderCasinoCategorySuccess = (payload) => ({
 
 export const reorderCasinoCategoryFail = (payload) => ({
 	type: REORDER_CASINO_CATEGORY_FAIL,
-	payload,
-});
-
-export const reorderCasinoSubCategoryStart = (payload) => ({
-	type: REORDER_CASINO_SUB_CATEGORY_START,
-	payload,
-});
-
-export const reorderCasinoSubCategorySuccess = (payload) => ({
-	type: REORDER_CASINO_SUB_CATEGORY_SUCCESS,
-	payload,
-});
-
-export const reorderCasinoSubCategoryFail = (payload) => ({
-	type: REORDER_CASINO_SUB_CATEGORY_FAIL,
 	payload,
 });
 
@@ -364,32 +292,32 @@ export const resetCasinoState = () => ({
 	type: RESET_CASINO_STATE,
 });
 
-export const getAddedGamesInSubCategoryStart = (payload) => ({
-	type: GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
+export const getAddedGameInCategoryStart = (payload) => ({
+	type: GET_ADDED_GAMES_IN_CATEGORY_START,
 	payload,
 });
 
-export const getAddedGamesInSubCategorySuccess = (payload) => ({
-	type: GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS,
+export const getAddedGamesInCategorySuccess = (payload) => ({
+	type: GET_ADDED_GAMES_IN_CATEGORY_SUCCESS,
 	payload,
 });
 
-export const getAddedGamesInSubCategoryFail = (payload) => ({
-	type: GET_ADDED_GAMES_IN_SUB_CATEGORY_FAIL,
+export const getAddedGamesInCategoryFail = (payload) => ({
+	type: GET_ADDED_GAMES_IN_CATEGORY_FAIL,
 	payload,
 });
 
-export const removeGameFromSubCategoryStart = (payload) => ({
-	type: REMOVE_GAME_FROM_SUB_CATEGORY_START,
+export const removeGameFromCategoryStart = (payload) => ({
+	type: REMOVE_GAME_FROM_CATEGORY_START,
 	payload,
 });
 
-export const removeGameFromSubCategorySuccess = (payload) => ({
-	type: REMOVE_GAME_FROM_SUB_CATEGORY_SUCCESS,
+export const removeGameFromCategorySuccess = (payload) => ({
+	type: REMOVE_GAME_FROM_CATEGORY_SUCCESS,
 	payload,
 });
 
-export const removeGameFromSubCategoryFail = (payload) => ({
-	type: REMOVE_GAME_FROM_SUB_CATEGORY_FAIL,
+export const removeGameFromCategoryFail = (payload) => ({
+	type: REMOVE_GAME_FROM_CATEGORY_FAIL,
 	payload,
 });

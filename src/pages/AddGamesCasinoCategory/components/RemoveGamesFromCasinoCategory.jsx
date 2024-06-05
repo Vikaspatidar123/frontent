@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, CardBody, Button } from 'reactstrap';
 import useRemoveAddedGames from '../hooks/useRemoveAddedGames';
 import TableContainer from '../../../components/Common/Table';
 
-const RemoveGamesFromCasinoSubcategory = () => {
+const RemoveGamesFromCasinoCategory = () => {
 	const {
 		currentPage,
 		setCurrentPage,
@@ -11,7 +11,7 @@ const RemoveGamesFromCasinoSubcategory = () => {
 		columns,
 		formattedGames,
 		totalGamesCount,
-		isSubCategoryAddedGamesLoading,
+		isCategoryAddedGamesLoading,
 		onChangeRowsPerPage,
 		onChangeRemoveGamesRowsPerPage,
 		selectedGames,
@@ -80,7 +80,7 @@ const RemoveGamesFromCasinoSubcategory = () => {
 								isManualPagination
 								onChangePagination={setCurrentPage}
 								currentPage={currentPage}
-								isLoading={isSubCategoryAddedGamesLoading}
+								isLoading={isCategoryAddedGamesLoading}
 								changeRowsPerPageCallback={onChangeRowsPerPage}
 							/>
 						</CardBody>
@@ -91,4 +91,4 @@ const RemoveGamesFromCasinoSubcategory = () => {
 	);
 };
 
-export default RemoveGamesFromCasinoSubcategory;
+export default RemoveGamesFromCasinoCategory;

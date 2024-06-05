@@ -79,7 +79,7 @@ const CasinoGames = () => {
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}
-									isLoading={!isCasinoGamesLoading}
+									isLoading={isCasinoGamesLoading}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 								<FormModal

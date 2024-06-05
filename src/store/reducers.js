@@ -107,6 +107,8 @@ import GameTransactions from './gameTransactions/reducer';
 
 import PlayerPerformance from './playerPerformance/reducer';
 
+import Tournament from './tournaments/reducer';
+
 const rootReducer = combineReducers({
 	AdminRoles,
 	Countries,
@@ -145,7 +147,8 @@ const rootReducer = combineReducers({
 	Dashboard,
 	CreateUpdateBonus,
 	GameTransactions,
-	PlayerPerformance
+	PlayerPerformance,
+	Tournament,
 });
 
 export default rootReducer;

@@ -50,6 +50,8 @@ const modules = {
 	demography: 'demography',
 
 	review: 'review',
+
+	tournamentManagement: 'tournamentManagement',
 };
 
 const permissionIcons = () => ({
@@ -79,6 +81,7 @@ const permissionIcons = () => ({
 	[modules.tag]: <i className="mdi mdi-tag" />,
 	[modules.limits]: <i className="mdi mdi-currency-usd-off" />,
 	[modules.contentManagement]: <i className="mdi mdi-file-chart" />,
+	[modules.tournamentManagement]: <i className="bx bxs-trophy" />,
 });
 
 const permissionLabel = (label) => {

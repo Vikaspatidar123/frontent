@@ -13,7 +13,7 @@ import {
 	Name,
 	Provider,
 	Rtp,
-	SubCategory,
+	Category,
 	ThumbnailUrl,
 	DeviceType,
 	Status,
@@ -32,7 +32,6 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 		casinoGames,
 		isCasinoGamesLoading,
 		casinoProvidersData,
-		casinoSubCategoryDetails,
 		isEditCasinoGamesSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 
@@ -49,13 +48,13 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			return casinoGames?.games.map((item) => ({
 				...item,
 				providerName: item?.casinoProvider?.name?.[selectedLanguage],
-				subCategory: item?.casinoSubCategory?.name?.[selectedLanguage],
+				category: item?.casinoCategory?.name?.[selectedLanguage],
 				thumbnail: item?.thumbnailUrl,
 				devices: item?.devices?.join(', '),
 			}));
 		}
 		return [];
-	}, [casinoGames, casinoProvidersData, casinoSubCategoryDetails]);
+	}, [casinoGames, casinoProvidersData]);
 
 	const fetchData = () => {
 		dispatch(
@@ -147,10 +146,10 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 				Cell: ({ cell }) => <Rtp value={cell.value} />,
 			},
 			{
-				Header: 'SUB CATEGORY',
-				accessor: 'subCategory',
+				Header: 'CATEGORY',
+				accessor: 'category',
 				filterable: true,
-				Cell: ({ cell }) => <SubCategory value={cell.value} />,
+				Cell: ({ cell }) => <Category value={cell.value} />,
 			},
 			{
 				Header: 'THUMBNAIL',

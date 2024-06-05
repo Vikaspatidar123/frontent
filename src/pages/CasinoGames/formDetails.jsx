@@ -5,7 +5,7 @@ import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 const getInitialValues = (defaultValue) => ({
 	gameId: defaultValue?.id || '',
 	name: defaultValue?.name?.[selectedLanguage] || '',
-	gameSubCategoryId: defaultValue?.casinoSubCategoryId || null,
+	gameCategoryId: defaultValue?.casinoCategoryId || null,
 	casinoProviderId: defaultValue?.casinoProviderId || null,
 	isActive: defaultValue?.isActive || false,
 	file: defaultValue?.iconUrl || null,
@@ -13,7 +13,6 @@ const getInitialValues = (defaultValue) => ({
 
 const validationSchema = Yup.object().shape({
 	// name: Yup.string().required('Game Name Required'),
-	// gameSubCategoryId: Yup.string().required('Sub-Category  Required').nullable(),
 	// casinoProviderId: Yup.string()
 	// 	.required('Casino Provider Id Required')
 	// 	.nullable(),
@@ -88,18 +87,16 @@ const staticFiltersFields = () => [
 const filterValues = () => ({
 	isActive: null,
 	searchString: '',
-	casinoSubCategoryId: null,
+	casinoCategoryId: null,
 	casinoProviderId: null,
-	gameSubCategoryId: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
 		isActive: Yup.string().nullable(),
 		searchString: Yup.string().nullable(),
-		casinoSubCategoryId: Yup.string().nullable(),
+		casinoCategoryId: Yup.string().nullable(),
 		casinoProviderId: Yup.string().nullable(),
-		gameSubCategoryId: Yup.string().nullable(),
 	});
 
 export {

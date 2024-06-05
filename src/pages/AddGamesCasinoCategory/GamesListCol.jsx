@@ -13,7 +13,7 @@ const CasinoGameId = ({ value }) => (
 
 const DeviceType = ({ value }) => value ?? '';
 
-const GameSubCategoryId = ({ value }) => (
+const GameCategoryId = ({ value }) => (
 	<Link to="/#" className="text-body fw-bold">
 		{value ?? ''}
 	</Link>
@@ -32,7 +32,7 @@ const GameCategory = ({ value }) => value ?? '';
 
 const ImageUrl = ({ value }) => <ImageCell imgSrc={value} />;
 
-GameSubCategoryId.propTypes = {
+GameCategoryId.propTypes = {
 	value: PropTypes.string.isRequired,
 };
 
@@ -72,5 +72,5 @@ export {
 	Name,
 	DeviceType,
 	CasinoGameId,
-	GameSubCategoryId,
+	GameCategoryId,
 };

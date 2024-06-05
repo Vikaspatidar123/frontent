@@ -3,18 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import {
-	addGameToSubCategoryStart,
+	addGameToCategoryStart,
 	getCasinoGamesStart,
 } from '../../../store/actions';
 import { showToastr } from '../../../utils/helpers';
 import { selectedLanguage } from '../../../constants/config';
 
-const useAddGamesToCasinoSubcategory = () => {
+const useAddGamesToCasinoCategory = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { gameSubCategoryId } = useParams();
+	const { categoryId } = useParams();
 	const [newGamesData, setNewGamesData] = useState([]);
-	const [limit, setLimit] = useState(10);
 	const [pageNo, setPageNo] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [newGamepageNo, setNewGamepageNo] = useState(1);
@@ -25,17 +24,17 @@ const useAddGamesToCasinoSubcategory = () => {
 	);
 
 	useEffect(() => {
-		if (gameSubCategoryId) {
+		if (categoryId) {
 			dispatch(
 				getCasinoGamesStart({
-					limit,
-					pageNo,
-					casinoSubCategoryId: gameSubCategoryId,
+					perPage: itemsPerPage,
+					page: pageNo,
+					casinoCategoryId: categoryId,
 					notIncluded: true,
 				})
 			);
 		}
-	}, [gameSubCategoryId, limit, pageNo, itemsPerPage]);
+	}, [categoryId, pageNo, itemsPerPage]);
 
 	const formattedGames = useMemo(() => {
 		if (casinoGames) {
@@ -81,8 +80,8 @@ const useAddGamesToCasinoSubcategory = () => {
 	const handleSubmitClick = () => {
 		if (newGamesData.length) {
 			dispatch(
-				addGameToSubCategoryStart({
-					subCategoryId: gameSubCategoryId,
+				addGameToCategoryStart({
+					categoryId,
 					gameIds: newGamesData?.map((game) => game.id),
 					navigate,
 				})
@@ -91,8 +90,6 @@ const useAddGamesToCasinoSubcategory = () => {
 	};
 
 	return {
-		limit,
-		setLimit,
 		pageNo,
 		setPageNo,
 		itemsPerPage,
@@ -113,4 +110,4 @@ const useAddGamesToCasinoSubcategory = () => {
 	};
 };
 
-export default useAddGamesToCasinoSubcategory;
+export default useAddGamesToCasinoCategory;

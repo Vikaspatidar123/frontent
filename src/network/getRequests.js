@@ -9,12 +9,6 @@ const getCasinoCategoryListing = (payload) =>
 		payload
 	);
 
-const getCasinoSubCategoryListing = (payload) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}sub-categories`,
-		payload
-	);
-
 const getAllCurrencies = ({ limit, pageNo }) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}/currency?limit=${limit}&pageNo=${pageNo}`
@@ -313,12 +307,6 @@ const getKpiReport = (payload) =>
 		payload
 	);
 
-const getSubCategoryAddedGames = (payload) =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}games`,
-		payload
-	);
-
 const getAllUserTags = (payload) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}tags`,
@@ -328,6 +316,18 @@ const getAllUserTags = (payload) =>
 const getTopPlayersRequest = (payload) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}player-performance-sapshot`,
+		payload
+	);
+
+const getTournamentsDetails = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}`,
+		payload
+	);
+
+const getTournamentDetailById = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}/details`,
 		payload
 	);
 
@@ -341,7 +341,6 @@ export {
 	getAllCms,
 	getAggregators,
 	getCasinoCategoryListing,
-	getCasinoSubCategoryListing,
 	getLanguages,
 	getAllAdminsList,
 	getAllBonus,
@@ -389,9 +388,10 @@ export {
 	getGameReports,
 	getKpiSummary,
 	getKpiReport,
-	getSubCategoryAddedGames,
 	getAllUserTags,
 	getLedgerDetails,
 	getSportsTransactions,
 	getTopPlayersRequest,
+	getTournamentsDetails,
+	getTournamentDetailById,
 };

@@ -17,7 +17,7 @@ const useEditCasinoGames = () => {
 		(state) => state.CasinoManagementData
 	);
 
-	const { casinoProvidersData, casinoSubCategoryDetails } = useSelector(
+	const { casinoProvidersData } = useSelector(
 		(state) => state.CasinoManagementData
 	);
 
@@ -56,17 +56,8 @@ const useEditCasinoGames = () => {
 	// }, [casinoCategoryDetails?.count]);
 
 	useEffect(() => {
-		if (
-			casinoSubCategoryDetails?.subCategories?.length &&
-			casinoProvidersData?.providers?.length
-		) {
+		if (casinoProvidersData?.providers?.length) {
 			const provOptions = casinoProvidersData?.providers?.map((r) => ({
-				id: r.id,
-				optionLabel: r.name?.[selectedLanguage],
-				value: r.id,
-			}));
-
-			const subOptions = casinoSubCategoryDetails?.subCategories?.map((r) => ({
 				id: r.id,
 				optionLabel: r.name?.[selectedLanguage],
 				value: r.id,
@@ -74,14 +65,6 @@ const useEditCasinoGames = () => {
 
 			setFormFields([
 				...staticFormFields,
-				{
-					name: 'gameSubCategoryId',
-					fieldType: 'select',
-					label: 'Casino Sub Category',
-					placeholder: 'Select sub category',
-					optionList: subOptions,
-					isDisabled: true,
-				},
 				{
 					name: 'casinoProviderId',
 					label: 'Provider Name',
@@ -91,7 +74,7 @@ const useEditCasinoGames = () => {
 				},
 			]);
 		}
-	}, [casinoSubCategoryDetails, casinoProvidersData]);
+	}, [casinoProvidersData]);
 
 	return {
 		isOpen,

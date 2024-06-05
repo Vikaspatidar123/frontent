@@ -3,34 +3,34 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { KeyValueCell, Status } from '../GamesListCol';
-import { getAddedGamesInSubCategoryStart } from '../../../store/actions';
+import { getAddedGameInCategoryStart } from '../../../store/actions';
 import { selectedLanguage } from '../../../constants/config';
 
 const useAddedGames = () => {
 	const dispatch = useDispatch();
-	const { gameSubCategoryId } = useParams();
+	const { categoryId } = useParams();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 
-	const { subCategoryAddedGames, isSubCategoryAddedGamesLoading } = useSelector(
+	const { categoryAddedGames, isCategoryAddedGamesLoading } = useSelector(
 		(state) => state.CasinoManagementData
 	);
 
 	useEffect(() => {
-		if (gameSubCategoryId) {
+		if (categoryId) {
 			dispatch(
-				getAddedGamesInSubCategoryStart({
-					casinoSubCategoryId: gameSubCategoryId,
+				getAddedGameInCategoryStart({
+					casinoCategoryId: categoryId,
 					perPage: itemsPerPage,
 					page: currentPage,
 				})
 			);
 		}
-	}, [gameSubCategoryId, currentPage, itemsPerPage]);
+	}, [categoryId, currentPage, itemsPerPage]);
 
 	const formattedGames = useMemo(() => {
-		if (subCategoryAddedGames?.games?.length) {
-			return subCategoryAddedGames?.games?.map((game) => ({
+		if (categoryAddedGames?.games?.length) {
+			return categoryAddedGames?.games?.map((game) => ({
 				...game,
 				providerName: game?.casinoProvider?.name?.[selectedLanguage],
 				name: game.name[selectedLanguage],
@@ -38,7 +38,7 @@ const useAddedGames = () => {
 			}));
 		}
 		return [];
-	}, [subCategoryAddedGames]);
+	}, [categoryAddedGames]);
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
@@ -88,8 +88,8 @@ const useAddedGames = () => {
 		setItemsPerPage,
 		columns,
 		formattedGames,
-		totalGamesCount: subCategoryAddedGames?.totalPages || 0,
-		isSubCategoryAddedGamesLoading,
+		totalGamesCount: categoryAddedGames?.totalPages || 0,
+		isCategoryAddedGamesLoading,
 		onChangeRowsPerPage,
 	};
 };

@@ -38,11 +38,12 @@ const GetCasinoCategoryDetails = () => {
 		totalPages,
 		onChangeRowsPerPage,
 		handleStatus,
+		handleAddGameClick,
+		onClickDelete,
 	} = useCasinoCategoryListing(filterValidation.values);
 
 	const {
 		isOpen,
-		setIsOpen,
 		formFields,
 		header,
 		validation,
@@ -55,7 +56,12 @@ const GetCasinoCategoryDetails = () => {
 		toggleFormModal,
 	} = useCreateCategory();
 
-	const columns = useCasinoCategoryColumn({ handleStatus, onClickEdit });
+	const columns = useCasinoCategoryColumn({
+		handleStatus,
+		onClickEdit,
+		handleAddGameClick,
+		onClickDelete,
+	});
 
 	return (
 		<div className="page-content">

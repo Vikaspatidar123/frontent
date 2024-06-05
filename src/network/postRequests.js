@@ -93,15 +93,6 @@ const createKYCLabels = (data) =>
 		data
 	);
 
-const createCasinoSubCategory = (data) =>
-	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}create-sub-category`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
-
 const createUserCommentEntry = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}player/create-comment`,
@@ -169,9 +160,9 @@ const isCasinoFeaturedService = (data) =>
 		data
 	);
 
-const addGamesToSubCategory = (data) =>
+const addGamesToCategory = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}add-games-to-subcategory`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}add-games-to-category`,
 		data
 	);
 
@@ -337,21 +328,6 @@ const updateCategoryReOrder = (data) =>
 		data
 	);
 
-const editCasinoSubCategory = (data) =>
-	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}edit-sub-category`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
-
-const updateSubCategoryReOrder = (data) =>
-	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-sub-category`,
-		data
-	);
-
 const updateReorderGames = ({ data }) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}reorder-games`,
@@ -469,15 +445,15 @@ const editCasinoProvider = (data) =>
 		}
 	);
 
-const removeGamesFromSubCategory = (data) =>
+const removeGamesFromCategory = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}remove-games-from-subcategory`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}remove-games-from-category`,
 		data
 	);
 
-const deleteSubCategory = (data) =>
+const deleteCategory = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}delete-subcategory`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}delete-category`,
 		data
 	);
 
@@ -521,6 +497,15 @@ const updateBonusCall = (data) =>
 		}
 	);
 
+const createTournament = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}/create`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -535,7 +520,6 @@ export {
 	editBanner,
 	createCasinoCategory,
 	createKYCLabels,
-	createCasinoSubCategory,
 	createUserCommentEntry,
 	createWageringTemplate,
 	resetUserLimitCall,
@@ -547,7 +531,7 @@ export {
 	isCasinoFeaturedService,
 	testEmailTemplateEndPoint,
 	createEmailTemplate,
-	addGamesToSubCategory,
+	addGamesToCategory,
 	createBonusCall,
 	uploadGallery,
 	updateProfile,
@@ -574,8 +558,6 @@ export {
 	rejectDocumentCall,
 	editCasinoCategory,
 	updateCategoryReOrder,
-	editCasinoSubCategory,
-	updateSubCategoryReOrder,
 	updateReorderGames,
 	updateSuperAdminCMS,
 	updateEmailTemplate,
@@ -594,8 +576,8 @@ export {
 	editCasinoGames,
 	createUserTags,
 	editCasinoProvider,
-	removeGamesFromSubCategory,
-	deleteSubCategory,
+	removeGamesFromCategory,
+	deleteCategory,
 	activateKyc,
 	inActiveKyc,
 	updateComment,
@@ -603,4 +585,6 @@ export {
 	reorderBonus,
 	toggleBonusStatus,
 	updateBonusCall,
+	createTournament,
+	// updateSettledStatus,
 };

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -8,9 +8,9 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
+	getCasinoCategoryDetailStart,
 	getCasinoGamesStart,
 	getCasinoProvidersDataStart,
-	getCasinoSubCategoryDetailStart,
 } from '../../../store/actions';
 import {
 	debounceTime,
@@ -27,7 +27,7 @@ const useFilters = () => {
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
-	const { casinoSubCategoryDetails, casinoProvidersData } = useSelector(
+	const { casinoProvidersData, casinoCategoryDetails } = useSelector(
 		(state) => state.CasinoManagementData
 	);
 	const fetchData = (values) => {
@@ -61,36 +61,23 @@ const useFilters = () => {
 	};
 
 	useEffect(() => {
-		if (!casinoSubCategoryDetails?.subCategories) {
-			dispatch(
-				getCasinoSubCategoryDetailStart({
-					// perPage: itemsPerPage,
-				})
-			);
+		if (!casinoCategoryDetails?.categories) {
+			dispatch(getCasinoCategoryDetailStart());
 		}
 
 		if (!casinoProvidersData?.providers) {
-			dispatch(
-				getCasinoProvidersDataStart({
-					// perPage: itemsPerPage,
-				})
-			);
+			dispatch(getCasinoProvidersDataStart());
 		}
 	}, []);
 
 	useEffect(() => {
-		if (
-			!isEmpty(casinoProvidersData?.providers) &&
-			!isEmpty(casinoSubCategoryDetails?.subCategories)
-		) {
-			const subCategoryField = casinoSubCategoryDetails?.subCategories?.map(
-				(row) => ({
-					optionLabel: row.name[selectedLanguage],
-					value: row.id,
-				})
-			);
-
+		if (casinoProvidersData?.providers && casinoCategoryDetails?.categories) {
 			const providerField = casinoProvidersData?.providers?.map((row) => ({
+				optionLabel: row.name[selectedLanguage],
+				value: row.id,
+			}));
+
+			const categoryField = casinoCategoryDetails?.categories?.map((row) => ({
 				optionLabel: row.name[selectedLanguage],
 				value: row.id,
 			}));
@@ -98,22 +85,22 @@ const useFilters = () => {
 			setFormFields([
 				...staticFiltersFields(),
 				{
-					name: 'casinoSubCategoryId',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Sub Category',
-					optionList: subCategoryField,
-				},
-				{
 					name: 'casinoProviderId',
 					fieldType: 'select',
 					label: '',
 					placeholder: 'Provider',
 					optionList: providerField,
 				},
+				{
+					name: 'casinoCategoryId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Category',
+					optionList: categoryField,
+				},
 			]);
 		}
-	}, [casinoProvidersData, casinoSubCategoryDetails]);
+	}, [casinoProvidersData]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {

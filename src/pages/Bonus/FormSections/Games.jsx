@@ -180,7 +180,7 @@ const Games = ({
 				</Col>
 				<Col lg="12" className="mb-3">
 					<TableContainer
-						isLoading={!isCasinoGamesLoading}
+						isLoading={isCasinoGamesLoading}
 						columns={columns}
 						data={formattedCasinoGames}
 						isPagination

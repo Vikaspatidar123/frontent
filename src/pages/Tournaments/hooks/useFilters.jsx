@@ -1,24 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { isEqual } from 'lodash';
+import moment from 'moment';
 import {
 	filterValidationSchema,
 	filterValues,
 	staticFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	getCasinoCategoryDetailStart,
-	getCasinoSubCategoryDetailStart,
-} from '../../../store/actions';
-import {
-	debounceTime,
-	itemsPerPage,
-	selectedLanguage,
-} from '../../../constants/config';
+import { debounceTime } from '../../../constants/config';
+import { getTournamentDetailsStart } from '../../../store/tournaments/actions';
 
 let debounce;
-const useFilters = () => {
+const useFilters = (itemsPerPage) => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
@@ -26,24 +20,25 @@ const useFilters = () => {
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
-	const { casinoCategoryDetails } = useSelector(
-		(state) => state.CasinoManagementData
-	);
 	const fetchData = (values) => {
-		dispatch(
-			getCasinoSubCategoryDetailStart({
-				perPage: itemsPerPage,
-				page: 1,
-				...values,
-			})
-		);
+		const data = {
+			limit: itemsPerPage,
+			pageNo: 1,
+			...values,
+		};
+
+		if (values?.endDate) {
+			data.endDate =
+				moment(values?.endDate).utc().clone().add(1, 'days').format() || '';
+		}
+		dispatch(getTournamentDetailsStart(data));
 	};
 
 	const handleFilter = (values) => {
 		fetchData(values);
 	};
 
-	const { validation, formFields, setFormFields } = useForm({
+	const { validation, formFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
@@ -58,27 +53,6 @@ const useFilters = () => {
 		const initialValues = filterValues();
 		validation.resetForm(initialValues);
 	};
-
-	useEffect(() => {
-		if (isEmpty(casinoCategoryDetails?.categories)) {
-			dispatch(getCasinoCategoryDetailStart({}));
-		} else {
-			const categoryField = casinoCategoryDetails?.categories?.map((row) => ({
-				optionLabel: row.name[selectedLanguage],
-				value: row.id,
-			}));
-			setFormFields([
-				...staticFiltersFields(),
-				{
-					name: 'casinoCategoryId',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Category',
-					optionList: categoryField,
-				},
-			]);
-		}
-	}, [casinoCategoryDetails]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {

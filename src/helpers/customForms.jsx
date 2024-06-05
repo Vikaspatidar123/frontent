@@ -168,6 +168,11 @@ export const CustomDateField = ({
 			// minDate={minDate}
 			{...rest}
 		/>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid" className="d-block">
+				{errorMsg}
+			</FormFeedback>
+		) : null}
 	</div>
 );
 
@@ -210,6 +215,11 @@ export const CustomRangeSelector = ({
 			// minDate={minDate}
 			{...rest}
 		/>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid" className="d-block">
+				{errorMsg}
+			</FormFeedback>
+		) : null}
 	</div>
 );
 
@@ -893,6 +903,7 @@ export const getField = (
 					/>
 				</>
 			);
+
 		default:
 			return <div />;
 	}
