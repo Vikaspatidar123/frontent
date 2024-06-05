@@ -40,6 +40,12 @@ const deleteCmsRequest = (data) =>
 		data
 	);
 
+const deleteCategory = (data) =>
+	deleteRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}delete-category`,
+		data
+	);
+
 export {
 	deleteFromGallery,
 	deleteEmailTemplate,
@@ -47,4 +53,5 @@ export {
 	deleteBonus,
 	deleteUserComment,
 	deleteCmsRequest,
+	deleteCategory,
 };

@@ -451,12 +451,6 @@ const removeGamesFromCategory = (data) =>
 		data
 	);
 
-const deleteCategory = (data) =>
-	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}delete-category`,
-		data
-	);
-
 const activateKyc = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}kyc/activate`,
@@ -577,7 +571,6 @@ export {
 	createUserTags,
 	editCasinoProvider,
 	removeGamesFromCategory,
-	deleteCategory,
 	activateKyc,
 	inActiveKyc,
 	updateComment,

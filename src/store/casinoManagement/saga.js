@@ -78,12 +78,12 @@ import {
 	editCasinoGames,
 	editCasinoProvider,
 	removeGamesFromCategory,
-	deleteCategory,
 } from '../../network/postRequests';
 
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
+import { deleteCategory } from '../../network/deleteRequests';
 
 function* getCasinoCategoryWorker(action) {
 	const payload = action && action.payload;
@@ -383,11 +383,26 @@ function* addGamesToCategoryWorker(action) {
 
 function* deleteCasinoCategoryWorker(action) {
 	try {
-		const { categoryId, page, perPage } = action && action.payload;
+		const { categoryId } = action && action.payload;
 
 		yield deleteCategory({
 			categoryId,
 		});
+
+		const { casinoCategoryDetails } = yield select(
+			(state) => state.CasinoManagementData
+		);
+
+		const updatedCasinoGames = casinoCategoryDetails?.categories?.filter(
+			(cate) => cate.id !== categoryId
+		);
+
+		yield put(
+			getCasinoCategoryDetailSuccess({
+				...casinoCategoryDetails,
+				categories: updatedCasinoGames,
+			})
+		);
 
 		showToastr({
 			message: 'Category Deleted Successfully',
@@ -395,10 +410,6 @@ function* deleteCasinoCategoryWorker(action) {
 		});
 
 		yield put(deleteCasinoCategorySuccess());
-		yield getCasinoCategoryListing({
-			page,
-			perPage,
-		});
 	} catch (e) {
 		yield put(deleteCasinoCategoryFail());
 	}

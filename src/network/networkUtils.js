@@ -116,6 +116,8 @@ const MESSAGES = {
 	ACTIVE_BONUS_EXISTS: 'Bonus already exists',
 	BONUS_UNDER_CLAIM: 'Bonus is under claim',
 	PLEASE_CHECK_REQUEST_DATA: 'Please check the requested data',
+	MOVE_ALL_THE_GAMES_TO_ANOTHER_CATEGORY:
+		'Remove all the games from this category.',
 };
 
 export { API_NAMESPACE, METHODS, filterEmptyPayload, MANAGEMENT, MESSAGES };

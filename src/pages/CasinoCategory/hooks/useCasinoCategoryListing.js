@@ -85,7 +85,7 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 	const onClickDelete = (categoryId) => {
 		dispatch(
 			deleteCasinoCategoryStart({
-				categoryId: `${categoryId}`,
+				categoryId,
 			})
 		);
 	};
