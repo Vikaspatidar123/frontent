@@ -6,7 +6,6 @@ import { BONUS_TYPES } from '../constants';
 const currencyValidate = (allFields) =>
 	Yup.object({
 		currencyId: Yup.string().required('Currency required'),
-
 		maxBonusClaimed: Yup.number().required('Max Amount claimed required'),
 		zeroOutThreshold: Yup.number()
 			.min(1, 'Amount should be greater than 1')

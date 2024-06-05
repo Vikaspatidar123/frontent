@@ -34,8 +34,22 @@ const Currencies = ({
 	const { validation } = useForm({
 		initialValues: getBonusInitialValues()?.currencyDetails,
 		validationSchema: currencyValidate(allFields),
-		// onSubmitEntry: (values) => handleSubmit(values),
 	});
+
+	const handleSubmit = () =>
+		new Promise((resolve) => {
+			setAllFields((prev) => {
+				const updateFields = {
+					...prev,
+					currencyDetails: [
+						filterEmptyPayload(validation.values),
+						...Object.values(remainingCurrency),
+					],
+				};
+				resolve(updateFields);
+				return updateFields;
+			});
+		});
 
 	const updateRemainingCurrencyDetails = (currencyDetails) => {
 		let remCur = {};
@@ -59,13 +73,6 @@ const Currencies = ({
 				});
 			});
 		setRemainingCurrency(remCur);
-		setAllFields((prev) => ({
-			...prev,
-			currencyDetails: [
-				filterEmptyPayload(validation.values),
-				...Object.values(remCur),
-			],
-		}));
 	};
 
 	const handleRemainingCurrency = (e, currency, key) => {
@@ -78,33 +85,28 @@ const Currencies = ({
 					[key]: e.target.value,
 				},
 			};
-			setAllFields((allFlds) => ({
-				...allFlds,
-				currencyDetails: [
-					filterEmptyPayload(validation.values),
-					...Object.values(updated),
-				],
-			}));
 			return updated;
 		});
 	};
 
-	const validateRemainingCurrency = (nextTab) => {
+	const validateRemainingCurrency = async (nextTab) => {
 		let isValid = true;
-		Object.values(remainingCurrency).forEach((remCurrObject) => {
-			currencyValidate(allFields)
-				.validate(remCurrObject)
-				.then(() => {})
-				.catch((err) => {
-					isValid = false;
-					showToastr({
-						type: 'error',
-						message:
-							err?.errors?.[0] || 'Please enter amount for all currencies!.',
-					});
+		Object.values(remainingCurrency).forEach(async (remCurrObject, idx) => {
+			try {
+				await currencyValidate(allFields).validate(remCurrObject);
+				if (isValid && idx === Object.keys(remainingCurrency).length - 1) {
+					const updateFields = await handleSubmit();
+					toggleTab(nextTab, updateFields);
+				}
+			} catch (err) {
+				isValid = false;
+				showToastr({
+					type: 'error',
+					message:
+						err?.errors?.[0] || 'Please enter amount for all currencies!.',
 				});
+			}
 		});
-		if (isValid) toggleTab(nextTab);
 	};
 
 	useEffect(() => {
@@ -119,20 +121,13 @@ const Currencies = ({
 			});
 			setRemainingCurrency(remCur);
 		}
-	}, [bonusDetails, currencyFields]);
+	}, [bonusDetails, currencyFields, currencies]);
 
 	useEffect(() => {
 		dispatch(fetchCurrenciesStart({}));
 	}, []);
 
 	const handleNextClick = (nextTab) => {
-		setAllFields((allFlds) => ({
-			...allFlds,
-			currencyDetails: [
-				filterEmptyPayload(validation.values),
-				...Object.values(remainingCurrency),
-			],
-		}));
 		validation.submitForm();
 		currencyValidate(allFields)
 			.validate(validation.values)

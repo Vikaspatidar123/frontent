@@ -104,7 +104,7 @@ const useCreateBonus = ({ isEdit }) => {
 		}
 	}, [updateBonusSuccess]);
 
-	const submitBonus = () => {
+	const submitBonus = (updateFields) => {
 		if (isEdit) {
 			let validOnDays = '';
 			if (allFields?.validOnDays?.length) {
@@ -121,7 +121,9 @@ const useCreateBonus = ({ isEdit }) => {
 				...allFields,
 				bonusId,
 				validOnDays,
-				currencyDetails: safeStringify(allFields.currencyDetails),
+				currencyDetails: safeStringify(
+					updateFields?.currencyDetails || allFields.currencyDetails
+				),
 				promotionTitle: langContent?.promoTitle,
 				description: langContent?.desc,
 				termAndCondition: langContent?.terms,
@@ -156,7 +158,9 @@ const useCreateBonus = ({ isEdit }) => {
 			const payload = {
 				...allFields,
 				validOnDays,
-				currencyDetails: safeStringify(allFields.currencyDetails),
+				currencyDetails: safeStringify(
+					updateFields?.currencyDetails || allFields.currencyDetails
+				),
 				promotionTitle: langContent?.promoTitle,
 				description: langContent?.desc,
 				termAndCondition: langContent?.terms,
@@ -179,10 +183,10 @@ const useCreateBonus = ({ isEdit }) => {
 		}
 	};
 
-	const toggleTab = (tab) => {
+	const toggleTab = (tab, updateFields) => {
 		if (tab === 'submit') {
 			if (!updateBonusLoading || !createBonusLoading) {
-				submitBonus();
+				submitBonus(updateFields);
 			}
 		} else if (activeTab !== tab) {
 			setActiveTab(tab);
