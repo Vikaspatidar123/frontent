@@ -3,7 +3,7 @@ import { Card, CardBody, Container } from 'reactstrap';
 import TableContainer from '../../../components/Common/Table';
 import useAddedGames from '../hooks/useAddedGames';
 
-const AddedGamesInCasinoSubcategory = () => {
+const AddedGamesInCasinoCategory = () => {
 	const {
 		columns,
 		currentPage,
@@ -11,7 +11,7 @@ const AddedGamesInCasinoSubcategory = () => {
 		itemsPerPage,
 		formattedGames,
 		totalGamesCount,
-		isSubCategoryAddedGamesLoading,
+		isCategoryAddedGamesLoading,
 		onChangeRowsPerPage,
 	} = useAddedGames();
 
@@ -31,7 +31,7 @@ const AddedGamesInCasinoSubcategory = () => {
 						isManualPagination
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}
-						isLoading={isSubCategoryAddedGamesLoading}
+						isLoading={isCategoryAddedGamesLoading}
 						changeRowsPerPageCallback={onChangeRowsPerPage}
 					/>
 				</CardBody>
@@ -40,4 +40,4 @@ const AddedGamesInCasinoSubcategory = () => {
 	);
 };
 
-export default AddedGamesInCasinoSubcategory;
+export default AddedGamesInCasinoCategory;

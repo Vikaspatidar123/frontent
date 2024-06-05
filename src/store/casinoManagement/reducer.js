@@ -6,9 +6,6 @@ import {
 	GET_CASINO_CATEGORY_DATA,
 	GET_CASINO_CATEGORY_DATA_SUCCESS,
 	GET_CASINO_CATEGORY_DATA_FAIL,
-	GET_CASINO_SUB_CATEGORY_DATA_SUCCESS,
-	GET_CASINO_SUB_CATEGORY_DATA_FAIL,
-	GET_CASINO_SUB_CATEGORY_DATA,
 	GET_CASINO_GAMES,
 	GET_CASINO_GAMES_SUCCESS,
 	GET_CASINO_GAMES_FAIL,
@@ -21,9 +18,6 @@ import {
 	CREATE_CASINO_CATEGORY_START,
 	CREATE_CASINO_CATEGORY_SUCCESS,
 	CREATE_CASINO_CATEGORY_FAIL,
-	CREATE_CASINO_SUBCATEGORY_START,
-	CREATE_CASINO_SUBCATEGORY_SUCCESS,
-	CREATE_CASINO_SUBCATEGORY_FAIL,
 	UPDATE_CASINO_STATUS_START,
 	UPDATE_CASINO_STATUS_SUCCESS,
 	UPDATE_CASINO_STATUS_FAIL,
@@ -33,39 +27,33 @@ import {
 	EDIT_CASINO_PROVIDERS,
 	EDIT_CASINO_PROVIDERS_SUCCESS,
 	EDIT_CASINO_PROVIDERS_FAIL,
-	EDIT_CASINO_SUBCATEGORY_START,
-	EDIT_CASINO_SUBCATEGORY_SUCCESS,
-	EDIT_CASINO_SUBCATEGORY_FAIL,
 	EDIT_CASINO_GAMES_START,
 	EDIT_CASINO_GAMES_SUCCESS,
 	EDIT_CASINO_GAMES_FAIL,
 	UPDATE_GAME_ISFEATURED_START,
 	UPDATE_GAME_ISFEATURED_SUCCESS,
 	UPDATE_GAME_ISFEATURED_FAIL,
-	ADD_GAME_TO_CASINO_SUB_CATEGORY_START,
-	ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS,
-	ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL,
-	DELETE_CASINO_SUB_CATEGORY_START,
-	DELETE_CASINO_SUB_CATEGORY_SUCCESS,
-	DELETE_CASINO_SUB_CATEGORY_FAIL,
+	ADD_GAME_TO_CASINO_CATEGORY_START,
+	ADD_GAME_TO_CASINO_CATEGORY_SUCCESS,
+	ADD_GAME_TO_CASINO_CATEGORY_FAIL,
+	DELETE_CASINO_CATEGORY_START,
+	DELETE_CASINO_CATEGORY_SUCCESS,
+	DELETE_CASINO_CATEGORY_FAIL,
 	REORDER_CASINO_CATEGORY_START,
 	REORDER_CASINO_CATEGORY_SUCCESS,
 	REORDER_CASINO_CATEGORY_FAIL,
-	REORDER_CASINO_SUB_CATEGORY_START,
-	REORDER_CASINO_SUB_CATEGORY_SUCCESS,
-	REORDER_CASINO_SUB_CATEGORY_FAIL,
 	REORDER_CASINO_GAMES_START,
 	REORDER_CASINO_GAMES_SUCCESS,
 	REORDER_CASINO_GAMES_FAIL,
 	RESET_CASINO_STATE,
 	RESET_CASINO_PROVIDERS_DATA,
 	RESET_CASINO_GAMES,
-	GET_ADDED_GAMES_IN_SUB_CATEGORY_START,
-	GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS,
-	GET_ADDED_GAMES_IN_SUB_CATEGORY_FAIL,
-	REMOVE_GAME_FROM_SUB_CATEGORY_START,
-	REMOVE_GAME_FROM_SUB_CATEGORY_SUCCESS,
-	REMOVE_GAME_FROM_SUB_CATEGORY_FAIL,
+	GET_ADDED_GAMES_IN_CATEGORY_START,
+	GET_ADDED_GAMES_IN_CATEGORY_SUCCESS,
+	GET_ADDED_GAMES_IN_CATEGORY_FAIL,
+	REMOVE_GAME_FROM_CATEGORY_START,
+	REMOVE_GAME_FROM_CATEGORY_SUCCESS,
+	REMOVE_GAME_FROM_CATEGORY_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -75,9 +63,6 @@ const INIT_STATE = {
 	casinoCategoryDetails: null,
 	casinoCategoryDetailsError: null,
 	iscasinoCategoryDetailsLoading: true,
-	casinoSubCategoryDetails: null,
-	casinoSubCategoryDetailsError: null,
-	iscasinoSubCategoryDetailsLoading: true,
 	casinoGames: null,
 	casinoGamesError: null,
 	isCasinoGamesLoading: false,
@@ -96,12 +81,6 @@ const INIT_STATE = {
 	isEditCategoryError: false,
 	isEditCategorySuccess: false,
 	isEditCategoryLoading: false,
-	isCreateSubCategoryError: false,
-	isCreateSubCategorySuccess: false,
-	isCreateSubCategoryLoading: false,
-	isEditSubCategoryError: false,
-	isEditSubCategorySuccess: false,
-	isEditSubCategoryLoading: false,
 	isUpdateCasinoStatus: false,
 	isUpdateCasinoStatusError: null,
 	isUpdateCasinoStatusLoading: false,
@@ -110,27 +89,24 @@ const INIT_STATE = {
 	isEditCasinoGamesLoading: false,
 	isFeaturedLoading: false,
 	featuredGameData: null,
-	isAddGameToCasinoSubCatSuccess: false,
-	isAddGameToCasinoSubCatError: null,
-	isAddGameToCasinoSubCatLoading: false,
-	isDeleteCasinoSubCategorySuccess: false,
-	isDeleteCasinoSubCategoryError: null,
-	isDeleteCasinoSubCategoryLoading: false,
+	isAddGameToCasinoCatSuccess: false,
+	isAddGameToCasinoCatError: null,
+	isAddGameToCasinoCatLoading: false,
+	isDeleteCasinoCategorySuccess: false,
+	isDeleteCasinoCategoryError: null,
+	isDeleteCasinoCategoryLoading: false,
 	isReorderCasinoCategorySuccess: false,
 	isReorderCasinoCategoryError: null,
 	isReorderCasinoCategoryLoading: false,
-	isReorderCasinoSubCategorySuccess: false,
-	isReorderCasinoSubCategoryError: null,
-	isReorderCasinoSubCategoryLoading: false,
 	isReorderCasinoGamesSuccess: false,
 	isReorderCasinoGamesError: null,
 	isReorderCasinoGamesLoading: false,
-	subCategoryAddedGames: null,
-	subCategoryAddedGamesError: null,
-	isSubCategoryAddedGamesLoading: false,
-	isRemoveGameFromSubCategoryLoading: false,
-	isRemoveGameFromSubCategorySuccess: false,
-	isRemoveGameFromSubCategoryError: null,
+	categoryAddedGames: null,
+	categoryAddedGamesError: null,
+	isCategoryAddedGamesLoading: false,
+	isRemoveGameFromCategoryLoading: false,
+	isRemoveGameFromCategorySuccess: false,
+	isRemoveGameFromCategoryError: null,
 };
 
 const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
@@ -183,27 +159,6 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				casinoCategoryDetailsError: payload,
 				iscasinoCategoryDetailsLoading: true,
-			};
-
-		case GET_CASINO_SUB_CATEGORY_DATA:
-			return {
-				...state,
-				iscasinoSubCategoryDetailsLoading: false,
-			};
-
-		case GET_CASINO_SUB_CATEGORY_DATA_SUCCESS:
-			return {
-				...state,
-				iscasinoSubCategoryDetailsLoading: true,
-				casinoSubCategoryDetails: payload,
-				casinoSubCategoryDetailsError: null,
-			};
-
-		case GET_CASINO_SUB_CATEGORY_DATA_FAIL:
-			return {
-				...state,
-				casinoSubCategoryDetailsError: payload,
-				iscasinoSubCategoryDetailsLoading: true,
 			};
 
 		case GET_CASINO_GAMES:
@@ -344,50 +299,6 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isEditCategorySuccess: false,
 			};
 
-		case CREATE_CASINO_SUBCATEGORY_START:
-			return {
-				...state,
-				isCreateSubCategoryLoading: true,
-				isCreateSubCategorySuccess: false,
-			};
-
-		case CREATE_CASINO_SUBCATEGORY_SUCCESS:
-			return {
-				...state,
-				isCreateSubCategoryLoading: false,
-				isCreateSubCategorySuccess: true,
-			};
-
-		case CREATE_CASINO_SUBCATEGORY_FAIL:
-			return {
-				...state,
-				isCreateSubCategoryError: payload,
-				isCreateSubCategoryLoading: false,
-				isCreateSubCategorySuccess: false,
-			};
-
-		case EDIT_CASINO_SUBCATEGORY_START:
-			return {
-				...state,
-				isEditSubCategoryLoading: true,
-				isEditSubCategorySuccess: false,
-			};
-
-		case EDIT_CASINO_SUBCATEGORY_SUCCESS:
-			return {
-				...state,
-				isEditSubCategoryLoading: false,
-				isEditSubCategorySuccess: true,
-			};
-
-		case EDIT_CASINO_SUBCATEGORY_FAIL:
-			return {
-				...state,
-				isEditSubCategoryError: payload,
-				isEditSubCategoryLoading: false,
-				isEditSubCategorySuccess: false,
-			};
-
 		case EDIT_CASINO_GAMES_START:
 			return {
 				...state,
@@ -464,50 +375,50 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				featuredGameData: null,
 			};
 
-		case ADD_GAME_TO_CASINO_SUB_CATEGORY_START:
+		case ADD_GAME_TO_CASINO_CATEGORY_START:
 			return {
 				...state,
-				isAddGameToCasinoSubCatLoading: true,
+				isAddGameToCasinoCatLoading: true,
 			};
 
-		case ADD_GAME_TO_CASINO_SUB_CATEGORY_SUCCESS:
+		case ADD_GAME_TO_CASINO_CATEGORY_SUCCESS:
 			return {
 				...state,
-				isAddGameToCasinoSubCatLoading: false,
-				isAddGameToCasinoSubCatSuccess: true,
-				isAddGameToCasinoSubCatError: null,
+				isAddGameToCasinoCatLoading: false,
+				isAddGameToCasinoCatSuccess: true,
+				isAddGameToCasinoCatError: null,
 			};
 
-		case ADD_GAME_TO_CASINO_SUB_CATEGORY_FAIL:
+		case ADD_GAME_TO_CASINO_CATEGORY_FAIL:
 			return {
 				...state,
-				isAddGameToCasinoSubCatLoading: false,
-				isAddGameToCasinoSubCatSuccess: false,
-				isAddGameToCasinoSubCatError: payload,
+				isAddGameToCasinoCatLoading: false,
+				isAddGameToCasinoCatSuccess: false,
+				isAddGameToCasinoCatError: payload,
 			};
 
-		case DELETE_CASINO_SUB_CATEGORY_START:
+		case DELETE_CASINO_CATEGORY_START:
 			return {
 				...state,
-				isDeleteCasinoSubCategoryLoading: true,
-				isDeleteCasinoSubCategorySuccess: false,
-				isDeleteCasinoSubCategoryError: null,
+				isDeleteCasinoCategoryLoading: true,
+				isDeleteCasinoCategorySuccess: false,
+				isDeleteCasinoCategoryError: null,
 			};
 
-		case DELETE_CASINO_SUB_CATEGORY_SUCCESS:
+		case DELETE_CASINO_CATEGORY_SUCCESS:
 			return {
 				...state,
-				isDeleteCasinoSubCategoryLoading: false,
-				isDeleteCasinoSubCategorySuccess: true,
-				isDeleteCasinoSubCategoryError: null,
+				isDeleteCasinoCategoryLoading: false,
+				isDeleteCasinoCategorySuccess: true,
+				isDeleteCasinoCategoryError: null,
 			};
 
-		case DELETE_CASINO_SUB_CATEGORY_FAIL:
+		case DELETE_CASINO_CATEGORY_FAIL:
 			return {
 				...state,
-				isDeleteCasinoSubCategoryLoading: false,
-				isDeleteCasinoSubCategorySuccess: false,
-				isDeleteCasinoSubCategoryError: payload,
+				isDeleteCasinoCategoryLoading: false,
+				isDeleteCasinoCategorySuccess: false,
+				isDeleteCasinoCategoryError: payload,
 			};
 
 		case REORDER_CASINO_CATEGORY_START:
@@ -532,30 +443,6 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				isReorderCasinoCategoryLoading: false,
 				isReorderCasinoCategorySuccess: false,
 				isReorderCasinoCategoryError: payload,
-			};
-
-		case REORDER_CASINO_SUB_CATEGORY_START:
-			return {
-				...state,
-				isReorderCasinoSubCategoryLoading: true,
-				isReorderCasinoSubCategorySuccess: false,
-				isReorderCasinoSubCategoryError: null,
-			};
-
-		case REORDER_CASINO_SUB_CATEGORY_SUCCESS:
-			return {
-				...state,
-				isReorderCasinoSubCategoryLoading: false,
-				isReorderCasinoSubCategorySuccess: true,
-				isReorderCasinoSubCategoryError: null,
-			};
-
-		case REORDER_CASINO_SUB_CATEGORY_FAIL:
-			return {
-				...state,
-				isReorderCasinoSubCategoryLoading: false,
-				isReorderCasinoSubCategorySuccess: false,
-				isReorderCasinoSubCategoryError: payload,
 			};
 
 		case REORDER_CASINO_GAMES_START:
@@ -587,52 +474,52 @@ const CasinoManagementData = (state = INIT_STATE, { type, payload } = {}) => {
 				...INIT_STATE,
 			};
 
-		case GET_ADDED_GAMES_IN_SUB_CATEGORY_START:
+		case GET_ADDED_GAMES_IN_CATEGORY_START:
 			return {
 				...state,
-				isSubCategoryAddedGamesLoading: true,
-				subCategoryAddedGames: null,
-				subCategoryAddedGamesError: null,
+				isCategoryAddedGamesLoading: true,
+				categoryAddedGames: null,
+				categoryAddedGamesError: null,
 			};
 
-		case GET_ADDED_GAMES_IN_SUB_CATEGORY_SUCCESS:
+		case GET_ADDED_GAMES_IN_CATEGORY_SUCCESS:
 			return {
 				...state,
-				isSubCategoryAddedGamesLoading: false,
-				subCategoryAddedGames: payload,
-				subCategoryAddedGamesError: null,
+				isCategoryAddedGamesLoading: false,
+				categoryAddedGames: payload,
+				categoryAddedGamesError: null,
 			};
 
-		case GET_ADDED_GAMES_IN_SUB_CATEGORY_FAIL:
+		case GET_ADDED_GAMES_IN_CATEGORY_FAIL:
 			return {
 				...state,
-				subCategoryAddedGamesError: payload,
-				isSubCategoryAddedGamesLoading: false,
-				subCategoryAddedGames: null,
+				categoryAddedGamesError: payload,
+				isCategoryAddedGamesLoading: false,
+				categoryAddedGames: null,
 			};
 
-		case REMOVE_GAME_FROM_SUB_CATEGORY_START:
+		case REMOVE_GAME_FROM_CATEGORY_START:
 			return {
 				...state,
-				isRemoveGameFromSubCategoryLoading: true,
-				isRemoveGameFromSubCategorySuccess: false,
-				isRemoveGameFromSubCategoryError: null,
+				isRemoveGameFromCategoryLoading: true,
+				isRemoveGameFromCategorySuccess: false,
+				isRemoveGameFromCategoryError: null,
 			};
 
-		case REMOVE_GAME_FROM_SUB_CATEGORY_SUCCESS:
+		case REMOVE_GAME_FROM_CATEGORY_SUCCESS:
 			return {
 				...state,
-				isRemoveGameFromSubCategoryLoading: false,
-				isRemoveGameFromSubCategorySuccess: true,
-				isRemoveGameFromSubCategoryError: null,
+				isRemoveGameFromCategoryLoading: false,
+				isRemoveGameFromCategorySuccess: true,
+				isRemoveGameFromCategoryError: null,
 			};
 
-		case REMOVE_GAME_FROM_SUB_CATEGORY_FAIL:
+		case REMOVE_GAME_FROM_CATEGORY_FAIL:
 			return {
 				...state,
-				isRemoveGameFromSubCategoryLoading: false,
-				isRemoveGameFromSubCategorySuccess: false,
-				isRemoveGameFromSubCategoryError: payload,
+				isRemoveGameFromCategoryLoading: false,
+				isRemoveGameFromCategorySuccess: false,
+				isRemoveGameFromCategoryError: payload,
 			};
 
 		default:

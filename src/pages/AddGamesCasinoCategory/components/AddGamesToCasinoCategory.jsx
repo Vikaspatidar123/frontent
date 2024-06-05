@@ -15,9 +15,9 @@ import { Link } from 'react-router-dom';
 import TableContainer from '../../../components/Common/Table';
 
 import { CasinoGameId, Name, DeviceType, KeyValueCell } from '../GamesListCol';
-import useAddGamesToCasinoSubcategory from '../hooks/useAddGamesToCasinoSubcategory';
+import useAddGamesToCasinoCategory from '../hooks/useAddGamesToCasinoCategory';
 
-const AddGamesToCasinoSubcategory = () => {
+const AddGamesToCasinoCategory = () => {
 	const {
 		pageNo,
 		setPageNo,
@@ -34,7 +34,7 @@ const AddGamesToCasinoSubcategory = () => {
 		setNewGamepageNo,
 		onChangeNewGameTableRowsPerPage,
 		handleSubmitClick,
-	} = useAddGamesToCasinoSubcategory();
+	} = useAddGamesToCasinoCategory();
 
 	const columns = useMemo(
 		() => [
@@ -194,7 +194,7 @@ const AddGamesToCasinoSubcategory = () => {
 					)}
 					<Card>
 						<CardBody>
-							<div className="mx-1 pt-3">
+							<div className="mx-1">
 								<h5>All Games</h5>
 							</div>
 							<TableContainer
@@ -220,4 +220,4 @@ const AddGamesToCasinoSubcategory = () => {
 	);
 };
 
-export default AddGamesToCasinoSubcategory;
+export default AddGamesToCasinoCategory;

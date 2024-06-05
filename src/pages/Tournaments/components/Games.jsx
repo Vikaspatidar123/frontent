@@ -159,10 +159,8 @@ const Games = ({
 	useEffect(() => {
 		dispatch(
 			getCasinoGamesStart({
-				limit: itemsPerPage,
-				pageNo: currentPage,
-				// tournamentId: casinoTournamentId,
-				// providerId: tournamentProvider.airdice,
+				perPage: itemsPerPage,
+				page: currentPage,
 			})
 		);
 	}, [itemsPerPage, currentPage]);
@@ -172,7 +170,7 @@ const Games = ({
 			return casinoGames?.games?.map((game) => ({
 				...game,
 				name: game?.name?.EN,
-				category: game?.GameSubCategory?.name?.EN || '',
+				category: game?.GameCategory?.name?.EN || '',
 				providerName: game?.casinoProvider?.name?.EN || '',
 			}));
 		}

@@ -19,9 +19,9 @@ const ReorderGames = () => {
 
 	const {
 		state,
+		columns,
 		page,
 		setPage,
-		columns,
 		setState,
 		search,
 		setSearch,
@@ -29,16 +29,13 @@ const ReorderGames = () => {
 		setGames,
 		buttonList,
 		itemsPerPage,
+		totalPageCount,
 		formattedState,
 		selectedCategory,
-		setSelectedCategory,
 		onChangeRowsPerPage,
-		selectedSubCategory,
+		setSelectedCategory,
 		isCasinoGamesLoading,
 		casinoCategoryDetails,
-		setSelectedSubCategory,
-		casinoSubCategoryDetails,
-		totalPageCount,
 	} = useReorderGames();
 
 	return (
@@ -87,39 +84,7 @@ const ReorderGames = () => {
 										}
 									/>
 								</Col>
-								{selectedCategory && (
-									<Col lg={4}>
-										<CustomSelectField
-											label="Sub Category"
-											name="subCategory"
-											value={selectedSubCategory}
-											isClearable
-											type="select"
-											onChange={(e) => {
-												setGames({ rows: [], count: 0 });
-												setSelectedSubCategory('');
-												setSearch('');
-												setState({ rows: [], count: 0 });
-												setSelectedSubCategory(e.target.value);
-											}}
-											key="my_unique_select_key_SubCategory"
-											options={
-												<>
-													<option value="">All</option>
-													{casinoSubCategoryDetails &&
-														casinoSubCategoryDetails?.subCategories?.map(
-															(c) => (
-																<option key={c?.id} value={c?.id}>
-																	{c?.name?.EN}
-																</option>
-															)
-														)}
-												</>
-											}
-										/>
-									</Col>
-								)}
-								{selectedSubCategory && games && (
+								{games && (
 									<Col lg={4}>
 										<label className="control-label" htmlFor="search">
 											Search
@@ -189,7 +154,7 @@ const ReorderGames = () => {
 											{key}
 										</Col>
 									))}
-									{selectedCategory && selectedSubCategory ? (
+									{selectedCategory ? (
 										<ReorderComponent
 											formattedState={formattedState}
 											state={state}
@@ -198,7 +163,7 @@ const ReorderGames = () => {
 									) : (
 										<p className="text-center text-danger mt-3">
 											{' '}
-											Select Category & Sub Category First{' '}
+											Select Category{' '}
 										</p>
 									)}
 								</Row>

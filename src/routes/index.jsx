@@ -7,7 +7,6 @@ import CreateCMS from '../pages/Cms/CreateCMS';
 import EditCMS from '../pages/Cms/EditCMS';
 import CMSDetails from '../pages/Cms/CMSDetails';
 import CasinoCategory from '../pages/CasinoCategory';
-import CasinoSubCategory from '../pages/CasinoSubCategory';
 import CasinoAggregators from '../pages/Casino Management/Aggregators';
 import BonusDetail from '../pages/Bonus';
 import LanguageList from '../pages/LanguageList';
@@ -53,10 +52,8 @@ import ViewRestrictedProviders from '../pages/ViewRestrictedProviders';
 import ReorderCategories from '../pages/CasinoCategory/ReorderCategories';
 import BonusPreview from '../pages/Bonus/BonusView';
 import EditBonus from '../pages/Bonus/EditBonus';
-import ReorderSubCategory from '../pages/CasinoSubCategory/components/ReorderSubCategory';
 import ReorderGames from '../pages/CasinoGames/components/ReorderGames';
 import ReorderBonus from '../pages/Bonus/ReorderBonus';
-import AddGamesCasinoSubcategory from '../pages/AddGamesCasinoSubcategory';
 import { modules } from '../constants/permissions';
 import ApplicationSettings from '../pages/ApplicationSettings';
 import SportsTransactionsList from '../pages/SportsTransactionsList';
@@ -65,6 +62,7 @@ import PlayerPerformance from '../pages/PlayerPerformance';
 import Tournament from '../pages/Tournaments';
 import CreateTournament from '../pages/Tournaments/CreateTournment';
 import TournamentDetail from '../pages/Tournaments/TournamentDetail';
+import AddGamesCasinoCategory from '../pages/AddGamesCasinoCategory';
 
 const authProtectedRoutes = [
 	{
@@ -132,20 +130,8 @@ const authProtectedRoutes = [
 		operation: 'R',
 	},
 	{
-		path: '/sub-categories',
-		component: <CasinoSubCategory />,
-		modules: [modules.casinoManagement],
-		operation: 'R',
-	},
-	{
-		path: '/sub-categories/reorder',
-		component: <ReorderSubCategory />,
-		modules: [modules.casinoManagement],
-		operation: 'R',
-	},
-	{
-		path: '/sub-categories/addGames/:gameSubCategoryId',
-		component: <AddGamesCasinoSubcategory />,
+		path: '/categories/addGames/:categoryId',
+		component: <AddGamesCasinoCategory />,
 		modules: [modules.casinoManagement],
 		operation: 'C',
 	},

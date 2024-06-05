@@ -7,8 +7,8 @@ import { Col, Row } from 'reactstrap';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const ReorderComponent = ({ formattedState, state, setState }) => {
-	const reorder = (subCategories, startIndex, endIndex) => {
-		const result = Array.from(subCategories);
+	const reorder = (categories, startIndex, endIndex) => {
+		const result = Array.from(categories);
 		const [removed] = result.splice(startIndex, 1);
 		result.splice(endIndex, 0, removed);
 

@@ -24,7 +24,7 @@ const Provider = ({ value }) => value?.name?.[selectedLanguage] ?? '';
 
 const Rtp = ({ value }) => value ?? '';
 
-const SubCategory = ({ value }) => value ?? '';
+const Category = ({ value }) => value ?? '';
 
 const ThumbnailUrl = ({ value }) => <ImageCell imgSrc={value} />;
 
@@ -89,7 +89,7 @@ export {
 	Name,
 	Provider,
 	Rtp,
-	SubCategory,
+	Category,
 	ThumbnailUrl,
 	DeviceType,
 	Status,

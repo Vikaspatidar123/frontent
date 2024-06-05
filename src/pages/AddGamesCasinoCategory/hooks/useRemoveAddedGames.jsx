@@ -3,14 +3,14 @@ import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, UncontrolledTooltip } from 'reactstrap';
-import { removeGameFromSubCategoryStart } from '../../../store/actions';
+import { removeGameFromCategoryStart } from '../../../store/actions';
 import { KeyValueCell, Status } from '../GamesListCol';
 import { showToastr } from '../../../utils/helpers';
 import { selectedLanguage } from '../../../constants/config';
 
 const useRemoveAddedGames = () => {
 	const dispatch = useDispatch();
-	const { gameSubCategoryId } = useParams();
+	const { categoryId } = useParams();
 	const navigate = useNavigate();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -18,7 +18,7 @@ const useRemoveAddedGames = () => {
 	const [removedGamesItemsPerPage, setRemovedGamesItemsPerPage] = useState(10);
 	const [selectedGames, setSelectedGames] = useState([]);
 
-	const { subCategoryAddedGames, isSubCategoryAddedGamesLoading } = useSelector(
+	const { categoryAddedGames, isCategoryAddedGamesLoading } = useSelector(
 		(state) => state.CasinoManagementData
 	);
 
@@ -50,18 +50,17 @@ const useRemoveAddedGames = () => {
 	const removeAddedGames = () => {
 		const itemIds = selectedGames?.map((g) => g.id);
 		dispatch(
-			removeGameFromSubCategoryStart({
+			removeGameFromCategoryStart({
 				gameIds: itemIds,
-				subCategoryId: gameSubCategoryId,
-				alternateSubCategoryId: '',
+				categoryId,
 				navigate,
 			})
 		);
 	};
 
 	const formattedGames = useMemo(() => {
-		if (subCategoryAddedGames?.games?.length) {
-			return subCategoryAddedGames?.games?.map((game) => ({
+		if (categoryAddedGames?.games?.length) {
+			return categoryAddedGames?.games?.map((game) => ({
 				...game,
 				name: game.name[selectedLanguage],
 				providerName: game?.casinoProvider?.name[selectedLanguage],
@@ -69,7 +68,7 @@ const useRemoveAddedGames = () => {
 			}));
 		}
 		return [];
-	}, [subCategoryAddedGames]);
+	}, [categoryAddedGames]);
 
 	const columns = useMemo(
 		() => [
@@ -224,8 +223,8 @@ const useRemoveAddedGames = () => {
 		removeAddedGames,
 		columns,
 		formattedGames,
-		totalGamesCount: subCategoryAddedGames?.totalPages || 0,
-		isSubCategoryAddedGamesLoading,
+		totalGamesCount: categoryAddedGames?.totalPages || 0,
+		isCategoryAddedGamesLoading,
 	};
 };
 

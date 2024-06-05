@@ -9,7 +9,6 @@ import { modules } from '../../../constants/permissions';
 import {
 	getCasinoCategoryDetailStart,
 	getCasinoGamesStart,
-	getCasinoSubCategoryDetailStart,
 	reorderCasinoGamesStart,
 	resetCasinoState,
 } from '../../../store/actions';
@@ -22,7 +21,6 @@ const useReorderGames = () => {
 
 	const {
 		casinoCategoryDetails,
-		casinoSubCategoryDetails,
 		casinoGames = null,
 		isCasinoGamesLoading,
 	} = useSelector((state) => state.CasinoManagementData);
@@ -30,7 +28,6 @@ const useReorderGames = () => {
 	const [state, setState] = useState({ rows: [], count: 0 });
 	const [games, setGames] = useState({ rows: [], count: 0 });
 	const [selectedCategory, setSelectedCategory] = useState('');
-	const [selectedSubCategory, setSelectedSubCategory] = useState('');
 	const [page, setPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [search, setSearch] = useState('');
@@ -49,30 +46,20 @@ const useReorderGames = () => {
 	useEffect(() => {
 		if (selectedCategory) {
 			dispatch(
-				getCasinoSubCategoryDetailStart({
-					casinoCategoryId: selectedCategory,
-				})
-			);
-		}
-	}, [selectedCategory]);
-
-	useEffect(() => {
-		if (selectedSubCategory) {
-			dispatch(
 				getCasinoGamesStart({
 					perPage: itemsPerPage,
 					page,
-					casinoSubCategoryId: selectedSubCategory,
+					casinoCategoryId: selectedCategory,
 					searchString: search,
 					reorder: 'true',
 				})
 			);
 		}
-	}, [selectedSubCategory, itemsPerPage, page, search]);
+	}, [selectedCategory, itemsPerPage, page, search]);
 
 	const formattedGames = useMemo(() => {
 		let formattedData = [];
-		if (casinoGames?.games?.length && selectedCategory && selectedSubCategory) {
+		if (casinoGames?.games?.length && selectedCategory) {
 			formattedData = casinoGames?.games?.map((item, index) => ({
 				...item,
 				reorderId: itemsPerPage * (page - 1) + index + 1,
@@ -254,12 +241,9 @@ const useReorderGames = () => {
 		formattedState,
 		selectedCategory,
 		onChangeRowsPerPage,
-		selectedSubCategory,
 		setSelectedCategory,
 		isCasinoGamesLoading,
 		casinoCategoryDetails,
-		setSelectedSubCategory,
-		casinoSubCategoryDetails,
 	};
 };
 

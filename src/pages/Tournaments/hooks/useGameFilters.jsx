@@ -1,30 +1,24 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+// import { useSelector } from 'react-redux';
+import { isEqual } from 'lodash';
 import {
 	gameFilterValidationSchema,
 	gameFilterValues,
 	staticGameFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	// getTournamentGamesStart,
-	getCasinoSubCategoryDetailStart,
-} from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import // getTournamentGamesStart,
+'../../../store/actions';
+import { debounceTime } from '../../../constants/config';
 
 let debounce;
 const useGameFilters = (casinoTournamentId, tournamentProvider) => {
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
-
-	const { casinoSubCategoryDetails } = useSelector(
-		(state) => state.CasinoManagementData
-	);
 
 	const fetchData = () => {
 		// dispatch(
@@ -41,7 +35,7 @@ const useGameFilters = (casinoTournamentId, tournamentProvider) => {
 		fetchData(values);
 	};
 
-	const { validation, formFields, setFormFields } = useForm({
+	const { validation, formFields } = useForm({
 		initialValues: gameFilterValues(),
 		validationSchema: gameFilterValidationSchema(),
 		// onSubmitEntry: handleFilter,
@@ -57,33 +51,19 @@ const useGameFilters = (casinoTournamentId, tournamentProvider) => {
 		validation.resetForm(initialValues);
 	};
 
-	useEffect(() => {
-		if (isEmpty(casinoSubCategoryDetails)) {
-			dispatch(
-				getCasinoSubCategoryDetailStart({
-					limit: itemsPerPage,
-				})
-			);
-		}
-	}, []);
+	// useEffect(() => {
 
-	useEffect(() => {
-		const subCategoryField = casinoSubCategoryDetails?.rows?.map((row) => ({
-			optionLabel: row.name?.EN,
-			value: row.gameSubCategoryId,
-		}));
-
-		setFormFields([
-			...staticGameFiltersFields(tournamentProvider),
-			{
-				name: 'casinoCategoryId',
-				fieldType: 'select',
-				label: '',
-				placeholder: 'Category',
-				optionList: subCategoryField,
-			},
-		]);
-	}, [casinoSubCategoryDetails]);
+	// 	setFormFields([
+	// 		...staticGameFiltersFields(tournamentProvider),
+	// 		// {
+	// 		// 	name: 'casinoCategoryId',
+	// 		// 	fieldType: 'select',
+	// 		// 	label: '',
+	// 		// 	placeholder: 'Category',
+	// 		// 	optionList: categoryField,
+	// 		// },
+	// 	]);
+	// }, []);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {

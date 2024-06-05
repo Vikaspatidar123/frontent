@@ -211,7 +211,7 @@ const AccordionMatchDetails = ({
 									// isManualPagination
 									// onChangePagination={setCurrentPage}
 									// currentPage={currentPage}
-									// isLoading={isSubCategoryAddedGamesLoading}
+									// isLoading={isCategoryAddedGamesLoading}
 									// changeRowsPerPageCallback={onChangeRowsPerPage}
 									tbodyHeight="200px"
 								/>

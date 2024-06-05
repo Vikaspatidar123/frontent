@@ -1,7 +1,9 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { formatDateYMD } from '../../../utils/dateFormatter';
 import {
+	deleteCasinoCategoryStart,
 	getCasinoCategoryDetailStart,
 	getLanguagesStart,
 	updateCasinoStatusStart,
@@ -15,6 +17,7 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		isCreateCategorySuccess,
 		isEditCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
+	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [modal, setModal] = useState(false);
@@ -63,11 +66,26 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 
 	const handleStatus = (e, props) => {
 		e.preventDefault();
-		const { gameCategoryId } = props;
+		const { categoryId } = props;
 		dispatch(
 			updateCasinoStatusStart({
 				type: 'category',
-				id: gameCategoryId,
+				id: categoryId,
+			})
+		);
+	};
+
+	const handleAddGameClick = ({ e, categoryId, categoryName }) => {
+		e.preventDefault();
+		navigate(`addGames/${categoryId}`, {
+			state: { categoryName },
+		});
+	};
+
+	const onClickDelete = (categoryId) => {
+		dispatch(
+			deleteCasinoCategoryStart({
+				categoryId: `${categoryId}`,
 			})
 		);
 	};
@@ -88,6 +106,8 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		setJob,
 		handleStatus,
 		onChangeRowsPerPage,
+		handleAddGameClick,
+		onClickDelete,
 	};
 };
 

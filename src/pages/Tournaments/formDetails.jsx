@@ -556,7 +556,7 @@ const gameFilterValues = () => ({
 	search: '',
 	casinoCategoryId: null,
 	providerId: '1',
-	gameSubCategoryId: null,
+	gameCategoryId: null,
 });
 
 const gameFilterValidationSchema = () =>
@@ -565,7 +565,7 @@ const gameFilterValidationSchema = () =>
 		search: Yup.string().nullable(),
 		casinoCategoryId: Yup.string().nullable(),
 		providerId: Yup.string().nullable(),
-		gameSubCategoryId: Yup.string().nullable(),
+		gameCategoryId: Yup.string().nullable(),
 	});
 
 export {
