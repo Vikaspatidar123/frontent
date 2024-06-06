@@ -53,21 +53,21 @@ export const TOP_PLAYER_ORDER = [
 
 export const KPI_SUMMARY_NAMES = [
 	{
-		label: 'Win Amount',
-		value: 'winamount',
-		isAmount: true,
-	},
-	{
-		label: 'Win Count',
-		value: 'wincount',
-	},
-	{
-		label: 'Bet Amount',
+		label: 'Wagered Amount',
 		value: 'betamount',
 		isAmount: true,
 	},
 	{
-		label: 'Bet Count',
+		label: 'Payout Amount',
+		value: 'winamount',
+		isAmount: true,
+	},
+	{
+		label: 'Payout Count',
+		value: 'wincount',
+	},
+	{
+		label: 'Wagered Count',
 		value: 'betcount',
 	},
 ];

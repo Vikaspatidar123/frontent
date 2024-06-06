@@ -11,7 +11,7 @@ const LoggedInPlayer = (props) => {
 		<Col xl="12">
 			<Card>
 				<CardBody>
-					<h4 className="card-title mb-4">Logged In Players</h4>
+					{/* <h4 className="card-title mb-3">Logged In Players</h4> */}
 
 					<div>
 						<div id="donut-chart">

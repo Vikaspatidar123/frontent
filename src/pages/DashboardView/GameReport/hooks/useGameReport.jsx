@@ -76,7 +76,7 @@ const useGameReport = () => {
 				),
 			},
 			{
-				Header: 'PLAYER BY',
+				Header: 'PLAYED BY',
 				accessor: 'totalPlayers',
 				filterable: true,
 				Cell: ({ cell }) => <NumberPlayer cell={cell?.value ?? '0'} />,

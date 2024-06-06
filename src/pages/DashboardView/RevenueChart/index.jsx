@@ -22,13 +22,13 @@ const RevenueChart = ({ livePlayerData }) => {
 					),
 				},
 				{
-					name: 'Total Bet Amount',
+					name: 'Total Wagered Amount',
 					data: livePlayerData?.DailyRevenues?.map(
 						({ totalBetAmount }) => totalBetAmount
 					),
 				},
 				{
-					name: 'Total Win Amount',
+					name: 'Total Payout Amount',
 					data: livePlayerData?.DailyRevenues?.map(
 						({ totalWinAmount }) => totalWinAmount
 					),
@@ -48,7 +48,7 @@ const RevenueChart = ({ livePlayerData }) => {
 		colors: dashedLineChartColors,
 		dataLabels: { enabled: !1 },
 		stroke: { width: [3, 4, 3], curve: 'straight', dashArray: [0, 8, 5] },
-		title: { text: 'Revenue', align: 'left' },
+		title: { text: 'Revenue Report', align: 'left', fontSize: 16 },
 		markers: { size: 0, hover: { sizeOffset: 6 } },
 		xaxis: {
 			categories: xAxis,
