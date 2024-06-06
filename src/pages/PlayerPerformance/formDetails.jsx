@@ -35,6 +35,7 @@ const filterValues = () => ({
 	currencyId: null,
 	orderBy: null,
 	range: '',
+	dateOptions: 'custom',
 });
 
 const filterValidationSchema = () =>

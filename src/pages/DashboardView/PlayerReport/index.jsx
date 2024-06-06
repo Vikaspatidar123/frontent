@@ -2,6 +2,7 @@
 import React from 'react';
 import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
 import { CSVLink } from 'react-csv';
+import { useNavigate } from 'react-router-dom';
 import SimpleBar from 'simplebar-react';
 import TableContainer from '../../../components/Common/Table';
 import { tableCustomClass } from '../../../constants/config';
@@ -30,6 +31,7 @@ const PlayerReport = () => {
 		toggle,
 	} = usePlayerReport();
 
+	const navigate = useNavigate();
 	const { isGranted } = usePermission();
 
 	const tabComponent = (
@@ -83,6 +85,18 @@ const PlayerReport = () => {
 								/>
 								<UncontrolledTooltip placement="top" target="refreshGameReport">
 									Refresh
+								</UncontrolledTooltip>
+								<i
+									role="button"
+									tabIndex="0"
+									className="mdi mdi-arrow-top-right-thick mx-2 font-size-24 mb-3"
+									style={{ cursor: 'pointer' }}
+									id="playerRedirect"
+									onClick={() => navigate('/player-performance')}
+									onKeyDown={() => {}}
+								/>
+								<UncontrolledTooltip placement="top" target="playerRedirect">
+									Player Performance Report
 								</UncontrolledTooltip>
 							</Col>
 							<Col xl={7} className="float-end my-2">

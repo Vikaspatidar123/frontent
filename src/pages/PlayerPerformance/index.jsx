@@ -8,6 +8,7 @@ import { projectName } from '../../constants/config';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import usePlayerPerformance from './hooks/usePlayerPerformance';
+import CrudSection from '../../components/Common/CrudSection';
 
 const PlayerPerformance = () => {
 	document.title = projectName;
@@ -42,6 +43,11 @@ const PlayerPerformance = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
+							<CrudSection
+								buttonList={[]}
+								// exportComponent={exportComponent}
+								title="Player Performance"
+							/>
 							<CardBody>
 								<Filters
 									validation={filterValidation}

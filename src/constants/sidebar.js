@@ -94,7 +94,7 @@ const sideBarElements = [
 			},
 			{
 				id: 23,
-				link: '/game-reports',
+				link: '/game-report',
 				label: 'Game Reports',
 				searchString: 'game report transactions',
 				iconName: '',

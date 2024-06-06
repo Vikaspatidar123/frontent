@@ -294,7 +294,7 @@ const authProtectedRoutes = [
 		operation: 'R',
 	},
 	{
-		path: '/game-reports',
+		path: '/game-report',
 		component: <GameTransactionsList />,
 		modules: [modules.report],
 		operation: 'R',

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
@@ -10,7 +11,7 @@ const RevenueChart = ({ livePlayerData }) => {
 	);
 	const [series, setSeries] = useState([]);
 	const [xAxis, setxAxis] = useState([]);
-
+	const { defaultCurrency } = useSelector((state) => state.Currencies);
 	useEffect(() => {
 		if (livePlayerData?.DailyRevenues?.length) {
 			const formateData = [
@@ -51,6 +52,13 @@ const RevenueChart = ({ livePlayerData }) => {
 		markers: { size: 0, hover: { sizeOffset: 6 } },
 		xaxis: {
 			categories: xAxis,
+		},
+		yaxis: {
+			labels: {
+				formatter(value) {
+					return `${defaultCurrency.symbol} ${value}`;
+				},
+			},
 		},
 		tooltip: {
 			y: [
