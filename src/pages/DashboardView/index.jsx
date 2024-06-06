@@ -90,6 +90,9 @@ const DashboardView = ({ t }) => {
 								<Col xl="12">
 									<Card>
 										<CardBody>
+											<h4 className="card-title font-size-16">
+												Revenue Report
+											</h4>
 											<RevenueReport
 												livePlayerData={livePlayerData}
 												isLivePlayerLoading={isLivePlayerLoading}

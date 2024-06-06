@@ -6,7 +6,7 @@ import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 
 const RevenueChart = ({ livePlayerData }) => {
 	const dashedLineChartColors = getChartColorsArray(
-		'["--bs-primary", "--bs-danger", "--bs-success"]'
+		'["--bs-success", "--bs-primary", "--bs-danger"]'
 	);
 	const [series, setSeries] = useState([]);
 	const [xAxis, setxAxis] = useState([]);
@@ -48,7 +48,6 @@ const RevenueChart = ({ livePlayerData }) => {
 		colors: dashedLineChartColors,
 		dataLabels: { enabled: !1 },
 		stroke: { width: [3, 4, 3], curve: 'straight', dashArray: [0, 8, 5] },
-		title: { text: 'Revenue Report', align: 'left', fontSize: 16 },
 		markers: { size: 0, hover: { sizeOffset: 6 } },
 		xaxis: {
 			categories: xAxis,

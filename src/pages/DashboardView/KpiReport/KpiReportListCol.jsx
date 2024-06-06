@@ -2,8 +2,7 @@ const ProviderName = ({ cell }) => cell;
 
 const Ggr = ({ cell, defaultCurrency }) => `${defaultCurrency.symbol} ${cell}`;
 
-const DeltaGgr = ({ cell, defaultCurrency }) =>
-	`${defaultCurrency.symbol} ${cell}`;
+const DeltaGgr = ({ cell }) => `${cell} %`;
 
 const RealBet = ({ cell, defaultCurrency }) =>
 	`${defaultCurrency.symbol} ${cell}`;
@@ -16,7 +15,7 @@ const BonusWin = ({ cell, defaultCurrency }) =>
 const BonusGgr = ({ cell, defaultCurrency }) =>
 	`${defaultCurrency.symbol} ${cell}`;
 const TotalBets = ({ cell }) => cell;
-const DeltaTotalBets = ({ cell }) => cell;
+const DeltaTotalBets = ({ cell }) => `${cell} %`;
 
 export {
 	ProviderName,

@@ -37,7 +37,6 @@ const KpiReport = () => {
 				columns={kPIReportColumn}
 				data={kPIReport || []}
 				isGlobalFilter={false}
-				customPageSize={kPIReport || 300}
 				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
 				isShowColSettings={false}
 			/>
