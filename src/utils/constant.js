@@ -9,7 +9,6 @@ export const dateConstants = [
 	{ label: 'Week To Date', value: 'weektodate' },
 	{ label: 'Year To Date', value: 'yeartodate' },
 	{ label: 'Previous Month', value: 'previousmonth' },
-	{ label: 'Previous Year', value: 'previousyear' },
 ];
 
 export const limitConstants = [

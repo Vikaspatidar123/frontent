@@ -10,8 +10,14 @@ export const dateConstants = [
 	{ label: 'Week To Date', value: 'weektodate' },
 	{ label: 'Year To Date', value: 'yeartodate' },
 	{ label: 'Previous Month', value: 'previousmonth' },
-	{ label: 'Previous Year', value: 'previousyear' },
 ];
+
+export const TABS = {
+	GAME: 'game',
+	PROVIDER: 'provider',
+	SPORT: 'sport',
+	CASINO: 'casino',
+};
 
 export const GAME_ORDER_BY = [
 	{
@@ -28,28 +34,50 @@ export const GAME_ORDER_BY = [
 	},
 ];
 
-export const TOP_PLAYER_ORDER = [
+export const topPlayerOrder = (activePerformance = TABS.CASINO) => [
+	...(activePerformance === TABS.CASINO
+		? [
+				{
+					label: 'Top Casino Wagerer ',
+					value: 'total_casino_bet',
+				},
+		  ]
+		: []),
+	...(activePerformance === TABS.SPORT
+		? [
+				{
+					label: 'Top SportsBook Wagerer',
+					value: 'total_sb_bet',
+				},
+		  ]
+		: []),
+	...(activePerformance === 'all'
+		? [
+				{
+					label: 'Top Casino Wagerer ',
+					value: 'total_casino_bet',
+				},
+				{
+					label: 'Top SportsBook Wagerer',
+					value: 'total_sb_bet',
+				},
+		  ]
+		: []),
 	{
-		label: 'Top Casino Wagerer ',
-		value: 'total_casino_bet',
+		label: 'Highest Profit Players',
+		value: 'profit',
 	},
 	{
 		label: 'Top Depositor',
 		value: 'total_deposit',
 	},
 	{
-		label: 'Top SportsBook Wagerer',
-		value: 'total_sb_bet',
-	},
-	{
 		label: 'Top Withdrawer',
 		value: 'total_withdraw',
 	},
-	{
-		label: 'Highest Profit Players',
-		value: 'profit',
-	},
 ];
+
+export const TOP_PLAYER_ORDER = topPlayerOrder('all');
 
 export const KPI_SUMMARY_NAMES = [
 	{
@@ -71,10 +99,3 @@ export const KPI_SUMMARY_NAMES = [
 		value: 'betcount',
 	},
 ];
-
-export const TABS = {
-	GAME: 'game',
-	PROVIDER: 'provider',
-	SPORT: 'sport',
-	CASINO: 'casino',
-};

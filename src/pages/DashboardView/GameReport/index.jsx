@@ -32,7 +32,7 @@ const GameReport = () => {
 	const { isGranted } = usePermission();
 
 	const tabComponent = (
-		<SimpleBar style={{ maxHeight: '300px' }}>
+		<SimpleBar style={{ maxHeight: '300px', minHeight: '300px' }}>
 			<TableContainer
 				isLoading={isGameReportLoading}
 				columns={gameReportColumn || []}

@@ -2,14 +2,16 @@
 import React from 'react';
 import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
 import { CSVLink } from 'react-csv';
+import SimpleBar from 'simplebar-react';
 import TableContainer from '../../../components/Common/Table';
 import { tableCustomClass } from '../../../constants/config';
-import { TOP_PLAYER_ORDER, dateConstants } from '../constant';
+import { TABS, dateConstants, topPlayerOrder } from '../constant';
 import { CustomSelectField } from '../../../helpers/customForms';
 import usePlayerReport from './hooks/usePlayerReport';
 import { GAME_REPORT } from '../../../constants/messages';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
+import TabsPage from '../../../components/Common/TabsPage';
 
 const PlayerReport = () => {
 	const {
@@ -24,9 +26,39 @@ const PlayerReport = () => {
 		orderBy,
 		setOrderBy,
 		currencies,
+		activePerformance,
+		toggle,
 	} = usePlayerReport();
 
 	const { isGranted } = usePermission();
+
+	const tabComponent = (
+		<SimpleBar style={{ maxHeight: '300px', minHeight: '300px' }}>
+			<TableContainer
+				isLoading={topPlayersLoading}
+				columns={columns || []}
+				data={topPlayers?.reportData || []}
+				isGlobalFilter={false}
+				customPageSize={topPlayers?.reportData?.length}
+				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+				isShowColSettings={false}
+				tbodyHeight="300px"
+			/>
+		</SimpleBar>
+	);
+
+	const tabData = [
+		{
+			id: TABS.CASINO,
+			title: 'CASINO',
+			component: tabComponent,
+		},
+		{
+			id: TABS.SPORT,
+			title: 'SPORTS',
+			component: tabComponent,
+		},
+	];
 
 	return (
 		<Col xl="12">
@@ -65,7 +97,7 @@ const PlayerReport = () => {
 										onChange={(e) => {
 											setOrderBy(e.target.value);
 										}}
-										options={TOP_PLAYER_ORDER?.map((item) => (
+										options={topPlayerOrder(activePerformance)?.map((item) => (
 											<option value={item.value} key={item.value}>
 												{item.label}
 											</option>
@@ -109,15 +141,11 @@ const PlayerReport = () => {
 								</div>
 							</Col>
 
-							<TableContainer
-								isLoading={topPlayersLoading}
-								columns={columns || []}
-								data={topPlayers?.reportData || []}
-								isGlobalFilter={false}
-								customPageSize={topPlayers?.reportData?.length}
-								tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
-								isShowColSettings={false}
-								tbodyHeight="300px"
+							<TabsPage
+								activeTab={activePerformance}
+								tabsData={tabData}
+								toggle={toggle}
+								navClass="bg-light rounded p-0"
 							/>
 						</Row>
 					) : (
