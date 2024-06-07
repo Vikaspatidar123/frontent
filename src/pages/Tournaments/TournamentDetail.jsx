@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useEffect, useMemo, useState } from 'react';
 import { Badge, Col, Card, CardBody, Row } from 'reactstrap';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { keyBy } from 'lodash';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-
-import { formatDateYMD, getDateTime } from '../../utils/dateFormatter';
+import { getDateTime } from '../../utils/dateFormatter';
 import TabsPage from '../../components/Common/TabsPage';
 import BasicDetails from './components/BasicDetails';
 import PrizeDetails from './components/PrizeDetails';
@@ -12,11 +13,18 @@ import GameDetails from './components/GameDetails';
 import LeaderBoard from './components/LeaderBoard';
 import Transactions from './components/Transactions';
 import { getTournamentDetailByIdStart } from '../../store/tournaments/actions';
+import { CustomSelectField } from '../../helpers/customForms';
 
 const TournamentDetail = () => {
-	const { id } = useParams();
+	const { tournamentId } = useParams();
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState('1');
+
+	const { currencies } = useSelector((state) => state.Currencies);
+
+	const [currencyId, setCurrencyId] = useState(null);
+
+	const currencyById = keyBy(currencies?.currencies || [], 'id');
 
 	const { tournamentDetail, tournamentDetailLoading } = useSelector(
 		(state) => state.Tournament
@@ -29,14 +37,43 @@ const TournamentDetail = () => {
 	};
 
 	useEffect(() => {
-		if (id) {
+		if (tournamentId) {
 			dispatch(
 				getTournamentDetailByIdStart({
-					tournamentId: Number(id),
+					tournamentId: Number(tournamentId),
 				})
 			);
 		}
-	}, [id]);
+	}, [tournamentId]);
+
+	useEffect(() => {
+		if (currencies?.currencies) {
+			setCurrencyId(currencies.currencies?.[0]?.id);
+		}
+	}, [currencies]);
+
+	const currencyWise = useMemo(() => {
+		const code = currencyById?.[currencyId]?.code || '';
+		const tourCurrencyById = keyBy(
+			tournamentDetail?.tournamentCurrencies || [],
+			'currencyId'
+		);
+
+		const poolPrize = tourCurrencyById?.[currencyId]?.poolPrize || 0;
+		const minPlayerLimit = tourCurrencyById?.[currencyId]?.minPlayerLimit || 0;
+		const maxPlayerLimit = tourCurrencyById?.[currencyId]?.maxPlayerLimit || 0;
+		const entryFees = tourCurrencyById?.[currencyId]?.entryFees || 0;
+		const rebuyFees = tourCurrencyById?.[currencyId]?.entryFees || 0;
+
+		return {
+			code,
+			poolPrize,
+			minPlayerLimit,
+			maxPlayerLimit,
+			entryFees,
+			rebuyFees,
+		};
+	}, [currencyById, currencyId, tournamentDetail?.tournamentCurrencies]);
 
 	const tabData = [
 		{
@@ -44,7 +81,7 @@ const TournamentDetail = () => {
 			title: 'Overview',
 			component: (
 				<BasicDetails
-					tournamentDetail={tournamentDetail}
+					tournamentDetail={{ ...tournamentDetail, ...currencyWise }}
 					tournamentDetailLoading={tournamentDetailLoading}
 				/>
 			),
@@ -95,7 +132,34 @@ const TournamentDetail = () => {
 							/>
 						</Col>
 						<Col lg={8} className="mt-2">
-							<h3>{tournamentDetail?.name?.EN}</h3>
+							<Row>
+								<Col lg={9}>
+									<h3>{tournamentDetail?.name?.EN}</h3>
+								</Col>
+								<Col sm={12} lg={3} className="mb-3">
+									<CustomSelectField
+										id="currencyId"
+										type="select"
+										name="currencyId"
+										value={currencyId}
+										onChange={(e) => setCurrencyId(e.target.value)}
+										options={
+											<>
+												<option value={null} selected disabled>
+													Select currency
+												</option>
+												{currencies?.currencies
+													?.filter((curr) => curr.type !== 'point')
+													?.map(({ id: value, name }) => (
+														<option key={value} value={value}>
+															{name}
+														</option>
+													))}
+											</>
+										}
+									/>
+								</Col>
+							</Row>
 							<div className="hstack gap-3 flex-wrap">
 								<div className="text-muted">
 									Active :{' '}
@@ -114,21 +178,21 @@ const TournamentDetail = () => {
 										<Badge className="bg-danger font-size-12">No</Badge>
 									)}
 								</div>
-								<div className="vr" />
-								<div className="text-muted">
+								{/* <div className="vr" /> */}
+								{/* <div className="text-muted">
 									Created At : {formatDateYMD(tournamentDetail?.createdAt)}
-								</div>
+								</div> */}
 							</div>
 
 							<Row className="mt-4">
-								<Col lg={3} sm={6}>
+								<Col lg={3} sm={6} className="my-2">
 									<div className="p-2 border rounded text-center">
 										<p className="text-muted fw-medium mb-1 font-size-16">
-											Pool Prize
+											{currencyWise?.code || ''} Pool Prize
 										</p>
 										<h5 className="fs-17 text-success mb-0">
 											<i className="mdi mdi-ethereum me-1" />
-											{tournamentDetail?.poolPrize}
+											{currencyWise.poolPrize}
 										</h5>
 									</div>
 								</Col>

@@ -13,7 +13,6 @@ import {
 	getTournamentDetailByIdStart,
 	updateTournamentStart,
 } from '../../../store/tournaments/actions';
-import { tableCustomClass } from '../../../constants/config';
 import Currencies from '../components/Currency';
 
 const useCreateTournaments = (isEdit = false) => {

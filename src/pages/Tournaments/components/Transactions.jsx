@@ -99,7 +99,7 @@ const Transactions = () => {
 				customPageSize={itemsPerPage}
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
-				totalPageCount={tournamentTransactions?.count || 10}
+				totalPageCount={tournamentTransactions?.count || 1}
 				isManualPagination
 				onChangePagination={setCurrentPage}
 				currentPage={currentPage}

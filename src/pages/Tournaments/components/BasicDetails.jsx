@@ -6,23 +6,6 @@ import { detailList } from '../formDetails';
 import { formatDateYMD } from '../../../utils/dateFormatter';
 
 const BasicDetails = ({ tournamentDetail }) => {
-	// const { clubEliteLevels } = useSelector(
-	// 	(state) => state?.ClubEliteLoyaltyLevels
-	// );
-
-	// useEffect(() => {
-	// 	dispatch(getLoyaltyLevels());
-	// }, []);
-
-	// const eligibleTiers = tournamentDetail?.eligibleTiers?.length
-	// 	? tournamentDetail?.eligibleTiers?.map((tier) => {
-	// 			const tierData = clubEliteLevels?.find(
-	// 				(level) => Number(level?.rank) === Number(tier)
-	// 			);
-	// 			return tierData?.name;
-	// 	  })
-	// 	: ['All'];
-
 	const formattedTournamentDetail = {
 		...tournamentDetail,
 		entryFees: `${tournamentDetail?.entryFees}`,
@@ -43,10 +26,10 @@ const BasicDetails = ({ tournamentDetail }) => {
 		<Row lg={12} className="px-5 py-3">
 			{detailList?.map((detail) => (
 				<Row className="p-2 border-bottom">
-					<Col lg={4} className="fw-semibold py-2 px-4 font-size-16">
+					<Col sm={4} lg={4} className="fw-semibold py-2 px-4 font-size-16">
 						{detail?.label}
 					</Col>
-					<Col lg={8} className="p-2 font-size-16 text-capitalize">
+					<Col sm={8} lg={8} className="p-2 font-size-16 text-capitalize">
 						{Array.isArray(tournamentDetail?.[detail?.value])
 							? formattedTournamentDetail?.[detail?.value].join(', ')
 							: detail.value === 'name'

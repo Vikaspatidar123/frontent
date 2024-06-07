@@ -122,7 +122,7 @@ const LeaderBoard = () => {
 				customPageSize={itemsPerPage}
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
-				totalPageCount={leaderBoardInfo?.count || 10}
+				totalPageCount={leaderBoardInfo?.count || 1}
 				isManualPagination
 				onChangePagination={setCurrentPage}
 				currentPage={currentPage}
