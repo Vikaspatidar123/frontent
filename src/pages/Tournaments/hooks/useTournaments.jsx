@@ -163,7 +163,11 @@ const useTournaments = () => {
 				Header: 'Pool Prize',
 				accessor: 'poolPrize',
 				// filterable: true,
-				Cell: ({ cell }) => <PoolPrize value={cell.value} />,
+				Cell: ({ cell }) => (
+					<PoolPrize
+						value={cell?.row?.original?.tournamentCurrencies?.[0]?.poolPrize}
+					/>
+				),
 			},
 
 			{

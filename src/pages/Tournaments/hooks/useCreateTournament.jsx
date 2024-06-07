@@ -14,6 +14,7 @@ import {
 	updateTournamentStart,
 } from '../../../store/tournaments/actions';
 import { tableCustomClass } from '../../../constants/config';
+import Currencies from '../components/Currency';
 
 const useCreateTournaments = (isEdit = false) => {
 	const { casinoTournamentId } = useParams();
@@ -40,10 +41,6 @@ const useCreateTournaments = (isEdit = false) => {
 			if (!isCreateTournamentLoading || !isUpdateTournamentLoading) {
 				const data = {
 					...updatedAllFields,
-					entryFees: Number(updatedAllFields?.entryFees),
-					rebuyFees: Number(updatedAllFields?.rebuyFees),
-					rebuyLimit: Number(updatedAllFields?.rebuyLimit),
-					poolPrize: Number(updatedAllFields?.poolPrize),
 					prizes: updatedAllFields?.prizes,
 					casinoGameIds: selectedGames,
 				};
@@ -91,6 +88,9 @@ const useCreateTournaments = (isEdit = false) => {
 			id: 'general',
 		},
 		{
+			id: 'amount',
+		},
+		{
 			id: 'games',
 		},
 		{
@@ -118,6 +118,22 @@ const useCreateTournaments = (isEdit = false) => {
 			),
 		},
 		{
+			id: 'amount',
+			title: 'Amount',
+			component: (
+				<Currencies
+					setActiveTab={setActiveTab}
+					allFields={allFields}
+					setAllFields={setAllFields}
+					casinoTournamentId={casinoTournamentId}
+					submitButtonLoading={isCreateTournamentLoading}
+					tabsToShow={tabsToShow}
+					activeTab={activeTab}
+					toggleTab={toggleTab}
+				/>
+			),
+		},
+		{
 			id: 'games',
 			title: 'Games',
 			component: (
@@ -135,6 +151,7 @@ const useCreateTournaments = (isEdit = false) => {
 				/>
 			),
 		},
+
 		{
 			id: 'prizeDistribution',
 			title: 'Prize Distribution',

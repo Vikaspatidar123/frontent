@@ -235,7 +235,7 @@ const PriceDistribution = ({
 										</p>
 										{[
 											{ label: 'Percentage', value: 'percentage' },
-											{ label: 'Flat', value: 'fiat' },
+											// { label: 'Amount', value: 'amount' }, // Comment it in case of multi currency
 										].map((settlementType) => (
 											<CustomSwitchButton
 												labelClassName="form-check-label"
@@ -261,7 +261,7 @@ const PriceDistribution = ({
 											{` ${
 												prizeSettlementMethod === 'percentage'
 													? 100
-													: allFields?.poolPrize
+													: allFields?.currencyDetails?.[0]?.poolPrize || 0
 											} ${prizeSettlementMethod === 'percentage' ? '%' : ''}`}
 										</h5>
 										<h5 className="fw-bold text-capitalize">
@@ -278,7 +278,9 @@ const PriceDistribution = ({
 											prizeSettlementMethod === 'percentage'
 												? remainingPrizeAmount
 												: Math.round(
-														(remainingPrizeAmount / allFields?.poolPrize) * 100
+														(remainingPrizeAmount /
+															allFields?.currencyDetails?.[0]?.poolPrize || 1) *
+															100
 												  )
 										}
 										className="animated-progess progress-xl font-size-18"
@@ -338,7 +340,7 @@ const PriceDistribution = ({
 														<i
 															className={`${
 																fieldType?.[index + 1] === 'number'
-																	? 'mdi mdi-numeric'
+																	? 'mdi mdi-percent'
 																	: 'mdi mdi-alphabetical-variant'
 															} font-size-20`}
 															id={`winnerFieldType${index + 1}`}

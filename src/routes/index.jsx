@@ -318,7 +318,7 @@ const authProtectedRoutes = [
 		operation: 'R',
 	},
 	{
-		path: '/tournaments/view/:id',
+		path: '/tournaments/view/:tournamentId',
 		component: <TournamentDetail />,
 		modules: [modules.tournamentManagement],
 		operation: 'R',

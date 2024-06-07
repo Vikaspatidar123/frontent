@@ -16,123 +16,63 @@ const tournamentPrizeTypeOptionsList = [
 	},
 ];
 
-// const tournamentPeriodOptionsList = [
-// 	{
-// 		id: 1,
-// 		optionLabel: 'One time',
-// 		value: 'oneTime',
-// 	},
-// 	{
-// 		id: 2,
-// 		optionLabel: 'Weekly',
-// 		value: 'weekly',
-// 	},
-// 	{
-// 		id: 3,
-// 		optionLabel: 'Monthly',
-// 		value: 'monthly',
-// 	},
-// 	{
-// 		id: 4,
-// 		optionLabel: 'Daily',
-// 		value: 'daily',
-// 	},
-// ];
+const generalStepInitialValues = (tournamentDetail) => {
+	const {
+		entryFees,
+		currencyId,
+		rebuyFees,
+		poolPrize,
+		maxPlayerLimit,
+		minPlayerLimit,
+	} = tournamentDetail?.currencyDetails?.[0] || {};
 
-// const playerLimitOptions = [
-// 	{
-// 		id: 1,
-// 		optionLabel: 'All',
-// 		value: 'null',
-// 	},
-// 	{
-// 		id: 2,
-// 		optionLabel: 'Custom',
-// 		value: 'custom',
-// 	},
-// ];
+	const currencyDetails = tournamentDetail?.currencyDetails?.length
+		? {
+				entryFees,
+				currencyId,
+				rebuyFees,
+				poolPrize,
+				maxPlayerLimit,
+				minPlayerLimit,
+		  }
+		: {
+				entryFees: null,
+				currencyId: null,
+				rebuyFees: null,
+				poolPrize: null,
+				maxPlayerLimit: null,
+				minPlayerLimit: null,
+		  };
 
-const generalStepInitialValues = (tournamentDetail) => ({
-	tournamentType: 'tournament',
-	name: tournamentDetail?.name?.EN || '',
-	description: tournamentDetail?.description?.EN || '',
-	image: tournamentDetail?.image || '',
-	startDate: tournamentDetail?.startDate
-		? new Date(tournamentDetail?.startDate)
-		: null,
-	endDate: tournamentDetail?.endDate
-		? new Date(tournamentDetail?.endDate)
-		: null,
-	entryFees: tournamentDetail?.entryFees || '',
-	rebuyFees: tournamentDetail?.rebuyFees || 0,
-	rebuyLimit: tournamentDetail?.rebuyLimit || 0,
-	minimumPlayerLimit: tournamentDetail?.minimumPlayerLimit || '',
-	playerLimit: tournamentDetail?.playerLimit || '',
-	isActive: tournamentDetail?.isActive || true,
-	rebuyOption: tournamentDetail?.rebuyLimit > 0,
-	registrationEndDate: tournamentDetail?.registrationEndDate
-		? new Date(tournamentDetail?.registrationEndDate)
-		: null,
-});
+	return {
+		tournamentType: 'tournament',
+		name: tournamentDetail?.name?.EN || '',
+		description: tournamentDetail?.description?.EN || '',
+		image: tournamentDetail?.image || '',
+		startDate: tournamentDetail?.startDate
+			? new Date(tournamentDetail?.startDate)
+			: null,
+		endDate: tournamentDetail?.endDate
+			? new Date(tournamentDetail?.endDate)
+			: null,
+		isActive: tournamentDetail?.isActive || true,
+		registrationEndDate: tournamentDetail?.registrationEndDate
+			? new Date(tournamentDetail?.registrationEndDate)
+			: null,
+
+		currencyDetails,
+	};
+};
 
 const generalFormSchema = () =>
 	Yup.object({
 		name: Yup.string().required('Name Required'),
 		description: Yup.string().required('Description Required'),
-		rebuyOption: Yup.boolean(),
-		poolPrize: Yup.number().required('Pool Prize Required'),
 		creditPoints: Yup.number().required('Credit Points Required'),
-		rebuyFees: Yup.number()
-			.test('isRebuyTrue', 'Rebuy Fees is required', function (value) {
-				const { rebuyOption } = this.parent || {};
-				if (!rebuyOption) return true;
-				return value > 0;
-			})
-			.test('valid-number', 'Number must be between 0 and 99999', (value) => {
-				if (!value) return true; // Allow empty value
-				const numberValue = parseInt(value, 10);
-				return numberValue >= 0 && numberValue <= 99999;
-			}),
 		rebuyLimit: Yup.number()
-			.test(
-				'isRebuyTrue',
-				'Rebuy limit is required and cannot be smaller than 0',
-				function (value) {
-					const { rebuyOption } = this.parent || {};
-					if (!rebuyOption) return true;
-					return value > 0;
-				}
-			)
-			.test('maxDigits', 'Number must be less than or equal to 10', (value) => {
-				if (value > 0) {
-					const numberValue = parseInt(value, 10);
-					return numberValue <= 10;
-				}
-				return true; // Allow empty value
-			}),
-		entryFees: Yup.number()
-			.required('Entry Fees Required')
-			.test('valid-number', 'Number must be between 1 and 99999', (value) => {
-				const numberValue = Number(value);
-				return numberValue >= 0.01 && numberValue <= 99999;
-			}),
-		minPlayerLimit: Yup.number()
-			.required('Minimum Participants Limit Required.')
-			.test(
-				'greaterThanMaximumParticipants',
-				'Minimum participants limit should be smaller than Maximum Participants Limit',
-				(value) => value > 0
-			),
-		maxPlayerLimit: Yup.number().test(
-			'greaterThanMaximumParticipants',
-			'Maximum participants limit should be greater than Minimum Participants Limit',
-			function (value) {
-				const { minimumPlayerLimit } = this.parent || {};
+			.min(1, 'Amount should be greater than 1')
+			.required('Rebuy limit required'),
 
-				if (value <= minimumPlayerLimit) return false;
-				return value > 0;
-			}
-		),
 		startDate: Yup.date().required('Start Date Required'),
 		endDate: Yup.date()
 			.required('End Date Required')
@@ -170,19 +110,39 @@ const generalFormSchema = () =>
 			),
 	});
 
+const currencyValidate = () =>
+	Yup.object({
+		currencyId: Yup.string().required('Currency required'),
+		entryFees: Yup.number()
+			.min(1, 'Amount should be greater than 1')
+			.required('Entry fees required'),
+		rebuyFees: Yup.number()
+			.min(1, 'Amount should be greater than 1')
+			.required('Entry fees required'),
+
+		minPlayerLimit: Yup.number()
+			.required('Minimum Participants Limit Required.')
+			.test(
+				'greaterThanMaximumParticipants',
+				'Minimum participants limit should be smaller than Maximum Participants Limit',
+				(value) => value > 0
+			),
+		maxPlayerLimit: Yup.number().test(
+			'greaterThanMaximumParticipants',
+			'Maximum participants limit should be greater than Minimum Participants Limit',
+			function (value) {
+				const { minPlayerLimit } = this.parent || {};
+
+				if (value <= minPlayerLimit) return false;
+				return value > 0;
+			}
+		),
+		poolPrize: Yup.number()
+			.min(1, 'Amount should be greater than 1')
+			.required('Entry fees required'),
+	});
+
 const staticFormFields = () => [
-	{
-		name: 'entryFees',
-		fieldType: 'password',
-		label: 'Entry Fees Amount',
-		placeholder: 'Enter Fees Amount',
-		type: 'number',
-		maximumCharacters: 5,
-		minimum: 1,
-		maximum: 99999,
-		icon: <i className="bx bx-dollar font-size-18" />,
-		required: true,
-	},
 	{
 		name: 'startDate',
 		fieldType: 'datePicker',
@@ -215,13 +175,7 @@ const staticFormFields = () => [
 		minTimeField: 'startDate',
 		maxDate: '',
 	},
-	{
-		name: 'poolPrize',
-		fieldType: 'textField',
-		label: 'Pool Prize',
-		placeholder: 'Example: 100',
-		type: 'number',
-	},
+
 	{
 		name: 'creditPoints',
 		fieldType: 'textField',
@@ -239,6 +193,48 @@ const staticFormFields = () => [
 		customPadding: '8px',
 	},
 	{
+		name: 'rebuyLimit',
+		fieldType: 'textField',
+		type: 'number',
+		minimum: 1,
+		maximum: 10,
+		label: 'Rebuy Limit',
+		placeholder: 'Enter Rebuy Limit',
+	},
+	{
+		name: 'isActive',
+		fieldType: 'toggle',
+		label: 'Is Active',
+		isNewRow: true,
+		switchSizeClass: 'form-switch-md',
+		tooltipContent: 'Show in Tournaments',
+		tooltipPlacement: 'left',
+	},
+];
+
+const currencyFields = () => [
+	{
+		name: 'entryFees',
+		label: 'Entry Fees Amount',
+		fieldType: 'textField',
+		placeholder: 'Example: 100',
+		type: 'number',
+	},
+	{
+		name: 'poolPrize',
+		fieldType: 'textField',
+		label: 'Pool Prize',
+		placeholder: 'Example: 200',
+		type: 'number',
+	},
+	{
+		name: 'rebuyFees',
+		fieldType: 'textField',
+		label: 'Rebuy Fees',
+		placeholder: 'Example: 200',
+		type: 'number',
+	},
+	{
 		name: 'minPlayerLimit',
 		fieldType: 'textField',
 		type: 'number',
@@ -251,42 +247,6 @@ const staticFormFields = () => [
 		type: 'number',
 		label: 'Maximum Participants Limit',
 		placeholder: 'Example: 50',
-	},
-	{
-		name: 'isActive',
-		fieldType: 'toggle',
-		label: 'Visibility',
-		isNewRow: true,
-		switchSizeClass: 'form-switch-md',
-		tooltipContent: 'Show in Tournaments',
-		tooltipPlacement: 'left',
-	},
-	{
-		name: 'rebuyOption',
-		fieldType: 'toggle',
-		label: 'Rebuy Option',
-		switchSizeClass: 'form-switch-md',
-		fieldColOptions: { lg: 2 },
-	},
-	{
-		name: 'rebuyFees',
-		fieldType: 'password',
-		label: 'Rebuy Fees Amount',
-		placeholder: 'Enter Fees Amount',
-		type: 'number',
-		isNewRow: true,
-		icon: <i className="bx bx-dollar font-size-18" />,
-		isHidable: (values) => !values.rebuyOption,
-	},
-	{
-		name: 'rebuyLimit',
-		fieldType: 'textField',
-		type: 'number',
-		minimum: 1,
-		maximum: 10,
-		label: 'Rebuy Limit',
-		placeholder: 'Enter Rebuy Limit',
-		isHidable: (values) => !values.rebuyOption,
 	},
 ];
 
@@ -398,24 +358,6 @@ const staticFiltersFields = () => [
 		label: '',
 		placeholder: 'Search by tournament name',
 	},
-	// {
-	// 	name: 'isRegistrationClosed',
-	// 	fieldType: 'select',
-	// 	label: '',
-	// 	placeholder: 'Select Registration Status',
-	// 	optionList: [
-	// 		{
-	// 			id: 1,
-	// 			optionLabel: 'Yes',
-	// 			value: true,
-	// 		},
-	// 		{
-	// 			id: 2,
-	// 			optionLabel: 'No',
-	// 			value: false,
-	// 		},
-	// 	],
-	// },
 	{
 		name: 'isActive',
 		fieldType: 'select',
@@ -583,4 +525,6 @@ export {
 	gameFilterValidationSchema,
 	staticGameFiltersFields,
 	gameFilterValues,
+	currencyValidate,
+	currencyFields,
 };

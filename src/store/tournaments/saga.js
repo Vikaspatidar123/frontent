@@ -53,7 +53,6 @@ import { filterEmptyPayload } from '../../network/networkUtils';
 function* createTournamentWorker(action) {
 	try {
 		const { data, navigate } = action && action.payload;
-		console.log('Data = ', data);
 		yield createTournament(data);
 		yield put(createTournamentSuccess());
 		showToastr({

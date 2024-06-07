@@ -69,8 +69,6 @@ const General = ({
 			});
 	};
 
-	console.log('Data = ', validation);
-
 	useEffect(() => {
 		if (tournamentDetail) {
 			setAllFields((prev) => ({
