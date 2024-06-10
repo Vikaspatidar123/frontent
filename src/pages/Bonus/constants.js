@@ -68,18 +68,6 @@ const daysLabels = [
 	'Sunday',
 ];
 
-const LANGUAGES = {
-	DE: 'German',
-	EN: 'English',
-	ES: 'Spanish',
-	HI: 'Hindi',
-	MS: 'Malay',
-	NO: 'Norwegian',
-	PS: 'Pasto',
-	RO: 'Romanian',
-	RU: 'Russian',
-};
-
 const wageringRequirementType = [
 	{ label: 'BONUS', value: 'bonus', id: 1 },
 	{ label: 'BONUS+DEPOSIT', value: 'bonusdeposit', id: 2 },
@@ -99,6 +87,5 @@ export {
 	checkLabels,
 	daysLabels,
 	wageringRequirementType,
-	LANGUAGES,
 	BONUS_KEY_RELATION,
 };

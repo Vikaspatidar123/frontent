@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -11,6 +11,7 @@ import WageringContribution from '../FormSections/WageringContribution';
 import Games from '../FormSections/Games';
 import {
 	createBonus,
+	fetchLanguagesStart,
 	getUserBonusDetails,
 	getUserBonusDetailsReset,
 	getWageringTemplateDetails,
@@ -18,12 +19,7 @@ import {
 	resetUpdateBonus,
 	updateBonus,
 } from '../../../store/actions';
-import {
-	BONUS_KEY_RELATION,
-	BONUS_TYPES,
-	daysLabels,
-	LANGUAGES,
-} from '../constants';
+import { BONUS_KEY_RELATION, BONUS_TYPES, daysLabels } from '../constants';
 import { YMDdate } from '../../../constants/config';
 
 const useCreateBonus = ({ isEdit }) => {
@@ -37,7 +33,6 @@ const useCreateBonus = ({ isEdit }) => {
 		bonusType: BONUS_TYPES.JOINING,
 	});
 	const [selectedTemplate, setSelectedTemplate] = useState(1);
-	const [langList] = useState(LANGUAGES);
 
 	const [langContent, setLangContent] = useState({
 		promoTitle: { EN: '' },
@@ -52,8 +47,18 @@ const useCreateBonus = ({ isEdit }) => {
 		updateBonusLoading,
 	} = useSelector((state) => state.CreateUpdateBonus);
 
+	const { languages } = useSelector((state) => state.Languages);
+
 	const { bonusDetails, getBonusDetailsLoading } = useSelector(
 		(state) => state.UserDetails
+	);
+
+	const langList = useMemo(
+		() =>
+			languages?.languages?.map((language) => ({
+				...language,
+			})) || [],
+		[languages]
 	);
 
 	useEffect(() => {
@@ -88,6 +93,10 @@ const useCreateBonus = ({ isEdit }) => {
 
 	useEffect(() => {
 		dispatch(getWageringTemplateDetails());
+
+		if (isEmpty(languages)) {
+			dispatch(fetchLanguagesStart());
+		}
 	}, []);
 
 	useEffect(() => {

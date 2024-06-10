@@ -75,21 +75,20 @@ const Languages = ({
 	const toggle = (id) => setActiveLangTab(id);
 
 	const tabData = useMemo(() => {
-		const langArray =
-			Object.keys(langList).filter((lang) => lang !== 'EN') || [];
+		const langArray = langList.filter((lang) => lang.code !== 'EN') || [];
 
-		return langArray.map((lang) => ({
-			id: lang,
-			title: lang,
+		return langArray.map(({ id, name, code }) => ({
+			id,
+			title: code,
 			component: (
 				<SingleLangComponent
-					lang={lang}
+					lang={code}
 					setLangContent={setLangContent}
 					langContent={langContent}
 					bonusDetails={bonusDetails}
 				/>
 			),
-			tooltipText: langList[lang],
+			tooltipText: name,
 		}));
 	}, [langList, langContent]);
 
