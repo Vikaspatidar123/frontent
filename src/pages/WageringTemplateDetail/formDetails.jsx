@@ -28,7 +28,9 @@ const getInitialValues = (defaultValue) => ({
 
 const createWageringTemplate = Yup.object().shape({
 	name: Yup.string().required('Template Name Required'),
-	wageringMultiplier: Yup.string().required('Wagering multiplier required'),
+	wageringMultiplier: Yup.number()
+		.min(0.01, 'Wagering multiplier should be greater than 0')
+		.required('Wagering multiplier required'),
 	wageringRequirementType: Yup.string().required('Wagering type required'),
 	searchString: Yup.string().nullable(),
 });
@@ -67,8 +69,6 @@ const rightStaticFormFields = () => [
 		label: 'Wagering Multiplier',
 		placeholder: 'Wagering Multiplier',
 		type: 'number',
-		minimum: 0,
-		step: '.01',
 	},
 	{
 		name: 'searchString',
