@@ -63,6 +63,7 @@ import Tournament from '../pages/Tournaments';
 import CreateTournament from '../pages/Tournaments/CreateTournment';
 import TournamentDetail from '../pages/Tournaments/TournamentDetail';
 import AddGamesCasinoCategory from '../pages/AddGamesCasinoCategory';
+import EditTournament from '../pages/Tournaments/EditTournament';
 
 const authProtectedRoutes = [
 	{
@@ -320,6 +321,12 @@ const authProtectedRoutes = [
 	{
 		path: '/tournaments/view/:tournamentId',
 		component: <TournamentDetail />,
+		modules: [modules.tournamentManagement],
+		operation: 'R',
+	},
+	{
+		path: '/tournaments/edit/:tournamentId',
+		component: <EditTournament />,
 		modules: [modules.tournamentManagement],
 		operation: 'R',
 	},

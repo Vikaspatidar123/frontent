@@ -5,6 +5,7 @@ import {
 	CREATE_TOURNAMENT_START,
 	GET_TOURNAMENT_DETAILS_START,
 	GET_TOURNAMENT_DETAIL_BY_ID_START,
+	UPDATE_TOURNAMENT_START,
 	// UPDATE_TOURNAMENT_START,
 	// GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
 	// GET_TOURNAMENT_GAMES_START,
@@ -19,6 +20,8 @@ import {
 	getTournamentDetailByIdSuccess,
 	getTournamentDetailsFail,
 	getTournamentDetailsSuccess,
+	updateTournamentFail,
+	updateTournamentSuccess,
 	// getTournamentGamesFail,
 	// getTournamentGamesSuccess,
 	// getTournamentLeaderBoardDetailFail,
@@ -34,6 +37,7 @@ import {
 import { showToastr } from '../../utils/helpers';
 import {
 	createTournament,
+	updateTournament,
 	// updateSettledStatus,
 } from '../../network/postRequests';
 import {
@@ -43,10 +47,8 @@ import {
 	// getTournamentGameDetails,
 	// getTournamentTransactions,
 } from '../../network/getRequests';
-// import {
-// 	updateTournament,
-// 	updateTournamentStatus,
-// } from '../../network/putRequests';
+import // updateTournamentStatus,
+'../../network/putRequests';
 // import { objectToFormData } from '../../utils/objectToFormdata';
 import { filterEmptyPayload } from '../../network/networkUtils';
 
@@ -66,30 +68,25 @@ function* createTournamentWorker(action) {
 	}
 }
 
-// function* updateTournamentWorker(action) {
-// 	try {
-// 		const { data, navigate } = action && action.payload;
-// 		if (data.type === 'settled') {
-// 			yield updateSettledStatus(data);
-// 		} else {
-// 			yield updateTournament(objectToFormData(data));
-// 		}
-// 		yield put(updateTournamentSuccess());
-// 		showToastr({
-// 			message: 'Tournament Updated Successfully',
-// 			type: 'success',
-// 		});
+function* updateTournamentWorker(action) {
+	try {
+		const { data, navigate } = action && action.payload;
+		// if (data.type === 'settled') {
+		// 	yield updateSettledStatus(data);
+		// } else {
+		yield updateTournament(data);
+		// }
+		yield put(updateTournamentSuccess());
+		showToastr({
+			message: 'Tournament Updated Successfully',
+			type: 'success',
+		});
 
-// 		if (navigate) navigate('/tournaments');
-// 	} catch (e) {
-// 		yield put(updateTournamentFail(e?.response?.data?.errors[0]?.description));
-
-// 		showToastr({
-// 			message: e?.response?.data?.errors[0]?.description || e.message,
-// 			type: 'error',
-// 		});
-// 	}
-// }
+		if (navigate) navigate('/tournaments');
+	} catch (e) {
+		yield put(updateTournamentFail(e?.response?.data?.errors[0]?.description));
+	}
+}
 
 function* getTournamentDetailsWorker(action) {
 	try {
@@ -197,7 +194,7 @@ export function* TournamentDetailWatcher() {
 	yield takeLatest(CREATE_TOURNAMENT_START, createTournamentWorker);
 	yield takeLatest(GET_TOURNAMENT_DETAILS_START, getTournamentDetailsWorker);
 	// yield takeLatest(GET_TOURNAMENT_GAMES_START, getTournamentGamesWorker);
-	// yield takeLatest(UPDATE_TOURNAMENT_START, updateTournamentWorker);
+	yield takeLatest(UPDATE_TOURNAMENT_START, updateTournamentWorker);
 	// yield takeLatest(
 	// 	GET_TOURNAMENT_TRANSACTIONS_START,
 	// 	getTournamentTransactionsWorker

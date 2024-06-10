@@ -15,8 +15,8 @@ import {
 } from '../../../store/tournaments/actions';
 import Currencies from '../components/Currency';
 
-const useCreateTournaments = (isEdit = false) => {
-	const { casinoTournamentId } = useParams();
+const useCreateTournaments = () => {
+	const { tournamentId } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [allFields, setAllFields] = useState({});
@@ -30,8 +30,10 @@ const useCreateTournaments = (isEdit = false) => {
 	} = useSelector((state) => state.Tournament);
 
 	useEffect(() => {
-		if (tournamentDetail && casinoTournamentId) {
-			setSelectedGames(tournamentDetail?.gameIds);
+		if (tournamentDetail && tournamentId) {
+			setSelectedGames(
+				tournamentDetail?.casinoTournamentGames?.map((tour) => tour.id) || []
+			);
 		}
 	}, [tournamentDetail]);
 
@@ -47,7 +49,7 @@ const useCreateTournaments = (isEdit = false) => {
 				if (typeof data?.image === 'string') {
 					delete data.image;
 				}
-				if (!isEdit) {
+				if (!tournamentId) {
 					dispatch(
 						createTournamentStart({
 							data,
@@ -59,7 +61,7 @@ const useCreateTournaments = (isEdit = false) => {
 						updateTournamentStart({
 							data: {
 								...data,
-								casinoTournamentId: Number(casinoTournamentId),
+								tournamentId: Number(tournamentId),
 							},
 							navigate,
 						})
@@ -72,14 +74,14 @@ const useCreateTournaments = (isEdit = false) => {
 	};
 
 	useEffect(() => {
-		if (casinoTournamentId) {
+		if (tournamentId) {
 			dispatch(
 				getTournamentDetailByIdStart({
-					casinoTournamentId: Number(casinoTournamentId),
+					tournamentId: Number(tournamentId),
 				})
 			);
 		}
-	}, [casinoTournamentId]);
+	}, [tournamentId]);
 
 	const tabsToShow = [
 		// add same condition like tabData
@@ -109,7 +111,6 @@ const useCreateTournaments = (isEdit = false) => {
 					allFields={allFields}
 					setAllFields={setAllFields}
 					tournamentDetail={tournamentDetail}
-					isEdit={isEdit}
 					submitButtonLoading={isCreateTournamentLoading}
 					tabsToShow={tabsToShow}
 					toggleTab={toggleTab}
@@ -124,7 +125,8 @@ const useCreateTournaments = (isEdit = false) => {
 					setActiveTab={setActiveTab}
 					allFields={allFields}
 					setAllFields={setAllFields}
-					casinoTournamentId={casinoTournamentId}
+					casinoTournamentId={tournamentId}
+					tournamentDetail={tournamentDetail}
 					submitButtonLoading={isCreateTournamentLoading}
 					tabsToShow={tabsToShow}
 					activeTab={activeTab}
@@ -142,7 +144,7 @@ const useCreateTournaments = (isEdit = false) => {
 					setAllFields={setAllFields}
 					selectedGames={selectedGames}
 					setSelectedGames={setSelectedGames}
-					casinoTournamentId={casinoTournamentId}
+					casinoTournamentId={tournamentId}
 					submitButtonLoading={isCreateTournamentLoading}
 					tabsToShow={tabsToShow}
 					activeTab={activeTab}
@@ -160,8 +162,8 @@ const useCreateTournaments = (isEdit = false) => {
 					allFields={allFields}
 					setAllFields={setAllFields}
 					tournamentDetail={tournamentDetail}
+					tournamentId={tournamentId}
 					activeTab={activeTab}
-					isEdit={isEdit}
 					submitButtonLoading={isCreateTournamentLoading}
 					tabsToShow={tabsToShow}
 					toggleTab={toggleTab}

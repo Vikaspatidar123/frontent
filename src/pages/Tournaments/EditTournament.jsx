@@ -5,16 +5,7 @@ import StepFormTabs from '../../components/Common/StepFormTabs';
 import useCreateTournaments from './hooks/useCreateTournament';
 
 const EditTournament = () => {
-	const {
-		tabData,
-		toggleTab,
-		activeTab,
-		onNextClick,
-		isNextDisabled,
-		isUpdateTournamentLoading,
-	} = useCreateTournaments({
-		isEdit: true,
-	});
+	const { tabData, activeTab } = useCreateTournaments();
 
 	return (
 		<div className="page-content">
@@ -32,12 +23,7 @@ const EditTournament = () => {
 				<StepFormTabs
 					activeTab={activeTab}
 					tabsData={tabData}
-					toggleTab={toggleTab}
-					onNextClick={onNextClick}
-					isNextDisabled={isNextDisabled}
-					isPrevDisabled={false}
-					submitButtonText="Update Tournament"
-					submitButtonLoading={isUpdateTournamentLoading}
+					submitButtonText="Update"
 				/>
 			</Container>
 		</div>

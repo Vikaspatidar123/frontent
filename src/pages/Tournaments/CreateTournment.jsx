@@ -20,7 +20,11 @@ const CreateTournament = () => {
 				}
 			/>
 			<Container fluid>
-				<StepFormTabs activeTab={activeTab} tabsData={tabData} />
+				<StepFormTabs
+					activeTab={activeTab}
+					tabsData={tabData}
+					submitButtonText="Create"
+				/>
 			</Container>
 		</div>
 	);

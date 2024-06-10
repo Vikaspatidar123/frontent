@@ -4,6 +4,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect, useState } from 'react';
+import { isEmpty } from 'lodash';
 import {
 	Card,
 	CardBody,
@@ -31,7 +32,7 @@ import Actions from './Actions';
 
 const setInitialWinnerFields = (validation, setFieldType, tournamentDetail) => {
 	const myObject = {};
-	const prizes = tournamentDetail?.CasinoTournamentPrizes;
+	const prizes = tournamentDetail?.tournamentPrizes;
 	for (let i = 1; i <= validation?.values?.numberOfWinners; i++) {
 		myObject[i] =
 			prizes?.[i - 1]?.type === 'cash'
@@ -54,7 +55,7 @@ const PriceDistribution = ({
 	setAllFields,
 	tournamentDetail,
 	activeTab,
-	isEdit,
+	tournamentId,
 	submitButtonLoading,
 	toggleTab,
 	tabsToShow,
@@ -77,6 +78,7 @@ const PriceDistribution = ({
 				rank: Number(key),
 				type: typeof value === 'string' ? 'non_cash' : 'cash',
 				[typeof value === 'string' ? 'item' : 'amount']: value,
+				[typeof value === 'string' ? 'item' : 'percent']: value,
 			})
 		);
 
@@ -95,12 +97,6 @@ const PriceDistribution = ({
 		});
 	};
 
-	useEffect(() => {
-		if (tournamentDetail) {
-			setPrizeSettlementMethod(tournamentDetail?.prizeSettlementMethod);
-		}
-	}, [tournamentDetail]);
-
 	const { formFields, validation } = useForm({
 		initialValues: prizeDistributionInitialValues(tournamentDetail),
 		validationSchema: prizeDistributionFormSchema(
@@ -109,6 +105,13 @@ const PriceDistribution = ({
 		staticFormFields: staticPrizeDistributionFormFields(),
 		onSubmitEntry: handleSubmit,
 	});
+
+	useEffect(() => {
+		if (!isEmpty(tournamentDetail)) {
+			setPrizeSettlementMethod('percentage');
+			validation.setValues(prizeDistributionInitialValues(tournamentDetail));
+		}
+	}, [tournamentDetail]);
 
 	useEffect(() => {
 		if (validation?.values?.tournamentPrizeType === 'cash') {
@@ -143,13 +146,7 @@ const PriceDistribution = ({
 		setRemainingPrizeAmount(
 			prizeSettlementMethod === 'percentage' ? 100 : allFields?.poolPrize
 		);
-		setInitialWinnerFields(
-			validation,
-			setFieldType,
-			tournamentDetail?.prizeSettlementMethod === prizeSettlementMethod
-				? tournamentDetail
-				: ''
-		);
+		setInitialWinnerFields(validation, setFieldType, tournamentDetail);
 	}, [prizeSettlementMethod]);
 
 	useEffect(() => {
@@ -160,14 +157,7 @@ const PriceDistribution = ({
 
 	useEffect(() => {
 		if (Number(validation?.values?.numberOfWinners) >= 0) {
-			setInitialWinnerFields(
-				validation,
-				setFieldType,
-				validation?.values?.tournamentPrizeType ===
-					tournamentDetail?.tournamentPrizeType
-					? tournamentDetail
-					: ''
-			);
+			setInitialWinnerFields(validation, setFieldType, tournamentDetail);
 		}
 	}, [validation?.values?.tournamentPrizeType]);
 
@@ -201,16 +191,16 @@ const PriceDistribution = ({
 		}
 	};
 
-	useEffect(() => {
-		if (Object.keys(validation?.values?.prizes || {})?.length > 0) {
-			let count = 0;
-			Object.keys(validation?.values?.prizes || {}).map((prize) => {
-				if (typeof validation?.values?.prizes?.[prize] === 'number')
-					count += validation?.values?.prizes?.[prize];
-			});
-			validation?.setFieldValue('totalPrizeCount', count);
-		}
-	}, [validation?.values?.prizes]);
+	// useEffect(() => {
+	// 	if (Object.keys(validation?.values?.prizes || {})?.length > 0) {
+	// 		let count = 0;
+	// 		Object.keys(validation?.values?.prizes || {}).map((prize) => {
+	// 			if (typeof validation?.values?.prizes?.[prize] === 'number')
+	// 				count += validation?.values?.prizes?.[prize];
+	// 		});
+	// 		validation?.setFieldValue('totalPrizeCount', count);
+	// 	}
+	// }, [validation?.values?.prizes]);
 
 	return (
 		<Row>
@@ -356,7 +346,7 @@ const PriceDistribution = ({
 													</>
 												</InputGroupText>
 											</InputGroup>
-											{!isEdit
+											{!tournamentId
 												? validation.errors?.prizes?.[index + 1] &&
 												  !initialRender && (
 														<FormFeedback type="invalid" className="d-block">

@@ -21,8 +21,7 @@ import Actions from './Actions';
 
 const Currencies = ({
 	setAllFields,
-	bonusDetails,
-	// allFields,
+	tournamentDetail,
 	activeTab,
 	submitButtonLoading,
 	tabsToShow,
@@ -118,18 +117,18 @@ const Currencies = ({
 	};
 
 	useEffect(() => {
-		if (!isEmpty(bonusDetails)) {
+		if (!isEmpty(tournamentDetail)) {
 			const currency = filterEmptyPayload(
-				generalStepInitialValues(bonusDetails)?.currencyDetails
+				generalStepInitialValues(tournamentDetail)?.currencyDetails
 			);
 			validation.setValues(currency);
 			// const remCur = {};
-			// bonusDetails?.bonusCurrencies?.slice(1)?.forEach((curr) => {
+			// tournamentDetail?.bonusCurrencies?.slice(1)?.forEach((curr) => {
 			// 	remCur[curr.currencyId] = filterEmptyPayload(curr);
 			// });
 			// setRemainingCurrency(remCur);
 		}
-	}, [bonusDetails, currencies]);
+	}, [tournamentDetail, currencies]);
 
 	useEffect(() => {
 		dispatch(fetchCurrenciesStart({}));

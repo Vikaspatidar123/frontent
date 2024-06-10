@@ -500,6 +500,15 @@ const createTournament = (data) =>
 		}
 	);
 
+const updateTournament = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}/update`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -579,5 +588,5 @@ export {
 	toggleBonusStatus,
 	updateBonusCall,
 	createTournament,
-	// updateSettledStatus,
+	updateTournament,
 };

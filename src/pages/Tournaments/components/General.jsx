@@ -19,7 +19,6 @@ const General = ({
 	isLoading,
 	setAllFields,
 	tournamentDetail,
-	allFields,
 	submitButtonLoading,
 	toggleTab,
 	tabsToShow,
@@ -73,9 +72,11 @@ const General = ({
 		if (tournamentDetail) {
 			setAllFields((prev) => ({
 				...prev,
+				// ...tournamentDetail
 				name: tournamentDetail?.name,
 				description: tournamentDetail?.description,
 			}));
+			validation.setValues(generalStepInitialValues(tournamentDetail));
 		}
 	}, [tournamentDetail]);
 
@@ -91,22 +92,26 @@ const General = ({
 						required
 						onChange={(e) => {
 							e.preventDefault();
-							setAllFields((prev) => ({
-								...prev,
-								name: {
-									...prev.name,
-									[activeLangTab]: e.target.value,
-								},
-							}));
-							validation.handleChange(e);
+							validation.setFieldValue('name', {
+								...validation?.values?.name,
+								[activeLangTab]: e.target.value,
+							});
 						}}
-						value={allFields?.name?.[activeLangTab] || ''}
+						value={validation?.values?.name?.[activeLangTab] || ''}
 						onBlur={validation.handleBlur}
 						placeholder="Title"
 						validate={{ required: { value: true } }}
-						invalid={!!(validation?.touched?.name && validation?.errors?.name)}
+						invalid={
+							!!(
+								validation?.touched?.name?.[activeLangTab] &&
+								validation?.errors?.name?.[activeLangTab]
+							)
+						}
 						isError
-						errorMsg={validation?.touched?.name && validation?.errors?.name}
+						errorMsg={
+							validation?.touched?.name?.[activeLangTab] &&
+							validation?.errors?.name?.[activeLangTab]
+						}
 						// disabled={isView}
 					/>
 				</Col>
@@ -118,28 +123,25 @@ const General = ({
 					required={activeLangTab === 'EN'}
 					onChange={(e) => {
 						e.preventDefault();
-						setAllFields((prev) => ({
-							...prev,
-							description: {
-								...prev.description,
-								[activeLangTab]: e.target.value,
-							},
-						}));
-						validation.handleChange(e);
+						validation.setFieldValue('description', {
+							...validation?.values?.description,
+							[activeLangTab]: e.target.value,
+						});
 					}}
-					value={allFields?.description?.[activeLangTab] || ''}
+					value={validation?.values?.description?.[activeLangTab] || ''}
 					onBlur={validation.handleBlur}
 					placeholder="Title"
 					validate={{ required: { value: true } }}
 					invalid={
 						!!(
-							validation?.touched?.description &&
-							validation?.errors?.description
+							validation?.touched?.description?.[activeLangTab] &&
+							validation?.errors?.description?.[activeLangTab]
 						)
 					}
 					isError
 					errorMsg={
-						validation?.touched?.description && validation?.errors?.description
+						validation?.touched?.description?.[activeLangTab] &&
+						validation?.errors?.description?.[activeLangTab]
 					}
 					// disabled={isView}
 				/>

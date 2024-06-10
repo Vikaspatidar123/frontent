@@ -24,9 +24,9 @@ const generalStepInitialValues = (tournamentDetail) => {
 		poolPrize,
 		maxPlayerLimit,
 		minPlayerLimit,
-	} = tournamentDetail?.currencyDetails?.[0] || {};
+	} = tournamentDetail?.tournamentCurrencies?.[0] || {};
 
-	const currencyDetails = tournamentDetail?.currencyDetails?.length
+	const currencyDetails = tournamentDetail?.tournamentCurrencies?.length
 		? {
 				entryFees,
 				currencyId,
@@ -46,8 +46,10 @@ const generalStepInitialValues = (tournamentDetail) => {
 
 	return {
 		tournamentType: 'tournament',
-		name: tournamentDetail?.name?.EN || '',
-		description: tournamentDetail?.description?.EN || '',
+		creditPoints: tournamentDetail?.creditPoints || '',
+		rebuyLimit: tournamentDetail?.rebuyLimit || '',
+		name: tournamentDetail?.name || {},
+		description: tournamentDetail?.description || {},
 		image: tournamentDetail?.image || '',
 		startDate: tournamentDetail?.startDate
 			? new Date(tournamentDetail?.startDate)
@@ -66,8 +68,12 @@ const generalStepInitialValues = (tournamentDetail) => {
 
 const generalFormSchema = () =>
 	Yup.object({
-		name: Yup.string().required('Name Required'),
-		description: Yup.string().required('Description Required'),
+		name: Yup.object().shape({
+			EN: Yup.string().required('Name is required!'),
+		}),
+		description: Yup.object().shape({
+			EN: Yup.string().required('Description is required!'),
+		}),
 		creditPoints: Yup.number().required('Credit Points Required'),
 		rebuyLimit: Yup.number()
 			.min(1, 'Amount should be greater than 1')
@@ -252,10 +258,10 @@ const currencyFields = () => [
 
 const prizeDistributionInitialValues = (tournamentDetail) => ({
 	numberOfWinners:
-		Object.keys(tournamentDetail?.CasinoTournamentPrizes || {})?.length || '',
-	tournamentPrizeType: tournamentDetail?.tournamentPrizeType || null,
+		Object.keys(tournamentDetail?.tournamentPrizes || {})?.length || '',
+	tournamentPrizeType: tournamentDetail?.tournamentPrizes?.[0]?.type || null,
 	totalPrizeCount: 0,
-	prizes: (tournamentDetail?.CasinoTournamentPrizes || []).reduce(
+	prizes: (tournamentDetail?.tournamentPrizes || []).reduce(
 		(prizes, winner) => ({
 			...prizes,
 			[winner?.rank]: winner?.type === 'cash' ? winner?.amount : winner?.item,
