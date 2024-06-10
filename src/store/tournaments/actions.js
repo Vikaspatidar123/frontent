@@ -15,9 +15,6 @@ import {
 	GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
 	GET_TOURNAMENT_LEADERBOARD_DETAIL_SUCCESS,
 	GET_TOURNAMENT_LEADERBOARD_DETAIL_FAIL,
-	GET_TOURNAMENT_GAMES_START,
-	GET_TOURNAMENT_GAMES_SUCCESS,
-	GET_TOURNAMENT_GAMES_FAIL,
 	UPDATE_TOURNAMENT_STATUS_START,
 	UPDATE_TOURNAMENT_STATUS_SUCCESS,
 	UPDATE_TOURNAMENT_STATUS_FAIL,
@@ -103,21 +100,6 @@ export const getTournamentLeaderBoardDetailSuccess = (payload) => ({
 
 export const getTournamentLeaderBoardDetailFail = (payload) => ({
 	type: GET_TOURNAMENT_LEADERBOARD_DETAIL_FAIL,
-	payload,
-});
-
-export const getTournamentGamesStart = (payload) => ({
-	type: GET_TOURNAMENT_GAMES_START,
-	payload,
-});
-
-export const getTournamentGamesSuccess = (payload) => ({
-	type: GET_TOURNAMENT_GAMES_SUCCESS,
-	payload,
-});
-
-export const getTournamentGamesFail = (payload) => ({
-	type: GET_TOURNAMENT_GAMES_FAIL,
 	payload,
 });
 

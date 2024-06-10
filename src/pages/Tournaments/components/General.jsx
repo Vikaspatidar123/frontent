@@ -42,8 +42,6 @@ const General = ({
 		setAllFields((prev) => ({
 			...prev,
 			...values,
-			name: prev?.name,
-			description: prev?.description,
 		}));
 		window.scrollTo(0, 0);
 	};
@@ -70,12 +68,6 @@ const General = ({
 
 	useEffect(() => {
 		if (tournamentDetail) {
-			setAllFields((prev) => ({
-				...prev,
-				// ...tournamentDetail
-				name: tournamentDetail?.name,
-				description: tournamentDetail?.description,
-			}));
 			validation.setValues(generalStepInitialValues(tournamentDetail));
 		}
 	}, [tournamentDetail]);

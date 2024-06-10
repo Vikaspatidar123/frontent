@@ -20,7 +20,7 @@ const Name = ({ value }) => value?.[selectedLanguage] ?? '';
 
 const Custom = ({ value }) => value ?? '';
 
-const Provider = ({ value }) => value?.name?.[selectedLanguage] ?? '';
+const Provider = ({ value }) => value ?? '';
 
 const Rtp = ({ value }) => value ?? '';
 

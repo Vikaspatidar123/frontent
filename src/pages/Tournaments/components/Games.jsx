@@ -91,7 +91,7 @@ const columnsArray = ({
 	},
 	{
 		Header: 'THUMBNAIL',
-		accessor: 'thumbnailUrl',
+		accessor: 'iconUrl',
 		filterable: true,
 		disableSortBy: true,
 		Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
@@ -116,7 +116,7 @@ const columnsArray = ({
 	},
 	{
 		Header: 'PROVIDER',
-		accessor: 'providerName',
+		accessor: 'provider',
 		filterable: true,
 		Cell: ({ cell }) => <Provider value={cell.value || '-'} />,
 	},
@@ -132,7 +132,6 @@ const columnsArray = ({
 const Games = ({
 	selectedGames,
 	setSelectedGames,
-	casinoTournamentId,
 	submitButtonLoading,
 	toggleTab,
 	tabsToShow,
@@ -141,7 +140,6 @@ const Games = ({
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const tournamentProvider = JSON.parse(5);
 
 	const { casinoGames, isCasinoGamesLoading } = useSelector(
 		(state) => state.CasinoManagementData
@@ -154,13 +152,14 @@ const Games = ({
 		actionButtons,
 		filterValidation,
 		isFilterChanged,
-	} = useGameFilters(casinoTournamentId, tournamentProvider);
+	} = useGameFilters();
 
 	useEffect(() => {
 		dispatch(
 			getCasinoGamesStart({
 				perPage: itemsPerPage,
 				page: currentPage,
+				...filterValidation.values,
 			})
 		);
 	}, [itemsPerPage, currentPage]);
@@ -170,8 +169,8 @@ const Games = ({
 			return casinoGames?.games?.map((game) => ({
 				...game,
 				name: game?.name?.EN,
-				category: game?.GameCategory?.name?.EN || '',
-				providerName: game?.casinoProvider?.name?.EN || '',
+				category: game?.casinoCategory?.name?.EN || '',
+				provider: game?.casinoProvider?.name?.EN || '',
 			}));
 		}
 		return [];
@@ -228,7 +227,7 @@ const Games = ({
 					tableClass="table-bordered align-middle nowrap mt-2"
 					paginationDiv="justify-content-center"
 					pagination="pagination justify-content-start pagination-rounded"
-					totalPages={casinoGames?.totalPages || 1}
+					totalPageCount={casinoGames?.totalPages || 1}
 					isManualPagination
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}

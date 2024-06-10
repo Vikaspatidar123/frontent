@@ -8,7 +8,6 @@ import {
 	UPDATE_TOURNAMENT_START,
 	// UPDATE_TOURNAMENT_START,
 	// GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
-	// GET_TOURNAMENT_GAMES_START,
 	// UPDATE_TOURNAMENT_STATUS_START,
 	// GET_TOURNAMENT_TRANSACTIONS_START,
 } from './actionTypes';
@@ -131,23 +130,6 @@ function* getTournamentDetailByIdWorker(action) {
 // 	}
 // }
 
-// function* getTournamentGamesWorker(action) {
-// 	try {
-// 		const payload = action && action.payload;
-// 		const { data } = yield getTournamentGameDetails(payload);
-// 		yield put(getTournamentGamesSuccess(data?.data?.casinoGames));
-// 	} catch (e) {
-// 		yield put(
-// 			getTournamentGamesFail(e?.response?.data?.errors[0]?.description)
-// 		);
-
-// 		showToastr({
-// 			message: e?.response?.data?.errors[0]?.description || e.message,
-// 			type: 'error',
-// 		});
-// 	}
-// }
-
 // function* updateTournamentStatusWorker(action) {
 // 	try {
 // 		const data = action && action.payload;
@@ -193,7 +175,6 @@ function* getTournamentDetailByIdWorker(action) {
 export function* TournamentDetailWatcher() {
 	yield takeLatest(CREATE_TOURNAMENT_START, createTournamentWorker);
 	yield takeLatest(GET_TOURNAMENT_DETAILS_START, getTournamentDetailsWorker);
-	// yield takeLatest(GET_TOURNAMENT_GAMES_START, getTournamentGamesWorker);
 	yield takeLatest(UPDATE_TOURNAMENT_START, updateTournamentWorker);
 	// yield takeLatest(
 	// 	GET_TOURNAMENT_TRANSACTIONS_START,

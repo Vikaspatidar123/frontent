@@ -4,6 +4,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import moment from 'moment';
 import imageDimensionCheck from '../../utils/imageDimensionCheck';
+import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 
 const tournamentPrizeTypeOptionsList = [
 	{
@@ -373,32 +374,32 @@ const staticFiltersFields = () => [
 			{
 				id: 1,
 				optionLabel: 'Active',
-				value: 'active',
+				value: true,
 			},
 			{
 				id: 2,
 				optionLabel: 'Inactive',
-				value: 'inactive',
+				value: false,
 			},
-			{
-				id: 3,
-				optionLabel: 'Cancelled',
-				value: 'cancelled',
-			},
-			{
-				id: 4,
-				optionLabel: 'settled',
-				value: 'settled',
-			},
+			// {
+			// 	id: 3,
+			// 	optionLabel: 'Cancelled',
+			// 	value: 'cancelled',
+			// },
+			// {
+			// 	id: 4,
+			// 	optionLabel: 'settled',
+			// 	value: 'settled',
+			// },
 		],
 	},
-	{
-		name: 'ranges',
-		fieldType: 'dateRangeSelector',
-		label: '',
-		placeholder: 'Date Range',
-		maxDate: moment().add(100, 'months').utc().toDate(),
-	},
+	// {
+	// 	name: 'ranges',
+	// 	fieldType: 'dateRangeSelector',
+	// 	label: '',
+	// 	placeholder: 'Date Range',
+	// 	maxDate: moment().add(100, 'months').utc().toDate(),
+	// },
 ];
 
 const filterValues = () => ({
@@ -455,9 +456,9 @@ const detailList = [
 	},
 ];
 
-const staticGameFiltersFields = (tournamentProvider) => [
+const staticGameFiltersFields = () => [
 	{
-		name: 'search',
+		name: 'searchString',
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
@@ -468,32 +469,27 @@ const staticGameFiltersFields = (tournamentProvider) => [
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Status',
+		optionList: IS_ACTIVE_TYPES?.map(({ id, label, value }) => ({
+			id,
+			optionLabel: label,
+			value,
+		})),
+	},
+	{
+		name: 'isFeatured',
+		fieldType: 'select',
+		label: '',
+		placeholder: 'Is Featured',
 		optionList: [
 			{
 				id: 1,
-				optionLabel: 'Active',
+				optionLabel: 'Yes',
 				value: true,
 			},
 			{
 				id: 2,
-				optionLabel: 'In Active',
+				optionLabel: 'No',
 				value: false,
-			},
-		],
-	},
-	{
-		name: 'providerId',
-		fieldType: 'select',
-		label: '',
-		placeholder: 'Provider',
-		optionList: [
-			{
-				optionLabel: 'AirDice',
-				value: tournamentProvider?.airdice,
-			},
-			{
-				optionLabel: 'GreenTube',
-				value: tournamentProvider?.greentube,
 			},
 		],
 	},
@@ -501,19 +497,17 @@ const staticGameFiltersFields = (tournamentProvider) => [
 
 const gameFilterValues = () => ({
 	isActive: null,
-	search: '',
+	searchString: '',
 	casinoCategoryId: null,
-	providerId: '1',
-	gameCategoryId: null,
+	casinoProviderId: null,
 });
 
 const gameFilterValidationSchema = () =>
 	Yup.object({
 		isActive: Yup.string().nullable(),
-		search: Yup.string().nullable(),
+		searchString: Yup.string().nullable(),
 		casinoCategoryId: Yup.string().nullable(),
-		providerId: Yup.string().nullable(),
-		gameCategoryId: Yup.string().nullable(),
+		casinoProviderId: Yup.string().nullable(),
 	});
 
 export {

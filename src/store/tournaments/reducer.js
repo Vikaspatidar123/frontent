@@ -15,9 +15,6 @@ import {
 	GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
 	GET_TOURNAMENT_LEADERBOARD_DETAIL_SUCCESS,
 	GET_TOURNAMENT_LEADERBOARD_DETAIL_FAIL,
-	GET_TOURNAMENT_GAMES_START,
-	GET_TOURNAMENT_GAMES_SUCCESS,
-	GET_TOURNAMENT_GAMES_FAIL,
 	UPDATE_TOURNAMENT_STATUS_START,
 	UPDATE_TOURNAMENT_STATUS_SUCCESS,
 	UPDATE_TOURNAMENT_STATUS_FAIL,
@@ -43,7 +40,6 @@ const initialState = {
 	leaderBoardLoading: false,
 	leaderBoardError: null,
 	tournamentLoading: false,
-	tournamentGames: null,
 	tournamentError: null,
 	tournamentStatusLoading: false,
 	tournamentStatus: false,
@@ -179,30 +175,6 @@ const EliteQuestData = (state = initialState, { type, payload } = {}) => {
 				ileaderBoardLoading: false,
 				leaderBoardInfo: null,
 				leaderBoardError: payload,
-			};
-
-		case GET_TOURNAMENT_GAMES_START:
-			return {
-				...state,
-				tournamentLoading: true,
-				tournamentGames: null,
-				tournamentError: null,
-			};
-
-		case GET_TOURNAMENT_GAMES_SUCCESS:
-			return {
-				...state,
-				tournamentLoading: false,
-				tournamentGames: payload,
-				tournamentError: null,
-			};
-
-		case GET_TOURNAMENT_GAMES_FAIL:
-			return {
-				...state,
-				tournamentLoading: false,
-				tournamentGames: null,
-				tournamentError: payload,
 			};
 
 		case UPDATE_TOURNAMENT_STATUS_START:

@@ -11,6 +11,7 @@ import PriceDistribution from '../components/PriceDistribution';
 import {
 	createTournamentStart,
 	getTournamentDetailByIdStart,
+	resetTournamentDetail,
 	updateTournamentStart,
 } from '../../../store/tournaments/actions';
 import Currencies from '../components/Currency';
@@ -81,6 +82,7 @@ const useCreateTournaments = () => {
 				})
 			);
 		}
+		return () => dispatch(resetTournamentDetail());
 	}, [tournamentId]);
 
 	const tabsToShow = [

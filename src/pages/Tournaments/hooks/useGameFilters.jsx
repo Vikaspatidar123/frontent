@@ -1,69 +1,103 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 // import { useSelector } from 'react-redux';
 import { isEqual } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	gameFilterValidationSchema,
 	gameFilterValues,
 	staticGameFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import // getTournamentGamesStart,
-'../../../store/actions';
-import { debounceTime } from '../../../constants/config';
+import {
+	debounceTime,
+	itemsPerPage,
+	selectedLanguage,
+} from '../../../constants/config';
+import {
+	getCasinoCategoryDetailStart,
+	getCasinoGamesStart,
+	getCasinoProvidersDataStart,
+} from '../../../store/actions';
 
 let debounce;
-const useGameFilters = (casinoTournamentId, tournamentProvider) => {
-	// const dispatch = useDispatch();
+const useGameFilters = () => {
+	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
+	const { casinoProvidersData, casinoCategoryDetails } = useSelector(
+		(state) => state.CasinoManagementData
+	);
 
-	const fetchData = () => {
-		// dispatch(
-		// 	getTournamentGamesStart({
-		// 		limit: itemsPerPage,
-		// 		pageNo: 1,
-		// 		tournamentId: casinoTournamentId,
-		// 		...values,
-		// 	})
-		// );
+	const fetchData = (values) => {
+		dispatch(
+			getCasinoGamesStart({
+				page: 1,
+				pageNo: itemsPerPage,
+				...values,
+			})
+		);
 	};
 
 	const handleFilter = (values) => {
 		fetchData(values);
 	};
 
-	const { validation, formFields } = useForm({
+	const { validation, formFields, setFormFields } = useForm({
 		initialValues: gameFilterValues(),
 		validationSchema: gameFilterValidationSchema(),
 		// onSubmitEntry: handleFilter,
-		staticFormFields: staticGameFiltersFields(tournamentProvider),
+		staticFormFields: staticGameFiltersFields(),
 	});
-
-	// const handleAdvance = () => {
-	// 	toggleAdvance();
-	// };
 
 	const handleClear = () => {
 		const initialValues = gameFilterValues();
 		validation.resetForm(initialValues);
 	};
 
-	// useEffect(() => {
+	useEffect(() => {
+		if (!casinoCategoryDetails?.categories) {
+			dispatch(getCasinoCategoryDetailStart());
+		}
 
-	// 	setFormFields([
-	// 		...staticGameFiltersFields(tournamentProvider),
-	// 		// {
-	// 		// 	name: 'casinoCategoryId',
-	// 		// 	fieldType: 'select',
-	// 		// 	label: '',
-	// 		// 	placeholder: 'Category',
-	// 		// 	optionList: categoryField,
-	// 		// },
-	// 	]);
-	// }, []);
+		if (!casinoProvidersData?.providers) {
+			dispatch(getCasinoProvidersDataStart());
+		}
+	}, []);
+
+	useEffect(() => {
+		if (casinoProvidersData?.providers && casinoCategoryDetails?.categories) {
+			const providerField = casinoProvidersData?.providers?.map((row) => ({
+				optionLabel: row.name[selectedLanguage],
+				value: row.id,
+			}));
+
+			const categoryField = casinoCategoryDetails?.categories?.map((row) => ({
+				optionLabel: row.name[selectedLanguage],
+				value: row.id,
+			}));
+
+			setFormFields([
+				...staticGameFiltersFields(),
+				{
+					name: 'casinoProviderId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Provider',
+					optionList: providerField,
+				},
+				{
+					name: 'casinoCategoryId',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Category',
+					optionList: categoryField,
+				},
+			]);
+		}
+	}, [casinoProvidersData]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
