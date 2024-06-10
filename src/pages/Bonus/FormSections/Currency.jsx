@@ -91,7 +91,15 @@ const Currencies = ({
 
 	const validateRemainingCurrency = async (nextTab) => {
 		let isValid = true;
-		Object.values(remainingCurrency).forEach(async (remCurrObject, idx) => {
+		const remainingCurr = Object.values(remainingCurrency);
+
+		if (!remainingCurr?.length) {
+			const updateFields = await handleSubmit();
+			toggleTab(nextTab, updateFields);
+			return;
+		}
+
+		remainingCurr.forEach(async (remCurrObject, idx) => {
 			try {
 				await currencyValidate(allFields).validate(remCurrObject);
 				if (isValid && idx === Object.keys(remainingCurrency).length - 1) {

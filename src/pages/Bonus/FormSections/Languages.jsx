@@ -8,7 +8,12 @@ import {
 } from '../../../helpers/customForms';
 import Actions from './Actions';
 
-const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
+const SingleLangComponent = ({
+	lang,
+	setLangContent,
+	langContent,
+	bonusDetails,
+}) => (
 	<>
 		<Col className="mb-3" sm={6}>
 			<CustomInputField
@@ -28,6 +33,7 @@ const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
 				placeholder="Enter Description"
 				value={langContent.desc[lang]}
 				label="Description"
+				defaultValue={bonusDetails?.description?.[lang]}
 				onValueChange={(value) =>
 					setLangContent((prev) => ({
 						...prev,
@@ -41,6 +47,7 @@ const SingleLangComponent = ({ lang, setLangContent, langContent }) => (
 				placeholder="Enter Terms & Conditions"
 				value={langContent.terms[lang]}
 				label="Terms & Conditions"
+				defaultValue={bonusDetails?.termAndCondition?.[lang]}
 				onValueChange={(value) =>
 					setLangContent((prev) => ({
 						...prev,
@@ -63,6 +70,7 @@ const Languages = ({
 	submitButtonLoading,
 	toggleTab,
 	tabsToShow,
+	bonusDetails,
 }) => {
 	const toggle = (id) => setActiveLangTab(id);
 
@@ -78,6 +86,7 @@ const Languages = ({
 					lang={lang}
 					setLangContent={setLangContent}
 					langContent={langContent}
+					bonusDetails={bonusDetails}
 				/>
 			),
 			tooltipText: langList[lang],

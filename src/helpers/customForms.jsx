@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // Form Editor
 import { Editor } from 'react-draft-wysiwyg';
@@ -344,6 +344,7 @@ export const CustomTextEditor = ({
 	validation,
 	placeholder,
 	value,
+	defaultValue,
 	onValueChange = () => {},
 }) => {
 	const prepareDraft = (editorValue) => {
@@ -356,6 +357,12 @@ export const CustomTextEditor = ({
 	const [editorState, setEditorState] = useState(
 		value ? prepareDraft(value) : EditorState.createEmpty()
 	);
+
+	useEffect(() => {
+		if (defaultValue) {
+			setEditorState(prepareDraft(defaultValue));
+		}
+	}, [defaultValue]);
 
 	const onEditorStateChange = (editorStateIns) => {
 		setEditorState(editorStateIns);

@@ -180,6 +180,7 @@ const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
 		placeholder: 'Enter Description',
 		isNewRow: true,
 		fieldColOptions: { lg: 12 },
+		defaultValue: bonusDetails?.description?.EN,
 	},
 	{
 		name: 'termAndCondition',
@@ -189,6 +190,7 @@ const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
 		placeholder: 'Enter Terms and Conditions',
 		isNewRow: true,
 		fieldColOptions: { lg: 12 },
+		defaultValue: bonusDetails?.termAndCondition?.EN,
 	},
 	{
 		name: 'bonusImage',
