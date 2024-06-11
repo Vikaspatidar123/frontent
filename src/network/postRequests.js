@@ -274,26 +274,23 @@ const updateAdmin = (data) =>
 		data
 	);
 
-const casinoManagementToggle = (data) => {
+const casinoManagementToggle = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CASINO}toggle`,
 		data
 	);
-};
 
-const updateSportStatus = (data) => {
+const updateSportStatus = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}toggle-sport`,
 		data
 	);
-};
 
-const updateLocationStatus = (data) => {
+const updateLocationStatus = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SPORTS}toggle-location`,
 		data
 	);
-};
 
 const requestDocument = (data) =>
 	postRequest(
@@ -475,12 +472,11 @@ const reorderBonus = (data) =>
 		data
 	);
 
-const toggleBonusStatus = (data) => {
+const toggleBonusStatus = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}bonus/toggle`,
 		data
 	);
-};
 
 const updateBonusCall = (data) =>
 	postRequest(
@@ -507,6 +503,12 @@ const updateTournament = (data) =>
 		{
 			'Content-Type': 'multipart/form-data',
 		}
+	);
+
+const updateTournamentStatus = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}/toggle`,
+		data
 	);
 
 export {
@@ -589,4 +591,5 @@ export {
 	updateBonusCall,
 	createTournament,
 	updateTournament,
+	updateTournamentStatus,
 };

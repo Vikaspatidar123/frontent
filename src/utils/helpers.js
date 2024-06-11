@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 
@@ -70,7 +71,8 @@ const dataURLtoBlob = (dataURL) => {
 };
 
 const getPercentage = (current = 0, previous = 0) => {
-	const percentage = ((current - previous) / (previous || 1)) * 100;
+	if (previous == 0) return 100.0;
+	const percentage = ((current - previous) / previous) * 100;
 	return percentage?.toFixed(2);
 };
 

@@ -10,6 +10,7 @@ const ActionButtons = ({
 	handleEdit,
 	handleView,
 	setShowStatusModal,
+	handleStatus,
 }) => {
 	const { isGranted } = usePermission();
 	const id = cell?.row?.original?.id;
@@ -18,6 +19,31 @@ const ActionButtons = ({
 	const status = cell?.row?.original?.status;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
+			<li>
+				{isActive ? (
+					<Button
+						hidden={!isGranted(modules.bonus, 'TS')}
+						className="btn btn-sm btn-soft-danger"
+						onClick={(e) => handleStatus(e, id)}
+					>
+						<i className="mdi mdi-close-thick" id={`active-${id}`} />
+						<UncontrolledTooltip placement="top" target={`active-${id}`}>
+							Set Inactive
+						</UncontrolledTooltip>
+					</Button>
+				) : (
+					<Button
+						hidden={!isGranted(modules.bonus, 'TS')}
+						className="btn btn-sm btn-soft-success"
+						onClick={(e) => handleStatus(e, id)}
+					>
+						<i className="mdi mdi-check-circle" id={`active-${id}`} />
+						<UncontrolledTooltip placement="top" target={`active-${id}`}>
+							Set Active
+						</UncontrolledTooltip>
+					</Button>
+				)}
+			</li>
 			<li id={`view-${id}`}>
 				<Button
 					type="button"

@@ -42,7 +42,6 @@ const initialState = {
 	tournamentLoading: false,
 	tournamentError: null,
 	tournamentStatusLoading: false,
-	tournamentStatus: false,
 	tournamentStatusError: null,
 	tournamentTransactions: null,
 	tournamentTransactionsLoading: false,
@@ -181,7 +180,6 @@ const EliteQuestData = (state = initialState, { type, payload } = {}) => {
 			return {
 				...state,
 				tournamentStatusLoading: true,
-				tournamentStatus: false,
 				tournamentStatusError: null,
 			};
 
@@ -189,7 +187,6 @@ const EliteQuestData = (state = initialState, { type, payload } = {}) => {
 			return {
 				...state,
 				tournamentStatusLoading: false,
-				tournamentStatus: true,
 				tournamentStatusError: null,
 			};
 
@@ -197,7 +194,6 @@ const EliteQuestData = (state = initialState, { type, payload } = {}) => {
 			return {
 				...state,
 				tournamentStatusLoading: false,
-				tournamentStatus: false,
 				tournamentStatusError: payload,
 			};
 

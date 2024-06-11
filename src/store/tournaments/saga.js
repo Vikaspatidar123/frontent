@@ -1,4 +1,4 @@
-import { call, put, takeLatest, fork, all } from 'redux-saga/effects';
+import { call, put, takeLatest, fork, all, select } from 'redux-saga/effects';
 
 //  Redux States
 import {
@@ -8,6 +8,7 @@ import {
 	GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
 	GET_TOURNAMENT_TRANSACTIONS_START,
 	UPDATE_TOURNAMENT_START,
+	UPDATE_TOURNAMENT_STATUS_START,
 	// UPDATE_TOURNAMENT_START,
 	// GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
 	// UPDATE_TOURNAMENT_STATUS_START,
@@ -26,6 +27,8 @@ import {
 	getTournamentTransactionFail,
 	getTournamentTransactionSuccess,
 	updateTournamentFail,
+	updateTournamentStatusFail,
+	updateTournamentStatusSuccess,
 	updateTournamentSuccess,
 	// getTournamentGamesFail,
 	// getTournamentGamesSuccess,
@@ -44,6 +47,7 @@ import {
 	createTournament,
 	updateTournament,
 	// updateSettledStatus,
+	updateTournamentStatus,
 } from '../../network/postRequests';
 import {
 	getTournamentsDetails,
@@ -52,8 +56,6 @@ import {
 	// getTournamentGameDetails,
 	getTournamentTransactions,
 } from '../../network/getRequests';
-import // updateTournamentStatus,
-'../../network/putRequests';
 // import { objectToFormData } from '../../utils/objectToFormdata';
 import { filterEmptyPayload } from '../../network/networkUtils';
 
@@ -136,28 +138,34 @@ function* getTournamentLeaderBoardDetailsWorker(action) {
 	}
 }
 
-// function* updateTournamentStatusWorker(action) {
-// 	try {
-// 		const data = action && action.payload;
+function* updateTournamentStatusWorker(action) {
+	try {
+		const data = action && action.payload;
+		yield updateTournamentStatus(data);
 
-// 		yield updateTournamentStatus(data);
+		const { tournamentsInfo } = yield select((state) => state.Tournament);
+		const updatedTournaments = {
+			...tournamentsInfo,
+			casinoTournaments: tournamentsInfo?.casinoTournaments?.map((tour) => ({
+				...tour,
+				isActive:
+					data.tournamentId === tour.id ? !tour.isActive : tour.isActive,
+			})),
+		};
 
-// 		yield put(updateTournamentStatusSuccess());
-// 		showToastr({
-// 			message: 'Tournament Status Updated Successfully',
-// 			type: 'success',
-// 		});
-// 	} catch (e) {
-// 		yield put(
-// 			updateTournamentStatusFail(e?.response?.data?.errors[0]?.description)
-// 		);
+		yield put(getTournamentDetailsSuccess(updatedTournaments));
 
-// 		showToastr({
-// 			message: e?.response?.data?.errors[0]?.description || e.message,
-// 			type: 'error',
-// 		});
-// 	}
-// }
+		yield put(updateTournamentStatusSuccess());
+		showToastr({
+			message: 'Tournament Status Updated Successfully',
+			type: 'success',
+		});
+	} catch (e) {
+		yield put(
+			updateTournamentStatusFail(e?.response?.data?.errors[0]?.description)
+		);
+	}
+}
 
 function* getTournamentTransactionsWorker(action) {
 	try {
@@ -184,10 +192,10 @@ export function* TournamentDetailWatcher() {
 		GET_TOURNAMENT_TRANSACTIONS_START,
 		getTournamentTransactionsWorker
 	);
-	// yield takeLatest(
-	// 	UPDATE_TOURNAMENT_STATUS_START,
-	// 	updateTournamentStatusWorker
-	// );
+	yield takeLatest(
+		UPDATE_TOURNAMENT_STATUS_START,
+		updateTournamentStatusWorker
+	);
 	yield takeLatest(
 		GET_TOURNAMENT_DETAIL_BY_ID_START,
 		getTournamentDetailByIdWorker

@@ -39,12 +39,8 @@ const useTournaments = () => {
 		isFilterChanged,
 	} = useFilters(itemsPerPage);
 
-	const {
-		tournamentsInfo,
-		isTournamentsInfoLoading,
-		updateTournament,
-		tournamentStatus,
-	} = useSelector((state) => state.Tournament);
+	const { tournamentsInfo, isTournamentsInfoLoading, updateTournament } =
+		useSelector((state) => state.Tournament);
 
 	const fetchData = () => {
 		const data = {
@@ -69,10 +65,10 @@ const useTournaments = () => {
 	}, [currentPage, itemsPerPage]);
 
 	useEffect(() => {
-		if (updateTournament || tournamentStatus) {
+		if (updateTournament) {
 			fetchData();
 		}
-	}, [updateTournament, tournamentStatus]);
+	}, [updateTournament]);
 
 	useEffect(() => {
 		if (updateTournament) {
@@ -93,6 +89,15 @@ const useTournaments = () => {
 
 	const handleView = (id) => {
 		navigate(`/tournaments/view/${id}`);
+	};
+
+	const handleStatus = (e, id) => {
+		e.preventDefault();
+		dispatch(
+			updateTournamentStatusStart({
+				tournamentId: id,
+			})
+		);
 	};
 
 	const closeToggleSettleModal = () =>
@@ -204,7 +209,7 @@ const useTournaments = () => {
 			// },
 			{
 				Header: 'STATUS',
-				accessor: 'status',
+				accessor: 'isActive',
 				// filterable: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
@@ -219,6 +224,7 @@ const useTournaments = () => {
 						handleEdit={handleEdit}
 						handleView={handleView}
 						setShowStatusModal={setShowStatusModal}
+						handleStatus={handleStatus}
 					/>
 				),
 			},
