@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row } from 'reactstrap';
-import { isEmpty, uniq } from 'lodash';
+import { isEmpty, uniqBy } from 'lodash';
 import { CustomSwitchButton } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/Table';
 // import { getTournamentGamesStart } from '../../../store/actions';
@@ -28,7 +28,10 @@ const CheckboxInput = ({ cell, selectedGames, toggleSelectGame }) => (
 			// containerClass="false"
 			containerClass="form-switch-md"
 			className="form-check-input"
-			checked={selectedGames?.includes(cell?.row?.original?.id.toString())}
+			checked={selectedGames?.find(
+				({ casinoGameId }) =>
+					casinoGameId === cell?.row?.original?.id.toString()
+			)}
 			switchSizeClass="form-switch-sm"
 			onClick={() => toggleSelectGame(cell?.row?.original?.id)}
 		/>
@@ -53,7 +56,9 @@ const columnsArray = ({
 					checked={
 						formattedCasinoGames?.length > 0 &&
 						formattedCasinoGames?.every((v) =>
-							selectedGames?.includes(v?.id?.toString())
+							selectedGames?.find(
+								({ casinoGameId }) => casinoGameId === v?.id?.toString()
+							)
 						)
 					}
 					switchSizeClass="form-switch-sm"
@@ -61,15 +66,17 @@ const columnsArray = ({
 						const newData = [];
 						if (!e.target.checked) {
 							formattedCasinoGames?.forEach((v) =>
-								newData.push(v.id.toString())
+								newData.push({ casinoGameId: v.id })
 							);
-							setSelectedGames((prev) => uniq([...prev, ...newData]));
+							setSelectedGames((prev) =>
+								uniqBy([...prev, ...newData], 'casinoGameId')
+							);
 						} else {
 							setSelectedGames((prev) => {
 								const filteredGames = prev.filter(
-									(id) =>
+									({ casinoGameId }) =>
 										!formattedCasinoGames.find(
-											(item) => item.id.toString() === id
+											(item) => item.id.toString() === casinoGameId
 										)
 								);
 								return filteredGames;
@@ -176,12 +183,15 @@ const Games = ({
 		return [];
 	}, [casinoGames]);
 
-	const toggleSelectGame = (gameId) => {
-		if (selectedGames?.includes(gameId.toString())) {
-			const array = selectedGames?.filter((game) => game !== gameId.toString());
-			setSelectedGames(array);
+	const toggleSelectGame = (id) => {
+		const found = selectedGames?.find((game) => game.id === id);
+		if (found) {
+			const updatedGames = selectedGames?.filter(
+				({ casinoGameId }) => casinoGameId !== id.toString()
+			);
+			setSelectedGames(updatedGames);
 		} else {
-			setSelectedGames((prev) => [...prev, gameId.toString()]);
+			setSelectedGames((prev) => [...prev, { casinoGameId: id }]);
 		}
 	};
 

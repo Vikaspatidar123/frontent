@@ -33,7 +33,10 @@ const useCreateTournaments = () => {
 	useEffect(() => {
 		if (tournamentDetail && tournamentId) {
 			setSelectedGames(
-				tournamentDetail?.casinoTournamentGames?.map((tour) => tour.id) || []
+				tournamentDetail?.casinoTournamentGames?.map((game) => ({
+					id: game.id,
+					casinoGameId: game.casinoGameId,
+				})) || []
 			);
 		}
 	}, [tournamentDetail]);
@@ -44,7 +47,9 @@ const useCreateTournaments = () => {
 				const data = {
 					...updatedAllFields,
 					prizes: updatedAllFields?.prizes,
-					casinoGameIds: selectedGames,
+					casinoGameIds: tournamentId
+						? selectedGames
+						: selectedGames?.map((game) => game.casinoGameId),
 				};
 
 				if (typeof data?.image === 'string') {
