@@ -15,7 +15,7 @@ import { getPercentage } from '../../../../utils/helpers';
 
 const useKpiReport = () => {
 	const dispatch = useDispatch();
-	const [kpiReportDateOption, setKpiReportDateOption] = useState('today');
+	const [kpiReportDateOption, setKpiReportDateOption] = useState('last7days');
 	const [activeKpiReportTab, setActiveKpiReportTab] = useState(TABS.GAME);
 	const [currencyId, setCurrencyId] = useState(null);
 	const { kPIReport, isKpiReportLoading } = useSelector(
