@@ -331,6 +331,12 @@ const getTournamentDetailById = (payload) =>
 		payload
 	);
 
+const getTournamentLeaderBoard = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}/tournament-leaderBoard`,
+		payload
+	);
+
 export {
 	getBonusDetail,
 	getAllCurrencies,
@@ -394,4 +400,5 @@ export {
 	getTopPlayersRequest,
 	getTournamentsDetails,
 	getTournamentDetailById,
+	getTournamentLeaderBoard,
 };

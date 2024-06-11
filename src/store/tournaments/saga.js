@@ -5,6 +5,7 @@ import {
 	CREATE_TOURNAMENT_START,
 	GET_TOURNAMENT_DETAILS_START,
 	GET_TOURNAMENT_DETAIL_BY_ID_START,
+	GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
 	UPDATE_TOURNAMENT_START,
 	// UPDATE_TOURNAMENT_START,
 	// GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
@@ -19,6 +20,8 @@ import {
 	getTournamentDetailByIdSuccess,
 	getTournamentDetailsFail,
 	getTournamentDetailsSuccess,
+	getTournamentLeaderBoardDetailFail,
+	getTournamentLeaderBoardDetailSuccess,
 	updateTournamentFail,
 	updateTournamentSuccess,
 	// getTournamentGamesFail,
@@ -42,7 +45,7 @@ import {
 import {
 	getTournamentsDetails,
 	getTournamentDetailById,
-	// getTournamentLeaderBoardDetails,
+	getTournamentLeaderBoard,
 	// getTournamentGameDetails,
 	// getTournamentTransactions,
 } from '../../network/getRequests';
@@ -111,24 +114,24 @@ function* getTournamentDetailByIdWorker(action) {
 	}
 }
 
-// function* getTournamentLeaderBoardDetailsWorker(action) {
-// 	try {
-// 		const payload = action && action.payload;
-// 		const { data } = yield getTournamentLeaderBoardDetails(payload);
-// 		yield put(getTournamentLeaderBoardDetailSuccess(data?.data?.leaderBoard));
-// 	} catch (e) {
-// 		yield put(
-// 			getTournamentLeaderBoardDetailFail(
-// 				e?.response?.data?.errors[0]?.description
-// 			)
-// 		);
+function* getTournamentLeaderBoardDetailsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getTournamentLeaderBoard(payload);
+		yield put(getTournamentLeaderBoardDetailSuccess(data?.data));
+	} catch (e) {
+		yield put(
+			getTournamentLeaderBoardDetailFail(
+				e?.response?.data?.errors[0]?.description
+			)
+		);
 
-// 		showToastr({
-// 			message: e?.response?.data?.errors[0]?.description || e.message,
-// 			type: 'error',
-// 		});
-// 	}
-// }
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
 
 // function* updateTournamentStatusWorker(action) {
 // 	try {
@@ -188,10 +191,10 @@ export function* TournamentDetailWatcher() {
 		GET_TOURNAMENT_DETAIL_BY_ID_START,
 		getTournamentDetailByIdWorker
 	);
-	// yield takeLatest(
-	// 	GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
-	// 	getTournamentLeaderBoardDetailsWorker
-	// );
+	yield takeLatest(
+		GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
+		getTournamentLeaderBoardDetailsWorker
+	);
 }
 
 function* TournamentDetailSaga() {

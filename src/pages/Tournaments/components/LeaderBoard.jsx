@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
-import React, { useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
-// import { getTournamentLeaderBoardDetailStart } from '../../../store/actions';
 import ModalView from '../../../components/Common/Modal';
 import TableContainer from '../../../components/Common/Table';
+import { getTournamentLeaderBoardDetailStart } from '../../../store/tournaments/actions';
 
 const KeyValueCell = ({ value }) => value || 0;
 
@@ -22,8 +22,8 @@ const UserName = ({ cell, setPlayerDetail, setShowModal }) => (
 	</Link>
 );
 
-const LeaderBoard = () => {
-	// const dispatch = useDispatch();
+const LeaderBoard = ({ tournamentDetail }) => {
+	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [showModal, setShowModal] = useState(false);
@@ -31,22 +31,22 @@ const LeaderBoard = () => {
 
 	const { leaderBoardInfo } = useSelector((state) => state.Tournament);
 
-	// useEffect(() => {
-	// 	if (tournamentDetail?.casinoTournamentId)
-	// 		dispatch(
-	// 			getTournamentLeaderBoardDetailStart({
-	// 				limit: itemsPerPage,
-	// 				pageNo: currentPage,
-	// 				tournamentId: tournamentDetail?.casinoTournamentId,
-	// 			})
-	// 		);
-	// }, [itemsPerPage, currentPage, tournamentDetail?.casinoTournamentId]);
+	useEffect(() => {
+		if (tournamentDetail?.id)
+			dispatch(
+				getTournamentLeaderBoardDetailStart({
+					page: currentPage,
+					perPage: itemsPerPage,
+					tournamentId: tournamentDetail?.id,
+				})
+			);
+	}, [itemsPerPage, currentPage, tournamentDetail?.id]);
 
 	const formattedLeaderBoardData = useMemo(() => {
-		if (leaderBoardInfo?.rows?.length > 0) {
-			return leaderBoardInfo?.rows?.map((info, index) => ({
+		if (leaderBoardInfo?.leaderBoard?.length > 0) {
+			return leaderBoardInfo?.leaderBoard?.map((info, index) => ({
 				...info,
-				name: info?.User?.username,
+				name: info?.user?.username,
 				leaderBoardId: index + 1,
 			}));
 		}
@@ -106,7 +106,7 @@ const LeaderBoard = () => {
 		{ label: 'Username', value: 'name' },
 		{ label: 'Points', value: 'points' },
 		{ label: 'User Id', value: 'userId' },
-		{ label: 'Amount', value: 'amount' },
+		{ label: 'Amount spend', value: 'amountSpent' },
 		{ label: 'Amount Used', value: 'usedAmount' },
 		{ label: 'Rebuy Limit', value: 'rebuyLimit' },
 		{ label: 'Prize', value: 'winPrize' },
@@ -122,7 +122,7 @@ const LeaderBoard = () => {
 				customPageSize={itemsPerPage}
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
-				totalPageCount={leaderBoardInfo?.count || 1}
+				totalPageCount={leaderBoardInfo?.totalPages || 1}
 				isManualPagination
 				onChangePagination={setCurrentPage}
 				currentPage={currentPage}
@@ -149,9 +149,7 @@ const LeaderBoard = () => {
 											{key}
 										</Col>
 										<Col lg={6} className="p-2 font-size-16">
-											{key === 'Amount'
-												? `€ ${playerDetail?.[detail]}`
-												: playerDetail?.[detail] || 0}
+											{playerDetail?.[detail] || 0}
 										</Col>
 									</Row>
 								)}
