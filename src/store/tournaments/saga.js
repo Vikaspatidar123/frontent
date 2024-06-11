@@ -6,6 +6,7 @@ import {
 	GET_TOURNAMENT_DETAILS_START,
 	GET_TOURNAMENT_DETAIL_BY_ID_START,
 	GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
+	GET_TOURNAMENT_TRANSACTIONS_START,
 	UPDATE_TOURNAMENT_START,
 	// UPDATE_TOURNAMENT_START,
 	// GET_TOURNAMENT_LEADERBOARD_DETAIL_START,
@@ -22,6 +23,8 @@ import {
 	getTournamentDetailsSuccess,
 	getTournamentLeaderBoardDetailFail,
 	getTournamentLeaderBoardDetailSuccess,
+	getTournamentTransactionFail,
+	getTournamentTransactionSuccess,
 	updateTournamentFail,
 	updateTournamentSuccess,
 	// getTournamentGamesFail,
@@ -47,7 +50,7 @@ import {
 	getTournamentDetailById,
 	getTournamentLeaderBoard,
 	// getTournamentGameDetails,
-	// getTournamentTransactions,
+	getTournamentTransactions,
 } from '../../network/getRequests';
 import // updateTournamentStatus,
 '../../network/putRequests';
@@ -156,33 +159,31 @@ function* getTournamentLeaderBoardDetailsWorker(action) {
 // 	}
 // }
 
-// function* getTournamentTransactionsWorker(action) {
-// 	try {
-// 		const payload = action && action.payload;
-// 		const { data } = yield getTournamentTransactions(payload);
-// 		yield put(
-// 			getTournamentTransactionSuccess(data?.data?.tournamentTransaction)
-// 		);
-// 	} catch (e) {
-// 		yield put(
-// 			getTournamentTransactionFail(e?.response?.data?.errors[0]?.description)
-// 		);
+function* getTournamentTransactionsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getTournamentTransactions(payload);
+		yield put(getTournamentTransactionSuccess(data?.data));
+	} catch (e) {
+		yield put(
+			getTournamentTransactionFail(e?.response?.data?.errors[0]?.description)
+		);
 
-// 		showToastr({
-// 			message: e?.response?.data?.errors[0]?.description || e.message,
-// 			type: 'error',
-// 		});
-// 	}
-// }
+		showToastr({
+			message: e?.response?.data?.errors[0]?.description || e.message,
+			type: 'error',
+		});
+	}
+}
 
 export function* TournamentDetailWatcher() {
 	yield takeLatest(CREATE_TOURNAMENT_START, createTournamentWorker);
 	yield takeLatest(GET_TOURNAMENT_DETAILS_START, getTournamentDetailsWorker);
 	yield takeLatest(UPDATE_TOURNAMENT_START, updateTournamentWorker);
-	// yield takeLatest(
-	// 	GET_TOURNAMENT_TRANSACTIONS_START,
-	// 	getTournamentTransactionsWorker
-	// );
+	yield takeLatest(
+		GET_TOURNAMENT_TRANSACTIONS_START,
+		getTournamentTransactionsWorker
+	);
 	// yield takeLatest(
 	// 	UPDATE_TOURNAMENT_STATUS_START,
 	// 	updateTournamentStatusWorker

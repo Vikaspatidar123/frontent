@@ -1,40 +1,39 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Row } from 'reactstrap';
 import TableContainer from '../../../components/Common/Table';
-// import { getTournamentTransactionStart } from '../../../store/actions';
+import { getTournamentTransactionStart } from '../../../store/tournaments/actions';
 
 const KeyValueCell = ({ value }) => value || 0;
 
-const Transactions = () => {
+const Transactions = ({ tournamentDetail }) => {
+	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 
 	const { tournamentTransactions } = useSelector((state) => state.Tournament);
 
-	// useEffect(() => {
-	// 	if (tournamentDetail?.casinoTournamentId)
-	// 		dispatch(
-	// 			getTournamentTransactionStart({
-	// 				limit: itemsPerPage,
-	// 				pageNo: currentPage,
-	// 				tournamentId: tournamentDetail?.casinoTournamentId,
-	// 			})
-	// 		);
-	// }, [itemsPerPage, currentPage, tournamentDetail?.casinoTournamentId]);
+	useEffect(() => {
+		if (tournamentDetail?.id)
+			dispatch(
+				getTournamentTransactionStart({
+					perPage: itemsPerPage,
+					page: currentPage,
+					tournamentId: tournamentDetail?.id,
+				})
+			);
+	}, [itemsPerPage, currentPage, tournamentDetail?.id]);
 
 	const formattedTransactions = useMemo(() => {
-		if (tournamentTransactions?.rows?.length > 0) {
-			return tournamentTransactions?.rows?.map((info) => ({
+		if (tournamentTransactions?.tournamentTransactions?.length > 0) {
+			return tournamentTransactions?.tournamentTransactions?.map((info) => ({
 				...info,
-				userName: info?.User?.username,
-				amount: `€ ${info?.amount}`,
-				fullName: `${info?.User?.firstName} ${info?.User?.lastName}`,
+				userName: info?.user?.username,
 				createdAt: moment(info?.createdAt).format('YYYY-MM-DD hh:mm A'),
-				gameName: info?.CasinoGame?.name,
+				gameName: info?.casinoGame?.name,
 			}));
 		}
 		return [];
@@ -48,18 +47,12 @@ const Transactions = () => {
 		() => [
 			{
 				Header: 'TRANSACTION ID',
-				accessor: 'transactionId',
+				accessor: 'id',
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'USERNAME',
 				accessor: 'userName',
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
-			},
-			{
-				Header: 'FULL NAME',
-				accessor: 'fullName',
-				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
@@ -69,14 +62,20 @@ const Transactions = () => {
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'AMOUNT',
-				accessor: 'amount',
+				Header: 'POINTS',
+				accessor: 'points',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
-				Header: 'ACTION TYPE',
-				accessor: 'actionType',
+				Header: 'Purpose',
+				accessor: 'purpose',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCell value={cell.value || 0} />,
+			},
+			{
+				Header: 'Type',
+				accessor: 'type',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value || 0} />,
 			},
@@ -99,7 +98,7 @@ const Transactions = () => {
 				customPageSize={itemsPerPage}
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
-				totalPageCount={tournamentTransactions?.count || 1}
+				totalPageCount={tournamentTransactions?.totalPages || 1}
 				isManualPagination
 				onChangePagination={setCurrentPage}
 				currentPage={currentPage}

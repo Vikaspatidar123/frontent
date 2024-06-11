@@ -129,6 +129,7 @@ const TournamentDetail = () => {
 								src={tournamentDetail?.image ? tournamentDetail?.image : ''}
 								width="100%"
 								height="auto"
+								style={{ maxHeight: '265px' }}
 							/>
 						</Col>
 						<Col lg={8} className="mt-2">
@@ -232,20 +233,19 @@ const TournamentDetail = () => {
 								<h4 className="fs-12">Description :</h4>
 								{tournamentDetail?.description?.EN}
 							</div>
-
-							<Row className="mt-4 text-muted">
-								<h4 className="mb-3 fs-12">Tournament Info :</h4>
-								<TabsPage
-									activeTab={activeTab}
-									tabsData={tabData}
-									toggle={toggle}
-									navClass="p-0"
-									tabType="tab"
-									tabContentClass="border border-top-0"
-									tabCardClass="mb-0 shadow-none"
-								/>
-							</Row>
 						</Col>
+					</Row>
+					<Row className="mt-4 text-muted">
+						<h4 className="mb-3 fs-12">Tournament Info :</h4>
+						<TabsPage
+							activeTab={activeTab}
+							tabsData={tabData}
+							toggle={toggle}
+							navClass="p-0"
+							tabType="tab"
+							tabContentClass="border border-top-0"
+							tabCardClass="mb-0 shadow-none"
+						/>
 					</Row>
 				</CardBody>
 			</Card>

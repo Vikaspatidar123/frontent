@@ -48,8 +48,8 @@ const useTournaments = () => {
 
 	const fetchData = () => {
 		const data = {
-			limit: itemsPerPage,
-			pageNo: currentPage,
+			perPage: itemsPerPage,
+			page: currentPage,
 			...filterValidation?.values,
 		};
 
