@@ -25,6 +25,7 @@ const generalStepInitialValues = (tournamentDetail) => {
 		poolPrize,
 		maxPlayerLimit,
 		minPlayerLimit,
+		rebuyLimit,
 	} = tournamentDetail?.tournamentCurrencies?.[0] || {};
 
 	const currencyDetails = tournamentDetail?.tournamentCurrencies?.length
@@ -35,10 +36,12 @@ const generalStepInitialValues = (tournamentDetail) => {
 				poolPrize,
 				maxPlayerLimit,
 				minPlayerLimit,
+				rebuyLimit,
 		  }
 		: {
 				entryFees: null,
 				currencyId: null,
+				rebuyLimit: null,
 				rebuyFees: null,
 				poolPrize: null,
 				maxPlayerLimit: null,
@@ -76,10 +79,6 @@ const generalFormSchema = () =>
 			EN: Yup.string().required('Description is required!'),
 		}),
 		creditPoints: Yup.number().required('Credit Points Required'),
-		rebuyLimit: Yup.number()
-			.min(1, 'Amount should be greater than 1')
-			.required('Rebuy limit required'),
-
 		startDate: Yup.date().required('Start Date Required'),
 		endDate: Yup.date()
 			.required('End Date Required')
@@ -123,6 +122,10 @@ const currencyValidate = () =>
 		entryFees: Yup.number()
 			.min(1, 'Amount should be greater than 1')
 			.required('Entry fees required'),
+
+		rebuyLimit: Yup.number()
+			.min(1, 'Amount should be greater than 1')
+			.required('Rebuy limit required'),
 		rebuyFees: Yup.number()
 			.min(1, 'Amount should be greater than 1')
 			.required('Entry fees required'),
@@ -200,15 +203,6 @@ const staticFormFields = () => [
 		customPadding: '8px',
 	},
 	{
-		name: 'rebuyLimit',
-		fieldType: 'textField',
-		type: 'number',
-		minimum: 1,
-		maximum: 10,
-		label: 'Rebuy Limit',
-		placeholder: 'Enter Rebuy Limit',
-	},
-	{
 		name: 'isActive',
 		fieldType: 'toggle',
 		label: 'Is Active',
@@ -233,6 +227,15 @@ const currencyFields = () => [
 		label: 'Pool Prize',
 		placeholder: 'Example: 200',
 		type: 'number',
+	},
+	{
+		name: 'rebuyLimit',
+		fieldType: 'textField',
+		type: 'number',
+		minimum: 1,
+		maximum: 10,
+		label: 'Rebuy Limit',
+		placeholder: 'Example: 5',
 	},
 	{
 		name: 'rebuyFees',

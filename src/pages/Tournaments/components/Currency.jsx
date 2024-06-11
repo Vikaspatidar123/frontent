@@ -184,7 +184,7 @@ const Currencies = ({
 						</span>
 					</Col>
 					{currencyFields()?.map(({ name, label, placeholder, type }) => (
-						<Col sm={12} lg={4} className="" key={name}>
+						<Col sm={12} lg={4} className="my-2 text-start" key={name}>
 							<label
 								htmlFor={name}
 								style={{ fontSize: '14px' }}
