@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 // import { formatDateYMD, safeStringify } from '../../../utils/helpers';
 import General from '../components/General';
 import Games from '../components/Games';
-import PriceDistribution from '../components/PriceDistribution';
 import {
 	createTournamentStart,
 	getTournamentDetailByIdStart,
@@ -101,9 +100,6 @@ const useCreateTournaments = () => {
 		{
 			id: 'games',
 		},
-		{
-			id: 'prizeDistribution',
-		},
 	];
 
 	const tabData = [
@@ -155,24 +151,6 @@ const useCreateTournaments = () => {
 					submitButtonLoading={isCreateTournamentLoading}
 					tabsToShow={tabsToShow}
 					activeTab={activeTab}
-					toggleTab={toggleTab}
-				/>
-			),
-		},
-
-		{
-			id: 'prizeDistribution',
-			title: 'Prize Distribution',
-			component: (
-				<PriceDistribution
-					setActiveTab={setActiveTab}
-					allFields={allFields}
-					setAllFields={setAllFields}
-					tournamentDetail={tournamentDetail}
-					tournamentId={tournamentId}
-					activeTab={activeTab}
-					submitButtonLoading={isCreateTournamentLoading}
-					tabsToShow={tabsToShow}
 					toggleTab={toggleTab}
 				/>
 			),

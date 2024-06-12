@@ -1,8 +1,6 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable react/prop-types */
 /* eslint-disable array-callback-return */
-/* eslint-disable no-unsafe-optional-chaining */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import {
@@ -30,32 +28,12 @@ import {
 } from '../../../helpers/customForms';
 import Actions from './Actions';
 
-const setInitialWinnerFields = (validation, setFieldType, tournamentDetail) => {
-	const myObject = {};
-	const prizes = tournamentDetail?.tournamentPrizes;
-	for (let i = 1; i <= validation?.values?.numberOfWinners; i++) {
-		myObject[i] =
-			prizes?.[i - 1]?.type === 'cash'
-				? prizes?.[i - 1]?.amount
-				: prizes?.[i - 1]?.item || '';
-		setFieldType((prev) => ({
-			...prev,
-			[i]:
-				validation?.values?.tournamentPrizeType === 'non_cash'
-					? 'text'
-					: 'number',
-		}));
-	}
-	validation?.setFieldValue('prizes', myObject);
-	validation?.setTouched({ ...validation?.touched, prizes: true });
-};
-
 const PriceDistribution = ({
 	allFields,
 	setAllFields,
 	tournamentDetail,
 	activeTab,
-	tournamentId,
+	// tournamentId,
 	submitButtonLoading,
 	toggleTab,
 	tabsToShow,
@@ -63,8 +41,6 @@ const PriceDistribution = ({
 	const [prizeSettlementMethod, setPrizeSettlementMethod] =
 		useState('percentage');
 	const [remainingPrizeAmount, setRemainingPrizeAmount] = useState('');
-	const [initialRender, setInitialRender] = useState(true);
-	const [fieldType, setFieldType] = useState({});
 
 	const handleSubmit = async (values) => {
 		if (values?.numberOfWinners <= 0) {
@@ -73,12 +49,13 @@ const PriceDistribution = ({
 			);
 		}
 
-		const prizes = Object.entries(values?.prizes || {})?.map(
-			([key, value]) => ({
-				rank: Number(key),
-				type: typeof value === 'string' ? 'non_cash' : 'cash',
-				[typeof value === 'string' ? 'item' : 'amount']: value,
-				[typeof value === 'string' ? 'item' : 'percent']: value,
+		const prizes = Object.values(values?.prizes)?.map(
+			({ id, value, rank }) => ({
+				type: values.tournamentPrizeType,
+				...(values.tournamentPrizeType === 'cash'
+					? { amount: value }
+					: { item: value }),
+				...(id ? { id, rank } : {}),
 			})
 		);
 
@@ -106,9 +83,39 @@ const PriceDistribution = ({
 		onSubmitEntry: handleSubmit,
 	});
 
+	const updateWinnerAmount = (details) => {
+		const updatedPrizes = {};
+
+		for (let i = 1; i <= validation?.values?.numberOfWinners; i += 1) {
+			const { id, rank, amount, item, type } =
+				details?.tournamentPrizes?.[i] || {};
+			updatedPrizes[rank || i] = {
+				...(id ? { id, rank } : {}),
+				type: type
+					? type === 'cash'
+						? 'number'
+						: 'text'
+					: validation.values.tournamentPrizeType === 'cash'
+					? 'number'
+					: 'text',
+				value: details ? (type === 'cash' ? amount : item) : null,
+			};
+		}
+		validation?.setFieldValue('prizes', updatedPrizes);
+	};
+
+	useEffect(() => {
+		if (validation.values?.numberOfWinners > 0) {
+			updateWinnerAmount(tournamentDetail);
+		}
+	}, [
+		validation.values?.numberOfWinners,
+		tournamentDetail,
+		validation.values?.tournamentPrizeType,
+	]);
+
 	useEffect(() => {
 		if (!isEmpty(tournamentDetail)) {
-			setPrizeSettlementMethod('percentage');
 			validation.setValues(prizeDistributionInitialValues(tournamentDetail));
 		}
 	}, [tournamentDetail]);
@@ -116,13 +123,14 @@ const PriceDistribution = ({
 	useEffect(() => {
 		if (validation?.values?.tournamentPrizeType === 'cash') {
 			setRemainingPrizeAmount(() => {
-				if (Object?.keys(validation?.values?.prizes)?.length > 0) {
+				const prizes = Object.values(validation?.values?.prizes);
+
+				if (prizes?.length > 0) {
 					let remainingAmount =
 						prizeSettlementMethod === 'percentage' ? 100 : allFields?.poolPrize;
-					Object?.keys(validation?.values?.prizes)?.map((prize) => {
-						const prizeValue = validation?.values?.prizes[prize];
-						if (typeof prizeValue === 'number') {
-							remainingAmount -= prizeValue;
+					prizes?.map(({ value }) => {
+						if (validation.values.tournamentPrizeType === 'cash') {
+							remainingAmount -= Number(value);
 						}
 					});
 					if (remainingAmount < 0) {
@@ -142,36 +150,29 @@ const PriceDistribution = ({
 		validation?.values?.prizes,
 	]);
 
-	useEffect(() => {
-		setRemainingPrizeAmount(
-			prizeSettlementMethod === 'percentage' ? 100 : allFields?.poolPrize
-		);
-		setInitialWinnerFields(validation, setFieldType, tournamentDetail);
-	}, [prizeSettlementMethod]);
+	// useEffect(() => {
+	// 	if (Number(validation?.values?.numberOfWinners) > 0) {
+	// 		setInitialWinnerFields(validation, tournamentDetail);
+	// 	}
+	// }, [validation?.values?.numberOfWinners]);
 
-	useEffect(() => {
-		if (Number(validation?.values?.numberOfWinners) >= 0) {
-			setInitialWinnerFields(validation, setFieldType, tournamentDetail);
-		}
-	}, [validation?.values?.numberOfWinners]);
+	// useEffect(() => {
+	// 	if (Number(validation?.values?.numberOfWinners) > 0) {
+	// 		setInitialWinnerFields(validation, tournamentDetail);
+	// 	}
+	// }, [validation?.values?.tournamentPrizeType]);
 
-	useEffect(() => {
-		if (Number(validation?.values?.numberOfWinners) >= 0) {
-			setInitialWinnerFields(validation, setFieldType, tournamentDetail);
-		}
-	}, [validation?.values?.tournamentPrizeType]);
-
-	useEffect(() => {
-		if (
-			Array.isArray(validation?.touched?.prizes)
-				? validation?.touched?.prizes?.length
-				: Object.keys(validation?.touched?.prizes || {}).length
-		) {
-			setInitialRender(false);
-		} else {
-			setInitialRender(true);
-		}
-	}, [validation?.touched]);
+	// useEffect(() => {
+	// 	if (
+	// 		Array.isArray(validation?.touched?.prizes)
+	// 			? validation?.touched?.prizes?.length
+	// 			: Object.keys(validation?.touched?.prizes || {}).length
+	// 	) {
+	// 		setInitialRender(false);
+	// 	} else {
+	// 		setInitialRender(true);
+	// 	}
+	// }, [validation?.touched]);
 
 	const handleNextClick = async (nextTab) => {
 		try {
@@ -190,17 +191,6 @@ const PriceDistribution = ({
 			validation.submitForm();
 		}
 	};
-
-	// useEffect(() => {
-	// 	if (Object.keys(validation?.values?.prizes || {})?.length > 0) {
-	// 		let count = 0;
-	// 		Object.keys(validation?.values?.prizes || {}).map((prize) => {
-	// 			if (typeof validation?.values?.prizes?.[prize] === 'number')
-	// 				count += validation?.values?.prizes?.[prize];
-	// 		});
-	// 		validation?.setFieldValue('totalPrizeCount', count);
-	// 	}
-	// }, [validation?.values?.prizes]);
 
 	return (
 		<Row>
@@ -269,7 +259,8 @@ const PriceDistribution = ({
 												? remainingPrizeAmount
 												: Math.round(
 														(remainingPrizeAmount /
-															allFields?.currencyDetails?.[0]?.poolPrize || 1) *
+															(allFields?.currencyDetails?.[0]?.poolPrize ||
+																1)) *
 															100
 												  )
 										}
@@ -280,56 +271,39 @@ const PriceDistribution = ({
 										</div>
 									</Progress>
 								</div>
-							) : (
-								''
-							)}
+							) : null}
 							<Row>
-								{Object?.keys(validation?.values?.prizes)?.map(
-									(value, index) => (
+								{Object.values(validation?.values?.prizes || {})?.map(
+									({ value, rank, type }, index) => (
 										<Col lg={4} className="pb-2">
 											<Label className="form-label">
-												Winner {index + 1}{' '}
+												Winner {rank || index + 1}
 												<span className="text-danger"> *</span>
 											</Label>
 											<InputGroup>
 												<CustomInputField
-													name={`prizes[${index + 1}]`}
-													value={validation?.values?.prizes?.[index + 1]}
+													name={`prizes[${rank}]`}
+													value={value}
 													onBlur={validation?.handleBlur}
-													onChange={validation?.handleChange}
-													type={fieldType?.[index + 1]}
+													onChange={(e) => {
+														const prizes = {
+															...validation.values.prizes,
+															[rank || index + 1]: {
+																...validation.values.prizes?.[rank],
+																value: e.target.value,
+															},
+														};
+														validation.setFieldValue('prizes', prizes);
+													}}
+													type={type}
 													min={0}
 													required
 												/>
-												<InputGroupText
-													className="password-btn btn btn-primary p-1 px-2"
-													onClick={() => {
-														if (
-															validation?.values?.tournamentPrizeType ===
-																'cash' ||
-															validation?.values?.tournamentPrizeType ===
-																'non_cash'
-														)
-															return;
-														setFieldType((prev) => {
-															validation?.setFieldValue('prizes', {
-																...validation?.values?.prizes,
-																[index + 1]: '',
-															});
-															return {
-																...prev,
-																[index + 1]:
-																	prev?.[index + 1] === 'number'
-																		? 'text'
-																		: 'number',
-															};
-														});
-													}}
-												>
+												<InputGroupText className="password-btn btn btn-primary p-1 px-2">
 													<>
 														<i
 															className={`${
-																fieldType?.[index + 1] === 'number'
+																type === 'number'
 																	? 'mdi mdi-percent'
 																	: 'mdi mdi-alphabetical-variant'
 															} font-size-20`}
@@ -339,25 +313,16 @@ const PriceDistribution = ({
 															placement="top"
 															target={`winnerFieldType${index + 1}`}
 														>
-															{fieldType?.[index + 1] === 'number'
-																? 'cash'
-																: 'non-cash'}
+															{type === 'number' ? 'cash' : 'non-cash'}
 														</UncontrolledTooltip>
 													</>
 												</InputGroupText>
 											</InputGroup>
-											{!tournamentId
-												? validation.errors?.prizes?.[index + 1] &&
-												  !initialRender && (
-														<FormFeedback type="invalid" className="d-block">
-															{validation.errors?.prizes?.[index + 1]}
-														</FormFeedback>
-												  )
-												: validation.errors?.prizes?.[index + 1] && (
-														<FormFeedback type="invalid" className="d-block">
-															{validation.errors?.prizes?.[index + 1]}
-														</FormFeedback>
-												  )}
+											{validation.errors?.prizes?.[index + 1] ? (
+												<FormFeedback type="invalid" className="d-block">
+													{validation.errors?.prizes?.[index + 1]}
+												</FormFeedback>
+											) : null}
 										</Col>
 									)
 								)}
