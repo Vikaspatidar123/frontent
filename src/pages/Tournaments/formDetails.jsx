@@ -28,26 +28,27 @@ const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
 				...acc,
 				[code]: {
 					entryFees: details?.entryFees || null,
-					currencyId: details?.currencyId || null,
+					currencyId: details?.currencyId || id,
 					rebuyLimit: details?.rebuyLimit || null,
 					rebuyFees: details?.rebuyFees || null,
 					poolPrize: details?.poolPrize || null,
 					maxPlayerLimit: details?.maxPlayerLimit || null,
 					minPlayerLimit: details?.minPlayerLimit || null,
-					numberOfWinners: details?.prizes?.length || '',
-					tournamentPrizeType: details?.prizes?.[0]?.type || 'cash',
+					numberOfWinners: details?.tournamentPrizes?.length || null,
+					tournamentPrizeType: details?.tournamentPrizes?.[0]?.type || 'cash',
 					prizeSettlementMethod: 'amount',
 					remainingAmount:
-						details?.prizes?.reduce(
+						details?.tournamentPrizes?.reduce(
 							(accu, { amount = 0 }) => accu - Number(amount),
 							details?.poolPrize
 						) || 0,
 					prizes:
-						details?.prizes?.reduce(
+						details?.tournamentPrizes?.reduce(
 							(accu, { rank, type, id: prizeId, amount, item }) => ({
 								...accu,
 								[rank]: {
 									id: prizeId,
+									rank,
 									type,
 									value: type === 'cash' ? amount : item,
 								},
@@ -59,17 +60,17 @@ const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
 		}, {});
 	} else {
 		currencyDetails = allCurrencies?.reduce(
-			(acc, { code }) => ({
+			(acc, { code, id }) => ({
 				...acc,
 				[code]: {
 					entryFees: null,
-					currencyId: null,
+					currencyId: id,
 					rebuyLimit: null,
 					rebuyFees: null,
 					poolPrize: null,
 					maxPlayerLimit: null,
 					minPlayerLimit: null,
-					numberOfWinners: '',
+					numberOfWinners: null,
 					tournamentPrizeType: 'cash',
 					prizeSettlementMethod: 'amount',
 					remainingAmount: 0,
@@ -148,45 +149,92 @@ const generalFormSchema = () =>
 			),
 	});
 
-const currencyValidate = () =>
-	Yup.object({
-		// currencyId: Yup.string().required('Currency required'),
-		entryFees: Yup.number()
-			.min(1, 'Amount should be greater than 1')
-			.required('Entry fees required'),
+// const currencyValidate = () =>
+// 	Yup.object({
+// 		// currencyId: Yup.string().required('Currency required'),
+// 		entryFees: Yup.number()
+// 			.min(1, 'Amount should be greater than 1')
+// 			.required('Entry fees required'),
 
-		rebuyLimit: Yup.number()
-			.min(1, 'Amount should be greater than 1')
-			.required('Rebuy limit required'),
-		rebuyFees: Yup.number()
-			.min(1, 'Amount should be greater than 1')
-			.required('Rebuy fees required'),
+// 		rebuyLimit: Yup.number()
+// 			.min(1, 'Amount should be greater than 1')
+// 			.required('Rebuy limit required'),
+// 		rebuyFees: Yup.number()
+// 			.min(1, 'Amount should be greater than 1')
+// 			.required('Rebuy fees required'),
 
-		minPlayerLimit: Yup.number()
-			.required('Minimum Participants Limit Required.')
-			.test(
+// 		minPlayerLimit: Yup.number()
+// 			.required('Minimum Participants Limit Required.')
+// 			.test(
+// 				'greaterThanMaximumParticipants',
+// 				'Minimum participants limit should be smaller than Maximum Participants Limit',
+// 				(value) => value > 0
+// 			),
+// 		maxPlayerLimit: Yup.number().test(
+// 			'greaterThanMaximumParticipants',
+// 			'Maximum participants limit should be greater than Minimum Participants Limit',
+// 			function (value) {
+// 				const { minPlayerLimit } = this.parent || {};
+
+// 				if (value <= minPlayerLimit) return false;
+// 				return value > 0;
+// 			}
+// 		),
+// 		poolPrize: Yup.number()
+// 			.min(1, 'Amount should be greater than 1')
+// 			.required('Pool prize required'),
+
+// 		numberOfWinners: Yup.number()
+// 			.min(1, 'Winners should be greater than 1')
+// 			.required('Winners required'),
+// 	});
+
+const currencyValidate = (allCurrencies) => {
+	const currencySchema = {};
+	// eslint-disable-next-line no-restricted-syntax, guard-for-in
+	for (const { code } of allCurrencies) {
+		currencySchema[code] = Yup.object().shape({
+			entryFees: Yup.number()
+				.min(1, 'Amount should be greater than 1')
+				.required('Entry fees required'),
+
+			rebuyLimit: Yup.number()
+				.min(1, 'Amount should be greater than 1')
+				.required('Rebuy limit required'),
+			rebuyFees: Yup.number()
+				.min(1, 'Amount should be greater than 1')
+				.required('Rebuy fees required'),
+
+			minPlayerLimit: Yup.number()
+				.required('Minimum Participants Limit Required.')
+				.test(
+					'greaterThanMaximumParticipants',
+					'Minimum participants limit should be smaller than Maximum Participants Limit',
+					(value) => value > 0
+				),
+			maxPlayerLimit: Yup.number().test(
 				'greaterThanMaximumParticipants',
-				'Minimum participants limit should be smaller than Maximum Participants Limit',
-				(value) => value > 0
+				'Maximum participants limit should be greater than Minimum Participants Limit',
+				function (value) {
+					const { minPlayerLimit } = this.parent || {};
+
+					if (value <= minPlayerLimit) return false;
+					return value > 0;
+				}
 			),
-		maxPlayerLimit: Yup.number().test(
-			'greaterThanMaximumParticipants',
-			'Maximum participants limit should be greater than Minimum Participants Limit',
-			function (value) {
-				const { minPlayerLimit } = this.parent || {};
+			poolPrize: Yup.number()
+				.min(1, 'Amount should be greater than 1')
+				.required('Pool prize required'),
 
-				if (value <= minPlayerLimit) return false;
-				return value > 0;
-			}
-		),
-		poolPrize: Yup.number()
-			.min(1, 'Amount should be greater than 1')
-			.required('Pool prize required'),
+			numberOfWinners: Yup.number()
+				.min(1, 'Winners should be greater than 1')
+				.required('Winners required'),
 
-		numberOfWinners: Yup.number()
-			.min(1, 'Winners should be greater than 1')
-			.required('Winners required'),
-	});
+			// prizes:
+		});
+	}
+	return Yup.object(currencySchema);
+};
 
 const staticFormFields = () => [
 	{

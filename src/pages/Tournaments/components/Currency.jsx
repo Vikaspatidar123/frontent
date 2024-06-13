@@ -40,21 +40,23 @@ const Currencies = ({
 }) => {
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
-	const { validation } = useForm({
-		initialValues: generalStepInitialValues()?.currencyDetails,
-	});
 
 	const allCurrencies = useMemo(
 		() => currencies?.currencies?.filter((curr) => curr.type !== 'point') || [],
 		[currencies]
 	);
 
+	const { validation } = useForm({
+		initialValues: generalStepInitialValues()?.currencyDetails,
+		validationSchema: currencyValidate(allCurrencies),
+	});
+
 	const handleSubmit = () =>
 		new Promise((resolve) => {
 			setAllFields((prev) => {
 				const updateFields = {
 					...prev,
-					currencyDetails: [filterEmptyPayload(validation.values)],
+					currencyDetails: Object.values(validation.values || {}),
 				};
 				resolve(updateFields);
 				return updateFields;
@@ -108,8 +110,7 @@ const Currencies = ({
 	const handleNextClick = async (nextTab) => {
 		validation.submitForm();
 		try {
-			await currencyValidate().validate(Object.values(validation.values));
-
+			await currencyValidate(allCurrencies).validate(validation.values);
 			const updateFields = await handleSubmit();
 			toggleTab(nextTab, updateFields);
 		} catch (err) {
@@ -117,17 +118,22 @@ const Currencies = ({
 		}
 	};
 
-	console.log(validation);
+	console.log('valiues', validation);
 
 	useEffect(() => {
 		dispatch(fetchCurrenciesStart({}));
 	}, []);
 
 	useEffect(() => {
-		if (!isEmpty(tournamentDetail)) {
+		if (!isEmpty(tournamentDetail) && !isEmpty(allCurrencies)) {
 			const currency = filterEmptyPayload(
 				generalStepInitialValues(tournamentDetail, allCurrencies)
 					?.currencyDetails
+			);
+			validation.setValues(currency);
+		} else if (!isEmpty(allCurrencies)) {
+			const currency = filterEmptyPayload(
+				generalStepInitialValues({}, allCurrencies)?.currencyDetails
 			);
 			validation.setValues(currency);
 		}
@@ -183,6 +189,7 @@ const Currencies = ({
 									<CustomInputField
 										name={`[${currencyCode}][${name}]`}
 										value={validation?.values?.[currencyCode]?.[name]}
+										onBlur={validation.handleBlur}
 										onChange={(e) => {
 											validation?.handleChange(e);
 											handleChangeCustom(e, name, currencyCode);
@@ -191,9 +198,12 @@ const Currencies = ({
 										type={type}
 										required
 									/>
-									<span className="text-danger">
-										{validation.errors?.[currencyCode]?.[name] || ''}
-									</span>
+									{validation.touched?.[currencyCode]?.[name] &&
+									validation.errors?.[currencyCode]?.[name] ? (
+										<span className="text-danger">
+											{validation.errors?.[currencyCode]?.[name] || ''}
+										</span>
+									) : null}
 								</Col>
 							))}
 						</Row>
@@ -321,7 +331,8 @@ const Currencies = ({
 														</>
 													</InputGroupText>
 												</InputGroup>
-												{validation.errors?.[currencyCode]?.prizes?.[rank] ? (
+												{validation.touched?.[currencyCode]?.prizes?.[rank] &&
+												validation.errors?.[currencyCode]?.prizes?.[rank] ? (
 													<FormFeedback type="invalid" className="d-block">
 														{validation.errors?.[currencyCode]?.prizes?.[rank]}
 													</FormFeedback>

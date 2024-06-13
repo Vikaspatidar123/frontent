@@ -40,16 +40,46 @@ const useCreateTournaments = () => {
 		}
 	}, [tournamentDetail]);
 
-	const toggleTab = (tab, updatedAllFields) => {
+	const toggleTab = (tab, updatedAllFields = allFields) => {
 		if (tab === 'submit') {
 			if (!isCreateTournamentLoading || !isUpdateTournamentLoading) {
+				const currencyData = allFields?.currencyDetails?.map(
+					({
+						entryFees,
+						currencyId,
+						rebuyLimit,
+						rebuyFees,
+						poolPrize,
+						maxPlayerLimit,
+						minPlayerLimit,
+						prizes,
+						tournamentPrizeType,
+					}) => ({
+						entryFees,
+						currencyId,
+						rebuyLimit,
+						rebuyFees,
+						poolPrize,
+						maxPlayerLimit,
+						minPlayerLimit,
+						prizes: Object.values(prizes || {})?.map(
+							({ rank, type, value }) => ({
+								rank,
+								type,
+								...(tournamentPrizeType === 'cash'
+									? { amount: value }
+									: { item: value }),
+							})
+						),
+					})
+				);
 				const data = {
 					...updatedAllFields,
-					prizes: updatedAllFields?.prizes,
-					casinoGameIds: tournamentId
-						? selectedGames
-						: selectedGames?.map((game) => game.casinoGameId),
+					currencyDetails: currencyData,
+					casinoGameIds: selectedGames?.map((game) => game.casinoGameId),
 				};
+
+				console.log('All form data = ', data, allFields);
 
 				if (typeof data?.image === 'string') {
 					delete data.image;
