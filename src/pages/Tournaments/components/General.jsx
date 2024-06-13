@@ -14,6 +14,7 @@ import { getLanguagesStart } from '../../../store/actions';
 import TabsPage from '../../../components/Common/TabsPage';
 import { CustomInputField } from '../../../helpers/customForms';
 import Actions from './Actions';
+import { filterEmptyPayload } from '../../../network/networkUtils';
 
 const General = ({
 	isLoading,
@@ -42,6 +43,8 @@ const General = ({
 		setAllFields((prev) => ({
 			...prev,
 			...values,
+			name: filterEmptyPayload(values.name),
+			description: filterEmptyPayload(values.description),
 		}));
 		window.scrollTo(0, 0);
 	};

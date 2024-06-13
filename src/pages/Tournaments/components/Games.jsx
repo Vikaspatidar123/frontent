@@ -5,7 +5,6 @@ import { Col, Row } from 'reactstrap';
 import { isEmpty, uniqBy } from 'lodash';
 import { CustomSwitchButton } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/Table';
-// import { getTournamentGamesStart } from '../../../store/actions';
 import Filters from '../../../components/Common/Filters';
 import {
 	Provider,
@@ -16,8 +15,6 @@ import useGameFilters from '../hooks/useGameFilters';
 import { getCasinoGamesStart } from '../../../store/actions';
 import Actions from './Actions';
 import { showToastr } from '../../../utils/helpers';
-
-// const { VITE_APP_TOURNAMENT_GAME_IDS } = import.meta.env;
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '-');
 
