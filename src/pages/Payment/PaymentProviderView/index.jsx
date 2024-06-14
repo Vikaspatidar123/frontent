@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'reactstrap';
 import Currencies from './Currency';
@@ -7,10 +7,14 @@ import Breadcrumb from '../../../components/Common/Breadcrumb';
 import TabsPage from '../../../components/Common/TabsPage';
 import GeneralDetails from './GeneralInformation';
 import Spinners from '../../../components/Common/Spinner';
-import { getPaymentDetails } from '../../../store/actions';
+import {
+	getPaymentDetails,
+	resetPaymentProvider,
+} from '../../../store/actions';
 
 const PaymentProviderView = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { paymentId } = useParams();
 	const [activeTab, setActiveTab] = useState('1');
 
@@ -23,9 +27,15 @@ const PaymentProviderView = () => {
 			setActiveTab(tab);
 		}
 	};
+
 	useEffect(() => {
 		dispatch(getPaymentDetails({ providerId: paymentId }));
 	}, [paymentId]);
+
+	const onBackClick = () => {
+		navigate('/payment');
+		dispatch(resetPaymentProvider());
+	};
 
 	const tabData = [
 		{
@@ -45,12 +55,13 @@ const PaymentProviderView = () => {
 			<Breadcrumb
 				title="Payment Provider"
 				breadcrumbItem="View"
-				titleLink="/payment"
+				// titleLink="/payment"
 				leftTitle={
 					<>
 						<i className="fas fa-angle-left" /> Back
 					</>
 				}
+				callBack={onBackClick}
 			/>
 			<Container fluid>
 				{paymentDetailsLoading ? (
