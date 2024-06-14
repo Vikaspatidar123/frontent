@@ -19,8 +19,9 @@ export const setupInterceptors = () => {
 			}
 			const errorCode =
 				error.response?.data?.errors[0]?.fields?.description ||
-				error.response?.data?.errors[0]?.description ||
-				error.response?.data?.errors[0]?.description?.name;
+				error.response?.data?.errors[0]?.description?.name ||
+				error.response?.data?.errors[0]?.name ||
+				error.response?.data?.errors[0]?.description;
 			if (typeof errorCode === 'string') {
 				showToastr({
 					message: MESSAGES[errorCode] ? MESSAGES[errorCode] : errorCode,
