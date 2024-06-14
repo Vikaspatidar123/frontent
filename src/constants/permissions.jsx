@@ -52,6 +52,8 @@ const modules = {
 	review: 'review',
 
 	tournamentManagement: 'tournamentManagement',
+
+	paymentManagement: 'paymentManagement',
 };
 
 const permissionIcons = () => ({
@@ -82,6 +84,7 @@ const permissionIcons = () => ({
 	[modules.limits]: <i className="mdi mdi-currency-usd-off" />,
 	[modules.contentManagement]: <i className="mdi mdi-file-chart" />,
 	[modules.tournamentManagement]: <i className="bx bxs-trophy" />,
+	[modules.paymentManagement]: <i className="bx bx-credit-card" />,
 });
 
 const permissionLabel = (label) => {
