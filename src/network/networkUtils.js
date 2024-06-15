@@ -13,6 +13,7 @@ const MANAGEMENT = {
 	DASHBOARD: '/dashboard/',
 	BONUS: '/bonus-management/',
 	TOURNAMENT: '/tournament',
+	PAYMENT: '/payment/',
 };
 
 const METHODS = {

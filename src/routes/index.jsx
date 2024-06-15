@@ -64,6 +64,9 @@ import CreateTournament from '../pages/Tournaments/CreateTournment';
 import TournamentDetail from '../pages/Tournaments/TournamentDetail';
 import AddGamesCasinoCategory from '../pages/AddGamesCasinoCategory';
 import EditTournament from '../pages/Tournaments/EditTournament';
+import PaymentProviders from '../pages/Payment';
+import CreatePayment from '../pages/Payment/CreatePayment';
+import PaymentProviderView from '../pages/Payment/PaymentProviderView';
 
 const authProtectedRoutes = [
 	{
@@ -462,6 +465,24 @@ const authProtectedRoutes = [
 		component: <ViewBlockedCountries />,
 		modules: [modules.casinoManagement],
 		operation: 'U',
+	},
+	{
+		path: '/payment',
+		component: <PaymentProviders />,
+		modules: [modules.paymentManagement],
+		operation: 'R',
+	},
+	{
+		path: '/payment/add',
+		component: <CreatePayment />,
+		modules: [modules.paymentManagement],
+		operation: 'C',
+	},
+	{
+		path: '/payment/details/:paymentId',
+		component: <PaymentProviderView />,
+		modules: [modules.paymentManagement],
+		operation: 'R',
 	},
 
 	{ path: '*', component: <DashboardView /> },

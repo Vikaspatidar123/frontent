@@ -88,3 +88,6 @@ export * from './restrictedCountries/actions';
 
 // Create Update Bonus
 export * from './createUpdateBonus/actions';
+
+// Payments
+export * from './payment/actions';
