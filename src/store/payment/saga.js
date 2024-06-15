@@ -45,8 +45,7 @@ function* getPaymentDetailsWorker(action) {
 function* createPaymentProviderWorker({ payload }) {
 	try {
 		payload = serialize(filterEmptyPayload(payload), { indices: true });
-		// eslint-disable-next-line no-unused-vars
-		const res = yield createPaymentProvider(payload);
+		yield createPaymentProvider(payload);
 		yield put(createPaymentSuccess(true));
 		showToastr({
 			message: 'Provider created successfully',
