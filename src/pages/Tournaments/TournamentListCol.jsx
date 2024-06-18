@@ -3,12 +3,13 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { UncontrolledTooltip, Button } from 'reactstrap';
+import { UncontrolledTooltip, Button, Badge } from 'reactstrap';
 import ImageCell from '../../components/Common/ImageCell';
 import usePermission from '../../components/Common/Hooks/usePermission';
 
 import { modules } from '../../constants/permissions';
 import { formatDateYMD } from '../../utils/dateFormatter';
+import { TOURNAMENT_STATUS } from './constants';
 
 const Id = ({ value }) => value ?? '';
 
@@ -26,6 +27,15 @@ const Status = ({ value }) =>
 	);
 
 const PoolPrize = ({ value }) => (value ? `${value}` : '');
+
+const StatusBadge = ({ value, className }) =>
+	value ? (
+		<Badge color={TOURNAMENT_STATUS?.[value]?.color} className={className}>
+			{TOURNAMENT_STATUS?.[value]?.title}
+		</Badge>
+	) : (
+		<Badge color="warning">-</Badge>
+	);
 
 const NonSettled = ({ cell, setShowSettleModal }) => {
 	const isSettled = cell.value;
@@ -78,6 +88,7 @@ export {
 	NonSettled,
 	Status,
 	PoolPrize,
+	StatusBadge,
 };
 
 Image.propTypes = {
@@ -87,4 +98,8 @@ Image.propTypes = {
 NonSettled.propTypes = {
 	cell: PropTypes.objectOf.isRequired,
 	setShowSettleModal: PropTypes.func.isRequired,
+};
+
+Status.propTypes = {
+	value: PropTypes.string.isRequired,
 };

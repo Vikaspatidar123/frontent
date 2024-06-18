@@ -183,7 +183,7 @@ const useCreate = ({ isEdit }) => {
 		},
 		{
 			id: 'currency',
-			title: 'Currency',
+			title: 'Currency Limits',
 			component: (
 				<Currencies
 					setActiveTab={setActiveTab}
@@ -199,7 +199,7 @@ const useCreate = ({ isEdit }) => {
 		},
 		{
 			id: 'countries',
-			title: 'Countries',
+			title: 'Blocked Countries',
 			component: (
 				<Countries
 					setActiveTab={setActiveTab}
