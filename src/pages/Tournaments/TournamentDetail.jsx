@@ -55,6 +55,7 @@ const TournamentDetail = () => {
 
 	const currencyWise = useMemo(() => {
 		const code = currencyById?.[currencyId]?.code || '';
+		const symbol = currencyById?.[currencyId]?.symbol || '';
 		const tourCurrencyById = keyBy(
 			tournamentDetail?.tournamentCurrencies || [],
 			'currencyId'
@@ -70,6 +71,7 @@ const TournamentDetail = () => {
 
 		return {
 			code,
+			symbol,
 			poolPrize,
 			minPlayerLimit,
 			maxPlayerLimit,
@@ -107,6 +109,7 @@ const TournamentDetail = () => {
 				<LeaderBoard
 					tournamentDetail={tournamentDetail}
 					currencyId={currencyId}
+					currencyWise={currencyWise}
 				/>
 			),
 		},
@@ -208,15 +211,16 @@ const TournamentDetail = () => {
 								<Col lg={3} sm={6} className="my-2">
 									<div className="p-2 border rounded text-center">
 										<p className="text-muted fw-medium mb-1 font-size-16">
-											{currencyWise?.code || ''} Pool Prize
+											<i className="mdi mdi-ethereum me-1 text-success" />
+											Pool Prize
 										</p>
 										<h5 className="fs-17 text-success mb-0">
-											<i className="mdi mdi-ethereum me-1" />
+											{currencyWise?.symbol || ''}
 											{currencyWise.poolPrize}
 										</h5>
 									</div>
 								</Col>
-								<Col lg={3} sm={6}>
+								{/* <Col lg={3} sm={6}>
 									<div className="p-2 border rounded text-center">
 										<p className="text-muted fw-medium mb-1 font-size-16">
 											Credit Points
@@ -225,7 +229,7 @@ const TournamentDetail = () => {
 											{tournamentDetail?.creditPoints}
 										</h5>
 									</div>
-								</Col>
+								</Col> */}
 								<Col lg={3} sm={6}>
 									<div className="p-2 border rounded text-center">
 										<p className="text-muted fw-medium mb-1 font-size-16">
@@ -245,6 +249,18 @@ const TournamentDetail = () => {
 										</p>
 										<h5 id="auction-time-1" className="mb- text-danger">
 											{moment(tournamentDetail?.endDate).format(
+												'MMM Do YY, h:mm a'
+											)}
+										</h5>
+									</div>
+								</Col>
+								<Col lg={3} sm={6}>
+									<div className="p-2 border rounded text-center">
+										<p className="text-muted fw-medium mb-1 font-size-16">
+											Registration End
+										</p>
+										<h5 id="auction-time-1" className="mb- text-danger">
+											{moment(tournamentDetail?.registrationEndDate).format(
 												'MMM Do YY, h:mm a'
 											)}
 										</h5>

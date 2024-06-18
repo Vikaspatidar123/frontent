@@ -422,8 +422,8 @@ const detailList = [
 		value: 'entryFees',
 	},
 	{
-		label: 'Registration End',
-		value: 'registrationEndDate',
+		label: 'Credit Points',
+		value: 'creditPoints',
 	},
 	{
 		label: 'Re-Buy Fees',

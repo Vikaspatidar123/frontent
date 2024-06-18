@@ -22,7 +22,7 @@ const UserName = ({ cell, setPlayerDetail, setShowModal }) => (
 	</Link>
 );
 
-const LeaderBoard = ({ tournamentDetail, currencyId }) => {
+const LeaderBoard = ({ tournamentDetail, currencyId, currencyWise }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -48,6 +48,7 @@ const LeaderBoard = ({ tournamentDetail, currencyId }) => {
 			return leaderBoardInfo?.leaderBoard?.map((info, index) => ({
 				...info,
 				name: info?.user?.username,
+				winPrize: `${currencyWise?.symbol || ''} ${info?.winPrize ?? 0}`,
 				leaderBoardId: index + 1,
 			}));
 		}

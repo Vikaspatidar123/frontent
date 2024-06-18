@@ -8,8 +8,12 @@ import { formatDateYMD } from '../../../utils/dateFormatter';
 const BasicDetails = ({ tournamentDetail }) => {
 	const formattedTournamentDetail = {
 		...tournamentDetail,
-		entryFees: `${tournamentDetail?.entryFees}`,
-		rebuyFees: `${tournamentDetail?.rebuyFees}`,
+		entryFees: `${tournamentDetail?.symbol || ''} ${
+			tournamentDetail?.entryFees
+		}`,
+		rebuyFees: `${tournamentDetail?.symbol || ''} ${
+			tournamentDetail?.rebuyFees
+		}`,
 		registrationEndDate: tournamentDetail?.registrationEndDate
 			? formatDateYMD(tournamentDetail.registrationEndDate)
 			: tournamentDetail?.registrationEndDate,

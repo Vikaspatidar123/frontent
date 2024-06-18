@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { call, put, takeLatest, fork, all, select } from 'redux-saga/effects';
 
 //  Redux States
@@ -154,8 +155,14 @@ function* updateTournamentStatusWorker(action) {
 			...tournamentsInfo,
 			casinoTournaments: tournamentsInfo?.casinoTournaments?.map((tour) => ({
 				...tour,
-				isActive:
-					data.tournamentId === tour.id ? !tour.isActive : tour.isActive,
+				status:
+					data.tournamentId === tour.id
+						? tour.status === 'active'
+							? 'in-active'
+							: tour.status === 'in-active'
+							? 'active'
+							: tour.status
+						: tour.status,
 			})),
 		};
 

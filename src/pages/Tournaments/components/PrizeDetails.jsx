@@ -41,7 +41,7 @@ const PrizeDetails = ({ currencyWise }) => {
 						lg={8}
 						className="py-2 d-flex justify-content-center font-size-16"
 					>
-						{prize}
+						{currencyWise?.symbol || ''} {prize}
 					</Col>
 				</Row>
 			)) || 'No data found'}

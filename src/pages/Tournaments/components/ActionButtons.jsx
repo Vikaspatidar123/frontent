@@ -14,7 +14,6 @@ const ActionButtons = ({
 }) => {
 	const { isGranted } = usePermission();
 	const id = cell?.row?.original?.id;
-	const isActive = cell?.row?.original?.isActive;
 	const status = cell?.row?.original?.status;
 	const isSettled = status === 'settled';
 	const isCancelled = status === 'cancelled';
@@ -22,6 +21,7 @@ const ActionButtons = ({
 		? new Date(cell?.row?.original?.registrationEndDate).getTime() <
 		  new Date().getTime()
 		: false;
+	const isActive = status === 'active';
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>

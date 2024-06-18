@@ -40,6 +40,7 @@ const StatusBadge = ({ value, className }) =>
 const NonSettled = ({ cell, setShowSettleModal }) => {
 	const status = cell?.row?.original?.status;
 	const isSettled = status === 'settled';
+	const isCancelled = status === 'cancelled';
 	const { isGranted } = usePermission();
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -50,7 +51,7 @@ const NonSettled = ({ cell, setShowSettleModal }) => {
 					className={`btn btn-sm ${
 						isSettled ? 'btn-soft-success' : 'btn-soft-primary'
 					}`}
-					disabled={isSettled || status === 'cancelled'}
+					disabled={isSettled || isCancelled}
 					onClick={() => {
 						!isSettled &&
 							setShowSettleModal((prev) => ({
@@ -65,7 +66,7 @@ const NonSettled = ({ cell, setShowSettleModal }) => {
 						placement="top"
 						target={`settled-${cell?.row?.original?.id}`}
 					>
-						{status === 'cancelled'
+						{isCancelled
 							? 'Tournament Cancelled'
 							: isSettled
 							? 'Already Settled'
