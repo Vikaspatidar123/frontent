@@ -525,6 +525,12 @@ const updateTournamentSettlement = (data) =>
 		data
 	);
 
+const cancelTournament = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.TOURNAMENT}/cancel`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -608,4 +614,5 @@ export {
 	updateTournamentStatus,
 	createPaymentProvider,
 	updateTournamentSettlement,
+	cancelTournament,
 };

@@ -48,6 +48,7 @@ import {
 	updateTournament,
 	updateTournamentSettlement,
 	updateTournamentStatus,
+	cancelTournament,
 } from '../../network/postRequests';
 import {
 	getTournamentsDetails,
@@ -82,15 +83,15 @@ function* updateTournamentWorker(action) {
 		if (type === 'settled') {
 			delete data.type;
 			yield updateTournamentSettlement(data);
+		} else if (type === 'cancelled') {
+			delete data.type;
+			yield cancelTournament(data);
 		} else {
 			yield updateTournament(data);
 		}
 		yield put(updateTournamentSuccess());
 		showToastr({
-			message:
-				type === 'settled'
-					? 'Tournament Settled Successfully'
-					: 'Tournament Updated Successfully',
+			message: `Tournament ${type || 'updated'} successfully!`,
 			type: 'success',
 		});
 

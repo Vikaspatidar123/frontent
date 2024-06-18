@@ -119,6 +119,8 @@ const MESSAGES = {
 	PLEASE_CHECK_REQUEST_DATA: 'Please check the requested data',
 	MOVE_ALL_THE_GAMES_TO_ANOTHER_CATEGORY:
 		'Remove all the games from this category.',
+	TOURNAMENT_USER_DOES_NOT_EXISTS: 'Tournament user does not exists.',
+	TOURNAMENT_SETTLED_OR_CANCELLED: 'Tournament settled or cancelled.',
 };
 
 export { API_NAMESPACE, METHODS, filterEmptyPayload, MANAGEMENT, MESSAGES };

@@ -120,6 +120,7 @@ const useTournaments = () => {
 			updateTournamentStart({
 				data: {
 					tournamentId: showSettleModal?.selectedTournament,
+					type: 'settled',
 				},
 			})
 		);
@@ -127,14 +128,11 @@ const useTournaments = () => {
 
 	const acceptStatusToggle = () => {
 		dispatch(
-			updateTournamentStatusStart({
-				status:
-					showStatusModal?.type === 'cancel'
-						? 'cancelled'
-						: showStatusModal?.selectedTournament?.isActive
-						? 'inactive'
-						: 'active',
-				tournamentId: showStatusModal?.selectedTournament.id,
+			updateTournamentStart({
+				data: {
+					type: 'cancelled',
+					tournamentId: showStatusModal?.selectedTournament.id,
+				},
 			})
 		);
 		setShowStatusModal((prev) => ({
@@ -204,7 +202,7 @@ const useTournaments = () => {
 				),
 			},
 			{
-				Header: 'STATUS',
+				Header: 'Active',
 				accessor: 'isActive',
 				// filterable: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,

@@ -9,7 +9,7 @@ import { getTournamentTransactionStart } from '../../../store/tournaments/action
 
 const KeyValueCell = ({ value }) => value || 0;
 
-const Transactions = ({ tournamentDetail }) => {
+const Transactions = ({ tournamentDetail, currencyId }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -17,15 +17,16 @@ const Transactions = ({ tournamentDetail }) => {
 	const { tournamentTransactions } = useSelector((state) => state.Tournament);
 
 	useEffect(() => {
-		if (tournamentDetail?.id)
+		if (tournamentDetail?.id && currencyId)
 			dispatch(
 				getTournamentTransactionStart({
 					perPage: itemsPerPage,
 					page: currentPage,
 					tournamentId: tournamentDetail?.id,
+					currencyId,
 				})
 			);
-	}, [itemsPerPage, currentPage, tournamentDetail?.id]);
+	}, [itemsPerPage, currentPage, tournamentDetail?.id, currencyId]);
 
 	const formattedTransactions = useMemo(() => {
 		if (tournamentTransactions?.tournamentTransactions?.length > 0) {

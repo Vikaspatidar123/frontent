@@ -14,9 +14,10 @@ const ActionButtons = ({
 }) => {
 	const { isGranted } = usePermission();
 	const id = cell?.row?.original?.id;
-	const isSettled = cell?.row?.original?.isSettled;
 	const isActive = cell?.row?.original?.isActive;
 	const status = cell?.row?.original?.status;
+	const isSettled = status === 'settled';
+	const isCancelled = status === 'cancelled';
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
@@ -24,6 +25,7 @@ const ActionButtons = ({
 					<Button
 						hidden={!isGranted(modules.bonus, 'TS')}
 						className="btn btn-sm btn-soft-danger"
+						disabled={isSettled || isCancelled}
 						onClick={(e) => handleStatus(e, id)}
 					>
 						<i className="mdi mdi-close-thick" id={`active-${id}`} />
@@ -35,6 +37,7 @@ const ActionButtons = ({
 					<Button
 						hidden={!isGranted(modules.bonus, 'TS')}
 						className="btn btn-sm btn-soft-success"
+						disabled={isSettled || isCancelled}
 						onClick={(e) => handleStatus(e, id)}
 					>
 						<i className="mdi mdi-check-circle" id={`active-${id}`} />
@@ -66,7 +69,7 @@ const ActionButtons = ({
 					hidden={!isGranted(modules.tournamentManagement, 'U')}
 					type="button"
 					className="btn btn-sm btn-soft-info"
-					disabled={cell?.row?.original?.isSettled || status === 'cancelled'}
+					disabled={isSettled || isCancelled}
 					onClick={(e) => {
 						e.preventDefault();
 						handleEdit(id);
@@ -76,7 +79,7 @@ const ActionButtons = ({
 					<UncontrolledTooltip placement="top" target={`edittooltip-${id}`}>
 						{isSettled
 							? 'Tournament Settled'
-							: status === 'cancelled'
+							: isCancelled
 							? 'Tournament Cancelled'
 							: 'Edit'}
 					</UncontrolledTooltip>
@@ -90,7 +93,7 @@ const ActionButtons = ({
 					className={`btn btn-sm ${
 						!isActive ? 'btn-soft-success' : 'btn-soft-danger'
 					}`}
-					disabled={isSettled || status === 'cancelled'}
+					disabled={isSettled || isCancelled}
 					onClick={() => {
 						setShowStatusModal((prev) => ({
 							...prev,
@@ -108,7 +111,7 @@ const ActionButtons = ({
 					<UncontrolledTooltip placement="top" target={`status-${id}`}>
 						{isSettled
 							? 'Tournament Settled'
-							: status === 'cancelled'
+							: isCancelled
 							? 'Tournament Cancelled'
 							: !isActive
 							? 'Set Visible'
@@ -122,13 +125,12 @@ const ActionButtons = ({
 					type="button"
 					hidden={!isGranted(modules.tournamentManagement, 'U')}
 					className="btn btn-sm btn-soft-danger"
-					disabled={isSettled || status === 'cancelled'}
+					disabled={isSettled || isCancelled}
 					onClick={() => {
 						setShowStatusModal((prev) => ({
 							...prev,
 							isOpen: true,
 							selectedTournament: cell?.row?.original,
-							type: 'cancel',
 						}));
 					}}
 				>
@@ -136,7 +138,7 @@ const ActionButtons = ({
 					<UncontrolledTooltip placement="top" target={`cancel-${id}`}>
 						{isSettled
 							? 'Tournament Settled'
-							: status === 'cancelled'
+							: isCancelled
 							? 'Tournament Already Cancelled'
 							: 'Cancel Tournament'}
 					</UncontrolledTooltip>

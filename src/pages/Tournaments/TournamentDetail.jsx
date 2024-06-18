@@ -102,12 +102,22 @@ const TournamentDetail = () => {
 		{
 			id: '4',
 			title: 'LeaderBoard',
-			component: <LeaderBoard tournamentDetail={tournamentDetail} />,
+			component: (
+				<LeaderBoard
+					tournamentDetail={tournamentDetail}
+					currencyId={currencyId}
+				/>
+			),
 		},
 		{
 			id: '5',
 			title: 'Bet History',
-			component: <Transactions tournamentDetail={tournamentDetail} />,
+			component: (
+				<Transactions
+					tournamentDetail={tournamentDetail}
+					currencyId={currencyId}
+				/>
+			),
 		},
 	];
 

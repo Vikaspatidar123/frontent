@@ -22,7 +22,7 @@ const UserName = ({ cell, setPlayerDetail, setShowModal }) => (
 	</Link>
 );
 
-const LeaderBoard = ({ tournamentDetail }) => {
+const LeaderBoard = ({ tournamentDetail, currencyId }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -32,15 +32,16 @@ const LeaderBoard = ({ tournamentDetail }) => {
 	const { leaderBoardInfo } = useSelector((state) => state.Tournament);
 
 	useEffect(() => {
-		if (tournamentDetail?.id)
+		if (tournamentDetail?.id && currencyId)
 			dispatch(
 				getTournamentLeaderBoardDetailStart({
 					page: currentPage,
 					perPage: itemsPerPage,
 					tournamentId: tournamentDetail?.id,
+					currencyId,
 				})
 			);
-	}, [itemsPerPage, currentPage, tournamentDetail?.id]);
+	}, [itemsPerPage, currentPage, tournamentDetail?.id, currencyId]);
 
 	const formattedLeaderBoardData = useMemo(() => {
 		if (leaderBoardInfo?.leaderBoard?.length > 0) {

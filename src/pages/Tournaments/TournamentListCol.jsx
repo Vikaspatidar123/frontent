@@ -28,12 +28,12 @@ const Status = ({ value }) =>
 const PoolPrize = ({ value }) => (value ? `${value}` : '');
 
 const NonSettled = ({ cell, setShowSettleModal }) => {
-	const isSettled = cell.value;
 	const status = cell?.row?.original?.status;
+	const isSettled = status === 'settled';
 	const { isGranted } = usePermission();
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li id={`settled-${cell?.row?.original?.casinoTournamentId}`}>
+			<li id={`settled-${cell?.row?.original?.id}`}>
 				<Button
 					type="button"
 					hidden={!isGranted(modules.tournamentManagement, 'R')}
@@ -53,7 +53,7 @@ const NonSettled = ({ cell, setShowSettleModal }) => {
 					<i className="fas fa-file-signature" />
 					<UncontrolledTooltip
 						placement="top"
-						target={`settled-${cell?.row?.original?.casinoTournamentId}`}
+						target={`settled-${cell?.row?.original?.id}`}
 					>
 						{status === 'cancelled'
 							? 'Tournament Cancelled'
