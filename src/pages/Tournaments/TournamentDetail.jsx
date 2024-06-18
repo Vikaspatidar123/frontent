@@ -14,6 +14,7 @@ import LeaderBoard from './components/LeaderBoard';
 import Transactions from './components/Transactions';
 import { getTournamentDetailByIdStart } from '../../store/tournaments/actions';
 import { CustomSelectField } from '../../helpers/customForms';
+import { StatusBadge } from './TournamentListCol';
 
 const TournamentDetail = () => {
 	const { tournamentId } = useParams();
@@ -166,11 +167,16 @@ const TournamentDetail = () => {
 							</Row>
 							<div className="hstack gap-3 flex-wrap">
 								<div className="text-muted">
-									Active :{' '}
-									{tournamentDetail?.isActive ? (
-										<Badge className="bg-success font-size-12">Yes</Badge>
+									Status :{' '}
+									{tournamentDetail?.status ? (
+										<StatusBadge
+											className="font-size-12"
+											value={tournamentDetail?.status}
+										/>
 									) : (
-										<Badge className="bg-danger font-size-12">No</Badge>
+										<Badge className="bg-warning font-size-12">
+											No Details
+										</Badge>
 									)}
 								</div>
 								<div className="vr" />

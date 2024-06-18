@@ -17,33 +17,9 @@ const ActionButtons = ({
 	const isSettled = cell?.row?.original?.isSettled;
 	const isActive = cell?.row?.original?.isActive;
 	const status = cell?.row?.original?.status;
+	const registrationEndDate = cell?.row?.original?.registrationEndDate;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li>
-				{isActive ? (
-					<Button
-						hidden={!isGranted(modules.bonus, 'TS')}
-						className="btn btn-sm btn-soft-danger"
-						onClick={(e) => handleStatus(e, id)}
-					>
-						<i className="mdi mdi-close-thick" id={`active-${id}`} />
-						<UncontrolledTooltip placement="top" target={`active-${id}`}>
-							Set Inactive
-						</UncontrolledTooltip>
-					</Button>
-				) : (
-					<Button
-						hidden={!isGranted(modules.bonus, 'TS')}
-						className="btn btn-sm btn-soft-success"
-						onClick={(e) => handleStatus(e, id)}
-					>
-						<i className="mdi mdi-check-circle" id={`active-${id}`} />
-						<UncontrolledTooltip placement="top" target={`active-${id}`}>
-							Set Active
-						</UncontrolledTooltip>
-					</Button>
-				)}
-			</li>
 			<li id={`view-${id}`}>
 				<Button
 					type="button"
@@ -61,27 +37,57 @@ const ActionButtons = ({
 				</Button>
 			</li>
 
-			<li id={`edittooltip-${id}`}>
-				<Button
-					hidden={!isGranted(modules.tournamentManagement, 'U')}
-					type="button"
-					className="btn btn-sm btn-soft-info"
-					disabled={cell?.row?.original?.isSettled || status === 'cancelled'}
-					onClick={(e) => {
-						e.preventDefault();
-						handleEdit(id);
-					}}
-				>
-					<i className="mdi mdi-pencil-outline" />
-					<UncontrolledTooltip placement="top" target={`edittooltip-${id}`}>
-						{isSettled
-							? 'Tournament Settled'
-							: status === 'cancelled'
-							? 'Tournament Cancelled'
-							: 'Edit'}
-					</UncontrolledTooltip>
-				</Button>
-			</li>
+			{new Date(registrationEndDate) >= new Date() && (
+				<li>
+					{isActive ? (
+						<Button
+							hidden={!isGranted(modules.bonus, 'TS')}
+							className="btn btn-sm btn-soft-danger"
+							onClick={(e) => handleStatus(e, id)}
+						>
+							<i className="mdi mdi-close-thick" id={`active-${id}`} />
+							<UncontrolledTooltip placement="top" target={`active-${id}`}>
+								Set Inactive
+							</UncontrolledTooltip>
+						</Button>
+					) : (
+						<Button
+							hidden={!isGranted(modules.bonus, 'TS')}
+							className="btn btn-sm btn-soft-success"
+							onClick={(e) => handleStatus(e, id)}
+						>
+							<i className="mdi mdi-check-circle" id={`active-${id}`} />
+							<UncontrolledTooltip placement="top" target={`active-${id}`}>
+								Set Active
+							</UncontrolledTooltip>
+						</Button>
+					)}
+				</li>
+			)}
+
+			{new Date(registrationEndDate) >= new Date() && (
+				<li id={`edittooltip-${id}`}>
+					<Button
+						hidden={!isGranted(modules.tournamentManagement, 'U')}
+						type="button"
+						className="btn btn-sm btn-soft-info"
+						disabled={cell?.row?.original?.isSettled || status === 'cancelled'}
+						onClick={(e) => {
+							e.preventDefault();
+							handleEdit(id);
+						}}
+					>
+						<i className="mdi mdi-pencil-outline" />
+						<UncontrolledTooltip placement="top" target={`edittooltip-${id}`}>
+							{isSettled
+								? 'Tournament Settled'
+								: status === 'cancelled'
+								? 'Tournament Cancelled'
+								: 'Edit'}
+						</UncontrolledTooltip>
+					</Button>
+				</li>
+			)}
 
 			<li id={`status-${id}`}>
 				<Button

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-import { Date, Id, Name, NonSettled, Status } from '../TournamentListCol';
+import { Date, Id, Name, NonSettled, StatusBadge } from '../TournamentListCol';
 import { modules } from '../../../constants/permissions';
 import useFilters from './useFilters';
 import ActionButtons from '../components/ActionButtons';
@@ -170,7 +170,6 @@ const useTournaments = () => {
 				// filterable: true,
 				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
 			},
-
 			{
 				Header: 'START DATE',
 				accessor: 'startDate',
@@ -205,9 +204,9 @@ const useTournaments = () => {
 			},
 			{
 				Header: 'STATUS',
-				accessor: 'isActive',
+				accessor: 'status',
 				// filterable: true,
-				Cell: ({ cell }) => <Status value={cell.value} />,
+				Cell: ({ cell }) => <StatusBadge value={cell.value} />,
 			},
 			{
 				Header: 'ACTION',

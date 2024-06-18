@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import moment from 'moment';
 import imageDimensionCheck from '../../utils/imageDimensionCheck';
 import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
+import { TOURNAMENT_STATUS } from './constants';
 
 const tournamentPrizeTypeOptionsList = [
 	{
@@ -371,32 +372,15 @@ const staticFiltersFields = () => [
 		placeholder: 'Search by tournament name',
 	},
 	{
-		name: 'isActive',
+		name: 'status',
 		fieldType: 'select',
 		label: '',
 		placeholder: 'Select Tournament Status',
-		optionList: [
-			{
-				id: 1,
-				optionLabel: 'Active',
-				value: true,
-			},
-			{
-				id: 2,
-				optionLabel: 'Inactive',
-				value: false,
-			},
-			// {
-			// 	id: 3,
-			// 	optionLabel: 'Cancelled',
-			// 	value: 'cancelled',
-			// },
-			// {
-			// 	id: 4,
-			// 	optionLabel: 'settled',
-			// 	value: 'settled',
-			// },
-		],
+		optionList: Object.keys(TOURNAMENT_STATUS)?.map((key) => ({
+			id: key,
+			optionLabel: TOURNAMENT_STATUS?.[key]?.title,
+			value: key,
+		})),
 	},
 	// {
 	// 	name: 'ranges',
@@ -412,14 +396,16 @@ const filterValues = () => ({
 	isRegistrationClosed: null,
 	startDate: null,
 	endDate: null,
+	status: null,
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		srarch: Yup.string().nullable(),
+		search: Yup.string().nullable(),
 		isRegistrationClosed: Yup.bool().nullable(),
 		startDate: Yup.string().nullable(),
 		endDate: Yup.string().nullable(),
+		status: Yup.string().nullable(),
 	});
 
 const detailList = [
