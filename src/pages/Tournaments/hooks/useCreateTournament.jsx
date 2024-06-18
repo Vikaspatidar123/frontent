@@ -79,8 +79,6 @@ const useCreateTournaments = () => {
 					casinoGameIds: selectedGames?.map((game) => game.casinoGameId),
 				};
 
-				console.log('All form data = ', data, allFields);
-
 				if (typeof data?.image === 'string') {
 					delete data.image;
 				}
@@ -125,7 +123,7 @@ const useCreateTournaments = () => {
 			id: 'general',
 		},
 		{
-			id: 'amount',
+			id: 'currency',
 		},
 		{
 			id: 'games',
@@ -151,8 +149,8 @@ const useCreateTournaments = () => {
 			),
 		},
 		{
-			id: 'amount',
-			title: 'Amount',
+			id: 'currency',
+			title: 'Currency',
 			component: (
 				<Currencies
 					setActiveTab={setActiveTab}

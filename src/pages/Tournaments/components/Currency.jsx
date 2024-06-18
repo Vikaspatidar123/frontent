@@ -118,8 +118,6 @@ const Currencies = ({
 		}
 	};
 
-	console.log('valiues', validation);
-
 	useEffect(() => {
 		dispatch(fetchCurrenciesStart({}));
 	}, []);

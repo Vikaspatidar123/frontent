@@ -149,45 +149,56 @@ const generalFormSchema = () =>
 			),
 	});
 
-// const currencyValidate = () =>
-// 	Yup.object({
-// 		// currencyId: Yup.string().required('Currency required'),
-// 		entryFees: Yup.number()
-// 			.min(1, 'Amount should be greater than 1')
-// 			.required('Entry fees required'),
+const prizesValidation = Yup.object().when(
+	['numberOfWinners', 'poolPrize'],
+	([numberOfWinners, poolPrize], schema) => {
+		const winnerSchema = {};
 
-// 		rebuyLimit: Yup.number()
-// 			.min(1, 'Amount should be greater than 1')
-// 			.required('Rebuy limit required'),
-// 		rebuyFees: Yup.number()
-// 			.min(1, 'Amount should be greater than 1')
-// 			.required('Rebuy fees required'),
+		for (let i = 1; i <= numberOfWinners; i += 1) {
+			winnerSchema[i] = {
+				value: Yup.number()
+					.required('Prize Required')
+					.test({
+						name: 'exceedsPrevious',
+						exclusive: true,
+						message:
+							'Prize must be smaller than or equals to the previous winner.',
+						test(value, context) {
+							// if (
+							// 	tournamentPrizeType === 'non_cash'
+							// )
+							// 	return true;
 
-// 		minPlayerLimit: Yup.number()
-// 			.required('Minimum Participants Limit Required.')
-// 			.test(
-// 				'greaterThanMaximumParticipants',
-// 				'Minimum participants limit should be smaller than Maximum Participants Limit',
-// 				(value) => value > 0
-// 			),
-// 		maxPlayerLimit: Yup.number().test(
-// 			'greaterThanMaximumParticipants',
-// 			'Maximum participants limit should be greater than Minimum Participants Limit',
-// 			function (value) {
-// 				const { minPlayerLimit } = this.parent || {};
+							const previousWinnerValue = context.parent[i - 1];
+							if (i > 1 && value > previousWinnerValue) {
+								return false;
+							}
+							return true;
+						},
+					})
+					.test({
+						name: 'totalPrizeAmount',
+						exclusive: true,
+						message: 'Total prize amount exceeds the limit',
+						test() {
+							// const totalPrizeAmount = prizes.reduce((acc, curr) => acc+Number(curr || 0), 0);
+							// if (
+							// 	tournamentPrizeType === 'non_cash'
+							// )
+							// 	return true;
 
-// 				if (value <= minPlayerLimit) return false;
-// 				return value > 0;
-// 			}
-// 		),
-// 		poolPrize: Yup.number()
-// 			.min(1, 'Amount should be greater than 1')
-// 			.required('Pool prize required'),
-
-// 		numberOfWinners: Yup.number()
-// 			.min(1, 'Winners should be greater than 1')
-// 			.required('Winners required'),
-// 	});
+							// if (totalPrizeAmount > poolPrize) {
+							// 	return false;
+							// }
+							return true;
+						},
+					}),
+			};
+		}
+		console.log('winner schema =', winnerSchema);
+		return schema.shape(winnerSchema);
+	}
+);
 
 const currencyValidate = (allCurrencies) => {
 	const currencySchema = {};
@@ -212,26 +223,29 @@ const currencyValidate = (allCurrencies) => {
 					'Minimum participants limit should be smaller than Maximum Participants Limit',
 					(value) => value > 0
 				),
-			maxPlayerLimit: Yup.number().test(
-				'greaterThanMaximumParticipants',
-				'Maximum participants limit should be greater than Minimum Participants Limit',
-				function (value) {
-					const { minPlayerLimit } = this.parent || {};
+			maxPlayerLimit: Yup.number()
+				.required('Maximum Participants Limit Required.')
+				.test(
+					'greaterThanMaximumParticipants',
+					'Maximum participants limit should be greater than Minimum Participants Limit',
+					function (value) {
+						const { minPlayerLimit } = this.parent || {};
 
-					if (value <= minPlayerLimit) return false;
-					return value > 0;
-				}
-			),
+						if (value <= minPlayerLimit) return false;
+						return value > 0;
+					}
+				),
 			poolPrize: Yup.number()
-				.min(1, 'Amount should be greater than 1')
-				.required('Pool prize required'),
+				.required('Pool prize required')
+				.min(1, 'Amount should be greater than 1'),
 
 			numberOfWinners: Yup.number()
-				.min(1, 'Winners should be greater than 1')
-				.required('Winners required'),
+				.required('Winners required')
+				.min(1, 'Winners should be greater than 1'),
 
-			// prizes:
+			prizes: prizesValidation,
 		});
+		if (code === 'USD') console.log('Data = ', currencySchema);
 	}
 	return Yup.object(currencySchema);
 };
@@ -348,72 +362,6 @@ const currencyFields = () => [
 		type: 'number',
 		label: 'Number of Winners',
 		placeholder: 'Example: 3',
-	},
-];
-
-const prizeDistributionInitialValues = (tournamentDetail) => ({
-	numberOfWinners:
-		Object.keys(tournamentDetail?.tournamentPrizes || {})?.length || '',
-	tournamentPrizeType: tournamentDetail?.tournamentPrizes?.[0]?.type || null,
-	totalPrizeCount: 0,
-	prizes:
-		tournamentDetail?.tournamentPrizes?.reduce(
-			(prizes, { rank, id, type, amount, item }) => ({
-				...prizes,
-				[rank]: {
-					id,
-					rank,
-					type,
-					...(type === 'cash' ? { value: amount } : { value: item }),
-				},
-			}),
-			{}
-		) || [],
-});
-
-const prizeDistributionFormSchema = (prize) =>
-	Yup.object({
-		numberOfWinners: Yup.number()
-			.min(1, 'Value must not be smaller than 1')
-			.required('Numbers of Winners Required'),
-		tournamentPrizeType: Yup.string().required('Prize type Required'),
-		// prizes: Yup.array().of(Yup.object().shape({
-		// 	value: Yup.number()
-		// 	.required('Value is required')
-		// 	.test(
-		// 	  'is-positive',
-		// 	  'Value must be greater than 0',
-		// 	  value => value > 0
-		// 	)
-		// 	.test(
-		// 	  'is-within-max',
-		// 	  `Value cannot exceed ${prize}`,
-		// 	  value => value <= prize
-		// 	)
-		// })
-		// )
-	});
-
-const staticPrizeDistributionFormFields = () => [
-	{
-		name: 'tournamentPrizeType',
-		fieldType: 'select',
-		label: 'Tournament Prize Type',
-		placeholder: 'Select prize type',
-		optionList: tournamentPrizeTypeOptionsList,
-		toggleGroupClass: 'mt-4 ps-2',
-		fieldColOptions: { lg: 4 },
-		required: true,
-	},
-	{
-		name: 'numberOfWinners',
-		fieldType: 'textField',
-		type: 'number',
-		minimum: 1,
-		label: 'Number of Winners',
-		placeholder: 'Enter Number of winners',
-		fieldColOptions: { lg: 3 },
-		required: true,
 	},
 ];
 
@@ -576,10 +524,6 @@ export {
 	staticFiltersFields,
 	filterValues,
 	filterValidationSchema,
-	prizeDistributionFormSchema,
-	prizeDistributionInitialValues,
-	staticPrizeDistributionFormFields,
-	// playerLimitOptions,
 	detailList,
 	gameFilterValidationSchema,
 	staticGameFiltersFields,
