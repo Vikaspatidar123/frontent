@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-import { Date, Id, Name, Status, PoolPrize } from '../TournamentListCol';
+import { Date, Id, Name, Status } from '../TournamentListCol';
 import { modules } from '../../../constants/permissions';
 import useFilters from './useFilters';
 import ActionButtons from '../components/ActionButtons';
@@ -14,6 +14,7 @@ import {
 	updateTournamentStart,
 	updateTournamentStatusStart,
 } from '../../../store/tournaments/actions';
+import { ThumbnailUrl } from '../../CasinoGames/CasinoGamesListCol';
 
 const useTournaments = () => {
 	const dispatch = useDispatch();
@@ -165,14 +166,10 @@ const useTournaments = () => {
 			// 	Cell: ({ cell }) => <TournamentPeriod value={cell.value} />,
 			// },
 			{
-				Header: 'Pool Prize',
-				accessor: 'poolPrize',
+				Header: 'Thumbnail',
+				accessor: 'image',
 				// filterable: true,
-				Cell: ({ cell }) => (
-					<PoolPrize
-						value={cell?.row?.original?.tournamentCurrencies?.[0]?.poolPrize}
-					/>
-				),
+				Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
 			},
 
 			{

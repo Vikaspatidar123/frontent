@@ -3,8 +3,8 @@ import React, { useMemo } from 'react';
 import { Row } from 'reactstrap';
 
 import {
-	Provider,
-	// ThumbnailUrl,
+	KeyValueCell,
+	ThumbnailUrl,
 } from '../../CasinoGames/CasinoGamesListCol';
 import TableContainer from '../../../components/Common/Table';
 import { selectedLanguage } from '../../../constants/config';
@@ -21,19 +21,24 @@ const columns = [
 		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
 	},
 	{
-		Header: 'CATEGORY',
-		accessor: 'category',
-		Cell: ({ cell }) => <KeyValueCell cell={cell} />,
-	},
-	{
-		Header: 'PROVIDER',
-		accessor: 'providerName',
+		Header: 'THUMBNAIL',
+		accessor: 'iconUrl',
 		filterable: true,
-		Cell: ({ cell }) => <Provider value={cell.value || '-'} />,
+		disableSortBy: true,
+		Cell: ({ cell }) => <ThumbnailUrl value={cell.value} />,
 	},
+	// {
+	// 	Header: 'CATEGORY',
+	// 	accessor: 'category',
+	// 	Cell: ({ cell }) => <KeyValueCell cell={cell} />,
+	// },
+	// {
+	// 	Header: 'PROVIDER',
+	// 	accessor: 'providerName',
+	// 	filterable: true,
+	// 	Cell: ({ cell }) => <Provider value={cell.value || '-'} />,
+	// },
 ];
-
-const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '-');
 
 const GameDetails = ({ tournamentDetail }) => {
 	const formattedCasinoGames = useMemo(
@@ -41,6 +46,7 @@ const GameDetails = ({ tournamentDetail }) => {
 			tournamentDetail?.casinoTournamentGames?.map((game) => ({
 				...game,
 				name: game?.casinoGame?.name?.[selectedLanguage],
+				iconUrl: game?.casinoGame?.iconUrl,
 			})),
 		[tournamentDetail?.casinoTournamentGames]
 	);

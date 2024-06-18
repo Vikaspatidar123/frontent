@@ -30,6 +30,8 @@ const ThumbnailUrl = ({ value }) => <ImageCell imgSrc={value} />;
 
 const DeviceType = ({ value }) => value ?? '';
 
+const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '-');
+
 const Status = ({ value }) =>
 	value ?? '' ? (
 		<Badge className="bg-success">Active</Badge>
@@ -95,4 +97,5 @@ export {
 	Status,
 	IsFeatured,
 	Custom,
+	KeyValueCell,
 };

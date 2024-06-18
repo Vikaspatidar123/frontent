@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Badge, Col, Row } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 
-const PrizeDetails = ({ tournamentDetail }) => {
-	let prizesArray = {};
+const PrizeDetails = ({ currencyWise }) => {
+	let prizesObj = {};
 
-	tournamentDetail?.tournamentPrizes?.map((prize) => {
-		prizesArray = {
-			...prizesArray,
+	currencyWise?.prizes?.map((prize) => {
+		prizesObj = {
+			...prizesObj,
 			[prize?.rank]: prize?.type === 'cash' ? prize?.amount : prize?.item,
 		};
 		return '';
@@ -29,7 +29,7 @@ const PrizeDetails = ({ tournamentDetail }) => {
 					Prize
 				</Col>
 			</Row>
-			{Object.entries(prizesArray || []).map(([winner, prize]) => (
+			{Object.entries(prizesObj || {})?.map(([winner, prize]) => (
 				<Row lg={12} key={winner} className="py-2 border-bottom">
 					<Col
 						lg={4}
@@ -41,25 +41,10 @@ const PrizeDetails = ({ tournamentDetail }) => {
 						lg={8}
 						className="py-2 d-flex justify-content-center font-size-16"
 					>
-						{typeof prize === 'string' ? (
-							<div className="d-flex justify-content-center align-items-center ms-4">
-								{prize}{' '}
-								<Badge className="bg-success font-size-10 ms-1">Non Cash</Badge>
-							</div>
-						) : (
-							`${
-								tournamentDetail?.prizeSettlementMethod !== 'percentage'
-									? ''
-									: ''
-							} ${prize} ${
-								tournamentDetail?.prizeSettlementMethod === 'percentage'
-									? '%'
-									: ''
-							}`
-						)}
+						{prize}
 					</Col>
 				</Row>
-			))}
+			)) || 'No data found'}
 		</Row>
 	);
 };

@@ -2,10 +2,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Badge, Col, Card, CardBody, Row } from 'reactstrap';
 import { useParams } from 'react-router-dom';
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { keyBy } from 'lodash';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import { getDateTime } from '../../utils/dateFormatter';
 import TabsPage from '../../components/Common/TabsPage';
 import BasicDetails from './components/BasicDetails';
 import PrizeDetails from './components/PrizeDetails';
@@ -65,6 +65,8 @@ const TournamentDetail = () => {
 		const entryFees = tourCurrencyById?.[currencyId]?.entryFees || 0;
 		const rebuyFees = tourCurrencyById?.[currencyId]?.entryFees || 0;
 
+		const prizes = tourCurrencyById?.[currencyId]?.tournamentPrizes || [];
+
 		return {
 			code,
 			poolPrize,
@@ -72,6 +74,7 @@ const TournamentDetail = () => {
 			maxPlayerLimit,
 			entryFees,
 			rebuyFees,
+			prizes,
 		};
 	}, [currencyById, currencyId, tournamentDetail?.tournamentCurrencies]);
 
@@ -89,7 +92,7 @@ const TournamentDetail = () => {
 		{
 			id: '2',
 			title: 'Prize Distribution',
-			component: <PrizeDetails tournamentDetail={tournamentDetail} />,
+			component: <PrizeDetails currencyWise={currencyWise} />,
 		},
 		{
 			id: '3',
@@ -213,7 +216,9 @@ const TournamentDetail = () => {
 											Start Date
 										</p>
 										<h5 className="fs-17 text-warning  mb-0">
-											{getDateTime(tournamentDetail?.startDate)}
+											{moment(tournamentDetail?.startDate).format(
+												'MMM Do YY, h:mm a'
+											)}
 										</h5>
 									</div>
 								</Col>
@@ -223,7 +228,9 @@ const TournamentDetail = () => {
 											End Date
 										</p>
 										<h5 id="auction-time-1" className="mb- text-danger">
-											{getDateTime(tournamentDetail?.endDate)}
+											{moment(tournamentDetail?.endDate).format(
+												'MMM Do YY, h:mm a'
+											)}
 										</h5>
 									</div>
 								</Col>
