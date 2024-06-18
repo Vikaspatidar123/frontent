@@ -42,7 +42,10 @@ const Currencies = ({
 	const { currencies } = useSelector((state) => state.Currencies);
 
 	const allCurrencies = useMemo(
-		() => currencies?.currencies?.filter((curr) => curr.type !== 'point') || [],
+		() =>
+			currencies?.currencies?.filter(
+				(curr) => curr.type !== 'point' && curr.isActive
+			) || [],
 		[currencies]
 	);
 
@@ -217,7 +220,7 @@ const Currencies = ({
 													<b>Settlement Method -</b>
 												</p>
 												{[
-													{ label: 'Percentage', value: 'percentage' },
+													// { label: 'Percentage', value: 'percentage' },
 													{ label: 'Amount', value: 'amount' },
 												].map((settlementType) => (
 													<CustomSwitchButton
