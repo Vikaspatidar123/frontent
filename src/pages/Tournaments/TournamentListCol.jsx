@@ -46,7 +46,7 @@ const NonSettled = ({ cell, setShowSettleModal }) => {
 							setShowSettleModal((prev) => ({
 								...prev,
 								isOpen: true,
-								selectedTournament: cell?.row?.original?.casinoTournamentId,
+								selectedTournament: cell?.row?.original?.id,
 							}));
 					}}
 				>
@@ -56,7 +56,7 @@ const NonSettled = ({ cell, setShowSettleModal }) => {
 						target={`settled-${cell?.row?.original?.casinoTournamentId}`}
 					>
 						{status === 'cancelled'
-							? 'Tounament Cancelled'
+							? 'Tournament Cancelled'
 							: isSettled
 							? 'Already Settled'
 							: 'Settle'}

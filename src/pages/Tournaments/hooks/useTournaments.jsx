@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-import { Date, Id, Name, Status } from '../TournamentListCol';
+import { Date, Id, Name, NonSettled, Status } from '../TournamentListCol';
 import { modules } from '../../../constants/permissions';
 import useFilters from './useFilters';
 import ActionButtons from '../components/ActionButtons';
@@ -119,8 +119,7 @@ const useTournaments = () => {
 		dispatch(
 			updateTournamentStart({
 				data: {
-					id: showSettleModal?.selectedTournament,
-					type: 'settled',
+					tournamentId: showSettleModal?.selectedTournament,
 				},
 			})
 		);
@@ -196,14 +195,14 @@ const useTournaments = () => {
 				// filterable: true,
 				Cell: ({ cell }) => <Date value={cell.value} />,
 			},
-			// {
-			// 	Header: 'SETTLE',
-			// 	accessor: 'isSettled',
-			// 	// filterable: true,
-			// 	Cell: ({ cell }) => (
-			// 		<NonSettled cell={cell} setShowSettleModal={setShowSettleModal} />
-			// 	),
-			// },
+			{
+				Header: 'SETTLE',
+				accessor: 'isSettled',
+				// filterable: true,
+				Cell: ({ cell }) => (
+					<NonSettled cell={cell} setShowSettleModal={setShowSettleModal} />
+				),
+			},
 			{
 				Header: 'STATUS',
 				accessor: 'isActive',

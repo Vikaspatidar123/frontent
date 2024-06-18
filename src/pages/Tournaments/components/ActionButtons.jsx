@@ -120,7 +120,7 @@ const ActionButtons = ({
 			<li id={`cancel-${id}`}>
 				<Button
 					type="button"
-					hidden={!isGranted(modules.tournamentManagement, 'T')}
+					hidden={!isGranted(modules.tournamentManagement, 'U')}
 					className="btn btn-sm btn-soft-danger"
 					disabled={isSettled || status === 'cancelled'}
 					onClick={() => {

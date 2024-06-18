@@ -149,56 +149,55 @@ const generalFormSchema = () =>
 			),
 	});
 
-const prizesValidation = Yup.object().when(
-	['numberOfWinners', 'poolPrize'],
-	([numberOfWinners, poolPrize], schema) => {
-		const winnerSchema = {};
+// const prizesValidation = Yup.object().when(
+// 	['numberOfWinners', 'poolPrize'],
+// 	([numberOfWinners, poolPrize], schema) => {
+// 		const winnerSchema = {};
 
-		for (let i = 1; i <= numberOfWinners; i += 1) {
-			winnerSchema[i] = {
-				value: Yup.number()
-					.required('Prize Required')
-					.test({
-						name: 'exceedsPrevious',
-						exclusive: true,
-						message:
-							'Prize must be smaller than or equals to the previous winner.',
-						test(value, context) {
-							// if (
-							// 	tournamentPrizeType === 'non_cash'
-							// )
-							// 	return true;
+// 		for (let i = 1; i <= numberOfWinners; i += 1) {
+// 			winnerSchema[i] = {
+// 				value: Yup.number()
+// 					.required('Prize Required')
+// 					.test({
+// 						name: 'exceedsPrevious',
+// 						exclusive: true,
+// 						message:
+// 							'Prize must be smaller than or equals to the previous winner.',
+// 						test(value, context) {
+// 							// if (
+// 							// 	tournamentPrizeType === 'non_cash'
+// 							// )
+// 							// 	return true;
 
-							const previousWinnerValue = context.parent[i - 1];
-							if (i > 1 && value > previousWinnerValue) {
-								return false;
-							}
-							return true;
-						},
-					})
-					.test({
-						name: 'totalPrizeAmount',
-						exclusive: true,
-						message: 'Total prize amount exceeds the limit',
-						test() {
-							// const totalPrizeAmount = prizes.reduce((acc, curr) => acc+Number(curr || 0), 0);
-							// if (
-							// 	tournamentPrizeType === 'non_cash'
-							// )
-							// 	return true;
+// 							const previousWinnerValue = context.parent[i - 1];
+// 							if (i > 1 && value > previousWinnerValue) {
+// 								return false;
+// 							}
+// 							return true;
+// 						},
+// 					})
+// 					.test({
+// 						name: 'totalPrizeAmount',
+// 						exclusive: true,
+// 						message: 'Total prize amount exceeds the limit',
+// 						test() {
+// 							// const totalPrizeAmount = prizes.reduce((acc, curr) => acc+Number(curr || 0), 0);
+// 							// if (
+// 							// 	tournamentPrizeType === 'non_cash'
+// 							// )
+// 							// 	return true;
 
-							// if (totalPrizeAmount > poolPrize) {
-							// 	return false;
-							// }
-							return true;
-						},
-					}),
-			};
-		}
-		console.log('winner schema =', winnerSchema);
-		return schema.shape(winnerSchema);
-	}
-);
+// 							// if (totalPrizeAmount > poolPrize) {
+// 							// 	return false;
+// 							// }
+// 							return true;
+// 						},
+// 					}),
+// 			};
+// 		}
+// 		return schema.shape(winnerSchema);
+// 	}
+// );
 
 const currencyValidate = (allCurrencies) => {
 	const currencySchema = {};
@@ -243,9 +242,8 @@ const currencyValidate = (allCurrencies) => {
 				.required('Winners required')
 				.min(1, 'Winners should be greater than 1'),
 
-			prizes: prizesValidation,
+			// prizes: prizesValidation,
 		});
-		if (code === 'USD') console.log('Data = ', currencySchema);
 	}
 	return Yup.object(currencySchema);
 };

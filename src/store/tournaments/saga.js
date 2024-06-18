@@ -46,7 +46,7 @@ import { showToastr } from '../../utils/helpers';
 import {
 	createTournament,
 	updateTournament,
-	// updateSettledStatus,
+	updateTournamentSettlement,
 	updateTournamentStatus,
 } from '../../network/postRequests';
 import {
@@ -78,14 +78,19 @@ function* createTournamentWorker(action) {
 function* updateTournamentWorker(action) {
 	try {
 		const { data, navigate } = action && action.payload;
-		// if (data.type === 'settled') {
-		// 	yield updateSettledStatus(data);
-		// } else {
-		yield updateTournament(data);
-		// }
+		const type = data?.type;
+		if (type === 'settled') {
+			delete data.type;
+			yield updateTournamentSettlement(data);
+		} else {
+			yield updateTournament(data);
+		}
 		yield put(updateTournamentSuccess());
 		showToastr({
-			message: 'Tournament Updated Successfully',
+			message:
+				type === 'settled'
+					? 'Tournament Settled Successfully'
+					: 'Tournament Updated Successfully',
 			type: 'success',
 		});
 
