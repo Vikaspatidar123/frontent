@@ -18,6 +18,10 @@ const ActionButtons = ({
 	const status = cell?.row?.original?.status;
 	const isSettled = status === 'settled';
 	const isCancelled = status === 'cancelled';
+	const isRegistrationEnded = cell?.row?.original?.registrationEndDate
+		? new Date(cell?.row?.original?.registrationEndDate).getTime() <
+		  new Date().getTime()
+		: false;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
 			<li>
@@ -25,7 +29,7 @@ const ActionButtons = ({
 					<Button
 						hidden={!isGranted(modules.bonus, 'TS')}
 						className="btn btn-sm btn-soft-danger"
-						disabled={isSettled || isCancelled}
+						disabled={isSettled || isCancelled || isRegistrationEnded}
 						onClick={(e) => handleStatus(e, id)}
 					>
 						<i className="mdi mdi-close-thick" id={`active-${id}`} />
@@ -37,7 +41,7 @@ const ActionButtons = ({
 					<Button
 						hidden={!isGranted(modules.bonus, 'TS')}
 						className="btn btn-sm btn-soft-success"
-						disabled={isSettled || isCancelled}
+						disabled={isSettled || isCancelled || isRegistrationEnded}
 						onClick={(e) => handleStatus(e, id)}
 					>
 						<i className="mdi mdi-check-circle" id={`active-${id}`} />
@@ -69,7 +73,7 @@ const ActionButtons = ({
 					hidden={!isGranted(modules.tournamentManagement, 'U')}
 					type="button"
 					className="btn btn-sm btn-soft-info"
-					disabled={isSettled || isCancelled}
+					disabled={isSettled || isCancelled || isRegistrationEnded}
 					onClick={(e) => {
 						e.preventDefault();
 						handleEdit(id);
@@ -93,7 +97,7 @@ const ActionButtons = ({
 					className={`btn btn-sm ${
 						!isActive ? 'btn-soft-success' : 'btn-soft-danger'
 					}`}
-					disabled={isSettled || isCancelled}
+					disabled={isSettled || isCancelled || isRegistrationEnded}
 					onClick={() => {
 						setShowStatusModal((prev) => ({
 							...prev,
