@@ -103,10 +103,10 @@ const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
 
 const generalFormSchema = () =>
 	Yup.object({
-		name: Yup.object().shape({
+		name: Yup.object({
 			EN: Yup.string().required('Name is required!'),
 		}),
-		description: Yup.object().shape({
+		description: Yup.object({
 			EN: Yup.string().required('Description is required!'),
 		}),
 		creditPoints: Yup.number().required('Credit Points Required'),
@@ -119,13 +119,9 @@ const generalFormSchema = () =>
 			),
 		registrationEndDate: Yup.date()
 			.required('Registration End Date required')
-			.min(
-				Yup.ref('startDate'),
-				'Registration End date/time cannot be earlier than start date'
-			)
 			.max(
-				Yup.ref('endDate'),
-				'Registration End date/time cannot be after tournament end date'
+				Yup.ref('startDate'),
+				'Registration End date/time cannot be after tournament start date'
 			),
 		image: Yup.mixed()
 			.required('Image Required')
@@ -280,6 +276,16 @@ const currencyValidate = (allCurrencies) => {
 
 const staticFormFields = () => [
 	{
+		name: 'registrationEndDate',
+		fieldType: 'datePicker',
+		label: 'Registration End Date',
+		placeholder: 'Select End Date',
+		mandatory: true,
+		timeIntervals: 5,
+		minDate: new Date(),
+		maxDate: '',
+	},
+	{
 		name: 'startDate',
 		fieldType: 'datePicker',
 		label: 'Start Date',
@@ -296,22 +302,9 @@ const staticFormFields = () => [
 		placeholder: 'Select End Date',
 		timeIntervals: 5,
 		mandatory: true,
-		isComparison: 'startDate',
-		minTimeField: 'startDate',
+		minDate: new Date(),
 		maxDate: '',
 	},
-	{
-		name: 'registrationEndDate',
-		fieldType: 'datePicker',
-		label: 'Registration End Date',
-		placeholder: 'Select End Date',
-		mandatory: true,
-		timeIntervals: 5,
-		isComparison: 'startDate',
-		minTimeField: 'startDate',
-		maxDate: '',
-	},
-
 	{
 		name: 'creditPoints',
 		fieldType: 'textField',

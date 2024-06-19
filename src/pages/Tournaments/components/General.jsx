@@ -83,8 +83,7 @@ const General = ({
 				<Col lg="4 mb-2">
 					<CustomInputField
 						label="Title"
-						name="name"
-						required
+						name={`name[${activeLangTab}]`}
 						onChange={(e) => {
 							e.preventDefault();
 							validation.setFieldValue('name', {
@@ -95,27 +94,17 @@ const General = ({
 						value={validation?.values?.name?.[activeLangTab] || ''}
 						onBlur={validation.handleBlur}
 						placeholder="Title"
-						validate={{ required: { value: true } }}
-						invalid={
-							!!(
-								validation?.touched?.name?.[activeLangTab] &&
-								validation?.errors?.name?.[activeLangTab]
-							)
-						}
+						invalid={!!validation?.errors?.name?.[activeLangTab]}
 						isError
-						errorMsg={
-							validation?.touched?.name?.[activeLangTab] &&
-							validation?.errors?.name?.[activeLangTab]
-						}
+						errorMsg={validation?.errors?.name?.[activeLangTab]}
 						// disabled={isView}
 					/>
 				</Col>
 
 				<CustomInputField
 					label="Description"
-					name="description"
+					name={`description[${activeLangTab}]`}
 					type="textarea"
-					required={activeLangTab === 'EN'}
 					onChange={(e) => {
 						e.preventDefault();
 						validation.setFieldValue('description', {
@@ -125,20 +114,10 @@ const General = ({
 					}}
 					value={validation?.values?.description?.[activeLangTab] || ''}
 					onBlur={validation.handleBlur}
-					placeholder="Title"
-					validate={{ required: { value: true } }}
-					invalid={
-						!!(
-							validation?.touched?.description?.[activeLangTab] &&
-							validation?.errors?.description?.[activeLangTab]
-						)
-					}
+					placeholder="Description"
+					invalid={!!validation?.errors?.description?.[activeLangTab]}
 					isError
-					errorMsg={
-						validation?.touched?.description?.[activeLangTab] &&
-						validation?.errors?.description?.[activeLangTab]
-					}
-					// disabled={isView}
+					errorMsg={validation?.errors?.description?.[activeLangTab]}
 				/>
 			</>
 		),
