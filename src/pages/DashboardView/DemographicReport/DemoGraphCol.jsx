@@ -6,7 +6,8 @@ const Depositors = ({ cell }) =>
 	cell?.row?.original?.deposits?.[0]?.depositorCount ?? '-';
 
 const DepositAmount = ({ cell, defaultCurrency }) =>
-	`${defaultCurrency.symbol} ${cell?.row?.original?.deposits?.[0]?.depositAmount}` ??
-	'-';
+	`${defaultCurrency.symbol} ${
+		cell?.row?.original?.deposits?.[0]?.depositAmount || 0
+	}` ?? '-';
 
 export { Country, SignUps, Depositors, DepositAmount };
