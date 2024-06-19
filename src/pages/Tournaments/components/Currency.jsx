@@ -11,14 +11,14 @@ import {
 	Label,
 	Progress,
 	Row,
-	UncontrolledTooltip,
+	// UncontrolledTooltip,
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import {
 	CustomInputField,
 	CustomSelectField,
-	CustomSwitchButton,
+	// CustomSwitchButton,
 } from '../../../helpers/customForms';
 import { fetchCurrenciesStart } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -113,7 +113,9 @@ const Currencies = ({
 	const handleNextClick = async (nextTab) => {
 		validation.submitForm();
 		try {
-			await currencyValidate(allCurrencies).validate(validation.values);
+			await currencyValidate(allCurrencies).validate(validation.values, {
+				abortEarly: false,
+			});
 			const updateFields = await handleSubmit();
 			toggleTab(nextTab, updateFields);
 		} catch (err) {
@@ -143,83 +145,84 @@ const Currencies = ({
 	return (
 		<div>
 			<Card className="px-1 text-center">
-				{allCurrencies?.map(({ code: currencyCode, id: currencyId }) => (
-					<>
-						<Row>
-							<Col sm={6} lg={3} className="my-2">
-								<label
-									htmlFor="currencyId"
-									style={{ fontSize: '14px' }}
-									className="d-flex align-items-left"
-								>
-									Currency
-								</label>
-								<CustomSelectField
-									id="currencyId"
-									type="select"
-									name="currencyId"
-									value={currencyId}
-									disabled
-									// onChange={validation.handleChange}
-									options={
-										<>
-											<option value={null} selected disabled>
-												Select currency
-											</option>
-											{allCurrencies?.map(({ id, name }) => (
-												<option key={id} value={id}>
-													{name}
-												</option>
-											))}
-										</>
-									}
-								/>
-								<span className="text-danger">
-									{validation.errors.currencyId || ''}
-								</span>
-							</Col>
-							{currencyFields()?.map(({ name, label, placeholder, type }) => (
-								<Col sm={6} lg={3} className="my-2 text-start" key={name}>
+				{allCurrencies?.map(
+					({ code: currencyCode, id: currencyId, symbol }) => (
+						<>
+							<Row>
+								<Col sm={6} lg={3} className="my-2">
 									<label
-										htmlFor={name}
+										htmlFor="currencyId"
 										style={{ fontSize: '14px' }}
 										className="d-flex align-items-left"
 									>
-										{label}
+										Currency
 									</label>
-									<CustomInputField
-										name={`[${currencyCode}][${name}]`}
-										value={validation?.values?.[currencyCode]?.[name]}
-										onBlur={validation.handleBlur}
-										onChange={(e) => {
-											validation?.handleChange(e);
-											handleChangeCustom(e, name, currencyCode);
-										}}
-										placeholder={placeholder}
-										type={type}
-										required
+									<CustomSelectField
+										id="currencyId"
+										type="select"
+										name="currencyId"
+										value={currencyId}
+										disabled
+										// onChange={validation.handleChange}
+										options={
+											<>
+												<option value={null} selected disabled>
+													Select currency
+												</option>
+												{allCurrencies?.map(({ id, name }) => (
+													<option key={id} value={id}>
+														{name}
+													</option>
+												))}
+											</>
+										}
 									/>
-									{validation.touched?.[currencyCode]?.[name] &&
-									validation.errors?.[currencyCode]?.[name] ? (
-										<span className="text-danger">
-											{validation.errors?.[currencyCode]?.[name] || ''}
-										</span>
-									) : null}
+									<span className="text-danger">
+										{validation.errors.currencyId || ''}
+									</span>
 								</Col>
-							))}
-						</Row>
-						<Row>
-							<Card>
-								<CardBody>
-									{validation?.values?.[currencyCode]?.tournamentPrizeType ===
-										'cash' &&
-									validation?.values?.[currencyCode]?.numberOfWinners ? (
-										<div className="">
-											<div className="square-switch d-flex align-items-center mb-5">
-												<p className="m-0 pe-2 fs-5 me-5">
-													<b>Settlement Method -</b>
-												</p>
-												{[
+								{currencyFields()?.map(({ name, label, placeholder, type }) => (
+									<Col sm={6} lg={3} className="my-2 text-start" key={name}>
+										<label
+											htmlFor={name}
+											style={{ fontSize: '14px' }}
+											className="d-flex align-items-left"
+										>
+											{label}
+										</label>
+										<CustomInputField
+											name={`[${currencyCode}][${name}]`}
+											value={validation?.values?.[currencyCode]?.[name]}
+											onBlur={validation.handleBlur}
+											onChange={(e) => {
+												validation?.handleChange(e);
+												handleChangeCustom(e, name, currencyCode);
+											}}
+											placeholder={placeholder}
+											type={type}
+											required
+										/>
+										{validation.touched?.[currencyCode]?.[name] &&
+										validation.errors?.[currencyCode]?.[name] ? (
+											<span className="text-danger">
+												{validation.errors?.[currencyCode]?.[name] || ''}
+											</span>
+										) : null}
+									</Col>
+								))}
+							</Row>
+							<Row>
+								<Card>
+									<CardBody>
+										{validation?.values?.[currencyCode]?.tournamentPrizeType ===
+											'cash' &&
+										validation?.values?.[currencyCode]?.numberOfWinners ? (
+											<div className="">
+												<div className="square-switch d-flex align-items-center mb-5">
+													<p className="m-0 pe-2 fs-5 me-5">
+														<b>Settlement Method - Amount</b>
+													</p>
+													{/* {[
 													// { label: 'Percentage', value: 'percentage' },
 													{ label: 'Amount', value: 'amount' },
 												].map((settlementType) => (
@@ -242,115 +245,106 @@ const Currencies = ({
 														inputClassName="form-check-input"
 														onClick={validation?.handleChange}
 													/>
-												))}
-											</div>
-											<div className="d-flex justify-content-between">
-												<h5 className="fw-bold text-capitalize">
-													Pool Prize -
-													{` ${
-														validation.values?.[currencyCode]
-															?.prizeSettlementMethod === 'percentage'
-															? 100
-															: validation.values?.[currencyCode].poolPrize || 0
-													} ${
-														validation.values?.[currencyCode]
-															?.prizeSettlementMethod === 'percentage'
-															? '%'
-															: ''
-													}`}
-												</h5>
-												<h5 className="fw-bold text-capitalize">
-													Remaining Amount -
-													{` ${
-														validation.values?.[currencyCode].remainingAmount
-													} ${
-														validation.values?.[currencyCode]
-															?.prizeSettlementMethod === 'percentage'
-															? '%'
-															: ''
-													}`}
-												</h5>
-											</div>
-											<Progress
-												striped
-												color="primary"
-												max={
-													validation.values?.[currencyCode]
-														?.prizeSettlementMethod === 'amount'
-														? validation.values?.[currencyCode]?.poolPrize || 0
-														: 100
-												}
-												value={
-													validation.values?.[currencyCode]?.remainingAmount
-												}
-												className="animated-progess progress-xl font-size-18"
-											>
-												<div className="progress-value fw-bold fs-6">
-													{validation.values?.[currencyCode].remainingAmount}
+												))} */}
 												</div>
-											</Progress>
-										</div>
-									) : null}
-									<Row>
-										{Object.values(
-											validation?.values?.[currencyCode]?.prizes || {}
-										)?.map(({ value, rank, type }) => (
-											<Col lg={4} className="pb-2">
-												<Label className="form-label">
-													Winner {rank}
-													<span className="text-danger"> *</span>
-												</Label>
-												<InputGroup>
-													<CustomInputField
-														name={`[${currencyCode}][prizes][${rank}][value]`}
-														value={value}
-														onBlur={validation?.handleBlur}
-														onChange={(e) => {
-															validation.handleChange(e);
-															updateRemainingAmount(e, currencyCode, rank);
-														}}
-														type="number"
-														min={0}
-														required
-													/>
-													<InputGroupText className="password-btn btn btn-primary p-1 px-2">
-														<>
-															<i
-																className={`${
-																	type === 'number'
-																		? 'mdi mdi-percent'
-																		: 'mdi mdi-alphabetical-variant'
-																} font-size-20`}
-																id={`winnerFieldType${rank}`}
-															/>
-															<UncontrolledTooltip
-																placement="top"
-																target={`winnerFieldType${rank}`}
-															>
-																{type === 'number' ? 'cash' : 'non-cash'}
-															</UncontrolledTooltip>
-														</>
-													</InputGroupText>
-												</InputGroup>
-												{validation.touched?.[currencyCode]?.prizes?.[rank]
-													?.value &&
-												validation.errors?.[currencyCode]?.prizes?.[rank]
-													?.value ? (
-													<FormFeedback type="invalid" className="d-block">
-														{
-															validation.errors?.[currencyCode]?.prizes?.[rank]
-																?.value
-														}
-													</FormFeedback>
-												) : null}
-											</Col>
-										))}
-									</Row>
-								</CardBody>
-							</Card>
-						</Row>
-					</>
-				))}
+												<div className="d-flex justify-content-between">
+													<h5 className="fw-bold text-capitalize">
+														Pool Prize -
+														{` ${
+															validation.values?.[currencyCode]
+																?.prizeSettlementMethod === 'percentage'
+																? 100
+																: validation.values?.[currencyCode].poolPrize ||
+																  0
+														} ${
+															validation.values?.[currencyCode]
+																?.prizeSettlementMethod === 'percentage'
+																? '%'
+																: ''
+														}`}
+													</h5>
+													<h5 className="fw-bold text-capitalize">
+														Remaining Amount -
+														{` ${
+															validation.values?.[currencyCode].remainingAmount
+														} ${
+															validation.values?.[currencyCode]
+																?.prizeSettlementMethod === 'percentage'
+																? '%'
+																: ''
+														}`}
+													</h5>
+												</div>
+												<Progress
+													striped
+													color="primary"
+													max={
+														validation.values?.[currencyCode]
+															?.prizeSettlementMethod === 'amount'
+															? validation.values?.[currencyCode]?.poolPrize ||
+															  0
+															: 100
+													}
+													value={
+														validation.values?.[currencyCode]?.remainingAmount
+													}
+													className="animated-progess progress-xl font-size-18"
+												>
+													<div className="progress-value fw-bold fs-6">
+														{validation.values?.[currencyCode].remainingAmount}
+													</div>
+												</Progress>
+											</div>
+										) : null}
+										<Row>
+											{Object.values(
+												validation?.values?.[currencyCode]?.prizes || {}
+											)?.map(({ value, rank }) => (
+												<Col lg={4} className="pb-2">
+													<Label className="form-label">
+														Winner {rank}
+														<span className="text-danger"> *</span>
+													</Label>
+													<InputGroup>
+														{symbol ? (
+															<InputGroupText className="password-btn btn btn-primary">
+																{symbol}
+															</InputGroupText>
+														) : null}
+														<CustomInputField
+															name={`[${currencyCode}][prizes][${rank}][value]`}
+															value={value}
+															onBlur={validation?.handleBlur}
+															onChange={(e) => {
+																validation.handleChange(e);
+																updateRemainingAmount(e, currencyCode, rank);
+															}}
+															type="number"
+															min={0}
+															required
+														/>
+													</InputGroup>
+													{validation.touched?.[currencyCode]?.prizes?.[rank]
+														?.value &&
+													validation.errors?.[currencyCode]?.prizes?.[rank]
+														?.value ? (
+														<FormFeedback type="invalid" className="d-block">
+															{
+																validation.errors?.[currencyCode]?.prizes?.[
+																	rank
+																]?.value
+															}
+														</FormFeedback>
+													) : null}
+												</Col>
+											))}
+										</Row>
+									</CardBody>
+								</Card>
+							</Row>
+						</>
+					)
+				)}
 			</Card>
 			<Actions
 				handleNextClick={handleNextClick}

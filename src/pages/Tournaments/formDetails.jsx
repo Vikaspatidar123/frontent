@@ -1,22 +1,19 @@
 /* eslint-disable no-unused-vars */
-
-import React from 'react';
 import * as Yup from 'yup';
-import moment from 'moment';
 import imageDimensionCheck from '../../utils/imageDimensionCheck';
 import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 import { TOURNAMENT_STATUS } from './constants';
 
-const tournamentPrizeTypeOptionsList = [
-	{
-		optionLabel: 'Cash',
-		value: 'cash',
-	},
-	{
-		optionLabel: 'Non Cash',
-		value: 'non_cash',
-	},
-];
+// const tournamentPrizeTypeOptionsList = [
+// 	{
+// 		optionLabel: 'Cash',
+// 		value: 'cash',
+// 	},
+// 	{
+// 		optionLabel: 'Non Cash',
+// 		value: 'non_cash',
+// 	},
+// ];
 
 const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
 	let currencyDetails = {};
@@ -175,13 +172,12 @@ const prizesValidation = (code) =>
 							exclusive: true,
 							message:
 								'Prize must be smaller than or equals to the previous winner.',
-							test(value) {
+							test(value, context) {
 								if (tournamentPrizeType === 'non_cash') {
 									return true;
 								}
 								const previousWinnerValue =
 									this?.options?.context?.[code]?.prizes?.[i - 1]?.value;
-
 								if (i > 1 && value > previousWinnerValue) {
 									return false;
 								}
@@ -226,14 +222,35 @@ const currencyValidate = (allCurrencies) => {
 				.required('Rebuy limit required'),
 			rebuyFees: Yup.number()
 				.min(1, 'Amount should be greater than 1')
-				.required('Rebuy fees required'),
+				.required('Re buy fees required')
+				.test(
+					'greater than entry fees',
+					'Re buy must be greater than entry fees',
+					(value, context) => {
+						if (value <= context?.parent?.entryFees) {
+							return false;
+						}
+						return true;
+					}
+				),
 
 			minPlayerLimit: Yup.number()
 				.required('Minimum Participants Limit Required.')
 				.test(
-					'greaterThanMaximumParticipants',
-					'Minimum participants limit should be smaller than Maximum Participants Limit',
-					(value) => value > 0
+					'greater Than',
+					`Minimum participants limit should be greater than 0`,
+					function (value, context) {
+						const fields = context?.parent || {};
+						const minValue = Math.ceil(
+							(fields?.poolPrize || 0) / (fields?.entryFees || 1)
+						);
+						if (value < minValue) {
+							return this.createError({
+								message: `Minimum participants limit should be greater than equal to ${minValue}`,
+							});
+						}
+						return value > 0;
+					}
 				),
 			maxPlayerLimit: Yup.number()
 				.required('Maximum Participants Limit Required.')
