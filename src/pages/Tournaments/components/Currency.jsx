@@ -309,7 +309,7 @@ const Currencies = ({
 															validation.handleChange(e);
 															updateRemainingAmount(e, currencyCode, rank);
 														}}
-														type={type}
+														type="number"
 														min={0}
 														required
 													/>
@@ -332,10 +332,15 @@ const Currencies = ({
 														</>
 													</InputGroupText>
 												</InputGroup>
-												{validation.touched?.[currencyCode]?.prizes?.[rank] &&
-												validation.errors?.[currencyCode]?.prizes?.[rank] ? (
+												{validation.touched?.[currencyCode]?.prizes?.[rank]
+													?.value &&
+												validation.errors?.[currencyCode]?.prizes?.[rank]
+													?.value ? (
 													<FormFeedback type="invalid" className="d-block">
-														{validation.errors?.[currencyCode]?.prizes?.[rank]}
+														{
+															validation.errors?.[currencyCode]?.prizes?.[rank]
+																?.value
+														}
 													</FormFeedback>
 												) : null}
 											</Col>
