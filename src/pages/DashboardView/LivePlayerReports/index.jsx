@@ -18,10 +18,10 @@ const Reports = (props) => {
 		() => [
 			{
 				title: 'Today GGR',
-				description: `${defaultCurrency?.symbol} ${
+				description: `${defaultCurrency?.symbol} ${(
 					livePlayerData.todayTotalCasinoGGR +
 						livePlayerData.todayTotalSportsbookGGR || 0
-				}`,
+				)?.toFixed(2)}`,
 				iconClass: 'bx bxs-dollar-circle',
 				reportClass: 'reportList1',
 			},
