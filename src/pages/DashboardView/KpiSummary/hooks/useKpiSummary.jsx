@@ -58,10 +58,10 @@ const useKpiSummary = () => {
 						kPISummary[`today${value}`] || 0
 					}`,
 					yesterday: `${isAmount ? currency.symbol : ''} ${
-						kPISummary[`yesterday${value}`]
+						kPISummary[`yesterday${value}`] || 0
 					}`,
 					monthToDate: `${isAmount ? currency.symbol : ''} ${
-						kPISummary[`monthtodate${value}`]
+						kPISummary[`monthtodate${value}`] || 0
 					}`,
 					delta: `${delta} %`,
 				};
