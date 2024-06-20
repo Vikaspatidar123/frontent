@@ -59,7 +59,9 @@ const General = ({
 	const handleNextClick = (nextTab) => {
 		validation.submitForm();
 		generalFormSchema()
-			.validate(validation.values)
+			.validate(validation.values, {
+				abortEarly: false,
+			})
 			.then(() => {
 				handleSubmit(validation.values);
 				toggleTab(nextTab);
@@ -68,6 +70,7 @@ const General = ({
 				console.log('Error in general form = ', err?.errors);
 			});
 	};
+
 	useEffect(() => {
 		if (tournamentDetail) {
 			validation.setValues(generalStepInitialValues(tournamentDetail));
