@@ -53,7 +53,6 @@ const useCreate = ({ isEdit }) => {
 				})
 			);
 		}
-		return () => dispatch(resetPaymentProvider());
 	}, [paymentId]);
 
 	useEffect(() => {
@@ -72,19 +71,20 @@ const useCreate = ({ isEdit }) => {
 		if (isEmpty(languages)) {
 			dispatch(fetchLanguagesStart());
 		}
+		return () => {
+			dispatch(resetPaymentProvider());
+		};
 	}, []);
 
 	useEffect(() => {
 		if (createSuccess) {
 			navigate('/payment');
-			dispatch(resetPaymentProvider());
 		}
 	}, [createSuccess]);
 
 	useEffect(() => {
 		if (updateSuccess) {
 			navigate('/payment');
-			dispatch(resetPaymentProvider());
 		}
 	}, [updateSuccess]);
 

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Card, Col, Row } from 'reactstrap';
+import { Card, Col, Row, Button, UncontrolledTooltip } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import {
@@ -30,7 +30,7 @@ const Currencies = ({
 	const [currencyObj, setCurrencyObj] = useState({});
 
 	const { validation } = useForm({
-		initialValues: getInitialValues()?.currencyDetails,
+		initialValues: getInitialValues()?.providerLimit,
 		validationSchema: currencyValidate(),
 	});
 
@@ -56,7 +56,6 @@ const Currencies = ({
 		if (currencyArr?.length) {
 			const updateFields = await handleSubmit();
 			toggleTab(nextTab, updateFields);
-			
 		} else {
 			setAllFields({
 				...allFields,
@@ -66,30 +65,41 @@ const Currencies = ({
 		}
 	};
 
-	const handleCurrencyChange = (currId) => {
+	const handleCurrencyChange = ({ currId, currName }) => {
+		if (validation?.values?.[currId]) return;
+
 		const remCur = {
-			...currencyObj,
-			[currId]: currencyObj?.[currId]
-				? currencyObj?.[currId]
-				: {
-						currencyId: currId,
-						minDeposit: null,
-						maxDeposit: null,
-						minWithdraw: null,
-						maxWithdraw: null,
-				  },
+			[currId]: {
+				currencyName: currName,
+				currencyId: currId,
+				minDeposit: null,
+				maxDeposit: null,
+				minWithdraw: null,
+				maxWithdraw: null,
+			},
 		};
 
-		validation.setValues(
-			currencyObj?.[currId] ? currencyObj?.[currId] : remCur?.[currId]
-		);
-		setCurrencyObj(remCur);
+		validation.setValues((prev) => ({
+			...prev,
+			...remCur,
+		}));
+		// setCurrencyObj(remCur);
+	};
+
+	const handleDeleteCurrency = (id) => {
+		if (validation.values?.[id]) {
+			validation.setValues((prev) => {
+				// eslint-disable-next-line
+				delete prev?.[id];
+				return prev;
+			});
+		}
 	};
 
 	useEffect(() => {
 		if (!isEmpty(paymentDetails)) {
 			const currency = filterEmptyPayload(
-				getInitialValues(paymentDetails)?.providerLimits
+				getInitialValues(paymentDetails)?.providerLimit
 			);
 			setCurrencyObj(currency);
 		}
@@ -122,10 +132,13 @@ const Currencies = ({
 							id="currencyId"
 							type="select"
 							name="currencyId"
-							value={validation?.values?.currencyId}
+							// value={validation?.values?.currencyId}
 							onChange={(e) => {
-								validation.handleChange(e);
-								handleCurrencyChange(e?.target?.value);
+								// validation.handleChange(e);
+								handleCurrencyChange({
+									currId: e?.target?.value,
+									currName: e.target.options[e.target.selectedIndex].text,
+								});
 							}}
 							options={
 								<>
@@ -148,42 +161,72 @@ const Currencies = ({
 					</Col>
 				</Row>
 				<Row>
-					{validation?.values?.currencyId &&
-						currencyFields?.map(({ key, label }) => (
-							<Col sm={12} lg={3}>
-								<label htmlFor={key} style={{ fontSize: '14px' }}>
-									{label}
-								</label>
-								<CustomInputField
-									name={key}
-									value={
-										validation?.values?.[key] === null
-											? ''
-											: validation?.values?.[key]
-									}
-									onChange={(e) => {
-										validation.handleChange(e);
-										validation.setValues({
-											...currencyObj?.[validation?.values?.currencyId],
-											[key]: e.target.value,
-										});
-										setCurrencyObj({
-											...currencyObj,
-											[validation?.values?.currencyId]: {
-												...currencyObj?.[validation?.values?.currencyId],
-												[key]: e.target.value,
-											},
-										});
-									}}
-									isError
-									errorMsg={validation.errors?.[key]}
-									type="number"
-									required
-								/>
-								<span className="text-danger">
-									{validation.errors[key] || ''}
-								</span>
-							</Col>
+					{validation?.values &&
+						Object.entries(validation?.values)?.map(([key, value]) => (
+							<>
+								<Row className="mb-2 mt-4">
+									<Col sm={12} lg={3} className="d-flex ml-2">
+										<CustomInputField
+											value={value?.currencyName}
+											className="text-center font-weight-bold"
+											disabled
+										/>
+										<Button
+											id="deleteToolTip"
+											className="btn btn-sm btn-danger"
+											onClick={() => handleDeleteCurrency(key)}
+										>
+											<i className="mdi mdi-delete-outline" />
+											<UncontrolledTooltip
+												placement="top"
+												target="deleteToolTip"
+											>
+												Remove Currency
+											</UncontrolledTooltip>
+										</Button>
+									</Col>
+									<Col sm={12} lg={1} className="mt-2 align-self-center" />
+								</Row>
+								{currencyFields?.map(({ key: currencyKey, label }) => (
+									<Col sm={12} lg={3}>
+										<label htmlFor={currencyKey} style={{ fontSize: '14px' }}>
+											{label}
+										</label>
+										<CustomInputField
+											name={currencyKey}
+											value={
+												validation?.values?.[key]?.[currencyKey] === null
+													? ''
+													: validation?.values?.[key]?.[currencyKey]
+											}
+											onChange={(e) => {
+												validation.handleChange(e);
+												validation.setValues((prev) => ({
+													...prev,
+													[key]: {
+														...validation?.values?.[key],
+														[currencyKey]: e.target.value,
+													},
+												}));
+												// setCurrencyObj({
+												// 	...currencyObj,
+												// 	[validation?.values?.[key]?.currencyId]: {
+												// 		...currencyObj?.[validation?.values?.[key]?.currencyId],
+												// 		[currencyKey]: e.target.value,
+												// 	},
+												// });
+											}}
+											isError
+											errorMsg={validation?.errors?.[key]?.[currencyKey]}
+											type="number"
+											required
+										/>
+										<span className="text-danger">
+											{validation?.errors?.[key]?.[currencyKey] || ''}
+										</span>
+									</Col>
+								))}
+							</>
 						))}
 				</Row>
 			</Card>

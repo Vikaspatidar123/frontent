@@ -30,11 +30,13 @@ const PaymentProviderView = () => {
 
 	useEffect(() => {
 		dispatch(getPaymentDetails({ providerId: paymentId }));
+		return () => {
+			dispatch(resetPaymentProvider());
+		};
 	}, [paymentId]);
 
 	const onBackClick = () => {
 		navigate('/payment');
-		dispatch(resetPaymentProvider());
 	};
 
 	const tabData = [
