@@ -17,17 +17,21 @@ const GeneralDetails = ({ paymentDetails }) => (
 						<h6 className="text-nowrap">Name:</h6>
 					</Col>
 					<Col>
-						<p>{paymentDetails?.name || '-'}</p>
+						<p>
+							{paymentDetails?.name?.[selectedLanguage]
+								? Parser(paymentDetails?.name?.[selectedLanguage])
+								: '-'}
+						</p>
 					</Col>
 				</Row>
-				<Row>
+				{/* <Row>
 					<Col>
 						<h6 className="text-nowrap">Title:</h6>
 					</Col>
 					<Col>
 						<p>{paymentDetails?.displayName?.[selectedLanguage] || '-'}</p>
 					</Col>
-				</Row>
+				</Row> */}
 				<Row>
 					<Col>
 						<h6 className="text-nowrap">Description:</h6>

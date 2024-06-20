@@ -9,7 +9,7 @@ import {
 	tableCustomClass,
 	tbodyClass,
 } from '../../constants/config';
-import CrudSection from '../../components/Common/CrudSection';
+// import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 import usePaymentListing from './hooks/usePaymentListing';
@@ -36,7 +36,7 @@ const PaymentProviders = () => {
 		itemsPerPage,
 		columns,
 		paymentListing,
-		buttonList,
+		// buttonList,
 		onChangeRowsPerPage,
 	} = usePaymentListing(false, filterValidation.values);
 
@@ -49,7 +49,7 @@ const PaymentProviders = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Payment" />
+							{/* <CrudSection buttonList={buttonList} title="Payment" /> */}
 							<CardBody>
 								<Filters
 									validation={filterValidation}

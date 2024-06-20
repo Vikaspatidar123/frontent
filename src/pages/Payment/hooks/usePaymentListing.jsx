@@ -95,7 +95,7 @@ const usePaymentListing = (filterValues = {}) => {
 							<span
 								className={`avatar-title rounded-circle ${randomColor} text-${randomColor}`}
 							>
-								{name?.charAt(0)?.toUpperCase()}
+								{name?.EN?.charAt(0)?.toUpperCase()}
 							</span>
 						</div>
 					);
@@ -114,7 +114,7 @@ const usePaymentListing = (filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => (
 					<Name
-						value={cell.value}
+						value={cell.value?.EN}
 						paymentData={cell?.row?.original}
 						handleView={handleView}
 					/>
