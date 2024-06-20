@@ -135,7 +135,7 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			},
 			{
 				Header: 'PROVIDER',
-				accessor: 'casinoProvider',
+				accessor: 'providerName',
 				filterable: true,
 				Cell: ({ cell }) => <Provider value={cell.value} />,
 			},
