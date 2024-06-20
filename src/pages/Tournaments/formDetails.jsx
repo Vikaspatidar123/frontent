@@ -277,7 +277,7 @@ const currencyValidate = (allCurrencies) => {
 const staticFormFields = () => [
 	{
 		name: 'registrationEndDate',
-		fieldType: 'datePicker',
+		fieldType: 'dateTimePicker',
 		label: 'Registration End Date',
 		placeholder: 'Select End Date',
 		mandatory: true,
@@ -287,7 +287,7 @@ const staticFormFields = () => [
 	},
 	{
 		name: 'startDate',
-		fieldType: 'datePicker',
+		fieldType: 'dateTimePicker',
 		label: 'Start Date',
 		placeholder: 'Select Start Date',
 		mandatory: true,
@@ -297,7 +297,7 @@ const staticFormFields = () => [
 	},
 	{
 		name: 'endDate',
-		fieldType: 'datePicker',
+		fieldType: 'dateTimePicker',
 		label: 'End Date',
 		placeholder: 'Select End Date',
 		timeIntervals: 5,

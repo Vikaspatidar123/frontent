@@ -68,7 +68,6 @@ const General = ({
 				console.log('Error in general form = ', err?.errors);
 			});
 	};
-
 	useEffect(() => {
 		if (tournamentDetail) {
 			validation.setValues(generalStepInitialValues(tournamentDetail));

@@ -20,9 +20,14 @@ import {
 	Button,
 	InputGroupText,
 } from 'reactstrap';
-import 'flatpickr/dist/themes/material_blue.css';
 import Select from 'react-select';
+
 import FlatPickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_blue.css';
+
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import moment from 'moment';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -166,6 +171,48 @@ export const CustomDateField = ({
 			monthsShown={2}
 			// maxDate={maxDate}
 			// minDate={minDate}
+			{...rest}
+		/>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid" className="d-block">
+				{errorMsg}
+			</FormFeedback>
+		) : null}
+	</div>
+);
+
+export const CustomDateTime = ({
+	name,
+	label,
+	placeholder,
+	value,
+	// eslint-disable-next-line no-unused-vars
+	onChange = () => {}, // need for preventing code break
+	onBlur,
+	isError,
+	errorMsg,
+	maxDate = moment().utc().startOf('day').toDate(),
+	minDate = moment().subtract(100, 'years').utc().toDate(),
+	validation,
+	minDateField,
+	dateFormat = 'MMMM d, yyyy h:mm aa',
+	...rest
+}) => (
+	<div id="datepicker1">
+		{label && <Label for={name}>{label}</Label>}
+		<DatePicker
+			className="form-control"
+			// name={name}
+			selected={value}
+			placeholderText={placeholder}
+			showTimeSelect
+			dateFormat={dateFormat}
+			onChange={(date) => {
+				validation.setFieldValue(name, date);
+			}}
+			monthsShown={1}
+			maxDate={maxDate}
+			minDate={minDate}
 			{...rest}
 		/>
 		{isError && errorMsg ? (
@@ -552,6 +599,24 @@ export const getField = (
 		case 'datePicker':
 			return (
 				<CustomDateField
+					name={name}
+					label={label}
+					placeholder={placeholder}
+					value={validation.values[name]}
+					onChange={validation.onChange}
+					isError
+					invalid={!!(validation.touched[name] && validation.errors[name])}
+					errorMsg={validation.touched[name] && validation.errors[name]}
+					disabled={!!isDisabled}
+					maxDate={maxDate}
+					minDate={minDate}
+					validation={validation}
+					minDateField={minDateField}
+				/>
+			);
+		case 'dateTimePicker':
+			return (
+				<CustomDateTime
 					name={name}
 					label={label}
 					placeholder={placeholder}
