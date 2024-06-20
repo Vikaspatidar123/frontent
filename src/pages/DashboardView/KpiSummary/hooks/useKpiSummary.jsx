@@ -54,15 +54,15 @@ const useKpiSummary = () => {
 				);
 				return {
 					name: label,
-					today: `${isAmount ? currency.symbol : ''} ${
+					today: `${isAmount ? currency.symbol : ''} ${Number(
 						kPISummary[`today${value}`] || 0
-					}`,
-					yesterday: `${isAmount ? currency.symbol : ''} ${
+					)?.toFixed(2)}`,
+					yesterday: `${isAmount ? currency.symbol : ''} ${Number(
 						kPISummary[`yesterday${value}`] || 0
-					}`,
-					monthToDate: `${isAmount ? currency.symbol : ''} ${
+					)?.toFixed(2)}`,
+					monthToDate: `${isAmount ? currency.symbol : ''} ${Number(
 						kPISummary[`monthtodate${value}`] || 0
-					}`,
+					)?.toFixed(2)}`,
 					delta: `${delta} %`,
 				};
 			});

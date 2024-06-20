@@ -69,7 +69,7 @@ const leftStaticSiteConfigFormFields = (details, customBlurHandler) => [
 	{
 		name: 'applicationName',
 		fieldType: 'textField',
-		// description: details?.applicationName?.description,
+		description: details?.applicationName?.description,
 		label: 'Application name',
 		placeholder: 'Enter application name',
 		customBlurHandler,
@@ -99,15 +99,12 @@ const leftStaticSiteConfigFormFields = (details, customBlurHandler) => [
 		customBlurHandler,
 	},
 	{
-		name: 'logo',
-		fieldType: 'file',
-		description: details?.logo?.description,
-		label: 'Application Logo',
-		placeholder: 'Enter application logo',
-		showThumbnail: true,
-		customThumbnailBackground: '#1A1D29',
-		customPadding: '8px',
-		callBack: customBlurHandler,
+		name: 'referralAmount',
+		fieldType: 'textField',
+		description: '',
+		label: 'Referral Amount',
+		placeholder: 'Enter Referral Amount',
+		customBlurHandler,
 	},
 ];
 
@@ -144,6 +141,17 @@ const rightStaticSiteConfigFormFields = (details, customBlurHandler) => [
 		placeholder: 'Enter exchange bet commission',
 		customBlurHandler,
 	},
+	{
+		name: 'logo',
+		fieldType: 'file',
+		description: details?.logo?.description,
+		label: 'Application Logo',
+		placeholder: 'Enter application logo',
+		showThumbnail: true,
+		customThumbnailBackground: '#1A1D29',
+		customPadding: '8px',
+		callBack: customBlurHandler,
+	},
 ];
 
 const leftAppSettingsFormFields = (details, customOnChange) => [
@@ -162,6 +170,17 @@ const leftAppSettingsFormFields = (details, customOnChange) => [
 		fieldType: 'toggle',
 		description: details?.casino?.description,
 		label: 'Casino',
+		switchSizeClass: 'd-flex justify-content-between form-switch-md px-0 py-1',
+		containerClass: 'false',
+		callBack: customOnChange,
+		divClass: 'mb-5',
+	},
+	{
+		name: 'allowReferral',
+		fieldType: 'toggle',
+		description:
+			'Player can refer this application to other non register players.',
+		label: 'Allow Referral',
 		switchSizeClass: 'd-flex justify-content-between form-switch-md px-0 py-1',
 		containerClass: 'false',
 		callBack: customOnChange,
