@@ -2,16 +2,35 @@
 /* eslint-disable no-nested-ternary */
 
 import React from 'react';
-import { Badge, Card, Col, Row } from 'reactstrap';
+import { Badge, Card, CardHeader, Col, Row } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Parser from 'html-react-parser';
 
 import { selectedLanguage } from '../../../constants/config';
+import NoDataFound from '../../../components/Common/NoDataFound';
 
 const GeneralDetails = ({ paymentDetails }) => (
-	<Row>
-		<Col sm={4}>
-			<Card className="p-3">
+	<Card className="p-3">
+		<Row className="align-items-center">
+			<Col sm={4} className="text-align-center">
+				{paymentDetails?.image ? (
+					<img src={paymentDetails?.image} alt="Payment Provider" />
+				) : (
+					<NoDataFound height="200px" width="300px" />
+				)}
+			</Col>
+			<Col sm={8}>
+				<CardHeader className="mb-4">
+					<Row>
+						<Col>
+							<h3>
+								{paymentDetails?.name?.[selectedLanguage]
+									? Parser(paymentDetails?.name?.[selectedLanguage])
+									: '-'}
+							</h3>
+						</Col>
+					</Row>
+				</CardHeader>
 				<Row>
 					<Col>
 						<h6 className="text-nowrap">Name:</h6>
@@ -42,10 +61,6 @@ const GeneralDetails = ({ paymentDetails }) => (
 							: '-'}
 					</Col>
 				</Row>
-			</Card>
-		</Col>
-		<Col sm={4}>
-			<Card className="p-3">
 				<Row>
 					<Col>
 						<h6 className="text-nowrap">Category:</h6>
@@ -81,13 +96,8 @@ const GeneralDetails = ({ paymentDetails }) => (
 						</Badge>
 					</Col>
 				</Row>
-			</Card>
-		</Col>
-
-		<Col sm={4}>
-			<Card className="p-3">
 				<Row>
-					<Col sm={4}>
+					<Col>
 						<h6 className="text-nowrap">Deposit Allowed:</h6>
 					</Col>
 					<Col>
@@ -104,7 +114,7 @@ const GeneralDetails = ({ paymentDetails }) => (
 					</Col>
 				</Row>
 				<Row>
-					<Col sm={4}>
+					<Col>
 						<h6 className="text-nowrap">Withdraw Allowed:</h6>
 					</Col>
 					<Col>
@@ -120,9 +130,9 @@ const GeneralDetails = ({ paymentDetails }) => (
 						</Badge>
 					</Col>
 				</Row>
-			</Card>
-		</Col>
-	</Row>
+			</Col>
+		</Row>
+	</Card>
 );
 
 GeneralDetails.defaultProps = {

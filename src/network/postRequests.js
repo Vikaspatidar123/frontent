@@ -531,6 +531,15 @@ const cancelTournament = (data) =>
 		data
 	);
 
+const updatePaymentProvider = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PAYMENT}update`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -615,4 +624,5 @@ export {
 	createPaymentProvider,
 	updateTournamentSettlement,
 	cancelTournament,
+	updatePaymentProvider,
 };

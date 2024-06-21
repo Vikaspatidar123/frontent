@@ -67,6 +67,7 @@ import EditTournament from '../pages/Tournaments/EditTournament';
 import PaymentProviders from '../pages/Payment';
 import CreatePayment from '../pages/Payment/CreatePayment';
 import PaymentProviderView from '../pages/Payment/PaymentProviderView';
+import EditPayment from '../pages/Payment/EditPayment';
 
 const authProtectedRoutes = [
 	{
@@ -477,6 +478,12 @@ const authProtectedRoutes = [
 		component: <CreatePayment />,
 		modules: [modules.paymentManagement],
 		operation: 'C',
+	},
+	{
+		path: '/payment/edit/:paymentId',
+		component: <EditPayment />,
+		modules: [modules.paymentManagement],
+		operation: 'U',
 	},
 	{
 		path: '/payment/details/:paymentId',

@@ -28,7 +28,7 @@ const General = ({
 
 		setLangContent((prev) => ({
 			description: { ...prev.description, EN: values.description },
-			displayName: { ...prev.displayName, EN: values.displayName },
+			name: { ...prev.name, EN: values.name },
 		}));
 	};
 
