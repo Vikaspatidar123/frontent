@@ -58,16 +58,16 @@ const usePaymentListing = (filterValues = {}) => {
 		navigate('add');
 	};
 
-	// const handleEdit = (e, row) => {
-	// 	e.preventDefault();
-	// 	localStorage.setItem(
-	// 		`${STORAGE_KEY.ADMIN_EDIT}_${row.id}`,
-	// 		encryptCredentials(JSON.stringify(row))
-	// 	);
-	// 	setTimeout(() => {
-	// 		navigate(`edit/${row.id}`);
-	// 	}, 200);
-	// };
+	const handleEdit = (e, row) => {
+		e.preventDefault();
+		localStorage.setItem(
+			`${STORAGE_KEY.ADMIN_EDIT}_${row?.id}`,
+			encryptCredentials(JSON.stringify(row))
+		);
+		setTimeout(() => {
+			navigate(`edit/${row?.id}`);
+		}, 200);
+	};
 
 	const buttonList = useMemo(() => [
 		{
@@ -158,7 +158,7 @@ const usePaymentListing = (filterValues = {}) => {
 				disableSortBy: true,
 				Cell: ({ cell }) => (
 					<ActionButtons
-						// handleEdit={handleEdit}
+						handleEdit={handleEdit}
 						row={cell.row}
 						// handleStatus={handleStatus}
 						handleView={handleView}

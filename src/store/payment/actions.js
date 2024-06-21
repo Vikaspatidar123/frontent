@@ -9,6 +9,9 @@ import {
 	GET_PAYMENT_DETAILS_SUCCESS,
 	GET_PAYMENT_DETAILS_FAIL,
 	RESET_PAYMENT_DETAILS,
+	UPDATE_PAYMENT_PROVIDER,
+	UPDATE_PAYMENT_SUCCESS,
+	UPDATE_PAYMENT_FAIL,
 } from './actionTypes';
 
 export const getPaymentListingSuccess = (payload) => ({
@@ -58,5 +61,20 @@ export const getPaymentDetailsSuccess = (payload) => ({
 
 export const getPaymentDetailsFail = (payload) => ({
 	type: GET_PAYMENT_DETAILS_FAIL,
+	payload,
+});
+
+export const updatePaymentProvider = (payload) => ({
+	type: UPDATE_PAYMENT_PROVIDER,
+	payload,
+});
+
+export const updatePaymentSuccess = (payload) => ({
+	type: UPDATE_PAYMENT_SUCCESS,
+	payload,
+});
+
+export const updatePaymentFail = (payload) => ({
+	type: UPDATE_PAYMENT_FAIL,
 	payload,
 });

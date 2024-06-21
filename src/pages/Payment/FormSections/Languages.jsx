@@ -16,11 +16,11 @@ const SingleLangComponent = ({
 			<CustomInputField
 				placeholder="Enter Title"
 				label="Title"
-				value={langContent.displayName[lang]}
+				value={langContent?.name?.[lang]}
 				onChange={(e) =>
 					setLangContent((prev) => ({
 						...prev,
-						displayName: { ...prev.displayName, [lang]: e.target.value },
+						name: { ...prev.name, [lang]: e.target.value },
 					}))
 				}
 			/>
@@ -28,7 +28,7 @@ const SingleLangComponent = ({
 		<Col className="mb-3">
 			<CustomInputField
 				placeholder="Enter Description"
-				value={langContent.description[lang]}
+				value={langContent?.description?.[lang]}
 				label="Description"
 				onChange={(e) =>
 					setLangContent((prev) => ({
@@ -57,13 +57,13 @@ const Languages = ({
 	const toggle = (id) => setActiveLangTab(id);
 
 	// const checkAllEmptyCondition = () =>
-	// 	(langContent?.displayName?.[activeLangTab] === '' ||
-	// 		langContent?.displayName?.[activeLangTab] === undefined) &&
+	// 	(langContent?.name?.[activeLangTab] === '' ||
+	// 		langContent?.name?.[activeLangTab] === undefined) &&
 	// 	(langContent?.description?.[activeLangTab] === '' ||
 	// 		langContent?.description?.[activeLangTab] === undefined);
 
 	// const checkAllFilled = () =>
-	// 	langContent?.displayName?.[activeLangTab] &&
+	// 	langContent?.name?.[activeLangTab] &&
 	// 	langContent?.description?.[activeLangTab];
 
 	const tabData = useMemo(() => {

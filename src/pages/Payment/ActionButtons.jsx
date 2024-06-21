@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
-const ActionButtons = ({ row, handleView }) => {
+const ActionButtons = ({ row, handleView, handleEdit }) => {
 	// const active = row?.original?.isActive;
 	const paymentId = row?.original?.id;
 	// const isSuperAdmin = row?.original?.adminRole?.level === 1;
@@ -35,7 +35,6 @@ const ActionButtons = ({ row, handleView }) => {
 				<li>
 					{active ? (
 						<Button
-							disabled={isSuperAdmin}
 							className="btn btn-sm btn-soft-danger"
 							onClick={(e) =>
 								handleStatus(e, {
@@ -57,7 +56,6 @@ const ActionButtons = ({ row, handleView }) => {
 						</Button>
 					) : (
 						<Button
-							disabled={isSuperAdmin}
 							className="btn btn-sm btn-soft-success"
 							onClick={(e) =>
 								handleStatus(e, {
@@ -79,12 +77,11 @@ const ActionButtons = ({ row, handleView }) => {
 						</Button>
 					)}
 				</li>
-			)}
+			)} */}
 
 			{isGranted(modules.paymentManagement, 'U') && (
 				<li>
 					<Button
-						disabled={isSuperAdmin}
 						className="btn btn-sm btn-soft-info"
 						onClick={(e) => handleEdit(e, row?.original)}
 					>
@@ -100,13 +97,13 @@ const ActionButtons = ({ row, handleView }) => {
 						</UncontrolledTooltip>
 					</Button>
 				</li>
-			)} */}
+			)}
 		</ul>
 	);
 };
 
 ActionButtons.propTypes = {
-	// handleEdit: PropTypes.func.isRequired,
+	handleEdit: PropTypes.func.isRequired,
 	// handleStatus: PropTypes.func.isRequired,
 	row: PropTypes.objectOf.isRequired,
 	handleView: PropTypes.func.isRequired,

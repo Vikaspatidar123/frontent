@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'reactstrap';
 import Currencies from './Currency';
 import Breadcrumb from '../../../components/Common/Breadcrumb';
-import TabsPage from '../../../components/Common/TabsPage';
+// import TabsPage from '../../../components/Common/TabsPage';
 import GeneralDetails from './GeneralInformation';
 import Spinners from '../../../components/Common/Spinner';
 import {
@@ -16,17 +16,17 @@ const PaymentProviderView = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { paymentId } = useParams();
-	const [activeTab, setActiveTab] = useState('1');
+	// const [activeTab, setActiveTab] = useState('1');
 
 	const { paymentDetailsLoading, paymentDetails } = useSelector(
 		(state) => state.Payment
 	);
 
-	const toggle = (tab) => {
-		if (activeTab !== tab) {
-			setActiveTab(tab);
-		}
-	};
+	// const toggle = (tab) => {
+	// 	if (activeTab !== tab) {
+	// 		setActiveTab(tab);
+	// 	}
+	// };
 
 	useEffect(() => {
 		dispatch(getPaymentDetails({ providerId: paymentId }));
@@ -39,18 +39,18 @@ const PaymentProviderView = () => {
 		navigate('/payment');
 	};
 
-	const tabData = [
-		{
-			id: '1',
-			title: 'General',
-			component: <GeneralDetails paymentDetails={paymentDetails} />,
-		},
-		{
-			id: '2',
-			title: 'Currency',
-			component: <Currencies paymentDetails={paymentDetails} />,
-		},
-	];
+	// const tabData = [
+	// 	{
+	// 		id: '1',
+	// 		title: 'General',
+	// 		component: <GeneralDetails paymentDetails={paymentDetails} />,
+	// 	},
+	// 	{
+	// 		id: '2',
+	// 		title: 'Currency',
+	// 		component: <Currencies paymentDetails={paymentDetails} />,
+	// 	},
+	// ];
 
 	return (
 		<div className="page-content">
@@ -69,7 +69,11 @@ const PaymentProviderView = () => {
 				{paymentDetailsLoading ? (
 					<Spinners color="primary" />
 				) : (
-					<TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
+					// <TabsPage activeTab={activeTab} tabsData={tabData} toggle={toggle} />
+					<>
+						<GeneralDetails paymentDetails={paymentDetails} />
+						<Currencies paymentDetails={paymentDetails} />
+					</>
 				)}
 			</Container>
 		</div>
