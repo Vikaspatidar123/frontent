@@ -9,6 +9,7 @@ const Filters = ({
 	validation,
 	actionButtons,
 	isFilterChanged,
+	customFieldCols,
 }) => (
 	<Row>
 		<Col lg={12}>
@@ -27,10 +28,11 @@ const Filters = ({
 									(field) =>
 										!field?.isHide && (
 											<Col
-												xxl={2}
-												lg={4}
-												md={4}
-												sm={6}
+												xxl={customFieldCols?.xxl || 2}
+												xl={customFieldCols?.xl || 3}
+												lg={customFieldCols?.lg || 4}
+												md={customFieldCols?.md || 4}
+												sm={customFieldCols?.sm || 6}
 												key={field?.name || field?.label}
 											>
 												<div className="position-relative">
@@ -84,6 +86,7 @@ Filters.defaultProps = {
 	// isAdvanceOpen: false,
 	isFilterChanged: true,
 	validation: {},
+	customFieldCols: {},
 };
 
 Filters.propTypes = {
@@ -100,6 +103,9 @@ Filters.propTypes = {
 	actionButtons: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
 	// isAdvanceOpen: PropTypes.bool,
 	isFilterChanged: PropTypes.bool,
+	customFieldCols: PropTypes.objectOf({
+		xxl: PropTypes.number,
+	}),
 };
 
 export default Filters;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Spinner } from 'reactstrap';
+import { Button, Card, Col, Row, Spinner } from 'reactstrap';
 import TableContainer from '../../../components/Common/Table';
 import useRemoveFromRestrictedCountriesListing from '../hooks/useRemoveFromRestrictedCountries';
 
@@ -17,42 +17,50 @@ const RemoveFromRestrictedCountries = ({ restrictedCountries }) => {
 
 	return (
 		<Card className="p-2">
-			{selectedCountriesState?.length ? (
-				<Card>
-					<div className="d-flex justify-content-between my-2 align-items-center">
-						<h4> Selected Countries </h4>
-						<Button
-							color="primary"
-							disabled={addToRestrictedCountriesLoading}
-							onClick={onSubmitSelected}
-						>
-							{addToRestrictedCountriesLoading ? <Spinner /> : 'Submit'}
-						</Button>
-					</div>
+			<Row className="col-reverse-sm">
+				<Col sm={12} md={6} lg={6}>
+					<h4 className="py-2">Restricted Countries</h4>
 					<TableContainer
-						columns={selectedTableColumns}
-						data={selectedCountriesState}
+						columns={columns}
+						isLoading={restrictedCountriesLoading}
+						data={restrictedCountriesState}
 						tableClass="table-bordered align-middle nowrap mt-2"
+						// paginationDiv="col-sm-12 col-md-7"
+						paginationDiv="justify-content-center"
+						pagination="pagination justify-content-start pagination-rounded"
+						isShowColSettings={false}
 					/>
-				</Card>
-			) : (
-				<Card>
-					<h4 className="text-center text-primary p-5">
-						{' '}
-						Countries you remove will appear here.
-					</h4>
-				</Card>
-			)}
-			<h4 className="py-3">Restricted Countries</h4>
-			<TableContainer
-				columns={columns}
-				isLoading={restrictedCountriesLoading}
-				data={restrictedCountriesState}
-				tableClass="table-bordered align-middle nowrap mt-2"
-				// paginationDiv="col-sm-12 col-md-7"
-				paginationDiv="justify-content-center"
-				pagination="pagination justify-content-start pagination-rounded"
-			/>
+				</Col>
+				<Col sm={12} md={6} lg={6}>
+					{selectedCountriesState?.length ? (
+						<Card>
+							<div className="d-flex justify-content-between my-2 align-items-center">
+								<h4> Selected Countries </h4>
+								<Button
+									color="primary"
+									disabled={addToRestrictedCountriesLoading}
+									onClick={onSubmitSelected}
+								>
+									{addToRestrictedCountriesLoading ? <Spinner /> : 'Submit'}
+								</Button>
+							</div>
+							<TableContainer
+								columns={selectedTableColumns}
+								data={selectedCountriesState}
+								tableClass="table-bordered align-middle nowrap mt-2"
+								isShowColSettings={false}
+							/>
+						</Card>
+					) : (
+						<Card>
+							<h5 className="text-center text-primary p-5 mt-5">
+								{' '}
+								Select countries you want to unrestrict
+							</h5>
+						</Card>
+					)}
+				</Col>
+			</Row>
 		</Card>
 	);
 };

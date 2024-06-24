@@ -44,3 +44,10 @@
 	//   font-size: 12px;
 	// }
 }
+
+@media (max-width: 768px) {
+	.col-reverse-sm {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+}

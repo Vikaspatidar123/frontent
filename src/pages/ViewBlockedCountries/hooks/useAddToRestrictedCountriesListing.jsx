@@ -117,8 +117,8 @@ const useAddToRestrictedCountriesListing = (
 	useEffect(() => {
 		if (unrestrictedCountries?.length) {
 			setUnrestrictedCountriesState(() => {
-				if (filterValues?.search?.length > 1) {
-					const searchStr = filterValues?.search;
+				if (filterValues?.searchString?.length > 1) {
+					const searchStr = filterValues?.searchString;
 					return unrestrictedCountries?.filter(({ code, name }) =>
 						`${code?.toLowerCase()} ${name?.toLowerCase()}`?.includes(
 							searchStr?.toLowerCase()
@@ -128,7 +128,7 @@ const useAddToRestrictedCountriesListing = (
 				return unrestrictedCountries;
 			});
 		} else setUnrestrictedCountriesState([]);
-	}, [unrestrictedCountries, filterValues?.search]);
+	}, [unrestrictedCountries, filterValues?.searchString]);
 
 	const onSubmitSelected = () => {
 		const countries = selectedCountriesState.map((g) => g.code);
