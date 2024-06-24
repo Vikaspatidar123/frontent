@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Card, Col, Row, Button, UncontrolledTooltip } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
@@ -27,10 +27,17 @@ const Currencies = ({
 }) => {
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
-	const [currencyObj, setCurrencyObj] = useState({});
+
+	const allCurrencies = useMemo(() => {
+		const currencyObj = {};
+		currencies?.currencies?.forEach((curr) => {
+			if (curr.type !== 'point' && curr.isActive) currencyObj[curr?.id] = curr;
+		});
+		return currencyObj;
+	}, [currencies]);
 
 	const { validation } = useForm({
-		initialValues: getInitialValues()?.providerLimit,
+		initialValues: getInitialValues(paymentDetails)?.providerLimit,
 		validationSchema: currencyValidate(),
 	});
 
@@ -41,8 +48,15 @@ const Currencies = ({
 					...prev,
 					providerLimit: [
 						// eslint-disable-next-line no-unsafe-optional-chaining
-						...Object.values(currencyObj)?.map((remCurr) =>
-							filterEmptyPayload(remCurr)
+						...Object.values(validation.values)?.map(
+							(remCurr) =>
+								filterEmptyPayload({
+									...remCurr,
+									currency: null,
+									providerId: null,
+									id: null,
+									currencyName: null,
+								}) // empty extra payload
 						),
 					],
 				};
@@ -52,7 +66,7 @@ const Currencies = ({
 		});
 
 	const validateCurrency = async (nextTab) => {
-		const currencyArr = Object.values(currencyObj);
+		const currencyArr = Object.values(validation.values);
 		if (currencyArr?.length) {
 			const updateFields = await handleSubmit();
 			toggleTab(nextTab, updateFields);
@@ -83,7 +97,6 @@ const Currencies = ({
 			...prev,
 			...remCur,
 		}));
-		// setCurrencyObj(remCur);
 	};
 
 	const handleDeleteCurrency = (id) => {
@@ -99,11 +112,11 @@ const Currencies = ({
 	useEffect(() => {
 		if (!isEmpty(paymentDetails)) {
 			const currency = filterEmptyPayload(
-				getInitialValues(paymentDetails)?.providerLimit
+				getInitialValues(paymentDetails, allCurrencies)?.providerLimit
 			);
-			setCurrencyObj(currency);
+			validation.setValues(currency);
 		}
-	}, [paymentDetails, currencyFields, currencies]);
+	}, [paymentDetails, allCurrencies]);
 
 	useEffect(() => {
 		dispatch(fetchCurrenciesStart({}));
@@ -116,7 +129,7 @@ const Currencies = ({
 				validateCurrency(nextTab);
 			})
 			.catch((err) => {
-				console.log('Error in currency', err?.errors);
+				console.log('Error in currency', err);
 			});
 	};
 
@@ -131,10 +144,9 @@ const Currencies = ({
 						<CustomSelectField
 							id="currencyId"
 							type="select"
-							name="currencyId"
-							// value={validation?.values?.currencyId}
+							// name="currencyId"
 							onChange={(e) => {
-								// validation.handleChange(e);
+								// validation.handleChange(e)
 								handleCurrencyChange({
 									currId: e?.target?.value,
 									currName: e.target.options[e.target.selectedIndex].text,
@@ -156,7 +168,7 @@ const Currencies = ({
 							}
 						/>
 						<span className="text-danger">
-							{validation.errors.currencyId || ''}
+							{/* {validation.errors.currencyId || ''} */}
 						</span>
 					</Col>
 				</Row>
@@ -193,7 +205,7 @@ const Currencies = ({
 											{label}
 										</label>
 										<CustomInputField
-											name={currencyKey}
+											// name={`[providerLimit][${key}][${currencyKey}]`}
 											value={
 												validation?.values?.[key]?.[currencyKey] === null
 													? ''
@@ -205,16 +217,9 @@ const Currencies = ({
 													...prev,
 													[key]: {
 														...validation?.values?.[key],
-														[currencyKey]: e.target.value,
+														[currencyKey]: parseFloat(e.target.value),
 													},
 												}));
-												// setCurrencyObj({
-												// 	...currencyObj,
-												// 	[validation?.values?.[key]?.currencyId]: {
-												// 		...currencyObj?.[validation?.values?.[key]?.currencyId],
-												// 		[currencyKey]: e.target.value,
-												// 	},
-												// });
 											}}
 											isError
 											errorMsg={validation?.errors?.[key]?.[currencyKey]}

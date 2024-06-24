@@ -7,6 +7,7 @@ import Currencies from '../FormSections/Currency';
 import Countries from '../FormSections/Countries';
 import {
 	createPaymentProvider,
+	updatePaymentProvider,
 	fetchLanguagesStart,
 	getPaymentDetails,
 	resetPaymentProvider,
@@ -23,7 +24,7 @@ const useCreate = ({ isEdit }) => {
 	const [allFields, setAllFields] = useState({});
 	const [langContent, setLangContent] = useState({
 		description: { EN: '' },
-		displayName: { EN: '' },
+		name: { EN: '' },
 	});
 
 	const {
@@ -59,7 +60,7 @@ const useCreate = ({ isEdit }) => {
 		if (!isEmpty(paymentDetails)) {
 			setLangContent({
 				description: paymentDetails?.description,
-				displayName: paymentDetails?.displayName,
+				name: paymentDetails?.name,
 			});
 			setAllFields((prev) => ({
 				...prev,
@@ -90,19 +91,21 @@ const useCreate = ({ isEdit }) => {
 
 	const submitPaymentProvider = (updateFields) => {
 		if (isEdit) {
-			// const payload = {
-			// 	...allFields,
-			// 	paymentId,
-			// 	currencyDetails: null,
-			// 	name: langContent?.name,
-			// 	description: langContent?.description,
-			// };
-			// dispatch(updatePaymentProvider(payload));
+			const payload = {
+				...allFields,
+				providerId: paymentDetails?.id,
+				providerLimit: updateFields?.providerLimit || allFields.providerLimit,
+				name: langContent?.name,
+				description: langContent?.description,
+				blockedCountries: updateFields?.blockedCountries,
+				currencyDetails: null, // Empty extra payload
+			};
+			dispatch(updatePaymentProvider(payload));
 		} else {
 			const payload = {
 				...allFields,
 				providerLimit: updateFields?.providerLimit || allFields.providerLimit,
-				displayName: langContent?.displayName,
+				name: langContent?.name,
 				description: langContent?.description,
 				blockedCountries: updateFields?.blockedCountries,
 				currencyDetails: null, // Empty extra payload
@@ -221,6 +224,8 @@ const useCreate = ({ isEdit }) => {
 		tabData,
 		activeTab,
 		onBackClick,
+		paymentDetails,
+		paymentDetailsLoading,
 	};
 };
 

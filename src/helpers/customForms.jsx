@@ -335,29 +335,29 @@ export const CustomToggleButton = ({
 	switchSizeClass,
 	required,
 	description,
+	topDescription,
 	...rest
 }) => (
 	<>
+		{topDescription && (
+			<div>
+				<span className="text-muted">{topDescription}</span>{' '}
+			</div>
+		)}
 		<span
 			style={{ pointerEvents: disabled ? 'none' : 'auto' }}
 			className={`form-check form-switch ${
 				switchSizeClass || 'form-switch-md'
 			} ${containerClass || 'mb-3 mt-3'}`}
 		>
-			{required
-				? label && (
-						<div>
-							<Label htmlFor={htmlFor} className={labelClassName}>
-								{label}
-							</Label>{' '}
-							<span className="text-danger"> *</span>
-						</div>
-				  )
-				: label && (
-						<Label htmlFor={htmlFor} className={labelClassName}>
-							{label}
-						</Label>
-				  )}
+			{label ? (
+				<div>
+					<Label htmlFor={htmlFor} className={labelClassName}>
+						{label}
+					</Label>{' '}
+					{required ? <span className="text-danger"> *</span> : null}
+				</div>
+			) : null}
 			<Input
 				type={type}
 				id={id}
@@ -482,6 +482,7 @@ export const getField = (
 		description,
 		countryCodes,
 		rangeKeys,
+		topDescription,
 		...rest
 	},
 	validation
@@ -593,6 +594,7 @@ export const getField = (
 					disabled={!!isDisabled}
 					required={isRequired}
 					description={description}
+					topDescription={topDescription}
 					{...rest}
 				/>
 			);

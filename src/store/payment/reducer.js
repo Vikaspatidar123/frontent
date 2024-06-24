@@ -9,6 +9,9 @@ import {
 	GET_PAYMENT_DETAILS,
 	GET_PAYMENT_DETAILS_SUCCESS,
 	GET_PAYMENT_DETAILS_FAIL,
+	UPDATE_PAYMENT_PROVIDER,
+	UPDATE_PAYMENT_FAIL,
+	UPDATE_PAYMENT_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -90,6 +93,26 @@ const getPayments = (state = INIT_STATE, { type, payload } = {}) => {
 				updateLoading: false,
 				paymentDetailsLoading: false,
 				paymentDetails: null,
+			};
+
+		case UPDATE_PAYMENT_PROVIDER:
+			return {
+				...state,
+				updateLoading: true,
+			};
+
+		case UPDATE_PAYMENT_SUCCESS:
+			return {
+				...state,
+				updateLoading: false,
+				updateSuccess: payload,
+			};
+
+		case UPDATE_PAYMENT_FAIL:
+			return {
+				...state,
+				updateLoading: false,
+				updateSuccess: false,
 			};
 
 		default:

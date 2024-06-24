@@ -63,14 +63,14 @@ const generaFromFields = [
 			value,
 		})),
 	},
-	{
-		name: 'displayName',
-		fieldType: 'textField',
-		type: 'text',
-		label: 'Title',
-		isRequired: true,
-		placeholder: 'Title',
-	},
+	// {
+	// 	name: 'displayName',
+	// 	fieldType: 'textField',
+	// 	type: 'text',
+	// 	label: 'Title',
+	// 	isRequired: true,
+	// 	placeholder: 'Title',
+	// },
 	{
 		name: 'description',
 		fieldType: 'textField',
@@ -94,35 +94,47 @@ const generaFromFields = [
 		tooltipContent: 'If True Status is Withdraw will be Active else In-Active',
 	},
 	{
-		name: 'depositImage',
+		name: 'image',
 		fieldType: 'file',
 		type: '',
-		label: 'Deposit Image',
-		placeholder: 'Select deposit image',
+		label: 'Payment Provider Image',
+		placeholder: 'Select payment provider image',
 		isNewRow: true,
 		showThumbnail: true,
 	},
-	{
-		name: 'withdrawImage',
-		fieldType: 'file',
-		type: '',
-		label: 'Withdraw Image',
-		placeholder: 'Select withdraw image',
-		isNewRow: false,
-		showThumbnail: true,
-	},
+	// {
+	// 	name: 'depositImage',
+	// 	fieldType: 'file',
+	// 	type: '',
+	// 	label: 'Deposit Image',
+	// 	placeholder: 'Select deposit image',
+	// 	isNewRow: true,
+	// 	showThumbnail: true,
+	// },
+	// {
+	// 	name: 'withdrawImage',
+	// 	fieldType: 'file',
+	// 	type: '',
+	// 	label: 'Withdraw Image',
+	// 	placeholder: 'Select withdraw image',
+	// 	isNewRow: false,
+	// 	showThumbnail: true,
+	// },
 ];
 
-const getInitialValues = (paymentDetails) => {
+const getInitialValues = (paymentDetails, allCurrencies) => {
 	const providerLimit = {};
-	if (paymentDetails?.providerLimit?.length)
-		paymentDetails?.providerLimit?.forEach((item) => {
-			providerLimit[item?.currencyId] = item;
+	if (paymentDetails?.providerLimits?.length)
+		paymentDetails?.providerLimits?.forEach((item) => {
+			providerLimit[parseFloat(item?.currencyId)] = {
+				...item,
+				currencyName: allCurrencies?.[item?.currencyId]?.name || '',
+			};
 		});
 
 	return {
-		name: paymentDetails?.name || '',
-		displayName: paymentDetails?.displayName?.EN || '',
+		name: paymentDetails?.name?.EN || '',
+		// displayName: paymentDetails?.displayName?.EN || '',
 		description: paymentDetails?.description?.EN || '',
 		aggregator: paymentDetails?.aggregator || '',
 		category: paymentDetails?.category || null,
@@ -132,8 +144,9 @@ const getInitialValues = (paymentDetails) => {
 		withdrawAllowed: paymentDetails?.withdrawAllowed
 			? paymentDetails?.withdrawAllowed
 			: false,
-		depositImage: paymentDetails?.depositImage || null,
-		withdrawImage: paymentDetails?.withdrawImage || null,
+		image: paymentDetails?.image || '',
+		// depositImage: paymentDetails?.depositImage || null,
+		// withdrawImage: paymentDetails?.withdrawImage || null,
 		providerLimit,
 		blockedCountries: paymentDetails?.blockedCountries || [],
 		currencyDetails: {

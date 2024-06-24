@@ -8,16 +8,22 @@ import {
 	createPaymentFail,
 	getPaymentDetailsSuccess,
 	getPaymentDetailsFail,
+	updatePaymentSuccess,
+	updatePaymentFail,
 } from './actions';
 import {
 	CREATE_PAYMENT_PROVIDER,
 	GET_PAYMENT_DATA,
 	GET_PAYMENT_DETAILS,
+	UPDATE_PAYMENT_PROVIDER,
 } from './actionTypes';
 
 import { getPaymentDetails, getPaymentList } from '../../network/getRequests';
 import { showToastr } from '../../utils/helpers';
-import { createPaymentProvider } from '../../network/postRequests';
+import {
+	createPaymentProvider,
+	updatePaymentProvider,
+} from '../../network/postRequests';
 import { filterEmptyPayload } from '../../network/networkUtils';
 
 function* getPaymentWorker(action) {
@@ -56,9 +62,24 @@ function* createPaymentProviderWorker({ payload }) {
 	}
 }
 
+function* updatePaymentProviderWorker({ payload }) {
+	try {
+		payload = serialize(filterEmptyPayload(payload), { indices: true });
+		yield updatePaymentProvider(payload);
+		yield put(updatePaymentSuccess(true));
+		showToastr({
+			message: 'Provider updated successfully',
+			type: 'success',
+		});
+	} catch (error) {
+		yield put(updatePaymentFail());
+	}
+}
+
 export function* watchPaymentsData() {
 	yield takeLatest(GET_PAYMENT_DATA, getPaymentWorker);
 	yield takeLatest(CREATE_PAYMENT_PROVIDER, createPaymentProviderWorker);
+	yield takeLatest(UPDATE_PAYMENT_PROVIDER, updatePaymentProviderWorker);
 	yield takeLatest(GET_PAYMENT_DETAILS, getPaymentDetailsWorker);
 }
 
