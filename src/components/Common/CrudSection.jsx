@@ -72,6 +72,7 @@ const CrudSection = ({ title, buttonList, exportComponent }) => {
 
 CrudSection.defaultProps = {
 	exportComponent: [],
+	buttonList: [],
 };
 
 CrudSection.propTypes = {
@@ -88,7 +89,7 @@ CrudSection.propTypes = {
 			isDownload: PropTypes.bool,
 			data: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
 		})
-	).isRequired,
+	),
 	exportComponent: PropTypes.arrayOf(
 		PropTypes.shape({
 			label: PropTypes.string,
