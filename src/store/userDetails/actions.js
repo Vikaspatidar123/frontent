@@ -89,6 +89,9 @@ import {
 	DELETE_USER_COMMENT_FAIL,
 	DELETE_USER_COMMENT,
 	DELETE_USER_COMMENT_SUCCESS,
+	USER_REFERRALS,
+	USER_REFERRALS_FAIL,
+	USER_REFERRALS_SUCCESS,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -538,5 +541,20 @@ export const inActiveKycFail = (payload) => ({
 
 export const inActiveKyc = (payload) => ({
 	type: INACTIVE_KYC,
+	payload,
+});
+
+export const userReferrals = (payload) => ({
+	type: USER_REFERRALS,
+	payload,
+});
+
+export const userReferralsSuccess = (payload) => ({
+	type: USER_REFERRALS_SUCCESS,
+	payload,
+});
+
+export const userReferralsFail = (payload) => ({
+	type: USER_REFERRALS_FAIL,
 	payload,
 });

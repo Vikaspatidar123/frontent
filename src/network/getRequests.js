@@ -355,6 +355,12 @@ const getPaymentDetails = (payload) =>
 		payload
 	);
 
+const getUserReferrals = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}referral-userDetails`,
+		payload
+	);
+
 export {
 	getBonusDetail,
 	getAllCurrencies,
@@ -422,4 +428,5 @@ export {
 	getTournamentTransactions,
 	getPaymentList,
 	getPaymentDetails,
+	getUserReferrals,
 };

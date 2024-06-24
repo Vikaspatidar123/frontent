@@ -57,6 +57,8 @@ import {
 	updateUserCommentFail,
 	deleteUserCommentSuccess,
 	deleteUserCommentFail,
+	userReferralsSuccess,
+	userReferralsFail,
 } from './actions';
 import {
 	ACTIVATE_KYC,
@@ -85,6 +87,7 @@ import {
 	UPDATE_USER_COMMENT,
 	UPDATE_USER_INFO,
 	UPDATE_USER_PASSWORD,
+	USER_REFERRALS,
 	VERIFY_DOCUMENT,
 	VERIFY_USER_EMAIL,
 } from './actionTypes';
@@ -95,6 +98,7 @@ import {
 	getDuplicateUsers,
 	getUserBonuses,
 	getUserDetails,
+	getUserReferrals,
 } from '../../network/getRequests';
 import {
 	activateKyc,
@@ -546,6 +550,16 @@ function* inActiveKycWorker(action) {
 	}
 }
 
+function* userReferralsWorker(action) {
+	try {
+		const payload = action && action.payload;
+		const { data } = yield getUserReferrals(payload);
+		yield put(userReferralsSuccess(data?.data));
+	} catch (e) {
+		yield put(userReferralsFail(e.message));
+	}
+}
+
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
 	yield takeLatest(GET_USER_BONUS, getUserBonusWorker);
@@ -575,6 +589,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(ACTIVATE_KYC, activateKycWorker);
 	yield takeLatest(INACTIVE_KYC, inActiveKycWorker);
 	yield takeLatest(DELETE_USER_COMMENT, deleteUserCommentWorker);
+	yield takeLatest(USER_REFERRALS, userReferralsWorker);
 }
 
 function* UserDetailsSaga() {

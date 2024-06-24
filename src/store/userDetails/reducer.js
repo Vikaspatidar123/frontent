@@ -92,6 +92,9 @@ import {
 	DELETE_USER_COMMENT_SUCCESS,
 	DELETE_USER_COMMENT_FAIL,
 	DELETE_USER_COMMENT,
+	USER_REFERRALS_SUCCESS,
+	USER_REFERRALS,
+	USER_REFERRALS_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -189,6 +192,9 @@ const INIT_STATE = {
 	inActiveKycLoading: false,
 	inActiveKyc: null,
 	inActiveKycError: null,
+	referralsLoading: false,
+	referrals: null,
+	referralsError: null,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -902,6 +908,26 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				inActiveKycLoading: false,
 				inActiveKyc: null,
 				inActiveKycError: payload,
+			};
+
+		case USER_REFERRALS:
+			return {
+				...state,
+				referralsLoading: true,
+			};
+
+		case USER_REFERRALS_SUCCESS:
+			return {
+				...state,
+				referralsLoading: false,
+				referrals: payload,
+			};
+
+		case USER_REFERRALS_FAIL:
+			return {
+				...state,
+				referralsLoading: false,
+				referralsError: payload,
 			};
 
 		default:

@@ -19,6 +19,7 @@ import TransactionBankingList from '../TransactionBankingList';
 import CasinoTransactionsList from '../CasinoTransactionsList';
 import SportsTransactionsList from '../SportsTransactionsList';
 import SportsBetList from '../SportsBetList';
+import Referrals from './Referrals';
 
 const PlayerDetailsPage = ({ t }) => {
 	const { isGranted } = usePermission();
@@ -164,6 +165,12 @@ const PlayerDetailsPage = ({ t }) => {
 			id: 7,
 			title: 'KYC Settings',
 			component: <UserDocsList userDetails={userDetails} userId={playerId} />,
+		},
+		{
+			id: 8,
+			title: 'Referrals',
+			component: <Referrals userId={playerId} />,
+			isHidden: !isGranted(modules.player, 'R'),
 		},
 		{
 			id: 9,
