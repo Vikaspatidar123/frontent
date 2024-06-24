@@ -95,7 +95,7 @@ const generalFormSchema = () =>
 					schema
 						.required('Quantity Required')
 						.integer('Must be an integer')
-						.min(1, 'Must be a greater than 1'),
+						.min(0.01, 'Must be greater than 0'),
 			})
 			.nullable(),
 
@@ -165,7 +165,7 @@ const generalFormSchema = () =>
 					schema
 						.required('Days to clear required')
 						.integer('Must be an integer')
-						.min(1, 'Minimum Value Must be 1'),
+						.min(0.01, 'Must be greater than 0'),
 			})
 			.nullable(),
 	});

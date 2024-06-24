@@ -221,7 +221,7 @@ const currencyValidate = (allCurrencies) => {
 
 			rebuyLimit: Yup.number()
 				.integer('Must be an integer')
-				.min(1, 'Amount should be greater than 1')
+				.min(0.01, 'Amount should be greater than 0')
 				.required('Rebuy limit required'),
 			rebuyFees: Yup.number()
 				.min(1, 'Amount should be greater than 1')
