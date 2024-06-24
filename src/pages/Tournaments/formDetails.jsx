@@ -220,7 +220,8 @@ const currencyValidate = (allCurrencies) => {
 				.required('Entry fees required'),
 
 			rebuyLimit: Yup.number()
-				.min(1, 'Amount should be greater than 1')
+				.integer('Must be an integer')
+				.min(0.01, 'Amount should be greater than 0')
 				.required('Rebuy limit required'),
 			rebuyFees: Yup.number()
 				.min(1, 'Amount should be greater than 1')
@@ -238,6 +239,7 @@ const currencyValidate = (allCurrencies) => {
 
 			minPlayerLimit: Yup.number()
 				.required('Minimum Participants Limit Required.')
+				.integer('Must be an integer')
 				.test(
 					'greater Than',
 					`Minimum participants limit should be greater than 0`,
@@ -256,6 +258,7 @@ const currencyValidate = (allCurrencies) => {
 				),
 			maxPlayerLimit: Yup.number()
 				.required('Maximum Participants Limit Required.')
+				.integer('Must be an integer')
 				.test(
 					'greaterThanMaximumParticipants',
 					'Maximum participants limit should be greater than Minimum Participants Limit',
@@ -272,6 +275,7 @@ const currencyValidate = (allCurrencies) => {
 
 			numberOfWinners: Yup.number()
 				.required('Winners required')
+				.integer('Must be an integer')
 				.min(1, 'Winners should be greater than 1'),
 
 			prizes: prizesValidation(code),
