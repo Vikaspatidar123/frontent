@@ -10,6 +10,7 @@ import { getSiteConfigurationStart } from '../../store/actions';
 import TabsPage from '../../components/Common/TabsPage';
 import SiteConfig from './FormSections/Configuration';
 import Settings from './FormSections/Settings';
+import Referral from './FormSections/Referral';
 
 const ApplicationSettings = ({ t }) => {
 	document.title = projectName;
@@ -39,6 +40,11 @@ const ApplicationSettings = ({ t }) => {
 			id: '2',
 			title: 'Settings',
 			component: <Settings details={siteConfigDetails} />,
+		},
+		{
+			id: '3',
+			title: 'Referral',
+			component: <Referral details={siteConfigDetails} />,
 		},
 	];
 	return (

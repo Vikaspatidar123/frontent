@@ -538,6 +538,12 @@ const updatePaymentProvider = (data) =>
 		{
 			'Content-Type': 'multipart/form-data',
 		}
+	)
+
+const updateReferralRequest = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}referral-update`,
+		data
 	);
 
 export {
@@ -625,4 +631,5 @@ export {
 	updateTournamentSettlement,
 	cancelTournament,
 	updatePaymentProvider,
+	updateReferralRequest,
 };
