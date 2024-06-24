@@ -101,6 +101,12 @@ const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
 	};
 };
 
+const isRequired = (value) => {
+	if (typeof value === 'string' && value?.length > 0) return true;
+	if (!value || !value.size) return false;
+	return true;
+};
+
 const generalFormSchema = () =>
 	Yup.object({
 		name: Yup.object({
@@ -124,7 +130,7 @@ const generalFormSchema = () =>
 				'Registration End date/time cannot be after tournament start date'
 			),
 		image: Yup.mixed()
-			.required('Image Required')
+			.test('required', 'Image Required', isRequired)
 			// .imageDimensionCheck('Image Required', {
 			// 	exactWidth: 442,
 			// 	exactHeight: 240,

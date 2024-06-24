@@ -99,12 +99,15 @@ const leftStaticSiteConfigFormFields = (details, customBlurHandler) => [
 		customBlurHandler,
 	},
 	{
-		name: 'referralAmount',
-		fieldType: 'textField',
-		description: '',
-		label: 'Referral Amount',
-		placeholder: 'Enter Referral Amount',
-		customBlurHandler,
+		name: 'logo',
+		fieldType: 'file',
+		description: details?.logo?.description,
+		label: 'Application Logo',
+		placeholder: 'Enter application logo',
+		showThumbnail: true,
+		customThumbnailBackground: '#1A1D29',
+		customPadding: '8px',
+		callBack: customBlurHandler,
 	},
 ];
 
@@ -141,17 +144,6 @@ const rightStaticSiteConfigFormFields = (details, customBlurHandler) => [
 		placeholder: 'Enter exchange bet commission',
 		customBlurHandler,
 	},
-	{
-		name: 'logo',
-		fieldType: 'file',
-		description: details?.logo?.description,
-		label: 'Application Logo',
-		placeholder: 'Enter application logo',
-		showThumbnail: true,
-		customThumbnailBackground: '#1A1D29',
-		customPadding: '8px',
-		callBack: customBlurHandler,
-	},
 ];
 
 const leftAppSettingsFormFields = (details, customOnChange) => [
@@ -170,17 +162,6 @@ const leftAppSettingsFormFields = (details, customOnChange) => [
 		fieldType: 'toggle',
 		description: details?.casino?.description,
 		label: 'Casino',
-		switchSizeClass: 'd-flex justify-content-between form-switch-md px-0 py-1',
-		containerClass: 'false',
-		callBack: customOnChange,
-		divClass: 'mb-5',
-	},
-	{
-		name: 'allowReferral',
-		fieldType: 'toggle',
-		description:
-			'Player can refer this application to other non register players.',
-		label: 'Allow Referral',
 		switchSizeClass: 'd-flex justify-content-between form-switch-md px-0 py-1',
 		containerClass: 'false',
 		callBack: customOnChange,
@@ -211,6 +192,43 @@ const rightAppSettingFormFields = (details, customOnChange) => [
 	},
 ];
 
+const referralSchema = Yup.object().shape({
+	amount: Yup.number()
+		.min(0.01, 'Amount must be greater than 0.')
+		.required('Amount is required!'),
+});
+
+const getReferralInitialValues = (details) => ({
+	amount: details?.amount ?? 0,
+	status: details?.status ?? false,
+});
+
+const leftStaticReferralFormFields = (_, handleUpdate) => [
+	{
+		name: 'status',
+		fieldType: 'toggle',
+		topDescription:
+			'Player can refer this application to other non register players.',
+		label: 'Allow Referral',
+		switchSizeClass: 'd-flex justify-content-between form-switch-md px-0 pt-3',
+		containerClass: 'false',
+		callBack: handleUpdate,
+		divClass: 'mb-5',
+	},
+];
+
+const rightStaticReferralFormFields = (details, handleUpdate) => [
+	{
+		name: 'amount',
+		fieldType: 'textField',
+		description: details?.description || '',
+		label: 'Referral Amount',
+		type: 'number',
+		placeholder: 'Enter Referral Amount',
+		customBlurHandler: handleUpdate,
+	},
+];
+
 export {
 	adminSiteConfigSchema,
 	getSiteConfigInitialValues,
@@ -221,4 +239,8 @@ export {
 	getAppSettingInitialValues,
 	BOOL,
 	appSettingValidation,
+	referralSchema,
+	getReferralInitialValues,
+	leftStaticReferralFormFields,
+	rightStaticReferralFormFields,
 };

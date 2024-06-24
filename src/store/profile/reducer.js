@@ -8,6 +8,7 @@ import {
 	GET_SITE_CONFIGURATION_START,
 	GET_SITE_CONFIGURATION_SUCCESS,
 	GET_SITE_CONFIGURATION_FAIL,
+	UPDATE_REFERRAL_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
 	siteConfigDetails: null,
 	siteConfigLoading: false,
 	siteConfigError: null,
+	referralDetails: null,
 };
 
 const ProfileData = (state = initialState, { type, payload } = {}) => {
@@ -82,6 +84,11 @@ const ProfileData = (state = initialState, { type, payload } = {}) => {
 				siteConfigLoading: false,
 				siteConfigDetails: payload,
 				siteConfigError: null,
+			};
+		case UPDATE_REFERRAL_SUCCESS:
+			return {
+				...state,
+				referralDetails: payload,
 			};
 		default:
 			return { ...state };

@@ -11,6 +11,7 @@ import {
 	GET_SITE_CONFIGURATION_FAIL,
 	UPDATE_LOGO,
 	UPDATE_APP_SETTING,
+	UPDATE_REFERRAL,
 } from './actionTypes';
 
 export const updateProfileStart = (payload) => ({
@@ -70,5 +71,10 @@ export const getSiteConfigurationSuccess = (payload) => ({
 
 export const getSiteConfigurationFail = (payload) => ({
 	type: GET_SITE_CONFIGURATION_FAIL,
+	payload,
+});
+
+export const updateReferral = (payload) => ({
+	type: UPDATE_REFERRAL,
 	payload,
 });
