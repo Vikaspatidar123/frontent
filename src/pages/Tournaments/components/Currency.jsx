@@ -2,15 +2,17 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo } from 'react';
 import {
+	Button,
 	Card,
 	CardBody,
 	Col,
 	FormFeedback,
 	InputGroup,
-	InputGroupText,
+	// InputGroupText,
 	Label,
 	Progress,
 	Row,
+	UncontrolledTooltip,
 	// UncontrolledTooltip,
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,6 +28,7 @@ import {
 	currencyValidate,
 	generalStepInitialValues,
 	currencyFields,
+	formatCurrencyDetails,
 } from '../formDetails';
 import { filterEmptyPayload } from '../../../network/networkUtils';
 import Actions from './Actions';
@@ -41,17 +44,27 @@ const Currencies = ({
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
 
-	const allCurrencies = useMemo(
-		() =>
-			currencies?.currencies?.filter(
-				(curr) => curr.type !== 'point' && curr.isActive
-			) || [],
-		[currencies]
-	);
+	const [allCurrencies, currencyOptions] = useMemo(() => {
+		const allCurrencyObj = {};
+		currencies?.currencies?.forEach((curr) => {
+			if (curr.type !== 'point' && curr.isActive)
+				allCurrencyObj[curr?.id] = curr;
+		});
+
+		const currOptions = Object.values(allCurrencyObj || {})?.map(
+			({ code, name, id }) => (
+				<option key={id} value={code} title={name} data-id={id}>
+					{name}
+				</option>
+			)
+		);
+
+		return [allCurrencyObj, currOptions];
+	}, [currencies]);
 
 	const { validation } = useForm({
 		initialValues: generalStepInitialValues()?.currencyDetails,
-		validationSchema: currencyValidate(allCurrencies),
+		validationSchema: currencyValidate(),
 	});
 
 	const handleSubmit = () =>
@@ -110,10 +123,41 @@ const Currencies = ({
 		}
 	};
 
+	const handleDeleteCurrency = (code) => {
+		if (validation.values?.[code]) {
+			validation.setValues((prev) => {
+				// eslint-disable-next-line no-param-reassign
+				delete prev?.[code];
+				return prev;
+			});
+		}
+	};
+
+	const handleCurrencyChange = (e) => {
+		const selectedOption = e.target.selectedOptions[0];
+		const id = selectedOption.getAttribute('data-id');
+		const code = e.target.value;
+		const name = selectedOption.text;
+		if (validation.values[code]) return;
+
+		const newCurrency = formatCurrencyDetails({
+			[code]: {
+				name,
+				id,
+				code,
+			},
+		});
+
+		validation.setValues((prev) => ({
+			...prev,
+			...newCurrency,
+		}));
+	};
+
 	const handleNextClick = async (nextTab) => {
 		validation.submitForm();
 		try {
-			await currencyValidate(allCurrencies).validate(validation.values, {
+			await currencyValidate().validate(validation.values, {
 				abortEarly: false,
 			});
 			const updateFields = await handleSubmit();
@@ -142,11 +186,35 @@ const Currencies = ({
 		}
 	}, [tournamentDetail, allCurrencies]);
 
+	console.log('Values = ', validation.values);
+
 	return (
 		<div>
 			<Card className="px-1 text-center">
-				{allCurrencies?.map(
-					({ code: currencyCode, id: currencyId, symbol }) => (
+				<Row>
+					<Col sm={12} lg={3} className="mb-4 text-start">
+						<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
+							Add Currency
+						</label>
+						<CustomSelectField
+							type="select"
+							onChange={handleCurrencyChange}
+							options={
+								<>
+									<option value={null} selected disabled>
+										Select currency
+									</option>
+									{currencyOptions}
+								</>
+							}
+						/>
+						<span className="text-danger">
+							{/* {validation.errors.currencyId || ''} */}
+						</span>
+					</Col>
+				</Row>
+				{Object.entries(validation.values || {})?.map(
+					([currencyCode, { currencyName }]) => (
 						<>
 							<Row>
 								<Col sm={6} lg={3} className="my-2">
@@ -157,29 +225,11 @@ const Currencies = ({
 									>
 										Currency
 									</label>
-									<CustomSelectField
-										id="currencyId"
-										type="select"
-										name="currencyId"
-										value={currencyId}
+									<CustomInputField
+										value={currencyName}
+										className="text-center font-weight-bold"
 										disabled
-										// onChange={validation.handleChange}
-										options={
-											<>
-												<option value={null} selected disabled>
-													Select currency
-												</option>
-												{allCurrencies?.map(({ id, name }) => (
-													<option key={id} value={id}>
-														{name}
-													</option>
-												))}
-											</>
-										}
 									/>
-									<span className="text-danger">
-										{validation.errors.currencyId || ''}
-									</span>
 								</Col>
 								{currencyFields()?.map(({ name, label, placeholder, type }) => (
 									<Col sm={6} lg={3} className="my-2 text-start" key={name}>
@@ -306,11 +356,11 @@ const Currencies = ({
 														<span className="text-danger"> *</span>
 													</Label>
 													<InputGroup>
-														{symbol ? (
-															<InputGroupText className="password-btn btn btn-primary">
-																{symbol}
-															</InputGroupText>
-														) : null}
+														{/* {$ ? ( */}
+														{/* <InputGroupText className="password-btn btn btn-primary">
+															{'$'}
+														</InputGroupText> */}
+														{/* ) : null} */}
 														<CustomInputField
 															name={`[${currencyCode}][prizes][${rank}][value]`}
 															value={value}
@@ -339,6 +389,21 @@ const Currencies = ({
 												</Col>
 											))}
 										</Row>
+										<div className="d-flex justify-content-end">
+											<Button
+												id={`${currencyCode}-remove`}
+												className="btn btn-sm btn-danger"
+												onClick={() => handleDeleteCurrency(currencyCode)}
+											>
+												<i className="mdi mdi-delete-outline fs-4" />
+												<UncontrolledTooltip
+													placement="top"
+													target={`${currencyCode}-remove`}
+												>
+													Remove Currency
+												</UncontrolledTooltip>
+											</Button>
+										</div>
 									</CardBody>
 								</Card>
 							</Row>
