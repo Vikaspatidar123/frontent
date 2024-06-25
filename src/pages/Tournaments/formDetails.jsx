@@ -146,8 +146,8 @@ const generalFormSchema = () =>
 				typeof value === 'string'
 					? true
 					: !value ||
-					(value &&
-						['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+					  (value &&
+							['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
 			),
 	});
 
@@ -208,7 +208,7 @@ const prizesValidation = (code) =>
 						}),
 				});
 			}
-			return true;
+			return schema.shape(winnerSchema);
 		}
 	);
 

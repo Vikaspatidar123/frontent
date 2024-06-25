@@ -186,8 +186,6 @@ const Currencies = ({
 		}
 	}, [tournamentDetail, allCurrencies]);
 
-	console.log('Values = ', validation.values);
-
 	return (
 		<div>
 			<Card className="px-1 text-center">
