@@ -1,134 +1,77 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 /* eslint-disable no-restricted-syntax */
 import React, { useMemo, useEffect, useState } from 'react';
+import { Card, Col } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { isEmpty, isEqual } from 'lodash';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getLanguagesStart, createSaCms } from '../../../store/actions';
+import {
+	getLanguagesStart,
+	createSaCms,
+	getImageGallery,
+} from '../../../store/actions';
 
 import {
 	getInitialValues,
 	createCmsNewSchema,
 	staticFormFields,
-	initialData,
 } from '../formDetails';
-import CreateCMSTemplate from '../CreateCMSTemplate';
 
 import { showToastr } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
-import { formPageTitle } from '../../../components/Common/constants';
-import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateCms = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [customComponent, setCustomComponent] = useState();
 	const [showGallery, setShowGallery] = useState(false);
-	const [showModal, setShowModal] = useState(false);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
-	const [selectedTab, setSelectedTab] = useState('EN');
-	const [title, setTitle] = useState({ EN: '' });
-	const [content, setContent] = useState({ EN: '' });
-	const [template, setTemplate] = useState('');
-	const [langTitle, setLangTitle] = useState('');
-	const [existingFilledFields, setExistingFilledFields] = useState({});
+	const { imageGallery } = useSelector((state) => state.EmailTemplate);
+	const [imageComponent, setImageComponent] = useState();
 
 	const formSubmitHandler = (values) => {
-		if (title[selectedTab] === '' || content[selectedTab] === '') {
-			showToastr({
-				message: 'Please fill all the required fields',
-				type: 'error',
-			});
-		} else {
-			for (const lang in title) {
-				if (
-					[undefined, ''].includes(content?.[lang]) &&
-					[undefined, ''].includes(title?.[lang])
-				) {
-					delete title[lang];
-					delete content[lang];
-				}
-			}
-			dispatch(
-				createSaCms({ cmsData: { ...values, title, content }, navigate })
-			);
-		}
+		dispatch(createSaCms({ cmsData: { ...values }, navigate }));
 	};
 
-	useEffect(() => {
-		setTitle((prev) => ({
-			...prev,
-			[selectedTab]: langTitle,
-		}));
-	}, [langTitle]);
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
-	useEffect(() => {
-		setContent((prev) => ({
-			...prev,
-			[selectedTab]: template,
-		}));
-	}, [template]);
+	const languageOptions = useMemo(() => {
+		if (languageData) {
+			return languageData?.languages?.map((item) => ({
+				optionLabel: item?.code,
+				value: item.code,
+			}));
+		}
+		return [];
+	}, [languageData]);
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
+		dispatch(getImageGallery());
 	}, []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
 		header: 'Create CMS',
 		initialValues: getInitialValues(),
-		validationSchema: createCmsNewSchema,
-		staticFormFields: staticFormFields(),
+		validationSchema: createCmsNewSchema(languageOptions),
+		staticFormFields: staticFormFields(languageOptions),
 		onSubmitEntry: formSubmitHandler,
 	});
 
 	useEffect(() => {
-		setCustomComponent(
-			<CreateCMSTemplate
-				languageData={languageData}
-				validation={validation}
-				title={title}
-				setTitle={(v) => setTitle(v)}
-				content={content}
-				setContent={(v) => setContent(v)}
-				showGallery={showGallery}
-				setShowGallery={setShowGallery}
-				selectedTab={selectedTab}
-				setSelectedTab={setSelectedTab}
-				template={template}
-				setTemplate={setTemplate}
-				langTitle={langTitle}
-				setLangTitle={setLangTitle}
-			/>
-		);
-	}, [
-		languageData,
-		title,
-		content,
-		showGallery,
-		selectedTab,
-		langTitle,
-		template,
-	]);
-
-	useEffect(() => {
-		setExistingFilledFields({
-			...existingFilledFields,
-			values: {
-				...validation.values,
-				title,
-				content,
-			},
-		});
-	}, [title, content, validation?.values]);
+		setFormFields(staticFormFields(null, null, languageOptions));
+	}, [languageOptions]);
 
 	const handleCreateClick = (e) => {
 		e.preventDefault();
 		navigate('create');
 	};
 
-	const handleGalleryClick = () => {
+	const handleGalleryClick = (e) => {
 		setShowGallery(true);
 	};
 
@@ -137,7 +80,7 @@ const useCreateCms = () => {
 			label: 'Create',
 			handleClick: handleCreateClick,
 			link: '#!',
-			module: modules.page,
+			module: modules.CMS,
 			operation: 'C',
 		},
 	]);
@@ -151,31 +94,47 @@ const useCreateCms = () => {
 	]);
 
 	useEffect(() => {
-		if (localStorage.getItem(formPageTitle.cms)) {
-			const values = JSON.parse(
-				decryptCredentials(localStorage.getItem(formPageTitle.cms))
+		if (imageGallery?.length) {
+			setImageComponent(
+				<div
+					className="d-flex justify-content-center flex-wrap gap-3 dropzone-previews mt-3"
+					id="file-previews"
+				>
+					{imageGallery.map((f, i) => (
+						<Col>
+							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
+								<div className="p-2">
+									<CopyToClipboard
+										text={f}
+										onCopy={() => {
+											setShowGallery(false);
+											showToastr({
+												message: 'Copied To ClipBoard',
+												type: 'success',
+											});
+										}}
+									>
+										<img
+											data-dz-thumbnail=""
+											height="200"
+											width="250"
+											className="rounded me-2 bg-light"
+											alt={f.name}
+											src={f}
+										/>
+									</CopyToClipboard>
+								</div>
+							</Card>
+						</Col>
+					))}
+				</div>
 			);
-			validation.setValues({
-				slug: values?.slug || '',
-				isActive: values?.isActive || false,
-			});
-
-			setTitle(values?.title);
-			setContent(values?.content);
+		} else {
+			setImageComponent(
+				<div className="text-center text-danger">No Images Found</div>
+			);
 		}
-	}, []);
-
-	const onBackClick = () => {
-		if (!isEmpty(existingFilledFields)) {
-			const existingFilledFieldsCopy = existingFilledFields?.values;
-			const isDataEqual = isEqual(existingFilledFieldsCopy, initialData);
-			if (!isDataEqual) {
-				setShowModal(true);
-			} else {
-				navigate('/cms');
-			}
-		}
-	};
+	}, [imageGallery]);
 
 	return {
 		header,
@@ -186,16 +145,12 @@ const useCreateCms = () => {
 		formFields,
 		setFormFields,
 		languageData,
-		customComponent,
-		setCustomComponent,
+		onChangeRowsPerPage,
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,
-		showModal,
-		setShowModal,
-		navigate,
-		existingFilledFields,
-		onBackClick,
+		imageComponent,
+		languageOptions,
 	};
 };
 

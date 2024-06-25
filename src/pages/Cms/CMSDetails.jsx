@@ -4,21 +4,20 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import { projectName } from '../../constants/config';
 import useCmsDetail from './hooks/useCmsDetails';
 import FormPage from '../../components/Common/FormPage';
-import CrudSection from '../../components/Common/CrudSection';
+import { CustomComponent } from './CmsListCol';
 
 const CMSDetails = () => {
 	// Set meta title
 	document.title = projectName;
 
-	const { header, validation, formFields, customComponent, cmsByPageId } =
-		useCmsDetail();
+	const { header, validation, formFields, languageOptions } = useCmsDetail();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs
 					title="CMS"
-					breadcrumbItem="View"
+					breadcrumbItem="Edit"
 					titleLink="/cms"
 					leftTitle={
 						<>
@@ -28,21 +27,22 @@ const CMSDetails = () => {
 				/>
 				<Row>
 					<Col lg="12">
-						<Card>
-							<CrudSection
-								buttonList={[]}
-								title={`View CMS - ${cmsByPageId?.page?.slug}`}
-							/>
+						<Card key={validation?.values?.language}>
 							<FormPage
 								formTitle={header}
 								validation={validation}
 								responsiveFormFields={formFields}
-								customComponent={customComponent}
+								customComponent={
+									<CustomComponent
+										validation={validation}
+										languages={languageOptions}
+										isView
+									/>
+								}
 								submitLabel="Submit"
 								customColClasses=""
 								isSubmitLoading={false}
 								isSubmit={false}
-								formClass="ms-2"
 							/>
 						</Card>
 					</Col>

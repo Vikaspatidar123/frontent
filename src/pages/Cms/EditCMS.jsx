@@ -5,6 +5,8 @@ import CrudSection from '../../components/Common/CrudSection';
 import { projectName } from '../../constants/config';
 import useEditCms from './hooks/useEditCms';
 import FormPage from '../../components/Common/FormPage';
+import Modal from '../../components/Common/Modal';
+import { CustomComponent } from './CmsListCol';
 
 const EditCMS = () => {
 	// Set meta title
@@ -15,8 +17,10 @@ const EditCMS = () => {
 		validation,
 		formFields,
 		galleryList,
-		customComponent,
-		cmsByPageId,
+		showGallery,
+		setShowGallery,
+		imageComponent,
+		languageOptions,
 	} = useEditCms();
 
 	return (
@@ -34,24 +38,35 @@ const EditCMS = () => {
 				/>
 				<Row>
 					<Col lg="12">
-						<Card>
-							<CrudSection
-								buttonList={galleryList}
-								title={`Edit CMS - ${cmsByPageId?.page?.slug}`}
-							/>
+						<Card key={validation?.values?.language}>
+							<CrudSection buttonList={galleryList} title="CMS" />
 							<FormPage
 								formTitle={header}
 								validation={validation}
 								responsiveFormFields={formFields}
-								customComponent={customComponent}
+								customComponent={
+									<CustomComponent
+										validation={validation}
+										languages={languageOptions}
+										isEdit
+									/>
+								}
 								submitLabel="Submit"
-								customColClasses=""
+								customColClasses="mb-0"
 								isSubmitLoading={false}
-								formClass="ms-3"
 							/>
 						</Card>
 					</Col>
 				</Row>
+				<Modal
+					openModal={showGallery}
+					toggleModal={() => setShowGallery(!showGallery)}
+					headerTitle="Gallery"
+					hideFooter
+					className="modal-dialog modal-lg"
+				>
+					{imageComponent}
+				</Modal>
 			</Container>
 		</div>
 	);

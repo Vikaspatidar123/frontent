@@ -315,6 +315,50 @@ export const CustomSwitchButton = ({
 	</span>
 );
 
+export const CustomButtonGroup = ({
+	label,
+	labelClassName,
+	htmlFor,
+	type,
+	id,
+	name,
+	inputClassName,
+	value,
+	onClick,
+	onBlur,
+	style,
+	checked,
+	isError,
+	errorMsg,
+	disabled,
+	outerDivClass,
+	...rest
+}) => (
+	<>
+		<Input
+			type={type}
+			id={id}
+			name={name}
+			className={inputClassName}
+			value={value}
+			onClick={onClick}
+			onBlur={onBlur}
+			style={style}
+			checked={checked}
+			disabled={disabled}
+			{...rest}
+		/>
+		{label && (
+			<Label htmlFor={htmlFor} className={labelClassName} onClick={onClick}>
+				{label}
+			</Label>
+		)}
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+		) : null}
+	</>
+);
+
 export const CustomToggleButton = ({
 	label,
 	labelClassName,
@@ -393,6 +437,7 @@ export const CustomTextEditor = ({
 	value,
 	defaultValue,
 	onValueChange = () => {},
+	readOnly,
 }) => {
 	const prepareDraft = (editorValue) => {
 		const draft = htmlToDraft(editorValue);
@@ -439,6 +484,7 @@ export const CustomTextEditor = ({
 				editorClassName="editorClassName"
 				editorState={editorState}
 				onEditorStateChange={onEditorStateChange}
+				readOnly={readOnly}
 			/>
 			{isError && errorMsg ? (
 				<FormFeedback type="invalid" className="d-block">
@@ -483,6 +529,9 @@ export const getField = (
 		countryCodes,
 		rangeKeys,
 		topDescription,
+		labelClass,
+		inputClassName,
+		outerDivClass,
 		...rest
 	},
 	validation
@@ -737,6 +786,39 @@ export const getField = (
 					min={minimum}
 					max={maximum}
 				/>
+			);
+		case 'buttonGroup':
+			return (
+				<>
+					{label && (
+						<Label for={name}>
+							{label}
+							<span className="text-danger"> *</span>
+						</Label>
+					)}
+					<div className="btn-group">
+						{!!optionList.length &&
+							optionList.map((option) => (
+								<CustomButtonGroup
+									labelClassName={labelClass || 'form-check-label'}
+									label={option.optionLabel}
+									htmlFor={`customRadioInline${option.value}`}
+									type="switch"
+									id={`customRadioInline${option.value}`}
+									value={!!validation?.values?.[name]}
+									name={name}
+									checked={validation.values[name] === option.value}
+									inputClassName={inputClassName || 'form-check-input'}
+									onClick={() => {
+										validation.setFieldValue(name, option.value);
+									}}
+									onBlur={validation.handleBlur}
+									disabled={!!isDisabled}
+									outerDivClass={outerDivClass}
+								/>
+							))}
+					</div>
+				</>
 			);
 		case 'inputGroup':
 			return Object.keys(validation?.values?.name || {}).map((item) => (

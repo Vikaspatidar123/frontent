@@ -1,7 +1,8 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { Card, Col } from 'reactstrap';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
@@ -16,7 +17,6 @@ import {
 	staticFormFields,
 } from '../formDetails';
 
-import CreateCMSTemplate from '../CreateCMSTemplate';
 import { showToastr } from '../../../utils/helpers';
 
 const useEditCms = () => {
@@ -24,47 +24,17 @@ const useEditCms = () => {
 	const { cmsPageId } = useParams();
 	const dispatch = useDispatch();
 	const [showGallery, setShowGallery] = useState(false);
-	const [customComponent, setCustomComponent] = useState();
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
+	const { imageGallery } = useSelector((state) => state.EmailTemplate);
+	const [imageComponent, setImageComponent] = useState();
 	const { cmsByPageId } = useSelector((state) => state.AllCms);
-	const [selectedTab, setSelectedTab] = useState('EN');
-	const [title, setTitle] = useState({ EN: '' });
-	const [content, setContent] = useState({ EN: '' });
-	const [template, setTemplate] = useState('');
-	const [langTitle, setLangTitle] = useState('');
-
-	useEffect(() => {
-		setTitle((prev) => ({
-			...prev,
-			[selectedTab]: langTitle,
-		}));
-	}, [langTitle]);
-
-	useEffect(() => {
-		setContent((prev) => ({
-			...prev,
-			[selectedTab]: template,
-		}));
-	}, [template]);
-
-	useEffect(() => {
-		if (cmsByPageId) {
-			setTitle(cmsByPageId?.page?.title);
-			setContent(cmsByPageId?.page?.content);
-		}
-	}, [cmsByPageId]);
 
 	const formSubmitHandler = (values) => {
-		if (content) {
+		if (values?.content) {
 			dispatch(
 				updateSaCms({
-					cmsData: {
-						...values,
-						title,
-						content,
-						pageId: cmsPageId,
-					},
+					cmsData: { ...values, pageId: Number(cmsPageId), language: '' },
 					navigate,
 				})
 			);
@@ -78,49 +48,40 @@ const useEditCms = () => {
 
 	useEffect(() => {
 		dispatch(getCmsByPageId({ cmsPageId }));
+	}, []);
+
+	useEffect(() => {
 		dispatch(getLanguagesStart());
 	}, []);
 
-	// resetting cms details redux state
+	const languageOptions = useMemo(() => {
+		if (languageData) {
+			return languageData?.languages?.map((item) => ({
+				optionLabel: item?.code,
+				value: item.code,
+			}));
+		}
+		return [];
+	}, [languageData]);
+
 	useEffect(() => () => dispatch(resetCmsByPageIdData()), []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
-		initialValues: getInitialValues(cmsByPageId?.page),
-		validationSchema: createCmsNewSchema,
-		staticFormFields: staticFormFields(),
+		header: `Edit CMS ${cmsPageId}`,
+		initialValues: getInitialValues(cmsByPageId),
+		validationSchema: createCmsNewSchema(languageOptions),
+		staticFormFields: staticFormFields(
+			null,
+			true,
+			languageOptions,
+			cmsByPageId
+		),
 		onSubmitEntry: formSubmitHandler,
 	});
 
 	useEffect(() => {
-		setCustomComponent(
-			<CreateCMSTemplate
-				languageData={languageData}
-				cmsByPageId={cmsByPageId?.page}
-				validation={validation}
-				title={title}
-				setTitle={(v) => setTitle(v)}
-				content={content}
-				setContent={(v) => setContent(v)}
-				showGallery={showGallery}
-				setShowGallery={setShowGallery}
-				isEdit
-				selectedTab={selectedTab}
-				setSelectedTab={setSelectedTab}
-				template={template}
-				setTemplate={setTemplate}
-				langTitle={langTitle}
-				setLangTitle={setLangTitle}
-			/>
-		);
-	}, [
-		languageData,
-		title,
-		content,
-		showGallery,
-		selectedTab,
-		langTitle,
-		template,
-	]);
+		setFormFields(staticFormFields(null, true, languageOptions, cmsByPageId));
+	}, [languageOptions, cmsByPageId]);
 
 	const handleGalleryClick = () => {
 		setShowGallery(true);
@@ -134,6 +95,49 @@ const useEditCms = () => {
 		},
 	]);
 
+	useEffect(() => {
+		if (imageGallery?.length) {
+			setImageComponent(
+				<div
+					className="d-flex justify-content-center flex-wrap gap-3 dropzone-previews mt-3"
+					id="file-previews"
+				>
+					{imageGallery.map((f) => (
+						<Col>
+							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
+								<div className="p-2">
+									<CopyToClipboard
+										text={f}
+										onCopy={() => {
+											setShowGallery(false);
+											showToastr({
+												message: 'Copied To ClipBoard',
+												type: 'success',
+											});
+										}}
+									>
+										<img
+											data-dz-thumbnail=""
+											height="200"
+											width="250"
+											className="rounded me-2 bg-light"
+											alt={f.name}
+											src={f}
+										/>
+									</CopyToClipboard>
+								</div>
+							</Card>
+						</Col>
+					))}
+				</div>
+			);
+		} else {
+			setImageComponent(
+				<div className="text-center text-danger">No Images Found</div>
+			);
+		}
+	}, [imageGallery]);
+
 	return {
 		header,
 		validation,
@@ -142,12 +146,11 @@ const useEditCms = () => {
 		formFields,
 		setFormFields,
 		languageData,
-		customComponent,
-		setCustomComponent,
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,
-		cmsByPageId,
+		imageComponent,
+		languageOptions,
 	};
 };
 

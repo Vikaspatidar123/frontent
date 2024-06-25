@@ -66,7 +66,7 @@ function* getCmsByPageIdWorker(action) {
 			cmsPageId,
 		});
 
-		yield put(getCmsByPageIdSuccess(data?.data));
+		yield put(getCmsByPageIdSuccess(data?.data?.page));
 	} catch (e) {
 		yield put(getCmsByPageIdFail(e?.response?.data?.errors[0].description));
 	}

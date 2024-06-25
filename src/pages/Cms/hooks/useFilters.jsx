@@ -8,10 +8,10 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getAllCmsDetails } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { debounceTime } from '../../../constants/config';
 
 let debounce;
-const useFilters = () => {
+const useFilters = (itemsPerPage) => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);

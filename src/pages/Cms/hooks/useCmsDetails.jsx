@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/* eslint-disable radix */
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -15,67 +18,59 @@ import {
 	staticFormFields,
 } from '../formDetails';
 
-import CreateCMSTemplate from '../CreateCMSTemplate';
-
 const useCmsDetail = () => {
 	const { cmsPageId } = useParams();
 	const dispatch = useDispatch();
 	const [customComponent, setCustomComponent] = useState();
-	const [selectedTab, setSelectedTab] = useState('EN');
 	const [isView, setIsView] = useState(true);
 
-	const [template, setTemplate] = useState('');
-	const [langTitle, setLangTitle] = useState('');
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { cmsByPageId } = useSelector((state) => state.AllCms);
-	const [title, setTitle] = useState({ EN: '' });
-	const [content, setContent] = useState({ EN: '' });
+
+	const onChangeRowsPerPage = (value) => {
+		setItemsPerPage(value);
+	};
 
 	useEffect(() => {
 		dispatch(getCmsByPageId({ cmsPageId }));
-		dispatch(getLanguagesStart());
 	}, []);
 
 	useEffect(() => {
-		if (cmsByPageId) {
-			setTitle(cmsByPageId?.page?.title);
-			setContent(cmsByPageId?.page?.content);
+		dispatch(getLanguagesStart());
+	}, []);
+
+	const languageOptions = useMemo(() => {
+		if (languageData) {
+			return languageData?.languages?.map((item) => ({
+				optionLabel: item?.code,
+				value: item.code,
+			}));
 		}
-	}, [cmsByPageId]);
+		return [];
+	}, [languageData]);
 
 	// resetting cms details redux state
 	useEffect(() => () => dispatch(resetCmsByPageIdData()), []);
 
 	const { header, validation, setHeader, formFields, setFormFields } = useForm({
-		initialValues: getInitialValues(cmsByPageId?.page),
-		validationSchema: createCmsNewSchema,
-		staticFormFields: staticFormFields(isView),
+		header: `View CMS ${cmsPageId}`,
+		initialValues: getInitialValues(cmsByPageId),
+		validationSchema: createCmsNewSchema(languageOptions),
+		staticFormFields: staticFormFields(
+			isView,
+			null,
+			languageOptions,
+			cmsByPageId
+		),
 	});
 
 	useEffect(() => {
-		setCustomComponent(
-			<CreateCMSTemplate
-				languageData={languageData}
-				cmsByPageId={cmsByPageId?.page}
-				validation={validation}
-				title={title}
-				setTitle={(v) => setTitle(v)}
-				content={content}
-				setContent={(v) => setContent(v)}
-				isView={isView}
-				setIsView={(v) => setIsView(v)}
-				selectedTab={selectedTab}
-				setSelectedTab={(v) => setSelectedTab(v)}
-				template={template}
-				setTemplate={setTemplate}
-				langTitle={langTitle}
-				setLangTitle={setLangTitle}
-			/>
-		);
-	}, [languageData, title, content, selectedTab, langTitle, template]);
+		setFormFields(staticFormFields(isView, null, languageOptions, cmsByPageId));
+	}, [languageOptions, cmsByPageId]);
 
 	return {
 		header,
+		setIsView,
 		validation,
 		setHeader,
 		formFields,
@@ -83,7 +78,8 @@ const useCmsDetail = () => {
 		languageData,
 		customComponent,
 		setCustomComponent,
-		cmsByPageId,
+		onChangeRowsPerPage,
+		languageOptions,
 	};
 };
 
