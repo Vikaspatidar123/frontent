@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import usePermission from '../../components/Common/Hooks/usePermission';
+import { modules } from '../../constants/permissions';
 
 const Id = ({ value }) => value ?? '-';
 
@@ -21,6 +24,17 @@ const NonCashAmount = ({ value }) =>
 		'-'
 	);
 
+const UserName = ({ cell }) => {
+	const { isGranted } = usePermission();
+	return cell?.value && isGranted(modules.player, 'R') ? (
+		<Link to={`/player-details/${cell?.row?.original?.userId}`}>
+			{cell?.value}
+		</Link>
+	) : (
+		cell?.value || ''
+	);
+};
+
 const CurrencyCode = ({ value }) =>
 	value ? <div className="text-primary">{value}</div> : '';
 
@@ -38,6 +52,17 @@ NonCashAmount.protoTypes = {
 	value: PropTypes.string.isRequired,
 };
 
+UserName.propTypes = {
+	cell: PropTypes.shape({
+		value: PropTypes.string.isRequired,
+		row: PropTypes.shape({
+			original: PropTypes.shape({
+				userId: PropTypes.string.isRequired,
+			}).isRequired,
+		}).isRequired,
+	}).isRequired,
+};
+
 export {
 	Status,
 	CreatedAt,
@@ -47,4 +72,5 @@ export {
 	NonCashAmount,
 	CurrencyCode,
 	ActionTypes,
+	UserName,
 };

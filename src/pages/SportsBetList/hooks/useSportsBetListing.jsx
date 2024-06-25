@@ -8,7 +8,13 @@ import {
 	resetSportsBetData,
 } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
-import { CreatedAt, Id, KeyValueCell, Status } from '../SportsBetListCol';
+import {
+	CreatedAt,
+	Id,
+	KeyValueCell,
+	Status,
+	UserName,
+} from '../SportsBetListCol';
 import { BETSLIP_TYPES, sportsBookStatus } from '../formDetails';
 
 const useSportsBetListing = (filterValues = {}, userId = '') => {
@@ -61,6 +67,7 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 					currency: txn?.wallet?.currency?.code || '-',
 					bets: txn?.bets,
 					createdAt: getDateTime(txn?.createdAt),
+					userId: txn?.user?.id,
 				})
 			);
 		}
@@ -85,7 +92,7 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 				Header: 'Username',
 				accessor: 'username',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => <UserName value={cell.value} cell={cell} />,
 			},
 			{
 				Header: 'Wallet Id',
