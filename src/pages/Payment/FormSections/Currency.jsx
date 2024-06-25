@@ -116,7 +116,10 @@ const Currencies = ({
 
 	const handleNextClick = (nextTab) => {
 		currencyValidate()
-			.validate(validation.values)
+			.validate(validation.values, {
+				context: { options: { context: validation.values } },
+				abortEarly: false,
+			})
 			.then(() => {
 				validateCurrency(nextTab);
 			})

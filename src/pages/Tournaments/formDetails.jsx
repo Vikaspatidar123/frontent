@@ -1,32 +1,24 @@
 /* eslint-disable no-unused-vars */
 import * as Yup from 'yup';
+import { isEmpty } from 'lodash';
 import imageDimensionCheck from '../../utils/imageDimensionCheck';
 import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 import { TOURNAMENT_STATUS } from './constants';
 
-// const tournamentPrizeTypeOptionsList = [
-// 	{
-// 		optionLabel: 'Cash',
-// 		value: 'cash',
-// 	},
-// 	{
-// 		optionLabel: 'Non Cash',
-// 		value: 'non_cash',
-// 	},
-// ];
-
-const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
-	let currencyDetails = {};
-	if (tournamentDetail?.tournamentCurrencies?.length) {
-		currencyDetails = allCurrencies?.reduce((acc, { code, id }) => {
-			const details = tournamentDetail?.tournamentCurrencies?.find(
-				({ currencyId }) => currencyId === id
-			);
-			return {
+const formatCurrencyDetails = (allCurrencies, tournamentCurrencies) => {
+	let currDetails = {};
+	if (isEmpty(allCurrencies)) {
+		return currDetails;
+	}
+	// try {
+	if (tournamentCurrencies?.length) {
+		currDetails = tournamentCurrencies?.reduce(
+			(acc, details) => ({
 				...acc,
-				[code]: {
+				[allCurrencies[details.currencyId]?.code]: {
 					entryFees: details?.entryFees || null,
-					currencyId: details?.currencyId || id,
+					currencyId: details?.currencyId,
+					currencyName: allCurrencies?.[details?.currencyId]?.name || '',
 					rebuyLimit: details?.rebuyLimit || null,
 					rebuyFees: details?.rebuyFees || null,
 					poolPrize: details?.poolPrize || null,
@@ -54,31 +46,41 @@ const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
 							{}
 						) || {},
 				},
-			};
-		}, {});
-	} else {
-		currencyDetails = allCurrencies?.reduce(
-			(acc, { code, id }) => ({
-				...acc,
-				[code]: {
-					entryFees: null,
-					currencyId: id,
-					rebuyLimit: null,
-					rebuyFees: null,
-					poolPrize: null,
-					maxPlayerLimit: null,
-					minPlayerLimit: null,
-					numberOfWinners: null,
-					tournamentPrizeType: 'cash',
-					prizeSettlementMethod: 'amount',
-					remainingAmount: 0,
-					prizes: {},
-				},
 			}),
 			{}
 		);
+	} else {
+		const { code, id, name } = Object.values(allCurrencies || {})[0];
+		currDetails = {
+			[code]: {
+				entryFees: null,
+				currencyId: id,
+				currencyName: name,
+				rebuyLimit: null,
+				rebuyFees: null,
+				poolPrize: null,
+				maxPlayerLimit: null,
+				minPlayerLimit: null,
+				numberOfWinners: null,
+				tournamentPrizeType: 'cash',
+				prizeSettlementMethod: 'amount',
+				remainingAmount: 0,
+				prizes: {},
+			},
+		};
 	}
+	return currDetails;
+	// } catch (err) {
+	// 	console.log('Error in tournament currency = ', err?.message);
+	// 	return currDetails;
+	// }
+};
 
+const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
+	const currencyDetails = formatCurrencyDetails(
+		allCurrencies,
+		tournamentDetail?.tournamentCurrencies
+	);
 	return {
 		tournamentType: 'tournament',
 		creditPoints: tournamentDetail?.creditPoints || '',
@@ -144,8 +146,8 @@ const generalFormSchema = () =>
 				typeof value === 'string'
 					? true
 					: !value ||
-					  (value &&
-							['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+					(value &&
+						['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
 			),
 	});
 
@@ -174,7 +176,7 @@ const prizesValidation = (code) =>
 							exclusive: true,
 							message:
 								'Prize must be smaller than or equals to the previous winner.',
-							test(value, context) {
+							test(value) {
 								if (tournamentPrizeType === 'non_cash') {
 									return true;
 								}
@@ -206,83 +208,88 @@ const prizesValidation = (code) =>
 						}),
 				});
 			}
-			return schema.shape(winnerSchema);
+			return true;
 		}
 	);
 
-const currencyValidate = (allCurrencies) => {
-	const currencySchema = {};
-	// eslint-disable-next-line no-restricted-syntax, guard-for-in
-	for (const { code } of allCurrencies) {
-		currencySchema[code] = Yup.object().shape({
-			entryFees: Yup.number()
-				.min(1, 'Amount should be greater than 1')
-				.required('Entry fees required'),
+const currencyValidate = () =>
+	Yup.object().test('validate-tournament-currency', function (formValues) {
+		const currencySchema = {};
+		// eslint-disable-next-line no-restricted-syntax
+		for (const [code] of Object.entries(formValues || {})) {
+			currencySchema[code] = Yup.object().shape({
+				entryFees: Yup.number()
+					.min(1, 'Amount should be greater than 1')
+					.required('Entry fees required'),
 
-			rebuyLimit: Yup.number()
-				.integer('Must be an integer')
-				.min(0.01, 'Amount should be greater than 0')
-				.required('Rebuy limit required'),
-			rebuyFees: Yup.number()
-				.min(1, 'Amount should be greater than 1')
-				.required('Re buy fees required')
-				.test(
-					'greater than entry fees',
-					'Re buy must be greater than entry fees',
-					(value, context) => {
-						if (value <= context?.parent?.entryFees) {
-							return false;
+				rebuyLimit: Yup.number()
+					.integer('Must be an integer')
+					.min(0.01, 'Amount should be greater than 0')
+					.required('Rebuy limit required'),
+				rebuyFees: Yup.number()
+					.min(1, 'Amount should be greater than 1')
+					.required('Re buy fees required')
+					.test(
+						'greater than entry fees',
+						'Re buy must be greater than entry fees',
+						(value, context) => {
+							if (value <= context?.parent?.entryFees) {
+								return false;
+							}
+							return true;
 						}
-						return true;
-					}
-				),
+					),
 
-			minPlayerLimit: Yup.number()
-				.required('Minimum Participants Limit Required.')
-				.integer('Must be an integer')
-				.test(
-					'greater Than',
-					`Minimum participants limit should be greater than 0`,
-					function (value, context) {
-						const fields = context?.parent || {};
-						const minValue = Math.ceil(
-							(fields?.poolPrize || 0) / (fields?.entryFees || 1)
-						);
-						if (value < minValue) {
-							return this.createError({
-								message: `Minimum participants limit should be greater than equal to ${minValue}`,
-							});
+				minPlayerLimit: Yup.number()
+					.required('Minimum Participants Limit Required.')
+					.integer('Must be an integer')
+					.test(
+						'greater Than',
+						`Minimum participants limit should be greater than 0`,
+						function (value, context) {
+							const fields = context?.parent || {};
+							const minValue = Math.ceil(
+								(fields?.poolPrize || 0) / (fields?.entryFees || 1)
+							);
+							if (value < minValue) {
+								return this.createError({
+									message: `Minimum participants limit should be greater than equal to ${minValue}`,
+								});
+							}
+							return value > 0;
 						}
-						return value > 0;
-					}
-				),
-			maxPlayerLimit: Yup.number()
-				.required('Maximum Participants Limit Required.')
-				.integer('Must be an integer')
-				.test(
-					'greaterThanMaximumParticipants',
-					'Maximum participants limit should be greater than Minimum Participants Limit',
-					function (value) {
-						const { minPlayerLimit } = this.parent || {};
+					),
+				maxPlayerLimit: Yup.number()
+					.required('Maximum Participants Limit Required.')
+					.integer('Must be an integer')
+					.test(
+						'greaterThanMaximumParticipants',
+						'Maximum participants limit should be greater than Minimum Participants Limit',
+						function (value) {
+							const { minPlayerLimit } = this.parent || {};
 
-						if (value <= minPlayerLimit) return false;
-						return value > 0;
-					}
-				),
-			poolPrize: Yup.number()
-				.required('Pool prize required')
-				.min(1, 'Amount should be greater than 1'),
+							if (value <= minPlayerLimit) return false;
+							return value > 0;
+						}
+					),
+				poolPrize: Yup.number()
+					.required('Pool prize required')
+					.min(1, 'Amount should be greater than 1'),
 
-			numberOfWinners: Yup.number()
-				.required('Winners required')
-				.integer('Must be an integer')
-				.min(1, 'Winners should be greater than 1'),
+				numberOfWinners: Yup.number()
+					.required('Winners required')
+					.integer('Must be an integer')
+					.min(1, 'Winners should be greater than 1'),
 
-			prizes: prizesValidation(code),
+				prizes: prizesValidation(code),
+			});
+		}
+		const validateSchema = Yup.object().shape(currencySchema);
+		return validateSchema.validateSync(formValues, {
+			context: this?.options?.context,
+			abortEarly: false,
 		});
-	}
-	return Yup.object(currencySchema);
-};
+	});
 
 const staticFormFields = () => [
 	{
@@ -546,4 +553,5 @@ export {
 	gameFilterValues,
 	currencyValidate,
 	currencyFields,
+	formatCurrencyDetails,
 };
