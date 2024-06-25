@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Card, CardBody, Col, Row } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import CrudSection from '../../components/Common/CrudSection';
@@ -8,8 +7,6 @@ import useBonusReorder from './hooks/useBonusReorder';
 import TableContainer from '../../components/Common/Table';
 
 const ReorderBonus = () => {
-	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
-
 	const {
 		buttonList,
 		columns,
@@ -23,13 +20,16 @@ const ReorderBonus = () => {
 	return (
 		<div className="page-content">
 			<div className="container-fluid">
-				{showBreadcrumb && (
-					<Breadcrumb
-						title="Bonus Management"
-						breadcrumbItem="Reorder Bonus"
-						showBackButton
-					/>
-				)}
+				<Breadcrumb
+					title="Bonus"
+					breadcrumbItem="Reorder"
+					titleLink="/bonus"
+					leftTitle={
+						<>
+							<i className="fas fa-angle-left" /> Back
+						</>
+					}
+				/>
 
 				<Row>
 					<Card>

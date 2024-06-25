@@ -42,7 +42,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 				accessor: 'username',
 				notHidable: true,
 				filterable: true,
-				Cell: ({ cell }) => <Username value={cell?.value || '-'} />,
+				Cell: ({ cell }) => <Username value={cell?.value || '-'} cell={cell} />,
 			},
 			{
 				Header: 'Wagered',

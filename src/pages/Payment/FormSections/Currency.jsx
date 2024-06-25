@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { Card, Col, Row, Button, UncontrolledTooltip } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
@@ -27,14 +27,6 @@ const Currencies = ({
 }) => {
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
-
-	const allCurrencies = useMemo(() => {
-		const currencyObj = {};
-		currencies?.currencies?.forEach((curr) => {
-			if (curr.type !== 'point' && curr.isActive) currencyObj[curr?.id] = curr;
-		});
-		return currencyObj;
-	}, [currencies]);
 
 	const { validation } = useForm({
 		initialValues: getInitialValues(paymentDetails)?.providerLimit,
@@ -112,11 +104,11 @@ const Currencies = ({
 	useEffect(() => {
 		if (!isEmpty(paymentDetails)) {
 			const currency = filterEmptyPayload(
-				getInitialValues(paymentDetails, allCurrencies)?.providerLimit
+				getInitialValues(paymentDetails)?.providerLimit
 			);
 			validation.setValues(currency);
 		}
-	}, [paymentDetails, allCurrencies]);
+	}, [paymentDetails]);
 
 	useEffect(() => {
 		dispatch(fetchCurrenciesStart({}));

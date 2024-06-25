@@ -122,13 +122,13 @@ const generaFromFields = [
 	// },
 ];
 
-const getInitialValues = (paymentDetails, allCurrencies) => {
+const getInitialValues = (paymentDetails) => {
 	const providerLimit = {};
 	if (paymentDetails?.providerLimits?.length)
 		paymentDetails?.providerLimits?.forEach((item) => {
 			providerLimit[parseFloat(item?.currencyId)] = {
 				...item,
-				currencyName: allCurrencies?.[item?.currencyId]?.name || '',
+				currencyName: item?.currency?.name || '',
 			};
 		});
 
