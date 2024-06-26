@@ -17,6 +17,7 @@ const DemographicReport = () => {
 		demoGrapFormatedData,
 		demoGraphOptions,
 		demoGraphicData,
+		formattedDemoGraphicData,
 		demoGraphColumn,
 		demoDateOptions,
 		setDemoDateOptions,
@@ -73,7 +74,7 @@ const DemographicReport = () => {
 								</Col>
 								<Col xl="5">
 									<DemoGraphicTable
-										demoGraphicData={demoGraphicData}
+										formattedDemoGraphicData={formattedDemoGraphicData}
 										demoGraphColumn={demoGraphColumn}
 										isDemographicLoading={isDemographicLoading}
 									/>

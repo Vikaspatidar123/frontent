@@ -12,7 +12,9 @@ const RevenueChart = ({ livePlayerData }) => {
 	);
 	const [series, setSeries] = useState([]);
 	const [xAxis, setxAxis] = useState([]);
-	const { currencies } = useSelector((state) => state.Currencies);
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
+	);
 
 	useEffect(() => {
 		if (livePlayerData?.DailyRevenues?.length) {
@@ -74,7 +76,7 @@ const RevenueChart = ({ livePlayerData }) => {
 		yaxis: {
 			labels: {
 				formatter(value) {
-					return `${value}`;
+					return `${defaultCurrency?.symbol || ''} ${value}`;
 				},
 			},
 		},

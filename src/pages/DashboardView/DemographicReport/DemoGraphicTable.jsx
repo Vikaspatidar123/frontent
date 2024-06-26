@@ -5,22 +5,19 @@ import TableContainer from '../../../components/Common/Table';
 import { tableCustomClass } from '../../../constants/config';
 
 const DemoGraphicTable = (props) => {
-	const { demoGraphColumn, demoGraphicData, isDemographicLoading } = props;
+	const { demoGraphColumn, formattedDemoGraphicData, isDemographicLoading } =
+		props;
 	return (
 		<div className="demo-graph-table">
 			<TableContainer
 				columns={demoGraphColumn || []}
-				data={demoGraphicData?.demograph || []}
+				data={formattedDemoGraphicData || []}
 				isGlobalFilter={false}
 				isPagination={false}
 				tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-				// tbodyClass="kpiTableWrap"
-				// theadClass={theadClass}
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
-				// totalPageCount={1}
-				customPageSize={demoGraphicData?.demograph?.length || 15}
-				// tbodyHeight="300"
+				customPageSize={formattedDemoGraphicData?.length || 15}
 				isLoading={isDemographicLoading}
 				isShowColSettings={false}
 			/>
@@ -29,7 +26,7 @@ const DemoGraphicTable = (props) => {
 };
 DemoGraphicTable.propTypes = {
 	demoGraphColumn: PropTypes.arrayOf.isRequired,
-	demoGraphicData: PropTypes.arrayOf.isRequired,
+	formattedDemoGraphicData: PropTypes.arrayOf.isRequired,
 	isDemographicLoading: PropTypes.bool.isRequired,
 };
 

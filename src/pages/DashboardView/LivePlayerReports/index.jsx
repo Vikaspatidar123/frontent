@@ -11,7 +11,9 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const Reports = (props) => {
 	const { livePlayerData, isLivePlayerLoading } = props;
-	const { currencies } = useSelector((state) => state.Currencies);
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
+	);
 	const { isGranted } = usePermission();
 
 	const todayGGR = useMemo(() => {
@@ -52,7 +54,7 @@ const Reports = (props) => {
 		() => [
 			{
 				title: 'Today GGR',
-				description: todayGGR,
+				description: `${defaultCurrency?.symbol || ''} ${todayGGR}`,
 				iconClass: 'bx bxs-dollar-circle',
 				reportClass: 'reportList1',
 			},
