@@ -56,13 +56,13 @@ const useKpiSummary = () => {
 					name: label,
 					today: `${isAmount ? currency.symbol : ''} ${Number(
 						kPISummary[`today${value}`] || 0
-					)?.toFixed(2)}`,
+					)?.toFixed(isAmount ? 2 : 0)}`,
 					yesterday: `${isAmount ? currency.symbol : ''} ${Number(
 						kPISummary[`yesterday${value}`] || 0
-					)?.toFixed(2)}`,
+					)?.toFixed(isAmount ? 2 : 0)}`,
 					monthToDate: `${isAmount ? currency.symbol : ''} ${Number(
 						kPISummary[`monthtodate${value}`] || 0
-					)?.toFixed(2)}`,
+					)?.toFixed(isAmount ? 2 : 0)}`,
 					delta: `${delta} %`,
 				};
 			});
