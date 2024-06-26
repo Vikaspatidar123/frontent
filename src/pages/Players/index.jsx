@@ -9,6 +9,7 @@ import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
+import ManageMoney from '../PlayerDetails/modals/ManageMoney';
 
 const PlayersList = () => {
 	document.title = projectName;
@@ -32,6 +33,8 @@ const PlayersList = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		showManageMoney,
+		setShowManageMoney,
 	} = usePlayersListing(filterValidation.values);
 
 	return (
@@ -75,6 +78,11 @@ const PlayersList = () => {
 					</Col>
 				</Row>
 			</Container>
+			<ManageMoney
+				show={!!showManageMoney}
+				toggle={() => setShowManageMoney('')}
+				playerId={showManageMoney}
+			/>
 		</div>
 	);
 };

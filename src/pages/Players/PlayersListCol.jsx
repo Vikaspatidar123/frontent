@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Badge, UncontrolledTooltip } from 'reactstrap';
+import { Badge, Button, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { modules } from '../../constants/permissions';
@@ -32,7 +32,7 @@ const IsInternal = ({ value }) => value ?? '-';
 const Tags = ({ value }) =>
 	value?.map((tags) => tags?.tag?.tag)?.join(', ') || '-';
 
-const Action = ({ cell }) => {
+const Action = ({ cell, setShowManageMoney }) => {
 	const active = cell?.row?.original?.isActive;
 	const userId = cell?.row?.original?.id;
 	const { isGranted } = usePermission();
@@ -103,6 +103,18 @@ const Action = ({ cell }) => {
 					)}
 				</li>
 			)}
+			<li data-bs-toggle="tooltip" data-bs-placement="top">
+				<Button
+					onClick={() => setShowManageMoney(userId)}
+					className="btn btn-sm btn-soft-primary"
+					hidden={!isGranted(modules.player, 'U')}
+				>
+					<i className="mdi mdi-cash-multiple" id={`eye-tooltip-${userId}`} />
+				</Button>
+			</li>
+			<UncontrolledTooltip placement="top" target={`eye-tooltip-${userId}`}>
+				Manage Money
+			</UncontrolledTooltip>
 		</ul>
 	);
 };
@@ -138,6 +150,7 @@ Action.propTypes = {
 			}).isRequired,
 		}).isRequired,
 	}).isRequired,
+	setShowManageMoney: PropTypes.func.isRequired,
 };
 
 Status.propTypes = {

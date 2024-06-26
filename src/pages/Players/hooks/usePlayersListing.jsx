@@ -25,6 +25,7 @@ const usePlayersListing = (filterValues = {}) => {
 	const { players, loading: isPlayersLoading } = useSelector(
 		(state) => state.Players
 	);
+	const [showManageMoney, setShowManageMoney] = useState(''); // will store player id for manage money
 
 	const columns = useMemo(
 		() => [
@@ -112,7 +113,9 @@ const usePlayersListing = (filterValues = {}) => {
 				Header: 'Action',
 				accessor: 'action',
 				disableSortBy: true,
-				Cell: ({ cell }) => <Action cell={cell} />,
+				Cell: ({ cell }) => (
+					<Action cell={cell} setShowManageMoney={setShowManageMoney} />
+				),
 			},
 		],
 		[]
@@ -163,6 +166,8 @@ const usePlayersListing = (filterValues = {}) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		showManageMoney,
+		setShowManageMoney,
 	};
 };
 

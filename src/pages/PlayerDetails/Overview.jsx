@@ -433,10 +433,9 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 						toggle={() => closeModal('giveBonusModal')}
 						header={`Give Bonus To ${userDetails?.firstName} ${userDetails?.lastName}`}
 					/>
-					<ManageMoney
+					<ManageMoney // header set from manage money modal to use the component on listing page.
 						show={modalStates.manageMoneyModal}
 						toggle={() => closeModal('manageMoneyModal')}
-						header={`Manage Money for '${userDetails?.firstName} ${userDetails?.lastName}'`}
 					/>
 					<UpdateUserInfo
 						show={modalStates.editUserModal}

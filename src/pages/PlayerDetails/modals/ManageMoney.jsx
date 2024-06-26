@@ -1,10 +1,15 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { isEmpty } from 'lodash';
 import { depositSchema } from '../formDetails';
 import FormModal from '../../../components/Common/FormModal';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { depositToOther, fetchCurrenciesStart } from '../../../store/actions';
+import {
+	depositToOther,
+	fetchCurrenciesStart,
+	getUserDetails,
+} from '../../../store/actions';
 import { showToastr } from '../../../utils/helpers';
 import PlayerWallet from '../PlayerWallet';
 
@@ -35,7 +40,7 @@ const staticFormFields = (currencySelect) => [
 	},
 ];
 
-const ManageMoney = ({ show, header, toggle }) => {
+const ManageMoney = ({ show, toggle, playerId }) => {
 	const dispatch = useDispatch();
 	const { userDetails, depositToOtherLoading } = useSelector(
 		(state) => state.UserDetails
@@ -72,8 +77,15 @@ const ManageMoney = ({ show, header, toggle }) => {
 		);
 	};
 
-	const { isOpen, setIsOpen, validation, formFields, setFormFields } = useForm({
+	const {
+		isOpen,
+		setIsOpen,
+		validation,
+		formFields,
+		setFormFields,
+		setHeader,
 		header,
+	} = useForm({
 		validationSchema: depositSchema,
 		initialValues: {
 			addAmount: '',
@@ -87,6 +99,22 @@ const ManageMoney = ({ show, header, toggle }) => {
 		},
 		staticFormFields: staticFormFields(),
 	});
+
+	useEffect(() => {
+		if (playerId) {
+			dispatch(getUserDetails({ playerId }));
+		}
+	}, [playerId]);
+
+	useEffect(() => {
+		if (!isEmpty(userDetails)) {
+			setHeader(
+				`Manage Money for '${userDetails?.firstName || ''} ${
+					userDetails?.lastName || ''
+				}'`
+			);
+		}
+	}, [userDetails]);
 
 	useEffect(() => {
 		if (currencies) {
