@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { groupBy, keyBy } from 'lodash';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -11,38 +12,55 @@ const RevenueChart = ({ livePlayerData }) => {
 	);
 	const [series, setSeries] = useState([]);
 	const [xAxis, setxAxis] = useState([]);
-	const { defaultCurrency } = useSelector((state) => state.Currencies);
+	const { currencies } = useSelector((state) => state.Currencies);
+
 	useEffect(() => {
 		if (livePlayerData?.DailyRevenues?.length) {
+			const currObj = keyBy(currencies?.currencies || [], 'id');
+			const groupedByDate = groupBy(livePlayerData.DailyRevenues, 'date');
+
+			const xAxisData = [];
+			const totalWageredData = [];
+			const totalPayoutData = [];
+			const totalRevenueData = [];
+
+			Object.entries(groupedByDate).forEach(([date, currencyWiseAmount]) => {
+				xAxisData.push(moment(date).format('Do MMM'));
+
+				let totalBetAmt = 0;
+				let totalWinAmt = 0;
+
+				currencyWiseAmount.forEach(
+					({ currency, totalBetAmount, totalWinAmount }) => {
+						const exchangeRate = Number(currObj[currency]?.exchangeRate || 1);
+						totalBetAmt += Number(totalBetAmount || 0) * exchangeRate;
+						totalWinAmt += Number(totalWinAmount || 0) * exchangeRate;
+					}
+				);
+
+				totalWageredData.push(totalBetAmt);
+				totalPayoutData.push(totalWinAmt);
+				totalRevenueData.push(totalBetAmt - totalWinAmt);
+			});
+
 			const formateData = [
 				{
 					name: 'Total Revenue',
-					data: livePlayerData?.DailyRevenues?.map(
-						({ totalBetAmount, totalWinAmount }) =>
-							totalBetAmount - totalWinAmount
-					),
+					data: totalRevenueData,
 				},
 				{
 					name: 'Total Wagered Amount',
-					data: livePlayerData?.DailyRevenues?.map(
-						({ totalBetAmount }) => totalBetAmount
-					),
+					data: totalWageredData,
 				},
 				{
 					name: 'Total Payout Amount',
-					data: livePlayerData?.DailyRevenues?.map(
-						({ totalWinAmount }) => totalWinAmount
-					),
+					data: totalPayoutData,
 				},
 			];
 			setSeries(formateData);
-			setxAxis(
-				livePlayerData?.DailyRevenues?.map(({ date }) =>
-					moment(date).format('Do MMM')
-				)
-			);
+			setxAxis(xAxisData);
 		}
-	}, [livePlayerData?.DailyRevenues]);
+	}, [livePlayerData?.DailyRevenues, currencies]);
 
 	const options = {
 		chart: { zoom: { enabled: !1 }, toolbar: { show: !1 } },
@@ -56,7 +74,7 @@ const RevenueChart = ({ livePlayerData }) => {
 		yaxis: {
 			labels: {
 				formatter(value) {
-					return `${defaultCurrency.symbol} ${value}`;
+					return `${value}`;
 				},
 			},
 		},

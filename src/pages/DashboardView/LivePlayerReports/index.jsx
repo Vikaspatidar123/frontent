@@ -20,9 +20,12 @@ const Reports = (props) => {
 		const sportsGGR =
 			livePlayerData?.sportsbookBetData?.reduce(
 				(acc, { currency_id, totalWinAmount, totalBetAmount }) => {
-					const exchangeRate = currObj?.[currency_id]?.exchangeRate || 0;
-					const ggr =
-						Number(totalBetAmount - totalWinAmount || 0) * Number(exchangeRate);
+					const exchangeRate = Number(
+						currObj?.[currency_id]?.exchangeRate || 1
+					);
+					const betAmount = Number(totalBetAmount || 0);
+					const winAmount = Number(totalWinAmount || 0);
+					const ggr = (betAmount - winAmount) * exchangeRate;
 					return acc + ggr;
 				},
 				0
@@ -31,9 +34,12 @@ const Reports = (props) => {
 		const casinoGGR =
 			livePlayerData?.casinoBetData?.reduce(
 				(acc, { currency_id, totalWinAmount, totalBetAmount }) => {
-					const exchangeRate = currObj?.[currency_id]?.exchangeRate;
-					const ggr =
-						Number(totalBetAmount - totalWinAmount || 0) * Number(exchangeRate);
+					const exchangeRate = Number(
+						currObj?.[currency_id]?.exchangeRate || 1
+					);
+					const betAmount = Number(totalBetAmount || 0);
+					const winAmount = Number(totalWinAmount || 0);
+					const ggr = (betAmount - winAmount) * exchangeRate;
 					return acc + ggr;
 				},
 				0
