@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import PropTypes from 'prop-types';
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Container, Row, Col, CardBody, Card } from 'reactstrap';
 
 // import Charts
@@ -21,7 +21,6 @@ import LoggedInPlayer from './LoggedInPlayer';
 import './dashboard.scss';
 import PlayerReport from './PlayerReport';
 import RevenueReport from './RevenueChart';
-import { CustomSwitchButton } from '../../helpers/customForms';
 
 const KpiSummary = lazy(() => import('./KpiSummary'));
 const KpiReport = lazy(() => import('./KpiReport'));
@@ -30,7 +29,6 @@ const GameReport = lazy(() => import('./GameReport'));
 const DashboardView = ({ t }) => {
 	// meta title
 	document.title = projectName;
-	const [viewReport, setViewReport] = useState('revenue');
 
 	const { isLivePlayerLoading, livePlayerData, loggedInOptions } =
 		useDashboardView();
@@ -46,66 +44,30 @@ const DashboardView = ({ t }) => {
 						livePlayerData={livePlayerData}
 					/>
 				</Row>
+				<Card>
+					<Row>
+						<Col xl="3">
+							<LoggedInPlayer
+								loggedInOptions={loggedInOptions}
+								isLivePlayerLoading={isLivePlayerLoading}
+							/>
+						</Col>
+						<Col xl="9">
+							<Card>
+								<CardBody>
+									<h4 className="card-title font-size-16">Revenue Report</h4>
+									<RevenueReport
+										livePlayerData={livePlayerData}
+										isLivePlayerLoading={isLivePlayerLoading}
+									/>
+								</CardBody>
+							</Card>
+						</Col>
+					</Row>
+				</Card>
 				<Row>
-					<Col xl="3">
-						<Card className="mini-stats-wid">
-							<CardBody>
-								<div className="d-flex">
-									<div className="flex-grow-1">
-										<div>
-											<h4 className="card-title mb-3">View Report</h4>
-										</div>
-										<div
-											className="d-flex cursor-pointer"
-											onClick={() => setViewReport('revenue')}
-										>
-											<CustomSwitchButton
-												type="radio"
-												checked={viewReport === 'revenue'}
-											/>{' '}
-											<h4 className="card-title mb-3">Revenue</h4>
-										</div>
-										<div
-											className="d-flex cursor-pointer"
-											onClick={() => setViewReport('demographic')}
-										>
-											<CustomSwitchButton
-												type="radio"
-												checked={viewReport === 'demographic'}
-											/>{' '}
-											<h4 className="card-title">Demographic</h4>
-										</div>
-									</div>
-								</div>
-							</CardBody>
-						</Card>
-						<LoggedInPlayer
-							loggedInOptions={loggedInOptions}
-							isLivePlayerLoading={isLivePlayerLoading}
-						/>
-					</Col>
-					<Col xl="9">
-						<Row>
-							{viewReport === 'revenue' ? (
-								<Col xl="12">
-									<Card>
-										<CardBody>
-											<h4 className="card-title font-size-16">
-												Revenue Report
-											</h4>
-											<RevenueReport
-												livePlayerData={livePlayerData}
-												isLivePlayerLoading={isLivePlayerLoading}
-											/>
-										</CardBody>
-									</Card>
-								</Col>
-							) : (
-								<Col xl="12">
-									<DemographicReport />
-								</Col>
-							)}
-						</Row>
+					<Col xl="12">
+						<DemographicReport />
 					</Col>
 				</Row>
 				<Row>
