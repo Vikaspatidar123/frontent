@@ -6,6 +6,7 @@ import FormModal from '../../../components/Common/FormModal';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { depositToOther, fetchCurrenciesStart } from '../../../store/actions';
 import { showToastr } from '../../../utils/helpers';
+import PlayerWallet from '../PlayerWallet';
 
 const transactionTypeOptionsList = [
 	{
@@ -129,6 +130,9 @@ const ManageMoney = ({ show, header, toggle }) => {
 				submitLabel="Submit"
 				customColClasses="col-md-12"
 				isSubmitLoading={depositToOtherLoading}
+				customComponent={
+					<PlayerWallet userDetails={userDetails} heading="Balance" />
+				}
 			/>
 		</div>
 	);

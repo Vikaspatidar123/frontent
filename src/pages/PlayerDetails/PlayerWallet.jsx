@@ -6,7 +6,7 @@ import { Card, Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import { KeyValueCell } from './TableCol';
 
-const PlayerWallet = ({ userDetails }) => {
+const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
 	const walletData = useMemo(() => {
 		if (userDetails?.wallets?.length > 0) {
 			return userDetails?.wallets?.map((wallet) => ({
@@ -44,7 +44,7 @@ const PlayerWallet = ({ userDetails }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
-				<h4 className="text-center border-bottom p-3">Player Wallet</h4>
+				<h4 className="border-bottom p-2">{heading}</h4>
 				<TableContainer
 					columns={columns}
 					data={walletData}
@@ -52,6 +52,7 @@ const PlayerWallet = ({ userDetails }) => {
 					pagination="pagination justify-content-start pagination-rounded"
 					customPageSize={50}
 					tableClass="table-bordered align-middle nowrap mt-2"
+					isShowColSettings={false}
 				/>
 			</Card>
 		</Container>

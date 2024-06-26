@@ -23,7 +23,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
-				<h4 className="text-center p-2">Limits</h4>
+				<h4 className="p-2">Limits</h4>
 				{userDetailsLoading ? (
 					<Spinner
 						color="primary"

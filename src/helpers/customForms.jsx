@@ -96,6 +96,7 @@ export const CustomSelectField = ({
 	id,
 	isError = false,
 	errorMsg,
+	description,
 	...props
 }) => (
 	<>
@@ -128,6 +129,11 @@ export const CustomSelectField = ({
 			>
 				{options}
 			</Input>
+		)}
+		{description && (
+			<div>
+				<span className="text-muted">{description}</span>{' '}
+			</div>
 		)}
 
 		{isError && errorMsg ? (
@@ -601,6 +607,7 @@ export const getField = (
 						)
 					}
 					disabled={!!isDisabled}
+					description={description}
 				/>
 			);
 		case 'switch':

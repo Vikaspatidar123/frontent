@@ -59,6 +59,7 @@ import {
 	deleteUserCommentFail,
 	userReferralsSuccess,
 	userReferralsFail,
+	getUserDetails as userDetailsStart,
 } from './actions';
 import {
 	ACTIVATE_KYC,
@@ -386,6 +387,7 @@ function* depositToOtherWorker(action) {
 					: 'Amount Removed from Wallet Successful',
 			type: 'success',
 		});
+		yield put(userDetailsStart({ playerId: payload.userId }));
 	} catch (e) {
 		yield put(depositToOtherFail(e.message));
 	}
