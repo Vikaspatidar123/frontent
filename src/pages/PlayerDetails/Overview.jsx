@@ -201,15 +201,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											Manage Tag
 										</Button>
 									</ColumnContainer>
-									<ColumnContainer>
-										<Button
-											variant="outline-secondary"
-											onClick={() => openModal('duplicatesModal')}
-											className="actionButton w-100"
-										>
-											Duplicates ({duplicateUsers?.players?.length || 0})
-										</Button>
-									</ColumnContainer>
+
 									{/* {isGranted(modules.bonus, 'Issue') && (
 										<ColumnContainer>
 											<Button
@@ -313,6 +305,15 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Dropdown>
 										</ColumnContainer>
 									)}
+									<ColumnContainer>
+										<Button
+											variant="outline-secondary"
+											onClick={() => openModal('duplicatesModal')}
+											className="actionButton w-100"
+										>
+											Fraud Detection ({duplicateUsers?.players?.length || 0})
+										</Button>
+									</ColumnContainer>
 								</Row>
 							</div>
 						</Card>
@@ -425,7 +426,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 					<Duplicates
 						show={modalStates.duplicatesModal}
 						toggle={() => closeModal('duplicatesModal')}
-						header="Duplicates"
+						header="Fraud Detection"
 					/>
 					<GiveBonusModal
 						show={modalStates.giveBonusModal}
