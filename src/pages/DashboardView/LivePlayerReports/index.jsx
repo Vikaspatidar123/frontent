@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Row, Col, CardBody, Card } from 'reactstrap';
+import { keyBy } from 'lodash';
 import ReportList from './ReportList';
 import { modules } from '../../../constants/permissions';
 import { LIVE_PLAYER } from '../../../constants/messages';
@@ -9,19 +11,42 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const Reports = (props) => {
 	const { livePlayerData, isLivePlayerLoading } = props;
-	const defaultCurrency = useSelector(
-		(state) => state.Currencies.defaultCurrency
-	);
+	const { currencies } = useSelector((state) => state.Currencies);
 	const { isGranted } = usePermission();
+
+	const todayGGR = useMemo(() => {
+		const currObj = keyBy(currencies?.currencies || [], 'id');
+
+		const sportsGGR =
+			livePlayerData?.sportsbookBetData?.reduce(
+				(acc, { currency_id, totalWinAmount, totalBetAmount }) => {
+					const exchangeRate = currObj?.[currency_id]?.exchangeRate || 0;
+					const ggr =
+						Number(totalBetAmount - totalWinAmount || 0) * Number(exchangeRate);
+					return acc + ggr;
+				},
+				0
+			) || 0;
+
+		const casinoGGR =
+			livePlayerData?.casinoBetData?.reduce(
+				(acc, { currency_id, totalWinAmount, totalBetAmount }) => {
+					const exchangeRate = currObj?.[currency_id]?.exchangeRate;
+					const ggr =
+						Number(totalBetAmount - totalWinAmount || 0) * Number(exchangeRate);
+					return acc + ggr;
+				},
+				0
+			) || 0;
+
+		return sportsGGR + casinoGGR;
+	}, [livePlayerData, currencies]);
 
 	const reportList = useMemo(
 		() => [
 			{
 				title: 'Today GGR',
-				description: `${defaultCurrency?.symbol} ${(
-					livePlayerData.todayTotalCasinoGGR +
-						livePlayerData.todayTotalSportsbookGGR || 0
-				)?.toFixed(2)}`,
+				description: todayGGR,
 				iconClass: 'bx bxs-dollar-circle',
 				reportClass: 'reportList1',
 			},
@@ -44,7 +69,7 @@ const Reports = (props) => {
 				reportClass: 'reportList4',
 			},
 		],
-		[livePlayerData, isLivePlayerLoading]
+		[livePlayerData, isLivePlayerLoading, todayGGR]
 	);
 
 	return (
