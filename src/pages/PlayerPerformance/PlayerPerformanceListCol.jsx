@@ -7,6 +7,15 @@ import usePermission from '../../components/Common/Hooks/usePermission';
 const KeyValueData = ({ value, defaultCurrency }) =>
 	defaultCurrency ? `${defaultCurrency.symbol} ${value}` : value;
 
+const PlayerPNL = ({ value, defaultCurrency }) => {
+	const colorValue = value < 0 ? 'red' : 'green';
+	return (
+		<span style={{ color: colorValue }}>
+			{defaultCurrency ? `${defaultCurrency.symbol} ${value}` : value}
+		</span>
+	);
+};
+
 const Username = ({ cell }) => {
 	const { isGranted } = usePermission();
 	return cell?.value && isGranted(modules.player, 'R') ? (
@@ -29,4 +38,9 @@ Username.propTypes = {
 	}).isRequired,
 };
 
-export { KeyValueData, Username };
+PlayerPNL.propTypes = {
+	value: PropTypes.string.isRequired,
+	defaultCurrency: PropTypes.isRequired,
+};
+
+export { KeyValueData, Username, PlayerPNL };

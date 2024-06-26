@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { KeyValueData, Username } from '../PlayerPerformanceListCol';
+import { KeyValueData, PlayerPNL, Username } from '../PlayerPerformanceListCol';
 import { fetchPlayerPerformanceStart } from '../../../store/playerPerformance/actions';
 
 const usePlayerPerformance = (filterValues = {}) => {
@@ -25,6 +25,16 @@ const usePlayerPerformance = (filterValues = {}) => {
 		);
 	}, [currentPage, itemsPerPage]);
 
+	const calculateTotalWagered = (data = []) => {
+		data.map((item) => {
+			const key = item;
+			key.total_bet_amt = key.total_sb_bet + key.total_casino_bet;
+			return item;
+		});
+
+		return data;
+	};
+
 	const onChangeRowsPerPage = (value) => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
@@ -35,7 +45,6 @@ const usePlayerPerformance = (filterValues = {}) => {
 			currencies?.currencies?.find(
 				(curr) => curr.id === filterValues?.currencyId
 			) || defaultCurrency;
-
 		return [
 			{
 				Header: 'Username',
@@ -46,18 +55,18 @@ const usePlayerPerformance = (filterValues = {}) => {
 			},
 			{
 				Header: 'Wagered',
-				accessor: 'totalrevenue',
+				accessor: 'total_bet_amt',
 				filterable: true,
 				Cell: ({ cell }) => (
 					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
 			},
 			{
-				Header: 'Revenue',
+				Header: 'Platform P&L',
 				accessor: 'profit',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
+					<PlayerPNL value={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
 			},
 			{
@@ -145,7 +154,8 @@ const usePlayerPerformance = (filterValues = {}) => {
 		setCurrentPage,
 		totalCount: playerPerformance?.totalPages || 0,
 		loading,
-		playerPerformance: playerPerformance?.reportData || [],
+		playerPerformance:
+			calculateTotalWagered(playerPerformance?.reportData) || [],
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
