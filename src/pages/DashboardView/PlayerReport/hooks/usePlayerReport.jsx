@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { KeyValueData, Username } from '../playerListCol';
+import { KeyValueData, Username, PlayerPNL } from '../playerListCol';
 import { getTopPlayers } from '../../../../store/dashboardView/actions';
 import { TABS } from '../../constant';
 
@@ -59,11 +59,11 @@ const usePlayerReport = () => {
 				),
 			},
 			{
-				Header: 'Total Revenue',
+				Header: 'Platform P&L',
 				accessor: 'profit',
 				filterable: true,
 				Cell: ({ cell }) => (
-					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
+					<PlayerPNL value={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
 			},
 			...(activePerformance === TABS.CASINO

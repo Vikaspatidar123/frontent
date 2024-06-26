@@ -21,11 +21,9 @@ const TournamentDetail = () => {
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState('1');
 
-	const { currencies } = useSelector((state) => state.Currencies);
+	const { currencies, currencyById } = useSelector((state) => state.Currencies);
 
 	const [currencyId, setCurrencyId] = useState(null);
-
-	const currencyById = keyBy(currencies?.currencies || [], 'id');
 
 	const { tournamentDetail, tournamentDetailLoading } = useSelector(
 		(state) => state.Tournament

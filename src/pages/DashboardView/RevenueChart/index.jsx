@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { groupBy, keyBy } from 'lodash';
+import { groupBy } from 'lodash';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -12,13 +12,12 @@ const RevenueChart = ({ livePlayerData }) => {
 	);
 	const [series, setSeries] = useState([]);
 	const [xAxis, setxAxis] = useState([]);
-	const { currencies, defaultCurrency } = useSelector(
+	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
 	);
 
 	useEffect(() => {
 		if (livePlayerData?.DailyRevenues?.length) {
-			const currObj = keyBy(currencies?.currencies || [], 'id');
 			const groupedByDate = groupBy(livePlayerData.DailyRevenues, 'date');
 
 			const xAxisData = [];
@@ -34,7 +33,9 @@ const RevenueChart = ({ livePlayerData }) => {
 
 				currencyWiseAmount.forEach(
 					({ currency, totalBetAmount, totalWinAmount }) => {
-						const exchangeRate = Number(currObj[currency]?.exchangeRate || 1);
+						const exchangeRate = Number(
+							currencyById[currency]?.exchangeRate || 1
+						);
 						totalBetAmt += Number(totalBetAmount || 0) * exchangeRate;
 						totalWinAmt += Number(totalWinAmount || 0) * exchangeRate;
 					}
@@ -62,7 +63,7 @@ const RevenueChart = ({ livePlayerData }) => {
 			setSeries(formateData);
 			setxAxis(xAxisData);
 		}
-	}, [livePlayerData?.DailyRevenues, currencies]);
+	}, [livePlayerData?.DailyRevenues, currencyById]);
 
 	const options = {
 		chart: { zoom: { enabled: !1 }, toolbar: { show: !1 } },

@@ -1,3 +1,4 @@
+import { keyBy } from 'lodash';
 import {
 	FETCH_CURRENCIES_FAIL,
 	FETCH_CURRENCIES_START,
@@ -9,7 +10,6 @@ import {
 	EDIT_CURRENCIES_SUCCESS,
 	EDIT_CURRENCIES_FAIL,
 	RESET_CURRENCIES_DATA,
-	TOGGLE_CURRENCY_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
@@ -23,6 +23,7 @@ const initialState = {
 	isEditCurrencyError: false,
 	isEditCurrencySuccess: false,
 	isEditCurrencyLoading: false,
+	currencyById: {},
 };
 
 const currenciesReducer = (state = initialState, { type, payload } = {}) => {
@@ -46,6 +47,7 @@ const currenciesReducer = (state = initialState, { type, payload } = {}) => {
 				loading: false,
 				currencies: payload,
 				defaultCurrency: payload?.currencies?.find((curr) => curr.isDefault),
+				currencyById: keyBy(payload?.currencies, 'id'),
 			};
 
 		case RESET_CURRENCIES_DATA:
@@ -98,12 +100,6 @@ const currenciesReducer = (state = initialState, { type, payload } = {}) => {
 				isEditCurrencyError: payload,
 				isEditCurrencyLoading: false,
 				isEditCurrencySuccess: false,
-			};
-
-		case TOGGLE_CURRENCY_SUCCESS:
-			return {
-				...state,
-				currencies: payload,
 			};
 
 		default:

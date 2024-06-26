@@ -48,8 +48,6 @@ const Referral = ({ details = {} }) => {
 		),
 	});
 
-	console.log('Validatino = ', validation);
-
 	useEffect(() => {
 		if (details?.referral) {
 			setLeftFormFields(

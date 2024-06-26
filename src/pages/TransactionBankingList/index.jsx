@@ -9,6 +9,7 @@ import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
+import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
 
 const TransactionBankingList = ({ userId }) => {
 	// For user specific transactions
@@ -74,6 +75,17 @@ const TransactionBankingList = ({ userId }) => {
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
+									customTableInfo={
+										<DepositWithdrawalInfo
+											totalDepositAmount={
+												transactionBanking?.totalDepositAmount
+											}
+											totalWithdrawAmount={
+												transactionBanking?.totalWithdrawAmount
+											}
+											currencyId={filterValidation.values?.currencyId}
+										/>
+									}
 								/>
 							</CardBody>
 						</Card>

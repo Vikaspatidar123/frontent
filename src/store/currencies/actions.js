@@ -10,7 +10,6 @@ import {
 	EDIT_CURRENCIES_START,
 	RESET_CURRENCIES_DATA,
 	TOGGLE_CURRENCY,
-	TOGGLE_CURRENCY_SUCCESS,
 } from './actionTypes';
 
 export const fetchCurrenciesStart = (payload) => ({
@@ -65,10 +64,5 @@ export const editCurrencyStart = (payload) => ({
 
 export const toggleCurrency = (payload) => ({
 	type: TOGGLE_CURRENCY,
-	payload,
-});
-
-export const toggleCurrencySuccess = (payload) => ({
-	type: TOGGLE_CURRENCY_SUCCESS,
 	payload,
 });

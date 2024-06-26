@@ -51,6 +51,7 @@ const filterValues = () => ({
 	type: null,
 	purpose: null,
 	tagId: null,
+	currencyId: null,
 });
 
 const filterValidationSchema = () =>
@@ -62,6 +63,7 @@ const filterValidationSchema = () =>
 		type: Yup.string().nullable(),
 		purpose: Yup.string().nullable(),
 		tagId: Yup.string().nullable(),
+		currencyId: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

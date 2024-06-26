@@ -3,7 +3,6 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Row, Col, CardBody, Card } from 'reactstrap';
-import { keyBy } from 'lodash';
 import ReportList from './ReportList';
 import { modules } from '../../../constants/permissions';
 import { LIVE_PLAYER } from '../../../constants/messages';
@@ -11,19 +10,17 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const Reports = (props) => {
 	const { livePlayerData, isLivePlayerLoading } = props;
-	const { currencies, defaultCurrency } = useSelector(
+	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
 	);
 	const { isGranted } = usePermission();
 
 	const todayGGR = useMemo(() => {
-		const currObj = keyBy(currencies?.currencies || [], 'id');
-
 		const sportsGGR =
 			livePlayerData?.sportsbookBetData?.reduce(
 				(acc, { currency_id, totalWinAmount, totalBetAmount }) => {
 					const exchangeRate = Number(
-						currObj?.[currency_id]?.exchangeRate || 1
+						currencyById?.[currency_id]?.exchangeRate || 1
 					);
 					const betAmount = Number(totalBetAmount || 0);
 					const winAmount = Number(totalWinAmount || 0);
@@ -37,7 +34,7 @@ const Reports = (props) => {
 			livePlayerData?.casinoBetData?.reduce(
 				(acc, { currency_id, totalWinAmount, totalBetAmount }) => {
 					const exchangeRate = Number(
-						currObj?.[currency_id]?.exchangeRate || 1
+						currencyById?.[currency_id]?.exchangeRate || 1
 					);
 					const betAmount = Number(totalBetAmount || 0);
 					const winAmount = Number(totalWinAmount || 0);
@@ -48,7 +45,7 @@ const Reports = (props) => {
 			) || 0;
 
 		return sportsGGR + casinoGGR;
-	}, [livePlayerData, currencies]);
+	}, [livePlayerData, currencyById]);
 
 	const reportList = useMemo(
 		() => [

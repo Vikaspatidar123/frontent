@@ -32,6 +32,7 @@ const TableContainer = ({
 	isLongTable = false,
 	currentPage,
 	isShowColSettings,
+	customTableInfo,
 }) => {
 	const {
 		getTableProps,
@@ -66,20 +67,27 @@ const TableContainer = ({
 					isLongTable && 'scrollable'
 				}`}
 			>
-				{isShowColSettings ? (
-					<Col>
-						<div className="position-relative h-100 hstack justify-content-end px-3">
-							<i
-								className="mdi mdi-settings align-middle filter-icons bx-spin cursor-pointer"
-								onClick={handleColumnSettings}
-								onKeyDown={() => {}}
-								id="clear"
-							/>
-							<UncontrolledTooltip placement="top" target="clear">
-								Columns settings
-							</UncontrolledTooltip>
-						</div>
-					</Col>
+				{isShowColSettings || customTableInfo ? (
+					<Row>
+						<Col xl={11} xxl={11} md={11} sm={11}>
+							{customTableInfo || null}
+						</Col>
+						{isShowColSettings ? (
+							<Col xl={1} xxl={1} md={1} sm={1}>
+								<div className="position-relative h-100 hstack justify-content-end px-3">
+									<i
+										className="mdi mdi-settings align-middle filter-icons bx-spin cursor-pointer"
+										onClick={handleColumnSettings}
+										onKeyDown={() => {}}
+										id="clear"
+									/>
+									<UncontrolledTooltip placement="top" target="clear">
+										Columns settings
+									</UncontrolledTooltip>
+								</div>
+							</Col>
+						) : null}
+					</Row>
 				) : null}
 				<Table {...getTableProps()} className={tableClass} id="generic-table">
 					{!hideHeader && (
@@ -262,6 +270,7 @@ TableContainer.defaultProps = {
 	currentPage: 1,
 	customPageSize: defaultPageSize,
 	isShowColSettings: true,
+	customTableInfo: null,
 };
 
 TableContainer.propTypes = {
@@ -297,6 +306,7 @@ TableContainer.propTypes = {
 	isLongTable: PropTypes.bool,
 	currentPage: PropTypes.number,
 	isShowColSettings: PropTypes.bool,
+	customTableInfo: PropTypes.element,
 };
 
 export default TableContainer;

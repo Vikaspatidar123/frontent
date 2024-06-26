@@ -15,7 +15,6 @@ import {
 	editCurrencySuccess,
 	fetchCurrenciesFail,
 	fetchCurrenciesSuccess,
-	toggleCurrencySuccess,
 } from './actions';
 import { getCurrencies } from '../../network/getRequests';
 import {
@@ -92,7 +91,7 @@ function* toggleCurrencyWorker(action) {
 		});
 
 		yield put(
-			toggleCurrencySuccess({
+			fetchCurrenciesSuccess({
 				...currencies,
 				currencies: updatedCurrencies,
 			})

@@ -93,7 +93,7 @@ const useAdminListing = (filterValues = {}) => {
 		}, 200);
 	};
 
-	const buttonList = useMemo(() => [
+	const buttonList = [
 		{
 			label: 'Create',
 			handleClick: handleAddClick,
@@ -101,7 +101,7 @@ const useAdminListing = (filterValues = {}) => {
 			module: modules.admin,
 			operation: 'C',
 		},
-	]);
+	];
 
 	const columns = useMemo(
 		() => [

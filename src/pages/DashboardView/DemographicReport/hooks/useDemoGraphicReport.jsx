@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { keyBy } from 'lodash';
 import { countryFilter } from '../../../../utils/countryFilter';
 import { getDemographicStart } from '../../../../store/dashboardView/actions';
 import { Country, DepositAmount, Depositors, SignUps } from '../DemoGraphCol';
@@ -10,7 +9,7 @@ const useDemoGraphicReport = () => {
 	const dispatch = useDispatch();
 	const [demoDateOptions, setDemoDateOptions] = useState('last90days');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
-	const { defaultCurrency, currencies } = useSelector(
+	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
 	);
 	const { demoGraphicData, isDemographicLoading } = useSelector(
@@ -30,12 +29,11 @@ const useDemoGraphicReport = () => {
 			demoGraphicData?.demograph?.map((item) => {
 				let totalDeposits = 0;
 				let totalDepoCount = 0;
-				const currObj = keyBy(currencies?.currencies || [], 'id');
 
 				item?.deposits?.forEach(
 					({ currencyId, depositAmount, depositorCount }) => {
 						const exchangeRate = Number(
-							currObj?.[currencyId]?.exchangeRate || 1
+							currencyById?.[currencyId]?.exchangeRate || 1
 						);
 						const amount = Number(depositAmount || 0);
 						totalDeposits += amount * exchangeRate;
@@ -48,7 +46,7 @@ const useDemoGraphicReport = () => {
 					depositAmount: totalDeposits,
 				};
 			}),
-		[demoGraphicData, currencies]
+		[demoGraphicData, currencyById]
 	);
 
 	const formatDataHandler = (list) => {
