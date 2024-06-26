@@ -1,22 +1,22 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import moment from 'moment';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	fetchTransactionBankingStart,
 	resetTransactionBankingData,
 } from '../../../store/actions';
-import { STATUS_TYPE } from '../constants';
+import { getDateTime } from '../../../utils/dateFormatter';
 import {
-	Purpose,
 	Amount,
 	CreatedAt,
-	Id,
-	Status,
 	FromWallet,
-	ToWallet,
+	Id,
+	Purpose,
+	Status,
 	Tags,
+	ToWallet,
 } from '../TransactionBankingCol';
+import { STATUS_TYPE } from '../constants';
 
 const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 	const dispatch = useDispatch();
@@ -69,9 +69,8 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 					status: STATUS_TYPE.find(
 						(status) => status.value === transaction?.status
 					)?.label,
-					createdAt: moment(transaction?.createdAt)
-						.local()
-						.format('YYYY-MM-DD HH:mm:ss'),
+					createdAt: getDateTime(transaction?.createdAt),
+
 					userTags:
 						transaction?.toUserWallet?.user?.userTags
 							?.map((tags) => tags?.tag?.tag)
@@ -90,12 +89,12 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 				(curr) => curr.id === filterValues.currencyId
 			) || defaultCurrency;
 		return [
-			{
-				Header: 'Ledger Id',
-				accessor: 'ledgerId',
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Ledger Id',
+			// 	accessor: 'ledgerId',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'From',
 				accessor: 'from',

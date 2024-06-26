@@ -7,7 +7,7 @@ import { Country, DepositAmount, Depositors, SignUps } from '../DemoGraphCol';
 
 const useDemoGraphicReport = () => {
 	const dispatch = useDispatch();
-	const [demoDateOptions, setDemoDateOptions] = useState('last30days');
+	const [demoDateOptions, setDemoDateOptions] = useState('last90days');
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
 	const defaultCurrency = useSelector(
 		(state) => state.Currencies.defaultCurrency

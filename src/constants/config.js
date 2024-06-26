@@ -20,7 +20,7 @@ const debounceTime = 700;
 
 const selectedLanguage = 'EN';
 
-const YMDFormat = 'DD-MM-YYYY';
+const YMDFormat = 'Do MMM YYYY';
 
 const dateTimeFormat = `${YMDFormat} hh:mm`;
 
