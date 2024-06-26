@@ -8,15 +8,15 @@ import {
 	Email,
 	// IsInternal,
 	KycStatus,
-	PhoneNumber,
+	// PhoneNumber,
 	PlayerId,
-	RegistrationDate,
+	// RegistrationDate,
 	Status,
-	Tags,
+	// Tags,
 	UserName,
 } from '../PlayersListCol';
 import { getRandomColor } from '../../../helpers/common';
-import { getDateTime } from '../../../utils/dateFormatter';
+// import { getDateTime } from '../../../utils/dateFormatter';
 
 const usePlayersListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -72,18 +72,18 @@ const usePlayersListing = (filterValues = {}) => {
 				filterable: true,
 				Cell: ({ cell }) => <CountryName value={cell?.value?.name} />,
 			},
-			{
-				Header: 'Phone Number',
-				accessor: 'phone',
-				filterable: true,
-				Cell: ({ cell }) => <PhoneNumber value={cell.value} />,
-			},
-			{
-				Header: 'Tags',
-				accessor: 'userTags',
-				filterable: true,
-				Cell: ({ cell }) => <Tags value={cell?.value} />,
-			},
+			// {
+			// 	Header: 'Phone Number',
+			// 	accessor: 'phone',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <PhoneNumber value={cell.value} />,
+			// },
+			// {
+			// 	Header: 'Tags',
+			// 	accessor: 'userTags',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Tags value={cell?.value} />,
+			// },
 			{
 				Header: 'Status',
 				accessor: 'status',
@@ -96,13 +96,13 @@ const usePlayersListing = (filterValues = {}) => {
 				accessor: 'kycStatus',
 				Cell: ({ cell }) => <KycStatus value={cell.value} />,
 			},
-			{
-				Header: 'Registration Date',
-				accessor: 'createdAt',
-				Cell: ({ cell }) => (
-					<RegistrationDate value={getDateTime(cell?.value)} />
-				),
-			},
+			// {
+			// 	Header: 'Registration Date',
+			// 	accessor: 'createdAt',
+			// 	Cell: ({ cell }) => (
+			// 		<RegistrationDate value={getDateTime(cell?.value)} />
+			// 	),
+			// },
 			// {
 			// 	Header: 'Is Internal',
 			// 	accessor: 'isInternal',

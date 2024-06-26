@@ -72,11 +72,11 @@ const useFilters = () => {
 	}, []);
 
 	useEffect(() => {
-		if (userTags && !isEmpty(countries) && !isEmpty(languages)) {
-			const tags = userTags?.map((userTag) => ({
-				optionLabel: userTag?.tag,
-				value: userTag.id,
-			}));
+		if (!isEmpty(countries) && !isEmpty(languages)) {
+			// const tags = userTags?.map((userTag) => ({
+			// 	optionLabel: userTag?.tag,
+			// 	value: userTag.id,
+			// }));
 			const countriesData = countries?.countries?.map((country) => ({
 				optionLabel: country?.name,
 				value: country.id,
@@ -87,13 +87,13 @@ const useFilters = () => {
 			}));
 			setFormFields([
 				...staticFiltersFields(),
-				{
-					name: 'tagId',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Select tag',
-					optionList: tags,
-				},
+				// {
+				// 	name: 'tagId',
+				// 	fieldType: 'select',
+				// 	label: '',
+				// 	placeholder: 'Select tag',
+				// 	optionList: tags,
+				// },
 				{
 					name: 'languageId',
 					fieldType: 'select',
@@ -110,7 +110,7 @@ const useFilters = () => {
 				},
 			]);
 		}
-	}, [userTags, countries, languages]);
+	}, [countries, languages]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {

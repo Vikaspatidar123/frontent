@@ -16,7 +16,7 @@ const staticFiltersFields = () => [
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
-		placeholder: 'Search by email, name, phone or user id',
+		placeholder: 'Search by email, username, phone or user id',
 	},
 	// {
 	// 	name: 'affiliateName',
@@ -30,7 +30,7 @@ const staticFiltersFields = () => [
 		fieldType: 'textField',
 		type: 'number',
 		label: '',
-		placeholder: 'Search by user Id',
+		placeholder: 'Search by Player Id',
 	},
 	{
 		name: 'pincode',
