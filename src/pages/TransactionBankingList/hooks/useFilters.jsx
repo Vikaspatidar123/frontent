@@ -61,11 +61,11 @@ const useFilters = (userId = '') => {
 	}, []);
 
 	useEffect(() => {
-		if (userTags && currencies) {
-			const tags = userTags?.map((row) => ({
-				optionLabel: row?.tag,
-				value: row.id,
-			}));
+		if (currencies) {
+			// const tags = userTags?.map((row) => ({
+			// 	optionLabel: row?.tag,
+			// 	value: row.id,
+			// }));
 
 			const currencyOptions = currencies?.currencies?.map((currency) => ({
 				optionLabel: currency.code,
@@ -74,13 +74,13 @@ const useFilters = (userId = '') => {
 
 			setFormFields([
 				...staticFiltersFields(userId),
-				{
-					name: 'tagId',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Select tag',
-					optionList: tags,
-				},
+				// {
+				// 	name: 'tagId',
+				// 	fieldType: 'select',
+				// 	label: '',
+				// 	placeholder: 'Select tag',
+				// 	optionList: tags,
+				// },
 				{
 					name: 'currencyId',
 					fieldType: 'select',
@@ -90,7 +90,7 @@ const useFilters = (userId = '') => {
 				},
 			]);
 		}
-	}, [userTags, currencies]);
+	}, [currencies]);
 
 	const handleClear = () => {
 		const initialValues = filterValues();

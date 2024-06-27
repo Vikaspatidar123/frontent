@@ -13,7 +13,7 @@ import {
 	Id,
 	Purpose,
 	Status,
-	Tags,
+	// Tags,
 	ToWallet,
 } from '../TransactionBankingCol';
 import { STATUS_TYPE } from '../constants';
@@ -131,12 +131,12 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 				filterable: true,
 				Cell: ({ cell }) => <Purpose value={cell.value} />,
 			},
-			{
-				Header: 'Tags',
-				accessor: 'userTags',
-				filterable: true,
-				Cell: ({ cell }) => <Tags value={cell?.value} />,
-			},
+			// {
+			// 	Header: 'Tags',
+			// 	accessor: 'userTags',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Tags value={cell?.value} />,
+			// },
 			{
 				Header: 'Status',
 				accessor: 'status',

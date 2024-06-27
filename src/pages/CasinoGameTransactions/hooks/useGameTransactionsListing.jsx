@@ -121,7 +121,7 @@ const useGameTransactionsListing = (filterValues = {}) => {
 		setCurrentPage,
 		totalCount: gameTransactions?.totalPages || 0,
 		loading,
-		gameTransactions: gameTransactions?.gameReport || [],
+		gameTransactions,
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,

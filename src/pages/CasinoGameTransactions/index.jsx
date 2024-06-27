@@ -9,6 +9,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useGameTransactionsListing from './hooks/useGameTransactionsListing';
+import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
 
 const GameTransactionsList = () => {
 	document.title = projectName;
@@ -61,7 +62,7 @@ const GameTransactionsList = () => {
 								<TableContainer
 									isLoading={loading}
 									columns={columns}
-									data={gameTransactions}
+									data={gameTransactions?.gameReport || []}
 									isPagination
 									customPageSize={itemsPerPage}
 									tableClass="table-bordered align-middle nowrap mt-2"
@@ -73,6 +74,22 @@ const GameTransactionsList = () => {
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
+									customTableInfo={
+										<DepositWithdrawalInfo
+											totalDepositAmount={
+												gameTransactions?.totalBetAmount // Wagered
+											}
+											totalWithdrawAmount={
+												gameTransactions?.totalWinAmount // Payout
+											}
+											currencyId={filterValidation.values?.currencyId}
+											labels={[
+												'Total Wagered : ',
+												'Total Payout : ',
+												'Total Profit : ',
+											]}
+										/>
+									}
 								/>
 							</CardBody>
 						</Card>
