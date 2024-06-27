@@ -1,11 +1,3 @@
-export const dateConstants = [
-	{ label: 'Today', value: 'today' },
-	{ label: 'Yesterday', value: 'yesterday' },
-	{ label: 'Last 7 Days', value: 'last7days' },
-	{ label: 'Last 30 Days', value: 'last30days' },
-	// { label: 'Custom', value: 'custom' },
-];
-
 export const limitConstants = [
 	{ label: '5', value: 5 },
 	{ label: '10', value: 10 },

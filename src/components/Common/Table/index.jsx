@@ -62,33 +62,33 @@ const TableContainer = ({
 
 	return (
 		<>
+			{isShowColSettings || customTableInfo ? (
+				<Row>
+					<Col xl={11} xxl={11} md={11} sm={11}>
+						{customTableInfo || null}
+					</Col>
+					{isShowColSettings ? (
+						<Col xl={1} xxl={1} md={1} sm={1}>
+							<div className="position-relative h-100 hstack justify-content-end px-3">
+								<i
+									className="mdi mdi-settings align-middle filter-icons bx-spin cursor-pointer"
+									onClick={handleColumnSettings}
+									onKeyDown={() => {}}
+									id="clear"
+								/>
+								<UncontrolledTooltip placement="top" target="clear">
+									Columns settings
+								</UncontrolledTooltip>
+							</div>
+						</Col>
+					) : null}
+				</Row>
+			) : null}
 			<div
 				className={`table-responsive react-table ${
 					isLongTable && 'scrollable'
 				}`}
 			>
-				{isShowColSettings || customTableInfo ? (
-					<Row>
-						<Col xl={11} xxl={11} md={11} sm={11}>
-							{customTableInfo || null}
-						</Col>
-						{isShowColSettings ? (
-							<Col xl={1} xxl={1} md={1} sm={1}>
-								<div className="position-relative h-100 hstack justify-content-end px-3">
-									<i
-										className="mdi mdi-settings align-middle filter-icons bx-spin cursor-pointer"
-										onClick={handleColumnSettings}
-										onKeyDown={() => {}}
-										id="clear"
-									/>
-									<UncontrolledTooltip placement="top" target="clear">
-										Columns settings
-									</UncontrolledTooltip>
-								</div>
-							</Col>
-						) : null}
-					</Row>
-				) : null}
 				<Table {...getTableProps()} className={tableClass} id="generic-table">
 					{!hideHeader && (
 						<thead

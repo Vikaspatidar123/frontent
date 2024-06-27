@@ -174,7 +174,6 @@ export const CustomDateField = ({
 			onChange={(date) => {
 				validation.setFieldValue(name, date[0]);
 			}}
-			monthsShown={2}
 			// maxDate={maxDate}
 			// minDate={minDate}
 			{...rest}
@@ -244,12 +243,13 @@ export const CustomRangeSelector = ({
 	minDate = moment().subtract(100, 'years').utc().toDate(),
 	validation,
 	dateFormat = 'd M Y',
+	customInputClass,
 	...rest
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
 		<FlatPickr
-			className="form-control"
+			className={`form-control ${customInputClass || ''}`}
 			// name={name}
 			value={value}
 			placeholder={placeholder}
@@ -263,7 +263,6 @@ export const CustomRangeSelector = ({
 				validation.setFieldValue(rangeKeys[0], date[0]);
 				validation.setFieldValue(rangeKeys[1], date[1]);
 			}}
-			monthsShown={2}
 			// maxDate={maxDate}
 			// minDate={minDate}
 			{...rest}
@@ -538,6 +537,7 @@ export const getField = (
 		labelClass,
 		inputClassName,
 		outerDivClass,
+		customInputClass,
 		...rest
 	},
 	validation
@@ -710,6 +710,7 @@ export const getField = (
 					minDate={minDate}
 					validation={validation}
 					rangeKeys={rangeKeys}
+					customInputClass={customInputClass}
 				/>
 			);
 		case 'file':

@@ -207,6 +207,7 @@
 	@media (max-width: 575px) {
 		display: inline-block !important;
 	}
+
 	@media (min-width: 576px) {
 		display: flex !important;
 	}
@@ -218,4 +219,12 @@
 
 .font-weight-bold {
 	font-weight: bold;
+}
+
+.form-input-sm {
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+	padding-left: 0.5rem;
+	font-size: 0.7109375rem;
+	border-radius: var(--bs-border-radius-sm);
 }

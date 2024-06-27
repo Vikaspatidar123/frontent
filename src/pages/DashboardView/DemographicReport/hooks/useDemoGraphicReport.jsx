@@ -7,7 +7,11 @@ import { Country, DepositAmount, Depositors, SignUps } from '../DemoGraphCol';
 
 const useDemoGraphicReport = () => {
 	const dispatch = useDispatch();
-	const [demoDateOptions, setDemoDateOptions] = useState('last90days');
+	const [demoDateOptions, setDemoDateOptions] = useState({
+		selected: 'last90days',
+		fromDate: '',
+		toDate: '',
+	});
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
 	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
@@ -19,7 +23,9 @@ const useDemoGraphicReport = () => {
 	const fetchData = () => {
 		dispatch(
 			getDemographicStart({
-				dateOptions: demoDateOptions,
+				dateOptions: demoDateOptions?.selected,
+				fromDate: demoDateOptions?.fromDate,
+				toDate: demoDateOptions?.toDate,
 			})
 		);
 	};
