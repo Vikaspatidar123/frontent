@@ -9,6 +9,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useSportsTransactionsListing from './hooks/useSportsTransactionsListing';
+import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
 
 const SportsTransactionsList = ({ userId }) => {
 	document.title = projectName;
@@ -26,7 +27,7 @@ const SportsTransactionsList = ({ userId }) => {
 	const {
 		currentPage,
 		setCurrentPage,
-		totalSportsTransactionsCount,
+		sportsTransactions,
 		loading,
 		formattedSportsTransactions,
 		itemsPerPage,
@@ -68,11 +69,27 @@ const SportsTransactionsList = ({ userId }) => {
 									// paginationDiv="col-sm-12 col-md-7"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalSportsTransactionsCount}
+									totalPageCount={sportsTransactions?.totalPages || 0}
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
+									customTableInfo={
+										<DepositWithdrawalInfo
+											totalDepositAmount={
+												sportsTransactions?.totalBetAmount // Wagered
+											}
+											totalWithdrawAmount={
+												sportsTransactions?.totalWinAmount // Payout
+											}
+											currencyId={filterValidation.values?.currencyId}
+											labels={[
+												'Total Wagered : ',
+												'Total Payout : ',
+												'Total Profit : ',
+											]}
+										/>
+									}
 								/>
 							</CardBody>
 						</Card>

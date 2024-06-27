@@ -44,7 +44,7 @@ const Reports = (props) => {
 				0
 			) || 0;
 
-		return sportsGGR + casinoGGR;
+		return (sportsGGR + casinoGGR)?.toFixed(2);
 	}, [livePlayerData, currencyById]);
 
 	const reportList = useMemo(

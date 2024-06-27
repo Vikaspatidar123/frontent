@@ -201,7 +201,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalCasinoTransactionsCount: casinoTransactions?.totalPages || 0,
+		casinoTransactions,
 		isCasinoTransactionsLoading,
 		formattedCasinoTransactions,
 		itemsPerPage,

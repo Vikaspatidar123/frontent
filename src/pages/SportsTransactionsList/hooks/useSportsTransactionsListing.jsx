@@ -183,7 +183,7 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalSportsTransactionsCount: sportsTransactions?.totalPages || 0,
+		sportsTransactions,
 		loading,
 		formattedSportsTransactions,
 		itemsPerPage,

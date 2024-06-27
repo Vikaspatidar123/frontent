@@ -9,6 +9,7 @@ import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
+import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
 
 const CasinoTransactionsList = ({ userId }) => {
 	document.title = projectName;
@@ -26,10 +27,10 @@ const CasinoTransactionsList = ({ userId }) => {
 	const {
 		currentPage,
 		setCurrentPage,
-		totalCasinoTransactionsCount,
 		isCasinoTransactionsLoading,
 		formattedCasinoTransactions,
 		itemsPerPage,
+		casinoTransactions,
 		onChangeRowsPerPage,
 		columns,
 		exportComponent,
@@ -68,11 +69,27 @@ const CasinoTransactionsList = ({ userId }) => {
 									// paginationDiv="col-sm-12 col-md-7"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalCasinoTransactionsCount}
+									totalPageCount={casinoTransactions?.totalPages || 0}
 									isManualPagination
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
+									customTableInfo={
+										<DepositWithdrawalInfo
+											totalDepositAmount={
+												casinoTransactions?.totalBetAmount // Wagered
+											}
+											totalWithdrawAmount={
+												casinoTransactions?.totalWinAmount // Payout
+											}
+											currencyId={filterValidation.values?.currencyId}
+											labels={[
+												'Total Wagered : ',
+												'Total Payout : ',
+												'Total Profit : ',
+											]}
+										/>
+									}
 								/>
 							</CardBody>
 						</Card>

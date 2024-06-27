@@ -52,11 +52,10 @@
 	align-items: flex-end;
 }
 
-.table-info-deposit {
-	// background: linear-gradient(45deg, rgb(85, 110, 230, 0.4), rgb(255, 255, 255), rgb(85, 110, 230, 0.4));
-	background: linear-gradient(
-		45deg,
-		rgb(85, 110, 230, 0.6),
-		rgb(255, 255, 255)
-	);
+[data-bs-theme='light'] .table-info-deposit {
+	background: linear-gradient(45deg, rgb(85, 110, 230, 0.5), $white);
+}
+
+[data-bs-theme='dark'] .table-info-deposit {
+	background: linear-gradient(45deg, rgb(85, 110, 230, 0.5), $header-dark-bg);
 }
