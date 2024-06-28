@@ -47,7 +47,7 @@ const useUserOverview = ({ user }) => {
 			value: printData(emailVerified),
 			subValue: showStyle(emailVerified),
 		},
-		{ label: 'Full Name', value: `${firstName} ${lastName}` },
+		{ label: 'Full Name', value: `${firstName || ''} ${lastName || '-'}` },
 		{ label: 'User Name', value: username },
 		{
 			label: 'Gender',
