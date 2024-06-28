@@ -26,8 +26,10 @@ const NonCashAmount = ({ value }) =>
 
 const UserName = ({ cell }) => {
 	const { isGranted } = usePermission();
-	return cell?.value && isGranted(modules.player, 'R') ? (
-		<Link to={`/player-details/${cell?.row?.original?.userId}`}>
+	return cell?.value &&
+		isGranted(modules.player, 'R') &&
+		cell?.row?.original?.user_id ? (
+		<Link to={`/player-details/${cell?.row?.original?.user_id}`}>
 			{cell?.value}
 		</Link>
 	) : (

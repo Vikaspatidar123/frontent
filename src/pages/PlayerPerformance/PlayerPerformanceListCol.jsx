@@ -18,8 +18,10 @@ const PlayerPNL = ({ value, defaultCurrency }) => {
 
 const Username = ({ cell }) => {
 	const { isGranted } = usePermission();
-	return cell?.value && isGranted(modules.player, 'R') ? (
-		<Link to={`/player-details/${cell?.row?.original?.userid}`}>
+	return cell?.value &&
+		isGranted(modules.player, 'R') &&
+		cell?.row?.original?.user_id ? (
+		<Link to={`/player-details/${cell?.row?.original?.user_id}`}>
 			{cell?.value}
 		</Link>
 	) : (
@@ -32,7 +34,7 @@ Username.propTypes = {
 		value: PropTypes.string.isRequired,
 		row: PropTypes.shape({
 			original: PropTypes.shape({
-				userid: PropTypes.string.isRequired,
+				user_id: PropTypes.string.isRequired,
 			}).isRequired,
 		}).isRequired,
 	}).isRequired,
