@@ -22,7 +22,9 @@ import dotenv from 'dotenv';
 //   }
 // })
 dotenv.config();
-const port = parseInt(process.env.VITE_APP_PORT, 10) || 3000;
+const port = process.env.VITE_APP_PORT
+	? parseInt(process.env.VITE_APP_PORT, 10)
+	: 3000;
 
 export default defineConfig({
 	plugins: [react()],
