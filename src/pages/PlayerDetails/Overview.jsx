@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import {
 	Button,
 	Card,
+	CardBody,
+	CardSubtitle,
+	CardGroup,
+	CardTitle,
 	Col,
 	Dropdown,
 	DropdownItem,
@@ -43,6 +47,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 	const dispatch = useDispatch();
 	const { playerId } = useParams();
 	const [openResetMenu, setOpenResetMenu] = useState(false);
+	const [openStatsDetails, setOpenStatsDetails] = useState(false);
 	const [modalStates, setModalStates] = useState({
 		internalModal: false,
 		activeInactiveModal: false,
@@ -54,7 +59,6 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		resetPasswordEmail: false,
 		resetUserPassword: false,
 	});
-
 	const openModal = (modalName) => {
 		setModalStates((prev) => ({ ...prev, [modalName]: true }));
 	};
@@ -63,7 +67,16 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		setModalStates((prev) => ({ ...prev, [modalName]: false }));
 	};
 
-	const { basicInfo, contactInfo, kycInfo } = useUserOverview({
+	const {
+		basicInfo,
+		contactInfo,
+		kycInfo,
+		StatsHeaders,
+		currencyById,
+		userStatsData,
+		totalPlayerStats,
+		defaultCurrency,
+	} = useUserOverview({
 		user: userDetails,
 	});
 
@@ -107,58 +120,179 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 					className="position-absolute top-50 start-50"
 				/>
 			) : (
-				<Row>
-					<Col xs={12} lg={4} className="col-padding">
-						<Card className="card-overview">
-							<h4 className="h4-overview text-center mt-3">
-								Basic Info <hr className="h4-hr" />
-							</h4>
-							<div className="div-overview">
-								{basicInfo?.map(({ label, value, subValue }) =>
-									userDetails?.kycMethod !== 1 && label === 'Applicant Id'
-										? ''
-										: (label === 'Reason' && value
-												? true
-												: label !== 'Reason') && (
-												<div
-													key={label}
-													className="d-flex justify-content-between m-1"
-												>
-													<h6 className="px-2">{label}</h6>
-													<span className={`${subValue} px-2 email-ellipsis`}>
-														{value || 'NA'}
+				<>
+					<Row className="d-flex m-0 p-0">
+						<Card className="p-2">
+							<CardGroup className="m-0">
+								{StatsHeaders?.map((item) => (
+									<Card
+										className={`m-1 text-align-center p-1 pt-4 ${item?.color} bg-secondary rounded`}
+									>
+										<Row className="d-flex h-100 text-white">
+											<CardSubtitle>{item?.title}</CardSubtitle>
+										</Row>
+										<CardTitle className="text-white">
+											<div className="d-flex justify-content-center align-items-center">
+												<div className="avatar-xs m-2">
+													{totalPlayerStats?.[item?.accessor] ? (
+														<span className="avatar-title rounded-circle bg-success text-bg-success">
+															{defaultCurrency?.symbol}
+														</span>
+													) : (
+														<span className=""> - </span>
+													)}
+												</div>
+												<div>
+													<span>
+														{totalPlayerStats?.[item?.accessor]
+															? Number(
+																	totalPlayerStats?.[item?.accessor]
+															  )?.toFixed(2)
+															: ''}
 													</span>
 												</div>
-										  )
-								)}
-							</div>
-						</Card>
-					</Col>
-					<Col xs={12} lg={4} className="col-padding">
-						<Card className="p-2">
-							<h4 className="h4-overview text-center mt-3">
-								Account Actions <hr className="h4-hr" />
-							</h4>
-							<div className="div-overview">
-								<Row>
-									{isGranted(modules.player, 'TS') && (
-										<ColumnContainer>
-											<Button
-												className="actionButton w-100"
-												variant={
-													userDetails?.isActive
-														? 'outline-danger'
-														: 'outline-success'
-												}
-												onClick={() => updateUserStatus()}
-											>
-												{userDetails && userDetails?.isActive
-													? 'In-Active'
-													: 'Active'}
-											</Button>
-										</ColumnContainer>
+											</div>
+										</CardTitle>
+										{openStatsDetails &&
+											(userStatsData?.length
+												? userStatsData?.map((stats) => (
+															<CardBody
+																className={`m-1 text-align-center p-1 pt-4 ${item?.color}`}
+															>
+																<div className="d-flex justify-content-center align-items-center text-white">
+																	<CardSubtitle>
+																		{stats?.[item?.accessor]
+																			? `${
+																					currencyById[stats?.currency_id]
+																						?.symbol
+																			  } ${Number(
+																					stats?.[item?.accessor]
+																			  )?.toFixed(2)}`
+																			: '-'}
+																	</CardSubtitle>
+																</div>
+															</CardBody>
+														))
+												: null)}
+									</Card>
+								))}
+							</CardGroup>
+							{userStatsData?.length > 0 && (
+								<CardSubtitle
+									className="p-2 text-center"
+									tag="h6"
+									onClick={() => setOpenStatsDetails(!openStatsDetails)}
+								>
+									{openStatsDetails ? (
+										<>
+											<i className="fa fa-minus-circle" /> Less{' '}
+										</>
+									) : (
+										<>
+											<i className="fa fa-plus-circle" /> More{' '}
+										</>
 									)}
-									{/* {(isGranted(modules.player, 'U') ||
+								</CardSubtitle>
+							)}
+						</Card>
+						{/* {openStatsDetails && (
+								<Card className='mt-0'>
+									{userStatsData?.length ? userStatsData?.map((stats, index) => {
+										const randomColor = getSyncColor(index);
+										return (
+											<CardGroup lg={1} xs={1} className='m-0'>
+												{StatsHeaders?.map((item) => (
+													<Card className={`m-1 text-align-center p-1 pt-4 ${item?.color}`}>
+														<CardTitle tag="h5">
+															<div className="d-flex justify-content-center align-items-center">
+																<div className="avatar-xs m-2">
+																	{stats?.[item?.accessor] ? (
+																		<span
+																			className={`avatar-title rounded-circle ${stats?.[item?.accessor] && randomColor
+																				} text-${stats?.[item?.accessor] && randomColor
+																				}`}
+																		>
+																			{currencyById[stats?.currency_id]?.symbol}
+																		</span>
+																	) : (
+																		<span className=""> - </span>
+																	)}
+																</div>
+																<div>
+																	<span>
+																		{stats?.[item?.accessor]
+																			? Number(stats?.[item?.accessor])?.toFixed(
+																				2
+																			)
+																			: ''}
+																	</span>
+																</div>
+															</div>
+														</CardTitle>
+													</Card>
+												))}
+											</CardGroup>
+										);
+									}) : <CardBody className='text-center'>No Details Found</CardBody>}
+									<CardSubtitle className='p-2 text-center' tag='h6' onClick={() => setOpenStatsDetails(!openStatsDetails)}>
+										<><i className="fa fa-minus-circle" /> Less </>
+									</CardSubtitle>
+								</Card>
+							)} */}
+					</Row>
+
+					<Row>
+						<Col xs={12} lg={4} className="col-padding">
+							<Card className="card-overview">
+								<h4 className="h4-overview text-center mt-3">
+									Basic Info <hr className="h4-hr" />
+								</h4>
+								<div className="div-overview">
+									{basicInfo?.map(({ label, value, subValue }) =>
+										userDetails?.kycMethod !== 1 && label === 'Applicant Id'
+											? ''
+											: (label === 'Reason' && value
+													? true
+													: label !== 'Reason') && (
+													<div
+														key={label}
+														className="d-flex justify-content-between m-1"
+													>
+														<h6 className="px-2">{label}</h6>
+														<span className={`${subValue} px-2 email-ellipsis`}>
+															{value || 'NA'}
+														</span>
+													</div>
+											  )
+									)}
+								</div>
+							</Card>
+						</Col>
+						<Col xs={12} lg={4} className="col-padding">
+							<Card className="p-2">
+								<h4 className="h4-overview text-center mt-3">
+									Account Actions <hr className="h4-hr" />
+								</h4>
+								<div className="div-overview">
+									<Row>
+										{isGranted(modules.player, 'TS') && (
+											<ColumnContainer>
+												<Button
+													className="actionButton w-100"
+													variant={
+														userDetails?.isActive
+															? 'outline-danger'
+															: 'outline-success'
+													}
+													onClick={() => updateUserStatus()}
+												>
+													{userDetails && userDetails?.isActive
+														? 'In-Active'
+														: 'Active'}
+												</Button>
+											</ColumnContainer>
+										)}
+										{/* {(isGranted(modules.player, 'U') ||
 										userDetails?.tags?.includes('Internal')) && (
 										<ColumnContainer
 											hidden={userDetails?.tags?.includes('Internal')}
@@ -172,37 +306,37 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)} */}
-									{isGranted(modules.player, 'VE') && (
+										{isGranted(modules.player, 'VE') && (
+											<ColumnContainer>
+												<Button
+													className="actionButton w-100"
+													variant="outline-success"
+													onClick={() => {
+														if (userDetails?.emailVerified) {
+															showToastr({
+																message: 'Email already verified',
+																type: 'info',
+															});
+														} else {
+															openModal('verifyEmailModal');
+														}
+													}}
+												>
+													Verify Email
+												</Button>
+											</ColumnContainer>
+										)}
 										<ColumnContainer>
 											<Button
+												variant="outline-warning"
+												onClick={() => openModal('manageTagModal')}
 												className="actionButton w-100"
-												variant="outline-success"
-												onClick={() => {
-													if (userDetails?.emailVerified) {
-														showToastr({
-															message: 'Email already verified',
-															type: 'info',
-														});
-													} else {
-														openModal('verifyEmailModal');
-													}
-												}}
 											>
-												Verify Email
+												Manage Tag
 											</Button>
 										</ColumnContainer>
-									)}
-									<ColumnContainer>
-										<Button
-											variant="outline-warning"
-											onClick={() => openModal('manageTagModal')}
-											className="actionButton w-100"
-										>
-											Manage Tag
-										</Button>
-									</ColumnContainer>
 
-									{/* {isGranted(modules.bonus, 'Issue') && (
+										{/* {isGranted(modules.bonus, 'Issue') && (
 										<ColumnContainer>
 											<Button
 												className="actionButton w-100"
@@ -213,139 +347,139 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</Button>
 										</ColumnContainer>
 									)} */}
-									{isGranted(modules.player, 'MM') && (
-										<ColumnContainer>
-											<Button
-												className="actionButton w-100"
-												variant="outline-success"
-												onClick={() => openModal('manageMoneyModal')}
-											>
-												Manage Money
-											</Button>
-										</ColumnContainer>
-									)}
-									<ColumnContainer hidden>
-										{userDetails?.trackingToken &&
-											userDetails?.isAffiliateUpdated === false && (
+										{isGranted(modules.player, 'MM') && (
+											<ColumnContainer>
 												<Button
 													className="actionButton w-100"
 													variant="outline-success"
-													// onClick={() => setShowAddAffiliate(prev => true)}
+													onClick={() => openModal('manageMoneyModal')}
 												>
-													Add Affiliate
-													{/* {addUserAffiliateLoading && ( */}
-													<Spinner
-														as="span"
-														animation="border"
-														role="status"
-														aria-hidden="true"
-													/>
-													{/* )} */}
+													Manage Money
 												</Button>
-											)}
-									</ColumnContainer>
-									<ColumnContainer hidden>
-										{userDetails?.trackingToken &&
-											userDetails?.isAffiliateUpdated &&
-											userDetails?.affiliateStatus && (
-												<Button
-													className="actionButton w-100"
-													variant="outline-danger"
-													// onClick={() => setShowRemoveAffiliate(true)}
-												>
-													Remove Affiliate
-													{/* {updateUserAffiliateLoading && ( */}
-													<Spinner
-														as="span"
-														animation="border"
-														role="status"
-														aria-hidden="true"
-													/>
-													{/* )} */}
-												</Button>
-											)}
-									</ColumnContainer>
-									{isGranted(modules.player, 'U') && (
-										<ColumnContainer>
-											<Button
-												className="actionButton w-100"
-												variant="outline-warning"
-												onClick={() => openModal('editUserModal')}
-											>
-												Edit User Info
-											</Button>
-										</ColumnContainer>
-									)}
-									{isGranted(modules.player, 'U') && (
-										<ColumnContainer>
-											<Dropdown
-												isOpen={openResetMenu}
-												toggle={() => setOpenResetMenu((prev) => !prev)}
-											>
-												<DropdownToggle
-													id="dropdown-autoclose-outside"
-													className="actionButton w-100"
-													variant="outline-success"
-												>
-													Reset Password
-												</DropdownToggle>
-
-												<DropdownMenu className="dropdown-menu-end">
-													<DropdownItem
-														onClick={() => openModal('resetPasswordEmail')}
+											</ColumnContainer>
+										)}
+										<ColumnContainer hidden>
+											{userDetails?.trackingToken &&
+												userDetails?.isAffiliateUpdated === false && (
+													<Button
+														className="actionButton w-100"
+														variant="outline-success"
+														// onClick={() => setShowAddAffiliate(prev => true)}
 													>
-														Send Email
-													</DropdownItem>
-													<DropdownItem
-														onClick={() => openModal('resetUserPassword')}
+														Add Affiliate
+														{/* {addUserAffiliateLoading && ( */}
+														<Spinner
+															as="span"
+															animation="border"
+															role="status"
+															aria-hidden="true"
+														/>
+														{/* )} */}
+													</Button>
+												)}
+										</ColumnContainer>
+										<ColumnContainer hidden>
+											{userDetails?.trackingToken &&
+												userDetails?.isAffiliateUpdated &&
+												userDetails?.affiliateStatus && (
+													<Button
+														className="actionButton w-100"
+														variant="outline-danger"
+														// onClick={() => setShowRemoveAffiliate(true)}
+													>
+														Remove Affiliate
+														{/* {updateUserAffiliateLoading && ( */}
+														<Spinner
+															as="span"
+															animation="border"
+															role="status"
+															aria-hidden="true"
+														/>
+														{/* )} */}
+													</Button>
+												)}
+										</ColumnContainer>
+										{isGranted(modules.player, 'U') && (
+											<ColumnContainer>
+												<Button
+													className="actionButton w-100"
+													variant="outline-warning"
+													onClick={() => openModal('editUserModal')}
+												>
+													Edit User Info
+												</Button>
+											</ColumnContainer>
+										)}
+										{isGranted(modules.player, 'U') && (
+											<ColumnContainer>
+												<Dropdown
+													isOpen={openResetMenu}
+													toggle={() => setOpenResetMenu((prev) => !prev)}
+												>
+													<DropdownToggle
+														id="dropdown-autoclose-outside"
+														className="actionButton w-100"
+														variant="outline-success"
 													>
 														Reset Password
-													</DropdownItem>
-												</DropdownMenu>
-											</Dropdown>
-										</ColumnContainer>
-									)}
-									<ColumnContainer>
-										<Button
-											variant="outline-secondary"
-											onClick={() => openModal('duplicatesModal')}
-											className="actionButton w-100"
-										>
-											Fraud Detection ({duplicateUsers?.players?.length || 0})
-										</Button>
-									</ColumnContainer>
-								</Row>
-							</div>
-						</Card>
-					</Col>
-					<Col xs={12} lg={4} className="col-padding">
-						<Card className="card-overview">
-							<h4 className="h4-overview text-center mt-3">
-								Other Info <hr className="h4-hr" />
-							</h4>
-							<div className="div-overview">
-								<h5 className="px-2 mx-1">
-									Contact Info <hr className="h5-hr m-0 mt-2" />
-								</h5>
-								{contactInfo?.map(({ label, value, subValue }) =>
-									userDetails?.kycMethod !== 1 && label === 'Applicant Id'
-										? ''
-										: (label === 'Reason' && value
-												? true
-												: label !== 'Reason') && (
-												<div
-													key={label}
-													className="d-flex justify-content-between m-1"
-												>
-													<h6 className="px-2 overview-leftlabel">{label}</h6>
-													<span className={`${subValue} px-2`}>
-														{value || 'NA'}
-													</span>
-												</div>
-										  )
-								)}
+													</DropdownToggle>
 
-								{/* <h5 className="px-2 mx-1 mt-2">
+													<DropdownMenu className="dropdown-menu-end">
+														<DropdownItem
+															onClick={() => openModal('resetPasswordEmail')}
+														>
+															Send Email
+														</DropdownItem>
+														<DropdownItem
+															onClick={() => openModal('resetUserPassword')}
+														>
+															Reset Password
+														</DropdownItem>
+													</DropdownMenu>
+												</Dropdown>
+											</ColumnContainer>
+										)}
+										<ColumnContainer>
+											<Button
+												variant="outline-secondary"
+												onClick={() => openModal('duplicatesModal')}
+												className="actionButton w-100"
+											>
+												Fraud Detection ({duplicateUsers?.players?.length || 0})
+											</Button>
+										</ColumnContainer>
+									</Row>
+								</div>
+							</Card>
+						</Col>
+						<Col xs={12} lg={4} className="col-padding">
+							<Card className="card-overview">
+								<h4 className="h4-overview text-center mt-3">
+									Other Info <hr className="h4-hr" />
+								</h4>
+								<div className="div-overview">
+									<h5 className="px-2 mx-1">
+										Contact Info <hr className="h5-hr m-0 mt-2" />
+									</h5>
+									{contactInfo?.map(({ label, value, subValue }) =>
+										userDetails?.kycMethod !== 1 && label === 'Applicant Id'
+											? ''
+											: (label === 'Reason' && value
+													? true
+													: label !== 'Reason') && (
+													<div
+														key={label}
+														className="d-flex justify-content-between m-1"
+													>
+														<h6 className="px-2 overview-leftlabel">{label}</h6>
+														<span className={`${subValue} px-2`}>
+															{value || 'NA'}
+														</span>
+													</div>
+											  )
+									)}
+
+									{/* <h5 className="px-2 mx-1 mt-2">
 									Affiliate Info <hr className="h5-hr m-0 mt-2" />
 								</h5>
 								<div className="d-flex justify-content-between m-1">
@@ -363,30 +497,30 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 									)}
 								</div> */}
 
-								<h5 className="px-2 mx-1 mt-2">
-									KYC Info <hr className="h5-hr m-0 mt-2" />
-								</h5>
-								{kycInfo?.map(({ label, value, subValue }) =>
-									userDetails?.kycMethod !== 1 && label === 'Applicant Id'
-										? ''
-										: (label === 'Reason' && value
-												? true
-												: label !== 'Reason') && (
-												<div
-													key={label}
-													className="d-flex justify-content-between m-1"
-												>
-													<h6 className="px-2 overview-leftlabel">{label}</h6>
-													<span className={`${subValue} px-2`}>
-														{value || 'NA'}
-													</span>
-												</div>
-										  )
-								)}
-							</div>
-						</Card>
-					</Col>
-					{/* {userDetails?.isActive ? (
+									<h5 className="px-2 mx-1 mt-2">
+										KYC Info <hr className="h5-hr m-0 mt-2" />
+									</h5>
+									{kycInfo?.map(({ label, value, subValue }) =>
+										userDetails?.kycMethod !== 1 && label === 'Applicant Id'
+											? ''
+											: (label === 'Reason' && value
+													? true
+													: label !== 'Reason') && (
+													<div
+														key={label}
+														className="d-flex justify-content-between m-1"
+													>
+														<h6 className="px-2 overview-leftlabel">{label}</h6>
+														<span className={`${subValue} px-2`}>
+															{value || 'NA'}
+														</span>
+													</div>
+											  )
+									)}
+								</div>
+							</Card>
+						</Col>
+						{/* {userDetails?.isActive ? (
 						<DisableReason
 							userData={userDetails}
 							show={modalStates.activeInactiveModal}
@@ -406,54 +540,55 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 							}?`}
 						/>
 					)} */}
-					<YesNoModal
-						show={modalStates.internalModal}
-						handleClose={() => closeModal('internalModal')}
-						handleYes={handleInternalChange}
-						content={`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} as Internal?`}
-					/>
-					<YesNoModal
-						show={modalStates.verifyEmailModal}
-						handleClose={() => closeModal('verifyEmailModal')}
-						handleYes={handleVerifyEmail}
-						content={`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) as Verified?`}
-					/>
-					<ManageTagModal
-						show={modalStates.manageTagModal}
-						userDetails={userDetails}
-						handleClose={() => closeModal('manageTagModal')}
-					/>
-					<Duplicates
-						show={modalStates.duplicatesModal}
-						toggle={() => closeModal('duplicatesModal')}
-						header="Fraud Detection"
-					/>
-					<GiveBonusModal
-						show={modalStates.giveBonusModal}
-						toggle={() => closeModal('giveBonusModal')}
-						header={`Give Bonus To ${userDetails?.firstName} ${userDetails?.lastName}`}
-					/>
-					<ManageMoney // header set from manage money modal to use the component on listing page.
-						show={modalStates.manageMoneyModal}
-						toggle={() => closeModal('manageMoneyModal')}
-					/>
-					<UpdateUserInfo
-						show={modalStates.editUserModal}
-						toggle={() => closeModal('editUserModal')}
-						header={`Update ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) Info`}
-					/>
-					<YesNoModal
-						show={modalStates.resetPasswordEmail}
-						handleClose={() => closeModal('resetPasswordEmail')}
-						handleYes={handleSendResetPasswordEmail}
-						content={`Send Password Reset Email to ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
-					/>
-					<ResetUserPassword
-						show={modalStates.resetUserPassword}
-						toggle={() => closeModal('resetUserPassword')}
-						headerText={`Reset Password for ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
-					/>
-				</Row>
+						<YesNoModal
+							show={modalStates.internalModal}
+							handleClose={() => closeModal('internalModal')}
+							handleYes={handleInternalChange}
+							content={`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} as Internal?`}
+						/>
+						<YesNoModal
+							show={modalStates.verifyEmailModal}
+							handleClose={() => closeModal('verifyEmailModal')}
+							handleYes={handleVerifyEmail}
+							content={`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) as Verified?`}
+						/>
+						<ManageTagModal
+							show={modalStates.manageTagModal}
+							userDetails={userDetails}
+							handleClose={() => closeModal('manageTagModal')}
+						/>
+						<Duplicates
+							show={modalStates.duplicatesModal}
+							toggle={() => closeModal('duplicatesModal')}
+							header="Fraud Detection"
+						/>
+						<GiveBonusModal
+							show={modalStates.giveBonusModal}
+							toggle={() => closeModal('giveBonusModal')}
+							header={`Give Bonus To ${userDetails?.firstName} ${userDetails?.lastName}`}
+						/>
+						<ManageMoney // header set from manage money modal to use the component on listing page.
+							show={modalStates.manageMoneyModal}
+							toggle={() => closeModal('manageMoneyModal')}
+						/>
+						<UpdateUserInfo
+							show={modalStates.editUserModal}
+							toggle={() => closeModal('editUserModal')}
+							header={`Update ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) Info`}
+						/>
+						<YesNoModal
+							show={modalStates.resetPasswordEmail}
+							handleClose={() => closeModal('resetPasswordEmail')}
+							handleYes={handleSendResetPasswordEmail}
+							content={`Send Password Reset Email to ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
+						/>
+						<ResetUserPassword
+							show={modalStates.resetUserPassword}
+							toggle={() => closeModal('resetUserPassword')}
+							headerText={`Reset Password for ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
+						/>
+					</Row>
+				</>
 			)}
 		</div>
 	);

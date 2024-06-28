@@ -3,11 +3,11 @@ const Colors = {
 };
 
 const colorOptions = [
+	'bg-secondary',
+	'bg-primary',
 	'bg-danger',
 	'bg-warning',
 	'bg-info',
-	'bg-secondary',
-	'bg-primary',
 ];
 
 let lastColor = null;
@@ -23,4 +23,12 @@ const getRandomColor = () => {
 	return randomColor;
 };
 
-export { getRandomColor, Colors };
+const getSyncColor = (idx) => {
+	const conertedIndex = idx % 10;
+	const syncColor = colorOptions?.[conertedIndex]
+		? colorOptions?.[conertedIndex]
+		: colorOptions?.[conertedIndex - 5];
+	return syncColor;
+};
+
+export { getRandomColor, Colors, getSyncColor };
