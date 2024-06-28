@@ -87,7 +87,7 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 			);
 		}
 		return formattedValues;
-	}, [sportsTransactions]);
+	}, [sportsTransactions, superAdminUser]);
 
 	const columns = useMemo(() => {
 		const currency =

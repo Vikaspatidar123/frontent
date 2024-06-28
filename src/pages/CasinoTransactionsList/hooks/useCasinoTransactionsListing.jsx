@@ -94,7 +94,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 			);
 		}
 		return formattedValues;
-	}, [casinoTransactions]);
+	}, [casinoTransactions, superAdminUser]);
 
 	const columns = useMemo(() => {
 		const currency =

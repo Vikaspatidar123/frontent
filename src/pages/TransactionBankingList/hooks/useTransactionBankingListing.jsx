@@ -81,7 +81,7 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 			});
 		}
 		return formattedValues;
-	}, [transactionBanking]);
+	}, [transactionBanking, superAdminUser]);
 
 	const columns = useMemo(() => {
 		const currency =
