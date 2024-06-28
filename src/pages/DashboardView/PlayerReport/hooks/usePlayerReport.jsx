@@ -7,7 +7,11 @@ import { TABS } from '../../constant';
 
 const usePlayerReport = () => {
 	const dispatch = useDispatch();
-	const [topPlayersDateOption, setTopPlayersDateOption] = useState('last7days');
+	const [topPlayersDateOption, setTopPlayersDateOption] = useState({
+		selected: 'last7days',
+		fromDate: '',
+		toDate: '',
+	});
 	const [currencyId, setCurrencyId] = useState(null);
 	const [orderBy, setOrderBy] = useState('total_casino_bet');
 	const [activePerformance, setActivePerformance] = useState(TABS.CASINO);
@@ -22,7 +26,9 @@ const usePlayerReport = () => {
 	const fetchTopPlayers = () => {
 		dispatch(
 			getTopPlayers({
-				dateOptions: topPlayersDateOption,
+				dateOptions: topPlayersDateOption?.selected,
+				fromDate: topPlayersDateOption?.fromDate,
+				toDate: topPlayersDateOption?.toDate,
 				orderBy,
 				currencyId,
 			})
@@ -34,7 +40,16 @@ const usePlayerReport = () => {
 	}, [defaultCurrency.id]);
 
 	useEffect(() => {
-		if (currencyId) fetchTopPlayers();
+		if (currencyId) {
+			const { fromDate, toDate, selected } = topPlayersDateOption;
+			if (selected === 'custom') {
+				if (fromDate && toDate) {
+					fetchTopPlayers();
+				}
+			} else {
+				fetchTopPlayers();
+			}
+		}
 	}, [topPlayersDateOption, orderBy, currencyId]);
 
 	const columns = useMemo(() => {

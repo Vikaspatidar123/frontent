@@ -50,19 +50,19 @@ const Reports = (props) => {
 	const reportList = useMemo(
 		() => [
 			{
-				title: 'Today GGR',
+				title: "Today's GGR",
 				description: `${defaultCurrency?.symbol || ''} ${todayGGR}`,
 				iconClass: 'bx bxs-dollar-circle',
 				reportClass: 'reportList1',
 			},
 			{
-				title: 'Total Players',
+				title: "Total's Players",
 				description: `${livePlayerData.totalPlayers || 0}`,
 				iconClass: 'bx bxs-user-plus',
 				reportClass: 'reportList2',
 			},
 			{
-				title: 'Today registrations',
+				title: "Today's registrations",
 				description: `${livePlayerData.totalRegistrationToday || 0}`,
 				iconClass: 'bx bxs-contact',
 				reportClass: 'reportList3',

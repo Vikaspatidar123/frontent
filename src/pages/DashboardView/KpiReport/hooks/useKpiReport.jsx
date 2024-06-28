@@ -15,7 +15,11 @@ import { getPercentage } from '../../../../utils/helpers';
 
 const useKpiReport = () => {
 	const dispatch = useDispatch();
-	const [kpiReportDateOption, setKpiReportDateOption] = useState('last7days');
+	const [kpiReportDateOption, setKpiReportDateOption] = useState({
+		selected: 'last7days',
+		fromDate: '',
+		toDate: '',
+	});
 	const [activeKpiReportTab, setActiveKpiReportTab] = useState(TABS.GAME);
 	const [currencyId, setCurrencyId] = useState(null);
 	const { kPIReport, isKpiReportLoading } = useSelector(
@@ -30,7 +34,9 @@ const useKpiReport = () => {
 		dispatch(
 			getKpiReportStart({
 				tab: activeKpiReportTab,
-				dateOptions: kpiReportDateOption,
+				dateOptions: kpiReportDateOption?.selected,
+				fromDate: kpiReportDateOption?.fromDate,
+				toDate: kpiReportDateOption?.toDate,
 				currencyId,
 			})
 		);
@@ -68,7 +74,14 @@ const useKpiReport = () => {
 
 	useEffect(() => {
 		if (activeKpiReportTab && currencyId) {
-			loadKPIReport();
+			const { fromDate, toDate, selected } = kpiReportDateOption;
+			if (selected === 'custom') {
+				if (fromDate && toDate) {
+					loadKPIReport();
+				}
+			} else {
+				loadKPIReport();
+			}
 		}
 	}, [activeKpiReportTab, kpiReportDateOption, currencyId]);
 

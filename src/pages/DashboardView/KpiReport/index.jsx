@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
-
+import FlatPickr from 'react-flatpickr';
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/Table';
@@ -21,7 +21,7 @@ const KpiReport = () => {
 		kPIReportColumn,
 		kPIReport,
 		isKpiReportLoading,
-		kpiReportDateOption,
+		kpiReportDateOption: { selected, fromDate, toDate },
 		setKpiReportDateOption,
 		loadKPIReport,
 		currencyId,
@@ -104,13 +104,37 @@ const KpiReport = () => {
 											</option>
 										))}
 									/>
+									{selected === 'custom' ? (
+										<FlatPickr
+											className="form-control mx-2"
+											value={[fromDate, toDate]}
+											placeholder="Select Custom range"
+											options={{
+												mode: 'range',
+												dateFormat: 'd M Y',
+												maxDate: new Date(),
+											}}
+											onChange={(date) => {
+												setKpiReportDateOption((prev) => ({
+													...prev,
+													fromDate: date[0],
+													toDate: date[1],
+												}));
+											}}
+										/>
+									) : null}
 									<CustomSelectField
 										name="kpiReportDateFilter"
 										type="select"
 										onChange={(e) => {
-											setKpiReportDateOption(e.target.value);
+											setKpiReportDateOption((prev) => ({
+												...prev,
+												fromDate: '',
+												toDate: '',
+												selected: e.target.value,
+											}));
 										}}
-										value={kpiReportDateOption}
+										value={selected}
 										key="my_unique_select_key__kpiReportDateFilter"
 										options={dateConstants?.map((item) => (
 											<option value={item.value} key={item.value}>

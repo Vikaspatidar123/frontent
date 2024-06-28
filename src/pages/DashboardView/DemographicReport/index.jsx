@@ -32,7 +32,7 @@ const DemographicReport = () => {
 					{isGranted(modules.demography, 'R') ? (
 						<>
 							<Row className="mb-2">
-								<Col xl={selected === 'custom' ? '6' : '9'}>
+								<Col xl={selected === 'custom' ? '8' : '10'}>
 									<div className="d-flex align-items-center">
 										<h4 className="card-title font-size-16">
 											Demographic Report
@@ -40,7 +40,7 @@ const DemographicReport = () => {
 									</div>
 								</Col>
 								{selected === 'custom' ? (
-									<Col xl="3">
+									<Col xl="2">
 										<FlatPickr
 											className="form-control form-input-sm"
 											value={[fromDate, toDate]}
@@ -60,7 +60,7 @@ const DemographicReport = () => {
 										/>
 									</Col>
 								) : null}
-								<Col xl="3">
+								<Col xl="2">
 									<div className="d-flex justify-content-between align-items-center">
 										<select
 											value={selected}

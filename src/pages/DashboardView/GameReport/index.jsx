@@ -3,6 +3,7 @@ import React from 'react';
 import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
+import FlatPickr from 'react-flatpickr';
 import { useNavigate } from 'react-router-dom';
 import TableContainer from '../../../components/Common/Table';
 import { tableCustomClass } from '../../../constants/config';
@@ -21,7 +22,7 @@ const GameReport = () => {
 		gameReportColumn,
 		gameReport,
 		isGameReportLoading,
-		gameReportDateOption,
+		gameReportDateOption: { selected, fromDate, toDate },
 		setGameReportDateOption,
 		loadGameReport,
 		currencyId,
@@ -139,13 +140,37 @@ const GameReport = () => {
 											</option>
 										))}
 									/>
+									{selected === 'custom' ? (
+										<FlatPickr
+											className="form-control mx-2"
+											value={[fromDate, toDate]}
+											placeholder="Select Custom range"
+											options={{
+												mode: 'range',
+												dateFormat: 'd M Y',
+												maxDate: new Date(),
+											}}
+											onChange={(date) => {
+												setGameReportDateOption((prev) => ({
+													...prev,
+													fromDate: date[0],
+													toDate: date[1],
+												}));
+											}}
+										/>
+									) : null}
 									<CustomSelectField
 										name="gameReportDateFilter"
 										type="select"
 										onChange={(e) => {
-											setGameReportDateOption(e.target.value);
+											setGameReportDateOption((prev) => ({
+												...prev,
+												fromDate: '',
+												toDate: '',
+												selected: e.target.value,
+											}));
 										}}
-										value={gameReportDateOption}
+										value={selected}
 										key="my_unique_select_key__gameReportDateFilter"
 										options={dateConstants?.map((item) => (
 											<option value={item.value} key={item.value}>

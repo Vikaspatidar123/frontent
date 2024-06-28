@@ -41,9 +41,9 @@ const RevenueChart = ({ livePlayerData }) => {
 					}
 				);
 
-				totalWageredData.push(totalBetAmt);
-				totalPayoutData.push(totalWinAmt);
-				totalRevenueData.push(totalBetAmt - totalWinAmt);
+				totalWageredData.push(totalBetAmt?.toFixed(2));
+				totalPayoutData.push(totalWinAmt?.toFixed(2));
+				totalRevenueData.push((totalBetAmt - totalWinAmt)?.toFixed(2));
 			});
 
 			const formateData = [

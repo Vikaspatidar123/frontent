@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
+import FlatPickr from 'react-flatpickr';
 import { CSVLink } from 'react-csv';
 import { useNavigate } from 'react-router-dom';
 import SimpleBar from 'simplebar-react';
@@ -19,7 +20,7 @@ const PlayerReport = () => {
 		columns,
 		topPlayers,
 		topPlayersLoading,
-		topPlayersDateOption,
+		topPlayersDateOption: { selected, fromDate, toDate },
 		setTopPlayersDateOption,
 		fetchTopPlayers,
 		currencyId,
@@ -132,12 +133,36 @@ const PlayerReport = () => {
 											</option>
 										))}
 									/>
+									{selected === 'custom' ? (
+										<FlatPickr
+											className="form-control mx-2"
+											value={[fromDate, toDate]}
+											placeholder="Select Custom range"
+											options={{
+												mode: 'range',
+												dateFormat: 'd M Y',
+												maxDate: new Date(),
+											}}
+											onChange={(date) => {
+												setTopPlayersDateOption((prev) => ({
+													...prev,
+													fromDate: date[0],
+													toDate: date[1],
+												}));
+											}}
+										/>
+									) : null}
 									<CustomSelectField
 										type="select"
 										onChange={(e) => {
-											setTopPlayersDateOption(e.target.value);
+											setTopPlayersDateOption((prev) => ({
+												...prev,
+												fromDate: '',
+												toDate: '',
+												selected: e.target.value,
+											}));
 										}}
-										value={topPlayersDateOption}
+										value={selected}
 										key="my_unique_select_key__topPlayersDateFilter"
 										options={dateConstants?.map((item) => (
 											<option value={item.value} key={item.value}>

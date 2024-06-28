@@ -78,7 +78,14 @@ const useDemoGraphicReport = () => {
 	};
 
 	useEffect(() => {
-		fetchData();
+		const { fromDate, toDate, selected } = demoDateOptions;
+		if (selected === 'custom') {
+			if (fromDate && toDate) {
+				fetchData();
+			}
+		} else {
+			fetchData();
+		}
 	}, [demoDateOptions]);
 
 	useEffect(() => {

@@ -15,7 +15,11 @@ import { getGameReportStart } from '../../../../store/dashboardView/actions';
 
 const useGameReport = () => {
 	const dispatch = useDispatch();
-	const [gameReportDateOption, setGameReportDateOption] = useState('last7days');
+	const [gameReportDateOption, setGameReportDateOption] = useState({
+		selected: 'last7days',
+		fromDate: '',
+		toDate: '',
+	});
 	const [activeGameReportTab, setActiveGameReportTab] = useState(TABS.GAME);
 	const [currencyId, setCurrencyId] = useState(null);
 	const [orderBy, setOrderBy] = useState(null);
@@ -31,7 +35,9 @@ const useGameReport = () => {
 		dispatch(
 			getGameReportStart({
 				tab: activeGameReportTab,
-				dateOptions: gameReportDateOption,
+				dateOptions: gameReportDateOption.selected,
+				fromDate: gameReportDateOption.fromDate,
+				toDate: gameReportDateOption.toDate,
 				orderBy,
 				currencyId,
 			})
@@ -44,7 +50,14 @@ const useGameReport = () => {
 
 	useEffect(() => {
 		if (activeGameReportTab && currencyId) {
-			loadGameReport();
+			const { fromDate, toDate, selected } = gameReportDateOption;
+			if (selected === 'custom') {
+				if (fromDate && toDate) {
+					loadGameReport();
+				}
+			} else {
+				loadGameReport();
+			}
 		}
 	}, [activeGameReportTab, gameReportDateOption, orderBy, currencyId]);
 

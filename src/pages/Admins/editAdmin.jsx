@@ -49,8 +49,6 @@ const EditAdmin = () => {
 			localStorage.removeItem(`${STORAGE_KEY.ADMIN_EDIT}_${adminUserId}`);
 	}, []);
 
-	// console.log('Outside', validation.values);
-
 	return (
 		<div className="page-content">
 			<Breadcrumbs
