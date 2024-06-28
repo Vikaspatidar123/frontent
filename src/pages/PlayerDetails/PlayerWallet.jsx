@@ -19,21 +19,21 @@ const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
 
 	const columns = useMemo(
 		() => [
+			// {
+			// 	Header: 'Currency Id',
+			// 	accessor: 'currencyId',
+			// 	// filterable: true,
+			// 	Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+			// },
 			{
-				Header: 'Currency Id',
-				accessor: 'currencyId',
+				Header: 'Currency',
+				accessor: 'currencyCode',
 				// filterable: true,
 				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
 			{
 				Header: 'Amount',
 				accessor: 'amount',
-				// filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
-			},
-			{
-				Header: 'Currency Code',
-				accessor: 'currencyCode',
 				// filterable: true,
 				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
 			},
