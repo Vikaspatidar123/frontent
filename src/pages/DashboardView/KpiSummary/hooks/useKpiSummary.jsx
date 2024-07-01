@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { KPI_SUMMARY_NAMES, TABS } from '../../constant';
 import { getKpiSummaryStart } from '../../../../store/dashboardView/actions';
 import { Delta, RowName, Today, Yesterday } from '../KpiListCol';
-import { getPercentage } from '../../../../utils/helpers';
+import {
+	getPercentage,
+	percentageFormulaText,
+} from '../../../../utils/helpers';
 
 const useKpiSummary = () => {
 	const dispatch = useDispatch();
@@ -101,6 +104,10 @@ const useKpiSummary = () => {
 				accessor: 'delta',
 				disableFilters: true,
 				Cell: ({ cell }) => <Delta cell={cell?.value || ''} />,
+				tableHeaderTooltipContent: percentageFormulaText(
+					'Current Month to Date',
+					'Previous Month to Date'
+				),
 			},
 		],
 		[]

@@ -11,7 +11,10 @@ import {
 	TotalBets,
 } from '../KpiReportListCol';
 import { TABS } from '../../constant';
-import { getPercentage } from '../../../../utils/helpers';
+import {
+	getPercentage,
+	percentageFormulaText,
+} from '../../../../utils/helpers';
 
 const useKpiReport = () => {
 	const dispatch = useDispatch();
@@ -45,12 +48,14 @@ const useKpiReport = () => {
 	const formattedKPIReport = useMemo(
 		() =>
 			kPIReport?.map((report) => {
-				const ggr =
+				const ggr = (
 					Number(report?.totalBetAmount || 0) -
-					Number(report?.totalWinAmount || 0);
-				const oldGgr =
-					Number(report?.totalOldBetAmount || 0) -
-					Number(report?.totalOldWinAmount || 0);
+					Number(report?.totalWinAmount || 0)
+				)?.toFixed(2);
+				const oldGgr = Number(
+					(report?.totalOldBetAmount || 0) -
+						Number(report?.totalOldWinAmount || 0)
+				)?.toFixed(2);
 				const deltaGgr = getPercentage(ggr, oldGgr);
 				const deltaTotalBetAmount = getPercentage(
 					Number(report?.totalBetAmount || 0),
@@ -119,6 +124,7 @@ const useKpiReport = () => {
 				Cell: ({ cell }) => (
 					<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
+				tableHeaderTooltipContent: percentageFormulaText('GGR', 'Old GGR'),
 			},
 			{
 				Header: 'Total Wagered Amount',

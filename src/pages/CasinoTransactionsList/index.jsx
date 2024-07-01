@@ -75,20 +75,22 @@ const CasinoTransactionsList = ({ userId }) => {
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
 									customTableInfo={
-										<DepositWithdrawalInfo
-											totalDepositAmount={
-												casinoTransactions?.totalBetAmount // Wagered
-											}
-											totalWithdrawAmount={
-												casinoTransactions?.totalWinAmount // Payout
-											}
-											currencyId={filterValidation.values?.currencyId}
-											labels={[
-												'Total Wagered : ',
-												'Total Payout : ',
-												'Total Profit : ',
-											]}
-										/>
+										!userId ? (
+											<DepositWithdrawalInfo // Hide deposit withdraw info from specific player report
+												totalDepositAmount={
+													casinoTransactions?.totalBetAmount // Wagered
+												}
+												totalWithdrawAmount={
+													casinoTransactions?.totalWinAmount // Payout
+												}
+												currencyId={filterValidation.values?.currencyId}
+												labels={[
+													'Total Wagered : ',
+													'Total Payout : ',
+													'Total Profit : ',
+												]}
+											/>
+										) : null
 									}
 								/>
 							</CardBody>

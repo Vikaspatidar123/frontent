@@ -32,7 +32,6 @@ import {
 	getKpiSummary,
 	getTopPlayersRequest,
 } from '../../network/getRequests';
-import kpiConstant from './config/kpisummary';
 
 function* getLivePlayerData() {
 	try {
@@ -55,12 +54,8 @@ function* getDemoGraphicData(action) {
 function* getKpiSummaryWorker(action) {
 	try {
 		const payload = action && action?.payload;
-		if (payload?.tab === 'banking') {
-			yield put(getKpiSummarySuccess(kpiConstant.Banking));
-		} else {
-			const { data } = yield getKpiSummary(payload);
-			yield put(getKpiSummarySuccess(data?.data?.kpiSummary));
-		}
+		const { data } = yield getKpiSummary(payload);
+		yield put(getKpiSummarySuccess(data?.data?.kpiSummary));
 	} catch (e) {
 		yield put(getKpiSummaryFail(e?.response?.data?.errors[0]?.description));
 	}

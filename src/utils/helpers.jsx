@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable eqeqeq */
+import React from 'react';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 
@@ -78,6 +79,29 @@ const getPercentage = (current = 0, previous = 0) => {
 	const percentage = ((current - previous) / (previous || 1)) * 100;
 	return percentage?.toFixed(2);
 };
+
+export const percentageFormulaText = (numerator, denominator) => (
+	<div style={{ textAlign: 'center' }}>
+		<div>
+			{numerator} - {denominator}
+		</div>
+		<div style={{ position: 'relative', marginTop: '5px' }}>
+			<div
+				style={{
+					borderBottom: '1px solid white',
+					width: '82%',
+					position: 'absolute',
+					top: '50%',
+					transform: 'translateY(-50%)',
+				}}
+			/>
+			<div style={{ marginTop: '-10px', position: 'relative' }}>
+				<div style={{ paddingLeft: '150px' }}> * 100 </div>
+			</div>
+		</div>
+		<div>{denominator}</div>
+	</div>
+);
 
 export {
 	safeStringify,

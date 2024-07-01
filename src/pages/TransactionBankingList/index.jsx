@@ -76,15 +76,17 @@ const TransactionBankingList = ({ userId }) => {
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
 									customTableInfo={
-										<DepositWithdrawalInfo
-											totalDepositAmount={
-												transactionBanking?.totalDepositAmount
-											}
-											totalWithdrawAmount={
-												transactionBanking?.totalWithdrawAmount
-											}
-											currencyId={filterValidation.values?.currencyId}
-										/>
+										!userId ? (
+											<DepositWithdrawalInfo // Hide deposit withdraw info from specific player report
+												totalDepositAmount={
+													transactionBanking?.totalDepositAmount
+												}
+												totalWithdrawAmount={
+													transactionBanking?.totalWithdrawAmount
+												}
+												currencyId={filterValidation.values?.currencyId}
+											/>
+										) : null
 									}
 								/>
 							</CardBody>

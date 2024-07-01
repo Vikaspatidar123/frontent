@@ -18,7 +18,6 @@ import {
 	GET_TOP_PLAYERS_SUCCESS,
 	GET_TOP_PLAYERS_FAIL,
 } from './actionTypes';
-// import { kpiReportConstant } from './config/kpiReport';
 
 const INIT_STATE = {
 	isLivePlayerLoading: false,
