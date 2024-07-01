@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { isEmpty } from 'lodash';
 import {
 	Button,
 	Card,
-	CardBody,
-	CardSubtitle,
-	CardGroup,
-	CardTitle,
 	Col,
 	Dropdown,
 	DropdownItem,
@@ -35,6 +32,7 @@ import ResetUserPassword from './modals/ResetUserPassword';
 import { modules } from '../../constants/permissions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { showToastr } from '../../utils/helpers';
+import PlayerStats from './components/PlayerStats';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -47,7 +45,6 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 	const dispatch = useDispatch();
 	const { playerId } = useParams();
 	const [openResetMenu, setOpenResetMenu] = useState(false);
-	const [openStatsDetails, setOpenStatsDetails] = useState(false);
 	const [modalStates, setModalStates] = useState({
 		internalModal: false,
 		activeInactiveModal: false,
@@ -67,18 +64,10 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		setModalStates((prev) => ({ ...prev, [modalName]: false }));
 	};
 
-	const {
-		basicInfo,
-		contactInfo,
-		kycInfo,
-		StatsHeaders,
-		currencyById,
-		userStatsData,
-		totalPlayerStats,
-		defaultCurrency,
-	} = useUserOverview({
-		user: userDetails,
-	});
+	const { basicInfo, contactInfo, kycInfo, totalPlayerStats, userStatsData } =
+		useUserOverview({
+			user: userDetails,
+		});
 
 	const updateUserStatus = () => {
 		dispatch(
@@ -121,126 +110,14 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 				/>
 			) : (
 				<>
-					<Row className="d-flex m-0 p-0">
-						<Card className="p-2">
-							<CardGroup className="m-0">
-								{StatsHeaders?.map((item) => (
-									<Card
-										className={`m-1 text-align-center p-1 pt-4 ${item?.color} bg-secondary rounded`}
-									>
-										<Row className="d-flex h-100 text-white">
-											<CardSubtitle>{item?.title}</CardSubtitle>
-										</Row>
-										<CardTitle className="text-white">
-											<div className="d-flex justify-content-center align-items-center">
-												<div className="avatar-xs m-2">
-													{totalPlayerStats?.[item?.accessor] ? (
-														<span className="avatar-title rounded-circle bg-success text-bg-success">
-															{defaultCurrency?.symbol}
-														</span>
-													) : (
-														<span className=""> - </span>
-													)}
-												</div>
-												<div>
-													<span>
-														{totalPlayerStats?.[item?.accessor]
-															? Number(
-																	totalPlayerStats?.[item?.accessor]
-															  )?.toFixed(2)
-															: ''}
-													</span>
-												</div>
-											</div>
-										</CardTitle>
-										{openStatsDetails &&
-											(userStatsData?.length
-												? userStatsData?.map((stats) => (
-															<CardBody
-																className={`m-1 text-align-center p-1 pt-4 ${item?.color}`}
-															>
-																<div className="d-flex justify-content-center align-items-center text-white">
-																	<CardSubtitle>
-																		{stats?.[item?.accessor]
-																			? `${
-																					currencyById[stats?.currency_id]
-																						?.symbol
-																			  } ${Number(
-																					stats?.[item?.accessor]
-																			  )?.toFixed(2)}`
-																			: '-'}
-																	</CardSubtitle>
-																</div>
-															</CardBody>
-														))
-												: null)}
-									</Card>
-								))}
-							</CardGroup>
-							{userStatsData?.length > 0 && (
-								<CardSubtitle
-									className="p-2 text-center"
-									tag="h6"
-									onClick={() => setOpenStatsDetails(!openStatsDetails)}
-								>
-									{openStatsDetails ? (
-										<>
-											<i className="fa fa-minus-circle" /> Less{' '}
-										</>
-									) : (
-										<>
-											<i className="fa fa-plus-circle" /> More{' '}
-										</>
-									)}
-								</CardSubtitle>
-							)}
-						</Card>
-						{/* {openStatsDetails && (
-								<Card className='mt-0'>
-									{userStatsData?.length ? userStatsData?.map((stats, index) => {
-										const randomColor = getSyncColor(index);
-										return (
-											<CardGroup lg={1} xs={1} className='m-0'>
-												{StatsHeaders?.map((item) => (
-													<Card className={`m-1 text-align-center p-1 pt-4 ${item?.color}`}>
-														<CardTitle tag="h5">
-															<div className="d-flex justify-content-center align-items-center">
-																<div className="avatar-xs m-2">
-																	{stats?.[item?.accessor] ? (
-																		<span
-																			className={`avatar-title rounded-circle ${stats?.[item?.accessor] && randomColor
-																				} text-${stats?.[item?.accessor] && randomColor
-																				}`}
-																		>
-																			{currencyById[stats?.currency_id]?.symbol}
-																		</span>
-																	) : (
-																		<span className=""> - </span>
-																	)}
-																</div>
-																<div>
-																	<span>
-																		{stats?.[item?.accessor]
-																			? Number(stats?.[item?.accessor])?.toFixed(
-																				2
-																			)
-																			: ''}
-																	</span>
-																</div>
-															</div>
-														</CardTitle>
-													</Card>
-												))}
-											</CardGroup>
-										);
-									}) : <CardBody className='text-center'>No Details Found</CardBody>}
-									<CardSubtitle className='p-2 text-center' tag='h6' onClick={() => setOpenStatsDetails(!openStatsDetails)}>
-										<><i className="fa fa-minus-circle" /> Less </>
-									</CardSubtitle>
-								</Card>
-							)} */}
-					</Row>
-
+					{!isEmpty(userStatsData) ? (
+						<Row className="d-flex m-0 p-0">
+							<PlayerStats
+								dataColors='["--bs-success","--bs-primary", "--bs-danger","--bs-info", "--bs-warning"]'
+								data={totalPlayerStats}
+							/>
+						</Row>
+					) : null}
 					<Row>
 						<Col xs={12} lg={4} className="col-padding">
 							<Card className="card-overview">

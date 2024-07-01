@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-nested-ternary */
 // eslint-disable-next-line
 import React, { useMemo } from 'react';
@@ -11,9 +12,7 @@ const useUserOverview = ({ user }) => {
 	const showStyle = (data) => (data ? 'text-success' : 'text-danger');
 	const printData = (data) => (data ? 'Yes' : 'No');
 
-	const { currencyById, defaultCurrency } = useSelector(
-		(state) => state.Currencies
-	);
+	const { currencyById } = useSelector((state) => state.Currencies);
 	const { userStatsData } = useSelector((state) => state.UserDetails);
 
 	const {
@@ -109,6 +108,7 @@ const useUserOverview = ({ user }) => {
 					: 'Pending',
 		},
 	];
+
 	const totalPlayerStats = useMemo(() => {
 		const accumulator = {};
 		userStatsData?.forEach((item) => {
@@ -146,71 +146,42 @@ const useUserOverview = ({ user }) => {
 				Number(accumulator.total_bet_amt || 0) +
 				Number(item?.total_sb_bet || 0) * exchangeRate +
 				Number(item?.total_casino_bet || 0) * exchangeRate;
-			accumulator.profit =
-				Number(item?.profit || 0) * exchangeRate +
-				Number(accumulator?.profit || 0);
 		});
+		const {
+			total_casino_bet,
+			total_sb_bet,
+			total_casino_win,
+			total_sb_win,
+			total_tournament_enrolls,
+			total_tournament_payouts,
+		} = accumulator;
+
+		accumulator.wagered = Number(
+			(
+				Number(total_casino_bet || 0) +
+				Number(total_sb_bet || 0) +
+				Number(total_tournament_enrolls || 0)
+			)?.toFixed(2)
+		);
+		accumulator.payout = Number(
+			(
+				Number(total_casino_win || 0) +
+				Number(total_sb_win || 0) +
+				Number(total_tournament_payouts || 0)
+			)?.toFixed(2)
+		);
+		accumulator.profit = Number(
+			(accumulator.wagered - accumulator.payout)?.toFixed(2)
+		);
 		return accumulator;
 	}, [userStatsData]);
 
-	const StatsHeaders = [
-		{
-			title: 'Wagered',
-			accessor: 'total_bet_amt',
-		},
-		{
-			title: 'Platform P&L',
-			accessor: 'profit',
-		},
-		{
-			title: 'Deposit',
-			accessor: 'total_deposit',
-		},
-		{
-			title: 'Withdraw',
-			accessor: 'total_withdraw',
-		},
-		{
-			title: 'Deposit Count',
-			accessor: 'total_deposit_count',
-		},
-		{
-			title: 'Casino Bet Count',
-			accessor: 'total_casino_bet_count',
-		},
-		{
-			title: 'Casino Wagered',
-			accessor: 'total_casino_bet',
-		},
-		{
-			title: 'Casino Payout',
-			accessor: 'total_casino_win',
-		},
-		{
-			title: 'Sports Bet Count',
-			accessor: 'total_sb_bet_count',
-		},
-		{
-			title: 'Sports Wagered',
-			accessor: 'total_sb_bet',
-		},
-		{
-			title: 'Sports Payout',
-			accessor: 'total_sb_win',
-		},
-	];
-
 	return {
-		showStyle,
-		printData,
 		basicInfo,
 		contactInfo,
 		kycInfo,
-		StatsHeaders,
-		currencyById,
-		userStatsData,
 		totalPlayerStats,
-		defaultCurrency,
+		userStatsData,
 	};
 };
 
