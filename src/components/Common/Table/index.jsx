@@ -106,16 +106,36 @@ const TableContainer = ({
 											key={column.id}
 											className={column.isSort ? 'sorting' : thCustomClass}
 										>
-											<div {...column.getSortByToggleProps()}>
+											<div
+												{...column.getSortByToggleProps()}
+												{...(column?.tableHeaderTooltipContent
+													? { title: '' }
+													: {})}
+											>
 												<span className="d-flex align-items-center gap-1">
 													{column.render('Header')}
 													{generateSortingIndicator(column)}
+													{column?.tableHeaderTooltipContent ? (
+														<span
+															className="mdi mdi-information"
+															style={{ fontSize: '20px' }}
+															id={`id-${column.id}`}
+														/>
+													) : null}
 												</span>
 												{column.subLabel && (
 													<div style={{ fontSize: 12 }}>
 														({column.subLabel})
 													</div>
 												)}
+												{column?.tableHeaderTooltipContent ? (
+													<UncontrolledTooltip
+														placement="top"
+														target={`id-${column.id}`}
+													>
+														{column.tableHeaderTooltipContent}
+													</UncontrolledTooltip>
+												) : null}
 											</div>
 										</th>
 									))}
