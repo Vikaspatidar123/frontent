@@ -56,7 +56,7 @@ const Reports = (props) => {
 				reportClass: 'reportList1',
 			},
 			{
-				title: "Total's Players",
+				title: 'Total Players',
 				description: `${livePlayerData.totalPlayers || 0}`,
 				iconClass: 'bx bxs-user-plus',
 				reportClass: 'reportList2',
