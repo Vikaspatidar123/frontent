@@ -117,7 +117,7 @@ const TableContainer = ({
 													{generateSortingIndicator(column)}
 													{column?.tableHeaderTooltipContent ? (
 														<span
-															className="mdi mdi-information"
+															className="mdi mdi-information-outline"
 															style={{ fontSize: '20px' }}
 															id={`id-${column.id}`}
 														/>

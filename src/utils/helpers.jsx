@@ -88,7 +88,7 @@ export const percentageFormulaText = (numerator, denominator) => (
 		<div style={{ position: 'relative', marginTop: '5px' }}>
 			<div
 				style={{
-					borderBottom: '1px solid white',
+					borderBottom: '1px solid',
 					width: '82%',
 					position: 'absolute',
 					top: '50%',
