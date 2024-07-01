@@ -1,5 +1,9 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-nested-ternary */
+// eslint-disable-next-line
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { formatDateYMD } from '../../../utils/dateFormatter';
 import { genderTypes } from '../constants';
 
@@ -7,6 +11,9 @@ const useUserOverview = ({ user }) => {
 	const { playerId } = useParams();
 	const showStyle = (data) => (data ? 'text-success' : 'text-danger');
 	const printData = (data) => (data ? 'Yes' : 'No');
+
+	const { currencyById } = useSelector((state) => state.Currencies);
+	const { userStatsData } = useSelector((state) => state.UserDetails);
 
 	const {
 		addresses,
@@ -102,12 +109,79 @@ const useUserOverview = ({ user }) => {
 		},
 	];
 
+	const totalPlayerStats = useMemo(() => {
+		const accumulator = {};
+		userStatsData?.forEach((item) => {
+			const exchangeRate = Number(
+				currencyById?.[item?.currency_id]?.exchangeRate || 1
+			);
+			accumulator.total_deposit =
+				Number(item?.total_deposit || 0) * exchangeRate +
+				Number(accumulator?.total_deposit || 0);
+			accumulator.total_withdraw =
+				Number(item?.total_withdraw || 0) * exchangeRate +
+				Number(accumulator?.total_withdraw || 0);
+			accumulator.total_casino_bet_count =
+				Number(item?.total_casino_bet_count || 0) +
+				Number(accumulator?.total_casino_bet_count || 0);
+			accumulator.total_casino_bet =
+				Number(item?.total_casino_bet || 0) * exchangeRate +
+				Number(accumulator?.total_casino_bet || 0);
+			accumulator.total_casino_win =
+				Number(item?.total_casino_win || 0) * exchangeRate +
+				Number(accumulator?.total_casino_win || 0);
+			accumulator.total_sb_bet_count =
+				Number(item?.total_sb_bet_count || 0) +
+				Number(accumulator?.total_sb_bet_count || 0);
+			accumulator.total_sb_bet =
+				Number(item?.total_sb_bet || 0) * exchangeRate +
+				Number(accumulator?.total_sb_bet || 0);
+			accumulator.total_sb_win =
+				Number(item?.total_sb_win || 0) * exchangeRate +
+				Number(accumulator?.total_sb_win || 0);
+			accumulator.total_deposit_count =
+				Number(item?.total_deposit_count || 0) +
+				Number(accumulator?.total_deposit_count || 0);
+			accumulator.total_bet_amt =
+				Number(accumulator.total_bet_amt || 0) +
+				Number(item?.total_sb_bet || 0) * exchangeRate +
+				Number(item?.total_casino_bet || 0) * exchangeRate;
+		});
+		const {
+			total_casino_bet,
+			total_sb_bet,
+			total_casino_win,
+			total_sb_win,
+			total_tournament_enrolls,
+			total_tournament_payouts,
+		} = accumulator;
+
+		accumulator.wagered = Number(
+			(
+				Number(total_casino_bet || 0) +
+				Number(total_sb_bet || 0) +
+				Number(total_tournament_enrolls || 0)
+			)?.toFixed(2)
+		);
+		accumulator.payout = Number(
+			(
+				Number(total_casino_win || 0) +
+				Number(total_sb_win || 0) +
+				Number(total_tournament_payouts || 0)
+			)?.toFixed(2)
+		);
+		accumulator.profit = Number(
+			(accumulator.wagered - accumulator.payout)?.toFixed(2)
+		);
+		return accumulator;
+	}, [userStatsData]);
+
 	return {
-		showStyle,
-		printData,
 		basicInfo,
 		contactInfo,
 		kycInfo,
+		totalPlayerStats,
+		userStatsData,
 	};
 };
 
