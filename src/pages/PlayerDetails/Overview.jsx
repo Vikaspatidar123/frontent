@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 import {
 	Button,
 	Card,
+	CardBody,
 	Col,
 	Dropdown,
 	DropdownItem,
@@ -33,6 +34,7 @@ import { modules } from '../../constants/permissions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { showToastr } from '../../utils/helpers';
 import PlayerStats from './components/PlayerStats';
+import { PLAYER_STATS_NOT_AVAILABLE } from '../../constants/messages';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
@@ -117,7 +119,15 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 								data={totalPlayerStats}
 							/>
 						</Row>
-					) : null}
+					) : (
+						<Col xl="12">
+							<Card>
+								<CardBody className="d-flex justify-content-center">
+									<h6>{PLAYER_STATS_NOT_AVAILABLE}</h6>
+								</CardBody>
+							</Card>
+						</Col>
+					)}
 					<Row>
 						<Col xs={12} lg={4} className="col-padding">
 							<Card className="card-overview">

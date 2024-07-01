@@ -97,6 +97,14 @@ const useDemoGraphicReport = () => {
 		chart: {
 			type: 'bar',
 		},
+		tooltip: {
+			y: {
+				formatter: (value) => `${value}`,
+				title: {
+					formatter: () => '', // Remove the series name
+				},
+			},
+		},
 		plotOptions: {
 			bar: {
 				columnWidth: '40%',

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getKpiReportStart } from '../../../../store/dashboardView/actions';
 import {
 	DeltaGgr,
-	DeltaTotalBets,
+	// DeltaTotalBets,
 	Ggr,
 	ProviderName,
 	RealBet,
@@ -128,12 +128,12 @@ const useKpiReport = () => {
 					<RealBet cell={cell?.value ?? '0'} defaultCurrency={currency} />
 				),
 			},
-			{
-				Header: 'Delta Wagered Amount',
-				accessor: 'deltaTotalBetAmount',
-				disableFilters: true,
-				Cell: ({ cell }) => <DeltaTotalBets cell={cell?.value ?? '0'} />,
-			},
+			// {
+			// 	Header: 'Delta Wagered Amount',
+			// 	accessor: 'deltaTotalBetAmount',
+			// 	disableFilters: true,
+			// 	Cell: ({ cell }) => <DeltaTotalBets cell={cell?.value ?? '0'} />,
+			// },
 			{
 				Header: 'Total Payout',
 				accessor: 'totalWinAmount',
