@@ -78,11 +78,11 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 					conversionRate: txn?.conversionRate,
 					actionType: txn?.ledger?.fromWalletId ? 'Debit' : 'Credit',
 					from: txn?.ledger?.fromWalletId
-						? txn?.user?.username
-						: superAdminUser?.username,
+						? superAdminUser?.username
+						: txn?.user?.username,
 					to: txn?.ledger?.toWalletId
-						? txn?.user?.username
-						: superAdminUser?.username,
+						? superAdminUser?.username
+						: txn?.user?.username,
 					purpose: txn?.ledger?.purpose,
 					status: STATUS_TYPE.find((status) => status.value === txn?.status)
 						?.label,

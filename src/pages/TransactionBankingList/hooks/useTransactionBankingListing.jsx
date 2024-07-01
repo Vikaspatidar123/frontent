@@ -61,11 +61,11 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 					purpose: transaction?.ledger?.purpose || '-',
 					currency: transaction?.ledger?.currency?.code || '-',
 					from: transaction?.ledger?.fromWalletId
-						? transaction?.user?.username
-						: superAdminUser?.username,
+						? superAdminUser?.username
+						: transaction?.user?.username,
 					to: transaction?.ledger?.toWalletId
-						? transaction?.user?.username
-						: superAdminUser?.username,
+						? superAdminUser?.username
+						: transaction?.user?.username,
 					status: STATUS_TYPE.find(
 						(status) => status.value === transaction?.status
 					)?.label,
