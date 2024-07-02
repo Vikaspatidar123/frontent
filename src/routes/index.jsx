@@ -68,6 +68,7 @@ import PaymentProviders from '../pages/Payment';
 import CreatePayment from '../pages/Payment/CreatePayment';
 import PaymentProviderView from '../pages/Payment/PaymentProviderView';
 import EditPayment from '../pages/Payment/EditPayment';
+import Notifications from '../pages/Notifications';
 
 const authProtectedRoutes = [
 	{
@@ -236,6 +237,13 @@ const authProtectedRoutes = [
 		path: '/languages-management',
 		component: <LanguageManagementList />,
 		modules: [modules.language],
+		operation: 'R',
+	},
+	{
+		path: '/notifications',
+		component: <Notifications />,
+		// FIXME: Update the permission
+		modules: [modules.applicationSetting],
 		operation: 'R',
 	},
 	{

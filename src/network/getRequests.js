@@ -361,6 +361,12 @@ const getUserReferrals = (payload) =>
 		payload
 	);
 
+const getNotifications = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}notification`,
+		payload
+	);
+
 export {
 	getBonusDetail,
 	getAllCurrencies,
@@ -429,4 +435,5 @@ export {
 	getPaymentList,
 	getPaymentDetails,
 	getUserReferrals,
+	getNotifications,
 };

@@ -7,7 +7,7 @@ const DepositWithdrawalInfo = ({
 	totalDepositAmount,
 	totalWithdrawAmount,
 	currencyId,
-	labels = ['Total Deposit : ', 'Total Withdrawal : ', 'Total Liquidity : '],
+	labels = ['Total Deposit : ', 'Total Withdrawal : ', 'Net Balance : '],
 }) => {
 	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies

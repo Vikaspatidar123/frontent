@@ -36,6 +36,7 @@ const FormModal = ({
 	className,
 	disableSubmit,
 	isSubmit,
+	modalSize,
 }) => {
 	const toggleFormModal = () => {
 		if (!isEditOpen) {
@@ -53,6 +54,7 @@ const FormModal = ({
 			toggle={toggle ?? toggleFormModal}
 			className={className}
 			backdrop="static"
+			size={modalSize}
 		>
 			<ModalHeader toggle={toggle ?? toggleFormModal} tag="h4">
 				{header}
@@ -157,6 +159,7 @@ FormModal.defaultProps = {
 	setShowConfirmationModal: () => {},
 	disableSubmit: false,
 	isSubmit: true,
+	modalSize: 'md',
 };
 
 FormModal.propTypes = {
@@ -179,6 +182,7 @@ FormModal.propTypes = {
 	setShowConfirmationModal: PropTypes.func,
 	disableSubmit: PropTypes.bool,
 	isSubmit: PropTypes.bool,
+	modalSize: PropTypes.string,
 };
 
 export default FormModal;

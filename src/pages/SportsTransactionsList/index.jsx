@@ -10,6 +10,7 @@ import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useSportsTransactionsListing from './hooks/useSportsTransactionsListing';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
+import { REPORT_LABELS } from '../../utils/constant';
 
 const SportsTransactionsList = ({ userId }) => {
 	document.title = projectName;
@@ -84,11 +85,7 @@ const SportsTransactionsList = ({ userId }) => {
 													sportsTransactions?.totalWinAmount // Payout
 												}
 												currencyId={filterValidation.values?.currencyId}
-												labels={[
-													'Total Wagered : ',
-													'Total Payout : ',
-													'Total Profit : ',
-												]}
+												labels={REPORT_LABELS}
 											/>
 										) : null
 									}

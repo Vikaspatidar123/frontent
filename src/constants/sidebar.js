@@ -297,6 +297,19 @@ const sideBarElements = [
 				module: modules.emailTemplate,
 			},
 			{
+				id: 37,
+				link: '/notifications',
+				label: 'Notifications',
+				searchString: 'notification',
+				iconName: '',
+				linkClass: '',
+				anchorClass: '',
+				spanClass: '',
+				liTagClass: '',
+				ulTagClass: '',
+				module: modules.applicationSetting,
+			},
+			{
 				id: 14,
 				link: '/image-gallery',
 				label: 'Image Gallery',
@@ -602,6 +615,12 @@ const sideBarElements = [
 		module: modules.admin,
 	},
 	{
+		id: 110,
+		isSeparator: true,
+		title: 'Player verification',
+		groupedModules: [modules.sportsbookManagement],
+	},
+	{
 		id: 5,
 		link: '/kyc-labels',
 		label: 'KYC Labels',
@@ -614,18 +633,18 @@ const sideBarElements = [
 		ulTagClass: '',
 		module: modules.kyc,
 	},
-	{
-		id: 2,
-		link: '/profile',
-		label: 'Profile',
-		searchString: 'profile account my account',
-		iconName: 'bx bxs-user-circle',
-		linkClass: '',
-		anchorClass: '',
-		spanClass: '',
-		liTagClass: '',
-		ulTagClass: '',
-	},
+	// {
+	// 	id: 2,
+	// 	link: '/profile',
+	// 	label: 'Profile',
+	// 	searchString: 'profile account my account',
+	// 	iconName: 'bx bxs-user-circle',
+	// 	linkClass: '',
+	// 	anchorClass: '',
+	// 	spanClass: '',
+	// 	liTagClass: '',
+	// 	ulTagClass: '',
+	// },
 ];
 
 // For maintaining single source of truth (SSOT)
