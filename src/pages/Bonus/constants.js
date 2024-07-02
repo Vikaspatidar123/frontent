@@ -40,7 +40,7 @@ const checkLabels = (bonusType) => {
 			{
 				label: 'Active',
 				value: 'isActive',
-				message: 'If True Status is Active else In-Active',
+				message: 'If True Status is Active else Inactive',
 			},
 			{
 				label: 'Visible In Promotions',
@@ -53,7 +53,7 @@ const checkLabels = (bonusType) => {
 		{
 			label: 'Active',
 			value: 'isActive',
-			message: 'If True Status is Active else In-Active',
+			message: 'If True Status is Active else Inactive',
 		},
 	];
 };

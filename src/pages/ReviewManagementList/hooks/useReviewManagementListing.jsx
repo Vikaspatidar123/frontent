@@ -55,7 +55,7 @@ const useReviewManagementListing = ({ formValues = {}, handleEditClick }) => {
 			reviewManagement.rows.map((review) =>
 				formattedValues.push({
 					...review,
-					status: review.status ? 'Active' : 'In-Active',
+					status: review.status ? 'Active' : 'Inactive',
 					userName: review?.user?.username,
 				})
 			);

@@ -122,8 +122,8 @@ const Status = ({ value }) => {
 	switch (value) {
 		case 'Active':
 			return <Badge className="bg-success">Active</Badge>;
-		case 'In-Active':
-			return <Badge className="bg-danger">In-Active</Badge>;
+		case 'Inactive':
+			return <Badge className="bg-danger">Inactive</Badge>;
 		default:
 			return '';
 	}

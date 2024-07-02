@@ -18,7 +18,7 @@ import TabsPage from '../../../components/Common/TabsPage';
 const PlayerReport = () => {
 	const {
 		columns,
-		topPlayers,
+		topPlayerFormatted,
 		topPlayersLoading,
 		topPlayersDateOption: { selected, fromDate, toDate },
 		setTopPlayersDateOption,
@@ -40,9 +40,8 @@ const PlayerReport = () => {
 			<TableContainer
 				isLoading={topPlayersLoading}
 				columns={columns || []}
-				data={topPlayers?.reportData || []}
+				data={topPlayerFormatted}
 				isGlobalFilter={false}
-				customPageSize={topPlayers?.reportData?.length}
 				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
 				isShowColSettings={false}
 				tbodyHeight="300px"
@@ -171,7 +170,7 @@ const PlayerReport = () => {
 										))}
 									/>
 									<CSVLink
-										data={topPlayers?.reportData || []}
+										data={topPlayerFormatted || []}
 										filename="downloaded_data.csv"
 										className="btn btn-primary dashboard-export-btn w-80"
 									>

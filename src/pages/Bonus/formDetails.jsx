@@ -148,7 +148,7 @@ const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
 		fieldType: 'toggle',
 		label: 'Active',
 		isNewRow: true,
-		tooltipContent: 'If True Status is Active else In-Active',
+		tooltipContent: 'If True Status is Active else Inactive',
 		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
 	{

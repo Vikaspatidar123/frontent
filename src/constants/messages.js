@@ -4,7 +4,7 @@ const KPI_SUMMARY = 'You do not have permission to view KPI summary!';
 const KPI_REPORT = 'You do not have permission to view KPI report!';
 const GAME_REPORT = 'You do not have permission to view game report!';
 const PLAYER_STATS_NOT_AVAILABLE =
-	'Player statistics are currently unavailable. Please check back later!';
+	'This player has not made any transactions or played any games yet, so there are no player stats available!';
 
 export {
 	LIVE_PLAYER,

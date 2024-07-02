@@ -15,7 +15,7 @@ const Status = ({ value }) =>
 	value ? (
 		<Badge className="bg-success">Active</Badge>
 	) : (
-		<Badge className="bg-danger">In-Active</Badge>
+		<Badge className="bg-danger">Inactive</Badge>
 	);
 
 UserName.propTypes = {

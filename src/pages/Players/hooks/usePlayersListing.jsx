@@ -142,7 +142,7 @@ const usePlayersListing = (filterValues = {}) => {
 				return {
 					...player,
 					fullName: `${player.firstName} ${player.lastName}`,
-					status: player.isActive ? 'Active' : 'In-Active',
+					status: player.isActive ? 'Active' : 'Inactive',
 					isInternal: player.isInternalUser ? 'YES' : 'NO',
 					kycStatus: player?.kycStatus ? 'Approved' : 'Pending',
 					randomColor,
