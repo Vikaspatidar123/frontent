@@ -45,10 +45,10 @@ const Action = ({ cell, setShowManageMoney }) => {
 					className="btn btn-sm btn-soft-primary"
 					hidden={!isGranted(modules.player, 'U')}
 				>
-					<i className="mdi mdi-pencil-outline" id={`eye-tooltip-${userId}`} />
+					<i className="mdi mdi-pencil-outline" id={`edit-tooltip-${userId}`} />
 				</Link>
 			</li>
-			<UncontrolledTooltip placement="top" target={`eye-tooltip-${userId}`}>
+			<UncontrolledTooltip placement="top" target={`edit-tooltip-${userId}`}>
 				Edit
 			</UncontrolledTooltip>
 
@@ -109,10 +109,10 @@ const Action = ({ cell, setShowManageMoney }) => {
 					className="btn btn-sm btn-soft-primary"
 					hidden={!isGranted(modules.player, 'U')}
 				>
-					<i className="mdi mdi-cash-multiple" id={`eye-tooltip-${userId}`} />
+					<i className="mdi mdi-cash-multiple" id={`money-tooltip-${userId}`} />
 				</Button>
 			</li>
-			<UncontrolledTooltip placement="top" target={`eye-tooltip-${userId}`}>
+			<UncontrolledTooltip placement="top" target={`money-tooltip-${userId}`}>
 				Manage Money
 			</UncontrolledTooltip>
 		</ul>
