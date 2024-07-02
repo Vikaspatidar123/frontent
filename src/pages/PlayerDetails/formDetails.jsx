@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { STATUS_TYPE } from '../TransactionBankingList/constants';
-import { formatDateYMD } from '../../utils/dateFormatter';
 import {
 	LEDGER_PURPOSE,
 	LEDGER_TYPES,
@@ -130,6 +129,7 @@ const userSchema = () =>
 
 const getInitialValuesUpdateUser = (defaultValue) => {
 	const address = defaultValue?.addresses?.[0];
+
 	return {
 		userId: defaultValue?.id,
 		firstName: defaultValue?.firstName,
@@ -140,7 +140,7 @@ const getInitialValuesUpdateUser = (defaultValue) => {
 		address: address?.address,
 		city: address?.city,
 		zipCode: address?.zipCode,
-		dateOfBirth: formatDateYMD(defaultValue?.dateOfBirth),
+		dateOfBirth: defaultValue?.dateOfBirth,
 		gender: defaultValue?.gender,
 		currencyCode: defaultValue?.currencyCode,
 		phoneCode: defaultValue?.phoneCode || '',

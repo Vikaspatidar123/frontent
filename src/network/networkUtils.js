@@ -67,7 +67,7 @@ const MESSAGES = {
 	COUNTRY_NOT_FOUND: 'Country not found.',
 	CURRENCY_NOT_FOUND: 'Currency not found.',
 	INVALID_PASSWORD: 'Invalid password.',
-	PASSWORD_MISMATCH: 'Password mismatch.',
+	PASSWORD_MISMATCH: 'Old password mismatch.',
 	SPORT_NOT_FOUND: 'Sport not found.',
 	LEAGUE_NOT_FOUND: 'League not found.',
 	LOCATION_NOT_FOUND: 'Location not found.',
