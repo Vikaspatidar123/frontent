@@ -15,6 +15,7 @@ import {
 	getPercentage,
 	percentageFormulaText,
 } from '../../../../utils/helpers';
+import { selectedLanguage } from '../../../../constants/config';
 
 const useKpiReport = () => {
 	const dispatch = useDispatch();
@@ -64,6 +65,7 @@ const useKpiReport = () => {
 
 				return {
 					...report,
+					name: report?.name?.[selectedLanguage] || '',
 					ggr,
 					oldGgr,
 					deltaGgr,
@@ -99,7 +101,7 @@ const useKpiReport = () => {
 				Header: 'Name',
 				accessor: 'name',
 				filterable: true,
-				Cell: ({ cell }) => <ProviderName cell={cell?.value?.EN || '-'} />,
+				Cell: ({ cell }) => <ProviderName cell={cell?.value || '-'} />,
 			},
 			{
 				Header: 'GGR',

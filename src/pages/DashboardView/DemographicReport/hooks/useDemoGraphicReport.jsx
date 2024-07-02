@@ -46,10 +46,12 @@ const useDemoGraphicReport = () => {
 						totalDepoCount += Number(depositorCount || 0);
 					}
 				);
+				const copiedItem = { ...item };
+				delete copiedItem.deposits;
 				return {
-					...item,
+					...copiedItem,
 					depositorCount: totalDepoCount,
-					depositAmount: totalDeposits,
+					depositAmount: totalDeposits?.toFixed(2),
 				};
 			}),
 		[demoGraphicData, currencyById]
@@ -158,13 +160,11 @@ const useDemoGraphicReport = () => {
 	return {
 		demoGrapFormatedData,
 		demoGraphOptions,
-		demoGraphicData,
 		formattedDemoGraphicData,
 		demoGraphColumn,
 		demoDateOptions,
 		setDemoDateOptions,
 		isDemographicLoading,
-		fetchData,
 	};
 };
 

@@ -18,7 +18,6 @@ const DemographicReport = () => {
 	const {
 		demoGrapFormatedData,
 		demoGraphOptions,
-		demoGraphicData,
 		formattedDemoGraphicData,
 		demoGraphColumn,
 		demoDateOptions: { selected, fromDate, toDate },
@@ -81,9 +80,9 @@ const DemographicReport = () => {
 												</option>
 											))}
 										</select>
-										{!isEmpty(demoGraphicData?.demograph) && (
+										{!isEmpty(formattedDemoGraphicData) && (
 											<CSVLink
-												data={demoGraphicData?.demograph || []}
+												data={formattedDemoGraphicData || []}
 												filename="downloaded_data.csv"
 												className="btn btn-sm btn-primary"
 											>
