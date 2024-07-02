@@ -11,6 +11,7 @@ import useDemoGraphicReport from './hooks/useDemoGraphicReport';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { DEMOGRAPHY } from '../../../constants/messages';
+import { getDashboardFilterText } from '../../../utils/helpers';
 
 const DemographicReport = () => {
 	const { isGranted } = usePermission();
@@ -44,7 +45,7 @@ const DemographicReport = () => {
 										<FlatPickr
 											className="form-control form-input-sm"
 											value={[fromDate, toDate]}
-											placeholder="Select Custom range"
+											placeholder="Select Date Range"
 											options={{
 												mode: 'range',
 												dateFormat: 'd M Y',
@@ -106,6 +107,9 @@ const DemographicReport = () => {
 										isDemographicLoading={isDemographicLoading}
 									/>
 								</Col>
+							</Row>
+							<Row>
+								<div>{getDashboardFilterText(selected, fromDate, toDate)}</div>
 							</Row>
 						</>
 					) : (

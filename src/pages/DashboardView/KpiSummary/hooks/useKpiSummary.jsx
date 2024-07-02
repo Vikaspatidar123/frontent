@@ -18,7 +18,7 @@ const useKpiSummary = () => {
 	const { kPISummary, isKpiSummaryLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
-	const { currencies, defaultCurrency } = useSelector(
+	const { currencies, defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
 	);
 
@@ -126,6 +126,7 @@ const useKpiSummary = () => {
 		currencyId,
 		setCurrencyId,
 		currencies,
+		currencyById,
 	};
 };
 

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable eqeqeq */
+import moment from 'moment';
 import React from 'react';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
@@ -102,6 +103,51 @@ export const percentageFormulaText = (numerator, denominator) => (
 		<div>{denominator}</div>
 	</div>
 );
+
+export const DATE_OPTIONS = {
+	today: 'Today',
+	yesterday: 'Yesterday',
+	last7days: 'Last 7 Days',
+	last30days: 'Last 30 Days',
+	last90days: 'Last 90 Days',
+	custom: 'Custom',
+};
+
+// eslint-disable-next-line default-param-last
+export const getDashboardFilterText = (dateOption, from, to, currencyName) => {
+	switch (dateOption) {
+		case 'today':
+		case 'yesterday':
+		case 'last7days':
+		case 'last30days':
+		case 'last90days':
+			return (
+				<p className="pt-2 m-0">
+					Showing results of <b>{DATE_OPTIONS[dateOption]}</b>
+				</p>
+			);
+
+		case 'custom': {
+			if (from && to)
+				return (
+					<p className="pt-2 m-0">
+						Showing results from <b>{moment(from).format('Do MMMM YYYY')} </b>{' '}
+						to <b>{moment(to).format('Do MMMM YYYY')}</b>
+					</p>
+				);
+			return '';
+		}
+		default:
+			if (currencyName) {
+				return (
+					<p className="pt-2 m-0">
+						Showing results of <b>{currencyName}</b>
+					</p>
+				);
+			}
+			return '';
+	}
+};
 
 export {
 	safeStringify,
