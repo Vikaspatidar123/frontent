@@ -7,7 +7,7 @@ const DepositWithdrawalInfo = ({
 	totalDepositAmount,
 	totalWithdrawAmount,
 	currencyId,
-	labels = ['Total Deposit : ', 'Total Withdrawal : ', 'Net Balance : '],
+	labels,
 }) => {
 	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
@@ -15,51 +15,60 @@ const DepositWithdrawalInfo = ({
 	const liquidity = (
 		Number(totalDepositAmount || 0) - Number(totalWithdrawAmount || 0)
 	)?.toFixed(2);
+
+	const cols = 12 / (labels?.length || 1);
+
 	return (
 		<Row className="my-1">
-			<Col md="4">
-				<Card className="m-0">
-					<CardBody className="d-flex justify-content-between align-items-center m-0 p-2 table-info-deposit">
-						<CardTitle className="mb-0">{labels[0]}</CardTitle>
-						<h4 className="text-success mb-0">
-							{currencyId
-								? currencyById[currencyId]?.symbol || ''
-								: defaultCurrency?.symbol || ''}{' '}
-							{Number(totalDepositAmount || 0)?.toFixed(2)}
-						</h4>
-					</CardBody>
-				</Card>
-			</Col>
-			<Col md="4">
-				<Card className="m-0">
-					<CardBody className="d-flex justify-content-between align-items-center m-0 p-2 table-info-deposit">
-						<CardTitle className="mb-0">{labels[1]}</CardTitle>
-						<h4 className="text-danger mb-0">
-							{currencyId
-								? currencyById[currencyId]?.symbol || ''
-								: defaultCurrency?.symbol || ''}{' '}
-							{Number(totalWithdrawAmount || 0)?.toFixed(2)}
-						</h4>
-					</CardBody>
-				</Card>
-			</Col>
-			<Col md="4">
-				<Card className="m-0">
-					<CardBody className="d-flex justify-content-between align-items-center m-0 p-2 table-info-deposit">
-						<CardTitle className="mb-0">{labels[2]}</CardTitle>
-						<h4
-							className={`${
-								liquidity > 0 ? 'text-success' : 'text-danger'
-							} mb-0`}
-						>
-							{currencyId
-								? currencyById[currencyId]?.symbol || ''
-								: defaultCurrency?.symbol || ''}{' '}
-							{liquidity}
-						</h4>
-					</CardBody>
-				</Card>
-			</Col>
+			{labels?.[0] && (
+				<Col md={cols}>
+					<Card className="m-0">
+						<CardBody className="d-flex justify-content-between align-items-center m-0 p-2 table-info-deposit">
+							<CardTitle className="mb-0">{labels[0]}</CardTitle>
+							<h4 className="text-success mb-0">
+								{currencyId
+									? currencyById[currencyId]?.symbol || ''
+									: defaultCurrency?.symbol || ''}{' '}
+								{Number(totalDepositAmount || 0)?.toFixed(2)}
+							</h4>
+						</CardBody>
+					</Card>
+				</Col>
+			)}
+			{labels?.[1] && (
+				<Col md={cols}>
+					<Card className="m-0">
+						<CardBody className="d-flex justify-content-between align-items-center m-0 p-2 table-info-deposit">
+							<CardTitle className="mb-0">{labels[1]}</CardTitle>
+							<h4 className="text-danger mb-0">
+								{currencyId
+									? currencyById[currencyId]?.symbol || ''
+									: defaultCurrency?.symbol || ''}{' '}
+								{Number(totalWithdrawAmount || 0)?.toFixed(2)}
+							</h4>
+						</CardBody>
+					</Card>
+				</Col>
+			)}
+			{labels?.[2] && (
+				<Col md={cols}>
+					<Card className="m-0">
+						<CardBody className="d-flex justify-content-between align-items-center m-0 p-2 table-info-deposit">
+							<CardTitle className="mb-0">{labels[2]}</CardTitle>
+							<h4
+								className={`${
+									liquidity > 0 ? 'text-success' : 'text-danger'
+								} mb-0`}
+							>
+								{currencyId
+									? currencyById[currencyId]?.symbol || ''
+									: defaultCurrency?.symbol || ''}{' '}
+								{liquidity}
+							</h4>
+						</CardBody>
+					</Card>
+				</Col>
+			)}
 		</Row>
 	);
 };

@@ -85,6 +85,7 @@ const TransactionBankingList = ({ userId }) => {
 													transactionBanking?.totalWithdrawAmount
 												}
 												currencyId={filterValidation.values?.currencyId}
+												labels={['Total Deposit : ', 'Total Withdrawal : ']}
 											/>
 										) : null
 									}
