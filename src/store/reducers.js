@@ -111,6 +111,8 @@ import Tournament from './tournaments/reducer';
 
 import Payment from './payment/reducer';
 
+import Notification from './notifications/reducer';
+
 const rootReducer = combineReducers({
 	AdminRoles,
 	Countries,
@@ -152,6 +154,7 @@ const rootReducer = combineReducers({
 	PlayerPerformance,
 	Tournament,
 	Payment,
+	Notification,
 });
 
 export default rootReducer;

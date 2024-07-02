@@ -37,6 +37,7 @@ import GameTransactionSaga from './gameTransactions/saga';
 import PlayerPerformanceSaga from './playerPerformance/saga';
 import TournamentSaga from './tournaments/saga';
 import PaymentSaga from './payment/saga';
+import NotificationSaga from './notifications/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -78,5 +79,6 @@ export default function* rootSaga() {
 		fork(PlayerPerformanceSaga),
 		fork(TournamentSaga),
 		fork(PaymentSaga),
+		fork(NotificationSaga),
 	]);
 }

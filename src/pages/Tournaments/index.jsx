@@ -1,19 +1,12 @@
 import React from 'react';
-import {
-	Breadcrumb,
-	Card,
-	CardBody,
-	Col,
-	Container,
-	Row,
-	Button,
-} from 'reactstrap';
+import { Card, CardBody, Col, Container, Row, Button } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import useTournaments from './hooks/useTournaments';
 import CrudSection from '../../components/Common/CrudSection';
 import TableContainer from '../../components/Common/Table/index';
 import Filters from '../../components/Common/Filters';
 import Modal from '../../components/Common/Modal/index';
+import Breadcrumb from '../../components/Common/Breadcrumb';
 
 const Tournament = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);

@@ -47,6 +47,7 @@ const formPageTitle = {
 	reviewManagement: 'REVIEW_MANAGEMENT_DETAIL_FORM',
 	betSettings: 'BET_SETTINGS_DETAIL_FORM',
 	notes: 'NOTES_DETAIL_FORM',
+	notification: 'NOTIFICATION_FORM',
 };
 
 const STORAGE_KEY = {

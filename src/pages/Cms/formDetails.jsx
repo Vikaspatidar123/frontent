@@ -92,7 +92,7 @@ const staticFormFields = (isView, isEdit, languageOptions) => [
 		isDisabled: false,
 		labelClass: 'btn btn-primary mt-3 me-2 mx-0 px-3',
 		inputClassName: 'btn-check',
-		fieldColOptions: { lg: 4 },
+		fieldColOptions: { xxl: 6, xl: 8, lg: 10, md: 12, sm: 12 },
 		optionList: languageOptions || [],
 		isNewRow: true,
 	},

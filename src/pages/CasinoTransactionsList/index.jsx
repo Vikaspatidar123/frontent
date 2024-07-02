@@ -10,6 +10,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
+import { REPORT_LABELS } from '../../utils/constant';
 
 const CasinoTransactionsList = ({ userId }) => {
 	document.title = projectName;
@@ -84,11 +85,7 @@ const CasinoTransactionsList = ({ userId }) => {
 													casinoTransactions?.totalWinAmount // Payout
 												}
 												currencyId={filterValidation.values?.currencyId}
-												labels={[
-													'Total Wagered : ',
-													'Total Payout : ',
-													'Total Profit : ',
-												]}
+												labels={REPORT_LABELS}
 											/>
 										) : null
 									}
