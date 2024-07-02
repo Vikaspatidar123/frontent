@@ -78,14 +78,18 @@ const TransactionBankingList = ({ userId }) => {
 									customTableInfo={
 										!userId ? (
 											<DepositWithdrawalInfo // Hide deposit withdraw info from specific player report
-												totalDepositAmount={
-													transactionBanking?.totalDepositAmount
-												}
-												totalWithdrawAmount={
-													transactionBanking?.totalWithdrawAmount
-												}
 												currencyId={filterValidation.values?.currencyId}
-												labels={['Total Deposit : ', 'Total Withdrawal : ']}
+												values={[
+													{
+														label: 'Total Deposit',
+														value: transactionBanking?.totalDepositAmount || 0,
+													},
+													{
+														label: 'Total Withdrawal',
+														value: transactionBanking?.totalWithdrawAmount || 0,
+														colorClass: 'text-danger',
+													},
+												]}
 											/>
 										) : null
 									}

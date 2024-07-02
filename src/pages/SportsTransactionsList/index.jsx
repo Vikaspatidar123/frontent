@@ -10,7 +10,6 @@ import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useSportsTransactionsListing from './hooks/useSportsTransactionsListing';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
-import { REPORT_LABELS } from '../../utils/constant';
 
 const SportsTransactionsList = ({ userId }) => {
 	document.title = projectName;
@@ -78,14 +77,25 @@ const SportsTransactionsList = ({ userId }) => {
 									customTableInfo={
 										!userId ? (
 											<DepositWithdrawalInfo // Hide deposit withdraw info from specific player report
-												totalDepositAmount={
-													sportsTransactions?.totalBetAmount // Wagered
-												}
-												totalWithdrawAmount={
-													sportsTransactions?.totalWinAmount // Payout
-												}
 												currencyId={filterValidation.values?.currencyId}
-												labels={REPORT_LABELS}
+												values={[
+													{
+														label: 'Total Wagered',
+														value: sportsTransactions?.totalBetAmount || 0,
+													},
+													{
+														label: 'Total Payout',
+														value: sportsTransactions?.totalWinAmount || 0,
+														colorClass: 'text-danger',
+													},
+													{
+														label: 'Total Profit',
+														value: (
+															Number(sportsTransactions?.totalBetAmount || 0) -
+															Number(sportsTransactions?.totalWinAmount || 0)
+														)?.toFixed(2),
+													},
+												]}
 											/>
 										) : null
 									}

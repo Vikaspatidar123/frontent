@@ -10,7 +10,6 @@ import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useGameTransactionsListing from './hooks/useGameTransactionsListing';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
-import { REPORT_LABELS } from '../../utils/constant';
 
 const GameTransactionsList = () => {
 	document.title = projectName;
@@ -77,14 +76,25 @@ const GameTransactionsList = () => {
 									changeRowsPerPageCallback={onChangeRowsPerPage}
 									customTableInfo={
 										<DepositWithdrawalInfo
-											totalDepositAmount={
-												gameTransactions?.totalBetAmount // Wagered
-											}
-											totalWithdrawAmount={
-												gameTransactions?.totalWinAmount // Payout
-											}
 											currencyId={filterValidation.values?.currencyId}
-											labels={REPORT_LABELS}
+											values={[
+												{
+													label: 'Total Wagered',
+													value: gameTransactions?.totalBetAmount || 0,
+												},
+												{
+													label: 'Total Payout',
+													value: gameTransactions?.totalWinAmount || 0,
+													colorClass: 'text-danger',
+												},
+												{
+													label: 'Total Profit',
+													value: (
+														Number(gameTransactions?.totalBetAmount || 0) -
+														Number(gameTransactions?.totalWinAmount || 0)
+													)?.toFixed(2),
+												},
+											]}
 										/>
 									}
 								/>
