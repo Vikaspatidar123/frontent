@@ -91,3 +91,6 @@ export * from './createUpdateBonus/actions';
 
 // Payments
 export * from './payment/actions';
+
+// Notifications
+export * from './notifications/actions';

@@ -11,6 +11,12 @@ export const limitConstants = [
 	{ label: '50', value: 50 },
 ];
 
+export const REPORT_LABELS = [
+	'Total Wagered : ',
+	'Total Payout : ',
+	'Total Profit : ',
+];
+
 export const userLimitTypes = {
 	selfExclusion: 'self_exclusion',
 	dailyBetLimit: 'daily_bet_limit',
