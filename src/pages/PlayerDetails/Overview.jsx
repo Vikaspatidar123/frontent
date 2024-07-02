@@ -174,7 +174,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 													onClick={() => updateUserStatus()}
 												>
 													{userDetails && userDetails?.isActive
-														? 'In-Active'
+														? 'Inactive'
 														: 'Active'}
 												</Button>
 											</ColumnContainer>
@@ -423,7 +423,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 							content={`Are you sure you want to mark ${
 								userDetails?.firstName
 							} ${userDetails?.lastName} (${userDetails?.email}) ${
-								userDetails?.isActive ? 'Active' : 'In-Active'
+								userDetails?.isActive ? 'Active' : 'Inactive'
 							}?`}
 						/>
 					)} */}

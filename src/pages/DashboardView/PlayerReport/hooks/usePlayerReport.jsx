@@ -35,6 +35,19 @@ const usePlayerReport = () => {
 		);
 	};
 
+	const topPlayerFormatted = useMemo(
+		() =>
+			topPlayers?.reportData?.map((player) => ({
+				...player,
+				totalWagered: (
+					Number(player?.total_casino_bet || 0) +
+					Number(player?.total_sb_bet || 0) +
+					Number(player?.total_tournament_enrolls || 0)
+				)?.toFixed(2),
+			})) || [],
+		[topPlayers]
+	);
+
 	useEffect(() => {
 		setCurrencyId(defaultCurrency.id);
 	}, [defaultCurrency.id]);
@@ -67,7 +80,7 @@ const usePlayerReport = () => {
 			},
 			{
 				Header: 'Total Wagered',
-				accessor: 'totalrevenue',
+				accessor: 'totalWagered',
 				filterable: true,
 				Cell: ({ cell }) => (
 					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
@@ -180,7 +193,7 @@ const usePlayerReport = () => {
 
 	return {
 		columns,
-		topPlayers,
+		topPlayerFormatted,
 		topPlayersLoading,
 		topPlayersDateOption,
 		setTopPlayersDateOption,

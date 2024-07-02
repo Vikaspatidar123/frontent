@@ -67,7 +67,7 @@ const useUserOverview = ({ user }) => {
 			value: isActive ? 'Active' : 'In -Active',
 			subValue: showStyle(isActive),
 		},
-		{ label: 'In-Active Reason', value: defaultDisableReason || '-' },
+		{ label: 'Inactive Reason', value: defaultDisableReason || '-' },
 		// { label: 'Portal', value: `${tenant?.name} (${tenant?.domain})` },
 		{ label: 'Reason', value: !isActive ? reason : '' },
 		{

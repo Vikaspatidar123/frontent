@@ -25,15 +25,18 @@ const usePlayerPerformance = (filterValues = {}) => {
 		);
 	}, [currentPage, itemsPerPage]);
 
-	const calculateTotalWagered = (data = []) => {
-		data.map((item) => {
-			const key = item;
-			key.total_bet_amt = key.total_sb_bet + key.total_casino_bet;
-			return item;
-		});
-
-		return data;
-	};
+	const topPlayerFormatted = useMemo(
+		() =>
+			playerPerformance?.reportData?.map((player) => ({
+				...player,
+				totalWagered: (
+					Number(player?.total_casino_bet || 0) +
+					Number(player?.total_sb_bet || 0) +
+					Number(player?.total_tournament_enrolls || 0)
+				)?.toFixed(2),
+			})) || [],
+		[playerPerformance]
+	);
 
 	const onChangeRowsPerPage = (value) => {
 		setCurrentPage(1);
@@ -55,7 +58,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 			},
 			{
 				Header: 'Wagered',
-				accessor: 'total_bet_amt',
+				accessor: 'totalWagered',
 				filterable: true,
 				Cell: ({ cell }) => (
 					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
@@ -86,7 +89,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 				),
 			},
 			{
-				Header: 'Casino Bet Count',
+				Header: 'Casino Wagered Count',
 				accessor: 'total_casino_bet_count',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
@@ -100,7 +103,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 				),
 			},
 			{
-				Header: 'Casino Win',
+				Header: 'Casino Payout',
 				accessor: 'total_casino_win',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -109,13 +112,13 @@ const usePlayerPerformance = (filterValues = {}) => {
 			},
 
 			{
-				Header: 'SB Bet Count',
+				Header: 'SB Wagered Count',
 				accessor: 'total_sb_bet_count',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
 			},
 			{
-				Header: 'SB Bet',
+				Header: 'SB Wagered',
 				accessor: 'total_sb_bet',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -123,7 +126,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 				),
 			},
 			{
-				Header: 'SB Win',
+				Header: 'SB Payout',
 				accessor: 'total_sb_win',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -154,8 +157,7 @@ const usePlayerPerformance = (filterValues = {}) => {
 		setCurrentPage,
 		totalCount: playerPerformance?.totalPages || 0,
 		loading,
-		playerPerformance:
-			calculateTotalWagered(playerPerformance?.reportData) || [],
+		playerPerformance: topPlayerFormatted,
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,

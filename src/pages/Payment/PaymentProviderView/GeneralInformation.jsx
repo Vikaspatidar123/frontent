@@ -91,7 +91,7 @@ const GeneralDetails = ({ paymentDetails }) => (
 							{paymentDetails?.isActive ? (
 								<i className="mdi mdi-check-outline"> Active </i>
 							) : (
-								<i className="mdi mdi-clock-outline"> In-Active </i>
+								<i className="mdi mdi-clock-outline"> Inactive </i>
 							)}
 						</Badge>
 					</Col>

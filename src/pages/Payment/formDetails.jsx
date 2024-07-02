@@ -84,14 +84,14 @@ const generaFromFields = [
 		fieldType: 'toggle',
 		label: 'Deposit Allowed',
 		isNewRow: true,
-		tooltipContent: 'If True Status is Deposit will be Active else In-Active',
+		tooltipContent: 'If True Status is Deposit will be Active else Inactive',
 	},
 	{
 		name: 'withdrawAllowed',
 		fieldType: 'toggle',
 		label: 'Withdraw Allowed',
 		isNewRow: false,
-		tooltipContent: 'If True Status is Withdraw will be Active else In-Active',
+		tooltipContent: 'If True Status is Withdraw will be Active else Inactive',
 	},
 	{
 		name: 'image',
