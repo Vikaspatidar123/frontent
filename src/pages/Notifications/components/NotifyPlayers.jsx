@@ -4,10 +4,8 @@ import Breadcrumbs from '../../../components/Common/Breadcrumb';
 import { projectName } from '../../../constants/config';
 import useNotifyPlayer from '../hooks/useNotifyPlayer';
 import FormPage from '../../../components/Common/FormPage';
-import ConfirmationModal from '../../../components/Common/ConfirmationModal';
-import { formPageTitle } from '../../../components/Common/constants';
 
-const CreateWageringTemplate = () => {
+const NotifyPlayers = () => {
 	// Set meta title
 	document.title = projectName;
 
@@ -16,45 +14,34 @@ const CreateWageringTemplate = () => {
 		leftFormFields,
 		rightFormFields,
 		customComponent,
-		createWageringTemplateDetailLoading,
-		showModal,
-		setShowModal,
-		navigate,
-		existingFilledData,
+		notifyPlayerLoading,
 	} = useNotifyPlayer();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs
-					title="Wagering Template"
-					breadcrumbItem="Create"
+					title="Content Management"
+					breadcrumbItem="Notify Players"
 					leftTitle={
 						<>
 							<i className="fas fa-angle-left" /> Back
 						</>
 					}
 					values={validation.values}
-					setShowModal={setShowModal}
 				/>
 				<Row>
 					<Col lg="12">
 						<FormPage
-							formTitle="Create Wagering Template"
+							formTitle="Notify players"
 							validation={validation}
 							leftFormFields={leftFormFields}
 							rightFormFields={rightFormFields}
 							customComponent={customComponent}
-							submitLabel="Submit"
+							submitLabel="Notify Players"
 							customColClasses=""
-							isSubmitLoading={createWageringTemplateDetailLoading}
-						/>
-						<ConfirmationModal
-							openModal={showModal}
-							setOpenModal={setShowModal}
-							navigate={navigate}
-							validation={existingFilledData}
-							pageType={formPageTitle.wageringTemplate}
+							isSubmitLoading={notifyPlayerLoading}
+							rowCustomClass="px-4"
 						/>
 					</Col>
 				</Row>
@@ -63,4 +50,4 @@ const CreateWageringTemplate = () => {
 	);
 };
 
-export default CreateWageringTemplate;
+export default NotifyPlayers;

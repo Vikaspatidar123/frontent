@@ -55,4 +55,41 @@ const validationSchema = () =>
 			),
 	});
 
-export { validationSchema, getInitialValues };
+const getInitialNotifyData = (defaultValue) => ({
+	userId: defaultValue?.userId || [],
+	title: defaultValue?.title || '',
+	body: defaultValue?.body || '',
+});
+
+const validatedNotify = () =>
+	Yup.object().shape({
+		title: Yup.string().required('Title is required!'),
+		body: Yup.string().required('Description is required!'),
+	});
+
+const leftStaticFormFields = [
+	{
+		name: 'title',
+		fieldType: 'textField',
+		label: 'Enter title',
+		placeholder: 'Enter title of notification',
+	},
+];
+
+const rightStaticFormFields = [
+	{
+		name: 'body',
+		fieldType: 'textField',
+		label: 'Enter description',
+		placeholder: 'Enter description of notification',
+	},
+];
+
+export {
+	validationSchema,
+	getInitialValues,
+	getInitialNotifyData,
+	validatedNotify,
+	leftStaticFormFields,
+	rightStaticFormFields,
+};

@@ -6,6 +6,7 @@ import {
 	CREATE_NOTIFICATIONS_START,
 	EDIT_NOTIFICATIONS_START,
 	FETCH_NOTIFICATIONS_START,
+	NOTIFY_PLAYERS_START,
 } from './actionTypes';
 import {
 	createNotificationFail,
@@ -15,12 +16,14 @@ import {
 	fetchNotificationsFail,
 	fetchNotificationsStart,
 	fetchNotificationsSuccess,
+	notifyPlayersFail,
+	notifyPlayersSuccess,
 } from './actions';
 import { getNotifications } from '../../network/getRequests';
 import {
 	createNotification,
 	updateNotification,
-	// updateNotificationStatus,
+	notifyPlayersRequest,
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
@@ -78,10 +81,31 @@ function* editNotificationWorker(action) {
 	}
 }
 
+function* notifyPlayersWorker(action) {
+	try {
+		const { payload, navigate } = action && action.payload;
+		yield notifyPlayersRequest(payload);
+
+		showToastr({
+			message: `Players notified Successfully`,
+			type: 'success',
+		});
+
+		if (navigate) {
+			navigate('/notifications');
+		}
+
+		yield put(notifyPlayersSuccess());
+	} catch (e) {
+		yield put(notifyPlayersFail());
+	}
+}
+
 function* NotificationsSaga() {
 	yield takeEvery(FETCH_NOTIFICATIONS_START, fetchNotifications);
 	yield takeEvery(CREATE_NOTIFICATIONS_START, createNotificationWorker);
 	yield takeEvery(EDIT_NOTIFICATIONS_START, editNotificationWorker);
+	yield takeEvery(NOTIFY_PLAYERS_START, notifyPlayersWorker);
 }
 
 export default NotificationsSaga;

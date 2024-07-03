@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
@@ -11,7 +11,8 @@ import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import ManageMoney from '../PlayerDetails/modals/ManageMoney';
 
-const PlayersList = () => {
+const PlayersList = ({ userIds, toggleUserId }) => {
+	// userIds and toggleUserId can be used while importing player page on another form like in notify player.
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
@@ -35,10 +36,10 @@ const PlayersList = () => {
 		columns,
 		showManageMoney,
 		setShowManageMoney,
-	} = usePlayersListing(filterValidation.values);
+	} = usePlayersListing(filterValidation.values, userIds, toggleUserId);
 
 	return (
-		<div className="page-content">
+		<div className={userIds ? '' : 'page-content'}>
 			<Container fluid>
 				{/* Render Breadcrumb */}
 				{showBreadcrumb && (
@@ -47,7 +48,9 @@ const PlayersList = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Players" />
+							{!userIds ? (
+								<CrudSection buttonList={[]} title="Players" />
+							) : null}
 							<CardBody>
 								<Filters
 									validation={filterValidation}
@@ -72,6 +75,7 @@ const PlayersList = () => {
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
+									isShowColSettings={!userIds}
 								/>
 							</CardBody>
 						</Card>
@@ -88,11 +92,13 @@ const PlayersList = () => {
 };
 
 PlayersList.propTypes = {
-	// t: PropTypes.func,
+	userIds: PropTypes.objectOf,
+	toggleUserId: PropTypes.func,
 };
 
 PlayersList.defaultProps = {
-	t: (string) => string,
+	userIds: null,
+	toggleUserId: () => {},
 };
 
 export default PlayersList;

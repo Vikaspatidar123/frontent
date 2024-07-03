@@ -9,6 +9,9 @@ import {
 	EDIT_NOTIFICATIONS_FAIL,
 	EDIT_NOTIFICATIONS_START,
 	RESET_NOTIFICATIONS_DATA,
+	NOTIFY_PLAYERS_SUCCESS,
+	NOTIFY_PLAYERS_FAIL,
+	NOTIFY_PLAYERS_START,
 } from './actionTypes';
 
 export const fetchNotificationsStart = (payload) => ({
@@ -58,5 +61,20 @@ export const editNotificationFail = (payload) => ({
 
 export const editNotificationStart = (payload) => ({
 	type: EDIT_NOTIFICATIONS_START,
+	payload,
+});
+
+export const notifyPlayersSuccess = (payload) => ({
+	type: NOTIFY_PLAYERS_SUCCESS,
+	payload,
+});
+
+export const notifyPlayersFail = (payload) => ({
+	type: NOTIFY_PLAYERS_FAIL,
+	payload,
+});
+
+export const notifyPlayersStart = (payload) => ({
+	type: NOTIFY_PLAYERS_START,
 	payload,
 });

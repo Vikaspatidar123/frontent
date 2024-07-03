@@ -9,6 +9,8 @@ import {
 	EDIT_NOTIFICATIONS_SUCCESS,
 	EDIT_NOTIFICATIONS_FAIL,
 	RESET_NOTIFICATIONS_DATA,
+	NOTIFY_PLAYERS_START,
+	NOTIFY_PLAYERS_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
@@ -21,6 +23,8 @@ const initialState = {
 	isEditNotificationError: false,
 	isEditNotificationSuccess: false,
 	isEditNotificationLoading: false,
+	notifyPlayerLoading: false,
+	notifyPlayerSuccess: false,
 };
 
 const notificationReducer = (state = initialState, { type, payload } = {}) => {
@@ -95,6 +99,19 @@ const notificationReducer = (state = initialState, { type, payload } = {}) => {
 				isEditNotificationError: payload,
 				isEditNotificationLoading: false,
 				isEditNotificationSuccess: false,
+			};
+		case NOTIFY_PLAYERS_START:
+			return {
+				...state,
+				notifyPlayerLoading: true,
+				notifyPlayerSuccess: false,
+			};
+
+		case NOTIFY_PLAYERS_SUCCESS:
+			return {
+				...state,
+				notifyPlayerLoading: false,
+				notifyPlayerSuccess: true,
 			};
 
 		default:

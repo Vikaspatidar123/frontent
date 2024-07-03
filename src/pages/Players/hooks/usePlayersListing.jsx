@@ -16,9 +16,14 @@ import {
 	UserName,
 } from '../PlayersListCol';
 import { getRandomColor } from '../../../helpers/common';
+import { CustomSwitchButton } from '../../../helpers/customForms';
 // import { getDateTime } from '../../../utils/dateFormatter';
 
-const usePlayersListing = (filterValues = {}) => {
+const usePlayersListing = (
+	filterValues = {},
+	userIds = null,
+	toggleUserId = () => {}
+) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -27,27 +32,48 @@ const usePlayersListing = (filterValues = {}) => {
 	);
 	const [showManageMoney, setShowManageMoney] = useState(''); // will store player id for manage money
 
+	const CheckboxInput = ({ cell }) => (
+		<div className=" d-flex justify-content-center">
+			<CustomSwitchButton
+				type="checkbox"
+				containerClass="false"
+				className="form-check-input"
+				checked={userIds[cell?.row?.original?.id]}
+				switchSizeClass="form-switch-sm"
+				onClick={() => toggleUserId(cell?.row?.original?.id)}
+			/>
+		</div>
+	);
+
 	const columns = useMemo(
 		() => [
-			{
-				Header: '#',
-				disableFilters: true,
-				filterable: true,
-				notHidable: true,
-				disableSortBy: true,
-				accessor: (prop) => {
-					const { fullName, randomColor } = prop;
-					return (
-						<div className="avatar-xs">
-							<span
-								className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
-							>
-								{fullName.charAt(0).toUpperCase()}
-							</span>
-						</div>
-					);
-				},
-			},
+			userIds
+				? {
+						Header: 'SELECT',
+						accessor: 'select',
+						disableSortBy: true,
+						notHidable: true,
+						Cell: ({ cell }) => <CheckboxInput cell={cell} />,
+				  }
+				: {
+						Header: '#',
+						disableFilters: true,
+						filterable: true,
+						notHidable: true,
+						disableSortBy: true,
+						accessor: (prop) => {
+							const { fullName, randomColor } = prop;
+							return (
+								<div className="avatar-xs">
+									<span
+										className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
+									>
+										{fullName.charAt(0).toUpperCase()}
+									</span>
+								</div>
+							);
+						},
+				  },
 			{
 				Header: 'Player Id',
 				accessor: 'id',
@@ -109,14 +135,18 @@ const usePlayersListing = (filterValues = {}) => {
 			// 	accessor: 'isInternal',
 			// 	Cell: ({ cell }) => <IsInternal value={cell.value} />,
 			// },
-			{
-				Header: 'Action',
-				accessor: 'action',
-				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<Action cell={cell} setShowManageMoney={setShowManageMoney} />
-				),
-			},
+			...(!userIds
+				? [
+						{
+							Header: 'Action',
+							accessor: 'action',
+							disableSortBy: true,
+							Cell: ({ cell }) => (
+								<Action cell={cell} setShowManageMoney={setShowManageMoney} />
+							),
+						},
+				  ]
+				: []),
 		],
 		[]
 	);
