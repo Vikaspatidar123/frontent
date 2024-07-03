@@ -20,6 +20,7 @@ const FormPage = ({
 	colOptions,
 	responsiveFormFields,
 	formClass,
+	rowCustomClass,
 }) => (
 	<Card className="p-3">
 		<Row>
@@ -45,7 +46,7 @@ const FormPage = ({
 					</Col>
 				</Row>
 				{/* Two column forms */}
-				<Row>
+				<Row className={rowCustomClass}>
 					<Col className={`lg-6 ${customColClasses}`}>
 						{leftFormFields?.map(
 							(field) =>
@@ -100,7 +101,7 @@ const FormPage = ({
 					)}
 				</Row>
 				<Row>{customComponent}</Row>
-				<Row>
+				<Row className={rowCustomClass}>
 					<Col>
 						<div className="text-end">
 							{isSubmit && (
@@ -120,7 +121,7 @@ const FormPage = ({
 						</div>
 					</Col>
 				</Row>
-				<Row>
+				<Row className={rowCustomClass}>
 					<Col>
 						<div className="text-end">
 							{isEdit && (
@@ -155,6 +156,7 @@ FormPage.defaultProps = {
 	colOptions: { xs: 12, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 },
 	responsiveFormFields: [],
 	formClass: '',
+	rowCustomClass: '',
 };
 
 FormPage.propTypes = {
@@ -173,6 +175,7 @@ FormPage.propTypes = {
 	colOptions: PropTypes.objectOf,
 	responsiveFormFields: PropTypes.arrayOf,
 	formClass: PropTypes.string,
+	rowCustomClass: PropTypes.string,
 };
 
 export default FormPage;

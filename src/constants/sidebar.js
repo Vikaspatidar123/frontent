@@ -353,7 +353,7 @@ const sideBarElements = [
 	{
 		id: 109,
 		link: '/payment',
-		label: 'Payment',
+		label: 'Payment Management',
 		searchString: 'ARC Payment',
 		iconName: 'bx bx-credit-card',
 		linkClass: '',

@@ -89,12 +89,12 @@ const useCreateNotification = (page, perPage) => {
 	};
 
 	const buttonList = useMemo(() => [
-		// {
-		// 	label: 'Notify Players',
-		// 	link: '/notify-players',
-		// 	module: modules.page,
-		// 	operation: 'C',
-		// },
+		{
+			label: 'Notify Players',
+			link: '/notify-players',
+			module: modules.page,
+			operation: 'C',
+		},
 		{
 			label: 'Create Notification',
 			handleClick: handleAddClick,
@@ -174,9 +174,17 @@ const useCreateNotification = (page, perPage) => {
 					value={validation?.values?.title?.[validation.values?.language] || ''}
 					onBlur={validation.handleBlur}
 					placeholder="Title"
-					invalid={!!validation?.errors?.title?.[validation.values?.language]}
+					invalid={
+						!!(
+							validation?.touched?.title?.[validation.values?.language] &&
+							validation?.errors?.title?.[validation.values?.language]
+						)
+					}
 					isError
-					errorMsg={validation?.errors?.title?.[validation.values?.language]}
+					errorMsg={
+						validation?.touched?.title?.[validation.values?.language] &&
+						validation?.errors?.title?.[validation.values?.language]
+					}
 					// disabled={isView}
 				/>
 			</div>
@@ -198,10 +206,14 @@ const useCreateNotification = (page, perPage) => {
 					onBlur={validation.handleBlur}
 					placeholder="Description"
 					invalid={
-						!!validation?.errors?.description?.[validation.values?.language]
+						!!(
+							validation?.touched?.description?.[validation.values?.language] &&
+							validation?.errors?.description?.[validation.values?.language]
+						)
 					}
 					isError
 					errorMsg={
+						validation?.touched?.description?.[validation.values?.language] &&
 						validation?.errors?.description?.[validation.values?.language]
 					}
 				/>
@@ -214,9 +226,9 @@ const useCreateNotification = (page, perPage) => {
 					value={validation?.values?.url}
 					onBlur={validation.handleBlur}
 					placeholder="Enter URL example: https://example.com"
-					invalid={!!validation?.errors?.url}
+					invalid={!!(validation?.touched?.url && validation?.errors?.url)}
 					isError
-					errorMsg={validation?.errors?.url}
+					errorMsg={validation?.touched?.url && validation?.errors?.url}
 				/>
 			</div>
 			<div className="mt-2">

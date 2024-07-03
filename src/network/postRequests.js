@@ -554,7 +554,6 @@ const createNotification = (data) =>
 			'Content-Type': 'multipart/form-data',
 		}
 	);
-
 const updateNotification = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}notification/update`,
@@ -562,6 +561,12 @@ const updateNotification = (data) =>
 		{
 			'Content-Type': 'multipart/form-data',
 		}
+	);
+
+const notifyPlayersRequest = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}notification/send`,
+		data
 	);
 
 export {
@@ -652,4 +657,5 @@ export {
 	updateReferralRequest,
 	createNotification,
 	updateNotification,
+	notifyPlayersRequest,
 };
