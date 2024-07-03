@@ -14,7 +14,11 @@ const GeneralDetails = ({ paymentDetails }) => (
 		<Row className="align-items-center">
 			<Col sm={4} className="text-align-center">
 				{paymentDetails?.image ? (
-					<img src={paymentDetails?.image} alt="Payment Provider" />
+					<img
+						src={paymentDetails?.image}
+						alt="Payment Provider"
+						style={{ height: '34vh', width: '20vw' }}
+					/>
 				) : (
 					<NoDataFound height="200px" width="300px" />
 				)}
