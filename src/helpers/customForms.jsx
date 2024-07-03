@@ -399,14 +399,20 @@ export const CustomToggleButton = ({
 				switchSizeClass || 'form-switch-md'
 			} ${containerClass || 'mb-3 mt-3'}`}
 		>
-			{label ? (
-				<div>
-					<Label htmlFor={htmlFor} className={labelClassName}>
-						{label}
-					</Label>{' '}
-					{required ? <span className="text-danger"> *</span> : null}
-				</div>
-			) : null}
+			{required
+				? label && (
+						<div>
+							<Label htmlFor={htmlFor} className={labelClassName}>
+								{label}
+							</Label>{' '}
+							<span className="text-danger"> *</span>
+						</div>
+				  )
+				: label && (
+						<Label htmlFor={htmlFor} className={labelClassName}>
+							{label}
+						</Label>
+				  )}
 			<Input
 				type={type}
 				id={id}
