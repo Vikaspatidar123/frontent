@@ -307,7 +307,7 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.applicationSetting,
+				module: modules.page,
 			},
 			{
 				id: 14,

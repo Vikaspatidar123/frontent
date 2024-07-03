@@ -22,6 +22,8 @@ import {
 	CustomSelectField,
 } from '../../../helpers/customForms';
 
+const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
+
 const useCreateNotification = (page, perPage) => {
 	const dispatch = useDispatch();
 	const { isGranted, permissions } = usePermission();
@@ -87,11 +89,17 @@ const useCreateNotification = (page, perPage) => {
 	};
 
 	const buttonList = useMemo(() => [
+		// {
+		// 	label: 'Notify Players',
+		// 	link: '/notify-players',
+		// 	module: modules.page,
+		// 	operation: 'C',
+		// },
 		{
-			label: 'Create',
+			label: 'Create Notification',
 			handleClick: handleAddClick,
-			link: '#!',
-			module: modules.Notification,
+			link: '#/',
+			module: modules.page,
 			operation: 'C',
 		},
 	]);
@@ -136,63 +144,113 @@ const useCreateNotification = (page, perPage) => {
 
 	const customComponent = (
 		<div className="p-3">
-			<CustomSelectField
-				name="language"
-				type="select"
-				value={validation.values?.language}
-				label="Select language"
-				placeholder="Select notification language"
-				key="my_unique_select_key__language"
-				onChange={validation.handleChange}
-				options={languageData?.languages?.map((language) => (
-					<option value={language.code} key={language.id}>
-						{language.name}
-					</option>
-				))}
-			/>
-			<CustomInputField
-				label="Title"
-				name={`title[${validation.values?.language}]`}
-				onChange={(e) => {
-					e.preventDefault();
-					validation.setFieldValue('title', {
-						...validation?.values?.title,
-						[validation.values?.language]: e.target.value,
-					});
-				}}
-				value={validation?.values?.title?.[validation.values?.language] || ''}
-				onBlur={validation.handleBlur}
-				placeholder="Title"
-				invalid={!!validation?.errors?.title?.[validation.values?.language]}
-				isError
-				errorMsg={validation?.errors?.title?.[validation.values?.language]}
-				// disabled={isView}
-			/>
-
-			<CustomInputField
-				label="Description"
-				name={`description[${validation.values?.language}]`}
-				type="textarea"
-				onChange={(e) => {
-					e.preventDefault();
-					validation.setFieldValue('description', {
-						...validation?.values?.description,
-						[validation.values?.language]: e.target.value,
-					});
-				}}
-				value={
-					validation?.values?.description?.[validation.values?.language] || ''
-				}
-				onBlur={validation.handleBlur}
-				placeholder="Description"
-				invalid={
-					!!validation?.errors?.description?.[validation.values?.language]
-				}
-				isError
-				errorMsg={
-					validation?.errors?.description?.[validation.values?.language]
-				}
-			/>
+			<div className="mt-2">
+				<CustomSelectField
+					name="language"
+					type="select"
+					value={validation.values?.language}
+					label="Select language"
+					placeholder="Select notification language"
+					key="my_unique_select_key__language"
+					onChange={validation.handleChange}
+					options={languageData?.languages?.map((language) => (
+						<option value={language.code} key={language.id}>
+							{language.name}
+						</option>
+					))}
+				/>
+			</div>
+			<div className="mt-2">
+				<CustomInputField
+					label="Title"
+					name={`title[${validation.values?.language}]`}
+					onChange={(e) => {
+						e.preventDefault();
+						validation.setFieldValue('title', {
+							...validation?.values?.title,
+							[validation.values?.language]: e.target.value,
+						});
+					}}
+					value={validation?.values?.title?.[validation.values?.language] || ''}
+					onBlur={validation.handleBlur}
+					placeholder="Title"
+					invalid={!!validation?.errors?.title?.[validation.values?.language]}
+					isError
+					errorMsg={validation?.errors?.title?.[validation.values?.language]}
+					// disabled={isView}
+				/>
+			</div>
+			<div className="mt-2">
+				<CustomInputField
+					label="Description"
+					name={`description[${validation.values?.language}]`}
+					type="textarea"
+					onChange={(e) => {
+						e.preventDefault();
+						validation.setFieldValue('description', {
+							...validation?.values?.description,
+							[validation.values?.language]: e.target.value,
+						});
+					}}
+					value={
+						validation?.values?.description?.[validation.values?.language] || ''
+					}
+					onBlur={validation.handleBlur}
+					placeholder="Description"
+					invalid={
+						!!validation?.errors?.description?.[validation.values?.language]
+					}
+					isError
+					errorMsg={
+						validation?.errors?.description?.[validation.values?.language]
+					}
+				/>
+			</div>
+			<div className="mt-2">
+				<CustomInputField
+					label="Enter redirection URL"
+					name="url"
+					onChange={validation.handleChange}
+					value={validation?.values?.url}
+					onBlur={validation.handleBlur}
+					placeholder="Enter URL example: https://example.com"
+					invalid={!!validation?.errors?.url}
+					isError
+					errorMsg={validation?.errors?.url}
+				/>
+			</div>
+			<div className="mt-2">
+				<CustomInputField
+					label="Select notification icon"
+					type="file"
+					onChange={(event) => {
+						validation.setFieldValue('file', event.currentTarget.files[0]);
+					}}
+					callBack
+					onBlur={validation.handleBlur}
+					placeholder="Select notification icon"
+					invalid={!!(validation.touched?.file && validation.errors?.file)}
+					isError
+					errorMsg={validation.touched?.file && validation.errors?.file}
+				/>
+				{validation.values?.file && (
+					<img
+						style={{
+							marginTop: 10,
+						}}
+						width={100}
+						src={
+							// eslint-disable-next-line no-nested-ternary
+							typeof validation.values?.file === 'string'
+								? validation.values?.file?.includes('http')
+									? validation.values?.file
+									: `${VITE_APP_AWS_GALLERY_URL}${validation.values?.file}`
+								: URL.createObjectURL(validation.values?.file)
+						}
+						alt="Not found"
+					/>
+				)}
+			</div>
 		</div>
 	);
 
@@ -233,7 +291,7 @@ const useCreateNotification = (page, perPage) => {
 					<ul className="list-unstyled hstack gap-1 mb-0">
 						<li>
 							<Button
-								hidden={!isGranted(modules.applicationSetting, 'U')}
+								hidden={!isGranted(modules.page, 'U')}
 								type="button"
 								className="btn btn-sm btn-soft-info"
 								onClick={(e) => {

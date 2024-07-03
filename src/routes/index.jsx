@@ -69,6 +69,7 @@ import CreatePayment from '../pages/Payment/CreatePayment';
 import PaymentProviderView from '../pages/Payment/PaymentProviderView';
 import EditPayment from '../pages/Payment/EditPayment';
 import Notifications from '../pages/Notifications';
+import NotifyPlayers from '../pages/Notifications/components/NotifyPlayers';
 
 const authProtectedRoutes = [
 	{
@@ -243,7 +244,14 @@ const authProtectedRoutes = [
 		path: '/notifications',
 		component: <Notifications />,
 		// FIXME: Update the permission
-		modules: [modules.applicationSetting],
+		modules: [modules.page],
+		operation: 'R',
+	},
+	{
+		path: '/notify-players',
+		component: <NotifyPlayers />,
+		// FIXME: Update the permission
+		modules: [modules.page],
 		operation: 'R',
 	},
 	{
