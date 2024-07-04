@@ -32,6 +32,7 @@ const useUserOverview = ({ user }) => {
 		sumsubKycStatus,
 		kycStatus,
 		userTags,
+		publicAddress,
 	} = user || {};
 
 	const address = addresses?.length
@@ -80,6 +81,13 @@ const useUserOverview = ({ user }) => {
 	const contactInfo = [
 		{ label: 'Phone Number', value: phone },
 		{ label: 'Address', value: address },
+		...(publicAddress
+			? [
+					{ label: 'Metamask Registered Player', value: 'Yes' },
+					{ label: 'Wallet Address', value: publicAddress },
+			  ]
+			: [{}]),
+
 		// { label: 'Country Code', value: address?.countryCode },
 		// {
 		// 	label: 'NewsLetter',

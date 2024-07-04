@@ -11,10 +11,7 @@ import {
 	TotalBets,
 } from '../KpiReportListCol';
 import { TABS } from '../../constant';
-import {
-	getPercentage,
-	percentageFormulaText,
-} from '../../../../utils/helpers';
+import { getPercentage } from '../../../../utils/helpers';
 import { selectedLanguage } from '../../../../constants/config';
 
 const useKpiReport = () => {
@@ -120,15 +117,6 @@ const useKpiReport = () => {
 				),
 			},
 			{
-				Header: 'Delta GGR',
-				accessor: 'deltaGgr',
-				filterable: true,
-				Cell: ({ cell }) => (
-					<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={currency} />
-				),
-				tableHeaderTooltipContent: percentageFormulaText('GGR', 'Old GGR'),
-			},
-			{
 				Header: 'Total Wagered Amount',
 				accessor: 'totalBetAmount',
 				filterable: true,
@@ -155,6 +143,20 @@ const useKpiReport = () => {
 				accessor: 'totalBets',
 				disableFilters: true,
 				Cell: ({ cell }) => <TotalBets cell={cell?.value ?? '0'} />,
+			},
+			{
+				Header: 'Delta GGR',
+				accessor: 'deltaGgr',
+				filterable: true,
+				Cell: ({ cell }) => (
+					<DeltaGgr cell={cell?.value ?? '0'} defaultCurrency={currency} />
+				),
+				tableHeaderTooltipContent: (
+					<p>
+						Percentage change in GGR with respect to old GGR for the selected
+						date.
+					</p>
+				),
 			},
 		];
 	}, [currencyId, defaultCurrency.symbol]);

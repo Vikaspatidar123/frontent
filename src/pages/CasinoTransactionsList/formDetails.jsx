@@ -23,12 +23,12 @@ const staticFiltersFields = (userId = '') => [
 		placeholder: 'Search by transaction id',
 		type: 'search',
 	},
-	{
-		name: 'previousTransactionId',
-		fieldType: 'textField',
-		placeholder: 'Search by previous transaction id',
-		type: 'search',
-	},
+	// {
+	// 	name: 'previousTransactionId',
+	// 	fieldType: 'textField',
+	// 	placeholder: 'Search by previous transaction id',
+	// 	type: 'search',
+	// },
 	{
 		name: 'purpose',
 		fieldType: 'select',
@@ -71,7 +71,7 @@ const filterValues = () => ({
 	actioneeId: '',
 	transactionId: '',
 	conversionRate: '',
-	previousTransactionId: '',
+	// previousTransactionId: '',
 	// transactionType: null,
 	purpose: null,
 	status: null,
@@ -90,7 +90,7 @@ const filterValidationSchema = () =>
 		actioneeId: Yup.string().nullable(),
 		transactionId: Yup.string().nullable(),
 		conversionRate: Yup.string().nullable(),
-		previousTransactionId: Yup.string().nullable(),
+		// previousTransactionId: Yup.string().nullable(),
 		purpose: Yup.string().nullable(),
 	});
 

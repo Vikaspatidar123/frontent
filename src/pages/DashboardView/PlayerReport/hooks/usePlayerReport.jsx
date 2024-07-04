@@ -39,13 +39,25 @@ const usePlayerReport = () => {
 		() =>
 			topPlayers?.reportData?.map((player) => ({
 				...player,
-				totalWagered: (
-					Number(player?.total_casino_bet || 0) +
-					Number(player?.total_sb_bet || 0) +
-					Number(player?.total_tournament_enrolls || 0)
-				)?.toFixed(2),
+				platformPL:
+					activePerformance === TABS.CASINO
+						? (
+								Number(player?.total_casino_bet || 0) +
+								Number(player?.total_tournament_enrolls || 0) -
+								Number(player?.total_casino_win || 0) -
+								Number(player?.total_tournament_payouts || 0)
+						  )?.toFixed(2)
+						: (
+								Number(player?.total_sb_bet || 0) +
+								Number(player?.total_sb_win || 0)
+						  )?.toFixed(2),
+				// totalWagered: (
+				// 	Number(player?.total_casino_bet || 0) +
+				// 	Number(player?.total_sb_bet || 0) +
+				// 	Number(player?.total_tournament_enrolls || 0)
+				// )?.toFixed(2),
 			})) || [],
-		[topPlayers]
+		[topPlayers, activePerformance]
 	);
 
 	useEffect(() => {
@@ -78,17 +90,17 @@ const usePlayerReport = () => {
 				filterable: true,
 				Cell: ({ cell }) => <Username value={cell?.value || '-'} />,
 			},
-			{
-				Header: 'Total Wagered',
-				accessor: 'totalWagered',
-				filterable: true,
-				Cell: ({ cell }) => (
-					<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
-				),
-			},
+			// {
+			// 	Header: 'Total Wagered',
+			// 	accessor: 'totalWagered',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => (
+			// 		<KeyValueData value={cell?.value ?? '0'} defaultCurrency={currency} />
+			// 	),
+			// },
 			{
 				Header: 'Platform P&L',
-				accessor: 'profit',
+				accessor: 'platformPL',
 				filterable: true,
 				Cell: ({ cell }) => (
 					<PlayerPNL value={cell?.value ?? '0'} defaultCurrency={currency} />
@@ -97,13 +109,13 @@ const usePlayerReport = () => {
 			...(activePerformance === TABS.CASINO
 				? [
 						{
-							Header: 'Casino Wagered Count',
+							Header: 'Wagered Count',
 							accessor: 'total_casino_bet_count',
 							filterable: true,
 							Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
 						},
 						{
-							Header: 'Casino Wagered Amount',
+							Header: 'Wagered Amount',
 							accessor: 'total_casino_bet',
 							filterable: true,
 							Cell: ({ cell }) => (
@@ -114,7 +126,7 @@ const usePlayerReport = () => {
 							),
 						},
 						{
-							Header: 'Casino Payout',
+							Header: 'Payout',
 							accessor: 'total_casino_win',
 							filterable: true,
 							Cell: ({ cell }) => (
@@ -130,13 +142,13 @@ const usePlayerReport = () => {
 			...(activePerformance === TABS.SPORT
 				? [
 						{
-							Header: 'SportsBook Wagered Count',
+							Header: 'Wagered Count',
 							accessor: 'total_sb_bet_count',
 							filterable: true,
 							Cell: ({ cell }) => <KeyValueData value={cell?.value ?? '0'} />,
 						},
 						{
-							Header: 'SportsBook Wagered',
+							Header: 'Wagered',
 							accessor: 'total_sb_bet',
 							filterable: true,
 							Cell: ({ cell }) => (
@@ -147,7 +159,7 @@ const usePlayerReport = () => {
 							),
 						},
 						{
-							Header: 'SportsBook Payout',
+							Header: 'Payout',
 							accessor: 'total_sb_win',
 							filterable: true,
 							Cell: ({ cell }) => (

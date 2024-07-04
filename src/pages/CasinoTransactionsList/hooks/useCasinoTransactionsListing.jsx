@@ -76,13 +76,13 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 					amount: txn?.ledger?.amount ?? '-',
 					currencyCode: txn?.ledger?.currency?.code,
 					conversionRate: txn?.conversionRate,
-					actionType: txn?.ledger?.fromWalletId ? 'Debit' : 'Credit',
+					actionType: txn?.ledger?.fromWalletId ? 'Credit' : 'Debit',
 					from: txn?.ledger?.fromWalletId
-						? superAdminUser?.username
-						: txn?.user?.username,
+						? txn?.user?.username
+						: superAdminUser?.username,
 					to: txn?.ledger?.toWalletId
-						? superAdminUser?.username
-						: txn?.user?.username,
+						? txn?.user?.username
+						: superAdminUser?.username,
 					purpose: txn?.ledger?.purpose,
 					status: STATUS_TYPE.find((status) => status.value === txn?.status)
 						?.label,
@@ -108,13 +108,13 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
-			{
-				Header: 'Previous Transaction',
-				accessor: 'previousTransactionId',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Previous Transaction',
+			// 	accessor: 'previousTransactionId',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'Game ID',
 				accessor: 'gameId',
@@ -181,7 +181,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
-				Header: 'Created At',
+				Header: 'Date',
 				accessor: 'createdAt',
 				Cell: ({ cell }) => <CreatedAt value={cell.value} />,
 			},

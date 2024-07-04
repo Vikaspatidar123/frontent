@@ -35,7 +35,9 @@ const useAdminListing = (filterValues = {}) => {
 				const randomColor = getRandomColor();
 				return {
 					...admin,
-					fullName: `${admin.firstName} ${admin.lastName}`,
+					fullName: `${admin.firstName || ''} ${admin.lastName || ''} ${
+						!admin?.firstName && !admin?.lastName ? '-' : ''
+					}`,
 					randomColor,
 					roleName: admin?.adminRole?.name || '-',
 				};
