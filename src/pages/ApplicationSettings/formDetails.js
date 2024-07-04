@@ -69,7 +69,8 @@ const leftStaticSiteConfigFormFields = (details, customBlurHandler) => [
 	{
 		name: 'applicationName',
 		fieldType: 'textField',
-		description: details?.applicationName?.description,
+		description:
+			details?.applicationName?.description || 'Name of the application',
 		label: 'Application name',
 		placeholder: 'Enter application name',
 		customBlurHandler,
@@ -97,17 +98,6 @@ const leftStaticSiteConfigFormFields = (details, customBlurHandler) => [
 		label: 'Minimum stake amount',
 		placeholder: 'Enter minimum stake amount',
 		customBlurHandler,
-	},
-	{
-		name: 'logo',
-		fieldType: 'file',
-		description: details?.logo?.description,
-		label: 'Application Logo',
-		placeholder: 'Enter application logo',
-		showThumbnail: true,
-		customThumbnailBackground: '#1A1D29',
-		customPadding: '8px',
-		callBack: customBlurHandler,
 	},
 ];
 
@@ -137,12 +127,15 @@ const rightStaticSiteConfigFormFields = (details, customBlurHandler) => [
 		customBlurHandler,
 	},
 	{
-		name: 'exchangeBetCommission',
-		fieldType: 'textField',
-		label: 'Exchange bet commission',
-		description: details?.exchangeBetCommission?.description,
-		placeholder: 'Enter exchange bet commission',
-		customBlurHandler,
+		name: 'logo',
+		fieldType: 'file',
+		description: details?.logo?.description,
+		label: 'Application Logo',
+		placeholder: 'Enter application logo',
+		showThumbnail: true,
+		customThumbnailBackground: '#1A1D29',
+		customPadding: '8px',
+		callBack: customBlurHandler,
 	},
 ];
 

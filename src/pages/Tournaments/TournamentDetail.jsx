@@ -12,7 +12,10 @@ import PrizeDetails from './components/PrizeDetails';
 import GameDetails from './components/GameDetails';
 import LeaderBoard from './components/LeaderBoard';
 import Transactions from './components/Transactions';
-import { getTournamentDetailByIdStart } from '../../store/tournaments/actions';
+import {
+	getTournamentDetailByIdStart,
+	resetTournamentDetail,
+} from '../../store/tournaments/actions';
 import { CustomSelectField } from '../../helpers/customForms';
 import { StatusBadge } from './TournamentListCol';
 
@@ -43,6 +46,7 @@ const TournamentDetail = () => {
 				})
 			);
 		}
+		return () => dispatch(resetTournamentDetail());
 	}, [tournamentId]);
 
 	useEffect(() => {

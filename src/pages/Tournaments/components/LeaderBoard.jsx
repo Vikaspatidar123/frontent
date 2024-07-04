@@ -3,31 +3,18 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Col, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import ModalView from '../../../components/Common/Modal';
+import { Row } from 'reactstrap';
 import TableContainer from '../../../components/Common/Table';
 import { getTournamentLeaderBoardDetailStart } from '../../../store/tournaments/actions';
 
 const KeyValueCell = ({ value }) => value || 0;
 
-const UserName = ({ cell, setPlayerDetail, setShowModal }) => (
-	<Link
-		onClick={() => {
-			setPlayerDetail(cell?.row?.original);
-			setShowModal(true);
-		}}
-	>
-		{cell?.value ?? ''}
-	</Link>
-);
+const UserName = ({ cell }) => cell?.value ?? '';
 
 const LeaderBoard = ({ tournamentDetail, currencyId, currencyWise }) => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [showModal, setShowModal] = useState(false);
-	const [playerDetail, setPlayerDetail] = useState({});
 
 	const { leaderBoardInfo } = useSelector((state) => state.Tournament);
 
@@ -69,13 +56,12 @@ const LeaderBoard = ({ tournamentDetail, currencyId, currencyWise }) => {
 			{
 				Header: 'USERNAME',
 				accessor: 'name',
-				Cell: ({ cell }) => (
-					<UserName
-						cell={cell}
-						setPlayerDetail={setPlayerDetail}
-						setShowModal={setShowModal}
-					/>
-				),
+				Cell: ({ cell }) => <UserName cell={cell} />,
+			},
+			{
+				Header: 'AMOUNT SPENT',
+				accessor: 'amountSpent',
+				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			{
 				Header: 'WIN POINTS',
@@ -102,19 +88,6 @@ const LeaderBoard = ({ tournamentDetail, currencyId, currencyWise }) => {
 		],
 		[]
 	);
-
-	const playerDetailKeys = [
-		{ label: 'Position', value: 'leaderBoardId' },
-		{ label: 'Username', value: 'name' },
-		{ label: 'Points', value: 'points' },
-		{ label: 'User Id', value: 'userId' },
-		{ label: 'Amount spend', value: 'amountSpent' },
-		{ label: 'Amount Used', value: 'usedAmount' },
-		{ label: 'Rebuy Limit', value: 'rebuyLimit' },
-		{ label: 'Prize', value: 'winPrize' },
-		{ label: 'Win Points', value: 'winPoints' },
-	];
-
 	return (
 		<Row lg={12}>
 			<TableContainer
@@ -131,35 +104,6 @@ const LeaderBoard = ({ tournamentDetail, currencyId, currencyWise }) => {
 				changeRowsPerPageCallback={onChangeRowsPerPage}
 				tableClass="table-striped table-hover "
 			/>
-			<ModalView
-				openModal={showModal}
-				toggleModal={() => setShowModal((prev) => !prev)}
-				headerTitle="Player Details"
-				className="modal-dialog modal-lg"
-				hideFooter
-			>
-				<Row lg={12} className="px-5 py-3">
-					{Object.keys(playerDetail)?.map((detail) => {
-						const key = playerDetailKeys.find(
-							(item) => item.value === detail
-						)?.label;
-						return (
-							<div>
-								{key && (
-									<Row className="p-2 border-bottom">
-										<Col lg={6} className="fw-semibold py-2 px-4 font-size-16">
-											{key}
-										</Col>
-										<Col lg={6} className="p-2 font-size-16">
-											{playerDetail?.[detail] || 0}
-										</Col>
-									</Row>
-								)}
-							</div>
-						);
-					})}
-				</Row>
-			</ModalView>
 		</Row>
 	);
 };

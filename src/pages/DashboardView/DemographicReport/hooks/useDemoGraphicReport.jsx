@@ -140,7 +140,7 @@ const useDemoGraphicReport = () => {
 				Cell: ({ cell }) => <SignUps cell={cell} />,
 			},
 			{
-				Header: 'DEPOSITORS',
+				Header: 'DEPOSIT COUNT',
 				accessor: 'depositorCount',
 				filterable: true,
 				Cell: ({ cell }) => <Depositors cell={cell} />,

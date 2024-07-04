@@ -56,7 +56,7 @@ const PlayerStats = ({ data = {} }) => {
 						data={countData}
 						colors={chartColors}
 						defaultCurrency={defaultCurrency}
-						chartTitle="Wagered and Deposit Counts"
+						chartTitle="Transaction Counts"
 					/>
 				</Card>
 			</Col>
@@ -80,7 +80,7 @@ const PlayerStats = ({ data = {} }) => {
 						colors={chartColors}
 						defaultCurrency={defaultCurrency}
 						isAmount
-						chartTitle="Wallet Transactions"
+						chartTitle="Banking Transactions"
 					/>
 				</Card>
 			</Col>

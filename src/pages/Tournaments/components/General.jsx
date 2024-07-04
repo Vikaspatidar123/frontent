@@ -21,6 +21,7 @@ const General = ({
 	setAllFields,
 	tournamentDetail,
 	submitButtonLoading,
+	tournamentId,
 	toggleTab,
 	tabsToShow,
 	activeTab,
@@ -72,10 +73,10 @@ const General = ({
 	};
 
 	useEffect(() => {
-		if (tournamentDetail) {
+		if (tournamentDetail && tournamentId) {
 			validation.setValues(generalStepInitialValues(tournamentDetail));
 		}
-	}, [tournamentDetail]);
+	}, [tournamentDetail, tournamentId]);
 
 	const tabData = languageData?.languages?.map((item) => ({
 		id: item.code,

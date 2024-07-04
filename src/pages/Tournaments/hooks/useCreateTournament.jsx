@@ -142,6 +142,7 @@ const useCreateTournaments = () => {
 					allFields={allFields}
 					setAllFields={setAllFields}
 					tournamentDetail={tournamentDetail}
+					tournamentId={tournamentId}
 					submitButtonLoading={isCreateTournamentLoading}
 					tabsToShow={tabsToShow}
 					toggleTab={toggleTab}
