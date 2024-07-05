@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 
 const RevenueChart = ({ livePlayerData }) => {
-	const dashedLineChartColors = getChartColorsArray(
+	const chartColors = getChartColorsArray(
 		'["--bs-success", "--bs-primary", "--bs-danger"]'
 	);
 	const [series, setSeries] = useState([]);
@@ -66,11 +66,10 @@ const RevenueChart = ({ livePlayerData }) => {
 	}, [livePlayerData?.DailyRevenues, currencyById]);
 
 	const options = {
-		chart: { zoom: { enabled: !1 }, toolbar: { show: !1 } },
-		colors: dashedLineChartColors,
-		dataLabels: { enabled: !1 },
-		stroke: { width: [3, 4, 3], curve: 'straight', dashArray: [0, 8, 5] },
-		markers: { size: 0, hover: { sizeOffset: 6 } },
+		chart: { type: 'bar', zoom: { enabled: false }, toolbar: { show: false } },
+		colors: chartColors,
+		dataLabels: { enabled: false },
+		stroke: { show: true, width: 2, colors: ['transparent'] },
 		xaxis: {
 			categories: xAxis,
 		},
@@ -82,29 +81,11 @@ const RevenueChart = ({ livePlayerData }) => {
 			},
 		},
 		tooltip: {
-			y: [
-				{
-					title: {
-						formatter(e) {
-							return `${e}`;
-						},
-					},
+			y: {
+				formatter(value) {
+					return `${defaultCurrency?.symbol || ''} ${value}`;
 				},
-				{
-					title: {
-						formatter(e) {
-							return `${e}`;
-						},
-					},
-				},
-				{
-					title: {
-						formatter(e) {
-							return `${e}`;
-						},
-					},
-				},
-			],
+			},
 		},
 		grid: { borderColor: '#f1f1f1' },
 	};
@@ -113,7 +94,7 @@ const RevenueChart = ({ livePlayerData }) => {
 		<ReactApexChart
 			options={options}
 			series={series}
-			type="line"
+			type="bar"
 			height="380"
 			className="apex-charts"
 		/>
@@ -124,13 +105,8 @@ export default RevenueChart;
 
 RevenueChart.defaultProps = {
 	livePlayerData: {},
-	// isLivePlayerLoading: 0,
 };
 
 RevenueChart.propTypes = {
-	livePlayerData: PropTypes.string,
-	// isLivePlayerLoading: PropTypes.bool,
-	defaultCurrency: PropTypes.shape({
-		symbol: PropTypes.string,
-	}).isRequired,
+	livePlayerData: PropTypes.objectOf,
 };
