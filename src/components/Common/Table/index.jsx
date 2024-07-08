@@ -28,7 +28,6 @@ const TableContainer = ({
 	changeRowsPerPageCallback,
 	hideHeader,
 	tbodyHeight,
-	cellPadding,
 	isLongTable = false,
 	currentPage,
 	isShowColSettings,
@@ -175,7 +174,7 @@ const TableContainer = ({
 										<tr>
 											{row?.cells?.map((cell) => (
 												<td
-													style={cellPadding ? { padding: cellPadding } : {}}
+													style={cell?.column?.customStyle || {}}
 													key={cell.id}
 													{...cell.getCellProps()}
 												>

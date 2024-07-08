@@ -88,7 +88,8 @@ const usePlayerReport = () => {
 				accessor: 'username',
 				notHidable: true,
 				filterable: true,
-				Cell: ({ cell }) => <Username value={cell?.value || '-'} />,
+				customStyle: { fontWeight: 'bold' },
+				Cell: ({ cell }) => <Username cell={cell} />,
 			},
 			// {
 			// 	Header: 'Total Wagered',

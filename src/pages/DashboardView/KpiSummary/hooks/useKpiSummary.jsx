@@ -76,6 +76,7 @@ const useKpiSummary = () => {
 				Header: 'Name',
 				accessor: 'name',
 				filterable: true,
+				customStyle: { fontWeight: 'bold' },
 				Cell: ({ cell }) => <RowName cell={cell?.value || ''} />,
 			},
 			{

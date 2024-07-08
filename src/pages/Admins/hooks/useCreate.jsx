@@ -96,7 +96,9 @@ const useCreate = () => {
 
 			const adminOptions =
 				allAdminList?.staff?.map((ad) => ({
-					optionLabel: `${ad.firstName} ${ad.lastName}`,
+					optionLabel: `${ad.firstName || ''} ${ad.lastName || ''} ${
+						!ad.firstName && !ad.lastName ? ad.username : ''
+					}`,
 					value: ad.id,
 				})) || [];
 
