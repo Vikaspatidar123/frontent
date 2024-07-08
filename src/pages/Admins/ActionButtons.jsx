@@ -15,7 +15,7 @@ const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
 			{isGranted(modules.admin, 'R') && (
 				<li data-bs-toggle="tooltip" data-bs-placement="top">
 					<Button
-						disabled={isSuperAdmin}
+						// disabled={isSuperAdmin}
 						className="btn btn-sm btn-soft-primary"
 						onClick={(e) => handleView(e, row?.original)}
 					>

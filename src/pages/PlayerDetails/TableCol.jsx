@@ -1,5 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Badge } from 'reactstrap';
 
 const KeyValueCell = ({ value }) => value ?? '0';
 const KeyValueCellNA = ({ value }) => value ?? '-';
@@ -38,6 +41,24 @@ const Action = (cell) => (cell.value ? cell.value : '');
 
 const Comment = ({ value }) =>
 	value ? <div className="comment-term-text">{value}</div> : '';
+
+const UserName = ({ cell }) =>
+	cell.value ? (
+		<Link to={`/player-details/${cell?.row?.original?.id}`}>{cell.value}</Link>
+	) : (
+		''
+	);
+
+const IsActive = ({ value }) => {
+	switch (value) {
+		case true:
+			return <Badge className="bg-success">Active</Badge>;
+		case false:
+			return <Badge className="bg-danger">Inactive</Badge>;
+		default:
+			return '';
+	}
+};
 
 Amount.propTypes = {
 	value: PropTypes.number.isRequired,
@@ -81,4 +102,6 @@ export {
 	KeyValueCellNA,
 	StatusData,
 	Purpose,
+	UserName,
+	IsActive,
 };

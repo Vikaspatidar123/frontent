@@ -121,6 +121,7 @@ const MESSAGES = {
 		'Remove all the games from this category.',
 	TOURNAMENT_USER_DOES_NOT_EXISTS: 'Tournament user does not exists.',
 	TOURNAMENT_SETTLED_OR_CANCELLED: 'Tournament settled or cancelled.',
+	REFERRAL_DOES_NOT_EXISTS: 'Referral does not exist.',
 };
 
 export { API_NAMESPACE, METHODS, filterEmptyPayload, MANAGEMENT, MESSAGES };

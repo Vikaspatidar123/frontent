@@ -542,7 +542,7 @@ const updatePaymentProvider = (data) =>
 
 const updateReferralRequest = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}referral-update`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.SETTINGS}referral/update`,
 		data
 	);
 

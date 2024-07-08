@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
-import { Comment, Id, KeyValueCell, KeyValueCellNA } from './TableCol';
+import { Id, IsActive, KeyValueCellNA } from './TableCol';
 import CrudSection from '../../components/Common/CrudSection';
 import { userReferrals } from '../../store/actions';
 
@@ -26,36 +26,52 @@ const Referrals = ({ userId }) => {
 		);
 	}, []);
 
+	const formattedReferrals = useMemo(
+		() =>
+			referrals?.referredUser?.map(({ referral }) => ({
+				...referral,
+			})) || [],
+		[referrals]
+	);
+
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'ID',
+				Header: 'Player Id',
 				accessor: 'id',
 				notHidable: true,
 				filterable: true,
 				Cell: ({ cell }) => <Id value={cell.value} />,
 			},
 			{
-				Header: 'Referred To',
+				Header: 'Username',
 				accessor: 'username',
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			},
 			{
-				Header: 'Mode',
-				accessor: 'mode',
+				Header: 'Email',
+				accessor: 'email',
 				filterable: true,
-				Cell: ({ cell }) => <Comment value={cell.value} />,
+				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			},
 			{
-				Header: 'Date',
-				accessor: 'createAt',
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Header: 'Country',
+				accessor: 'country',
+				filterable: true,
+				Cell: ({ cell }) => <KeyValueCellNA value={cell?.value?.name} />,
+			},
+			{
+				Header: 'Status',
+				accessor: 'isActive',
+				filterable: true,
+				disableSortBy: true,
+				Cell: ({ cell }) => <IsActive value={cell.value} />,
 			},
 			// {
-			// 	Header: 'NOTED AT',
-			// 	accessor: 'createdAt',
-			// 	Cell: ({ cell }) => <KeyValueCell value={(cell.value)} />,
+			// 	Header: 'Kyc Status',
+			// 	accessor: 'kycStatus',
+			// 	Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			// },
 		],
 		[]
@@ -73,7 +89,7 @@ const Referrals = ({ userId }) => {
 					<TableContainer
 						isLoading={referralsLoading}
 						columns={columns || []}
-						data={referrals || []}
+						data={formattedReferrals}
 						isPagination
 						customPageSize={itemsPerPage}
 						tableClass="table-bordered align-middle nowrap mt-2"
@@ -85,6 +101,7 @@ const Referrals = ({ userId }) => {
 						onChangePagination={setCurrentPage}
 						currentPage={currentPage}
 						changeRowsPerPageCallback={onChangeRowsPerPage}
+						isShowColSettings={false}
 					/>
 				</CardBody>
 			</Card>
