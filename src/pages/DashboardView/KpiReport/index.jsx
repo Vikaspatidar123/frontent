@@ -38,7 +38,7 @@ const KpiReport = () => {
 				columns={kPIReportColumn}
 				data={kPIReport || []}
 				isGlobalFilter={false}
-				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+				tableClass={`table-bordered align-middle table-striped nowrap ${tableCustomClass}`}
 				isShowColSettings={false}
 			/>
 		</SimpleBar>
@@ -70,7 +70,10 @@ const KpiReport = () => {
 						<>
 							<Row>
 								<Col xl={5} className="d-flex align-items-center">
-									<h4 className="card-title font-size-18 mb-3">KPI Report</h4>
+									<h4 className="card-title font-size-18 mb-3 d-flex align-items-center">
+										<span className="mdi mdi-chart-bar fs-1 me-3 text-success" />
+										KPI Report
+									</h4>
 									<i
 										role="button"
 										tabIndex="0"

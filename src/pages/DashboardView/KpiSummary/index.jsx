@@ -47,7 +47,7 @@ const KpiSummary = () => {
 				data={formattedKpiSummary || []}
 				isGlobalFilter={false}
 				customPageSize={kPISummary?.length || 300}
-				tableClass={`table-bordered align-middle nowrap ${tableCustomClass}`}
+				tableClass={`table-bordered align-middle table-striped nowrap ${tableCustomClass}`}
 				isShowColSettings={false}
 			/>
 		</SimpleBar>
@@ -80,7 +80,10 @@ const KpiSummary = () => {
 						<>
 							<Row>
 								<Col xl={9} className="d-flex align-items-center my-2">
-									<h4 className="card-title font-size-18 mb-3">KPI Summary</h4>
+									<h4 className="card-title font-size-18 mb-3 d-flex align-items-center">
+										<span className="mdi mdi-chart-areaspline fs-1 me-3 text-success" />
+										KPI Summary
+									</h4>
 									<i
 										role="button"
 										tabIndex="0"

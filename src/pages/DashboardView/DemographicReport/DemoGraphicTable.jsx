@@ -14,7 +14,7 @@ const DemoGraphicTable = (props) => {
 				data={formattedDemoGraphicData || []}
 				isGlobalFilter={false}
 				isPagination={false}
-				tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
+				tableClass={`table-bordered align-middle nowrap table-striped mt-2 ${tableCustomClass}`}
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"
 				customPageSize={formattedDemoGraphicData?.length || 15}

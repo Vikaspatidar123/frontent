@@ -34,7 +34,8 @@ const DemographicReport = () => {
 							<Row className="mb-2">
 								<Col xl={selected === 'custom' ? '8' : '10'}>
 									<div className="d-flex align-items-center">
-										<h4 className="card-title font-size-16">
+										<h4 className="card-title font-size-16 d-flex align-items-center">
+											<span className="mdi mdi-map-marker-radius fs-1 me-3 text-success" />
 											Demographic Report
 										</h4>
 									</div>

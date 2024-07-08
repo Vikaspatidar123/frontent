@@ -42,7 +42,7 @@ const useDashboardView = () => {
 				plotOptions: {
 					pie: {
 						donut: {
-							size: '50%',
+							size: '40%',
 						},
 					},
 				},

@@ -3,7 +3,13 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { countryFilter } from '../../../../utils/countryFilter';
 import { getDemographicStart } from '../../../../store/dashboardView/actions';
-import { Country, DepositAmount, Depositors, SignUps } from '../DemoGraphCol';
+import {
+	Country,
+	DepositAmount,
+	Depositors,
+	Flag,
+	SignUps,
+} from '../DemoGraphCol';
 
 const useDemoGraphicReport = () => {
 	const dispatch = useDispatch();
@@ -127,6 +133,12 @@ const useDemoGraphicReport = () => {
 
 	const demoGraphColumn = useMemo(
 		() => [
+			{
+				Header: 'Flag',
+				accessor: 'countryCode',
+				filterable: true,
+				Cell: ({ cell }) => <Flag cell={cell} />,
+			},
 			{
 				Header: 'COUNTRY',
 				accessor: 'countryName',
