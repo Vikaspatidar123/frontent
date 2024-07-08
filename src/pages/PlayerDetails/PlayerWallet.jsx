@@ -23,19 +23,25 @@ const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
 			// 	Header: 'Currency Id',
 			// 	accessor: 'currencyId',
 			// 	// filterable: true,
-			// 	Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+			// 	Cell: ({value}) => <KeyValueCell value={value} />,
 			// },
 			{
 				Header: 'Currency',
 				accessor: 'currencyCode',
 				// filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ value }) => <KeyValueCell value={value} />,
 			},
 			{
 				Header: 'Amount',
 				accessor: 'amount',
 				// filterable: true,
-				Cell: (cellProps) => <KeyValueCell {...cellProps} />,
+				Cell: ({ value }) => <KeyValueCell value={value} />,
+			},
+			{
+				Header: 'Bonus',
+				accessor: 'bonusAmount',
+				// filterable: true,
+				Cell: ({ value }) => <KeyValueCell value={value} />,
 			},
 		],
 		[]
