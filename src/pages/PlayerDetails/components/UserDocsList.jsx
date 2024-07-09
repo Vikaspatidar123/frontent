@@ -165,7 +165,7 @@ const UserDocsList = ({ userDetails, userId }) => {
 
 	useEffect(() => {
 		fetchLabels();
-	}, []);
+	}, [userId]);
 
 	useEffect(() => {
 		if (requestDocuments || verifyDocuments || rejectDocuments) fetchLabels();

@@ -101,7 +101,7 @@ const Duplicates = ({ show, toggle, header }) => {
 
 	useEffect(() => {
 		fetchData();
-	}, [currentPage, itemsPerPage]);
+	}, [currentPage, itemsPerPage, playerId]);
 
 	const formattedDuplicates = useMemo(() => {
 		const formattedValues = [];

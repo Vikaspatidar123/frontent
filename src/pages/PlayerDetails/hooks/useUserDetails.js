@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	getDuplicateUsers,
-	getUserDetails,
-	resetUserDetails,
-} from '../../../store/actions';
+import { getUserDetails, resetUserDetails } from '../../../store/actions';
 
 const useUserDetails = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -14,8 +10,7 @@ const useUserDetails = ({ userId }) => {
 
 	useEffect(() => {
 		dispatch(getUserDetails({ playerId: userId }));
-		dispatch(getDuplicateUsers({ userId, perPage: 10, page: 1 }));
-	}, []);
+	}, [userId]);
 
 	// resetting player details redux state
 	useEffect(

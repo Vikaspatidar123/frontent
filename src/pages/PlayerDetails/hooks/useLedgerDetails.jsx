@@ -31,7 +31,7 @@ const useLedgerDetails = (userId, filterValues = {}) => {
 				...filterValues,
 			})
 		);
-	}, [currentPage, itemsPerPage]);
+	}, [currentPage, itemsPerPage, userId]);
 
 	const formattedLedgerDetails = useMemo(() => {
 		const formattedValues = [];

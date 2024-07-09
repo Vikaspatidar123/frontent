@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
-import { Id, IsActive, KeyValueCellNA, KycStatus } from './TableCol';
+import { Id, IsActive, KeyValueCellNA, KycStatus, UserName } from './TableCol';
 import CrudSection from '../../components/Common/CrudSection';
 import { userReferrals } from '../../store/actions';
 
@@ -24,7 +24,7 @@ const Referrals = ({ userId }) => {
 				page: currentPage,
 			})
 		);
-	}, []);
+	}, [userId]);
 
 	const formattedReferrals = useMemo(
 		() =>
@@ -47,7 +47,7 @@ const Referrals = ({ userId }) => {
 				Header: 'Username',
 				accessor: 'username',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
+				Cell: ({ cell }) => <UserName cell={cell} />,
 			},
 			{
 				Header: 'Email',

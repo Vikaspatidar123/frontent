@@ -89,6 +89,8 @@ const PlayerDetailsPage = ({ t }) => {
 		createUserCommentsSuccess,
 	]);
 
+	useEffect(() => setActiveTab(1), [playerId]);
+
 	const { userWalletData, userDetails, userDetailsLoading, duplicateUsers } =
 		useUserDetails({
 			userId: playerId,

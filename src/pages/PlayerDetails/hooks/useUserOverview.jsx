@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-nested-ternary */
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import { formatDateYMD } from '../../../utils/dateFormatter';
@@ -94,9 +94,18 @@ const useUserOverview = ({ user }) => {
 			? [
 					{
 						label: 'Referred By',
-						value: `${referral.firstName || ''} ${referral.lastName || ''} ${
-							!referral?.firstName && !referral?.lastName ? '-' : ''
-						}`,
+						value: (
+							<Link
+								className="text-decoration-underline"
+								to={`/player-details/${referral?.id}`}
+							>
+								{`${referral?.firstName || ''} ${referral?.lastName || ''} ${
+									!(referral?.firstName && referral?.lastName)
+										? referral?.username
+										: ''
+								}`}
+							</Link>
+						),
 					},
 			  ]
 			: []),
