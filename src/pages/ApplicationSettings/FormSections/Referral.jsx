@@ -16,6 +16,10 @@ import { updateReferral } from '../../../store/actions';
 
 const Referral = ({ details = {} }) => {
 	const dispatch = useDispatch();
+	const referralValue =
+		typeof details?.referral?.value === 'string'
+			? JSON.parse(details.referral.value)
+			: details?.referral?.value;
 
 	const handleUpdate = async (e) => {
 		e.preventDefault();
@@ -23,7 +27,9 @@ const Referral = ({ details = {} }) => {
 		try {
 			if (name !== 'status')
 				await referralSchema.validate({ [name]: value }, { abortEarly: false });
-			dispatch(updateReferral({ [name]: name === 'status' ? checked : value }));
+			dispatch(
+				updateReferral({ [name]: name === 'status' ? !checked : value })
+			);
 		} catch (err) {
 			console.log('Error in referral ', err?.message);
 		}
@@ -36,28 +42,28 @@ const Referral = ({ details = {} }) => {
 		setRightFormFields,
 		validation,
 	} = useForm({
-		initialValues: getReferralInitialValues(details?.referral),
+		initialValues: getReferralInitialValues(referralValue),
 		validationSchema: referralSchema,
 		leftStaticFormFields: leftStaticReferralFormFields(
-			details?.referral,
+			referralValue,
 			handleUpdate
 		),
 		rightStaticFormFields: rightStaticReferralFormFields(
-			details?.referral,
+			referralValue,
 			handleUpdate
 		),
 	});
 
 	useEffect(() => {
-		if (details?.referral) {
+		if (referralValue) {
 			setLeftFormFields(
-				leftStaticReferralFormFields(details?.referral, handleUpdate)
+				leftStaticReferralFormFields(referralValue, handleUpdate)
 			);
 			setRightFormFields(
-				rightStaticReferralFormFields(details?.referral, handleUpdate)
+				rightStaticReferralFormFields(referralValue, handleUpdate)
 			);
 		}
-	}, [details?.referral]);
+	}, [details?.referral?.value]);
 
 	return (
 		<Row>

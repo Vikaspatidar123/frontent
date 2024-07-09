@@ -1,4 +1,11 @@
-import { put, takeLatest, fork, all, select } from 'redux-saga/effects';
+import {
+	put,
+	takeLatest,
+	fork,
+	all,
+	select,
+	takeEvery,
+} from 'redux-saga/effects';
 import { objectToFormData } from '../../utils/objectToFormdata';
 
 //  Redux States
@@ -133,15 +140,23 @@ function* updateReferralWorker(action) {
 
 		// For locally updating the state without api call.
 		const { siteConfigDetails } = yield select((state) => state.ProfileData);
+		const referralValue =
+			typeof siteConfigDetails?.referral?.value === 'string'
+				? JSON.parse(siteConfigDetails.referral.value)
+				: siteConfigDetails?.referral?.value;
 		const updatedSiteConfig = {
 			...siteConfigDetails,
 			referral: {
 				...(siteConfigDetails?.referral || {}),
-				[key]: key === 'status' ? !data[key] : data[key],
+				value: {
+					...(referralValue || {}),
+					...(key === 'status'
+						? { isActive: !referralValue?.isActive }
+						: { [key]: data[key] }),
+				},
 			},
 		};
 		yield put(getSiteConfigurationSuccess(updatedSiteConfig));
-
 		showToastr({
 			message: `Referral settings updated successfully`,
 			type: 'success',
@@ -181,7 +196,7 @@ export function* ProfileDataWatcher() {
 	yield takeLatest(GET_SITE_CONFIGURATION_START, getSiteConfigurationWorker);
 	yield takeLatest(UPDATE_LOGO, updateLogoWorker);
 	yield takeLatest(UPDATE_APP_SETTING, updateAppSetting);
-	yield takeLatest(UPDATE_REFERRAL, updateReferralWorker);
+	yield takeEvery(UPDATE_REFERRAL, updateReferralWorker);
 }
 
 function* ProfileDataSaga() {
