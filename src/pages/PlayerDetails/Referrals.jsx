@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
-import { Id, IsActive, KeyValueCellNA } from './TableCol';
+import { Id, IsActive, KeyValueCellNA, KycStatus } from './TableCol';
 import CrudSection from '../../components/Common/CrudSection';
 import { userReferrals } from '../../store/actions';
 
@@ -28,7 +28,7 @@ const Referrals = ({ userId }) => {
 
 	const formattedReferrals = useMemo(
 		() =>
-			referrals?.referredUser?.map(({ referral }) => ({
+			referrals?.referredUser?.map((referral) => ({
 				...referral,
 			})) || [],
 		[referrals]
@@ -55,12 +55,7 @@ const Referrals = ({ userId }) => {
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			},
-			{
-				Header: 'Country',
-				accessor: 'country',
-				filterable: true,
-				Cell: ({ cell }) => <KeyValueCellNA value={cell?.value?.name} />,
-			},
+
 			{
 				Header: 'Status',
 				accessor: 'isActive',
@@ -68,11 +63,11 @@ const Referrals = ({ userId }) => {
 				disableSortBy: true,
 				Cell: ({ cell }) => <IsActive value={cell.value} />,
 			},
-			// {
-			// 	Header: 'Kyc Status',
-			// 	accessor: 'kycStatus',
-			// 	Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
-			// },
+			{
+				Header: 'Kyc Status',
+				accessor: 'kycStatus',
+				Cell: ({ cell }) => <KycStatus value={cell.value} />,
+			},
 		],
 		[]
 	);

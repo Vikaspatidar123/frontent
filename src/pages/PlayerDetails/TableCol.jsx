@@ -59,6 +59,16 @@ const IsActive = ({ value }) => {
 			return '';
 	}
 };
+const KycStatus = ({ value }) => {
+	switch (value) {
+		case true:
+			return <Badge color="primary">Approved</Badge>;
+		case false:
+			return <Badge color="warning">Pending</Badge>;
+		default:
+			return '-';
+	}
+};
 
 Amount.propTypes = {
 	value: PropTypes.number.isRequired,
@@ -104,4 +114,5 @@ export {
 	Purpose,
 	UserName,
 	IsActive,
+	KycStatus,
 };

@@ -23,7 +23,7 @@ const CountryName = ({ value }) => value ?? '-';
 
 const PhoneNumber = ({ value }) => value ?? '-';
 
-const KycStatus = ({ value }) => value ?? '-';
+// const KycStatus = ({ value }) => value ?? '-';
 
 const RegistrationDate = ({ value }) => value ?? '-';
 
@@ -118,6 +118,17 @@ const Action = ({ cell, setShowManageMoney }) => {
 		</ul>
 	);
 };
+const KycStatus = ({ value }) => {
+	switch (value) {
+		case true:
+			return <Badge color="primary">Approved</Badge>;
+		case false:
+			return <Badge color="warning">Pending</Badge>;
+		default:
+			return '-';
+	}
+};
+
 const Status = ({ value }) => {
 	switch (value) {
 		case 'Active':
@@ -125,7 +136,7 @@ const Status = ({ value }) => {
 		case 'Inactive':
 			return <Badge className="bg-danger">Inactive</Badge>;
 		default:
-			return '';
+			return '-';
 	}
 };
 
@@ -154,6 +165,9 @@ Action.propTypes = {
 };
 
 Status.propTypes = {
+	value: PropTypes.string.isRequired,
+};
+KycStatus.propTypes = {
 	value: PropTypes.string.isRequired,
 };
 

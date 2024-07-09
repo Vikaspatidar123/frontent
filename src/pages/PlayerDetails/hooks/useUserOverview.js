@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-nested-ternary */
-// eslint-disable-next-line
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import { formatDateYMD } from '../../../utils/dateFormatter';
 import { genderTypes } from '../constants';
@@ -33,6 +33,7 @@ const useUserOverview = ({ user }) => {
 		kycStatus,
 		userTags,
 		publicAddress,
+		referral,
 	} = user || {};
 
 	const address = addresses?.length
@@ -78,15 +79,36 @@ const useUserOverview = ({ user }) => {
 		// { label: 'SumSub Applicant Id', value: applicantId },
 	];
 
+	const addLineBreaks = (str, length) => {
+		let result = '';
+		for (let i = 0; i < str.length; i += length) {
+			result += `${str.substring(i, i + length)} `;
+		}
+		return result;
+	};
+
 	const contactInfo = [
 		{ label: 'Phone Number', value: phone },
 		{ label: 'Address', value: address },
+		...(!isEmpty(referral)
+			? [
+					{
+						label: 'Referred By',
+						value: `${referral.firstName || ''} ${referral.lastName || ''} ${
+							!referral?.firstName && !referral?.lastName ? '-' : ''
+						}`,
+					},
+			  ]
+			: []),
 		...(publicAddress
 			? [
 					{ label: 'Metamask Registered Player', value: 'Yes' },
-					{ label: 'Wallet Address', value: publicAddress },
+					{
+						label: 'Wallet Address',
+						value: addLineBreaks(publicAddress, 10),
+					},
 			  ]
-			: [{}]),
+			: []),
 
 		// { label: 'Country Code', value: address?.countryCode },
 		// {
