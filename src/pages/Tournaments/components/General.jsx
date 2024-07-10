@@ -59,6 +59,10 @@ const General = ({
 
 	const handleNextClick = (nextTab) => {
 		validation.submitForm();
+
+		validation.setFieldTouched('name[EN]', true); // edge case: nested is not touched automatically
+		validation.setFieldTouched('description[EN]', true);
+
 		generalFormSchema()
 			.validate(validation.values, {
 				abortEarly: false,
@@ -97,9 +101,17 @@ const General = ({
 						value={validation?.values?.name?.[activeLangTab] || ''}
 						onBlur={validation.handleBlur}
 						placeholder="Title"
-						invalid={!!validation?.errors?.name?.[activeLangTab]}
+						invalid={
+							!!(
+								validation?.touched?.name?.[activeLangTab] &&
+								validation?.errors?.name?.[activeLangTab]
+							)
+						}
 						isError
-						errorMsg={validation?.errors?.name?.[activeLangTab]}
+						errorMsg={
+							validation?.touched?.name?.[activeLangTab] &&
+							validation?.errors?.name?.[activeLangTab]
+						}
 						// disabled={isView}
 					/>
 				</Col>
@@ -118,9 +130,17 @@ const General = ({
 					value={validation?.values?.description?.[activeLangTab] || ''}
 					onBlur={validation.handleBlur}
 					placeholder="Description"
-					invalid={!!validation?.errors?.description?.[activeLangTab]}
+					invalid={
+						!!(
+							validation?.touched?.description?.[activeLangTab] &&
+							validation?.errors?.description?.[activeLangTab]
+						)
+					}
 					isError
-					errorMsg={validation?.errors?.description?.[activeLangTab]}
+					errorMsg={
+						validation?.touched?.description?.[activeLangTab] &&
+						validation?.errors?.description?.[activeLangTab]
+					}
 				/>
 			</>
 		),
