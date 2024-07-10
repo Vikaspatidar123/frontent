@@ -42,9 +42,9 @@ const PlayersList = ({ userIds, toggleUserId }) => {
 		<div className={userIds ? '' : 'page-content'}>
 			<Container fluid>
 				{/* Render Breadcrumb */}
-				{showBreadcrumb && (
+				{!userIds && showBreadcrumb ? (
 					<Breadcrumb title="Player" breadcrumbItem="Players" />
-				)}
+				) : null}
 				<Row>
 					<Col lg="12">
 						<Card>

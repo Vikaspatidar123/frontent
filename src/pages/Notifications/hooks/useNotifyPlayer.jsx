@@ -24,7 +24,7 @@ const useNotifyPlayer = () => {
 		if (userIds[userId]) {
 			setUserIds((prev) => {
 				delete prev[userId];
-				return prev;
+				return { ...prev };
 			});
 		} else {
 			setUserIds((prev) => ({

@@ -39,7 +39,7 @@ const usePlayersListing = (
 				containerClass="false"
 				className="form-check-input"
 				checked={userIds[cell?.row?.original?.id]}
-				switchSizeClass="form-switch-sm"
+				switchSizeClass="form-switch-md"
 				onClick={() => toggleUserId(cell?.row?.original?.id)}
 			/>
 		</div>
@@ -148,7 +148,7 @@ const usePlayersListing = (
 				  ]
 				: []),
 		],
-		[]
+		[userIds]
 	);
 
 	useEffect(() => {

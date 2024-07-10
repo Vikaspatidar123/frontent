@@ -307,7 +307,7 @@ export const CustomSwitchButton = ({
 			value={value}
 			onClick={onClick}
 			onBlur={onBlur}
-			style={style}
+			style={{ padding: 8, ...(style || {}) }}
 			checked={checked}
 			disabled={disabled}
 			{...rest}
