@@ -153,7 +153,6 @@ const Currencies = ({
 			...newCurrency,
 		}));
 	};
-
 	const handleNextClick = async (nextTab) => {
 		validation.submitForm();
 		try {
@@ -161,7 +160,12 @@ const Currencies = ({
 				abortEarly: false,
 			});
 			const updateFields = await handleSubmit();
-			toggleTab(nextTab, updateFields);
+			if (isEmpty(validation.errors)) {
+				// condition for nested errors
+				toggleTab(nextTab, updateFields);
+			} else {
+				throw new Error();
+			}
 		} catch (err) {
 			console.log('Error in currency = ', err?.errors);
 		}

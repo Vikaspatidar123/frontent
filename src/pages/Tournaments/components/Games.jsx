@@ -181,7 +181,7 @@ const Games = ({
 	}, [casinoGames]);
 
 	const toggleSelectGame = (id) => {
-		const found = selectedGames?.find((game) => game.id === id);
+		const found = selectedGames?.find((game) => game.casinoGameId === id);
 		if (found) {
 			const updatedGames = selectedGames?.filter(
 				({ casinoGameId }) => casinoGameId !== id.toString()
