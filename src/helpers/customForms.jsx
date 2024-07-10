@@ -149,7 +149,6 @@ export const CustomDateField = ({
 	value,
 	// eslint-disable-next-line no-unused-vars
 	onChange = () => {}, // need for preventing code break
-	onBlur,
 	isError,
 	errorMsg,
 	maxDate = moment().utc().startOf('day').toDate(),
@@ -157,7 +156,6 @@ export const CustomDateField = ({
 	validation,
 	dateFormat = 'd M Y',
 	minDateField,
-	...rest
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
@@ -172,11 +170,11 @@ export const CustomDateField = ({
 				maxDate,
 			}}
 			onChange={(date) => {
-				validation.setFieldValue(name, date[0]);
+				validation.setFieldValue(
+					name,
+					new Date(date[0].getTime() - date[0].getTimezoneOffset() * 60000)
+				);
 			}}
-			// maxDate={maxDate}
-			// minDate={minDate}
-			{...rest}
 		/>
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid" className="d-block">
@@ -236,22 +234,20 @@ export const CustomRangeSelector = ({
 	rangeKeys = ['fromDate', 'toDate'],
 	// eslint-disable-next-line no-unused-vars
 	onChange = () => {}, // need for preventing code break
-	onBlur,
 	isError,
 	errorMsg,
-	maxDate = moment().utc().startOf('day').toDate(),
+	maxDate = new Date(),
 	minDate = moment().subtract(100, 'years').utc().toDate(),
 	validation,
 	dateFormat = 'd M Y',
 	customInputClass,
-	...rest
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
 		<FlatPickr
 			className={`form-control ${customInputClass || ''}`}
-			// name={name}
-			value={value}
+			name={name}
+			defaultDate={value}
 			placeholder={placeholder}
 			options={{
 				mode: 'range',
@@ -260,12 +256,15 @@ export const CustomRangeSelector = ({
 				maxDate,
 			}}
 			onChange={(date) => {
-				validation.setFieldValue(rangeKeys[0], date[0]);
-				validation.setFieldValue(rangeKeys[1], date[1]);
+				validation.setFieldValue(
+					rangeKeys[0],
+					new Date(date[0].getTime() - date[0].getTimezoneOffset() * 60000)
+				);
+				validation.setFieldValue(
+					rangeKeys[1],
+					new Date(date[1].getTime() - date[1].getTimezoneOffset() * 60000)
+				);
 			}}
-			// maxDate={maxDate}
-			// minDate={minDate}
-			{...rest}
 		/>
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid" className="d-block">
