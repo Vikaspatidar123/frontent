@@ -74,6 +74,7 @@ import AllReferrals from '../pages/AllReferrals';
 import DisputeResolution from '../pages/DisputeResolution';
 import BulkUpdate from '../pages/Players/bulkUpdate';
 import NotificationDetails from '../pages/Notifications/components/NotificationDetails';
+import Channels from '../pages/Channels';
 
 const authProtectedRoutes = [
 	{
@@ -537,6 +538,12 @@ const authProtectedRoutes = [
 		component: <PaymentProviderView />,
 		modules: [modules.paymentManagement],
 		operation: 'R',
+	},
+	{
+		path: '/chat/channels',
+		component: <Channels />,
+		modules: [modules.paymentManagement],
+		operation: 'C',
 	},
 
 	{ path: '*', component: <DashboardView /> },

@@ -669,6 +669,24 @@ const sideBarElements = [
 	// 	liTagClass: '',
 	// 	ulTagClass: '',
 	// },
+	{
+		id: 111,
+		isSeparator: true,
+		title: 'Chat Management',
+	},
+	{
+		id: 38,
+		link: '/chat/channels',
+		label: 'Channels',
+		searchString: 'channels',
+		iconName: 'bx bx-list-check',
+		linkClass: '',
+		anchorClass: '',
+		spanClass: '',
+		liTagClass: '',
+		ulTagClass: '',
+		module: modules.paymentManagement,
+	},
 ];
 
 // For maintaining single source of truth (SSOT)
