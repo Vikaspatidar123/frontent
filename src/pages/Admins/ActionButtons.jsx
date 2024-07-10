@@ -1,14 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UncontrolledTooltip, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
 const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
+	const { isGranted, superAdminUser } = usePermission();
+	const navigate = useNavigate();
+
 	const active = row?.original?.isActive;
 	const adminUserId = row?.original?.id;
 	const isSuperAdmin = row?.original?.adminRole?.level === 1;
-	const { isGranted } = usePermission();
+	// eslint-disable-next-line eqeqeq
+	const isSelf = adminUserId == superAdminUser?.id;
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
@@ -85,9 +90,14 @@ const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
 			{isGranted(modules.admin, 'U') && (
 				<li>
 					<Button
-						disabled={isSuperAdmin}
 						className="btn btn-sm btn-soft-info"
-						onClick={(e) => handleEdit(e, row?.original)}
+						onClick={(e) => {
+							if (isSelf) {
+								navigate('/profile');
+							} else {
+								handleEdit(e, row?.original);
+							}
+						}}
 					>
 						<i
 							className="mdi mdi-pencil-outline"

@@ -16,7 +16,7 @@ const usePermission = () => {
 		return false;
 	};
 	// for temporarily setting all permissions
-	return { isGranted, permissions };
+	return { isGranted, permissions, superAdminUser };
 };
 
 export default usePermission;

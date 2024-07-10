@@ -14,7 +14,9 @@ const Transactions = ({ tournamentDetail, currencyId }) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 
-	const { tournamentTransactions } = useSelector((state) => state.Tournament);
+	const { tournamentTransactions, tournamentTransactionsLoading } = useSelector(
+		(state) => state.Tournament
+	);
 
 	useEffect(() => {
 		if (tournamentDetail?.id && currencyId)
@@ -96,6 +98,7 @@ const Transactions = ({ tournamentDetail, currencyId }) => {
 				columns={columns || []}
 				data={formattedTransactions || []}
 				isPagination
+				isLoading={tournamentTransactionsLoading}
 				customPageSize={itemsPerPage}
 				paginationDiv="justify-content-center"
 				pagination="pagination justify-content-start pagination-rounded"

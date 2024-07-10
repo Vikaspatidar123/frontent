@@ -156,7 +156,6 @@ const EliteQuestData = (state = initialState, { type, payload } = {}) => {
 			return {
 				...state,
 				leaderBoardLoading: true,
-				leaderBoardInfo: null,
 				leaderBoardError: null,
 			};
 
@@ -201,7 +200,6 @@ const EliteQuestData = (state = initialState, { type, payload } = {}) => {
 			return {
 				...state,
 				tournamentTransactionsLoading: true,
-				tournamentTransactions: null,
 				tournamentTransactionsError: null,
 			};
 
