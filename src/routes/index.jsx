@@ -554,12 +554,11 @@ const authProtectedRoutes = [
 		operation: 'C',
 	},
 	{
-		path: '/chat/chatRain',
+		path: '/chat/chat-rain',
 		component: <ChatRain />,
 		modules: [modules.paymentManagement],
 		operation: 'C',
 	},
-	
 
 	{ path: '*', component: <DashboardView /> },
 ];

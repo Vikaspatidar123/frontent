@@ -442,7 +442,6 @@ const sideBarElements = [
 		],
 	},
 
-	
 	// {
 	// 	id: 104,
 	// 	isSeparator: true,
@@ -659,44 +658,13 @@ const sideBarElements = [
 		ulTagClass: '',
 		module: modules.kyc,
 	},
-	// {
-	// 	id: 2,
-	// 	link: '/profile',
-	// 	label: 'Profile',
-	// 	searchString: 'profile account my account',
-	// 	iconName: 'bx bxs-user-circle',
-	// 	linkClass: '',
-	// 	anchorClass: '',
-	// 	spanClass: '',
-	// 	liTagClass: '',
-	// 	ulTagClass: '',
-	// },
-	// {
-	// 	id: 111,
-	// 	isSeparator: true,
-	// 	title: 'Chat Management',
-	// },
-	// {
-	// 	id: 38,
-	// 	link: '/chat/channels',
-	// 	label: 'Channels',
-	// 	searchString: 'channels',
-	// 	iconName: 'bx bx-list-check',
-	// 	linkClass: '',
-	// 	anchorClass: '',
-	// 	spanClass: '',
-	// 	liTagClass: '',
-	// 	ulTagClass: '',
-	// 	module: modules.paymentManagement,
-	// },
 	{
-		id: 300 ,
+		id: 111,
 		isSeparator: true,
 		title: 'Chat',
 	},
-
 	{
-		id: 200,
+		id: 38,
 		link: '/#',
 		label: 'Chat Management',
 		searchString: 'chat management',
@@ -706,10 +674,10 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [modules.report, modules.review],
+		groupedModules: [modules.paymentManagement],
 		subMenu: [
 			{
-				id: 201,
+				id: 39,
 				link: '/chat/players',
 				label: 'Players',
 				searchString: 'chat players',
@@ -719,10 +687,10 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.report,
+				module: modules.paymentManagement,
 			},
 			{
-				id: 202,
+				id: 40,
 				link: '/chat/channels',
 				label: 'Channels',
 				searchString: 'channels',
@@ -732,11 +700,11 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.report,
+				module: modules.paymentManagement,
 			},
 			{
-				id: 203,
-				link: '/chat/chatRain',
+				id: 41,
+				link: '/chat/chat-rain',
 				label: 'Chat Rain',
 				searchString: 'chat rain',
 				iconName: '',
@@ -745,13 +713,10 @@ const sideBarElements = [
 				spanClass: '',
 				liTagClass: '',
 				ulTagClass: '',
-				module: modules.report,
+				module: modules.paymentManagement,
 			},
-			
 		],
 	},
-
-	
 ];
 
 // For maintaining single source of truth (SSOT)
