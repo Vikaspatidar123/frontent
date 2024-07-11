@@ -357,7 +357,7 @@ const getPaymentDetails = (payload) =>
 
 const getUserReferrals = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}referral/users`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}referral/users`,
 		payload
 	);
 
