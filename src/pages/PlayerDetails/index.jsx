@@ -25,7 +25,7 @@ const PlayerDetailsPage = ({ t }) => {
 	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState(1);
-	const { playerId } = useParams();
+	const { playerId, tabNumber } = useParams();
 	const {
 		resetUserLimitSuccess,
 		markUserAsInternalSuccess,
@@ -89,7 +89,7 @@ const PlayerDetailsPage = ({ t }) => {
 		createUserCommentsSuccess,
 	]);
 
-	useEffect(() => setActiveTab(1), [playerId]);
+	useEffect(() => setActiveTab(Number(tabNumber || 1)), [playerId, tabNumber]);
 
 	const { userWalletData, userDetails, userDetailsLoading, duplicateUsers } =
 		useUserDetails({
@@ -120,7 +120,7 @@ const PlayerDetailsPage = ({ t }) => {
 			),
 		},
 		{
-			id: 4,
+			id: 3,
 			title: 'Wallet',
 			component: (
 				<PlayerWallet
@@ -130,7 +130,7 @@ const PlayerDetailsPage = ({ t }) => {
 			),
 		},
 		{
-			id: 5,
+			id: 4,
 			title: 'Reports', // Combined dropdown for all player reports
 			isHidden: !isGranted(modules.report, 'R'),
 			isDropdown: true,
@@ -157,25 +157,20 @@ const PlayerDetailsPage = ({ t }) => {
 				},
 			],
 		},
-		// {
-		// 	id: 6,
-		// 	title: 'Ledger',
-		// 	component: <Ledger userId={playerId} />,
-		// 	isHidden: !isGranted(modules.report, 'R'),
-		// },
+
 		{
-			id: 7,
+			id: 5,
 			title: 'KYC Settings',
 			component: <UserDocsList userDetails={userDetails} userId={playerId} />,
 		},
 		{
-			id: 8,
+			id: 6,
 			title: 'Referrals',
 			component: <Referrals userId={playerId} />,
 			isHidden: !isGranted(modules.player, 'R'),
 		},
 		{
-			id: 9,
+			id: 7,
 			title: 'Notes',
 			component: <Notes userId={playerId} userDetails={userDetails} />,
 			isHidden: !isGranted(modules.comment, 'R'),

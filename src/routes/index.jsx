@@ -467,7 +467,7 @@ const authProtectedRoutes = [
 		operation: 'R',
 	},
 	{
-		path: '/player-details/:playerId',
+		path: '/player-details/:playerId/:tabNumber',
 		component: <PlayerDetailsPage />,
 		modules: [modules.player],
 		operation: 'R',
