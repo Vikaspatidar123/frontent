@@ -78,6 +78,8 @@ import Channels from '../pages/Channels';
 import ChatPlayers from '../pages/ChatPlayers';
 import ChatRain from '../pages/ChatRain';
 import CreateChannel from '../pages/Channels/CreateChannel';
+import CreateChatRain from '../pages/ChatRain/CreateChatRain';
+
 
 const authProtectedRoutes = [
 	{
@@ -562,7 +564,11 @@ const authProtectedRoutes = [
 	},
 	{
 		path: '/chat/channel/create',
-		component: <CreateChannel />,
+		component: <CreateChannel />
+	},
+	{
+		path: '/chat/chat-rain/add',
+		component: <CreateChatRain />,
 		modules: [modules.paymentManagement],
 		operation: 'C',
 	},

@@ -118,6 +118,8 @@ import AllReferrals from './allReferrals/reducer';
 import Disputes from './disputeResolution/reducer';
 import Channel from './channel/reducer';
 
+import Chatrain from './chatRain/reducer'
+
 const rootReducer = combineReducers({
 	AdminRoles,
 	Countries,
@@ -163,6 +165,7 @@ const rootReducer = combineReducers({
 	AllReferrals,
 	Disputes,
 	Channel,
+	Chatrain
 });
 
 export default rootReducer;

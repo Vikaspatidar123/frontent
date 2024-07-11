@@ -395,6 +395,8 @@ const getChannelMessages = (payload) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}messages/messages-group`,
 		payload
 	);
+const getChatrain = (payload) =>
+	getRequest(`${VITE_APP_API_URL}/api/v2/live-chat/get-chat-rain`, payload);
 
 export {
 	getBonusDetail,
@@ -470,4 +472,5 @@ export {
 	getDisputeDetails,
 	getAllChannels,
 	getChannelMessages,
+	getChatrain
 };

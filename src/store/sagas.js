@@ -41,6 +41,7 @@ import NotificationSaga from './notifications/saga';
 import AllReferralsSaga from './allReferrals/saga';
 import DisputeSaga from './disputeResolution/saga';
 import ChannelSaga from './channel/saga';
+import ChatrainSaga from './chatRain/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -86,5 +87,6 @@ export default function* rootSaga() {
 		fork(AllReferralsSaga),
 		fork(DisputeSaga),
 		fork(ChannelSaga),
+		fork(ChatrainSaga)
 	]);
 }
