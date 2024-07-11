@@ -70,6 +70,7 @@ import PaymentProviderView from '../pages/Payment/PaymentProviderView';
 import EditPayment from '../pages/Payment/EditPayment';
 import Notifications from '../pages/Notifications';
 import NotifyPlayers from '../pages/Notifications/components/NotifyPlayers';
+import AllReferrals from '../pages/AllReferrals';
 
 const authProtectedRoutes = [
 	{
@@ -221,6 +222,12 @@ const authProtectedRoutes = [
 		component: <EditBonus />,
 		modules: [modules.bonus],
 		operation: 'U',
+	},
+	{
+		path: '/referral',
+		component: <AllReferrals />,
+		modules: [modules.bonus],
+		operation: 'R',
 	},
 	{
 		path: '/languages',

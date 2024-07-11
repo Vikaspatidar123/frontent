@@ -113,6 +113,8 @@ import Payment from './payment/reducer';
 
 import Notification from './notifications/reducer';
 
+import AllReferrals from './allReferrals/reducer';
+
 const rootReducer = combineReducers({
 	AdminRoles,
 	Countries,
@@ -155,6 +157,7 @@ const rootReducer = combineReducers({
 	Tournament,
 	Payment,
 	Notification,
+	AllReferrals,
 });
 
 export default rootReducer;
