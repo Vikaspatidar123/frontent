@@ -1,11 +1,4 @@
-import {
-	put,
-	takeLatest,
-	fork,
-	all,
-	select,
-	takeEvery,
-} from 'redux-saga/effects';
+import { put, takeLatest, fork, all, select } from 'redux-saga/effects';
 import { objectToFormData } from '../../utils/objectToFormdata';
 
 //  Redux States
@@ -16,7 +9,6 @@ import {
 	GET_SITE_CONFIGURATION_START,
 	UPDATE_LOGO,
 	UPDATE_APP_SETTING,
-	UPDATE_REFERRAL,
 } from './actionTypes';
 import {
 	updateProfileSuccess,
@@ -35,7 +27,6 @@ import {
 	uploadLogoRequest,
 	updateAppSettingRequest,
 	updateLimitsRequest,
-	updateReferralRequest,
 } from '../../network/postRequests';
 
 const limitKeys = [
@@ -131,41 +122,6 @@ function* updateLogoWorker(action) {
 	}
 }
 
-function* updateReferralWorker(action) {
-	try {
-		const data = action && action.payload;
-
-		yield updateReferralRequest(data);
-		const [key] = Object.keys(data || {});
-
-		// For locally updating the state without api call.
-		const { siteConfigDetails } = yield select((state) => state.ProfileData);
-		const referralValue =
-			typeof siteConfigDetails?.referral?.value === 'string'
-				? JSON.parse(siteConfigDetails.referral.value)
-				: siteConfigDetails?.referral?.value;
-		const updatedSiteConfig = {
-			...siteConfigDetails,
-			referral: {
-				...(siteConfigDetails?.referral || {}),
-				value: {
-					...(referralValue || {}),
-					...(key === 'status'
-						? { isActive: !referralValue?.isActive }
-						: { [key]: data[key] }),
-				},
-			},
-		};
-		yield put(getSiteConfigurationSuccess(updatedSiteConfig));
-		showToastr({
-			message: `Referral settings updated successfully`,
-			type: 'success',
-		});
-	} catch (e) {
-		console.warn('Error while uploading logo');
-	}
-}
-
 function* resetProfilePasswordWorker(action) {
 	try {
 		const { data } = action && action.payload;
@@ -196,7 +152,6 @@ export function* ProfileDataWatcher() {
 	yield takeLatest(GET_SITE_CONFIGURATION_START, getSiteConfigurationWorker);
 	yield takeLatest(UPDATE_LOGO, updateLogoWorker);
 	yield takeLatest(UPDATE_APP_SETTING, updateAppSetting);
-	yield takeEvery(UPDATE_REFERRAL, updateReferralWorker);
 }
 
 function* ProfileDataSaga() {

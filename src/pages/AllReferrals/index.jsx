@@ -5,6 +5,7 @@ import TableContainer from '../../components/Common/Table';
 import CrudSection from '../../components/Common/CrudSection';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useUpdateSettings from './hooks/useUpdateSettings';
+import FormModal from '../../components/Common/FormModal';
 
 const AllReferrals = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
@@ -18,6 +19,12 @@ const AllReferrals = () => {
 		setCurrentPage,
 		currentPage,
 		onChangeRowsPerPage,
+		isOpen,
+		toggleFormModal,
+		header,
+		validation,
+		isEditAllReferralsLoading,
+		formFields,
 	} = useUpdateSettings();
 
 	return (
@@ -52,6 +59,16 @@ const AllReferrals = () => {
 						</Card>
 					</Col>
 				</Row>
+				<FormModal
+					isOpen={isOpen}
+					toggle={toggleFormModal}
+					header={header}
+					validation={validation}
+					submitLabel="Update Settings"
+					customColClasses="col-md-12"
+					formFields={formFields}
+					isSubmitLoading={isEditAllReferralsLoading}
+				/>
 			</Container>
 		</div>
 	);

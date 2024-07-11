@@ -294,7 +294,11 @@ export const CustomSwitchButton = ({
 }) => (
 	<span className="form-check form-check-inline">
 		{label && (
-			<Label htmlFor={htmlFor} className={labelClassName}>
+			<Label
+				htmlFor={htmlFor}
+				className={labelClassName}
+				style={{ paddingTop: 2 }}
+			>
 				{label}
 			</Label>
 		)}
@@ -306,7 +310,7 @@ export const CustomSwitchButton = ({
 			value={value}
 			onClick={onClick}
 			onBlur={onBlur}
-			style={{ padding: 8, ...(style || {}) }}
+			style={{ padding: 8, marginRight: 16, ...(style || {}) }}
 			checked={checked}
 			disabled={disabled}
 			{...rest}

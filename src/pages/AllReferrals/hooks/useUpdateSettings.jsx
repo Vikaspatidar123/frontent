@@ -3,10 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 import { Earned, KeyValueCellNA, UserName } from '../ReferralColList';
-import { getReferralInitialValues, referralSchema } from '../formDetails';
+import {
+	getReferralInitialValues,
+	referralSchema,
+	staticFormFields,
+} from '../formDetails';
 import {
 	editReferralStart,
 	fetchAllReferralsStart,
+	getSiteConfigurationStart,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
@@ -17,32 +22,41 @@ import { YMDFormat } from '../../../constants/config';
 const useUpdateSettings = () => {
 	const dispatch = useDispatch();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
-	const { isEditReferralSettingsSuccess, allReferralsData, loading } =
-		useSelector((state) => state.AllReferrals);
+	const {
+		isEditAllReferralsSuccess,
+		isEditAllReferralsLoading,
+		allReferralsData,
+		loading,
+	} = useSelector((state) => state.AllReferrals);
 	const { defaultCurrency } = useSelector((state) => state.Currencies);
+	const { siteConfigDetails } = useSelector((state) => state.ProfileData);
+
+	const referralValue =
+		typeof siteConfigDetails?.referral?.value === 'string'
+			? JSON.parse(siteConfigDetails.referral.value)
+			: siteConfigDetails?.referral?.value;
+
 	const handleUpdateReferralSettings = (values) => {
 		dispatch(editReferralStart(values));
 	};
 
-	const { isOpen, setIsOpen, validation, setHeader } = useForm({
-		header: 'Settings',
-		initialValues: getReferralInitialValues(),
-		referralSchema,
-		onSubmitEntry: handleUpdateReferralSettings,
-	});
+	const { isOpen, setIsOpen, validation, setHeader, header, formFields } =
+		useForm({
+			header: 'Settings',
+			initialValues: getReferralInitialValues(referralValue),
+			validationSchema: referralSchema,
+			onSubmitEntry: handleUpdateReferralSettings,
+			staticFormFields: staticFormFields(),
+		});
 
 	useEffect(() => {
-		if (isEditReferralSettingsSuccess) setIsOpen(false);
-	}, [isEditReferralSettingsSuccess]);
+		if (isEditAllReferralsSuccess) setIsOpen(false);
+	}, [isEditAllReferralsSuccess]);
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
-		validation.setValues(
-			getReferralInitialValues({
-				// ...selectedRow,
-			})
-		);
+		validation.setValues(getReferralInitialValues(referralValue));
 		setHeader('Settings');
 		setIsEdit({ open: false, selectedRow: '' });
 	};
@@ -80,6 +94,7 @@ const useUpdateSettings = () => {
 				page: currentPage,
 			})
 		);
+		dispatch(getSiteConfigurationStart());
 	}, []);
 
 	const formattedReferrals = useMemo(
@@ -95,6 +110,10 @@ const useUpdateSettings = () => {
 
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
+	};
+
+	const toggleFormModal = () => {
+		setIsOpen((prev) => !prev);
 	};
 
 	const columns = useMemo(
@@ -143,6 +162,12 @@ const useUpdateSettings = () => {
 		setCurrentPage,
 		currentPage,
 		onChangeRowsPerPage,
+		isOpen,
+		toggleFormModal,
+		header,
+		validation,
+		isEditAllReferralsLoading,
+		formFields,
 	};
 };
 

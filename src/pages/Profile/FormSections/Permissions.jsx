@@ -36,7 +36,7 @@ const Permissions = ({ details }) => {
 															<p className="m-0 p-0">
 																{permissionLabel(permissionKey)}
 															</p>
-															<img width={16} src={checkIcon} alt="Check" />
+															<img width={20} src={checkIcon} alt="Check" />
 														</div>
 													))}
 												</div>

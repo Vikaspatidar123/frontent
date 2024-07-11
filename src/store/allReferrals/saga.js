@@ -6,12 +6,15 @@ import {
 	EDIT_ALL_REFERRALS_START,
 	FETCH_ALL_REFERRALS_START,
 } from './actionTypes';
-import { fetchAllReferralsFail, fetchAllReferralsSuccess } from './actions';
+import {
+	editReferralSuccess,
+	fetchAllReferralsFail,
+	fetchAllReferralsSuccess,
+} from './actions';
 import { getAllReferrals } from '../../network/getRequests';
-// import {
-// 	updateNotification,
-// } from '../../network/postRequests';
-// import { showToastr } from '../../utils/helpers';
+import { updateReferralRequest } from '../../network/postRequests';
+import { showToastr } from '../../utils/helpers';
+import { getSiteConfigurationStart } from '../actions';
 
 function* fetchAllReferrals({ payload }) {
 	try {
@@ -22,25 +25,25 @@ function* fetchAllReferrals({ payload }) {
 	}
 }
 
-function* editReferralSettingsWorker() {
-	// try {
-	// 	const { data, page, perPage } = action && action.payload;
-	// 	delete data.language;
-	// 	yield updateNotification(data);
-	// 	yield put(fetchNotificationsStart({ page, perPage }));
-	// 	showToastr({
-	// 		message: `Notification Updated Successfully`,
-	// 		type: 'success',
-	// 	});
-	// 	yield put(editNotificationSuccess());
-	// } catch (e) {
-	// 	yield put(editNotificationFail());
-	// }
+function* updateReferralWorker(action) {
+	try {
+		const data = action && action.payload;
+
+		yield updateReferralRequest(data);
+		yield put(editReferralSuccess());
+		yield put(getSiteConfigurationStart());
+		showToastr({
+			message: `Referral settings updated successfully`,
+			type: 'success',
+		});
+	} catch (e) {
+		console.warn('Error while referral setting update', e?.message || '');
+	}
 }
 
 function* NotificationsSaga() {
 	yield takeEvery(FETCH_ALL_REFERRALS_START, fetchAllReferrals);
-	yield takeEvery(EDIT_ALL_REFERRALS_START, editReferralSettingsWorker);
+	yield takeEvery(EDIT_ALL_REFERRALS_START, updateReferralWorker);
 }
 
 export default NotificationsSaga;

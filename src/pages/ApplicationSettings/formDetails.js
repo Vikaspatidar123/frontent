@@ -185,44 +185,6 @@ const rightAppSettingFormFields = (details, customOnChange) => [
 	},
 ];
 
-const referralSchema = Yup.object().shape({
-	amount: Yup.number()
-		.min(0.01, 'Amount must be greater than 0.')
-		.required('Amount is required!')
-		.max(1000, 'Amount must be less than or equal to 1000.'),
-});
-
-const getReferralInitialValues = (details) => ({
-	amount: details?.amount ?? 0,
-	status: details?.isActive ?? false,
-});
-
-const leftStaticReferralFormFields = (_, handleUpdate) => [
-	{
-		name: 'status',
-		fieldType: 'toggle',
-		topDescription:
-			'Player can refer this application to other non register players.',
-		label: 'Allow Referral',
-		switchSizeClass: 'd-flex justify-content-between form-switch-md px-0 pt-3',
-		containerClass: 'false',
-		callBack: handleUpdate,
-		divClass: 'mb-5',
-	},
-];
-
-const rightStaticReferralFormFields = (details, handleUpdate) => [
-	{
-		name: 'amount',
-		fieldType: 'textField',
-		description: details?.description || '',
-		label: 'Referral Amount',
-		type: 'number',
-		placeholder: 'Enter Referral Amount',
-		customBlurHandler: handleUpdate,
-	},
-];
-
 export {
 	adminSiteConfigSchema,
 	getSiteConfigInitialValues,
@@ -233,8 +195,4 @@ export {
 	getAppSettingInitialValues,
 	BOOL,
 	appSettingValidation,
-	referralSchema,
-	getReferralInitialValues,
-	leftStaticReferralFormFields,
-	rightStaticReferralFormFields,
 };

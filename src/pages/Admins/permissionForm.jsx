@@ -67,6 +67,7 @@ const PermissionForm = ({
 														<CustomInputField
 															type="checkbox"
 															value={value}
+															style={{ padding: 8 }}
 															checked={
 																!!values?.permission[key]?.includes(value)
 															}
