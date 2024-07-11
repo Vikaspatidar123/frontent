@@ -4,7 +4,7 @@ import { Col, Card, CardBody, UncontrolledTooltip, Row } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import FlatPickr from 'react-flatpickr';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TableContainer from '../../../components/Common/Table';
 import { tableCustomClass } from '../../../constants/config';
 import { GAME_ORDER_BY, TABS, dateConstants } from '../constant';
@@ -33,7 +33,6 @@ const GameReport = () => {
 		currencies,
 	} = useGameReport();
 
-	const navigate = useNavigate();
 	const { isGranted } = usePermission();
 
 	const tabComponent = (
@@ -100,15 +99,17 @@ const GameReport = () => {
 									>
 										Refresh
 									</UncontrolledTooltip>
-									<i
-										role="button"
-										tabIndex="0"
-										className="mdi mdi-arrow-top-right-thick mx-2 font-size-24 mb-3"
-										style={{ cursor: 'pointer' }}
+									<Link
+										style={{ marginTop: -13, fontSize: 15 }}
+										variant="outline"
+										key="view"
+										to="/game-report"
+										className="text-decoration-underline"
 										id="redirectToReport"
-										onClick={() => navigate('/game-report')}
-										onKeyDown={() => {}}
-									/>
+									>
+										View All
+									</Link>
+
 									<UncontrolledTooltip
 										placement="top"
 										target="redirectToReport"

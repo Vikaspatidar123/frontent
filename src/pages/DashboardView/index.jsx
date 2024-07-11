@@ -56,7 +56,7 @@ const DashboardView = ({ t }) => {
 							<CardBody>
 								<h4 className="card-title font-size-16 d-flex align-items-center">
 									<span className="mdi mdi-finance fs-1 me-3 text-success" />{' '}
-									Revenue Report
+									GGR Report
 								</h4>
 								<RevenueReport
 									livePlayerData={livePlayerData}
