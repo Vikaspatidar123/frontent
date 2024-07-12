@@ -116,6 +116,7 @@ import Notification from './notifications/reducer';
 import AllReferrals from './allReferrals/reducer';
 
 import Disputes from './disputeResolution/reducer';
+import Channel from './channel/reducer';
 
 const rootReducer = combineReducers({
 	AdminRoles,
@@ -161,6 +162,7 @@ const rootReducer = combineReducers({
 	Notification,
 	AllReferrals,
 	Disputes,
+	Channel,
 });
 
 export default rootReducer;

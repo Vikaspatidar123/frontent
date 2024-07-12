@@ -66,6 +66,9 @@ const updateReview = ({ data }) =>
 		data
 	);
 
+const updateChannel = (data) =>
+	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}update-group`, data);
+
 export {
 	updateStatus,
 	updateGlobalRegistration,
@@ -80,4 +83,5 @@ export {
 	updateCompanyOddApi,
 	addRestrictedItems,
 	updateReview,
+	updateChannel,
 };

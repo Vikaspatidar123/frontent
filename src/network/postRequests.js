@@ -570,6 +570,12 @@ const updateStatus = (data) =>
 		data
 	);
 
+const createChannel = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}create-group`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -659,4 +665,5 @@ export {
 	notifyPlayersRequest,
 	sendMessageRequest,
 	updateStatus,
+	createChannel,
 };
