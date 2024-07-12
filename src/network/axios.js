@@ -17,6 +17,9 @@ export const setupInterceptors = () => {
 				removeLoginToken();
 				redirect('/login');
 			}
+			if (status === 500) {
+				return Promise.reject(error);
+			}
 			const errorCode =
 				error.response?.data?.errors[0]?.description ||
 				error.response?.data?.errors[0]?.name ||
