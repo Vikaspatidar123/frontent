@@ -8,7 +8,7 @@ const KeyValueCellNA = ({ value }) => value ?? '-';
 
 const UserName = ({ cell }) =>
 	cell.value && cell?.row?.original?.id ? (
-		<Link to={`/player-details/${cell?.row?.original?.id}/6`}>
+		<Link to={`/player-details/${cell?.row?.original?.id}?tabNumber=6`}>
 			{cell.value}
 		</Link>
 	) : (

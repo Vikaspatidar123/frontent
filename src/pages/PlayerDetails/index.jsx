@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import TabsPage from '../../components/Common/TabsPage';
 import Breadcrumb from '../../components/Common/Breadcrumb';
@@ -25,7 +25,11 @@ const PlayerDetailsPage = ({ t }) => {
 	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
 	const [activeTab, setActiveTab] = useState(1);
-	const { playerId, tabNumber } = useParams();
+	const { playerId } = useParams();
+	const { search } = useLocation();
+	const params = new URLSearchParams(search);
+	const tabNumber = params.get('tabNumber');
+
 	const {
 		resetUserLimitSuccess,
 		markUserAsInternalSuccess,
