@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import General from '../FormSections/General';
 import { resetChatrain } from '../../../store/chatRain/actions';
-import { getchannelDetails } from '../../../store/actions';
+import { getChannels } from '../../../store/actions';
 
 const useCreateChatRain = ({ isEdit }) => {
   const { chatRainId } = useParams();
@@ -19,12 +19,12 @@ const useCreateChatRain = ({ isEdit }) => {
   const chatRainDetails = location?.state?.chatRainDetails;
 
   useEffect(() => {
-    // dispatch(
-    //   getchannelDetails({
-    //     limit: 20,
-    //     pageNo: 1,
-    //   })
-    // );
+    dispatch(
+      getChannels({
+        limit: 20,
+        pageNo: 1,
+      })
+    );
   }, []);
 
   useEffect(() => {

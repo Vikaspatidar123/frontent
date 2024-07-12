@@ -26,7 +26,9 @@ const General = ({
 	let navigate = useNavigate();
 	let inital = true
 	const { updateChatrainLoading } = useSelector((state) => state.Chatrain)
-	const { channelDetails } = []
+	const { channels } = useSelector(
+		(state) => state.Channel
+	);
 
 	const handleSubmit = (values) => {
 		if (isEdit) {
@@ -60,7 +62,6 @@ const General = ({
 
 
 	useEffect(() => {
-
 		setFormFields([
 			...formFields?.filter((item) => item?.name !== 'chatGroupId'),
 			{
@@ -69,14 +70,14 @@ const General = ({
 				type: '',
 				label: 'Select Channel',
 				placeholder: 'Select Channel',
-				optionList: channelDetails?.rows?.map((item) => ({
+				optionList: channels?.map((item) => ({
 					optionLabel: capitalizeString(item?.name),
-					value: item?.chatGroupId,
-					id: item?.chatGroupId,
+					value: item?.id,
+					id: item?.id
 				})),
 			}
 		])
-	}, [channelDetails?.count])
+		}, [channels])
 
 	return (
 		<Row>

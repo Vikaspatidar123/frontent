@@ -396,7 +396,7 @@ const getChannelMessages = (payload) =>
 		payload
 	);
 const getChatrain = (payload) =>
-	getRequest(`${VITE_APP_API_URL}/api/v2/live-chat/get-chat-rain`, payload);
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}get-chat-rain`, payload);
 
 export {
 	getBonusDetail,
