@@ -174,7 +174,7 @@ const TableContainer = ({
 										<tr>
 											{row?.cells?.map((cell) => (
 												<td
-													style={cell?.column?.customStyle || {}}
+													style={cell?.column?.customColumnStyle || {}}
 													key={cell.id}
 													{...cell.getCellProps()}
 												>

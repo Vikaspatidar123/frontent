@@ -88,7 +88,7 @@ const usePlayerReport = () => {
 				accessor: 'username',
 				notHidable: true,
 				filterable: true,
-				customStyle: { fontWeight: 'bold' },
+				customColumnStyle: { fontWeight: 'bold' },
 				Cell: ({ cell }) => <Username cell={cell} />,
 			},
 			// {

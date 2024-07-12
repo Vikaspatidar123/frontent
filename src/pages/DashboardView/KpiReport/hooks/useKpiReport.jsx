@@ -98,7 +98,7 @@ const useKpiReport = () => {
 				Header: 'Name',
 				accessor: 'name',
 				filterable: true,
-				customStyle: { fontWeight: 'bold' },
+				customColumnStyle: { fontWeight: 'bold' },
 				Cell: ({ cell }) => <ProviderName cell={cell?.value || '-'} />,
 			},
 			{

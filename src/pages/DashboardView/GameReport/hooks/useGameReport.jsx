@@ -77,7 +77,7 @@ const useGameReport = () => {
 			{
 				Header: 'NAME',
 				accessor: 'name',
-				customStyle: { fontWeight: 'bold' },
+				customColumnStyle: { fontWeight: 'bold' },
 				filterable: true,
 				Cell: ({ cell }) => <Name cell={cell?.value || '-'} />,
 			},

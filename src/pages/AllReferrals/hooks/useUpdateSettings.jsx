@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
-import moment from 'moment';
 import { Earned, KeyValueCellNA, UserName } from '../ReferralColList';
 import {
 	getReferralInitialValues,
@@ -17,7 +16,6 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
-import { YMDFormat } from '../../../constants/config';
 
 const useUpdateSettings = () => {
 	const dispatch = useDispatch();
@@ -99,11 +97,11 @@ const useUpdateSettings = () => {
 
 	const formattedReferrals = useMemo(
 		() =>
-			allReferralsData?.referralData?.map((referral) => ({
+			allReferralsData?.referralTransaction?.map((referral) => ({
 				...referral,
-				username: referral?.user?.username,
-				email: referral?.user?.email,
-				amount: referral?.ledger?.amount,
+				username: referral?.username,
+				email: referral?.email,
+				totalAmount: referral?.total_amount,
 			})) || [],
 		[allReferralsData]
 	);
@@ -122,6 +120,7 @@ const useUpdateSettings = () => {
 				Header: 'Username',
 				accessor: 'username',
 				filterable: true,
+				customColumnStyle: { fontWeight: 'bold' },
 				Cell: ({ cell }) => <UserName cell={cell} />,
 			},
 			{
@@ -130,24 +129,20 @@ const useUpdateSettings = () => {
 				filterable: true,
 				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			},
-
 			{
-				Header: 'Amount Earned',
-				accessor: 'amount',
+				Header: 'Player Earned',
+				accessor: 'totalAmount',
 				filterable: true,
 				disableSortBy: true,
 				Cell: ({ cell }) => (
 					<Earned value={cell.value} defaultCurrency={defaultCurrency} />
 				),
 			},
-
 			{
-				Header: 'Date',
-				accessor: 'createdAt',
+				Header: 'Referral Count',
+				accessor: 'referral_count',
 				filterable: true,
-				Cell: ({ cell }) => (
-					<KeyValueCellNA value={moment(cell.value).format(YMDFormat)} />
-				),
+				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
 			},
 		],
 		[defaultCurrency]

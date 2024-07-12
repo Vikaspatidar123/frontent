@@ -7,8 +7,8 @@ import { Badge } from 'reactstrap';
 const KeyValueCellNA = ({ value }) => value ?? '-';
 
 const UserName = ({ cell }) =>
-	cell.value && cell?.row?.original?.userId ? (
-		<Link to={`/player-details/${cell?.row?.original?.userId}/6`}>
+	cell.value && cell?.row?.original?.id ? (
+		<Link to={`/player-details/${cell?.row?.original?.id}/6`}>
 			{cell.value}
 		</Link>
 	) : (
