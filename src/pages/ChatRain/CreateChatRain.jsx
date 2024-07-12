@@ -1,77 +1,46 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Container } from 'reactstrap';
-// import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux';
-
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import FormPage from '../../components/Common/FormPage';
-import {
-	resetLinearProgress,
-	showLinearProgress,
-} from '../../store/progressLoading/actions';
-import ConfirmationModal from '../../components/Common/ConfirmationModal';
-import { formPageTitle } from '../../components/Common/constants';
-import useCreate from './hooks/useCreate';
+import useCreateChatRain from './hooks/useCreateChatRain';
+import StepFormTabs from '../../components/Common/StepFormTabs';
 
-const CreateChatRain = () => {
-	const dispatch = useDispatch();
+const CreateChatrain = () => {
 	const {
-		validation,
-		customComponent,
-		leftFormFields,
-		rightFormFields,
-		isAddSuperUserLoading,
-		showModal,
-		setShowModal,
-		navigate,
-	} = useCreate();
-
-	useEffect(() => {
-		if (isAddSuperUserLoading) {
-			dispatch(showLinearProgress());
-		} else {
-			dispatch(resetLinearProgress());
-		}
-	}, [isAddSuperUserLoading]);
+		tabData,
+		toggleTab,
+		activeTab,
+		onNextClick,
+    createChatrainLoading
+	} = useCreateChatRain({ isEdit: false });
 
 	return (
 		<div className="page-content">
 			<Breadcrumbs
 				title="Chat Rain"
-				breadcrumbItem="Add"
+				breadcrumbItem="Create"
+				titleLink="/chat-rain"
 				leftTitle={
 					<>
 						<i className="fas fa-angle-left" /> Back
 					</>
 				}
-				values={validation?.values}
-				setShowModal={setShowModal}
 			/>
 			<Container fluid>
-				<FormPage
-					formTitle="Add new chat rain"
-					validation={validation}
-					leftFormFields={leftFormFields}
-					rightFormFields={rightFormFields}
-					submitLabel="Add"
-					customColClasses=""
-					customComponent={customComponent}
-					isSubmitLoading={isAddSuperUserLoading}
+				<StepFormTabs
+					activeTab={activeTab}
+					dontShowFooter={true}
+					tabsData={tabData}
+					toggleTab={toggleTab}
+					onNextClick={onNextClick}
+					// isNextDisabled={isNextDisabled}
+					// isPrevDisabled={isNextDisabled}
+					submitButtonLoading={createChatrainLoading}
 				/>
 			</Container>
-			<ConfirmationModal
-				openModal={showModal}
-				setOpenModal={setShowModal}
-				validation={validation}
-				navigate={navigate}
-				pageType={formPageTitle.staff}
-			/>
 		</div>
 	);
 };
 
-CreateChatRain.propTypes = {
-	// t: PropTypes.func.isRequired,
-};
+CreateChatrain.propTypes = {};
 
-export default CreateChatRain;
+export default CreateChatrain;

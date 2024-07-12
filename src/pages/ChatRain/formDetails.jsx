@@ -2,6 +2,38 @@ import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 
+const generalStepInitialValues = ({ chatRainDetails }) => ({
+	name: chatRainDetails?.name || '',
+	prizeMoney: chatRainDetails?.prizeMoney || '',
+	currency: chatRainDetails?.currency || '',
+	chatGroupId: chatRainDetails?.chatGroupId || null
+});
+
+
+const generalStaticFormFields = () => [
+	{
+		name: 'name',
+		fieldType: 'textField',
+		type: '',
+		label: 'Chat Rain Title',
+		placeholder: 'Chat Rain Title',
+	},
+	{
+		name: 'prizeMoney',
+		fieldType: 'textField',
+		type: '',
+		label: 'Prize Money',
+		placeholder: 'Prize Money',
+	},
+	{
+		name: 'currency',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Currency',
+		placeholder: '         ',
+	},
+];
+
 // Add staff and edit staff
 const getInitialValues = (defaultValue) => ({
 	email: defaultValue?.email || '',
@@ -163,4 +195,6 @@ export {
 	filterValues,
 	filterValidationSchema,
 	initialValueInstance,
+	generalStepInitialValues,
+	generalStaticFormFields
 };

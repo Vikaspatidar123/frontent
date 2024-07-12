@@ -149,6 +149,14 @@ export const getDashboardFilterText = (dateOption, from, to, currencyName) => {
 	}
 };
 
+const capitalizeString = (str) => {
+	if(!str) return '';
+	
+	return str.replace(/\b\w/g, function(char) {
+		return char.toUpperCase();
+	});
+}
+
 export {
 	safeStringify,
 	showToastr,
@@ -156,4 +164,5 @@ export {
 	downloadFileInNewWindow,
 	dataURLtoBlob,
 	getPercentage,
+	capitalizeString
 };
