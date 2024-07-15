@@ -97,3 +97,6 @@ export * from './notifications/actions';
 
 // Referrals
 export * from './allReferrals/actions';
+
+// Disputes
+export * from './disputeResolution/actions';

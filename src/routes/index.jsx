@@ -71,6 +71,7 @@ import EditPayment from '../pages/Payment/EditPayment';
 import Notifications from '../pages/Notifications';
 import NotifyPlayers from '../pages/Notifications/components/NotifyPlayers';
 import AllReferrals from '../pages/AllReferrals';
+import DisputeResolution from '../pages/DisputeResolution';
 
 const authProtectedRoutes = [
 	{
@@ -250,6 +251,13 @@ const authProtectedRoutes = [
 	{
 		path: '/notifications',
 		component: <Notifications />,
+		// FIXME: Update the permission
+		modules: [modules.page],
+		operation: 'R',
+	},
+	{
+		path: '/dispute-resolution',
+		component: <DisputeResolution />,
 		// FIXME: Update the permission
 		modules: [modules.page],
 		operation: 'R',

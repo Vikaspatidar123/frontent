@@ -39,6 +39,7 @@ import TournamentSaga from './tournaments/saga';
 import PaymentSaga from './payment/saga';
 import NotificationSaga from './notifications/saga';
 import AllReferralsSaga from './allReferrals/saga';
+import DisputeSaga from './disputeResolution/saga';
 
 export default function* rootSaga() {
 	yield all([
@@ -82,5 +83,6 @@ export default function* rootSaga() {
 		fork(PaymentSaga),
 		fork(NotificationSaga),
 		fork(AllReferralsSaga),
+		fork(DisputeSaga),
 	]);
 }
