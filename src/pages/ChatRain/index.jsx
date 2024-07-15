@@ -1,22 +1,17 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Col, Row, Card, CardBody } from 'reactstrap';
+// import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { Card, CardBody, Col, Container, Row, Spinner } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
-import {
-	projectName,
-	tableCustomClass,
-	tbodyClass,
-} from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
-import useAdminListing from './hooks/useAdminListing';
+import useChatrainListing from './hooks/useChatrainListing';
+import useButtonList from './hooks/useButtonList';
 
-const ChatRain = () => {
-	// meta title
-	document.title = projectName;
+const Chatrain = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
@@ -29,22 +24,23 @@ const ChatRain = () => {
 	} = useFilters();
 
 	const {
+		formattedChatrain,
 		isLoading,
-		totalPages,
 		page,
 		setPage,
+		totalCount,
 		itemsPerPage,
-		columns,
-		formattedAdminDetails,
-		buttonList,
 		onChangeRowsPerPage,
-	} = useAdminListing(false, filterValidation.values);
+		columns
+	} = useChatrainListing(filterValidation.values);
+
+	const { buttonList } = useButtonList();
 
 	return (
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb title="Dashboard" breadcrumbItem="Chat Rain" />
+					<Breadcrumb title="Chat Rain Management" breadcrumbItem="Chat Rain" />
 				)}
 				<Row>
 					<Col lg="12">
@@ -60,20 +56,19 @@ const ChatRain = () => {
 									isFilterChanged={isFilterChanged}
 								/>
 								<TableContainer
-									columns={columns || []}
-									data={formattedAdminDetails}
+									columns={columns}
+									data={formattedChatrain || []}
 									isGlobalFilter
 									isPagination
 									customPageSize={itemsPerPage}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									tbodyClass={tbodyClass}
+									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalPages}
+                  channelDetails					totalPageCount={totalCount || 15}
 									isManualPagination
 									onChangePagination={setPage}
 									currentPage={page}
-									isLoading={!isLoading}
+									isLoading={isLoading}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
 								/>
 							</CardBody>
@@ -85,12 +80,12 @@ const ChatRain = () => {
 	);
 };
 
-ChatRain.propTypes = {
+Chatrain.propTypes = {
 	// t: PropTypes.func,
 };
 
-ChatRain.defaultProps = {
-	// t: (string) => string,
+Chatrain.defaultProps = {
+	t: (string) => string,
 };
 
-export default ChatRain;
+export default Chatrain;

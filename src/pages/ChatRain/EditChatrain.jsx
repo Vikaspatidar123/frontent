@@ -4,20 +4,20 @@ import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCreateChatRain from './hooks/useCreateChatRain';
 import StepFormTabs from '../../components/Common/StepFormTabs';
 
-const CreateChatrain = () => {
+const EditChatrain = () => {
 	const {
 		tabData,
 		toggleTab,
 		activeTab,
 		onNextClick,
-    createChatrainLoading
-	} = useCreateChatRain({ isEdit: false });
+		updateChatrainLoading,
+	} = useCreateChatRain({ isEdit: true });
 
 	return (
 		<div className="page-content">
 			<Breadcrumbs
 				title="Chat Rain"
-				breadcrumbItem="Create"
+				breadcrumbItem="Edit"
 				titleLink="/chat/chat-rain"
 				leftTitle={
 					<>
@@ -26,21 +26,29 @@ const CreateChatrain = () => {
 				}
 			/>
 			<Container fluid>
+				{/* {getChannelDetailsLoading ? (
+					<Spinners
+						color="primary"
+						className="position-absolute top-50 start-50"
+					/>
+				) : ( */}
 				<StepFormTabs
 					activeTab={activeTab}
-					dontShowFooter={true}
 					tabsData={tabData}
+					dontShowFooter={true}
 					toggleTab={toggleTab}
 					onNextClick={onNextClick}
 					// isNextDisabled={isNextDisabled}
 					// isPrevDisabled={isNextDisabled}
-					submitButtonLoading={createChatrainLoading}
+					submitButtonText="Update Chat Rain"
+					submitButtonLoading={updateChatrainLoading}
 				/>
+				{/* )} */}
 			</Container>
 		</div>
 	);
 };
 
-CreateChatrain.propTypes = {};
+EditChatrain.propTypes = {};
 
-export default CreateChatrain;
+export default EditChatrain;

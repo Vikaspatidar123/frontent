@@ -34,17 +34,14 @@ const General = ({
 		if (isEdit) {
 			dispatch(updateChatrain({
 				data: {
-					chatGroupId: values?.chatGroupId,
 					name: values?.name,
-					prizeMoney: Number(values?.prizeMoney),
-					currency: values?.currency,
-					chatRainId: chatRainDetails?.chatRainId
+					chatRainId: chatRainDetails?.id
 				}
 			}))
 		} else {
 			dispatch(createChatrain({
 				data: {
-					chatGroupId: values?.chatGroupId,
+					chatGroupId: Number(values?.chatGroupId),
 					name: values?.name,
 					prizeMoney: Number(values?.prizeMoney),
 					currency: values?.currency,

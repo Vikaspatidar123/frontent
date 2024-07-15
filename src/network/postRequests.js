@@ -578,6 +578,9 @@ const createChannel = (data) =>
 const createChatrain = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}create-chat-rain`, data);
 
+const updateChatrain = (data) =>
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}update-chat-rain`, data);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -668,5 +671,6 @@ export {
 	sendMessageRequest,
 	updateStatus,
 	createChannel,
-	createChatrain
+	createChatrain,
+	updateChatrain
 };

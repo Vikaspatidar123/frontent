@@ -69,9 +69,6 @@ const updateReview = ({ data }) =>
 const updateChannel = (data) =>
 	putRequest(`${VITE_APP_API_URL}${API_NAMESPACE}update-group`, data);
 
-const updateChatrain = (data) =>
-	putRequest(`${VITE_APP_API_URL}/api/v1/chat-rain/update`, data);
-
 export {
 	updateStatus,
 	updateGlobalRegistration,
@@ -86,6 +83,5 @@ export {
 	updateCompanyOddApi,
 	addRestrictedItems,
 	updateReview,
-	updateChannel,
-	updateChatrain
+	updateChannel
 };

@@ -29,7 +29,7 @@ const useCreateChatRain = ({ isEdit }) => {
 
   useEffect(() => {
     if (createChatrainSuccess) {
-      navigate('/chat-rain');
+      navigate('/chat/chat-rain');
     }
     if (createChatrainError) {
       setActiveTab('general');
@@ -39,7 +39,7 @@ const useCreateChatRain = ({ isEdit }) => {
 
   useEffect(() => {
     if (updateChatrainSuccess) {
-      navigate('/chat-rain');
+      navigate('/chat/chat-rain');
     }
     if (updateChatrainError) {
       setActiveTab('general');

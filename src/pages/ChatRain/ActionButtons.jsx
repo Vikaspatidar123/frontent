@@ -1,115 +1,116 @@
 import React from 'react';
-import { UncontrolledTooltip, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
-import usePermission from '../../components/Common/Hooks/usePermission';
-import { modules } from '../../constants/permissions';
+import { Button, UncontrolledTooltip } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 
-const ActionButtons = ({ handleEdit, row, handleStatus, handleView }) => {
-	const active = row?.original?.isActive;
-	const adminUserId = row?.original?.id;
-	const isSuperAdmin = row?.original?.adminRole?.level === 1;
-	const { isGranted } = usePermission();
+const ActionButtons = ({
+	row: { original },
+	handleDelete,
+	handleView,
+}) => {
+	const navigate = useNavigate();
+	const active = original?.isActive;
+	const chatRainId = original?.id;
+	const handleEdit = () => navigate(`/chat/chat-rain/edit/${chatRainId}`, { state: { chatRainDetails: original } });
 
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			{isGranted(modules.admin, 'R') && (
-				<li data-bs-toggle="tooltip" data-bs-placement="top">
-					<Button
-						// disabled={isSuperAdmin}
-						className="btn btn-sm btn-soft-primary"
-						onClick={(e) => handleView(e, row?.original)}
-					>
-						<i
-							className="mdi mdi-eye-outline"
-							id={`view-tooltip-${adminUserId}`}
-						/>
-						<UncontrolledTooltip
-							placement="top"
-							target={`view-tooltip-${adminUserId}`}
-						>
-							View Details
-						</UncontrolledTooltip>
-					</Button>
-				</li>
-			)}
-			{isGranted(modules.admin, 'TS') && (
-				<li>
-					{active ? (
-						<Button
-							disabled={isSuperAdmin}
-							className="btn btn-sm btn-soft-danger"
-							onClick={(e) =>
-								handleStatus(e, {
-									active,
-									adminUserId,
-								})
-							}
-						>
-							<i
-								className="mdi mdi-close-thick"
-								id={`active-tooltip-${adminUserId}`}
-							/>
-							<UncontrolledTooltip
-								placement="top"
-								target={`active-tooltip-${adminUserId}`}
-							>
-								Set Inactive
-							</UncontrolledTooltip>
-						</Button>
-					) : (
-						<Button
-							disabled={isSuperAdmin}
-							className="btn btn-sm btn-soft-success"
-							onClick={(e) =>
-								handleStatus(e, {
-									active,
-									adminUserId,
-								})
-							}
-						>
-							<i
-								className="mdi mdi-check-circle"
-								id={`active-tooltip-${adminUserId}`}
-							/>
-							<UncontrolledTooltip
-								placement="top"
-								target={`active-tooltip-${adminUserId}`}
-							>
-								Set Active
-							</UncontrolledTooltip>
-						</Button>
-					)}
-				</li>
-			)}
+			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+				<Button
+					className="btn btn-sm btn-soft-info"
+					id="viewToolTip"
+					onClick={() => handleView(original)}
+				>
+					<i className="mdi mdi-eye-outline" id={`view-${chatRainId}`} />
+					<UncontrolledTooltip placement="top" target={`viewToolTip`}>
+						View Chat Rain
+					</UncontrolledTooltip>
+				</Button>
+			</li>
 
-			{isGranted(modules.admin, 'U') && (
-				<li>
+
+			{/* <li>
+				{active ? (
 					<Button
-						disabled={isSuperAdmin}
-						className="btn btn-sm btn-soft-info"
-						onClick={(e) => handleEdit(e, row?.original)}
+						className="btn btn-sm btn-soft-danger"
+						onClick={(e) =>
+							handleStatus(e, {
+								active,
+								chatRainId,
+							})
+						}
 					>
-						<i
-							className="mdi mdi-pencil-outline"
-							id={`edit-tooltip-${adminUserId}`}
-						/>
-						<UncontrolledTooltip
-							placement="top"
-							target={`edit-tooltip-${adminUserId}`}
-						>
-							Edit Details
+						<i className="mdi mdi-close-thick" id={`active-${chatRainId}`} />
+						<UncontrolledTooltip placement="top" target={`active-${chatRainId}`}>
+							Set Inactive
 						</UncontrolledTooltip>
 					</Button>
-				</li>
-			)}
+				) : (
+					<Button
+						className="btn btn-sm btn-soft-success"
+						onClick={(e) =>
+							handleStatus(e, {
+								active,
+								chatRainId,
+							})
+						}
+					>
+						<i className="mdi mdi-check-circle" id={`active-${chatRainId}`} />
+						<UncontrolledTooltip placement="top" target={`active-${chatRainId}`}>
+							Set Active
+						</UncontrolledTooltip>
+					</Button>
+				)}
+			</li> */}
+
+			{!original?.isClosed && <li>
+				<Button
+					className="btn btn-sm btn-soft-info"
+					id="editToolTip"
+					onClick={handleEdit}
+				>
+					<i className="mdi mdi-pencil-outline" />
+					<UncontrolledTooltip placement="top" target="editToolTip">
+						Edit Chat Rain
+					</UncontrolledTooltip>
+				</Button>
+			</li>}
+			{/* <li>
+				<Button
+					className="btn btn-sm btn-soft-info"
+					id="viewToolTip"
+					onClick={() => handleView(original)}
+				>
+					<i className="mdi mdi-eye-outline" />
+					<UncontrolledTooltip placement="top" target="viewToolTip">
+						View
+					</UncontrolledTooltip>
+				</Button>
+			</li> */}
+
+			{/* <li>
+				<Button
+					id="deleteToolTip"
+					className="btn btn-sm btn-soft-danger"
+					onClick={() => handleDelete(original)}
+				>
+					<i className="mdi mdi-delete-outline" />
+					<UncontrolledTooltip placement="top" target="deleteToolTip">
+						Delete
+					</UncontrolledTooltip>
+				</Button>
+			</li> */}
 		</ul>
 	);
 };
 
 ActionButtons.propTypes = {
-	handleEdit: PropTypes.func.isRequired,
-	handleStatus: PropTypes.func.isRequired,
-	row: PropTypes.objectOf.isRequired,
+	row: PropTypes.shape({
+		original: PropTypes.shape({
+			chatRainId: PropTypes.number.isRequired,
+			isActive: PropTypes.bool.isRequired,
+		}).isRequired,
+	}).isRequired,
 	handleView: PropTypes.func.isRequired,
 };
 

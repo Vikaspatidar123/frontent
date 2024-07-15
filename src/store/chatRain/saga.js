@@ -4,12 +4,12 @@ import { createChatrainFail, createChatrainSuccess, getChatrainFail, getChatrain
 import { getChatrain } from '../../network/getRequests';
 import { createChatrain } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
-import { updateChatrain } from '../../network/putRequests';
+import { updateChatrain } from '../../network/postRequests';
 
 function* getChatrainWorker(action) {
 	try {
 		const { data } = yield getChatrain(action.payload);
-		yield put(getChatrainSuccess(data?.data?.chatRains));
+		yield put(getChatrainSuccess(data?.data));
 	} catch (error) {
 		yield put(
 			getChatrainFail(error?.response?.data?.errors?.[0]?.description)
