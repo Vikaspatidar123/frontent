@@ -78,7 +78,7 @@ const useChatrainListing = (filterValues = {}) => {
 				Header: 'Currency',
 				accessor: 'currency',
 				filterable: true,
-				Cell: ({ cell }) => <Title value={cell.value} />,
+				Cell: ({ cell }) => <Title value={cell.value?.code} />,
 			},
 			{
 				Header: 'ACTION',

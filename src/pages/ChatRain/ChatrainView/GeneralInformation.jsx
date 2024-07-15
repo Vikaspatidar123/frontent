@@ -26,7 +26,7 @@ const GeneralDetails = ({ chatRainDetails }) => (
             <h3 className="h6 text-nowrap">Chat Rain Prizemoney:</h3>
           </Col>
           <Col>
-            <p>{chatRainDetails?.prizeMoney} {chatRainDetails?.currency}</p>
+            <p>{chatRainDetails?.prizeMoney} {chatRainDetails?.currency?.code}</p>
           </Col>
         </Row>
 

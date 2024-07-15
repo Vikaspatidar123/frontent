@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 const generalStepInitialValues = ({ chatRainDetails }) => ({
 	name: chatRainDetails?.name || '',
 	prizeMoney: chatRainDetails?.prizeMoney || '',
-	currency: chatRainDetails?.currency || '',
+	currency: chatRainDetails?.currency?.code || '',
 	chatGroupId: chatRainDetails?.chatGroupId || null
 });
 
