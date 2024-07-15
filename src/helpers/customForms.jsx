@@ -97,6 +97,8 @@ export const CustomSelectField = ({
 	isError = false,
 	errorMsg,
 	description,
+	dynamicDescription,
+	validation,
 	...props
 }) => (
 	<>
@@ -135,7 +137,7 @@ export const CustomSelectField = ({
 				<span className="text-muted">{description}</span>{' '}
 			</div>
 		)}
-
+		{dynamicDescription ? dynamicDescription(validation.values) : null}
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
 		) : null}
@@ -547,6 +549,7 @@ export const getField = (
 		inputClassName,
 		outerDivClass,
 		customInputClass,
+		dynamicDescription,
 		...rest
 	},
 	validation
@@ -617,6 +620,8 @@ export const getField = (
 					}
 					disabled={!!isDisabled}
 					description={description}
+					dynamicDescription={dynamicDescription}
+					validation={validation}
 				/>
 			);
 		case 'switch':

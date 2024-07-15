@@ -69,6 +69,7 @@ const getLimitInitialValues = (defaultValue) => ({
 
 const depositSchema = () =>
 	Yup.object().shape({
+		amountType: Yup.string().required('Amount type is required!'),
 		addAmount: Yup.number()
 			.typeError('Only numbers are allowed')
 			.min(0.01, 'Amount should be greater than 0')

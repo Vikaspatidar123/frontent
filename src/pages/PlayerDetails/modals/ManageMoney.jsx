@@ -1,5 +1,8 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { depositSchema } from '../formDetails';
@@ -11,7 +14,6 @@ import {
 	getUserDetails,
 } from '../../../store/actions';
 import { showToastr } from '../../../utils/helpers';
-import PlayerWallet from '../PlayerWallet';
 
 const transactionTypeOptionsList = [
 	{
@@ -26,6 +28,22 @@ const transactionTypeOptionsList = [
 
 const staticFormFields = (currencySelect) => [
 	{
+		name: 'amountType',
+		fieldType: 'select',
+		placeholder: 'Amount type',
+		label: 'Select Amount Type',
+		optionList: [
+			{
+				optionLabel: 'Cash',
+				value: 'cash',
+			},
+			{
+				optionLabel: 'Bonus',
+				value: 'bonus',
+			},
+		],
+	},
+	{
 		name: 'transactionType',
 		fieldType: 'radioGroup',
 		label: 'Transaction Type',
@@ -34,6 +52,7 @@ const staticFormFields = (currencySelect) => [
 	{ ...currencySelect },
 	{
 		name: 'addAmount',
+		placeholder: '0.00',
 		fieldType: 'textfieldWithAdornment',
 		label: 'Amount',
 		type: 'number',
@@ -50,9 +69,9 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 	const handleDepositToOther = (values) => {
 		let purpose = '';
 		if (values?.transactionType === 'deposit') {
-			purpose = 'Deposit';
+			purpose = values?.amountType === 'cash' ? 'Deposit' : 'BonusDeposit';
 		} else {
-			purpose = 'Withdraw';
+			purpose = values?.amountType === 'cash' ? 'Withdraw' : 'BonusWithdraw';
 		}
 
 		const walletId = userDetails?.wallets?.find(
@@ -70,6 +89,7 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 		dispatch(
 			depositToOther({
 				amount: parseFloat(values?.addAmount.toFixed(2)),
+				amountType: values.amountType,
 				walletId: Number(walletId),
 				purpose,
 				userId: userDetails.id,
@@ -88,6 +108,7 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 	} = useForm({
 		validationSchema: depositSchema,
 		initialValues: {
+			amountType: null,
 			addAmount: '',
 			transactionType: '',
 			currencyId: null,
@@ -117,7 +138,7 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 	}, [userDetails]);
 
 	useEffect(() => {
-		if (currencies) {
+		if (currencies && userDetails?.wallets) {
 			setFormFields(
 				staticFormFields({
 					name: 'currencyId',
@@ -128,10 +149,36 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 						optionLabel: currency.name,
 						value: currency.id,
 					})),
+					dynamicDescription: (values) => {
+						if (values?.currencyId) {
+							const wallet = useMemo(
+								() =>
+									userDetails?.wallets?.find(
+										(wal) => wal.currencyId == values.currencyId
+									),
+								[values.currencyId, userDetails?.wallets]
+							);
+							return (
+								<p className="mt-2 m-0">
+									<b>
+										Available Balance :{' '}
+										<span className="text-success">
+											{values?.amountType === 'cash'
+												? wallet?.amount || '0.00'
+												: values?.amountType === 'bonus'
+												? wallet?.bonusAmount || '0.00'
+												: '0.00'}
+										</span>
+									</b>
+								</p>
+							);
+						}
+						return '';
+					},
 				})
 			);
 		}
-	}, [currencies]);
+	}, [currencies, userDetails]);
 
 	useEffect(() => {
 		if (!currencies) {
@@ -158,9 +205,9 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 				submitLabel="Submit"
 				customColClasses="col-md-12"
 				isSubmitLoading={depositToOtherLoading}
-				customComponent={
-					<PlayerWallet userDetails={userDetails} heading="Balance" />
-				}
+				// customComponent={
+				// 	<PlayerWallet userDetails={userDetails} heading="Balance" />
+				// }
 			/>
 		</div>
 	);
