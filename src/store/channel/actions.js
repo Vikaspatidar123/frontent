@@ -67,7 +67,7 @@ export const createChannelFailure = (payload) => ({
 	payload,
 });
 
-export const createChannelStart = (payload) => ({
+export const createChannel = (payload) => ({
 	type: CREATE_CHANNEL,
 	payload,
 });

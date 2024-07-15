@@ -6,8 +6,10 @@ import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
 import { projectName } from '../../constants/config';
 import useChannelListing from './hooks/useChannelListing';
+import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
+import useButtonList from './hooks/useButtonList';
 
 const Channels = () => {
 	document.title = projectName;
@@ -33,6 +35,8 @@ const Channels = () => {
 		columns,
 	} = useChannelListing(filterValidation.values);
 
+	const { buttonList } = useButtonList();
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -42,6 +46,7 @@ const Channels = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
+							<CrudSection buttonList={buttonList} title="Channel" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

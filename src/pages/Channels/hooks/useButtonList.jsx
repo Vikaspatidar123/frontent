@@ -5,7 +5,7 @@ const useButtonList = () => {
 	const navigate = useNavigate();
 	const handleAddClick = (e) => {
 		e.preventDefault();
-		navigate('/channel/create');
+		navigate('/chat/channel/create');
 	};
 
 	const buttonList = useMemo(() => [

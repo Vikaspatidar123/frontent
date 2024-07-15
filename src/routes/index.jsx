@@ -77,6 +77,7 @@ import NotificationDetails from '../pages/Notifications/components/NotificationD
 import Channels from '../pages/Channels';
 import ChatPlayers from '../pages/ChatPlayers';
 import ChatRain from '../pages/ChatRain';
+import CreateChannel from '../pages/Channels/CreateChannel';
 
 const authProtectedRoutes = [
 	{
@@ -556,6 +557,12 @@ const authProtectedRoutes = [
 	{
 		path: '/chat/chat-rain',
 		component: <ChatRain />,
+		modules: [modules.paymentManagement],
+		operation: 'C',
+	},
+	{
+		path: '/chat/channel/create',
+		component: <CreateChannel />,
 		modules: [modules.paymentManagement],
 		operation: 'C',
 	},

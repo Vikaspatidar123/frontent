@@ -50,7 +50,7 @@ function* updateChannelWorker(action) {
 			type: 'success',
 		});
 		if (navigate) {
-			navigate('/channel');
+			navigate('/chat/channels');
 		}
 	} catch (e) {
 		showToastr({
@@ -65,7 +65,7 @@ function* updateChannelWorker(action) {
 function* createChannelWorker(action) {
 	try {
 		const { data, navigate } = action && action.payload;
-		console.log('data', data);
+
 		const { response } = yield createChannel(data);
 
 		yield put(
@@ -79,7 +79,7 @@ function* createChannelWorker(action) {
 			type: 'success',
 		});
 		if (navigate) {
-			navigate('/channel');
+			navigate('/chat/channels');
 		}
 	} catch (e) {
 		showToastr({
