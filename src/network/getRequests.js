@@ -373,6 +373,12 @@ const getAllReferrals = (payload) =>
 		payload
 	);
 
+const getDisputes = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}referral/transactions`,
+		payload
+	);
+
 export {
 	getBonusDetail,
 	getAllCurrencies,
@@ -443,4 +449,5 @@ export {
 	getUserReferrals,
 	getNotifications,
 	getAllReferrals,
+	getDisputes,
 };

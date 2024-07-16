@@ -59,6 +59,8 @@
 @import 'custom/plugins/sparkline-chart';
 @import 'custom/plugins/google-map';
 @import 'custom/plugins/vector-maps';
+@import 'custom/pages/email';
+@import 'custom/pages/bonus';
 
 // Pages
 //New Theme
@@ -66,3 +68,4 @@
 @import 'custom/pages/projects';
 @import 'custom/pages/permission-form';
 @import 'custom/pages/cms';
+@import './common';

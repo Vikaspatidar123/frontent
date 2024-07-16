@@ -115,6 +115,8 @@ import Notification from './notifications/reducer';
 
 import AllReferrals from './allReferrals/reducer';
 
+import Disputes from './disputeResolution/reducer';
+
 const rootReducer = combineReducers({
 	AdminRoles,
 	Countries,
@@ -158,6 +160,7 @@ const rootReducer = combineReducers({
 	Payment,
 	Notification,
 	AllReferrals,
+	Disputes,
 });
 
 export default rootReducer;

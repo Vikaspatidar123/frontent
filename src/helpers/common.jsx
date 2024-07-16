@@ -8,6 +8,7 @@ const colorOptions = [
 	'bg-danger',
 	'bg-warning',
 	'bg-info',
+	'bg-success',
 ];
 
 let lastColor = null;
