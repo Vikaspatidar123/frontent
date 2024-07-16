@@ -4,7 +4,7 @@ import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 const DisputeDetails = () => (
 	<div className="email-rightbar mb-3">
 		<Card>
-			<CardBody>
+			<CardBody className="overflow-scroll-hide email-rightbar-cardbody">
 				<div className="d-flex mb-4">
 					{/* <img
                         className="d-flex me-3 rounded-circle avatar-sm"
