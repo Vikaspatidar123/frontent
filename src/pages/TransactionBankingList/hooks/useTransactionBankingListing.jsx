@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { json2csv } from 'json-2-csv';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -6,6 +7,7 @@ import {
 	resetTransactionBankingData,
 } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
+
 import {
 	Amount,
 	CreatedAt,
@@ -17,11 +19,17 @@ import {
 	ToWallet,
 } from '../TransactionBankingCol';
 import { STATUS_TYPE } from '../constants';
+import { showToastr } from '../../../utils/helpers';
+import { getTransactionBanking } from '../../../network/getRequests';
+import { downloadReport } from '../../../helpers/common';
 
 const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [isDownloading, setIsDownloading] = useState({
+		fullCsv: false,
+	});
 	const { transactionBanking, loading: isTransactionBankingLoading } =
 		useSelector((state) => state.TransactionBanking);
 	const superAdminUser = useSelector(
@@ -150,16 +158,65 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 		];
 	}, [filterValues.currencyId]);
 
+	const fetchReportData = async (report) => {
+		setIsDownloading((prev) => ({
+			...prev,
+			[report.type]: true,
+		}));
+		const { data } = await getTransactionBanking({
+			perPage: itemsPerPage,
+			page: currentPage,
+			userId,
+			...filterValues,
+		});
+		setIsDownloading((prev) => ({
+			...prev,
+			[report.type]: false,
+		}));
+		if (!data?.data?.transactions || data.data.transactions.length === 0) {
+			showToastr({
+				message: 'No records found to download.',
+				type: 'error',
+			});
+			return;
+		}
+		const csvJsonData = data?.data?.transactions.map((transaction) => ({
+			...transaction,
+			ledgerId: transaction?.ledgerId || '-',
+			amount: transaction?.ledger?.amount ?? '-',
+			purpose: transaction?.ledger?.purpose || '-',
+			currency: transaction?.ledger?.currency?.code || '-',
+			from: transaction?.ledger?.fromWalletId
+				? superAdminUser?.username
+				: transaction?.user?.username,
+			to: transaction?.ledger?.toWalletId
+				? superAdminUser?.username
+				: transaction?.user?.username,
+			status: STATUS_TYPE.find((status) => status.value === transaction?.status)
+				?.label,
+			createdAt: getDateTime(transaction?.createdAt),
+
+			userTags:
+				transaction?.toUserWallet?.user?.userTags
+					?.map((tags) => tags?.tag?.tag)
+					?.join(', ') || '-',
+		}));
+		downloadReport('csv', json2csv(csvJsonData), 'Transactions Banking Report');
+	};
+
 	const exportComponent = useMemo(() => [
 		{
-			label: '',
+			label: 'All-Pages',
 			isDownload: true,
-			tooltip: 'Download as CSV',
-			icon: <i className="mdi mdi-file-download-outline" />,
-			data: formattedTransactionBanking,
+			isCsv: true,
+			tooltip: 'Download CSV Report',
+			icon: <i className="mdi mdi-file-document-multiple" />,
+			buttonColor: 'primary',
+			type: 'fullCsv',
+			handleDownload: fetchReportData,
+			isDownloading: isDownloading.fullCsv,
 		},
 	]);
-
 	return {
 		currentPage,
 		setCurrentPage,

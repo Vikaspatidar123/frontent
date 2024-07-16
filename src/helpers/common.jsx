@@ -32,4 +32,14 @@ const getSyncColor = (idx) => {
 	return syncColor;
 };
 
-export { getRandomColor, Colors, getSyncColor };
+const downloadReport = (type, data, CSVFileName = 'downloaded_data') => {
+	const blob = new Blob([data], { type: `application/${type}` });
+	const link = document.createElement('a');
+	link.href = URL.createObjectURL(blob);
+	link.download = `${CSVFileName}.${type}`;
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+};
+
+export { getRandomColor, Colors, getSyncColor, downloadReport };
