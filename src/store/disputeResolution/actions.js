@@ -3,6 +3,9 @@ import {
 	FETCH_DISPUTES_START,
 	FETCH_DISPUTES_SUCCESS,
 	RESET_DISPUTES_DATA,
+	FETCH_DISPUTE_DETAILS,
+	FETCH_DISPUTE_SUCCESS,
+	FETCH_DISPUTE_FAIL,
 } from './actionTypes';
 
 export const fetchDisputesStart = (payload) => ({
@@ -22,5 +25,20 @@ export const fetchDisputesFail = (history) => ({
 
 export const resetDisputesData = (payload) => ({
 	type: RESET_DISPUTES_DATA,
+	payload,
+});
+
+export const fetchDisputeDetails = (payload) => ({
+	type: FETCH_DISPUTE_DETAILS,
+	payload,
+});
+
+export const fetchDisputeSuccess = (payload) => ({
+	type: FETCH_DISPUTE_SUCCESS,
+	payload,
+});
+
+export const fetchDisputeFail = (payload) => ({
+	type: FETCH_DISPUTE_FAIL,
 	payload,
 });

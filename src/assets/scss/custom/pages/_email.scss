@@ -4,7 +4,7 @@
 .email-leftbar {
 	width: 236px;
 	float: left;
-	padding: 20px;
+	padding: 12px;
 	border-radius: 5px;
 }
 
@@ -22,7 +22,7 @@
 	}
 }
 
-@media (max-width: 767px) {
+@media (max-width: 567px) {
 	.email-leftbar {
 		float: none;
 		width: 100%;
@@ -207,6 +207,23 @@
 	}
 }
 
-.email-rightbar-cardbody {
-	height: 645px;
+.details-card {
+	height: 630px;
+}
+
+.subject-ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	max-width: 135px;
+}
+
+.dispute {
+	border-radius: 10px;
+	padding: 12px 5px 4px 5px !important;
+}
+
+.active-dispute {
+	background: var(--bs-border-color-translucent);
 }

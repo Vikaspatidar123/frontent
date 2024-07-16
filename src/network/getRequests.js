@@ -375,7 +375,13 @@ const getAllReferrals = (payload) =>
 
 const getDisputes = (payload) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.BONUS}referral/transactions`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}/crm${MANAGEMENT.DISPUTE}get-ticket`,
+		payload
+	);
+
+const getDisputeDetails = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/crm${MANAGEMENT.DISPUTE}get-ticket-details`,
 		payload
 	);
 
@@ -450,4 +456,5 @@ export {
 	getNotifications,
 	getAllReferrals,
 	getDisputes,
+	getDisputeDetails,
 };

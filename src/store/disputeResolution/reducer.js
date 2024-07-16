@@ -1,4 +1,7 @@
 import {
+	FETCH_DISPUTE_DETAILS,
+	FETCH_DISPUTE_FAIL,
+	FETCH_DISPUTE_SUCCESS,
 	FETCH_DISPUTES_FAIL,
 	FETCH_DISPUTES_START,
 	FETCH_DISPUTES_SUCCESS,
@@ -9,6 +12,10 @@ const initialState = {
 	disputes: null,
 	error: '',
 	loading: false,
+
+	disputeDetails: null,
+	detailsLoading: false,
+	detailsError: '',
 };
 
 const disputesReducer = (state = initialState, { type, payload } = {}) => {
@@ -30,6 +37,25 @@ const disputesReducer = (state = initialState, { type, payload } = {}) => {
 				loading: false,
 				disputes: payload,
 			};
+
+		case FETCH_DISPUTE_DETAILS:
+			return {
+				...state,
+				detailsLoading: true,
+			};
+		case FETCH_DISPUTE_FAIL:
+			return {
+				...state,
+				detailsLoading: false,
+				error: true,
+			};
+		case FETCH_DISPUTE_SUCCESS:
+			return {
+				...state,
+				detailsLoading: false,
+				disputeDetails: payload,
+			};
+
 		case RESET_DISPUTES_DATA:
 			return {
 				...state,

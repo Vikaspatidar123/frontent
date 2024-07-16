@@ -4,9 +4,19 @@ import { Col, Container, Row } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import DisputeDetails from './components/DisputeDetails';
 import DisputeList from './components/DisputeList';
+import useDisputeResolution from './hooks/useDisputeResolution';
 
 const DisputeResolution = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
+	const {
+		disputes,
+		loading,
+		selectedDispute,
+		setSelectedDispute,
+		detailsLoading,
+		disputeDetails,
+	} = useDisputeResolution();
+
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -18,8 +28,16 @@ const DisputeResolution = () => {
 				)}
 				<Row>
 					<Col lg="12">
-						<DisputeList />
-						<DisputeDetails />
+						<DisputeList
+							disputes={disputes}
+							loading={loading}
+							selectedDispute={selectedDispute}
+							setSelectedDispute={setSelectedDispute}
+						/>
+						<DisputeDetails
+							detailsLoading={detailsLoading}
+							disputeDetails={disputeDetails}
+						/>
 					</Col>
 				</Row>
 			</Container>

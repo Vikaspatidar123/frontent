@@ -14,6 +14,7 @@ const MANAGEMENT = {
 	BONUS: '/bonus-management/',
 	TOURNAMENT: '/tournament',
 	PAYMENT: '/payment/',
+	DISPUTE: '/dispute-management/',
 };
 
 const METHODS = {
