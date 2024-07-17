@@ -29,7 +29,7 @@ const DisputeList = ({
 			<h6 className="mt-4 font-weight-bold">All Disputes</h6>
 
 			<div className="mail-list mt-1">
-				{disputes?.rows?.map(({ subject, id }) => (
+				{disputes?.threadTickets?.map(({ subject, id }) => (
 					<Link
 						to="javascript:"
 						onClick={() => setSelectedDispute(id)}
@@ -76,7 +76,7 @@ const DisputeList = ({
 						) : null}
 					</Link>
 				))}
-				{!disputes?.rows?.length && !loading ? (
+				{!disputes?.threadTickets?.length && !loading ? (
 					<p className="mt-4">No disputes found!</p>
 				) : null}
 			</div>

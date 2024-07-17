@@ -15,6 +15,10 @@ const DisputeResolution = () => {
 		setSelectedDispute,
 		detailsLoading,
 		disputeDetails,
+		showReplyForm,
+		setShowReplyForm,
+		validation,
+		sendMessageLoading,
 	} = useDisputeResolution();
 
 	return (
@@ -37,6 +41,10 @@ const DisputeResolution = () => {
 						<DisputeDetails
 							detailsLoading={detailsLoading}
 							disputeDetails={disputeDetails}
+							showReplyForm={showReplyForm}
+							setShowReplyForm={setShowReplyForm}
+							validation={validation}
+							sendMessageLoading={sendMessageLoading}
 						/>
 					</Col>
 				</Row>

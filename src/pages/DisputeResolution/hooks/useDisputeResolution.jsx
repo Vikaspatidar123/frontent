@@ -3,14 +3,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	fetchDisputesStart,
 	fetchDisputeDetails,
+	sendMessage,
 } from '../../../store/actions';
+import useForm from '../../../components/Common/Hooks/useFormModal';
+import { getInitialValues, validationSchema } from '../formDetails';
 
 const useDisputeResolution = () => {
 	const dispatch = useDispatch();
 	const [selectedDispute, setSelectedDispute] = useState('');
-	const { disputes, loading, detailsLoading, disputeDetails } = useSelector(
-		(state) => state.Disputes
-	);
+	const [showReplyForm, setShowReplyForm] = useState('');
+
+	const {
+		disputes,
+		loading,
+		detailsLoading,
+		disputeDetails,
+		sendMessageLoading,
+	} = useSelector((state) => state.Disputes);
 
 	const handleDisputeDetails = () => {
 		if (selectedDispute) {
@@ -23,13 +32,35 @@ const useDisputeResolution = () => {
 	}, []);
 
 	useEffect(() => {
-		const disputeId = disputes?.rows?.[0]?.id || '';
+		const disputeId = disputes?.threadTickets?.[0]?.id || '';
 		if (disputeId) setSelectedDispute(disputeId);
 	}, [disputes]);
 
 	useEffect(() => {
 		handleDisputeDetails();
+		setShowReplyForm('');
 	}, [selectedDispute]);
+
+	const handleSendMessage = (values) => {
+		dispatch(
+			sendMessage({
+				data: {
+					...values,
+					files: null,
+					file: values.files?.[0],
+					threadId: selectedDispute,
+					userId: disputeDetails?.userId,
+				},
+				setShowReplyForm,
+			})
+		);
+	};
+
+	const { validation } = useForm({
+		initialValues: getInitialValues(),
+		validationSchema,
+		onSubmitEntry: handleSendMessage,
+	});
 
 	return {
 		disputes,
@@ -38,6 +69,10 @@ const useDisputeResolution = () => {
 		setSelectedDispute,
 		detailsLoading,
 		disputeDetails,
+		showReplyForm,
+		setShowReplyForm,
+		validation,
+		sendMessageLoading,
 	};
 };
 

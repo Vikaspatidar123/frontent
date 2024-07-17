@@ -6,6 +6,9 @@ import {
 	FETCH_DISPUTES_START,
 	FETCH_DISPUTES_SUCCESS,
 	RESET_DISPUTES_DATA,
+	SEND_MESSAGE,
+	SEND_MESSAGE_FAIL,
+	SEND_MESSAGE_SUCCESS,
 } from './actionTypes';
 
 const initialState = {
@@ -16,6 +19,8 @@ const initialState = {
 	disputeDetails: null,
 	detailsLoading: false,
 	detailsError: '',
+
+	sendMessageLoading: false,
 };
 
 const disputesReducer = (state = initialState, { type, payload } = {}) => {
@@ -54,6 +59,22 @@ const disputesReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				detailsLoading: false,
 				disputeDetails: payload,
+			};
+
+		case SEND_MESSAGE:
+			return {
+				...state,
+				sendMessageLoading: true,
+			};
+		case SEND_MESSAGE_SUCCESS:
+			return {
+				...state,
+				sendMessageLoading: false,
+			};
+		case SEND_MESSAGE_FAIL:
+			return {
+				...state,
+				sendMessageLoading: false,
 			};
 
 		case RESET_DISPUTES_DATA:

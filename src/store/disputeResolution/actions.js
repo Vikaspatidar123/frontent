@@ -6,6 +6,9 @@ import {
 	FETCH_DISPUTE_DETAILS,
 	FETCH_DISPUTE_SUCCESS,
 	FETCH_DISPUTE_FAIL,
+	SEND_MESSAGE,
+	SEND_MESSAGE_SUCCESS,
+	SEND_MESSAGE_FAIL,
 } from './actionTypes';
 
 export const fetchDisputesStart = (payload) => ({
@@ -40,5 +43,20 @@ export const fetchDisputeSuccess = (payload) => ({
 
 export const fetchDisputeFail = (payload) => ({
 	type: FETCH_DISPUTE_FAIL,
+	payload,
+});
+
+export const sendMessage = (payload) => ({
+	type: SEND_MESSAGE,
+	payload,
+});
+
+export const sendMessageSuccess = (payload) => ({
+	type: SEND_MESSAGE_SUCCESS,
+	payload,
+});
+
+export const sendMessageFail = (payload) => ({
+	type: SEND_MESSAGE_FAIL,
 	payload,
 });

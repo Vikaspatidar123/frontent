@@ -569,6 +569,14 @@ const notifyPlayersRequest = (data) =>
 		data
 	);
 
+const sendMessageRequest = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/crm${MANAGEMENT.DISPUTE}reply-message`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -658,4 +666,5 @@ export {
 	createNotification,
 	updateNotification,
 	notifyPlayersRequest,
+	sendMessageRequest,
 };
