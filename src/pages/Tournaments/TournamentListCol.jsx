@@ -8,7 +8,7 @@ import ImageCell from '../../components/Common/ImageCell';
 import usePermission from '../../components/Common/Hooks/usePermission';
 
 import { modules } from '../../constants/permissions';
-import { formatDateYMD } from '../../utils/dateFormatter';
+import { getDateTime } from '../../utils/dateFormatter';
 import { TOURNAMENT_STATUS } from './constants';
 
 const Id = ({ value }) => value ?? '';
@@ -17,7 +17,7 @@ const Name = ({ value }) => value ?? '';
 
 const TournamentPeriod = ({ value }) => value ?? '';
 
-const Date = ({ value }) => formatDateYMD(value);
+const Date = ({ value }) => getDateTime(value);
 
 const Status = ({ value }) =>
 	value ?? '' ? (

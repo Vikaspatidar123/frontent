@@ -59,7 +59,7 @@ const validationSchema = ({
 				minRequiredHeight,
 				maxRequiredWidth,
 				maxRequiredHeight,
-				`Image dimensions must be between ${minRequiredWidth}x${minRequiredHeight} and ${maxRequiredWidth}x${maxRequiredHeight}.`
+				`The image dimensions must be between ${minRequiredWidth}px (width) x ${minRequiredHeight}px (height) and ${maxRequiredWidth}px (width) x ${maxRequiredHeight}px (height).`
 			)
 			.when(
 				'$isFilePresent',
