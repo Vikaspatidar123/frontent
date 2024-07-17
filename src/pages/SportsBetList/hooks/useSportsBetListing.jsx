@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, UncontrolledTooltip } from 'reactstrap';
+import { json2csv } from 'json-2-csv';
 import {
 	fetchSportsBetStart,
 	resetSportsBetData,
@@ -16,6 +17,9 @@ import {
 	UserName,
 } from '../SportsBetListCol';
 import { BETSLIP_TYPES, sportsBookStatus } from '../formDetails';
+import { downloadReport } from '../../../helpers/common';
+import { getSportsBet } from '../../../network/getRequests';
+import { showToastr } from '../../../utils/helpers';
 
 const useSportsBetListing = (filterValues = {}, userId = '') => {
 	const dispatch = useDispatch();
@@ -23,6 +27,9 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [viewModal, setViewModal] = useState(false);
 	const [betSlipData, setBetSlipData] = useState([]);
+	const [isDownloading, setIsDownloading] = useState({
+		fullCsv: false,
+	});
 	const { sportsBet, loading: isSportsBetLoading } = useSelector(
 		(state) => state.SportsBet
 	);
@@ -234,13 +241,59 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 		[]
 	);
 
+	const fetchReportData = async (report) => {
+		setIsDownloading((prev) => ({
+			...prev,
+			[report.type]: true,
+		}));
+		const { data } = await getSportsBet({
+			perPage: itemsPerPage,
+			page: currentPage,
+			userId,
+			...filterValues,
+		});
+		setIsDownloading((prev) => ({
+			...prev,
+			[report.type]: false,
+		}));
+		if (!data?.data?.betslips || data.data?.betslips?.length === 0) {
+			showToastr({
+				message: 'No records found to download.',
+				type: 'error',
+			});
+			return;
+		}
+		const csvJsonData = data?.data?.betslips?.map((txn) => ({
+			...txn,
+			id: txn?.id,
+			username: txn?.user?.username || '-',
+			walletId: txn?.walletId,
+			type: BETSLIP_TYPES.find((type) => type.value === txn?.type)?.label,
+			stake: txn?.stake,
+			multipliedOdds: txn?.multipliedOdds,
+			status: sportsBookStatus.find(
+				(status) => status.value === txn?.settlementStatus
+			)?.label,
+			winningAmount: txn?.winningAmount,
+			currency: txn?.wallet?.currency?.code || '-',
+			bets: txn?.bets,
+			createdAt: getDateTime(txn?.createdAt),
+			userId: txn?.user?.id,
+		}));
+		downloadReport('csv', json2csv(csvJsonData), 'Sports Bets Report');
+	};
+
 	const exportComponent = useMemo(() => [
 		{
-			label: '',
+			label: 'All-Pages',
 			isDownload: true,
-			tooltip: 'Download as CSV',
-			icon: <i className="mdi mdi-file-download-outline" />,
-			data: formattedSportsBet,
+			isCsv: true,
+			tooltip: 'Download CSV Report',
+			icon: <i className="mdi mdi-file-document-multiple" />,
+			buttonColor: 'primary',
+			type: 'fullCsv',
+			handleDownload: fetchReportData,
+			isDownloading: isDownloading.fullCsv,
 		},
 	]);
 

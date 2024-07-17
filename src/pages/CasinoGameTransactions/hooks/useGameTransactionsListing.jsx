@@ -2,6 +2,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { json2csv } from 'json-2-csv';
 // import moment from 'moment';
 import { resetCasinoTransactionsData } from '../../../store/actions';
 // import { STATUS_TYPE } from '../constants';
@@ -16,11 +17,17 @@ import {
 	// UserEmail,
 } from '../GameTransactionsListCol';
 import { fetchGameTransactionsStart } from '../../../store/gameTransactions/actions';
+import { downloadReport } from '../../../helpers/common';
+import { showToastr } from '../../../utils/helpers';
+import { getGameReports } from '../../../network/getRequests';
 
 const useGameTransactionsListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [isDownloading, setIsDownloading] = useState({
+		fullCsv: false,
+	});
 	const { gameTransactions, loading } = useSelector(
 		(state) => state.GameTransactions
 	);
@@ -106,13 +113,41 @@ const useGameTransactionsListing = (filterValues = {}) => {
 		];
 	}, [filterValues?.currencyId]);
 
+	const fetchReportData = async (report) => {
+		setIsDownloading((prev) => ({
+			...prev,
+			[report.type]: true,
+		}));
+		const { data } = await getGameReports({
+			perPage: itemsPerPage,
+			page: currentPage,
+			...filterValues,
+		});
+		setIsDownloading((prev) => ({
+			...prev,
+			[report.type]: false,
+		}));
+		if (!data?.data?.gameReport || data.data.gameReport.length === 0) {
+			showToastr({
+				message: 'No records found to download.',
+				type: 'error',
+			});
+			return;
+		}
+		downloadReport('csv', json2csv(data?.data?.gameReport), 'Game Reports');
+	};
+
 	const exportComponent = useMemo(() => [
 		{
-			label: '',
+			label: 'All-Pages',
 			isDownload: true,
-			tooltip: 'Download as CSV',
-			icon: <i className="mdi mdi-file-download-outline" />,
-			data: gameTransactions?.gameReport || [],
+			isCsv: true,
+			tooltip: 'Download CSV Report',
+			icon: <i className="mdi mdi-file-document-multiple" />,
+			buttonColor: 'primary',
+			type: 'fullCsv',
+			handleDownload: fetchReportData,
+			isDownloading: isDownloading.fullCsv,
 		},
 	]);
 

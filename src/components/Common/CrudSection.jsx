@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { CardBody, UncontrolledTooltip } from 'reactstrap';
+import { Button, CardBody, Spinner, UncontrolledTooltip } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { CSVLink } from 'react-csv';
 import usePermission from './Hooks/usePermission';
 
 const CrudSection = ({ title, buttonList, exportComponent }) => {
 	const { isGranted } = usePermission();
+
 	return (
 		<CardBody className="border-bottom">
 			<div className="d-flex align-items-center">
@@ -24,7 +24,6 @@ const CrudSection = ({ title, buttonList, exportComponent }) => {
 						}) => (
 							<Fragment key={link}>
 								<Link
-									key={link}
 									hidden={module && operation && !isGranted(module, operation)}
 									to={link}
 									onClick={handleClick}
@@ -46,24 +45,39 @@ const CrudSection = ({ title, buttonList, exportComponent }) => {
 					)}
 				</div>
 				<div className="flex-shrink-0">
-					{exportComponent?.map(({ label, tooltip, icon, data }) => (
-						<>
-							<CSVLink
-								data={data || []}
-								filename="downloaded_data.csv"
-								className="btn btn-primary me-1 icon-button-padding"
-								id={`id-${label}`}
-							>
-								{icon}
-							</CSVLink>
-
-							{tooltip && (
-								<UncontrolledTooltip placement="top" target={`id-${label}`}>
-									{tooltip}
-								</UncontrolledTooltip>
-							)}
-						</>
-					))}
+					{exportComponent?.map(
+						({
+							label,
+							tooltip,
+							icon,
+							isCsv,
+							handleDownload,
+							type,
+							buttonColor,
+							isDownloading,
+						}) => (
+							<Fragment key={label}>
+								{isCsv && (
+									<Button
+										onClick={() => handleDownload({ type })}
+										className="btn btn-primary me-1 icon-button-padding"
+										color={buttonColor || 'primary'}
+										id={`id-csv-${label}`}
+									>
+										{isDownloading ? <Spinner size="sm" /> : icon}
+									</Button>
+								)}
+								{tooltip && (
+									<UncontrolledTooltip
+										placement="top"
+										target={`id-csv-${label}`}
+									>
+										{isDownloading ? 'Download In Progress' : tooltip}
+									</UncontrolledTooltip>
+								)}
+							</Fragment>
+						)
+					)}
 				</div>
 			</div>
 		</CardBody>
@@ -86,8 +100,6 @@ CrudSection.propTypes = {
 			operation: PropTypes.string,
 			tooltip: PropTypes.string,
 			icon: PropTypes.element,
-			isDownload: PropTypes.bool,
-			data: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
 		})
 	),
 	exportComponent: PropTypes.arrayOf(
@@ -95,7 +107,12 @@ CrudSection.propTypes = {
 			label: PropTypes.string,
 			tooltip: PropTypes.string,
 			icon: PropTypes.element,
-			data: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
+			isCsv: PropTypes.bool,
+			isXml: PropTypes.bool,
+			handleDownload: PropTypes.func,
+			type: PropTypes.string,
+			buttonColor: PropTypes.string,
+			isDownloading: PropTypes.bool,
 		})
 	),
 };
