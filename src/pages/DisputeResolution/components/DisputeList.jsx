@@ -22,6 +22,8 @@ const DisputeList = ({
 	selectedDispute,
 	setSelectedDispute,
 	updateStatus,
+	setPage,
+	page,
 }) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -103,8 +105,8 @@ const DisputeList = ({
 				<ReactPaginate
 					breakLabel="..."
 					nextLabel=">"
-					onPageChange={() => {}}
-					pageCount={99}
+					onPageChange={(newPage) => setPage((newPage?.selected || 0) + 1)}
+					pageCount={disputes?.totalPages}
 					previousLabel="<"
 					renderOnZeroPageCount={null}
 					pageClassName="page-item"
@@ -117,8 +119,9 @@ const DisputeList = ({
 					breakLinkClassName="page-link"
 					containerClassName="pagination"
 					activeClassName="active"
-					pageRangeDisplayed={1} // Only display one page
-					marginPagesDisplayed={0}
+					pageRangeDisplayed={4}
+					marginPagesDisplayed={4}
+					currentPage={page - 1}
 				/>
 			</div>
 		</Card>
@@ -135,6 +138,8 @@ DisputeList.propTypes = {
 	selectedDispute: PropTypes.string,
 	setSelectedDispute: PropTypes.func.isRequired,
 	updateStatus: PropTypes.func.isRequired,
+	setPage: PropTypes.func.isRequired,
+	page: PropTypes.number.isRequired,
 };
 
 DisputeList.defaultProps = {

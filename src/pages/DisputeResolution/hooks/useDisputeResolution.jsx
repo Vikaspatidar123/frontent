@@ -11,6 +11,7 @@ import { getInitialValues, validationSchema } from '../formDetails';
 
 const useDisputeResolution = () => {
 	const dispatch = useDispatch();
+	const [page, setPage] = useState(1);
 	const [selectedDispute, setSelectedDispute] = useState('');
 	const [showReplyForm, setShowReplyForm] = useState('');
 
@@ -29,8 +30,13 @@ const useDisputeResolution = () => {
 	};
 
 	useEffect(() => {
-		dispatch(fetchDisputesStart());
-	}, []);
+		dispatch(
+			fetchDisputesStart({
+				page,
+				perPage: 10,
+			})
+		);
+	}, [page]);
 
 	useEffect(() => {
 		const disputeId = disputes?.threadTickets?.[0]?.id || '';
@@ -79,6 +85,7 @@ const useDisputeResolution = () => {
 		validation,
 		sendMessageLoading,
 		updateStatus,
+		setPage,
 	};
 };
 

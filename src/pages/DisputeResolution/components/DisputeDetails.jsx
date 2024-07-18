@@ -85,6 +85,10 @@ const DisputeDetails = ({
 					/>
 				) : (
 					<>
+						<h5 className="ms-4 mt-4 pe-2">
+							Subject: <b>{disputeDetails?.subject}</b>
+						</h5>
+						<hr />
 						<CardBody>{messages}</CardBody>
 						{!showReplyForm ? (
 							<div className="mb-4 ms-4">
