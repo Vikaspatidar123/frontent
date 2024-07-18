@@ -1,10 +1,11 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 // Login Redux States
 import {
 	FETCH_DISPUTE_DETAILS,
 	FETCH_DISPUTES_START,
 	SEND_MESSAGE,
+	UPDATE_DISPUTE_STATUS,
 } from './actionTypes';
 import {
 	fetchDisputeDetails,
@@ -15,7 +16,7 @@ import {
 	sendMessageSuccess,
 } from './actions';
 import { getDisputeDetails, getDisputes } from '../../network/getRequests';
-import { sendMessageRequest } from '../../network/postRequests';
+import { sendMessageRequest, updateStatus } from '../../network/postRequests';
 
 function* fetchDisputes({ payload }) {
 	try {
@@ -48,10 +49,35 @@ function* sendMessageWorker({ payload: { data, setShowReplyForm } }) {
 		yield put(fetchDisputesFail(error));
 	}
 }
+
+function* updateDisputeStatus({ payload }) {
+	try {
+		yield call(updateStatus, payload);
+		const disputes = yield select((state) => state.Disputes?.disputes);
+		const updatedDisputes = {
+			...disputes,
+			threadTickets: disputes?.threadTickets?.map((thread) => {
+				if (thread.id === payload.threadId) {
+					return {
+						...thread,
+						status: payload.status,
+					};
+				}
+				return thread;
+			}),
+		};
+
+		yield put(fetchDisputesSuccess(updatedDisputes));
+	} catch (err) {
+		console.error('Error while updating status ', err?.message);
+	}
+}
+
 function* disputesSaga() {
 	yield takeLatest(FETCH_DISPUTES_START, fetchDisputes);
 	yield takeLatest(FETCH_DISPUTE_DETAILS, fetchDisputeDetailsWorker);
 	yield takeLatest(SEND_MESSAGE, sendMessageWorker);
+	yield takeLatest(UPDATE_DISPUTE_STATUS, updateDisputeStatus);
 }
 
 export default disputesSaga;

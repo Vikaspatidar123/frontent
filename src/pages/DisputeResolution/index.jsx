@@ -19,6 +19,7 @@ const DisputeResolution = () => {
 		setShowReplyForm,
 		validation,
 		sendMessageLoading,
+		updateStatus,
 	} = useDisputeResolution();
 
 	return (
@@ -37,6 +38,7 @@ const DisputeResolution = () => {
 							loading={loading}
 							selectedDispute={selectedDispute}
 							setSelectedDispute={setSelectedDispute}
+							updateStatus={updateStatus}
 						/>
 						<DisputeDetails
 							detailsLoading={detailsLoading}

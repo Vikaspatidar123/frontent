@@ -4,6 +4,7 @@ import {
 	fetchDisputesStart,
 	fetchDisputeDetails,
 	sendMessage,
+	updateDisputeStatus,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getInitialValues, validationSchema } from '../formDetails';
@@ -41,6 +42,10 @@ const useDisputeResolution = () => {
 		setShowReplyForm('');
 	}, [selectedDispute]);
 
+	const updateStatus = (payload) => {
+		dispatch(updateDisputeStatus(payload));
+	};
+
 	const handleSendMessage = (values) => {
 		dispatch(
 			sendMessage({
@@ -73,6 +78,7 @@ const useDisputeResolution = () => {
 		setShowReplyForm,
 		validation,
 		sendMessageLoading,
+		updateStatus,
 	};
 };
 

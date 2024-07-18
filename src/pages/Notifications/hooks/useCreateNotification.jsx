@@ -84,19 +84,19 @@ const useCreateNotification = (page, perPage) => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
 		validation.resetForm(getInitialValues());
-		setHeader('Create Notification');
+		setHeader('Send Notification');
 		setIsEdit({ open: false, selectedRow: '' });
 	};
 
 	const buttonList = useMemo(() => [
 		{
-			label: 'Notify Players',
+			label: 'Notify Player',
 			link: '/notify-players',
 			module: modules.page,
 			operation: 'C',
 		},
 		{
-			label: 'Create Notification',
+			label: 'Notify to All',
 			handleClick: handleAddClick,
 			link: '#/',
 			module: modules.page,

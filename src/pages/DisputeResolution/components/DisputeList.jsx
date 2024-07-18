@@ -21,15 +21,35 @@ const DisputeList = ({
 	loading,
 	selectedDispute,
 	setSelectedDispute,
+	updateStatus,
 }) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
+
+	const DISPUTE_STATUS = [
+		{
+			label: 'Pending',
+			value: 'pending',
+		},
+		{
+			label: 'Active',
+			value: 'active',
+		},
+		{
+			label: 'Resolved',
+			value: 'resolved',
+		},
+		{
+			label: 'ReOpened',
+			value: 'reopened',
+		},
+	];
 
 	return (
 		<Card className="email-leftbar">
 			<h6 className="mt-4 font-weight-bold">All Disputes</h6>
 
 			<div className="mail-list mt-1">
-				{disputes?.threadTickets?.map(({ subject, id }) => (
+				{disputes?.threadTickets?.map(({ subject, id, status }) => (
 					<Link
 						to="javascript:"
 						onClick={() => setSelectedDispute(id)}
@@ -39,6 +59,7 @@ const DisputeList = ({
 					>
 						<span className="mdi mdi-arrow-right-drop-circle text-primary float-start me-2" />
 						<span className="subject-ellipsis">{subject}</span>
+
 						<i
 							className="mdi mdi-dots-vertical font-size-18 float-end"
 							onClick={() => setDropdownOpen(id)}
@@ -53,24 +74,21 @@ const DisputeList = ({
 									style={{ display: 'none' }}
 								/>
 								<DropdownMenu className="dropdown-menu-end">
-									<DropdownItem
-										href="#"
-										onClick={() => {
-											setDropdownOpen('');
-										}}
-									>
-										<i className="mdi mdi-check-all font-size-16 text-success me-1" />{' '}
-										Resolve
-									</DropdownItem>
-									<DropdownItem
-										href="#"
-										onClick={() => {
-											setDropdownOpen('');
-										}}
-									>
-										<i className="mdi mdi-trash-can font-size-16 text-danger me-1" />{' '}
-										Delete
-									</DropdownItem>
+									{DISPUTE_STATUS?.map(({ label, value }) => (
+										<DropdownItem
+											onClick={() => {
+												updateStatus({ threadId: id, status: value });
+												setDropdownOpen('');
+											}}
+										>
+											{label}{' '}
+											{status === value ? (
+												<i className="mdi mdi-check font-size-16 text-success me-1" />
+											) : (
+												''
+											)}
+										</DropdownItem>
+									))}
 								</DropdownMenu>
 							</UncontrolledDropdown>
 						) : null}
@@ -116,6 +134,7 @@ DisputeList.propTypes = {
 	loading: PropTypes.bool,
 	selectedDispute: PropTypes.string,
 	setSelectedDispute: PropTypes.func.isRequired,
+	updateStatus: PropTypes.func.isRequired,
 };
 
 DisputeList.defaultProps = {

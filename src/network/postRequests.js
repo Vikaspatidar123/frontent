@@ -577,6 +577,13 @@ const sendMessageRequest = (data) =>
 			'Content-Type': 'multipart/form-data',
 		}
 	);
+
+const updateStatus = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}/crm${MANAGEMENT.DISPUTE}update-status`,
+		data
+	);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -667,4 +674,5 @@ export {
 	updateNotification,
 	notifyPlayersRequest,
 	sendMessageRequest,
+	updateStatus,
 };

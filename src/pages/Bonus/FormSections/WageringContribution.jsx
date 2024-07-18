@@ -67,7 +67,7 @@ const WageringContribution = ({
 		if (!isEmpty(bonusDetails)) {
 			setSelectedTemplate(
 				bonusDetails[BONUS_KEY_RELATION[bonusDetails.bonusType]]
-					.wageringTemplateId
+					?.wageringTemplateId
 			);
 		}
 	}, [bonusDetails]);
