@@ -4,9 +4,6 @@
 
 import React from 'react';
 import { Badge, Card, Col, Row } from 'reactstrap';
-import Parser from 'html-react-parser';
-
-const { VITE_APP_OBS_GALLERY_URL } = import.meta.env;
 
 const GeneralDetails = ({ chatRainDetails }) => (
   <Row>

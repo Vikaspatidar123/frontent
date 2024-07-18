@@ -28,41 +28,6 @@ const ActionButtons = ({
 				</Button>
 			</li>
 
-
-			{/* <li>
-				{active ? (
-					<Button
-						className="btn btn-sm btn-soft-danger"
-						onClick={(e) =>
-							handleStatus(e, {
-								active,
-								chatRainId,
-							})
-						}
-					>
-						<i className="mdi mdi-close-thick" id={`active-${chatRainId}`} />
-						<UncontrolledTooltip placement="top" target={`active-${chatRainId}`}>
-							Set Inactive
-						</UncontrolledTooltip>
-					</Button>
-				) : (
-					<Button
-						className="btn btn-sm btn-soft-success"
-						onClick={(e) =>
-							handleStatus(e, {
-								active,
-								chatRainId,
-							})
-						}
-					>
-						<i className="mdi mdi-check-circle" id={`active-${chatRainId}`} />
-						<UncontrolledTooltip placement="top" target={`active-${chatRainId}`}>
-							Set Active
-						</UncontrolledTooltip>
-					</Button>
-				)}
-			</li> */}
-
 			{!original?.isClosed && <li>
 				<Button
 					className="btn btn-sm btn-soft-info"
@@ -75,31 +40,6 @@ const ActionButtons = ({
 					</UncontrolledTooltip>
 				</Button>
 			</li>}
-			{/* <li>
-				<Button
-					className="btn btn-sm btn-soft-info"
-					id="viewToolTip"
-					onClick={() => handleView(original)}
-				>
-					<i className="mdi mdi-eye-outline" />
-					<UncontrolledTooltip placement="top" target="viewToolTip">
-						View
-					</UncontrolledTooltip>
-				</Button>
-			</li> */}
-
-			{/* <li>
-				<Button
-					id="deleteToolTip"
-					className="btn btn-sm btn-soft-danger"
-					onClick={() => handleDelete(original)}
-				>
-					<i className="mdi mdi-delete-outline" />
-					<UncontrolledTooltip placement="top" target="deleteToolTip">
-						Delete
-					</UncontrolledTooltip>
-				</Button>
-			</li> */}
 		</ul>
 	);
 };

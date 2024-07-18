@@ -25,7 +25,7 @@ const General = ({
 	const dispatch = useDispatch();
 	let navigate = useNavigate();
 	let inital = true
-	const { updateChatrainLoading } = useSelector((state) => state.Chatrain)
+	const { createChatrainLoading, updateChatrainLoading } = useSelector((state) => state.Chatrain)
 	const { channels } = useSelector(
 		(state) => state.Channel
 	);
@@ -83,12 +83,14 @@ const General = ({
 		<Row>
 			<Col lg="12">
 				<FormPage
+					formTitle={isEdit ? 'Edit Chat Rain' : 'Create Chat Rain'}
+					submitLabel={isEdit ? 'Edit' : 'Create'}
 					validation={validation}
 					responsiveFormFields={formFields}
 					customColClasses=""
 					colOptions={{ xs: 12, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
 					isSubmit={true}
-					isSubmitLoading={updateChatrainLoading}
+					isSubmitLoading={createChatrainLoading || updateChatrainLoading}
 				/>
 			</Col>
 		</Row>

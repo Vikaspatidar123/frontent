@@ -2,16 +2,17 @@ import React from 'react';
 import { Container } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import useCreateChatRain from './hooks/useCreateChatRain';
-import StepFormTabs from '../../components/Common/StepFormTabs';
+import General from './FormSections/General';
 
 const CreateChatrain = () => {
 	const {
-		tabData,
-		toggleTab,
 		activeTab,
-		onNextClick,
-    createChatrainLoading
-	} = useCreateChatRain({ isEdit: false });
+		nextPressed,
+		chatRainDetails,
+		setAllFields,
+		setNextPressed,
+		setActiveTab
+	} = useCreateChatRain()
 
 	return (
 		<div className="page-content">
@@ -26,16 +27,16 @@ const CreateChatrain = () => {
 				}
 			/>
 			<Container fluid>
-				<StepFormTabs
+				<General
+					isLoading={false}
 					activeTab={activeTab}
-					dontShowFooter={true}
-					tabsData={tabData}
-					toggleTab={toggleTab}
-					onNextClick={onNextClick}
-					// isNextDisabled={isNextDisabled}
-					// isPrevDisabled={isNextDisabled}
-					submitButtonLoading={createChatrainLoading}
-				/>
+					nextPressed={nextPressed}
+					setActiveTab={setActiveTab}
+					setNextPressed={setNextPressed}
+					setAllFields={setAllFields}
+					chatRainDetails={chatRainDetails}
+					isEdit={false}
+					/>
 			</Container>
 		</div>
 	);
