@@ -24,6 +24,8 @@ const YMDFormat = 'Do MMM YYYY';
 
 const dateTimeFormat = `${YMDFormat} hh:mm`;
 
+const dateTimeFormatWithA = `${YMDFormat} hh:mm A`;
+
 const YMDdate = 'YYYY-MM-DD';
 
 export {
@@ -39,4 +41,5 @@ export {
 	YMDFormat,
 	dateTimeFormat,
 	YMDdate,
+	dateTimeFormatWithA,
 };
