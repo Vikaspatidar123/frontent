@@ -1,8 +1,8 @@
 export const LEDGER_PURPOSE = [
 	{ label: 'Deposit', value: 'Deposit' },
 	{ label: 'Withdraw', value: 'Withdraw' },
-	{ label: 'Winnings', value: 'Winnings' },
-	{ label: 'Commission', value: 'Commission' },
+	// { label: 'Winnings', value: 'Winnings' },
+	// { label: 'Commission', value: 'Commission' },
 	{ label: 'Bonus Deposit', value: 'BonusDeposit' },
 	{ label: 'Bonus Withdraw', value: 'BonusWithdraw' },
 	{ label: 'Tournament Enroll', value: 'TournamentEnroll' },
