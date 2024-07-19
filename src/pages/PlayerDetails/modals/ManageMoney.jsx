@@ -123,6 +123,7 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 
 	useEffect(() => {
 		if (playerId) {
+			validation.resetForm();
 			dispatch(getUserDetails({ playerId }));
 		}
 	}, [playerId]);
