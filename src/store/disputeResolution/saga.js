@@ -17,6 +17,7 @@ import {
 } from './actions';
 import { getDisputeDetails, getDisputes } from '../../network/getRequests';
 import { sendMessageRequest, updateStatus } from '../../network/postRequests';
+import { showToastr } from '../../utils/helpers';
 
 function* fetchDisputes({ payload }) {
 	try {
@@ -66,6 +67,11 @@ function* updateDisputeStatus({ payload }) {
 				return thread;
 			}),
 		};
+
+		showToastr({
+			message: 'Status Updated Successfully',
+			type: 'success',
+		});
 
 		yield put(fetchDisputesSuccess(updatedDisputes));
 	} catch (err) {

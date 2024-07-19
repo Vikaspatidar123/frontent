@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import {
+	Badge,
 	Card,
 	DropdownItem,
 	DropdownMenu,
@@ -14,7 +15,7 @@ import {
 	UncontrolledDropdown,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-// import { useSelector } from "react-redux";
+import { DISPUTE_STATUS, DISPUTE_STATUS_COLOR } from '../constants';
 
 const DisputeList = ({
 	disputes,
@@ -26,25 +27,6 @@ const DisputeList = ({
 	page,
 }) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-
-	const DISPUTE_STATUS = [
-		{
-			label: 'Pending',
-			value: 'pending',
-		},
-		{
-			label: 'Active',
-			value: 'active',
-		},
-		{
-			label: 'Resolved',
-			value: 'resolved',
-		},
-		{
-			label: 'ReOpened',
-			value: 'reopened',
-		},
-	];
 
 	return (
 		<Card className="email-leftbar">
@@ -58,18 +40,31 @@ const DisputeList = ({
 					<Link
 						to="javascript:"
 						onClick={() => setSelectedDispute(id)}
-						className={`dispute ${
+						className={`dispute d-flex align-items-center justify-content-between ${
 							id === selectedDispute ? 'active-dispute' : ''
 						}`}
 					>
-						<span className="mdi mdi-arrow-right-drop-circle text-primary float-start me-2" />
-						<span className="subject-ellipsis">{subject}</span>
-
-						<i
-							className="mdi mdi-dots-vertical font-size-18 float-end"
-							onClick={() => setDropdownOpen(id)}
-							style={{ cursor: 'pointer' }}
-						/>
+						<div className="d-flex align-items-center w-150">
+							<span className="mdi mdi-arrow-right-drop-circle text-primary me-2" />
+							<span className="subject-ellipsis">{subject}</span>
+						</div>
+						{status ? (
+							<div>
+								<Badge
+									color={DISPUTE_STATUS_COLOR?.[status]?.color}
+									className="ms-3"
+								>
+									{`${status?.[0]?.toUpperCase()}${status.slice(1)}`}
+								</Badge>
+							</div>
+						) : null}
+						<div className="d-flex align-items-center">
+							<i
+								className="mdi mdi-dots-vertical font-size-18"
+								onClick={() => setDropdownOpen(id)}
+								style={{ cursor: 'pointer' }}
+							/>
+						</div>
 						{dropdownOpen === id ? (
 							<UncontrolledDropdown isOpen toggle={() => setDropdownOpen('')}>
 								<DropdownToggle

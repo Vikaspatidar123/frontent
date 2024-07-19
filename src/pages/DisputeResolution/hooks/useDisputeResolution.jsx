@@ -40,7 +40,7 @@ const useDisputeResolution = () => {
 
 	useEffect(() => {
 		const disputeId = disputes?.threadTickets?.[0]?.id || '';
-		if (disputeId) setSelectedDispute(disputeId);
+		if (!selectedDispute && disputeId) setSelectedDispute(disputeId);
 	}, [disputes]);
 
 	useEffect(() => {

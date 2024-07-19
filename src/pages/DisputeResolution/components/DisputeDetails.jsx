@@ -106,7 +106,7 @@ const DisputeDetails = ({
 							<Row>
 								<Col xl="12" sm="12" className="px-5 pb-5">
 									<CustomInputField
-										rows="5"
+										rows="4"
 										name="message"
 										id="message"
 										type="textarea"
