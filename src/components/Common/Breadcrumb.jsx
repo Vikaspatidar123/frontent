@@ -15,6 +15,7 @@ const Breadcrumb = ({
 	values,
 	setShowModal,
 	callBack,
+	isNotFormModal,
 }) => {
 	const navigate = useNavigate();
 	const onBackClick = () => {
@@ -25,6 +26,9 @@ const Breadcrumb = ({
 		);
 		if (hasFilledValues) {
 			setShowModal(true);
+			if (isNotFormModal) {
+				navigate(-1);
+			}
 		} else {
 			navigate(-1);
 		}
@@ -90,6 +94,7 @@ Breadcrumb.defaultProps = {
 	setShowModal: () => {},
 	values: null,
 	callBack: undefined,
+	isNotFormModal: true,
 };
 
 Breadcrumb.propTypes = {
@@ -103,6 +108,7 @@ Breadcrumb.propTypes = {
 	setShowModal: PropTypes.func,
 	values: PropTypes.objectOf(),
 	callBack: PropTypes.func,
+	isNotFormModal: PropTypes.bool,
 };
 
 export default Breadcrumb;
