@@ -90,13 +90,13 @@ const useCreateNotification = (page, perPage) => {
 
 	const buttonList = useMemo(() => [
 		{
-			label: 'Notify Player',
+			label: 'Web push',
 			link: '/notify-players',
 			module: modules.page,
 			operation: 'C',
 		},
 		{
-			label: 'Notify to All',
+			label: 'Custom Notification',
 			handleClick: handleAddClick,
 			link: '#/',
 			module: modules.page,

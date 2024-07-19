@@ -48,7 +48,10 @@ const DisputeList = ({
 
 	return (
 		<Card className="email-leftbar">
-			<h6 className="mt-4 font-weight-bold">All Disputes</h6>
+			<h6 className="mt-2 font-weight-bold d-flex align-items-center">
+				<span className="mdi mdi-forum fs-2 me-3" />
+				All Disputes
+			</h6>
 
 			<div className="mail-list mt-1">
 				{disputes?.threadTickets?.map(({ subject, id, status }) => (
