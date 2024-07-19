@@ -186,6 +186,7 @@ const useCreateNotification = (page, perPage) => {
 						validation?.errors?.title?.[validation.values?.language]
 					}
 					// disabled={isView}
+					isRequired
 				/>
 			</div>
 			<div className="mt-2">
@@ -216,6 +217,7 @@ const useCreateNotification = (page, perPage) => {
 						validation?.touched?.description?.[validation.values?.language] &&
 						validation?.errors?.description?.[validation.values?.language]
 					}
+					isRequired
 				/>
 			</div>
 			<div className="mt-2">

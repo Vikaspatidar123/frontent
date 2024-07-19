@@ -17,16 +17,15 @@ const isRequired = (value) => {
 const validationSchema = () =>
 	Yup.object().shape({
 		title: Yup.object().shape({
-			EN: Yup.string().required(
-				'Title in at least english language is required.'
-			),
+			EN: Yup.string()
+				.required('Title in at least English language is required.')
+				.max(50, 'Title must be less than 50 characters.'),
 		}),
 		description: Yup.object().shape({
-			EN: Yup.string().required(
-				'Description in at least english language is required.'
-			),
+			EN: Yup.string()
+				.required('Description in at least English language is required.')
+				.max(200, 'Description must be less than 200 characters.'),
 		}),
-
 		url: Yup.string()
 			.matches(
 				/^((https?):\/\/)?(www\.)?(([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s]*)?(\?[^\s]*)?|((https?):\/\/)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[^\s]*)?(\?[^\s]*)?$/,
@@ -63,8 +62,12 @@ const getInitialNotifyData = (defaultValue) => ({
 
 const validatedNotify = () =>
 	Yup.object().shape({
-		title: Yup.string().required('Title is required!'),
-		body: Yup.string().required('Description is required!'),
+		title: Yup.string()
+			.required('Title is required!')
+			.max(50, 'Title must be less than 50 characters'),
+		body: Yup.string()
+			.required('Description is required!')
+			.max(200, 'Description must be less than 200 characters'),
 		url: Yup.string()
 			.matches(
 				/^((https?):\/\/)?(www\.)?(([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s]*)?(\?[^\s]*)?|((https?):\/\/)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[^\s]*)?(\?[^\s]*)?$/,
@@ -93,6 +96,7 @@ const leftStaticFormFields = [
 		fieldType: 'textField',
 		label: 'Enter title',
 		placeholder: 'Enter title of notification',
+		isRequired: true,
 	},
 	{
 		name: 'file',
@@ -109,6 +113,7 @@ const rightStaticFormFields = [
 		fieldType: 'textField',
 		label: 'Enter description',
 		placeholder: 'Enter description of notification',
+		isRequired: true,
 	},
 	{
 		name: 'url',
