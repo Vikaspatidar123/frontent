@@ -45,7 +45,7 @@ const useNotificationListing = () => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalNotificationCount: notifications?.totalPageCount,
+		totalNotificationCount: notifications?.totalPages,
 		isNotificationLoading,
 		formattedNotifications,
 		itemsPerPage,
