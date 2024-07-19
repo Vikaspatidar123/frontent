@@ -54,13 +54,9 @@ const DisputeDetails = ({
 								<h4 className="mt-0 mb-3 font-size-16">{content}</h4>
 								<Row>
 									{threadAttachements?.map(({ filePath }) => (
-										<Col xl="4" xs="6">
+										<Col xl="3" xs="4">
 											<Card>
-												<img
-													className="card-img-top img-fluid"
-													src={filePath}
-													alt={filePath}
-												/>
+												<img className="" src={filePath} alt={filePath} />
 											</Card>
 										</Col>
 									))}
