@@ -65,6 +65,26 @@ const validatedNotify = () =>
 	Yup.object().shape({
 		title: Yup.string().required('Title is required!'),
 		body: Yup.string().required('Description is required!'),
+		url: Yup.string()
+			.matches(
+				/^((https?):\/\/)?(www\.)?(([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s]*)?(\?[^\s]*)?|((https?):\/\/)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[^\s]*)?(\?[^\s]*)?$/,
+				'Enter correct URL!'
+			)
+			.nullable(),
+		file: Yup.mixed()
+			.nullable()
+			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
+				typeof value === 'string'
+					? true
+					: !value || (value && value.size <= 1024 * 1024)
+			)
+			.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+				typeof value === 'string'
+					? true
+					: !value ||
+					  (value &&
+							['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+			),
 	});
 
 const leftStaticFormFields = [
@@ -74,6 +94,13 @@ const leftStaticFormFields = [
 		label: 'Enter title',
 		placeholder: 'Enter title of notification',
 	},
+	{
+		name: 'file',
+		fieldType: 'file',
+		label: 'Upload icon',
+		placeholder: 'Upload icon',
+		showThumbnail: true,
+	},
 ];
 
 const rightStaticFormFields = [
@@ -82,6 +109,12 @@ const rightStaticFormFields = [
 		fieldType: 'textField',
 		label: 'Enter description',
 		placeholder: 'Enter description of notification',
+	},
+	{
+		name: 'url',
+		fieldType: 'textField',
+		label: 'Enter redirect url',
+		placeholder: 'Enter redirect url',
 	},
 ];
 

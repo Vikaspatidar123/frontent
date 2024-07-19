@@ -11,6 +11,7 @@ import {
 	RESET_NOTIFICATIONS_DATA,
 	NOTIFY_PLAYERS_START,
 	NOTIFY_PLAYERS_SUCCESS,
+	NOTIFY_PLAYERS_FAIL,
 } from './actionTypes';
 
 const initialState = {
@@ -112,6 +113,12 @@ const notificationReducer = (state = initialState, { type, payload } = {}) => {
 				...state,
 				notifyPlayerLoading: false,
 				notifyPlayerSuccess: true,
+			};
+		case NOTIFY_PLAYERS_FAIL:
+			return {
+				...state,
+				notifyPlayerLoading: false,
+				notifyPlayerSuccess: false,
 			};
 
 		default:

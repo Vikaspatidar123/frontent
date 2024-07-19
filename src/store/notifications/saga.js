@@ -27,6 +27,7 @@ import {
 } from '../../network/postRequests';
 import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
+import { objectToFormData } from '../../utils/objectToFormdata';
 
 function* fetchNotifications({ payload }) {
 	try {
@@ -84,7 +85,7 @@ function* editNotificationWorker(action) {
 function* notifyPlayersWorker(action) {
 	try {
 		const { payload, navigate } = action && action.payload;
-		yield notifyPlayersRequest(payload);
+		yield notifyPlayersRequest(objectToFormData(payload));
 
 		showToastr({
 			message: `Players notified Successfully`,
