@@ -29,6 +29,7 @@ const NotifyPlayers = () => {
 						</>
 					}
 					values={validation.values}
+					isNotFormModal
 				/>
 				<Row>
 					<Col lg="12">
