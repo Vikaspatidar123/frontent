@@ -566,7 +566,10 @@ const updateNotification = (data) =>
 const notifyPlayersRequest = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}notification/send`,
-		data
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
 	);
 
 const sendMessageRequest = (data) =>
