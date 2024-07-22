@@ -22,6 +22,8 @@ const DisputeResolution = () => {
 		updateStatus,
 		setPage,
 		page,
+		filters,
+		setFilters,
 	} = useDisputeResolution();
 
 	return (
@@ -43,6 +45,8 @@ const DisputeResolution = () => {
 							updateStatus={updateStatus}
 							setPage={setPage}
 							page={page}
+							filters={filters}
+							setFilters={setFilters}
 						/>
 						<DisputeDetails
 							detailsLoading={detailsLoading}

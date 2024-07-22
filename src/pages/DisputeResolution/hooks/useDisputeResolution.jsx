@@ -8,12 +8,18 @@ import {
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getInitialValues, validationSchema } from '../formDetails';
+import { debounceTime } from '../../../constants/config';
 
+let debounce;
 const useDisputeResolution = () => {
 	const dispatch = useDispatch();
 	const [page, setPage] = useState(1);
 	const [selectedDispute, setSelectedDispute] = useState('');
 	const [showReplyForm, setShowReplyForm] = useState('');
+	const [filters, setFilters] = useState({
+		username: '',
+		status: 'active',
+	});
 
 	const {
 		disputes,
@@ -30,13 +36,17 @@ const useDisputeResolution = () => {
 	};
 
 	useEffect(() => {
-		dispatch(
-			fetchDisputesStart({
-				page,
-				perPage: 10,
-			})
-		);
-	}, [page]);
+		debounce = setTimeout(() => {
+			dispatch(
+				fetchDisputesStart({
+					page,
+					perPage: 10,
+					...filters,
+				})
+			);
+		}, debounceTime);
+		return () => clearInterval(debounce);
+	}, [page, filters]);
 
 	useEffect(() => {
 		const disputeId = disputes?.threadTickets?.[0]?.id || '';
@@ -86,6 +96,9 @@ const useDisputeResolution = () => {
 		sendMessageLoading,
 		updateStatus,
 		setPage,
+		page,
+		filters,
+		setFilters,
 	};
 };
 

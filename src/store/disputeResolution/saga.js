@@ -31,7 +31,21 @@ function* fetchDisputes({ payload }) {
 function* fetchDisputeDetailsWorker({ payload }) {
 	try {
 		const response = yield call(getDisputeDetails, payload);
+		const disputes = yield select((state) => state.Disputes?.disputes);
 		yield put(fetchDisputeSuccess(response.data.data?.threadMessages));
+		const updatedDisputes = {
+			...disputes,
+			threadTickets: disputes?.threadTickets?.map((thread) => {
+				if (thread.id === payload.threadId) {
+					return {
+						...thread,
+						unread_message_count: '0',
+					};
+				}
+				return thread;
+			}),
+		};
+		yield put(fetchDisputesSuccess(updatedDisputes));
 	} catch (err) {
 		yield put(fetchDisputeFail(err));
 	}
