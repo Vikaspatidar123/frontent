@@ -73,6 +73,7 @@ const depositSchema = () =>
 		addAmount: Yup.number()
 			.typeError('Only numbers are allowed')
 			.min(0.01, 'Amount should be greater than 0')
+			.max(10000, 'Amount must be less than or equal to 10000')
 			.required('Amount Required!'),
 		transactionType: Yup.string().required('Transaction type required!'),
 		currencyId: Yup.string().required('Currency is required!'),
