@@ -51,12 +51,12 @@ function* fetchDisputeDetailsWorker({ payload }) {
 	}
 }
 
-function* sendMessageWorker({ payload: { data, setShowReplyForm } }) {
+function* sendMessageWorker({ payload: { data, resetForm } }) {
 	try {
 		yield call(sendMessageRequest, data);
 
-		if (typeof setShowReplyForm === 'function') {
-			setShowReplyForm('');
+		if (typeof resetForm === 'function') {
+			resetForm();
 		}
 		yield put(fetchDisputeDetails({ threadId: data.threadId }));
 		yield put(sendMessageSuccess());

@@ -15,7 +15,6 @@ const useDisputeResolution = () => {
 	const dispatch = useDispatch();
 	const [page, setPage] = useState(1);
 	const [selectedDispute, setSelectedDispute] = useState('');
-	const [showReplyForm, setShowReplyForm] = useState('');
 	const [filters, setFilters] = useState({
 		username: '',
 		status: 'active',
@@ -55,11 +54,15 @@ const useDisputeResolution = () => {
 
 	useEffect(() => {
 		handleDisputeDetails();
-		setShowReplyForm('');
 	}, [selectedDispute]);
 
 	const updateStatus = (payload) => {
 		dispatch(updateDisputeStatus(payload));
+	};
+
+	const resetForm = () => {
+		// eslint-disable-next-line no-use-before-define
+		validation?.resetForm();
 	};
 
 	const handleSendMessage = (values) => {
@@ -72,7 +75,7 @@ const useDisputeResolution = () => {
 					threadId: selectedDispute,
 					userId: disputeDetails?.userId,
 				},
-				setShowReplyForm,
+				resetForm,
 			})
 		);
 	};
@@ -90,8 +93,6 @@ const useDisputeResolution = () => {
 		setSelectedDispute,
 		detailsLoading,
 		disputeDetails,
-		showReplyForm,
-		setShowReplyForm,
 		validation,
 		sendMessageLoading,
 		updateStatus,

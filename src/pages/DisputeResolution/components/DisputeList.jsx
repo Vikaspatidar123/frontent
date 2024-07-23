@@ -98,6 +98,7 @@ const DisputeList = ({
 							}`}
 						>
 							<div className="d-flex align-items-center w-150">
+								<span className="mdi mdi-arrow-right-drop-circle text-primary me-2" />
 								<span className="subject-ellipsis">{subject}</span>
 							</div>
 							{status ? (

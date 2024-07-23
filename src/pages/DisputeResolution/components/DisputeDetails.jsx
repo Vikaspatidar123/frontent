@@ -1,25 +1,43 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Dropzone from 'react-dropzone';
 import moment from 'moment';
 import uuid from 'react-uuid';
 import { useSelector } from 'react-redux';
-import { Row, Col, Card, CardBody, Spinner, Button } from 'reactstrap';
+import {
+	Row,
+	Col,
+	Card,
+	CardBody,
+	Spinner,
+	Button,
+	UncontrolledTooltip,
+} from 'reactstrap';
 import { CustomInputField } from '../../../helpers/customForms';
 
 const DisputeDetails = ({
 	disputeDetails,
 	detailsLoading,
-	setShowReplyForm,
-	showReplyForm,
 	validation,
 	sendMessageLoading,
 }) => {
 	const superAdminUser = useSelector(
 		(state) => state.PermissionDetails.superAdminUser
 	);
+	const cardRef = useRef(null);
+
+	useEffect(() => {
+		const scrollToBottom = () => {
+			if (cardRef.current) {
+				cardRef.current.scrollTop = cardRef.current.scrollHeight;
+			}
+		};
+
+		setTimeout(scrollToBottom, 100);
+	}, [disputeDetails]);
 
 	const messages = useMemo(
 		() =>
@@ -71,9 +89,48 @@ const DisputeDetails = ({
 		[disputeDetails?.threadMessages, superAdminUser]
 	);
 
+	const handleDelete = (fileToDelete) => {
+		const allFiles = validation.values.files;
+		validation.setFieldValue(
+			'files',
+			allFiles.filter((file) => file !== fileToDelete)
+		);
+	};
+
+	const attachmentList = useMemo(
+		() =>
+			validation.values.files?.length ? (
+				<div className="attachments ps-3 pe-3 d-flex">
+					{validation.values.files?.map((file) => (
+						<div className="img-parent h-100 position-relative">
+							<img
+								key={uuid()}
+								src={URL.createObjectURL(file)}
+								className="img-thumbnail"
+								alt="thumbnail"
+								style={{ maxHeight: '100px', marginRight: '10px' }}
+							/>
+							<Col className="trash-btn position-absolute top-0 end-0">
+								<Button
+									className="btn btn-sm btn-soft-danger"
+									onClick={() => handleDelete(file)}
+								>
+									<i className="mdi mdi-delete-outline" id="deletetooltip" />
+									<UncontrolledTooltip placement="top" target="deletetooltip">
+										Delete
+									</UncontrolledTooltip>
+								</Button>
+							</Col>
+						</div>
+					))}
+				</div>
+			) : null,
+		[validation.values.files]
+	);
+
 	return (
-		<div className="email-rightbar mb-3">
-			<Card className="details-card overflow-scroll-hide">
+		<Card className="email-rightbar mb-3">
+			<div className="details-card overflow-scroll-hide">
 				{detailsLoading ? (
 					<Spinner
 						color="primary"
@@ -85,117 +142,55 @@ const DisputeDetails = ({
 							Subject: <b>{disputeDetails?.subject}</b>
 						</h5>
 						<hr />
-						<CardBody>{messages}</CardBody>
-						{!showReplyForm ? (
-							<div className="mb-4 ms-4">
-								<Button
-									className="btn btn-secondary  mt-4"
-									onClick={() => {
-										validation.resetForm();
-										setShowReplyForm(true);
-										const element = document.getElementsByClassName(
-											'overflow-scroll-hide'
-										)[0];
-										if (element) element.scrollTop = element.scrollHeight;
-									}}
-								>
-									<i className="mdi mdi-reply" /> Reply
-								</Button>
-							</div>
-						) : (
-							<Row>
-								<Col xl="12" sm="12" className="px-5 pb-5">
-									<CustomInputField
-										rows="4"
-										name="message"
-										id="message"
-										type="textarea"
-										onChange={validation.handleChange}
-										value={validation.values?.message}
-										placeholder="Enter message"
-										invalid={
-											!!(
-												validation?.touched?.message &&
-												validation?.errors?.message
-											)
-										}
-										isError
-										errorMsg={
-											validation?.touched?.message &&
-											validation?.errors?.message
-										}
-									/>
-									<Dropzone
-										onDrop={(acceptedFiles) => {
-											// Handle the dropped files here
-											validation.setFieldValue('files', acceptedFiles);
-										}}
-										accept="image/*"
-										multiple
-									>
-										{({ getRootProps, getInputProps }) => (
-											<div
-												{...getRootProps()}
-												className="dropzone mt-2"
-												style={{
-													border: '2px dashed #ccc',
-													padding: '10px', // Decreased height
-													textAlign: 'center',
-												}}
-											>
-												<input {...getInputProps()} />
-												{!validation.values.files?.length && (
-													<>
-														<div className="mb-3">
-															<i className="display-4 text-muted bx bxs-cloud-upload" />
-														</div>
-														<h4>
-															Drag & drop attachments here, or click to select
-															files.
-														</h4>
-													</>
-												)}
-												<Row className="justify-content-center mt-4">
-													{validation.values.files?.map((file) => (
-														<Col xl={6} key={uuid()} className="text-center">
-															<img
-																src={URL.createObjectURL(file)}
-																className="img-thumbnail"
-																alt="thumbnail"
-															/>
-														</Col>
-													))}
-												</Row>
-											</div>
-										)}
-									</Dropzone>
-									{validation.touched?.files && (
-										<p className="text-danger">
-											{validation.errors.files?.[0]}
-										</p>
-									)}
-
-									<div className="">
-										<Button
-											disabled={sendMessageLoading}
-											className="btn btn-success  mt-4"
-											onClick={() => validation.submitForm()}
-										>
-											{sendMessageLoading ? (
-												<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
-											) : (
-												'Send'
-											)}{' '}
-											<i className="mdi mdi-send" />
-										</Button>
-									</div>
-								</Col>
-							</Row>
-						)}
+						<CardBody innerRef={cardRef}>{messages}</CardBody>
 					</>
 				)}
-			</Card>
-		</div>
+			</div>
+			{attachmentList}
+			<div className="d-flex align-items-center p-3">
+				<CustomInputField
+					rows="1"
+					name="message"
+					id="message"
+					type="textarea"
+					onChange={validation.handleChange}
+					value={validation.values?.message}
+					placeholder="Enter message"
+					className="flex-grow-1"
+					style={{ resize: 'none' }}
+				/>
+				<input
+					type="file"
+					id="files"
+					multiple
+					className="d-none"
+					onChange={(e) =>
+						validation.setFieldValue('files', Array.from(e.target.files))
+					}
+				/>
+				<i
+					className="mdi mdi-paperclip paper-clip-input"
+					onClick={() => document.getElementById('files').click()}
+				/>
+				<Button
+					disabled={sendMessageLoading}
+					className="btn btn-success ms-2 w-105"
+					onClick={() => validation.submitForm()}
+				>
+					{sendMessageLoading ? (
+						<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
+					) : (
+						'Send'
+					)}{' '}
+					<i className="mdi mdi-send" />
+				</Button>
+			</div>
+			{validation.touched.message || validation.touched.files ? (
+				<p className="text-danger file-input-error">
+					{validation.errors.message || validation.errors.files}
+				</p>
+			) : null}
+		</Card>
 	);
 };
 
@@ -216,8 +211,6 @@ DisputeDetails.propTypes = {
 			message: PropTypes.string,
 		}),
 	}).isRequired,
-	showReplyForm: PropTypes.bool.isRequired,
-	setShowReplyForm: PropTypes.func.isRequired,
 	sendMessageLoading: PropTypes.bool.isRequired,
 };
 
