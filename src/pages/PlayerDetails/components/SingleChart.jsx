@@ -22,6 +22,7 @@ const PieChart = ({
 			margin: 15,
 			style: {
 				fontFamily: 'Poppins',
+				color: '#556EE6',
 			},
 		},
 		labels,
