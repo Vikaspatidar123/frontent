@@ -157,12 +157,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [
-			modules.page,
-			modules.banner,
-			modules.emailTemplate,
-			modules.gallery,
-		],
+		groupedModules: [modules.page, modules.emailTemplate],
 		subMenu: [
 			{
 				id: 37,
@@ -323,12 +318,7 @@ const sideBarElements = [
 		spanClass: '',
 		liTagClass: '',
 		ulTagClass: '',
-		groupedModules: [
-			modules.page,
-			modules.banner,
-			modules.emailTemplate,
-			modules.gallery,
-		],
+		groupedModules: [modules.page, modules.banner, modules.gallery],
 		subMenu: [
 			{
 				id: 12,
