@@ -75,12 +75,12 @@ import DisputeResolution from '../pages/DisputeResolution';
 import BulkUpdate from '../pages/Players/bulkUpdate';
 import NotificationDetails from '../pages/Notifications/components/NotificationDetails';
 import Channels from '../pages/Channels';
-import ChatRain from '../pages/ChatRain';
+// import ChatRain from '../pages/ChatRain';
 import CreateChannel from '../pages/Channels/CreateChannel';
 import CreateChatRain from '../pages/ChatRain/CreateChatRain';
 import PreviewChatrain from '../pages/ChatRain/ChatrainView';
 import EditChatrain from '../pages/ChatRain/EditChatrain';
-
+import AddNewProvider from '../pages/Payment/addNewProvider';
 
 const authProtectedRoutes = [
 	{
@@ -530,6 +530,12 @@ const authProtectedRoutes = [
 	{
 		path: '/payment/add',
 		component: <CreatePayment />,
+		modules: [modules.paymentManagement],
+		operation: 'C',
+	},
+	{
+		path: '/payment/add-provider',
+		component: <AddNewProvider />,
 		modules: [modules.paymentManagement],
 		operation: 'C',
 	},
