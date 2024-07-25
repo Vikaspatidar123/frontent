@@ -12,7 +12,10 @@ import {
 } from '../KpiReportListCol';
 import { TABS } from '../../constant';
 import { getPercentage } from '../../../../utils/helpers';
-import { selectedLanguage } from '../../../../constants/config';
+import {
+	defaultCurrencyId,
+	selectedLanguage,
+} from '../../../../constants/config';
 
 const useKpiReport = () => {
 	const dispatch = useDispatch();
@@ -22,7 +25,7 @@ const useKpiReport = () => {
 		toDate: '',
 	});
 	const [activeKpiReportTab, setActiveKpiReportTab] = useState(TABS.GAME);
-	const [currencyId, setCurrencyId] = useState(null);
+	const [currencyId, setCurrencyId] = useState(defaultCurrencyId);
 	const { kPIReport, isKpiReportLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
@@ -71,10 +74,6 @@ const useKpiReport = () => {
 			}) || [],
 		[kPIReport]
 	);
-
-	useEffect(() => {
-		setCurrencyId(defaultCurrency.id);
-	}, [defaultCurrency.id]);
 
 	useEffect(() => {
 		if (activeKpiReportTab && currencyId) {

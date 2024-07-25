@@ -6,12 +6,13 @@ import { KPI_SUMMARY_NAMES, TABS } from '../../constant';
 import { getKpiSummaryStart } from '../../../../store/dashboardView/actions';
 import { Delta, RowName, Today, Yesterday } from '../KpiListCol';
 import { getPercentage } from '../../../../utils/helpers';
+import { defaultCurrencyId } from '../../../../constants/config';
 
 const useKpiSummary = () => {
 	const dispatch = useDispatch();
 	const [activeKpiSummTab, setActiveKpiSummTab] = useState(TABS.CASINO);
 	const [kpiSummaryDate, setKpiSummaryDate] = useState('today');
-	const [currencyId, setCurrencyId] = useState(null);
+	const [currencyId, setCurrencyId] = useState(defaultCurrencyId);
 	const { kPISummary, isKpiSummaryLoading } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
@@ -28,10 +29,6 @@ const useKpiSummary = () => {
 			})
 		);
 	};
-
-	useEffect(() => {
-		setCurrencyId(defaultCurrency.id);
-	}, [defaultCurrency.id]);
 
 	useEffect(() => {
 		if (activeKpiSummTab && currencyId) {

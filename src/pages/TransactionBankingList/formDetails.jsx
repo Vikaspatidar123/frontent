@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { STATUS_TYPE, LEDGER_PURPOSE } from './constants';
+import { defaultCurrencyId } from '../../constants/config';
 
 const staticFiltersFields = (userId = '') => [
 	{
@@ -51,7 +52,7 @@ const filterValues = () => ({
 	type: null,
 	purpose: null,
 	tagId: null,
-	currencyId: null,
+	currencyId: defaultCurrencyId,
 });
 
 const filterValidationSchema = () =>

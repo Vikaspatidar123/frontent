@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { TOP_PLAYER_ORDER } from '../DashboardView/constant';
+import { defaultCurrencyId } from '../../constants/config';
 
 const staticFiltersFields = () => [
 	{
@@ -32,7 +33,7 @@ const staticFiltersFields = () => [
 
 const filterValues = () => ({
 	searchString: '',
-	currencyId: null,
+	currencyId: defaultCurrencyId,
 	orderBy: null,
 	range: '',
 	dateOptions: 'custom',

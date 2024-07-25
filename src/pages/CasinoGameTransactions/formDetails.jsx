@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { GAME_ORDER_BY } from '../DashboardView/constant';
+import { defaultCurrencyId } from '../../constants/config';
 
 const TABS_TYPE = [
 	{ label: 'Game', value: 'game' },
@@ -49,7 +50,7 @@ const staticFiltersFields = () => [
 const filterValues = () => ({
 	gameName: '',
 	tab: 'game',
-	currencyId: null,
+	currencyId: defaultCurrencyId,
 	orderBy: null,
 	range: '',
 	dateOptions: 'custom',

@@ -12,6 +12,7 @@ import {
 } from '../gameListCol';
 import { TABS } from '../../constant';
 import { getGameReportStart } from '../../../../store/dashboardView/actions';
+import { defaultCurrencyId } from '../../../../constants/config';
 
 const useGameReport = () => {
 	const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const useGameReport = () => {
 		toDate: '',
 	});
 	const [activeGameReportTab, setActiveGameReportTab] = useState(TABS.GAME);
-	const [currencyId, setCurrencyId] = useState(null);
+	const [currencyId, setCurrencyId] = useState(defaultCurrencyId);
 	const [orderBy, setOrderBy] = useState(null);
 	const { gameReport, isGameReportLoading } = useSelector(
 		(state) => state.DashboardViewInfo
@@ -43,10 +44,6 @@ const useGameReport = () => {
 			})
 		);
 	};
-
-	useEffect(() => {
-		setCurrencyId(defaultCurrency.id);
-	}, [defaultCurrency.id]);
 
 	useEffect(() => {
 		if (activeGameReportTab && currencyId) {

@@ -28,6 +28,8 @@ const dateTimeFormatWithA = `${YMDFormat} hh:mm A`;
 
 const YMDdate = 'YYYY-MM-DD';
 
+const defaultCurrencyId = '1';
+
 export {
 	projectName,
 	role,
@@ -42,4 +44,5 @@ export {
 	dateTimeFormat,
 	YMDdate,
 	dateTimeFormatWithA,
+	defaultCurrencyId,
 };

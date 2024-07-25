@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { defaultCurrencyId } from '../../constants/config';
 
 const sportsBookStatus = [
 	{ label: 'Pending', value: 'pending' },
@@ -56,7 +57,7 @@ const staticFiltersFields = (userId = '') => [
 
 const filterValues = () => ({
 	searchString: '',
-	currencyId: null,
+	currencyId: defaultCurrencyId,
 	status: null,
 	fromDate: null,
 	toDate: null,

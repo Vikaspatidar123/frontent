@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { KeyValueData, Username, PlayerPNL } from '../playerListCol';
 import { getTopPlayers } from '../../../../store/dashboardView/actions';
 import { TABS } from '../../constant';
+import { defaultCurrencyId } from '../../../../constants/config';
 
 const usePlayerReport = () => {
 	const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const usePlayerReport = () => {
 		fromDate: '',
 		toDate: '',
 	});
-	const [currencyId, setCurrencyId] = useState(null);
+	const [currencyId, setCurrencyId] = useState(defaultCurrencyId);
 	const [orderBy, setOrderBy] = useState('total_casino_bet');
 	const [activePerformance, setActivePerformance] = useState(TABS.CASINO);
 	const { topPlayers, topPlayersLoading } = useSelector(
@@ -59,10 +60,6 @@ const usePlayerReport = () => {
 			})) || [],
 		[topPlayers, activePerformance]
 	);
-
-	useEffect(() => {
-		setCurrencyId(defaultCurrency.id);
-	}, [defaultCurrency.id]);
 
 	useEffect(() => {
 		if (currencyId) {

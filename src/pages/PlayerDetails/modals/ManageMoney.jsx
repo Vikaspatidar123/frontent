@@ -14,6 +14,7 @@ import {
 	getUserDetails,
 } from '../../../store/actions';
 import { showToastr } from '../../../utils/helpers';
+import { defaultCurrencyId } from '../../../constants/config';
 
 const transactionTypeOptionsList = [
 	{
@@ -108,10 +109,10 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 	} = useForm({
 		validationSchema: depositSchema,
 		initialValues: {
-			amountType: null,
+			amountType: 'cash',
 			addAmount: '',
 			transactionType: '',
-			currencyId: null,
+			currencyId: defaultCurrencyId,
 		},
 		onSubmitEntry: (values, { resetForm }) => {
 			handleDepositToOther(values);

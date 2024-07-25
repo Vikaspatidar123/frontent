@@ -18,6 +18,7 @@ import {
 } from '../../store/tournaments/actions';
 import { CustomSelectField } from '../../helpers/customForms';
 import { StatusBadge } from './TournamentListCol';
+import { defaultCurrencyId } from '../../constants/config';
 
 const TournamentDetail = () => {
 	const { tournamentId } = useParams();
@@ -26,7 +27,7 @@ const TournamentDetail = () => {
 
 	const { currencies, currencyById } = useSelector((state) => state.Currencies);
 
-	const [currencyId, setCurrencyId] = useState(null);
+	const [currencyId, setCurrencyId] = useState(defaultCurrencyId);
 
 	const { tournamentDetail, tournamentDetailLoading } = useSelector(
 		(state) => state.Tournament
@@ -48,12 +49,6 @@ const TournamentDetail = () => {
 		}
 		return () => dispatch(resetTournamentDetail());
 	}, [tournamentId]);
-
-	useEffect(() => {
-		if (currencies?.currencies) {
-			setCurrencyId(currencies.currencies?.[0]?.id);
-		}
-	}, [currencies]);
 
 	const currencyWise = useMemo(() => {
 		const code = currencyById?.[currencyId]?.code || '';

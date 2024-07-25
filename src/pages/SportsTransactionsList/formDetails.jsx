@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { BET_TYPES, LEDGER_PURPOSE, STATUS_TYPE } from './constants';
+import { defaultCurrencyId } from '../../constants/config';
 
 const staticFiltersFields = (userId = '') => [
 	{
@@ -77,6 +78,7 @@ const filterValues = () => ({
 	previousTransactionId: '',
 	// transactionType: null,
 	status: null,
+	currencyId: defaultCurrencyId,
 });
 
 const filterValidationSchema = () =>
@@ -92,6 +94,7 @@ const filterValidationSchema = () =>
 		transactionId: Yup.string().nullable(),
 		conversionRate: Yup.string().nullable(),
 		previousTransactionId: Yup.string().nullable(),
+		currencyId: Yup.string().nullable(),
 	});
 
 export { staticFiltersFields, filterValues, filterValidationSchema };
