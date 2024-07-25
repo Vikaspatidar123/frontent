@@ -751,6 +751,7 @@ export const getField = (
 						disabled={!!isDisabled}
 						isError
 						errorMsg={validation.touched[name] && validation.errors[name]}
+						isRequired={isRequired}
 					/>
 					{showThumbnail && validation.values[name] && (
 						<img
