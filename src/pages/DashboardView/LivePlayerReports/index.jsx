@@ -7,6 +7,7 @@ import ReportList from './ReportList';
 import { modules } from '../../../constants/permissions';
 import { LIVE_PLAYER } from '../../../constants/messages';
 import usePermission from '../../../components/Common/Hooks/usePermission';
+import { TAB_COLORS } from '../constant';
 
 const Reports = (props) => {
 	const { livePlayerData, isLivePlayerLoading } = props;
@@ -54,24 +55,42 @@ const Reports = (props) => {
 				description: `${defaultCurrency?.symbol || ''} ${todayGGR}`,
 				iconClass: 'bx bxs-dollar-circle',
 				reportClass: 'reportList1',
+				customClass: TAB_COLORS.primary,
 			},
 			{
 				title: 'Total Players',
 				description: `${livePlayerData.totalPlayers || 0}`,
 				iconClass: 'bx bxs-user-plus',
 				reportClass: 'reportList2',
+				customClass: TAB_COLORS.info,
+			},
+			{
+				title: 'Active Players',
+				description: `${livePlayerData.totalPlayers || 0}`,
+				iconClass: 'bx bxs-user-plus',
+				reportClass: 'reportList2',
+				customClass: TAB_COLORS.success,
 			},
 			{
 				title: "Today's registrations",
 				description: `${livePlayerData.totalRegistrationToday || 0}`,
 				iconClass: 'bx bxs-contact',
 				reportClass: 'reportList3',
+				customClass: TAB_COLORS.primary,
+			},
+			{
+				title: 'Number of Bets',
+				description: `${livePlayerData.depositConvRate || 0} %`,
+				iconClass: 'bx bxs-credit-card',
+				reportClass: 'reportList4',
+				customClass: TAB_COLORS.info,
 			},
 			{
 				title: 'Deposit Conv. Rate',
 				description: `${livePlayerData.depositConvRate || 0} %`,
 				iconClass: 'bx bxs-credit-card',
 				reportClass: 'reportList4',
+				customClass: TAB_COLORS.success,
 			},
 		],
 		[livePlayerData, isLivePlayerLoading, todayGGR]
@@ -81,13 +100,14 @@ const Reports = (props) => {
 		<Row>
 			{isGranted(modules.livePlayerDetail, 'R') ? (
 				reportList.map((report) => (
-					<Col md="6" lg="6" xl="3">
+					<Col md="4" lg="3" xl="2">
 						<ReportList
 							title={report.title}
 							description={report.description}
 							iconClass={report.iconClass}
 							isLoading={isLivePlayerLoading}
 							reportClass={report.reportClass}
+							customClass={report.customClass}
 						/>
 					</Col>
 				))

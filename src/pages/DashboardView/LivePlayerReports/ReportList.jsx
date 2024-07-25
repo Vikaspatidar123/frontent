@@ -15,10 +15,11 @@ const renderStop = (prevProps, nextProps) => {
 	return true;
 };
 const ReportList = (props) => {
-	const { title, description, iconClass, isLoading, reportClass } = props;
+	const { title, description, iconClass, isLoading, reportClass, customClass } =
+		props;
 	return (
 		<Card className="mini-stats-wid">
-			<CardBody>
+			<CardBody className={`${customClass || 'bg-success-subtle'}`}>
 				<div className="d-flex">
 					<div className="flex-grow-1">
 						<p className={`text-muted fw-medium ${reportClass}`}>{title}</p>
@@ -45,12 +46,14 @@ ReportList.propTypes = {
 	iconClass: PropTypes.string,
 	isLoading: PropTypes.bool,
 	reportClass: PropTypes.string,
+	customClass: PropTypes.string,
 };
 ReportList.defaultProps = {
-	title: PropTypes.string,
-	description: PropTypes.string,
-	iconClass: PropTypes.string,
-	isLoading: PropTypes.bool,
-	reportClass: PropTypes.string,
+	title: '',
+	description: '',
+	iconClass: '',
+	isLoading: false,
+	reportClass: '',
+	customClass: '',
 };
 export default React.memo(ReportList, renderStop);
