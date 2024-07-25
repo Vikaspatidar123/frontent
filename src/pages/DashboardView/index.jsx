@@ -18,9 +18,9 @@ import LivePlayerReports from './LivePlayerReports';
 import DemographicReport from './DemographicReport';
 import LoggedInPlayer from './LoggedInPlayer';
 
-import './dashboard.scss';
 import PlayerReport from './PlayerReport';
 import RevenueReport from './RevenueChart';
+import DashboardFilters from './DashboardFilters';
 
 const KpiSummary = lazy(() => import('./KpiSummary'));
 const KpiReport = lazy(() => import('./KpiReport'));
@@ -30,14 +30,21 @@ const DashboardView = ({ t }) => {
 	// meta title
 	document.title = projectName;
 
-	const { isLivePlayerLoading, livePlayerData, loggedInOptions } =
-		useDashboardView();
-
+	const {
+		isLivePlayerLoading,
+		livePlayerData,
+		loggedInOptions,
+		dashFilters,
+		setDashFilters,
+		handleDashFilters,
+	} = useDashboardView();
+	// Filter oo be used
+	console.log('filter data = ', dashFilters, setDashFilters);
 	return (
 		<div className="page-content">
 			<Container fluid>
-				{/* Render Breadcrumb */}
 				<Breadcrumbs title={t('Dashboards')} breadcrumbItem={t('Dashboard')} />
+				<DashboardFilters handleDashFilters={handleDashFilters} />
 				<Row>
 					<LivePlayerReports
 						isLivePlayerLoading={isLivePlayerLoading}

@@ -6,12 +6,17 @@ import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 
 const useDashboardView = () => {
 	const dispatch = useDispatch();
+	const [dashFilters, setDashFilters] = useState(null);
 
 	const { isLivePlayerLoading, livePlayerData } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
 
 	const [loggedInOptions, setLoggedInOptions] = useState({});
+
+	const handleDashFilters = (values) => {
+		setDashFilters(values);
+	};
 
 	useEffect(() => {
 		dispatch(getLivePlayerInfoStart());
@@ -63,6 +68,9 @@ const useDashboardView = () => {
 		isLivePlayerLoading,
 		livePlayerData,
 		loggedInOptions,
+		dashFilters,
+		setDashFilters,
+		handleDashFilters,
 	};
 };
 

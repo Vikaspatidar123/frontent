@@ -95,3 +95,11 @@ export const KPI_SUMMARY_NAMES = [
 		value: 'betcount',
 	},
 ];
+
+export const TAB_COLORS = {
+	primary: 'bg-primary-subtle',
+	danger: 'bg-danger-subtle',
+	success: 'bg-success-subtle',
+	info: 'bg-info-subtle',
+	warn: 'bg-warning-subtle',
+};
