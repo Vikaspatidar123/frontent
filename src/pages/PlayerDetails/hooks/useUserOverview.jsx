@@ -24,7 +24,7 @@ const useUserOverview = ({ user }) => {
 		gender,
 		dateOfBirth,
 		email,
-		defaultDisableReason,
+		// defaultDisableReason,
 		isActive,
 		reason,
 		kycMethod,
@@ -69,7 +69,7 @@ const useUserOverview = ({ user }) => {
 			value: isActive ? 'Active' : 'In -Active',
 			subValue: showStyle(isActive),
 		},
-		{ label: 'Inactive Reason', value: defaultDisableReason || '-' },
+		// { label: 'Inactive Reason', value: defaultDisableReason || '-' },
 		// { label: 'Portal', value: `${tenant?.name} (${tenant?.domain})` },
 		{ label: 'Reason', value: !isActive ? reason : '' },
 		{
@@ -147,45 +147,67 @@ const useUserOverview = ({ user }) => {
 					: 'Pending',
 		},
 	];
-
 	const totalPlayerStats = useMemo(() => {
 		const accumulator = {};
 		userStatsData?.forEach((item) => {
 			const exchangeRate = Number(
 				currencyById?.[item?.currency_id]?.exchangeRate || 1
 			);
-			accumulator.total_deposit =
-				Number(item?.total_deposit || 0) * exchangeRate +
-				Number(accumulator?.total_deposit || 0);
-			accumulator.total_withdraw =
-				Number(item?.total_withdraw || 0) * exchangeRate +
-				Number(accumulator?.total_withdraw || 0);
-			accumulator.total_casino_bet_count =
-				Number(item?.total_casino_bet_count || 0) +
-				Number(accumulator?.total_casino_bet_count || 0);
-			accumulator.total_casino_bet =
-				Number(item?.total_casino_bet || 0) * exchangeRate +
-				Number(accumulator?.total_casino_bet || 0);
-			accumulator.total_casino_win =
-				Number(item?.total_casino_win || 0) * exchangeRate +
-				Number(accumulator?.total_casino_win || 0);
-			accumulator.total_sb_bet_count =
-				Number(item?.total_sb_bet_count || 0) +
-				Number(accumulator?.total_sb_bet_count || 0);
-			accumulator.total_sb_bet =
+
+			const addWithPrecision = (a, b) => Number((a + b).toFixed(3));
+
+			accumulator.total_deposit = addWithPrecision(
+				Number(item?.total_deposit || 0) * exchangeRate,
+				Number(accumulator?.total_deposit || 0)
+			);
+
+			accumulator.total_withdraw = addWithPrecision(
+				Number(item?.total_withdraw || 0) * exchangeRate,
+				Number(accumulator?.total_withdraw || 0)
+			);
+
+			accumulator.total_casino_bet_count = addWithPrecision(
+				Number(item?.total_casino_bet_count || 0),
+				Number(accumulator?.total_casino_bet_count || 0)
+			);
+
+			accumulator.total_casino_bet = addWithPrecision(
+				Number(item?.total_casino_bet || 0) * exchangeRate,
+				Number(accumulator?.total_casino_bet || 0)
+			);
+
+			accumulator.total_casino_win = addWithPrecision(
+				Number(item?.total_casino_win || 0) * exchangeRate,
+				Number(accumulator?.total_casino_win || 0)
+			);
+
+			accumulator.total_sb_bet_count = addWithPrecision(
+				Number(item?.total_sb_bet_count || 0),
+				Number(accumulator?.total_sb_bet_count || 0)
+			);
+
+			accumulator.total_sb_bet = addWithPrecision(
+				Number(item?.total_sb_bet || 0) * exchangeRate,
+				Number(accumulator?.total_sb_bet || 0)
+			);
+
+			accumulator.total_sb_win = addWithPrecision(
+				Number(item?.total_sb_win || 0) * exchangeRate,
+				Number(accumulator?.total_sb_win || 0)
+			);
+
+			accumulator.total_deposit_count = addWithPrecision(
+				Number(item?.total_deposit_count || 0),
+				Number(accumulator?.total_deposit_count || 0)
+			);
+
+			accumulator.total_bet_amt = addWithPrecision(
+				Number(accumulator.total_bet_amt || 0),
 				Number(item?.total_sb_bet || 0) * exchangeRate +
-				Number(accumulator?.total_sb_bet || 0);
-			accumulator.total_sb_win =
-				Number(item?.total_sb_win || 0) * exchangeRate +
-				Number(accumulator?.total_sb_win || 0);
-			accumulator.total_deposit_count =
-				Number(item?.total_deposit_count || 0) +
-				Number(accumulator?.total_deposit_count || 0);
-			accumulator.total_bet_amt =
-				Number(accumulator.total_bet_amt || 0) +
-				Number(item?.total_sb_bet || 0) * exchangeRate +
-				Number(item?.total_casino_bet || 0) * exchangeRate;
+					Number(item?.total_casino_bet || 0) * exchangeRate
+			);
 		});
+
 		const {
 			total_casino_bet,
 			total_sb_bet,
@@ -200,20 +222,23 @@ const useUserOverview = ({ user }) => {
 				Number(total_casino_bet || 0) +
 				Number(total_sb_bet || 0) +
 				Number(total_tournament_enrolls || 0)
-			)?.toFixed(2)
+			).toFixed(3)
 		);
+
 		accumulator.payout = Number(
 			(
 				Number(total_casino_win || 0) +
 				Number(total_sb_win || 0) +
 				Number(total_tournament_payouts || 0)
-			)?.toFixed(2)
+			).toFixed(3)
 		);
+
 		accumulator.profit = Number(
-			(accumulator.wagered - accumulator.payout)?.toFixed(2)
+			(accumulator.wagered - accumulator.payout).toFixed(3)
 		);
+
 		return accumulator;
-	}, [userStatsData]);
+	}, [userStatsData, currencyById]);
 
 	return {
 		basicInfo,
