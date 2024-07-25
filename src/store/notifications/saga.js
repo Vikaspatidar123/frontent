@@ -88,7 +88,7 @@ function* notifyPlayersWorker(action) {
 		yield notifyPlayersRequest(objectToFormData(payload));
 
 		showToastr({
-			message: `Players notified Successfully`,
+			message: `Notification sent successfully!`,
 			type: 'success',
 		});
 

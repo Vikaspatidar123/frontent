@@ -38,7 +38,7 @@ const FormPage = ({
 						{staticFormFields?.map(
 							(field) =>
 								!field?.isHide && (
-									<div className={`mb-3 ${field?.divClass || ''}`}>
+									<div className={`${field?.divClass || ''} mb-3`}>
 										{getField(field, validation)}
 									</div>
 								)
@@ -51,7 +51,7 @@ const FormPage = ({
 						{leftFormFields?.map(
 							(field) =>
 								!field?.isHide && (
-									<div className={`mb-3 ${field?.divClass || ''}`}>
+									<div className={`${field?.divClass || ''} mb-3`}>
 										{getField(field, validation)}
 									</div>
 								)
@@ -61,7 +61,7 @@ const FormPage = ({
 						{rightFormFields?.map(
 							(field) =>
 								!field?.isHide && (
-									<div className={`mb-3 ${field?.divClass || ''}`}>
+									<div className={`${field?.divClass || ''} mb-3`}>
 										{getField(field, validation)}
 									</div>
 								)

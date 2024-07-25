@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
-import { Button, UncontrolledTooltip } from 'reactstrap';
 // import PropTypes from 'prop-types';
 
 import { isEqual } from 'lodash';
@@ -26,7 +25,7 @@ const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
 const useCreateNotification = (page, perPage) => {
 	const dispatch = useDispatch();
-	const { isGranted, permissions } = usePermission();
+	const { permissions } = usePermission();
 	const [showModal, setShowModal] = useState(false);
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const {
@@ -80,6 +79,7 @@ const useCreateNotification = (page, perPage) => {
 		if (isCreateNotificationSuccess) setIsOpen(false);
 	}, [isCreateNotificationSuccess]);
 
+	// eslint-disable-next-line no-unused-vars
 	const handleAddClick = (e) => {
 		e.preventDefault();
 		setIsOpen((prev) => !prev);
@@ -90,20 +90,14 @@ const useCreateNotification = (page, perPage) => {
 
 	const buttonList = useMemo(() => [
 		{
-			label: 'Web push',
-			link: '/notify-players',
-			module: modules.page,
-			operation: 'C',
-		},
-		{
-			label: 'Custom Notification',
-			handleClick: handleAddClick,
-			link: '#/',
+			label: 'Send Notification',
+			link: '/send-notification',
 			module: modules.page,
 			operation: 'C',
 		},
 	]);
 
+	// eslint-disable-next-line no-unused-vars
 	const onClickEdit = (selectedRow) => {
 		setIsEdit({ open: true, selectedRow });
 		setHeader('Edit Notification');
@@ -296,38 +290,38 @@ const useCreateNotification = (page, perPage) => {
 				disableFilters: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
-			{
-				Header: 'ACTION',
-				accessor: 'actions',
-				disableSortBy: true,
-				disableFilters: true,
-				Cell: ({ cell }) => (
-					<ul className="list-unstyled hstack gap-1 mb-0">
-						<li>
-							<Button
-								hidden={!isGranted(modules.page, 'U')}
-								type="button"
-								className="btn btn-sm btn-soft-info"
-								onClick={(e) => {
-									e.preventDefault();
-									onClickEdit(cell?.row?.original);
-								}}
-							>
-								<i
-									className="mdi mdi-pencil-outline"
-									id={`edittooltip-${cell?.row?.original?.id}`}
-								/>
-								<UncontrolledTooltip
-									placement="top"
-									target={`edittooltip-${cell?.row?.original?.id}`}
-								>
-									Edit
-								</UncontrolledTooltip>
-							</Button>
-						</li>
-					</ul>
-				),
-			},
+			// {
+			// 	Header: 'ACTION',
+			// 	accessor: 'actions',
+			// 	disableSortBy: true,
+			// 	disableFilters: true,
+			// 	Cell: ({ cell }) => (
+			// 		<ul className="list-unstyled hstack gap-1 mb-0">
+			// 			<li>
+			// 				<Button
+			// 					hidden={!isGranted(modules.page, 'U')}
+			// 					type="button"
+			// 					className="btn btn-sm btn-soft-info"
+			// 					onClick={(e) => {
+			// 						e.preventDefault();
+			// 						onClickEdit(cell?.row?.original);
+			// 					}}
+			// 				>
+			// 					<i
+			// 						className="mdi mdi-pencil-outline"
+			// 						id={`edittooltip-${cell?.row?.original?.id}`}
+			// 					/>
+			// 					<UncontrolledTooltip
+			// 						placement="top"
+			// 						target={`edittooltip-${cell?.row?.original?.id}`}
+			// 					>
+			// 						Edit
+			// 					</UncontrolledTooltip>
+			// 				</Button>
+			// 			</li>
+			// 		</ul>
+			// 	),
+			// },
 		],
 		[permissions]
 	);

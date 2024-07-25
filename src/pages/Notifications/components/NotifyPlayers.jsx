@@ -22,7 +22,7 @@ const NotifyPlayers = () => {
 			<Container fluid>
 				<Breadcrumbs
 					title="Content Management"
-					breadcrumbItem="Notify Players"
+					breadcrumbItem="Send Notification"
 					leftTitle={
 						<>
 							<i className="fas fa-angle-left" /> Back
@@ -34,12 +34,12 @@ const NotifyPlayers = () => {
 				<Row>
 					<Col lg="12">
 						<FormPage
-							formTitle="Notify players"
+							formTitle="Send Notification"
 							validation={validation}
 							leftFormFields={leftFormFields}
 							rightFormFields={rightFormFields}
 							customComponent={customComponent}
-							submitLabel="Notify Players"
+							submitLabel="Send"
 							customColClasses=""
 							isSubmitLoading={notifyPlayerLoading}
 							rowCustomClass="px-4"

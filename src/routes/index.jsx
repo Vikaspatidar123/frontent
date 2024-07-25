@@ -263,7 +263,7 @@ const authProtectedRoutes = [
 		operation: 'R',
 	},
 	{
-		path: '/notify-players',
+		path: '/send-notification',
 		component: <NotifyPlayers />,
 		// FIXME: Update the permission
 		modules: [modules.page],

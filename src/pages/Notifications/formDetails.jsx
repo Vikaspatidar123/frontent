@@ -97,13 +97,21 @@ const leftStaticFormFields = [
 		label: 'Enter title',
 		placeholder: 'Enter title of notification',
 		isRequired: true,
+		divClass: 'title-margin',
 	},
 	{
-		name: 'file',
-		fieldType: 'file',
-		label: 'Upload icon',
-		placeholder: 'Upload icon',
-		showThumbnail: true,
+		name: 'url',
+		fieldType: 'textField',
+		label: 'Enter redirect url',
+		placeholder: 'Enter redirect url',
+	},
+	{
+		name: 'choosePlayers',
+		fieldType: 'toggle',
+		label: 'Choose players',
+		fieldColOptions: { xl: 2, lg: 2, md: 3 },
+		switchSizeClass:
+			'd-flex justify-content-between form-switch-md px-0 pt-2 mt-4',
 	},
 ];
 
@@ -111,15 +119,18 @@ const rightStaticFormFields = [
 	{
 		name: 'body',
 		fieldType: 'textField',
+		type: 'textarea',
 		label: 'Enter description',
 		placeholder: 'Enter description of notification',
 		isRequired: true,
 	},
+
 	{
-		name: 'url',
-		fieldType: 'textField',
-		label: 'Enter redirect url',
-		placeholder: 'Enter redirect url',
+		name: 'file',
+		fieldType: 'file',
+		label: 'Upload icon',
+		placeholder: 'Upload icon',
+		showThumbnail: true,
 	},
 ];
 

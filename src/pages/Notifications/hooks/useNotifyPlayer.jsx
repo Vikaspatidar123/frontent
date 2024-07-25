@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 import React, { useMemo, useState } from 'react';
 import { isEmpty } from 'lodash';
@@ -44,7 +45,12 @@ const useNotifyPlayer = () => {
 		}
 		dispatch(
 			notifyPlayersStart({
-				payload: { ...data, userId: Object.keys(userIds || {}) },
+				payload: {
+					...data,
+					userId: validation.values.choosePlayers
+						? Object.keys(userIds || {})
+						: [],
+				},
 				navigate,
 			})
 		);
@@ -60,8 +66,11 @@ const useNotifyPlayer = () => {
 	});
 
 	const customComponent = useMemo(
-		() => <PlayersList userIds={userIds} toggleUserId={toggleUserId} />,
-		[userIds]
+		() =>
+			validation.values.choosePlayers ? (
+				<PlayersList userIds={userIds} toggleUserId={toggleUserId} />
+			) : null,
+		[userIds, validation.values.choosePlayers]
 	);
 
 	return {
