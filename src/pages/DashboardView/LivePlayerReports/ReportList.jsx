@@ -19,7 +19,7 @@ const ReportList = (props) => {
 		props;
 	return (
 		<Card className="mini-stats-wid">
-			<CardBody className={`${customClass || 'bg-success-subtle'}`}>
+			<CardBody className={`${customClass || 'bg-success-subtle'} rounded-3`}>
 				<div className="d-flex">
 					<div className="flex-grow-1">
 						<p className={`text-muted fw-medium ${reportClass}`}>{title}</p>
