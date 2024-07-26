@@ -3,17 +3,6 @@ import { PAYMENT_PROVIDER_CATEGORY } from './constants';
 
 // Filter
 const staticFiltersFields = () => [
-	// {
-	// 	name: 'isActive',
-	// 	fieldType: 'select',
-	// 	label: '',
-	// 	placeholder: 'Status',
-	// 	optionList: IS_ACTIVE_TYPES?.map(({ id, label, value }) => ({
-	// 		id,
-	// 		optionLabel: label,
-	// 		value,
-	// 	})),
-	// },
 	{
 		name: 'search',
 		fieldType: 'textField',
@@ -24,13 +13,11 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	// isActive: null,
 	search: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		// isActive: Yup.string().nullable(),
 		search: Yup.string().nullable(),
 	});
 
@@ -122,42 +109,33 @@ const generaFromFields = [
 	// },
 ];
 
-const getInitialValues = (paymentDetails) => {
-	const providerLimit = {};
-	if (paymentDetails?.providerLimits?.length)
-		paymentDetails?.providerLimits?.forEach((item) => {
-			providerLimit[parseFloat(item?.currencyId)] = {
-				...item,
-				currencyName: item?.currency?.name || '',
-			};
-		});
+const leftStaticFormFields = [
+	{
+		name: 'name',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Provider Name',
+		isRequired: true,
+		placeholder: 'Provider Name',
+	},
+];
 
-	return {
-		name: paymentDetails?.name?.EN || '',
-		// displayName: paymentDetails?.displayName?.EN || '',
-		description: paymentDetails?.description?.EN || '',
-		aggregator: paymentDetails?.aggregator || '',
-		category: paymentDetails?.category || null,
-		depositAllowed: paymentDetails?.depositAllowed
-			? paymentDetails?.depositAllowed
-			: false,
-		withdrawAllowed: paymentDetails?.withdrawAllowed
-			? paymentDetails?.withdrawAllowed
-			: false,
-		image: paymentDetails?.image || '',
-		// depositImage: paymentDetails?.depositImage || null,
-		// withdrawImage: paymentDetails?.withdrawImage || null,
-		providerLimit,
-		blockedCountries: paymentDetails?.blockedCountries || [],
-		currencyDetails: {
-			currencyId: null,
-			minDeposit: null,
-			maxDeposit: null,
-			minWithdraw: null,
-			maxWithdraw: null,
-		},
-	};
-};
+const rightStaticFormFields = [
+	{
+		name: 'icon',
+		fieldType: 'file',
+		type: '',
+		label: 'Payment Provider icon',
+		placeholder: 'Upload payment provider icon',
+		isNewRow: true,
+		showThumbnail: true,
+	},
+];
+
+const getInitialValues = (defaultValue) => ({
+	name: defaultValue?.name?.EN || '',
+	icon: defaultValue?.icon || '',
+});
 
 export {
 	staticFiltersFields,
@@ -165,4 +143,6 @@ export {
 	filterValidationSchema,
 	generaFromFields,
 	getInitialValues,
+	leftStaticFormFields,
+	rightStaticFormFields,
 };

@@ -580,6 +580,14 @@ const createChatrain = (data) =>
 
 const updateChatrain = (data) =>
 	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}update-chat-rain`, data);
+const addProviderCredentials = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.INTERNAL}create-credentials`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 export {
 	createSuperAdminCMS,
@@ -672,5 +680,6 @@ export {
 	updateStatus,
 	createChannel,
 	createChatrain,
-	updateChatrain
+	updateChatrain,
+	addProviderCredentials,
 };
