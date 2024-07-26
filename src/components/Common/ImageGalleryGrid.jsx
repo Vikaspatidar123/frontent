@@ -7,7 +7,7 @@ import { modules } from '../../constants/permissions';
 const ImageGalleryGrid = ({
 	imageGalleryList,
 	isGranted,
-	deleteImage,
+	setShowDeletePopup,
 	imageColClass,
 	onCopyClipboard,
 }) =>
@@ -27,12 +27,14 @@ const ImageGalleryGrid = ({
 								src={f}
 							/>
 						</CopyToClipboard>
-						{deleteImage && (
+						{setShowDeletePopup && (
 							<Col className="trash-btn position-absolute top-0 end-0">
 								<Button
 									hidden={!isGranted(modules.gallery, 'D')}
 									className="btn btn-sm btn-soft-danger"
-									onClick={() => deleteImage(f)}
+									onClick={() =>
+										setShowDeletePopup({ showDelete: true, fileName: f })
+									}
 								>
 									<i className="mdi mdi-delete-outline" id="deletetooltip" />
 									<UncontrolledTooltip placement="top" target="deletetooltip">
@@ -52,7 +54,7 @@ const ImageGalleryGrid = ({
 ImageGalleryGrid.defaultProps = {
 	imageGalleryList: [],
 	isGranted: true,
-	deleteImage: () => null,
+	setShowDeletePopup: () => null,
 	imageColClass: '',
 	onCopyClipboard: () => null,
 };
@@ -70,7 +72,7 @@ ImageGalleryGrid.propTypes = {
 		)
 	),
 	isGranted: PropTypes.bool,
-	deleteImage: PropTypes.func,
+	setShowDeletePopup: PropTypes.func,
 	imageColClass: PropTypes.string,
 	onCopyClipboard: PropTypes.func,
 };

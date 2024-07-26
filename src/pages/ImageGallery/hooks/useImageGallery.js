@@ -21,6 +21,10 @@ const useImageGallery = () => {
 	const { isGranted } = usePermission();
 	const [showUpload, setShowUpload] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
+	const [showDeletePopup, setShowDeletePopup] = useState({
+		showDelete: false,
+		fileName: null,
+	});
 	const {
 		imageGallery,
 		imageGalleryLoading,
@@ -112,6 +116,8 @@ const useImageGallery = () => {
 		setShowUpload,
 		isUploading,
 		handleClear,
+		showDeletePopup,
+		setShowDeletePopup,
 	};
 };
 

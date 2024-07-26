@@ -23,15 +23,16 @@ const ImageGallery = () => {
 		imageGallery,
 		imageGalleryLoading,
 		handleFileUpload,
-		deleteImage,
 		validation,
 		buttonList,
 		showUpload,
 		setShowUpload,
 		isUploading,
 		handleClear,
+		deleteImage,
+		showDeletePopup,
+		setShowDeletePopup,
 	} = useImageGallery();
-
 	return (
 		<div className="page-content">
 			{isGranted(modules.gallery, 'R') && (
@@ -56,7 +57,7 @@ const ImageGallery = () => {
 												<ImageGalleryGrid
 													imageGalleryList={imageGallery}
 													isGranted={isGranted}
-													deleteImage={deleteImage}
+													setShowDeletePopup={setShowDeletePopup}
 													imageColClass="col-sm-4 col-md-3 col-lg-2 p-0 mb-4"
 												/>
 											)}
@@ -85,6 +86,23 @@ const ImageGallery = () => {
 							isUploading={isUploading}
 							handleClear={handleClear}
 						/>
+					</ModalView>
+
+					<ModalView
+						openModal={showDeletePopup?.showDelete}
+						toggleModal={() =>
+							setShowDeletePopup({ showDelete: false, fileName: null })
+						}
+						firstBtnName="Cancel"
+						secondBtnClass="btn-danger ms-2"
+						handleClick={() => {
+							deleteImage(showDeletePopup?.fileName);
+							setShowDeletePopup({ showDelete: false });
+						}}
+						secondBtnName="Delete"
+						headerTitle="Images Delete Confirmation"
+					>
+						<h5>Are you sure you want to delete Images?</h5>
 					</ModalView>
 				</Container>
 			)}

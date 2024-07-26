@@ -147,10 +147,12 @@ const ManageMoney = ({ show, toggle, playerId }) => {
 					fieldType: 'select',
 					placeholder: 'Select currency',
 					label: 'Select currency',
-					optionList: currencies?.currencies?.map((currency) => ({
-						optionLabel: currency.name,
-						value: currency.id,
-					})),
+					optionList: currencies?.currencies
+						?.filter((currency) => currency?.isActive)
+						.map((currency) => ({
+							optionLabel: currency.name,
+							value: currency.id,
+						})),
 					dynamicDescription: (values) => {
 						if (values?.currencyId) {
 							const wallet = useMemo(
