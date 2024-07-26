@@ -73,6 +73,7 @@ import NotifyPlayers from '../pages/Notifications/components/NotifyPlayers';
 import AllReferrals from '../pages/AllReferrals';
 import DisputeResolution from '../pages/DisputeResolution';
 import BulkUpdate from '../pages/Players/bulkUpdate';
+import NotificationDetails from '../pages/Notifications/components/NotificationDetails';
 
 const authProtectedRoutes = [
 	{
@@ -273,6 +274,13 @@ const authProtectedRoutes = [
 	{
 		path: '/send-notification',
 		component: <NotifyPlayers />,
+		// FIXME: Update the permission
+		modules: [modules.page],
+		operation: 'R',
+	},
+	{
+		path: '/notification-details',
+		component: <NotificationDetails />,
 		// FIXME: Update the permission
 		modules: [modules.page],
 		operation: 'R',

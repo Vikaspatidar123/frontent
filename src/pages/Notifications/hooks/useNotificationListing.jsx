@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, UncontrolledTooltip } from 'reactstrap';
+import { UncontrolledTooltip } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { fetchNotificationsStart } from '../../../store/actions';
 import { selectedLanguage } from '../../../constants/config';
 import { modules } from '../../../constants/permissions';
@@ -92,26 +93,25 @@ const useNotificationListing = () => {
 				disableFilters: true,
 				Cell: ({ cell }) => (
 					<ul className="list-unstyled hstack gap-1 mb-0">
-						<li>
-							<Button
-								type="button"
-								className="btn btn-sm btn-soft-info"
-								onClick={(e) => {
-									e.preventDefault();
-									// onClickEdit(cell?.row?.original);
+						<li data-bs-toggle="tooltip" data-bs-placement="top">
+							<Link
+								to="/notification-details"
+								state={{
+									details: cell.row.original,
 								}}
+								className="btn btn-sm btn-soft-primary"
 							>
 								<i
 									className="mdi mdi-eye-outline"
-									id={`view-players-${cell?.row?.original?.id}`}
+									id={`viewtooltip-${cell?.value || ''}`}
 								/>
 								<UncontrolledTooltip
 									placement="top"
-									target={`view-players-${cell?.row?.original?.id}`}
+									target={`viewtooltip-${cell?.value || ''}`}
 								>
-									Edit
+									Notification details
 								</UncontrolledTooltip>
-							</Button>
+							</Link>
 						</li>
 					</ul>
 				),

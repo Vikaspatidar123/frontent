@@ -1,83 +1,128 @@
-import React, { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Card, Col, Row } from 'reactstrap';
-import PropTypes from 'prop-types';
-import { getCasinoGamesStart } from '../../../store/actions';
+/* eslint-disable react/prop-types */
+import React, { useMemo } from 'react';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Link, useLocation } from 'react-router-dom';
+import Breadcrumbs from '../../../components/Common/Breadcrumb';
 import TableContainer from '../../../components/Common/Table';
-import { selectedLanguage } from '../../../constants/config';
+import CrudSection from '../../../components/Common/CrudSection';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
+const UserName = ({ cell }) =>
+	cell.value && cell?.row?.original?.id ? (
+		<Link to={`/player-details/${cell?.row?.original?.id}`}>{cell.value}</Link>
+	) : (
+		cell.value || '-'
+	);
 
 const columns = [
 	{
-		Header: 'GAME ID',
+		Header: 'USER ID',
 		disableSortBy: true,
 		accessor: 'id',
 		Cell: (cell) => <KeyValueCell cell={cell} />,
 	},
 	{
-		Header: 'NAME',
+		Header: 'USERNAME',
 		disableSortBy: true,
-		accessor: 'name',
-		Cell: (cell) => <KeyValueCell cell={cell} />,
-	},
-	{
-		Header: 'PROVIDER',
-		disableSortBy: true,
-		accessor: 'providerName',
-		Cell: (cell) => <KeyValueCell cell={cell} />,
+		accessor: 'username',
+		Cell: (cell) => <UserName cell={cell} />,
 	},
 ];
 
-const NotificationDetails = ({ bonusDetails }) => {
-	const dispatch = useDispatch();
-	const { casinoGames, isCasinoGamesLoading } = useSelector(
-		(state) => state.CasinoManagementData
-	);
+const NotificationDetails = () => {
+	const {
+		state: { details },
+	} = useLocation();
 
-	useEffect(() => {
-		dispatch(
-			getCasinoGamesStart({
-				gameIds: bonusDetails?.gameIds,
-			})
-		);
-	}, []);
-
-	const formattedCasinoGames = useMemo(() => {
-		if (casinoGames?.games) {
-			return casinoGames?.games?.map((game) => ({
-				...game,
-				name: game.name[selectedLanguage],
-				providerName: game?.casinoProvider?.name?.[selectedLanguage],
+	const formatted = useMemo(() => {
+		if (details?.userNotifications?.length) {
+			return details?.userNotifications?.map((user) => ({
+				...user?.user,
 			}));
 		}
 		return [];
-	}, [casinoGames]);
+	}, [details?.userNotifications]);
 
 	return (
-		<Card className="p-3">
-			<Row>
-				<Col lg="12" className="mb-3">
-					<TableContainer
-						isLoading={isCasinoGamesLoading}
-						columns={columns}
-						data={formattedCasinoGames}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
-					/>
-				</Col>
-			</Row>
-		</Card>
+		<div className="page-content">
+			<Container fluid>
+				<Breadcrumbs
+					title="Content Management"
+					breadcrumbItem="Notification Details"
+					showBackButton
+					leftTitle="Back"
+					isNotFormModal
+				/>
+				<Row>
+					<Col lg="12">
+						<Card>
+							<CrudSection buttonList={[]} title="Notification details" />
+							<CardBody>
+								<Row>
+									<Col xl={2} md={2}>
+										<h6 className="text-nowrap font-weight-bold">Title:</h6>
+									</Col>
+									<Col xl={5} md={5}>
+										<p>{details?.title?.EN || '-'}</p>
+									</Col>
+									{details?.image ? (
+										<Col>
+											<img
+												src={details?.image}
+												alt="notification"
+												style={{ height: '80px', width: 'auto' }}
+												height="30"
+											/>
+										</Col>
+									) : null}
+								</Row>
+								{details?.url ? (
+									<Row>
+										<Col xl={2} md={2}>
+											<h6 className="text-nowrap font-weight-bold">
+												Redirection URL:
+											</h6>
+										</Col>
+										<Col>
+											<p>{details?.url || '-'}</p>
+										</Col>
+									</Row>
+								) : null}
+								<Row>
+									<Col xl={2} md={2}>
+										<h6 className="text-nowrap font-weight-bold">
+											Description:
+										</h6>
+									</Col>
+									<Col>
+										<p>{details?.description?.EN || '-'}</p>
+									</Col>
+								</Row>
+								<Row>
+									<Col xl={2} md={2}>
+										<h6 className="text-nowrap font-weight-bold">Sent To :</h6>
+									</Col>
+									<Col>
+										<p>{!formatted?.length && 'ALL'}</p>
+									</Col>
+								</Row>
+								{formatted?.length ? (
+									<TableContainer
+										columns={columns}
+										data={formatted}
+										tableClass="table-bordered align-middle nowrap mt-2"
+										paginationDiv="justify-content-center"
+										pagination="pagination justify-content-start pagination-rounded"
+										isShowColSettings={false}
+									/>
+								) : null}
+							</CardBody>
+						</Card>
+					</Col>
+				</Row>
+			</Container>
+		</div>
 	);
 };
 
 export default NotificationDetails;
-
-NotificationDetails.defaultProps = {
-	bonusDetails: {},
-};
-
-NotificationDetails.propTypes = {
-	bonusDetails: PropTypes.objectOf,
-};
