@@ -232,6 +232,11 @@ const getDashboardLiveInfoService = () =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-live-player-details`
 	);
 
+const statsDataRequest = () =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}statistics-summary`
+	);
+
 const getDashboardDemoGraphicService = (data) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-demograph`,
@@ -472,5 +477,6 @@ export {
 	getDisputeDetails,
 	getAllChannels,
 	getChannelMessages,
-	getChatrain
+	getChatrain,
+	statsDataRequest,
 };

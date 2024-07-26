@@ -17,6 +17,9 @@ import {
 	GET_TOP_PLAYERS_START,
 	GET_TOP_PLAYERS_SUCCESS,
 	GET_TOP_PLAYERS_FAIL,
+	GET_STATS_START,
+	GET_STATS_SUCCESS,
+	GET_STATS_FAIL,
 } from './actionTypes';
 
 export const getLivePlayerInfoStart = (payload) => ({
@@ -31,6 +34,21 @@ export const getLivePlayerInfoSuccess = (payload) => ({
 
 export const getLivePlayerInfoFail = (payload) => ({
 	type: GET_LIVE_PLAYER_FAIL,
+	payload,
+});
+
+export const getStatisticData = (payload) => ({
+	type: GET_STATS_START,
+	payload,
+});
+
+export const getStatisticDataSuccess = (payload) => ({
+	type: GET_STATS_SUCCESS,
+	payload,
+});
+
+export const getStatisticDataFail = (payload) => ({
+	type: GET_STATS_FAIL,
 	payload,
 });
 

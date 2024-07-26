@@ -17,6 +17,8 @@ import {
 	GET_TOP_PLAYERS_START,
 	GET_TOP_PLAYERS_SUCCESS,
 	GET_TOP_PLAYERS_FAIL,
+	GET_STATS_START,
+	GET_STATS_SUCCESS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -36,6 +38,8 @@ const INIT_STATE = {
 	topPlayers: null,
 	topPlayersLoading: false,
 	topPlayersError: null,
+	statsDataLoading: false,
+	statsData: null,
 };
 
 function DashboardView(state = INIT_STATE, { type, payload } = {}) {
@@ -60,6 +64,20 @@ function DashboardView(state = INIT_STATE, { type, payload } = {}) {
 				isLivePlayerLoading: false,
 				livePlayerData: {},
 			};
+
+		case GET_STATS_START:
+			return {
+				...state,
+				statsDataLoading: true,
+			};
+
+		case GET_STATS_SUCCESS:
+			return {
+				...state,
+				statsDataLoading: false,
+				statsData: payload,
+			};
+
 		case GET_DEMOGRAPHIC_START:
 			return {
 				...state,
