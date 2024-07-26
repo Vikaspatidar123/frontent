@@ -196,6 +196,7 @@ const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
 		placeholder: 'Select bonus image',
 		isNewRow: true,
 		showThumbnail: true,
+		isRequired: true,
 	},
 ];
 

@@ -209,7 +209,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 														}
 													}}
 												>
-													Verify Email
+													Email verified
 												</Button>
 											</ColumnContainer>
 										)}

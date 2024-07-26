@@ -68,8 +68,8 @@ export const CustomInputField = ({
 			onBlur={onBlur}
 			invalid={invalid}
 			placeholder={placeholder}
-			min={min}
-			max={max}
+			minlength={min}
+			maxlength={max}
 			autoComplete="new-password"
 			{...props}
 		/>
@@ -153,23 +153,25 @@ export const CustomDateField = ({
 	onChange = () => {}, // need for preventing code break
 	isError,
 	errorMsg,
-	maxDate = moment().utc().startOf('day').toDate(),
-	minDate = moment().subtract(100, 'years').utc().toDate(),
+	maxDate = moment().add(1, 'days').format('YYYY-MM-DD'),
+	minDate = moment().subtract(100, 'years').format('YYYY-MM-DD'),
 	validation,
 	dateFormat = 'd M Y',
 	minDateField,
+	isRequired,
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
+		{isRequired && label && <span className="text-danger"> *</span>}
 		<FlatPickr
 			className="form-control"
 			// name={name}
 			value={value}
 			placeholder={placeholder}
 			options={{
-				dateFormat,
 				minDate: minDateField ? validation.values[minDateField] : minDate,
 				maxDate,
+				dateFormat,
 			}}
 			onChange={(date) => {
 				validation.setFieldValue(
@@ -577,6 +579,7 @@ export const getField = (
 					errorMsg={validation.touched[name] && validation.errors[name]}
 					disabled={!!isDisabled}
 					min={minimum}
+					max={maximum}
 					description={description}
 					isRequired={isRequired}
 				/>
@@ -684,6 +687,7 @@ export const getField = (
 					minDate={minDate}
 					validation={validation}
 					minDateField={minDateField}
+					isRequired={isRequired}
 				/>
 			);
 		case 'dateTimePicker':
@@ -747,6 +751,7 @@ export const getField = (
 						disabled={!!isDisabled}
 						isError
 						errorMsg={validation.touched[name] && validation.errors[name]}
+						isRequired={isRequired}
 					/>
 					{showThumbnail && validation.values[name] && (
 						<img
@@ -886,6 +891,7 @@ export const getField = (
 			return (
 				<>
 					{label && <Label for={name}>{label}</Label>}
+					{isRequired && label && <span className="text-danger"> *</span>}
 					<div>
 						{!!optionList.length &&
 							optionList.map((option) => (
@@ -1044,6 +1050,7 @@ export const getField = (
 			return (
 				<>
 					{label && <Label for={name}>{label}</Label>}
+					{isRequired && label && <span className="text-danger"> *</span>}
 					<PhoneInput
 						masks={countryCodes}
 						name={namesArray?.[0]}

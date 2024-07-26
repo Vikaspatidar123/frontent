@@ -49,6 +49,7 @@ const staticFormFields = (options, isCreateTag) => [
 		placeholder: isCreateTag ? 'Enter tag' : 'Select Tag',
 		required: false,
 		optionList: options || [],
+		maximum: 50,
 	},
 ];
 
