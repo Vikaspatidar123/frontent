@@ -546,26 +546,9 @@ const updateReferralRequest = (data) =>
 		data
 	);
 
-const createNotification = (data) =>
-	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}notification/create`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
-const updateNotification = (data) =>
-	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}notification/update`,
-		data,
-		{
-			'Content-Type': 'multipart/form-data',
-		}
-	);
-
 const notifyPlayersRequest = (data) =>
 	postRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}notification/send`,
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}notification/create`,
 		data,
 		{
 			'Content-Type': 'multipart/form-data',
@@ -673,8 +656,6 @@ export {
 	cancelTournament,
 	updatePaymentProvider,
 	updateReferralRequest,
-	createNotification,
-	updateNotification,
 	notifyPlayersRequest,
 	sendMessageRequest,
 	updateStatus,

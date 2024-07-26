@@ -11,7 +11,7 @@ import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import ManageMoney from '../PlayerDetails/modals/ManageMoney';
 
-const PlayersList = ({ userIds, toggleUserId }) => {
+const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 	// userIds and toggleUserId can be used while importing player page on another form like in notify player.
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
@@ -52,7 +52,7 @@ const PlayersList = ({ userIds, toggleUserId }) => {
 							{!userIds ? (
 								<CrudSection buttonList={buttonList} title="Players" />
 							) : null}
-							<CardBody>
+							<CardBody className={`${customContainerClass}`}>
 								<Filters
 									validation={filterValidation}
 									filterFields={filterFields}
@@ -95,11 +95,13 @@ const PlayersList = ({ userIds, toggleUserId }) => {
 PlayersList.propTypes = {
 	userIds: PropTypes.objectOf,
 	toggleUserId: PropTypes.func,
+	customContainerClass: PropTypes.string,
 };
 
 PlayersList.defaultProps = {
 	userIds: null,
 	toggleUserId: () => {},
+	customContainerClass: '',
 };
 
 export default PlayersList;

@@ -7,11 +7,7 @@ import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
 import useNotificationListing from './hooks/useNotificationListing';
 import { projectName } from '../../constants/config';
-import FormModal from '../../components/Common/FormModal';
-import useCreateNotification from './hooks/useCreateNotification';
 import CrudSection from '../../components/Common/CrudSection';
-import ConfirmationModal from '../../components/Common/ConfirmationModal';
-import { formPageTitle } from '../../components/Common/constants';
 
 const Notifications = () => {
 	document.title = projectName;
@@ -25,22 +21,9 @@ const Notifications = () => {
 		formattedNotifications,
 		itemsPerPage,
 		onChangeRowsPerPage,
-	} = useNotificationListing();
-
-	const {
-		isOpen,
-		header,
-		validation,
-		isCreateNotificationLoading,
-		columns,
-		isEditNotificationLoading,
-		showModal,
-		setShowModal,
-		toggleFormModal,
 		buttonList,
-		customComponent,
-		isEdit,
-	} = useCreateNotification(currentPage, itemsPerPage);
+		columns,
+	} = useNotificationListing();
 
 	return (
 		<div className="page-content">
@@ -75,24 +58,6 @@ const Notifications = () => {
 						</Card>
 					</Col>
 				</Row>
-				<FormModal
-					isOpen={isOpen}
-					toggle={toggleFormModal}
-					header={header}
-					validation={validation}
-					customComponent={customComponent}
-					submitLabel={isEdit?.open ? 'Update' : 'Create'}
-					customColClasses="col-md-12"
-					isSubmitLoading={
-						isCreateNotificationLoading || isEditNotificationLoading
-					}
-				/>
-				<ConfirmationModal
-					openModal={showModal}
-					setOpenModal={setShowModal}
-					validation={validation}
-					pageType={formPageTitle.notification}
-				/>
 			</Container>
 		</div>
 	);
