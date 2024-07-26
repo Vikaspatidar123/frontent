@@ -153,11 +153,11 @@ export const CustomDateField = ({
 	onChange = () => {}, // need for preventing code break
 	isError,
 	errorMsg,
-	// maxDate = moment().utc().startOf('day').toDate(),
-	// minDate = moment().subtract(100, 'years').utc().toDate(),
+	maxDate = moment().add(1, 'days').format('YYYY-MM-DD'),
+	minDate = moment().subtract(100, 'years').format('YYYY-MM-DD'),
 	validation,
 	dateFormat = 'd M Y',
-	// minDateField,
+	minDateField,
 	isRequired,
 }) => (
 	<div id="datepicker1">
@@ -169,9 +169,9 @@ export const CustomDateField = ({
 			value={value}
 			placeholder={placeholder}
 			options={{
+				minDate: minDateField ? validation.values[minDateField] : minDate,
+				maxDate,
 				dateFormat,
-				// minDate: minDateField ? validation.values[minDateField] : minDate,
-				// maxDate,
 			}}
 			onChange={(date) => {
 				validation.setFieldValue(
