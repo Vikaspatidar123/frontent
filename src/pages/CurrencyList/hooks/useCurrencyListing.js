@@ -54,7 +54,7 @@ const useCurrencyListing = () => {
 	return {
 		currentPage,
 		setCurrentPage,
-		totalCurrenciesCount: currencies?.totalPages || 10,
+		totalCurrenciesCount: currencies?.totalPages || 1,
 		isCurrenciesLoading,
 		formattedCurrencies,
 		itemsPerPage,

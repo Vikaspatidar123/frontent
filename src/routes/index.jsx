@@ -72,6 +72,7 @@ import Notifications from '../pages/Notifications';
 import NotifyPlayers from '../pages/Notifications/components/NotifyPlayers';
 import AllReferrals from '../pages/AllReferrals';
 import DisputeResolution from '../pages/DisputeResolution';
+import BulkUpdate from '../pages/Players/bulkUpdate';
 
 const authProtectedRoutes = [
 	{
@@ -167,6 +168,13 @@ const authProtectedRoutes = [
 		component: <PlayersList />,
 		modules: [modules.player],
 		operation: 'R',
+	},
+
+	{
+		path: '/users-bulk-update',
+		component: <BulkUpdate />,
+		modules: [modules.player],
+		operation: 'U',
 	},
 
 	{ path: '/cms', component: <Cms />, modules: [modules.page], operation: 'R' },

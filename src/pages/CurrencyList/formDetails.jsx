@@ -28,7 +28,7 @@ const validationSchema = () =>
 			.required('Name cannot be Empty'),
 		code: Yup.string()
 			.matches(/^[aA-zZ\s]+$/, 'Enter only alphabets')
-			.max(3, 'Code must be of 3 characters')
+			.max(5, 'Code size cannot be more than 5 characters')
 			.required('Code cannot be Empty'),
 		symbol: Yup.string()
 			.max(5, 'Symbol Cannot be of more than 5 characters')

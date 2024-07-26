@@ -80,7 +80,7 @@ const Reports = (props) => {
 			},
 			{
 				title: 'Number of Bets',
-				description: `${livePlayerData.depositConvRate || 0} %`,
+				description: `${55 || 0}`,
 				iconClass: 'bx bxs-credit-card',
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.info,

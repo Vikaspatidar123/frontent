@@ -17,6 +17,7 @@ import {
 } from '../PlayersListCol';
 import { getRandomColor } from '../../../helpers/common';
 import { CustomSwitchButton } from '../../../helpers/customForms';
+import { modules } from '../../../constants/permissions';
 // import { getDateTime } from '../../../utils/dateFormatter';
 
 const usePlayersListing = (
@@ -187,6 +188,15 @@ const usePlayersListing = (
 		setItemsPerPage(value);
 	};
 
+	const buttonList = [
+		{
+			label: 'Attach Tag',
+			link: '/users-bulk-update',
+			module: modules.player,
+			operation: 'U',
+		},
+	];
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -198,6 +208,7 @@ const usePlayersListing = (
 		columns,
 		showManageMoney,
 		setShowManageMoney,
+		buttonList,
 	};
 };
 

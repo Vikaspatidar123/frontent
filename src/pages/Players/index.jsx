@@ -36,6 +36,7 @@ const PlayersList = ({ userIds, toggleUserId }) => {
 		columns,
 		showManageMoney,
 		setShowManageMoney,
+		buttonList,
 	} = usePlayersListing(filterValidation.values, userIds, toggleUserId);
 
 	return (
@@ -49,7 +50,7 @@ const PlayersList = ({ userIds, toggleUserId }) => {
 					<Col lg="12">
 						<Card>
 							{!userIds ? (
-								<CrudSection buttonList={[]} title="Players" />
+								<CrudSection buttonList={buttonList} title="Players" />
 							) : null}
 							<CardBody>
 								<Filters
