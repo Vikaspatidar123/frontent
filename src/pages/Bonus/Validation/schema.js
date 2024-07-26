@@ -6,11 +6,38 @@ import { BONUS_TYPES } from '../constants';
 const currencyValidate = (allFields) =>
 	Yup.object({
 		currencyId: Yup.string().required('Currency required'),
-		maxBonusClaimed: Yup.number().required('Max Amount claimed required'),
+		// maxBonusClaimed: Yup.number().required('Max Amount claimed required'),
+		// zeroOutThreshold: Yup.number()
+		// 	.min(1, 'Amount should be greater than 1')
+		// 	.required('Zero out threshold required'),
+		maxBonusClaimed: Yup.number()
+			.when(['dummy'], {
+				is: () => {
+					if (allFields.bonusType !== BONUS_TYPES.JOINING) {
+						return true;
+					}
+					return false;
+				},
+				then: (schema) =>
+					schema
+						.required('Max Amount claimed required')
+						.min(0.01, 'Amount should be greater than 0'),
+			})
+			.nullable(),
 		zeroOutThreshold: Yup.number()
-			.min(1, 'Amount should be greater than 1')
-			.required('Zero out threshold required'),
-
+			.when(['dummy'], {
+				is: () => {
+					if (allFields.bonusType !== BONUS_TYPES.JOINING) {
+						return true;
+					}
+					return false;
+				},
+				then: (schema) =>
+					schema
+						.required('Zero out threshold required')
+						.min(0.01, 'Amount should be greater than 0'),
+			})
+			.nullable(),
 		joiningAmount: Yup.number()
 			.when(['dummy'], {
 				is: () => {

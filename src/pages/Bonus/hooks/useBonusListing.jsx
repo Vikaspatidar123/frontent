@@ -19,6 +19,7 @@ import {
 } from '../BonusListCol';
 import ActionButtons from '../ActionButtons';
 import { modules } from '../../../constants/permissions';
+import { BONUS_TYPES } from '../constants';
 
 const useBonusListing = (filterValues = {}) => {
 	const { bonusDetails, isLoading, isDeleteBonusLoading } = useSelector(
@@ -150,7 +151,15 @@ const useBonusListing = (filterValues = {}) => {
 				Header: 'Days To Clear',
 				accessor: 'daysToClear',
 				filterable: true,
-				Cell: ({ cell }) => <Custom value={cell.value} />,
+				Cell: ({ cell }) => (
+					<Custom
+						value={
+							cell?.row?.original?.bonusType === BONUS_TYPES.JOINING
+								? '-'
+								: cell.value
+						}
+					/>
+				),
 			},
 			{
 				Header: 'Claimed Count',

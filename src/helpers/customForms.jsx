@@ -249,7 +249,7 @@ export const CustomRangeSelector = ({
 		<FlatPickr
 			className={`form-control ${customInputClass || ''}`}
 			name={name}
-			defaultDate={value}
+			value={value}
 			placeholder={placeholder}
 			options={{
 				mode: 'range',

@@ -151,7 +151,7 @@ const Currencies = ({
 		switch (allFields.bonusType) {
 			case BONUS_TYPES.JOINING: {
 				setCurrencyFields([
-					...commonCurrencyFields,
+					// ...commonCurrencyFields,
 					{ label: 'Joining Amount', key: 'joiningAmount' },
 				]);
 				break;

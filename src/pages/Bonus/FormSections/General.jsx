@@ -48,7 +48,6 @@ const General = ({
 		staticFormFields: commonFields({}, handleBonusTypeChange),
 		onSubmitEntry: handleSubmit,
 	});
-
 	useEffect(() => {
 		if (!isEmpty(bonusDetails)) {
 			validation.setValues(getBonusInitialValues(bonusDetails));

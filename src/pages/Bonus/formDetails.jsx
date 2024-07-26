@@ -113,18 +113,14 @@ const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
 			form.bonusType === BONUS_TYPES.FREESPINS,
 	},
 	{
-		name: 'ranges',
+		name: 'validFrom',
 		fieldType: 'dateRangeSelector',
 		label: 'Bonus Validity',
 		placeholder: 'Select Range',
-		minDate: bonusDetails?.validFrom
-			? ''
-			: moment().utc().startOf('day').toDate(),
-		maxDate: bonusDetails?.validFrom
-			? ''
-			: moment().add(100, 'years').utc().toDate(),
+		minDate: '',
+		maxDate: '',
 		rangeKeys: ['validFrom', 'validTo'],
-		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
+		// isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
 	{
 		name: 'daysToClear',
