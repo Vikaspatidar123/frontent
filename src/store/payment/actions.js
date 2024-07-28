@@ -12,9 +12,15 @@ import {
 	UPDATE_PAYMENT_PROVIDER,
 	UPDATE_PAYMENT_SUCCESS,
 	UPDATE_PAYMENT_FAIL,
+	GET_PAYMENT_PROVIDER_DATA_SUCCESS,
+	GET_PAYMENT_PROVIDER_DATA_FAIL,
+	GET_PAYMENT_PROVIDER_DATA,
 	ADD_PAYMENT_PROVIDER,
 	ADD_PAYMENT_SUCCESS,
 	ADD_PAYMENT_FAIL,
+	UPDATE_PAYMENT_CREDENTIALS_PROVIDER,
+	UPDATE_PAYMENT_CREDENTIALS_SUCCESS,
+	UPDATE_PAYMENT_CREDENTIALS_FAILS,
 } from './actionTypes';
 
 export const getPaymentListingSuccess = (payload) => ({
@@ -82,6 +88,21 @@ export const updatePaymentFail = (payload) => ({
 	payload,
 });
 
+export const getPaymentcredentialsProvider = (payload) => ({
+	type: GET_PAYMENT_PROVIDER_DATA,
+	payload,
+});
+
+export const getPaymentcredentialsSuccess = (payload) => ({
+	type: GET_PAYMENT_PROVIDER_DATA_SUCCESS,
+	payload,
+});
+
+export const getPaymentcredentialsFail = (payload) => ({
+	type: GET_PAYMENT_PROVIDER_DATA_FAIL,
+	payload,
+});
+
 export const addPaymentProvider = (payload) => ({
 	type: ADD_PAYMENT_PROVIDER,
 	payload,
@@ -94,5 +115,19 @@ export const addPaymentProviderSuccess = (payload) => ({
 
 export const addPaymentProviderFail = (payload) => ({
 	type: ADD_PAYMENT_FAIL,
+	payload,
+});
+export const updatePaymentcredentialsProvider = (payload) => ({
+	type: UPDATE_PAYMENT_CREDENTIALS_PROVIDER,
+	payload,
+});
+
+export const updatePaymentcredentialsSuccess = (payload) => ({
+	type: UPDATE_PAYMENT_CREDENTIALS_SUCCESS,
+	payload,
+});
+
+export const updatePaymentcredentialsFail = (payload) => ({
+	type: UPDATE_PAYMENT_CREDENTIALS_FAILS,
 	payload,
 });

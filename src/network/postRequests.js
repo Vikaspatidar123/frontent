@@ -588,6 +588,14 @@ const addProviderCredentials = (data) =>
 			'Content-Type': 'multipart/form-data',
 		}
 	);
+const updateProviderCredentials = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.INTERNAL}update-credentials`,
+		data,
+		{
+			'Content-Type': 'multipart/form-data',
+		}
+	);
 
 export {
 	createSuperAdminCMS,
@@ -682,4 +690,5 @@ export {
 	createChatrain,
 	updateChatrain,
 	addProviderCredentials,
+	updateProviderCredentials,
 };

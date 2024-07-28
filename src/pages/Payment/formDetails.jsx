@@ -109,7 +109,7 @@ const generaFromFields = [
 	// },
 ];
 
-const leftStaticFormFields = [
+const PaymentProviderStaticFormFields = [
 	{
 		name: 'name',
 		fieldType: 'textField',
@@ -118,9 +118,6 @@ const leftStaticFormFields = [
 		isRequired: true,
 		placeholder: 'Provider Name',
 	},
-];
-
-const rightStaticFormFields = [
 	{
 		name: 'icon',
 		fieldType: 'file',
@@ -130,11 +127,55 @@ const rightStaticFormFields = [
 		isNewRow: true,
 		showThumbnail: true,
 	},
+	{
+		name: 'Privatekey',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Private key',
+		isRequired: true,
+		placeholder: 'Private key',
+	},
+	{
+		name: 'SecretKey',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Secret Key',
+		isRequired: true,
+		placeholder: 'Secret Key',
+	},
+	{
+		name: 'Merchantid',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Merchant id',
+		isRequired: true,
+		placeholder: 'Merchant id',
+	},
+	{
+		name: 'EndPoint',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'End Point',
+		isRequired: true,
+		placeholder: 'End Point',
+	},
+	{
+		name: 'isActive',
+		fieldType: 'switch',
+		label: 'Set Active/Incative',
+		isNewRow: true,
+	},
 ];
 
 const getInitialValues = (defaultValue) => ({
-	name: defaultValue?.name?.EN || '',
+	name: defaultValue?.name || '',
 	icon: defaultValue?.icon || '',
+	Privatekey: '',
+	SecretKey: '',
+	Merchantid: '',
+	EndPoint: '',
+	isActive: defaultValue?.isActive || false,
+	providerType: 'payment',
 });
 
 export {
@@ -143,6 +184,5 @@ export {
 	filterValidationSchema,
 	generaFromFields,
 	getInitialValues,
-	leftStaticFormFields,
-	rightStaticFormFields,
+	PaymentProviderStaticFormFields,
 };

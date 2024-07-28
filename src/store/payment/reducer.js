@@ -12,6 +12,15 @@ import {
 	UPDATE_PAYMENT_PROVIDER,
 	UPDATE_PAYMENT_FAIL,
 	UPDATE_PAYMENT_SUCCESS,
+	GET_PAYMENT_PROVIDER_DATA_SUCCESS,
+	GET_PAYMENT_PROVIDER_DATA_FAIL,
+	GET_PAYMENT_PROVIDER_DATA,
+	ADD_PAYMENT_PROVIDER,
+	ADD_PAYMENT_SUCCESS,
+	ADD_PAYMENT_FAIL,
+	UPDATE_PAYMENT_CREDENTIALS_PROVIDER,
+	UPDATE_PAYMENT_CREDENTIALS_SUCCESS,
+	UPDATE_PAYMENT_CREDENTIALS_FAILS,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -23,6 +32,8 @@ const INIT_STATE = {
 	updateLoading: false,
 	paymentDetailsLoading: false,
 	paymentDetails: null,
+	paymentProviderData: null,
+	isLoadinpaymentProvider: false,
 };
 
 const getPayments = (state = INIT_STATE, { type, payload } = {}) => {
@@ -113,6 +124,59 @@ const getPayments = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				updateLoading: false,
 				updateSuccess: false,
+			};
+		case GET_PAYMENT_PROVIDER_DATA:
+			return {
+				...state,
+				isLoadinpaymentProvider: true,
+			};
+
+		case GET_PAYMENT_PROVIDER_DATA_SUCCESS:
+			return {
+				...state,
+				isLoadinpaymentProvider: false,
+				paymentProviderData: payload,
+			};
+
+		case GET_PAYMENT_PROVIDER_DATA_FAIL:
+			return {
+				...state,
+				isLoadinpaymentProvider: false,
+				paymentProviderData: null,
+			};
+		case ADD_PAYMENT_PROVIDER:
+			return {
+				...state,
+				createLoading: true,
+			};
+
+		case ADD_PAYMENT_SUCCESS:
+			return {
+				...state,
+				createLoading: false,
+			};
+
+		case ADD_PAYMENT_FAIL:
+			return {
+				...state,
+				createLoading: false,
+			};
+		case UPDATE_PAYMENT_CREDENTIALS_PROVIDER:
+			return {
+				...state,
+				updateLoading: true,
+			};
+
+		case UPDATE_PAYMENT_CREDENTIALS_SUCCESS:
+			return {
+				...state,
+				updateLoading: false,
+			};
+
+		case UPDATE_PAYMENT_CREDENTIALS_FAILS:
+			return {
+				...state,
+				updateLoading: false,
 			};
 
 		default:

@@ -12,6 +12,10 @@ import {
 	updatePaymentFail,
 	addPaymentProviderSuccess,
 	addPaymentProviderFail,
+	updatePaymentcredentialsSuccess,
+	updatePaymentcredentialsFail,
+	getPaymentcredentialsSuccess,
+	getPaymentcredentialsFail,
 } from './actions';
 import {
 	CREATE_PAYMENT_PROVIDER,
@@ -19,14 +23,21 @@ import {
 	GET_PAYMENT_DETAILS,
 	UPDATE_PAYMENT_PROVIDER,
 	ADD_PAYMENT_PROVIDER,
+	UPDATE_PAYMENT_CREDENTIALS_PROVIDER,
+	GET_PAYMENT_PROVIDER_DATA,
 } from './actionTypes';
 
-import { getPaymentDetails, getPaymentList } from '../../network/getRequests';
+import {
+	getPaymentDetails,
+	getPaymentList,
+	getPaymentProviderDetails,
+} from '../../network/getRequests';
 import { showToastr } from '../../utils/helpers';
 import {
 	addProviderCredentials,
 	createPaymentProvider,
 	updatePaymentProvider,
+	updateProviderCredentials,
 } from '../../network/postRequests';
 import { filterEmptyPayload } from '../../network/networkUtils';
 
@@ -80,17 +91,47 @@ function* updatePaymentProviderWorker({ payload }) {
 	}
 }
 
+function* getPaymentProviderWorker({ payload }) {
+	try {
+		const { data } = yield getPaymentProviderDetails(payload);
+		yield put(getPaymentcredentialsSuccess(data?.data?.tags));
+	} catch (error) {
+		yield put(
+			getPaymentcredentialsFail(error?.response?.data?.errors[0]?.description)
+		);
+	}
+}
+
 function* addPaymentProviderWorker({ payload }) {
 	try {
 		payload = serialize(filterEmptyPayload(payload), { indices: true });
 		yield addProviderCredentials(payload);
+		const { data } = yield getPaymentProviderDetails();
+		yield put(getPaymentcredentialsSuccess(data?.data?.tags));
 		yield put(addPaymentProviderSuccess(true));
+
+		showToastr({
+			message: 'Provider created successfully',
+			type: 'success',
+		});
+	} catch (error) {
+		yield put(addPaymentProviderFail());
+	}
+}
+
+function* UpdatePaymentProviderWorker({ payload }) {
+	try {
+		payload = serialize(filterEmptyPayload(payload), { indices: true });
+		yield updateProviderCredentials(payload);
+		const { data } = yield getPaymentProviderDetails(payload);
+		yield put(getPaymentcredentialsSuccess(data?.data?.tags));
+		yield put(updatePaymentcredentialsSuccess(true));
 		showToastr({
 			message: 'Provider updated successfully',
 			type: 'success',
 		});
 	} catch (error) {
-		yield put(addPaymentProviderFail());
+		yield put(updatePaymentcredentialsFail());
 	}
 }
 
@@ -99,7 +140,12 @@ export function* watchPaymentsData() {
 	yield takeLatest(CREATE_PAYMENT_PROVIDER, createPaymentProviderWorker);
 	yield takeLatest(UPDATE_PAYMENT_PROVIDER, updatePaymentProviderWorker);
 	yield takeLatest(GET_PAYMENT_DETAILS, getPaymentDetailsWorker);
+	yield takeLatest(GET_PAYMENT_PROVIDER_DATA, getPaymentProviderWorker);
 	yield takeLatest(ADD_PAYMENT_PROVIDER, addPaymentProviderWorker);
+	yield takeLatest(
+		UPDATE_PAYMENT_CREDENTIALS_PROVIDER,
+		UpdatePaymentProviderWorker
+	);
 }
 
 function* PaymentsSaga() {

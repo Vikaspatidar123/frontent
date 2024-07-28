@@ -1,40 +1,27 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import googlePay from '../../assets/images/PayMentProvider/googlePay.png';
-import authOverlay from '../../assets/images/PayMentProvider/liminal.png';
+import FormModal from '../../components/Common/FormModal';
+import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
+import wallet from '../../assets/images/PayMentProvider/wallet.png';
+
+import useCreate from './hooks/useAddNewProvider';
 
 const AddNewProvider = () => {
 	const [selectedProvider, setSelectedProvider] = useState(null);
-	const [providers, setProviders] = useState({
-		metamask: {
-			label: 'MetaMask',
-			icon: googlePay,
-			credentials: [
-				{ name: 'Private key' },
-				{ name: 'Secret Key' },
-				{ name: 'Merchant id' },
-				{ name: 'End Point' },
-			],
-		},
-		skrill: {
-			label: 'Liminal',
-			icon: authOverlay,
-			credentials: [
-				{ name: 'Private key' },
-				{ name: 'Secret Key' },
-				{ name: 'Merchant id' },
-				{ name: 'End Point' },
-			],
-		},
-		// Add more providers as needed
-	});
+	const [type, setType] = useState();
 
-	console.log(selectedProvider);
-
-	const handleProviderClick = (key) => {
-		setSelectedProvider(key);
-	};
+	const {
+		validation,
+		PaymentProviderStaticFormFields,
+		isOpen,
+		toggleFormModal,
+		handleProviderClick,
+		header,
+		setHeader,
+		paymentProviderData,
+		// isLoadinpaymentProvider,
+	} = useCreate({ selectedProvider, setSelectedProvider, type });
 
 	return (
 		<div className="page-content">
@@ -49,35 +36,34 @@ const AddNewProvider = () => {
 			/>
 			<Container fluid>
 				<Row>
-					{Object.keys(providers).map((key) => (
+					{paymentProviderData?.map((provider) => (
 						<Col
 							xs="12"
 							sm="6"
 							md="4"
 							lg="3"
-							key={key}
-							style={{ marginBottom: '20px' }}
+							key={provider.id}
+							style={{ marginBottom: '20px', position: 'relative' }}
 						>
 							<button
 								type="button"
 								onClick={() => {
-									handleProviderClick(key);
-									setProviders(providers[key]);
+									handleProviderClick(provider);
+									setType('Edit');
+									setHeader('Edit Payment Provider Details');
 								}}
 								style={{
 									cursor: 'pointer',
 									textAlign: 'center',
 									border:
-										selectedProvider === key
+										selectedProvider?.id === provider.id
 											? '2px solid #007bff'
 											: '2px solid transparent',
 									borderRadius: '8px',
 									padding: '10px',
 									transition: 'border-color 0.3s ease',
-									boxShadow: '0 4px 8px rgba(0, 0, 0, 10)',
+									boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
 									background: 'none',
-									// eslint-disable-next-line no-dupe-keys
-									border: 'none',
 									outline: 'none',
 									width: '100%',
 									height: '100%',
@@ -85,11 +71,24 @@ const AddNewProvider = () => {
 									flexDirection: 'column',
 									alignItems: 'center',
 									justifyContent: 'center',
+									position: 'relative',
 								}}
 							>
+								<div
+									style={{
+										position: 'absolute',
+										top: '10px',
+										right: '10px',
+										color: provider.isActive ? 'green' : 'red',
+										fontSize: '10px',
+										fontWeight: 'bold',
+									}}
+								>
+									{provider.isActive ? 'Active' : 'Inactive'}
+								</div>
 								<img
-									src={providers[key].icon}
-									alt={providers[key].label}
+									src={provider.icon || fallbackImage}
+									alt={provider.name}
 									style={{
 										width: '100px',
 										height: '100px',
@@ -98,12 +97,72 @@ const AddNewProvider = () => {
 									}}
 								/>
 								<div style={{ marginTop: '10px', fontWeight: 'bold' }}>
-									{providers[key].label}
+									{provider.name}
 								</div>
 							</button>
 						</Col>
 					))}
+					<Col
+						xs="12"
+						sm="6"
+						md="4"
+						lg="3"
+						style={{ marginBottom: '20px', position: 'relative' }}
+					>
+						<button
+							type="button"
+							onClick={() => {
+								toggleFormModal();
+								setType('Create');
+								setHeader('Create Payment Provider');
+							}}
+							style={{
+								cursor: 'pointer',
+								textAlign: 'center',
+								border: '2px solid transparent',
+								borderRadius: '8px',
+								padding: '10px',
+								transition:
+									'border-color 0.3s ease, background-color 0.3s ease',
+								boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+								background: '#f8f9fa',
+								outline: 'none',
+								width: '100%',
+								height: '100%',
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'center',
+								position: 'relative',
+								color: '#000',
+							}}
+						>
+							<img
+								src={wallet}
+								alt="Configure New Payment Provider"
+								style={{
+									width: '100px',
+									height: '100px',
+									objectFit: 'contain',
+									borderRadius: '8px',
+								}}
+							/>
+							<div style={{ marginTop: '10px', fontWeight: 'bold' }}>
+								Configure New Payment Provider
+							</div>
+						</button>
+					</Col>
 				</Row>
+				<FormModal
+					isOpen={isOpen}
+					toggle={toggleFormModal}
+					header={header}
+					validation={validation}
+					submitLabel="Edit"
+					customColClasses="col-md-12"
+					formFields={PaymentProviderStaticFormFields}
+					isSubmitLoading={false}
+				/>
 			</Container>
 		</div>
 	);
