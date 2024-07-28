@@ -21,6 +21,7 @@ const AddNewProvider = () => {
 		setHeader,
 		paymentProviderData,
 		// isLoadinpaymentProvider,
+		onBackClick,
 	} = useCreate({ selectedProvider, setSelectedProvider, type });
 
 	return (
@@ -33,6 +34,7 @@ const AddNewProvider = () => {
 						<i className="fas fa-angle-left" /> Back
 					</>
 				}
+				callBack={onBackClick}
 			/>
 			<Container fluid>
 				<Row>

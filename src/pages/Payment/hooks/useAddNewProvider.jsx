@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	getInitialValues,
 	PaymentProviderStaticFormFields,
@@ -13,6 +14,8 @@ import {
 
 const useCreate = ({ selectedProvider, setSelectedProvider, type }) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const { paymentProviderData, isLoadinpaymentProvider } = useSelector(
 		(state) => state.Payment
 	);
@@ -80,6 +83,10 @@ const useCreate = ({ selectedProvider, setSelectedProvider, type }) => {
 		setIsOpen(true);
 	};
 
+	const onBackClick = () => {
+		navigate('/payment');
+	};
+
 	return {
 		validation,
 		PaymentProviderStaticFormFields,
@@ -92,6 +99,7 @@ const useCreate = ({ selectedProvider, setSelectedProvider, type }) => {
 		setHeader,
 		paymentProviderData,
 		isLoadinpaymentProvider,
+		onBackClick,
 	};
 };
 
