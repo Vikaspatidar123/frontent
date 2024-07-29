@@ -37,6 +37,7 @@ const DashboardView = ({ t }) => {
 		dashFilters,
 		setDashFilters,
 		handleDashFilters,
+		statsData,
 	} = useDashboardView();
 	// Filter oo be used
 	console.log('filter data = ', dashFilters, setDashFilters);
@@ -49,6 +50,7 @@ const DashboardView = ({ t }) => {
 					<LivePlayerReports
 						isLivePlayerLoading={isLivePlayerLoading}
 						livePlayerData={livePlayerData}
+						statsData={statsData}
 					/>
 				</Row>
 				<Row>

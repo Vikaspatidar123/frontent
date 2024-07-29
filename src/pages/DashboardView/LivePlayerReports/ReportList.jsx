@@ -30,7 +30,7 @@ const ReportList = (props) => {
 							{isLoading ? (
 								<DivLoader isSmall loaderVarient="text-light" />
 							) : (
-								<i className={`bx ${iconClass} font-size-24`} />
+								<i className={`${iconClass} font-size-24`} />
 							)}
 						</span>
 					</div>

@@ -11,7 +11,7 @@ const useDashboardView = () => {
 	const dispatch = useDispatch();
 	const [dashFilters, setDashFilters] = useState(null);
 
-	const { isLivePlayerLoading, livePlayerData } = useSelector(
+	const { isLivePlayerLoading, livePlayerData, statsData } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
 
@@ -78,6 +78,7 @@ const useDashboardView = () => {
 		dashFilters,
 		setDashFilters,
 		handleDashFilters,
+		statsData,
 	};
 };
 

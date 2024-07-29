@@ -67,7 +67,7 @@ const Layout = (props) => {
 
 	//hides right sidebar on body click
 	const hideRightbar = (event) => {
-		var rightbar = document.getElementById('right-bar');
+		const rightbar = document.getElementById('right-bar');
 		//if clicked in inside right bar, then do nothing
 		if (rightbar && rightbar.contains(event.target)) {
 			return;
