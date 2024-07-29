@@ -120,30 +120,30 @@ const paymentProviderFormFields = [
 		isRequired: true,
 		placeholder: 'Provider Name',
 	},
-	{
-		name: 'Privatekey',
-		fieldType: 'textField',
-		type: 'text',
-		label: 'Private key',
-		isRequired: true,
-		placeholder: 'Private key',
-	},
-	{
-		name: 'SecretKey',
-		fieldType: 'textField',
-		type: 'text',
-		label: 'Secret Key',
-		isRequired: true,
-		placeholder: 'Secret Key',
-	},
-	{
-		name: 'MerchantId',
-		fieldType: 'textField',
-		type: 'text',
-		label: 'Merchant Id',
-		isRequired: true,
-		placeholder: 'Merchant Id',
-	},
+	// {
+	// 	name: 'Privatekey',
+	// 	fieldType: 'textField',
+	// 	type: 'text',
+	// 	label: 'Private key',
+	// 	isRequired: true,
+	// 	placeholder: 'Private key',
+	// },
+	// {
+	// 	name: 'SecretKey',
+	// 	fieldType: 'textField',
+	// 	type: 'text',
+	// 	label: 'Secret Key',
+	// 	isRequired: true,
+	// 	placeholder: 'Secret Key',
+	// },
+	// {
+	// 	name: 'MerchantId',
+	// 	fieldType: 'textField',
+	// 	type: 'text',
+	// 	label: 'Merchant Id',
+	// 	isRequired: true,
+	// 	placeholder: 'Merchant Id',
+	// },
 	{
 		name: 'BaseURL',
 		fieldType: 'textField',
@@ -169,33 +169,14 @@ const paymentProviderFormFields = [
 	},
 ];
 
-const PaymentProviderStaticFormFields = (dynamicFields, setDynamicField) => [
-	...paymentProviderFormFields,
-	...dynamicFields,
-	{
-		fieldType: 'addKeyValue',
-		callBack: ({ key, value }) => {
-			setDynamicField((prev) => [
-				...prev,
-				{
-					name: key,
-					fieldType: 'textField',
-					type: 'text',
-					label: `Enter ${key}`,
-					isRequired: true,
-					value,
-				},
-			]);
-		},
-	},
-];
+const PaymentProviderStaticFormFields = [...paymentProviderFormFields];
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
 	icon: defaultValue?.icon || '',
-	Privatekey: defaultValue?.credentials?.Privatekey || '',
-	SecretKey: defaultValue?.credentials?.SecretKey || '',
-	MerchantId: defaultValue?.credentials?.MerchantId || '',
+	// Privatekey: defaultValue?.credentials?.Privatekey || '',
+	// SecretKey: defaultValue?.credentials?.SecretKey || '',
+	// MerchantId: defaultValue?.credentials?.MerchantId || '',
 	BaseURL: defaultValue?.credentials?.BaseURL || VITE_APP_API_URL,
 	isActive: defaultValue?.isActive || false,
 	providerType: 'payment',
@@ -230,9 +211,9 @@ const validationSchema = Yup.object().shape({
 				  (value &&
 						['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
 		),
-	Privatekey: Yup.string().notRequired(),
-	SecretKey: Yup.string().notRequired(),
-	Merchantid: Yup.string().notRequired(),
+	// Privatekey: Yup.string().notRequired(),
+	// SecretKey: Yup.string().notRequired(),
+	// Merchantid: Yup.string().notRequired(),
 	BaseURL: Yup.string()
 		.matches(
 			/^((https?):\/\/)?(www\.)?(([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s]*)?(\?[^\s]*)?|((https?):\/\/)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[^\s]*)?(\?[^\s]*)?$/,

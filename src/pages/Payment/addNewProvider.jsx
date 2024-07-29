@@ -16,7 +16,7 @@ const AddNewProvider = () => {
 
 	const {
 		validation,
-		PaymentProviderStaticFormFields,
+		formFields,
 		isOpen,
 		handleProviderClick,
 		// header,
@@ -122,10 +122,7 @@ const AddNewProvider = () => {
 				{isOpen && (
 					<FormPage
 						validation={validation}
-						responsiveFormFields={PaymentProviderStaticFormFields(
-							dynamicField,
-							setDynamicField
-						)}
+						responsiveFormFields={formFields}
 						colOptions={{ xs: 12, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
 						submitLabel="Submit"
 						isSubmit

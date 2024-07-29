@@ -85,16 +85,20 @@ const useCreate = ({
 		setPreviousSelectedProvider();
 	};
 
-	const { isOpen, setIsOpen, header, validation, setHeader, staticFormFields } =
-		useForm({
-			header: '',
-			initialValues: getInitialValues(selectedProvider),
-			onSubmitEntry: handleSubmit,
-			staticFormFields: PaymentProviderStaticFormFields(
-				dynamicField,
-				setDynamicField
-			),
-		});
+	const {
+		isOpen,
+		setIsOpen,
+		header,
+		validation,
+		setHeader,
+		formFields,
+		setFormFields,
+	} = useForm({
+		header: '',
+		initialValues: getInitialValues(selectedProvider),
+		onSubmitEntry: handleSubmit,
+		staticFormFields: PaymentProviderStaticFormFields,
+	});
 	const toggleFormModal = () => {
 		setIsOpen((prev) => !prev);
 		setSelectedProvider();
@@ -112,6 +116,71 @@ const useCreate = ({
 			setIsOpen(true);
 		}
 	};
+
+	useEffect(() => {
+		if (dynamicField) {
+			setFormFields([
+				...PaymentProviderStaticFormFields,
+				...dynamicField,
+				{
+					fieldType: 'addKeyValue',
+					callBack: ({ key, value }) => {
+						validation.setFieldValue(key, value);
+						setDynamicField((prev) => [
+							...prev,
+							{
+								name: key,
+								fieldType: 'textField',
+								type: 'text',
+								label: `Enter ${key}`,
+								placeholder: `Enter ${key} value`,
+								// value,
+							},
+						]);
+					},
+				},
+			]);
+		}
+		if (selectedProvider?.credentials) {
+			const credentialsFields = Object?.keys(selectedProvider?.credentials)
+				.map((key) => {
+					const field = {
+						name: key,
+						fieldType: 'textField',
+						type: 'text',
+						label: `Enter ${key}`,
+						placeholder: `Enter ${key} value`,
+					};
+					console.log('Creating field:', field);
+					validation.setFieldValue(key, selectedProvider.credentials[key]);
+					// Add your console.log here
+					return field;
+				})
+				.filter((field) => field.name !== 'BaseURL' || 'providerType');
+			setFormFields([
+				...PaymentProviderStaticFormFields,
+				...credentialsFields,
+				...dynamicField,
+				{
+					fieldType: 'addKeyValue',
+					callBack: ({ key, value }) => {
+						validation.setFieldValue(key, value);
+						setDynamicField((prev) => [
+							...prev,
+							{
+								name: key,
+								fieldType: 'textField',
+								type: 'text',
+								label: `Enter ${key}`,
+								placeholder: `Enter ${key} value`,
+								// value,
+							},
+						]);
+					},
+				},
+			]);
+		}
+	}, [dynamicField, selectedProvider]);
 
 	const onBackClick = () => {
 		navigate('/payment');
@@ -136,8 +205,7 @@ const useCreate = ({
 		paymentProviderData,
 		isLoadinpaymentProvider,
 		onBackClick,
-		staticFormFields,
-		PaymentProviderStaticFormFields,
+		formFields,
 		buttonList,
 	};
 };

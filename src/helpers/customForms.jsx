@@ -19,6 +19,7 @@ import {
 	InputGroup,
 	Button,
 	InputGroupText,
+	Tooltip,
 } from 'reactstrap';
 import Select from 'react-select';
 
@@ -282,6 +283,8 @@ export const KeyValueInput = ({ onChange }) => {
 	const [showInputs, setShowInputs] = useState(false);
 	const [key, setKey] = useState('');
 	const [value, setValue] = useState('');
+	const [error, setError] = useState('');
+	const [tooltipOpen, setTooltipOpen] = useState(false);
 
 	const handleAddClick = () => {
 		setShowInputs(true);
@@ -289,50 +292,86 @@ export const KeyValueInput = ({ onChange }) => {
 
 	const handleKeyChange = (e) => {
 		setKey(e.target.value);
+		setError(null);
 	};
 
 	const handleValueChange = (e) => {
 		setValue(e.target.value);
+		setError(null);
 	};
 
 	const handleSubmit = () => {
-		onChange({ key, value });
-		setShowInputs(false);
-		setKey('');
-		setValue('');
+		if (key && value) {
+			onChange({ key, value });
+			setShowInputs(false);
+			setKey('');
+			setError('');
+		} else {
+			setError('Key & Value are required.');
+		}
+	};
+
+	const toggleTooltip = () => {
+		setTooltipOpen(!tooltipOpen);
 	};
 
 	return (
 		<div>
-			{showInputs ? (
-				<>
-					<Input
-						type="text"
-						placeholder="Enter key"
-						value={key}
-						onChange={handleKeyChange}
-					/>
-					<Input
-						type="text"
-						placeholder="Enter value"
-						value={value}
-						onChange={handleValueChange}
-					/>
-					<Button type="button" onClick={handleSubmit}>
-						Submit
-					</Button>
-				</>
-			) : (
-				<Button type="button" onClick={handleAddClick}>
-					Add
-				</Button>
+			<div style={{ display: 'flex', alignItems: 'center' }}>
+				{showInputs ? (
+					<>
+						<Input
+							type="text"
+							placeholder="Enter key"
+							value={key}
+							onChange={handleKeyChange}
+							style={{ marginRight: '8px', marginTop: '27px' }}
+						/>
+						<Input
+							type="text"
+							placeholder="Enter value"
+							value={value}
+							onChange={handleValueChange}
+							style={{ marginRight: '8px', marginTop: '27px' }}
+						/>
+						<Button
+							style={{ marginTop: '27px', backgroundColor: '#556ee6' }}
+							type="button"
+							onClick={handleSubmit}
+						>
+							Add
+						</Button>
+					</>
+				) : (
+					<>
+						<Button
+							id="AddButton"
+							className="add-button"
+							style={{ marginTop: '27px' }}
+							type="button"
+							onClick={handleAddClick}
+						>
+							{}
+						</Button>
+						<Tooltip
+							placement="top"
+							isOpen={tooltipOpen}
+							target="AddButton"
+							toggle={toggleTooltip}
+						>
+							Create a new field
+						</Tooltip>
+					</>
+				)}
+			</div>
+			{error && (
+				<FormFeedback type="invalid" className="d-block">
+					{error}
+				</FormFeedback>
 			)}
 		</div>
 	);
 };
-
-export default KeyValueInput;
-
 export const CustomSwitchButton = ({
 	label,
 	labelClassName,
