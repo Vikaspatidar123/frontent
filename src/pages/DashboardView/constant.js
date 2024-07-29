@@ -13,6 +13,8 @@ export const TABS = {
 	PROVIDER: 'provider',
 	SPORT: 'sport',
 	CASINO: 'casino',
+	WITHDRAW: 'withdraw',
+	DEPOSIT: 'deposit',
 };
 
 export const GAME_ORDER_BY = [

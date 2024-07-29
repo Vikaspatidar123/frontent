@@ -123,7 +123,7 @@ const Reports = (props) => {
 				description: `${ttlBets || 0}`,
 				iconClass: 'bx bxs-credit-card',
 				reportClass: 'reportList4',
-				customClass: TAB_COLORS.info,
+				customClass: TAB_COLORS.primary,
 			},
 			{
 				title: 'Total Deposits',
@@ -151,7 +151,7 @@ const Reports = (props) => {
 				description: `${statsData?.totalProviders || 0}`,
 				iconClass: 'bx bxs-chip',
 				reportClass: 'reportList4',
-				customClass: TAB_COLORS.info,
+				customClass: TAB_COLORS.warn,
 			},
 			// {
 			// 	title: 'Deposit Conv. Rate',
@@ -168,7 +168,7 @@ const Reports = (props) => {
 		<Row>
 			{isGranted(modules.livePlayerDetail, 'R') ? (
 				reportList.map((report) => (
-					<Col md="4" lg="4" xl="3" className="mb-2">
+					<Col md="6" lg="3" xl="3">
 						<ReportList
 							title={report.title}
 							description={report.description}
