@@ -10,6 +10,7 @@ import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 const useDashboardView = () => {
 	const dispatch = useDispatch();
 	const [dashFilters, setDashFilters] = useState(null);
+	const layoutModeType = useSelector((state) => state.Layout.layoutModeType);
 
 	const { isLivePlayerLoading, livePlayerData, statsData } = useSelector(
 		(state) => state.DashboardViewInfo
@@ -79,6 +80,7 @@ const useDashboardView = () => {
 		setDashFilters,
 		handleDashFilters,
 		statsData,
+		layoutModeType,
 	};
 };
 

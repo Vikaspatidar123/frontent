@@ -164,7 +164,7 @@ const KpiReport = () => {
 									activeTab={activeKpiReportTab}
 									tabsData={tabData}
 									toggle={toggle}
-									navClass="bg-light rounded p-0"
+									navClass="rounded p-0"
 								/>
 							</Row>
 							<Row>

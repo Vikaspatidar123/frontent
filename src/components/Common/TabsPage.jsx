@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import {
 	Card,
 	CardBody,
@@ -86,9 +85,9 @@ const TabsPage = ({
 											<NavLink
 												id={`tab-${tab.id}`}
 												style={{ cursor: 'pointer' }}
-												className={classNames({
-													active: activeTab === tab.id,
-												})}
+												className={`${
+													activeTab === tab.id ? 'active' : 'bg-light'
+												} custom-border`}
 												onClick={() => {
 													toggle(tab.id);
 												}}

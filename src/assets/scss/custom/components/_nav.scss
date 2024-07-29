@@ -27,7 +27,6 @@
 		color: var(--#{$prefix}body-color);
 		.nav-link {
 			border: none;
-
 			&::after {
 				content: '';
 				background: $primary;
@@ -65,6 +64,6 @@
 	}
 }
 
-// .tab-max-width .nav-item {
-// 	max-width: 20%;
-// }
+.custom-border {
+	border-radius: 12px 12px 0 0 !important;
+}

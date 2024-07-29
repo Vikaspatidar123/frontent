@@ -4,8 +4,31 @@ import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 
-const LineBarChart = ({ dataColors, chartData = [], isDeposit }) => {
+const LineBarChart = ({
+	dataColors,
+	chartData = [],
+	isDeposit,
+	layoutModeType,
+}) => {
 	const spineareaChartColors = getChartColorsArray(dataColors);
+
+	const colorScheme = {
+		light: {
+			axisLineColor: '#8791af',
+			splitLineColor: 'rgba(166, 176, 207, 0.1)',
+			textColor: '#74788d',
+			axisLabelColor: '#000',
+		},
+		dark: {
+			axisLineColor: '#8791af',
+			splitLineColor: 'rgba(166, 176, 207, 0.1)',
+			textColor: '#fff',
+			axisLabelColor: '#fff',
+		},
+	};
+
+	const { axisLineColor, splitLineColor, textColor, axisLabelColor } =
+		colorScheme[layoutModeType] || colorScheme.light;
 
 	const { counts, amounts, dates } = useMemo(() => {
 		const filteredDates = chartData
@@ -51,9 +74,9 @@ const LineBarChart = ({ dataColors, chartData = [], isDeposit }) => {
 			},
 		},
 		toolbox: {
-			orient: 'center',
-			left: 0,
-			top: 20,
+			orient: 'start',
+			left: -5,
+			top: 0,
 			feature: {
 				dataView: { show: true, readOnly: false, title: 'Data View' },
 				magicType: {
@@ -68,7 +91,8 @@ const LineBarChart = ({ dataColors, chartData = [], isDeposit }) => {
 		legend: {
 			data: ['Total Deposit Amount', 'Deposit Count'],
 			textStyle: {
-				color: ['#8791af'],
+				color: axisLabelColor,
+				fontWeight: 600,
 			},
 		},
 		xAxis: [
@@ -80,7 +104,7 @@ const LineBarChart = ({ dataColors, chartData = [], isDeposit }) => {
 				},
 				axisLine: {
 					lineStyle: {
-						color: '#8791af',
+						color: axisLineColor,
 					},
 				},
 			},
@@ -92,17 +116,21 @@ const LineBarChart = ({ dataColors, chartData = [], isDeposit }) => {
 				min: 0,
 				axisLine: {
 					lineStyle: {
-						color: '#8791af',
+						color: axisLineColor,
 					},
 				},
 				splitLine: {
 					lineStyle: {
-						color: 'rgba(166, 176, 207, 0.1)',
+						color: splitLineColor,
 					},
 				},
-				// axisLabel: {
-				//     formatter: "${value}",
-				// },
+				axisLabel: {
+					formatter: '$ {value}',
+					textStyle: {
+						color: axisLabelColor,
+						fontWeight: 600,
+					},
+				},
 			},
 			{
 				type: 'value',
@@ -110,12 +138,18 @@ const LineBarChart = ({ dataColors, chartData = [], isDeposit }) => {
 				min: 0,
 				axisLine: {
 					lineStyle: {
-						color: '#8791af',
+						color: axisLineColor,
 					},
 				},
 				splitLine: {
 					lineStyle: {
-						color: 'rgba(166, 176, 207, 0.1)',
+						color: splitLineColor,
+					},
+				},
+				axisLabel: {
+					textStyle: {
+						color: axisLabelColor,
+						fontWeight: 600,
 					},
 				},
 			},
@@ -135,7 +169,7 @@ const LineBarChart = ({ dataColors, chartData = [], isDeposit }) => {
 			},
 		],
 		textStyle: {
-			color: ['#74788d'],
+			color: textColor,
 		},
 	};
 

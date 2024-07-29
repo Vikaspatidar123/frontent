@@ -39,6 +39,7 @@ const DashboardView = ({ t }) => {
 		setDashFilters,
 		handleDashFilters,
 		statsData,
+		layoutModeType,
 	} = useDashboardView();
 	// Filter oo be used
 	console.log('filter data = ', dashFilters, setDashFilters);
@@ -58,7 +59,10 @@ const DashboardView = ({ t }) => {
 					<Col sm={12} md={12} lg={12} xl={6}>
 						<Card>
 							<CardBody>
-								<DepositWithdrawChart statsData={statsData} />
+								<DepositWithdrawChart
+									statsData={statsData}
+									layoutModeType={layoutModeType}
+								/>
 							</CardBody>
 						</Card>
 					</Col>
