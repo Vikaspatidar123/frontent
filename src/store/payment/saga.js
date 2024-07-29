@@ -94,7 +94,7 @@ function* updatePaymentProviderWorker({ payload }) {
 function* getPaymentProviderWorker({ payload }) {
 	try {
 		const { data } = yield getPaymentProviderDetails(payload);
-		yield put(getPaymentcredentialsSuccess(data?.data?.tags));
+		yield put(getPaymentcredentialsSuccess(data?.data?.providerCredentials));
 	} catch (error) {
 		yield put(
 			getPaymentcredentialsFail(error?.response?.data?.errors[0]?.description)
@@ -107,7 +107,7 @@ function* addPaymentProviderWorker({ payload }) {
 		payload = serialize(filterEmptyPayload(payload), { indices: true });
 		yield addProviderCredentials(payload);
 		const { data } = yield getPaymentProviderDetails();
-		yield put(getPaymentcredentialsSuccess(data?.data?.tags));
+		yield put(getPaymentcredentialsSuccess(data?.data?.providerCredentials));
 		yield put(addPaymentProviderSuccess(true));
 
 		showToastr({
@@ -124,7 +124,7 @@ function* UpdatePaymentProviderWorker({ payload }) {
 		payload = serialize(filterEmptyPayload(payload), { indices: true });
 		yield updateProviderCredentials(payload);
 		const { data } = yield getPaymentProviderDetails(payload);
-		yield put(getPaymentcredentialsSuccess(data?.data?.tags));
+		yield put(getPaymentcredentialsSuccess(data?.data?.providerCredentials));
 		yield put(updatePaymentcredentialsSuccess(true));
 		showToastr({
 			message: 'Provider updated successfully',

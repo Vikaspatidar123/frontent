@@ -1,6 +1,8 @@
 import * as Yup from 'yup';
 import { PAYMENT_PROVIDER_CATEGORY } from './constants';
 
+const { VITE_APP_API_URL } = import.meta.env;
+
 // Filter
 const staticFiltersFields = () => [
 	{
@@ -109,7 +111,7 @@ const generaFromFields = [
 	// },
 ];
 
-const PaymentProviderStaticFormFields = [
+const paymentProviderFormFields = [
 	{
 		name: 'name',
 		fieldType: 'textField',
@@ -117,15 +119,6 @@ const PaymentProviderStaticFormFields = [
 		label: 'Provider Name',
 		isRequired: true,
 		placeholder: 'Provider Name',
-	},
-	{
-		name: 'icon',
-		fieldType: 'file',
-		type: '',
-		label: 'Payment Provider icon',
-		placeholder: 'Upload payment provider icon',
-		isNewRow: true,
-		showThumbnail: true,
 	},
 	{
 		name: 'Privatekey',
@@ -144,38 +137,112 @@ const PaymentProviderStaticFormFields = [
 		placeholder: 'Secret Key',
 	},
 	{
-		name: 'Merchantid',
+		name: 'MerchantId',
 		fieldType: 'textField',
 		type: 'text',
-		label: 'Merchant id',
+		label: 'Merchant Id',
 		isRequired: true,
-		placeholder: 'Merchant id',
+		placeholder: 'Merchant Id',
 	},
 	{
-		name: 'EndPoint',
+		name: 'BaseURL',
 		fieldType: 'textField',
 		type: 'text',
-		label: 'End Point',
+		label: 'Base URL',
 		isRequired: true,
-		placeholder: 'End Point',
+		placeholder: 'BaseURL',
+		isDisabled: true,
+	},
+	{
+		name: 'icon',
+		fieldType: 'file',
+		type: '',
+		label: 'Payment Provider icon',
+		placeholder: 'Upload payment provider icon',
+		showThumbnail: true,
 	},
 	{
 		name: 'isActive',
-		fieldType: 'switch',
+		fieldType: 'toggle',
 		label: 'Set Active/Incative',
-		isNewRow: true,
+		isNewRow: false,
+	},
+];
+
+const PaymentProviderStaticFormFields = (dynamicFields, setDynamicField) => [
+	...paymentProviderFormFields,
+	...dynamicFields,
+	{
+		fieldType: 'addKeyValue',
+		callBack: ({ key, value }) => {
+			setDynamicField((prev) => [
+				...prev,
+				{
+					name: key,
+					fieldType: 'textField',
+					type: 'text',
+					label: `Enter ${key}`,
+					isRequired: true,
+					value,
+				},
+			]);
+		},
 	},
 ];
 
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
 	icon: defaultValue?.icon || '',
-	Privatekey: '',
-	SecretKey: '',
-	Merchantid: '',
-	EndPoint: '',
+	Privatekey: defaultValue?.credentials?.Privatekey || '',
+	SecretKey: defaultValue?.credentials?.SecretKey || '',
+	MerchantId: defaultValue?.credentials?.MerchantId || '',
+	BaseURL: defaultValue?.credentials?.BaseURL || VITE_APP_API_URL,
 	isActive: defaultValue?.isActive || false,
 	providerType: 'payment',
+});
+
+const isRequired = (value) => {
+	if (typeof value === 'string' && value?.length > 0) return true;
+	// if (!value || !value.size) return false;
+	return true;
+};
+
+const validationSchema = Yup.object().shape({
+	name: Yup.string()
+		.required('Name is required')
+		.min(2, 'Name must be at least 2 characters'),
+	icon: Yup.mixed()
+		.nullable()
+		.test('required', 'Image Required', isRequired)
+		// .imageDimensionCheck('Image Required', {
+		// 	exactWidth: 442,
+		// 	exactHeight: 240,
+		// })
+		.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
+			typeof value === 'string'
+				? true
+				: !value || (value && value.size <= 1024 * 1024)
+		)
+		.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+			typeof value === 'string'
+				? true
+				: !value ||
+				  (value &&
+						['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+		),
+	Privatekey: Yup.string().notRequired(),
+	SecretKey: Yup.string().notRequired(),
+	Merchantid: Yup.string().notRequired(),
+	BaseURL: Yup.string()
+		.matches(
+			/^((https?):\/\/)?(www\.)?(([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s]*)?(\?[^\s]*)?|((https?):\/\/)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[^\s]*)?(\?[^\s]*)?$/,
+			'Enter correct URL!'
+		)
+		.nullable(),
+	isActive: Yup.boolean().notRequired(),
+	providerType: Yup.string()
+		.oneOf(['payment', 'subscription'], 'Invalid provider type')
+		.notRequired(),
 });
 
 export {
@@ -185,4 +252,5 @@ export {
 	generaFromFields,
 	getInitialValues,
 	PaymentProviderStaticFormFields,
+	validationSchema,
 };

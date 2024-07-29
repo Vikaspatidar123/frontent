@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	getInitialValues,
@@ -11,8 +11,17 @@ import {
 	getPaymentcredentialsProvider,
 	updatePaymentcredentialsProvider,
 } from '../../../store/payment/actions';
+import { modules } from '../../../constants/permissions';
 
-const useCreate = ({ selectedProvider, setSelectedProvider, type }) => {
+const useCreate = ({
+	selectedProvider,
+	setSelectedProvider,
+	type,
+	previousSelectedProvider,
+	setPreviousSelectedProvider,
+	dynamicField,
+	setDynamicField,
+}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -20,28 +29,38 @@ const useCreate = ({ selectedProvider, setSelectedProvider, type }) => {
 		(state) => state.Payment
 	);
 
-	console.log(selectedProvider);
-
 	useEffect(() => {
 		dispatch(getPaymentcredentialsProvider());
 	}, []);
 
-	const handleStaffSubmit = (value) => {
+	const handleSubmit = (value) => {
+		const {
+			name,
+			isActive,
+			icon,
+			BaseURL,
+			MerchantId,
+			Privatekey,
+			SecretKey,
+			...rest
+		} = value;
 		if (type === 'Edit') {
 			dispatch(
 				updatePaymentcredentialsProvider({
 					id: selectedProvider?.id,
-					name: value?.name,
-					icon: value?.icon,
-					isActive: value?.isActive,
+					providerCredentialId: selectedProvider?.id,
+					name,
+					icon,
+					isActive,
 					providerType: 'payment',
-					// credentials: JSON.stringify({
-					//     EndPoint: value?.EndPoint,
-					//     Merchantid: value?.Merchantid,
-					//     Privatekey: value?.Privatekey,
-					//     SecretKey: value?.SecretKey,
-					// })
-					credentials: {},
+					credentials: {
+						BaseURL,
+						MerchantId,
+						Privatekey,
+						SecretKey,
+						...rest,
+					},
+					// credentials: {},
 				})
 			);
 		} else {
@@ -52,10 +71,10 @@ const useCreate = ({ selectedProvider, setSelectedProvider, type }) => {
 					isActive: value?.isActive,
 					providerType: 'payment',
 					credentials: {
-						// EndPoint:value?.EndPoint,
-						//  Merchantid:value?.Merchantid,
-						//  Privatekey:value?.Privatekey,
-						//  SecretKey:value?.SecretKey,
+						EndPoint: value?.EndPoint,
+						Merchantid: value?.Merchantid,
+						Privatekey: value?.Privatekey,
+						SecretKey: value?.SecretKey,
 					},
 				})
 			);
@@ -63,34 +82,51 @@ const useCreate = ({ selectedProvider, setSelectedProvider, type }) => {
 		// eslint-disable-next-line no-use-before-define
 		toggleFormModal();
 		setSelectedProvider();
+		setPreviousSelectedProvider();
 	};
 
-	const { isOpen, setIsOpen, header, setHeader, validation, staticFormFields } =
+	const { isOpen, setIsOpen, header, validation, setHeader, staticFormFields } =
 		useForm({
 			header: '',
 			initialValues: getInitialValues(selectedProvider),
-			onSubmitEntry: handleStaffSubmit,
-			staticFormFields: PaymentProviderStaticFormFields,
+			onSubmitEntry: handleSubmit,
+			staticFormFields: PaymentProviderStaticFormFields(
+				dynamicField,
+				setDynamicField
+			),
 		});
-
 	const toggleFormModal = () => {
 		setIsOpen((prev) => !prev);
 		setSelectedProvider();
 	};
 
-	const handleProviderClick = (key) => {
-		setSelectedProvider(key);
-		setIsOpen(true);
+	const handleProviderClick = (provider) => {
+		if (previousSelectedProvider?.id === provider.id) {
+			setIsOpen(false);
+			setSelectedProvider();
+			setPreviousSelectedProvider();
+		} else {
+			// Otherwise, set the new provider
+			setSelectedProvider(provider);
+			setPreviousSelectedProvider(provider);
+			setIsOpen(true);
+		}
 	};
 
 	const onBackClick = () => {
 		navigate('/payment');
 	};
-
+	const buttonList = useMemo(() => [
+		{
+			label: 'Configure Provider',
+			handleClick: () => handleProviderClick({ id: 'Create' }),
+			link: '#!',
+			module: modules.paymentManagement,
+			operation: 'C',
+		},
+	]);
 	return {
 		validation,
-		PaymentProviderStaticFormFields,
-		staticFormFields,
 		isOpen,
 		setIsOpen,
 		toggleFormModal,
@@ -100,6 +136,9 @@ const useCreate = ({ selectedProvider, setSelectedProvider, type }) => {
 		paymentProviderData,
 		isLoadinpaymentProvider,
 		onBackClick,
+		staticFormFields,
+		PaymentProviderStaticFormFields,
+		buttonList,
 	};
 };
 

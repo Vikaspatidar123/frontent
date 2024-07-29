@@ -1,28 +1,38 @@
 import React, { useState } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Card } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
-import FormModal from '../../components/Common/FormModal';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
-import wallet from '../../assets/images/PayMentProvider/wallet.png';
-
+// import wallet from '../../assets/images/PayMentProvider/add.png';
 import useCreate from './hooks/useAddNewProvider';
+import FormPage from '../../components/Common/FormPage';
+import CrudSection from '../../components/Common/CrudSection';
 
 const AddNewProvider = () => {
 	const [selectedProvider, setSelectedProvider] = useState(null);
 	const [type, setType] = useState();
+	const [previousSelectedProvider, setPreviousSelectedProvider] =
+		useState(null);
+	const [dynamicField, setDynamicField] = useState([]);
 
 	const {
 		validation,
 		PaymentProviderStaticFormFields,
 		isOpen,
-		toggleFormModal,
 		handleProviderClick,
-		header,
+		// header,
 		setHeader,
 		paymentProviderData,
-		// isLoadinpaymentProvider,
 		onBackClick,
-	} = useCreate({ selectedProvider, setSelectedProvider, type });
+		buttonList,
+	} = useCreate({
+		selectedProvider,
+		setSelectedProvider,
+		type,
+		previousSelectedProvider,
+		setPreviousSelectedProvider,
+		dynamicField,
+		setDynamicField,
+	});
 
 	return (
 		<div className="page-content">
@@ -37,134 +47,92 @@ const AddNewProvider = () => {
 				callBack={onBackClick}
 			/>
 			<Container fluid>
-				<Row>
-					{paymentProviderData?.map((provider) => (
-						<Col
-							xs="12"
-							sm="6"
-							md="4"
-							lg="3"
-							key={provider.id}
-							style={{ marginBottom: '20px', position: 'relative' }}
-						>
-							<button
-								type="button"
-								onClick={() => {
-									handleProviderClick(provider);
-									setType('Edit');
-									setHeader('Edit Payment Provider Details');
-								}}
-								style={{
-									cursor: 'pointer',
-									textAlign: 'center',
-									border:
-										selectedProvider?.id === provider.id
-											? '2px solid #007bff'
-											: '2px solid transparent',
-									borderRadius: '8px',
-									padding: '10px',
-									transition: 'border-color 0.3s ease',
-									boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-									background: 'none',
-									outline: 'none',
-									width: '100%',
-									height: '100%',
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									justifyContent: 'center',
-									position: 'relative',
-								}}
+				<Card className="p-2">
+					<CrudSection buttonList={buttonList} title="Payment provider" />
+
+					<Row>
+						{paymentProviderData?.map((provider) => (
+							<Col
+								xs="6"
+								sm="3"
+								md="2"
+								className="p-2 payment-card"
+								key={provider.id}
 							>
-								<div
-									style={{
-										position: 'absolute',
-										top: '10px',
-										right: '10px',
-										color: provider.isActive ? 'green' : 'red',
-										fontSize: '10px',
-										fontWeight: 'bold',
+								<button
+									type="button"
+									onClick={() => {
+										handleProviderClick(provider);
+										setType('Edit');
+										setHeader(
+											`Edit ${provider.name ?? 'payment provider'} Details`
+										);
 									}}
+									className={`provider-button ${
+										selectedProvider?.id === provider.id ? 'selected' : ''
+									}`}
 								>
-									{provider.isActive ? 'Active' : 'Inactive'}
-								</div>
-								<img
-									src={provider.icon || fallbackImage}
-									alt={provider.name}
-									style={{
-										width: '100px',
-										height: '100px',
-										objectFit: 'contain',
-										borderRadius: '8px',
-									}}
-								/>
-								<div style={{ marginTop: '10px', fontWeight: 'bold' }}>
-									{provider.name}
-								</div>
-							</button>
-						</Col>
-					))}
-					<Col
-						xs="12"
-						sm="6"
-						md="4"
-						lg="3"
-						style={{ marginBottom: '20px', position: 'relative' }}
+									<div
+										className={`status ${
+											provider.isActive ? 'active' : 'inactive'
+										}`}
+									>
+										{provider.isActive ? 'Active' : 'Inactive'}
+									</div>
+									<img
+										src={provider.icon || fallbackImage}
+										alt={provider.name}
+										className="provider-image"
+									/>
+									<div className="provider-name">{provider.name}</div>
+								</button>
+							</Col>
+						))}
+						{/* <Col
+					 xs="6"
+					 sm="3"
+					 md="2"
+					 className='p-2 payment-card'
 					>
 						<button
 							type="button"
 							onClick={() => {
-								toggleFormModal();
+								handleProviderClick(
+								{
+										id:'Create'
+									}
+								);
 								setType('Create');
-								setHeader('Create Payment Provider');
+								setHeader('Configure New Payment Provider');
 							}}
-							style={{
-								cursor: 'pointer',
-								textAlign: 'center',
-								border: '2px solid transparent',
-								borderRadius: '8px',
-								padding: '10px',
-								transition:
-									'border-color 0.3s ease, background-color 0.3s ease',
-								boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-								background: '#f8f9fa',
-								outline: 'none',
-								width: '100%',
-								height: '100%',
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-								justifyContent: 'center',
-								position: 'relative',
-								color: '#000',
-							}}
+							className="provider-button add-new"
 						>
 							<img
 								src={wallet}
 								alt="Configure New Payment Provider"
-								style={{
-									width: '100px',
-									height: '100px',
-									objectFit: 'contain',
-									borderRadius: '8px',
-								}}
+								className="provider-image"
 							/>
-							<div style={{ marginTop: '10px', fontWeight: 'bold' }}>
-								Configure New Payment Provider
-							</div>
+							<div className="provider-name">Configure New </div>
 						</button>
-					</Col>
-				</Row>
-				<FormModal
-					isOpen={isOpen}
-					toggle={toggleFormModal}
-					header={header}
-					validation={validation}
-					submitLabel="Edit"
-					customColClasses="col-md-12"
-					formFields={PaymentProviderStaticFormFields}
-					isSubmitLoading={false}
-				/>
+					</Col> */}
+					</Row>
+				</Card>
+			</Container>
+			<Container fluid style={{ marginTop: '15px' }}>
+				{isOpen && (
+					<FormPage
+						validation={validation}
+						responsiveFormFields={PaymentProviderStaticFormFields(
+							dynamicField,
+							setDynamicField
+						)}
+						colOptions={{ xs: 12, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
+						submitLabel="Submit"
+						isSubmit
+						// formTitle={header}
+						customColClasses="mb-4"
+					/>
+				)}
 			</Container>
 		</div>
 	);
