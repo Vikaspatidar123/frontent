@@ -27,7 +27,8 @@ const channelsList = channelCriteria.map((item) => ({
 		name: item.name,
 		fieldType: 'toggle',
 		label: item.label,
-		isNewRow: true,
+		tooltipContent: item?.tooltipContent,
+		// isNewRow: true,
 	}));
 
 const generalStaticFormFields = (isDisabled) => [
@@ -37,6 +38,15 @@ const generalStaticFormFields = (isDisabled) => [
 		type: '',
 		label: 'Channel Title',
 		placeholder: 'Channel Title',
+	},
+	{
+		name: 'description',
+		fieldType: 'textEditor',
+		type: '',
+		label: 'Description',
+		placeholder: 'Enter Description',
+		isNewRow: true,
+		fieldColOptions: { lg: 12 },
 	},
 	{
 		name: 'isActive',
@@ -50,18 +60,8 @@ const generalStaticFormFields = (isDisabled) => [
 		name: 'isGlobal',
 		fieldType: 'toggle',
 		label: 'Global',
-		isNewRow: true,
 		isDisabled,
 		tooltipContent: 'If True Channel is Global',
-	},
-	{
-		name: 'description',
-		fieldType: 'textField',
-		type: '',
-		label: 'Description',
-		placeholder: 'Enter Description',
-		isNewRow: true,
-		fieldColOptions: { lg: 12 },
 	},
 	...channelsList,
 ];

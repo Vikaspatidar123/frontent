@@ -75,7 +75,6 @@ import DisputeResolution from '../pages/DisputeResolution';
 import BulkUpdate from '../pages/Players/bulkUpdate';
 import NotificationDetails from '../pages/Notifications/components/NotificationDetails';
 import Channels from '../pages/Channels';
-import ChatPlayers from '../pages/ChatPlayers';
 import ChatRain from '../pages/ChatRain';
 import CreateChannel from '../pages/Channels/CreateChannel';
 import CreateChatRain from '../pages/ChatRain/CreateChatRain';
@@ -552,18 +551,12 @@ const authProtectedRoutes = [
 		modules: [modules.paymentManagement],
 		operation: 'C',
 	},
-	{
-		path: '/chat/players',
-		component: <ChatPlayers />,
-		modules: [modules.paymentManagement],
-		operation: 'C',
-	},
-	{
-		path: '/chat/chat-rain',
-		component: <ChatRain />,
-		modules: [modules.paymentManagement],
-		operation: 'C',
-	},
+	// {
+	// 	path: '/chat/chat-rain',
+	// 	component: <ChatRain />,
+	// 	modules: [modules.paymentManagement],
+	// 	operation: 'C',
+	// },
 	{
 		path: '/chat/channel/create',
 		component: <CreateChannel />

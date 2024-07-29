@@ -56,12 +56,12 @@ const useChannelListing = (filterValues = {}) => {
 				disableFilters: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
-			{
-				Header: 'DESCRIPTION',
-				accessor: 'description',
-				filterable: true,
-				Cell: ({ cell }) => <Description value={cell.value} />,
-			},
+			// {
+			// 	Header: 'DESCRIPTION',
+			// 	accessor: 'description',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Description value={cell.value} />,
+			// },
 		],
 		[]
 	);
