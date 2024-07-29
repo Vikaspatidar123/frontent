@@ -384,6 +384,19 @@ const getDisputeDetails = (payload) =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}/crm${MANAGEMENT.DISPUTE}get-ticket-details`,
 		payload
 	);
+const getAllChannels = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}get-group`,
+		payload
+	);
+
+const getChannelMessages = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}messages/messages-group`,
+		payload
+	);
+const getChatrain = (payload) =>
+	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}get-chat-rain`, payload);
 
 export {
 	getBonusDetail,
@@ -457,4 +470,7 @@ export {
 	getAllReferrals,
 	getDisputes,
 	getDisputeDetails,
+	getAllChannels,
+	getChannelMessages,
+	getChatrain
 };

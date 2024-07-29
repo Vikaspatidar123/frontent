@@ -570,6 +570,17 @@ const updateStatus = (data) =>
 		data
 	);
 
+const createChannel = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}create-group`,
+		data
+	);
+const createChatrain = (data) =>
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}create-chat-rain`, data);
+
+const updateChatrain = (data) =>
+	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}update-chat-rain`, data);
+
 export {
 	createSuperAdminCMS,
 	superAdminLogin,
@@ -659,4 +670,7 @@ export {
 	notifyPlayersRequest,
 	sendMessageRequest,
 	updateStatus,
+	createChannel,
+	createChatrain,
+	updateChatrain
 };

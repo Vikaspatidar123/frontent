@@ -74,6 +74,13 @@ import AllReferrals from '../pages/AllReferrals';
 import DisputeResolution from '../pages/DisputeResolution';
 import BulkUpdate from '../pages/Players/bulkUpdate';
 import NotificationDetails from '../pages/Notifications/components/NotificationDetails';
+import Channels from '../pages/Channels';
+import ChatRain from '../pages/ChatRain';
+import CreateChannel from '../pages/Channels/CreateChannel';
+import CreateChatRain from '../pages/ChatRain/CreateChatRain';
+import PreviewChatrain from '../pages/ChatRain/ChatrainView';
+import EditChatrain from '../pages/ChatRain/EditChatrain';
+
 
 const authProtectedRoutes = [
 	{
@@ -537,6 +544,40 @@ const authProtectedRoutes = [
 		component: <PaymentProviderView />,
 		modules: [modules.paymentManagement],
 		operation: 'R',
+	},
+	{
+		path: '/chat/channels',
+		component: <Channels />,
+		modules: [modules.paymentManagement],
+		operation: 'C',
+	},
+	// {
+	// 	path: '/chat/chat-rain',
+	// 	component: <ChatRain />,
+	// 	modules: [modules.paymentManagement],
+	// 	operation: 'C',
+	// },
+	{
+		path: '/chat/channel/create',
+		component: <CreateChannel />
+	},
+	{
+		path: '/chat/chat-rain/add',
+		component: <CreateChatRain />,
+		modules: [modules.paymentManagement],
+		operation: 'C',
+	},
+	{
+		path: '/chat/chat-rain/edit/:chatRainId',
+		component: <EditChatrain />,
+		modules: [modules.paymentManagement],
+		operation: 'C',
+	},
+	{
+		path: '/chat/chat-rain/:chatRainId',
+		component: <PreviewChatrain />,
+		modules: [modules.paymentManagement],
+		operation: 'C',
 	},
 
 	{ path: '*', component: <DashboardView /> },

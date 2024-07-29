@@ -100,3 +100,8 @@ export * from './allReferrals/actions';
 
 // Disputes
 export * from './disputeResolution/actions';
+// Channels
+export * from './channel/actions';
+
+// Chatrain Management
+export * from './chatRain/actions';

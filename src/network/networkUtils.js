@@ -15,6 +15,7 @@ const MANAGEMENT = {
 	TOURNAMENT: '/tournament',
 	PAYMENT: '/payment/',
 	DISPUTE: '/dispute-management/',
+	CHAT: '/live-chat/',
 };
 
 const METHODS = {
