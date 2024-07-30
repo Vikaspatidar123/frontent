@@ -19,6 +19,7 @@ import {
 	InputGroup,
 	Button,
 	InputGroupText,
+	Tooltip,
 } from 'reactstrap';
 import Select from 'react-select';
 
@@ -278,6 +279,99 @@ export const CustomRangeSelector = ({
 	</div>
 );
 
+export const KeyValueInput = ({ onChange }) => {
+	const [showInputs, setShowInputs] = useState(false);
+	const [key, setKey] = useState('');
+	const [value, setValue] = useState('');
+	const [error, setError] = useState('');
+	const [tooltipOpen, setTooltipOpen] = useState(false);
+
+	const handleAddClick = () => {
+		setShowInputs(true);
+	};
+
+	const handleKeyChange = (e) => {
+		setKey(e.target.value);
+		setError(null);
+	};
+
+	const handleValueChange = (e) => {
+		setValue(e.target.value);
+		setError(null);
+	};
+
+	const handleSubmit = () => {
+		if (key && value) {
+			onChange({ key, value });
+			setShowInputs(false);
+			setKey('');
+			setError('');
+		} else {
+			setError('Key & Value are required.');
+		}
+	};
+
+	const toggleTooltip = () => {
+		setTooltipOpen(!tooltipOpen);
+	};
+
+	return (
+		<div>
+			<div style={{ display: 'flex', alignItems: 'center' }}>
+				{showInputs ? (
+					<>
+						<Input
+							type="text"
+							placeholder="Enter key"
+							value={key}
+							onChange={handleKeyChange}
+							style={{ marginRight: '8px', marginTop: '27px' }}
+						/>
+						<Input
+							type="text"
+							placeholder="Enter value"
+							value={value}
+							onChange={handleValueChange}
+							style={{ marginRight: '8px', marginTop: '27px' }}
+						/>
+						<Button
+							style={{ marginTop: '27px', backgroundColor: '#556ee6' }}
+							type="button"
+							onClick={handleSubmit}
+						>
+							Add
+						</Button>
+					</>
+				) : (
+					<>
+						<Button
+							id="AddButton"
+							className="add-button"
+							style={{ marginTop: '27px' }}
+							type="button"
+							onClick={handleAddClick}
+						>
+							{}
+						</Button>
+						<Tooltip
+							placement="top"
+							isOpen={tooltipOpen}
+							target="AddButton"
+							toggle={toggleTooltip}
+						>
+							Create a new field
+						</Tooltip>
+					</>
+				)}
+			</div>
+			{error && (
+				<FormFeedback type="invalid" className="d-block">
+					{error}
+				</FormFeedback>
+			)}
+		</div>
+	);
+};
 export const CustomSwitchButton = ({
 	label,
 	labelClassName,
@@ -552,6 +646,7 @@ export const getField = (
 		outerDivClass,
 		customInputClass,
 		dynamicDescription,
+		onchange,
 		...rest
 	},
 	validation
@@ -1088,6 +1183,8 @@ export const getField = (
 					/>
 				</>
 			);
+		case 'addKeyValue':
+			return <KeyValueInput onChange={callBack} />;
 
 		default:
 			return <div />;

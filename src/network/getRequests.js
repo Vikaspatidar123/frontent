@@ -402,6 +402,11 @@ const getChannelMessages = (payload) =>
 	);
 const getChatrain = (payload) =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}get-chat-rain`, payload);
+const getPaymentProviderDetails = (payload) =>
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.INTERNAL}credentials`,
+		payload
+	);
 
 export {
 	getBonusDetail,
@@ -479,4 +484,5 @@ export {
 	getChannelMessages,
 	getChatrain,
 	statsDataRequest,
+	getPaymentProviderDetails,
 };
