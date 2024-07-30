@@ -149,24 +149,24 @@ const paymentProviderFormFields = [
 		fieldType: 'textField',
 		type: 'text',
 		label: 'Base URL',
-		isRequired: true,
+		// isRequired: true,
 		placeholder: 'BaseURL',
 		isDisabled: true,
 	},
-	{
-		name: 'icon',
-		fieldType: 'file',
-		type: '',
-		label: 'Payment Provider icon',
-		placeholder: 'Upload payment provider icon',
-		showThumbnail: true,
-	},
-	{
-		name: 'isActive',
-		fieldType: 'toggle',
-		label: 'Set Active/Incative',
-		isNewRow: false,
-	},
+	// {
+	// 	name: 'icon',
+	// 	fieldType: 'file',
+	// 	type: '',
+	// 	label: 'Payment Provider icon',
+	// 	placeholder: 'Upload payment provider icon',
+	// 	showThumbnail: true,
+	// },
+	// {
+	// 	name: 'isActive',
+	// 	fieldType: 'toggle',
+	// 	label: 'Set Active/Incative',
+	// 	isNewRow: false,
+	// },
 ];
 
 const PaymentProviderStaticFormFields = [...paymentProviderFormFields];

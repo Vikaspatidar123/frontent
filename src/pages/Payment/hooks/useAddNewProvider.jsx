@@ -60,7 +60,6 @@ const useCreate = ({
 						SecretKey,
 						...rest,
 					},
-					// credentials: {},
 				})
 			);
 		} else {
@@ -139,6 +138,20 @@ const useCreate = ({
 						]);
 					},
 				},
+				{
+					name: 'icon',
+					fieldType: 'file',
+					type: '',
+					label: 'Payment Provider icon',
+					placeholder: 'Upload payment provider icon',
+					showThumbnail: true,
+				},
+				{
+					name: 'isActive',
+					fieldType: 'toggle',
+					label: 'Set Active/Incative',
+					isNewRow: false,
+				},
 			]);
 		}
 		if (selectedProvider?.credentials) {
@@ -151,9 +164,7 @@ const useCreate = ({
 						label: `Enter ${key}`,
 						placeholder: `Enter ${key} value`,
 					};
-					console.log('Creating field:', field);
 					validation.setFieldValue(key, selectedProvider.credentials[key]);
-					// Add your console.log here
 					return field;
 				})
 				.filter((field) => field.name !== 'BaseURL' || 'providerType');
@@ -173,10 +184,23 @@ const useCreate = ({
 								type: 'text',
 								label: `Enter ${key}`,
 								placeholder: `Enter ${key} value`,
-								// value,
 							},
 						]);
 					},
+				},
+				{
+					name: 'icon',
+					fieldType: 'file',
+					type: '',
+					label: 'Payment Provider icon',
+					placeholder: 'Upload payment provider icon',
+					showThumbnail: true,
+				},
+				{
+					name: 'isActive',
+					fieldType: 'toggle',
+					label: 'Set Active/Incative',
+					isNewRow: false,
 				},
 			]);
 		}
