@@ -111,7 +111,7 @@ const generaFromFields = [
 	// },
 ];
 
-const paymentProviderFormFields = [
+const PaymentProviderStaticFormFields = [
 	{
 		name: 'name',
 		fieldType: 'textField',
@@ -169,17 +169,14 @@ const paymentProviderFormFields = [
 	// },
 ];
 
-const PaymentProviderStaticFormFields = [...paymentProviderFormFields];
-
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
 	icon: defaultValue?.icon || '',
-	Privatekey: defaultValue?.credentials?.Privatekey || '',
-	SecretKey: defaultValue?.credentials?.SecretKey || '',
-	MerchantId: defaultValue?.credentials?.MerchantId || '',
+	// Privatekey: defaultValue?.credentials?.Privatekey || '',
+	// SecretKey: defaultValue?.credentials?.SecretKey || '',
+	// MerchantId: defaultValue?.credentials?.MerchantId || '',
 	BaseURL: defaultValue?.credentials?.BaseURL || VITE_APP_API_URL,
 	isActive: defaultValue?.isActive || false,
-	providerType: 'payment',
 });
 
 const isRequired = (value) => {

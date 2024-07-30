@@ -399,7 +399,8 @@ export const KeyValueInput = ({ onChange }) => {
 		if (key && value) {
 			onChange({ key, value });
 			setShowInputs(false);
-			setKey('');
+			setKey(null);
+			setValue(null);
 			setError('');
 		} else {
 			setError('Key & Value are required.');

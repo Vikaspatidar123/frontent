@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Spinner, Button } from 'reactstrap';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
 import useCreate from './hooks/useAddNewProvider';
@@ -31,6 +33,7 @@ const AddNewProvider = () => {
 		type,
 		previousSelectedProvider,
 		setPreviousSelectedProvider,
+		setType,
 	});
 
 	return (
@@ -88,23 +91,19 @@ const AddNewProvider = () => {
 										selectedProvider?.id === provider.id ? 'selected' : ''
 									}`}
 								>
-									{/* <div
-										className={`status ${
-											provider.isActive ? 'active' : 'inactive'
-										}`}
-									>
-										{provider.isActive ? (
-											<i className="mdi mdi-check-circle" />
-										) : (
-											<i className="mdi mdi-close-thick" />
-										)}
-									</div> */}
 									<img
 										src={provider.icon || fallbackImage}
 										alt={provider.name}
 										className="provider-image"
 									/>
 									<div className="provider-name">{provider.name}</div>
+									<div
+										className={`status-icon ${
+											provider.isActive ? 'active-icon' : 'inactive-icon'
+										}`}
+									>
+										{provider.isActive ? <FaCheckCircle /> : <FaTimesCircle />}
+									</div>
 								</button>
 							</Col>
 						))}

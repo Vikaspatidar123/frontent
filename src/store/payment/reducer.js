@@ -162,7 +162,9 @@ const getPayments = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				isLoadinpaymentProvider: false,
-				paymentProviderData: null,
+				paymentProviderData: {
+					providerCredentials: [],
+				},
 			};
 		case ADD_PAYMENT_PROVIDER:
 			return {

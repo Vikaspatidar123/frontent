@@ -9,6 +9,7 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	addPaymentProvider,
+	getPaymentcredentialsFail,
 	getPaymentcredentialsProvider,
 	updatePaymentcredentialsProvider,
 } from '../../../store/payment/actions';
@@ -20,6 +21,7 @@ const useCreate = ({
 	type,
 	previousSelectedProvider,
 	setPreviousSelectedProvider,
+	setType,
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -29,7 +31,7 @@ const useCreate = ({
 	const { paymentProviderData, isLoadinpaymentProvider } = useSelector(
 		(state) => state.Payment
 	);
-	console.log(dynamicField);
+
 	useEffect(() => {
 		dispatch(
 			getPaymentcredentialsProvider({
@@ -43,62 +45,73 @@ const useCreate = ({
 		fields.current = dynamicField;
 	}, [dynamicField]);
 
-	const handleSubmit = (value) => {
-		const {
-			name,
-			isActive,
-			icon,
-			BaseURL,
-			MerchantId,
-			Privatekey,
-			SecretKey,
-			...rest
-		} = value;
+	const handleSubmit = (value, { resetForm }) => {
+		const { name, isActive, icon, BaseURL, ...rest } = value;
+
+		const filteredRest = Object.keys(rest)
+			.filter((key) => rest[key] !== null && rest[key] !== '')
+			.reduce((obj, key) => {
+				// eslint-disable-next-line no-param-reassign
+				obj[key] = rest[key];
+				return obj;
+			}, {});
+
+		const createFilteredPayload = (payload) =>
+			Object.keys(payload)
+				.filter((key) => payload[key] !== null && payload[key] !== '')
+				.reduce((obj, key) => {
+					// eslint-disable-next-line no-param-reassign
+					obj[key] = payload[key];
+					return obj;
+				}, {});
+
 		if (type === 'Edit') {
+			const payload = createFilteredPayload({
+				id: selectedProvider?.id,
+				providerCredentialId: selectedProvider?.id,
+				name,
+				icon,
+				isActive,
+				providerType: 'payment',
+				credentials: {
+					BaseURL,
+					...filteredRest,
+				},
+			});
 			dispatch(
 				updatePaymentcredentialsProvider(
-					{
-						id: selectedProvider?.id,
-						providerCredentialId: selectedProvider?.id,
-						name,
-						icon,
-						isActive,
-						providerType: 'payment',
-						credentials: {
-							BaseURL,
-							MerchantId,
-							Privatekey,
-							SecretKey,
-							...rest,
-						},
-					},
+					payload,
 					paymentProviderData?.providerCredentials?.length
 				)
 			);
+			resetForm();
 		} else {
+			const payload = createFilteredPayload({
+				name,
+				icon,
+				isActive,
+				providerType: 'payment',
+				credentials: {
+					BaseURL,
+					...filteredRest,
+				},
+			});
+
 			dispatch(
 				addPaymentProvider(
-					{
-						name: value?.name,
-						icon: value?.icon,
-						isActive: value?.isActive,
-						providerType: 'payment',
-						credentials: {
-							EndPoint: value?.EndPoint,
-							Merchantid: value?.Merchantid,
-							Privatekey: value?.Privatekey,
-							SecretKey: value?.SecretKey,
-						},
-					},
+					payload,
 					paymentProviderData?.providerCredentials?.length,
 					page
 				)
 			);
+			resetForm();
 		}
+
 		// eslint-disable-next-line no-use-before-define
 		toggleFormModal();
 		setSelectedProvider();
 		setPreviousSelectedProvider();
+		setDynamicField([]);
 	};
 
 	const {
@@ -137,8 +150,14 @@ const useCreate = ({
 
 	const onRemoveField = (name) => {
 		validation.setFieldValue(name, null);
-		const updatedFields = fields.current.filter((field) => field.name !== name);
-		fields.current = updatedFields;
+		const updatedFields = [];
+		// eslint-disable-next-line no-restricted-syntax
+		for (const field of fields.current) {
+			if (field.name !== name) {
+				updatedFields.push(field);
+			}
+		}
+		setDynamicField(updatedFields);
 	};
 
 	useEffect(() => {
@@ -157,16 +176,22 @@ const useCreate = ({
 				})
 				.filter((field) => field.name !== 'BaseURL' || 'providerType');
 			setFormFields([...PaymentProviderStaticFormFields, ...credentialsFields]);
+		} else {
+			setFormFields(PaymentProviderStaticFormFields);
 		}
 	}, [selectedProvider]);
 
 	const onBackClick = () => {
 		navigate('/payment');
+		dispatch(getPaymentcredentialsFail());
 	};
 	const buttonList = useMemo(() => [
 		{
 			label: 'Configure Provider',
-			handleClick: () => handleProviderClick({ id: 'Create' }),
+			handleClick: () => {
+				handleProviderClick({ id: 'Create' });
+				setType('Configure');
+			},
 			link: '#!',
 			module: modules.paymentManagement,
 			operation: 'C',
@@ -191,21 +216,6 @@ const useCreate = ({
 		formFields: [
 			...formFields,
 			...dynamicField,
-
-			{
-				name: 'isActive',
-				fieldType: 'switch',
-				label: 'Set Active/Inacative',
-				// isNewRow: false,
-			},
-			{
-				name: 'icon',
-				fieldType: 'file',
-				type: '',
-				label: 'Payment Provider icon',
-				placeholder: 'Upload payment provider icon',
-				showThumbnail: true,
-			},
 			{
 				fieldType: 'addKeyValue',
 				callBack: ({ key, value }) => {
@@ -222,6 +232,20 @@ const useCreate = ({
 						},
 					]);
 				},
+			},
+			{
+				name: 'isActive',
+				fieldType: 'switch',
+				label: 'Set Active/Inacative',
+				// isNewRow: false,
+			},
+			{
+				name: 'icon',
+				fieldType: 'file',
+				type: '',
+				label: 'Payment Provider icon',
+				placeholder: 'Upload payment provider icon',
+				showThumbnail: true,
 			},
 		],
 		buttonList,
