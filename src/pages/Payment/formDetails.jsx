@@ -120,30 +120,30 @@ const paymentProviderFormFields = [
 		isRequired: true,
 		placeholder: 'Provider Name',
 	},
-	// {
-	// 	name: 'Privatekey',
-	// 	fieldType: 'textField',
-	// 	type: 'text',
-	// 	label: 'Private key',
-	// 	isRequired: true,
-	// 	placeholder: 'Private key',
-	// },
-	// {
-	// 	name: 'SecretKey',
-	// 	fieldType: 'textField',
-	// 	type: 'text',
-	// 	label: 'Secret Key',
-	// 	isRequired: true,
-	// 	placeholder: 'Secret Key',
-	// },
-	// {
-	// 	name: 'MerchantId',
-	// 	fieldType: 'textField',
-	// 	type: 'text',
-	// 	label: 'Merchant Id',
-	// 	isRequired: true,
-	// 	placeholder: 'Merchant Id',
-	// },
+	{
+		name: 'Privatekey',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Private key',
+		// isRequired: true,
+		placeholder: 'Private key',
+	},
+	{
+		name: 'SecretKey',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Secret Key',
+		// isRequired: true,
+		placeholder: 'Secret Key',
+	},
+	{
+		name: 'MerchantId',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Merchant Id',
+		// isRequired: true,
+		placeholder: 'Merchant Id',
+	},
 	{
 		name: 'BaseURL',
 		fieldType: 'textField',
@@ -153,20 +153,20 @@ const paymentProviderFormFields = [
 		placeholder: 'BaseURL',
 		isDisabled: true,
 	},
-	// {
-	// 	name: 'icon',
-	// 	fieldType: 'file',
-	// 	type: '',
-	// 	label: 'Payment Provider icon',
-	// 	placeholder: 'Upload payment provider icon',
-	// 	showThumbnail: true,
-	// },
-	// {
-	// 	name: 'isActive',
-	// 	fieldType: 'toggle',
-	// 	label: 'Set Active/Incative',
-	// 	isNewRow: false,
-	// },
+	{
+		name: 'isActive',
+		fieldType: 'switch',
+		label: 'Set Active/Inacative',
+		isNewRow: false,
+	},
+	{
+		name: 'icon',
+		fieldType: 'file',
+		type: '',
+		label: 'Payment Provider icon',
+		placeholder: 'Upload payment provider icon',
+		showThumbnail: true,
+	},
 ];
 
 const PaymentProviderStaticFormFields = [...paymentProviderFormFields];
@@ -174,9 +174,9 @@ const PaymentProviderStaticFormFields = [...paymentProviderFormFields];
 const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
 	icon: defaultValue?.icon || '',
-	// Privatekey: defaultValue?.credentials?.Privatekey || '',
-	// SecretKey: defaultValue?.credentials?.SecretKey || '',
-	// MerchantId: defaultValue?.credentials?.MerchantId || '',
+	Privatekey: defaultValue?.credentials?.Privatekey || '',
+	SecretKey: defaultValue?.credentials?.SecretKey || '',
+	MerchantId: defaultValue?.credentials?.MerchantId || '',
 	BaseURL: defaultValue?.credentials?.BaseURL || VITE_APP_API_URL,
 	isActive: defaultValue?.isActive || false,
 	providerType: 'payment',
@@ -193,7 +193,7 @@ const validationSchema = Yup.object().shape({
 		.required('Name is required')
 		.min(2, 'Name must be at least 2 characters'),
 	icon: Yup.mixed()
-		.nullable()
+		.required('icon is required')
 		.test('required', 'Image Required', isRequired)
 		// .imageDimensionCheck('Image Required', {
 		// 	exactWidth: 442,

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
-// import wallet from '../../assets/images/PayMentProvider/add.png';
 import useCreate from './hooks/useAddNewProvider';
 import FormPage from '../../components/Common/FormPage';
 import CrudSection from '../../components/Common/CrudSection';
@@ -19,7 +18,6 @@ const AddNewProvider = () => {
 		formFields,
 		isOpen,
 		handleProviderClick,
-		// header,
 		setHeader,
 		paymentProviderData,
 		onBackClick,
@@ -68,17 +66,21 @@ const AddNewProvider = () => {
 											`Edit ${provider.name ?? 'payment provider'} Details`
 										);
 									}}
-									className={`provider-button ${
+									className={`provider-button  ${
 										selectedProvider?.id === provider.id ? 'selected' : ''
 									}`}
 								>
-									<div
+									{/* <div
 										className={`status ${
 											provider.isActive ? 'active' : 'inactive'
 										}`}
 									>
-										{provider.isActive ? 'Active' : 'Inactive'}
-									</div>
+										{provider.isActive ? (
+											<i className="mdi mdi-check-circle" />
+										) : (
+											<i className="mdi mdi-close-thick" />
+										)}
+									</div> */}
 									<img
 										src={provider.icon || fallbackImage}
 										alt={provider.name}
@@ -88,33 +90,6 @@ const AddNewProvider = () => {
 								</button>
 							</Col>
 						))}
-						{/* <Col
-					 xs="6"
-					 sm="3"
-					 md="2"
-					 className='p-2 payment-card'
-					>
-						<button
-							type="button"
-							onClick={() => {
-								handleProviderClick(
-								{
-										id:'Create'
-									}
-								);
-								setType('Create');
-								setHeader('Configure New Payment Provider');
-							}}
-							className="provider-button add-new"
-						>
-							<img
-								src={wallet}
-								alt="Configure New Payment Provider"
-								className="provider-image"
-							/>
-							<div className="provider-name">Configure New </div>
-						</button>
-					</Col> */}
 					</Row>
 				</Card>
 			</Container>
@@ -126,7 +101,6 @@ const AddNewProvider = () => {
 						colOptions={{ xs: 12, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
 						submitLabel="Submit"
 						isSubmit
-						// formTitle={header}
 						customColClasses="mb-4"
 					/>
 				)}

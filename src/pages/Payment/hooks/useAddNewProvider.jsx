@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
 	getInitialValues,
 	PaymentProviderStaticFormFields,
+	validationSchema,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
@@ -19,8 +20,8 @@ const useCreate = ({
 	type,
 	previousSelectedProvider,
 	setPreviousSelectedProvider,
-	dynamicField,
-	setDynamicField,
+	// dynamicField,
+	// setDynamicField,
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -91,11 +92,12 @@ const useCreate = ({
 		validation,
 		setHeader,
 		formFields,
-		setFormFields,
+		// setFormFields,
 	} = useForm({
 		header: '',
 		initialValues: getInitialValues(selectedProvider),
 		onSubmitEntry: handleSubmit,
+		validationSchema,
 		staticFormFields: PaymentProviderStaticFormFields,
 	});
 	const toggleFormModal = () => {
@@ -116,95 +118,95 @@ const useCreate = ({
 		}
 	};
 
-	useEffect(() => {
-		if (dynamicField) {
-			setFormFields([
-				...PaymentProviderStaticFormFields,
-				...dynamicField,
-				{
-					fieldType: 'addKeyValue',
-					callBack: ({ key, value }) => {
-						validation.setFieldValue(key, value);
-						setDynamicField((prev) => [
-							...prev,
-							{
-								name: key,
-								fieldType: 'textField',
-								type: 'text',
-								label: `Enter ${key}`,
-								placeholder: `Enter ${key} value`,
-								// value,
-							},
-						]);
-					},
-				},
-				{
-					name: 'icon',
-					fieldType: 'file',
-					type: '',
-					label: 'Payment Provider icon',
-					placeholder: 'Upload payment provider icon',
-					showThumbnail: true,
-				},
-				{
-					name: 'isActive',
-					fieldType: 'toggle',
-					label: 'Set Active/Incative',
-					isNewRow: false,
-				},
-			]);
-		}
-		if (selectedProvider?.credentials) {
-			const credentialsFields = Object?.keys(selectedProvider?.credentials)
-				.map((key) => {
-					const field = {
-						name: key,
-						fieldType: 'textField',
-						type: 'text',
-						label: `Enter ${key}`,
-						placeholder: `Enter ${key} value`,
-					};
-					validation.setFieldValue(key, selectedProvider.credentials[key]);
-					return field;
-				})
-				.filter((field) => field.name !== 'BaseURL' || 'providerType');
-			setFormFields([
-				...PaymentProviderStaticFormFields,
-				...credentialsFields,
-				...dynamicField,
-				{
-					fieldType: 'addKeyValue',
-					callBack: ({ key, value }) => {
-						validation.setFieldValue(key, value);
-						setDynamicField((prev) => [
-							...prev,
-							{
-								name: key,
-								fieldType: 'textField',
-								type: 'text',
-								label: `Enter ${key}`,
-								placeholder: `Enter ${key} value`,
-							},
-						]);
-					},
-				},
-				{
-					name: 'icon',
-					fieldType: 'file',
-					type: '',
-					label: 'Payment Provider icon',
-					placeholder: 'Upload payment provider icon',
-					showThumbnail: true,
-				},
-				{
-					name: 'isActive',
-					fieldType: 'toggle',
-					label: 'Set Active/Incative',
-					isNewRow: false,
-				},
-			]);
-		}
-	}, [dynamicField, selectedProvider]);
+	// useEffect(() => {
+	// 	if (dynamicField) {
+	// 		setFormFields([
+	// 			...PaymentProviderStaticFormFields,
+	// 			...dynamicField,
+	// 			// {
+	// 			// 	fieldType: 'addKeyValue',
+	// 			// 	callBack: ({ key, value }) => {
+	// 			// 		validation.setFieldValue(key, value);
+	// 			// 		setDynamicField((prev) => [
+	// 			// 			...prev,
+	// 			// 			{
+	// 			// 				name: key,
+	// 			// 				fieldType: 'textField',
+	// 			// 				type: 'text',
+	// 			// 				label: `Enter ${key}`,
+	// 			// 				placeholder: `Enter ${key} value`,
+	// 			// 				// value,
+	// 			// 			},
+	// 			// 		]);
+	// 			// 	},
+	// 			// },
+	// 			{
+	// 				name: 'icon',
+	// 				fieldType: 'file',
+	// 				type: '',
+	// 				label: 'Payment Provider icon',
+	// 				placeholder: 'Upload payment provider icon',
+	// 				showThumbnail: true,
+	// 			},
+	// 			{
+	// 				name: 'isActive',
+	// 				fieldType: 'switch',
+	// 				label: 'Set Active/Inacative',
+	// 				// isNewRow: false,
+	// 			},
+	// 		]);
+	// 	}
+	// 	if (selectedProvider?.credentials) {
+	// 		const credentialsFields = Object?.keys(selectedProvider?.credentials)
+	// 			.map((key) => {
+	// 				const field = {
+	// 					name: key,
+	// 					fieldType: 'textField',
+	// 					type: 'text',
+	// 					label: `Enter ${key}`,
+	// 					placeholder: `Enter ${key} value`,
+	// 				};
+	// 				validation.setFieldValue(key, selectedProvider.credentials[key]);
+	// 				return field;
+	// 			})
+	// 			.filter((field) => field.name !== 'BaseURL' || 'providerType');
+	// 		setFormFields([
+	// 			...PaymentProviderStaticFormFields,
+	// 			...credentialsFields,
+	// 			...dynamicField,
+	// 			{
+	// 				fieldType: 'addKeyValue',
+	// 				callBack: ({ key, value }) => {
+	// 					validation.setFieldValue(key, value);
+	// 					setDynamicField((prev) => [
+	// 						...prev,
+	// 						{
+	// 							name: key,
+	// 							fieldType: 'textField',
+	// 							type: 'text',
+	// 							label: `Enter ${key}`,
+	// 							placeholder: `Enter ${key} value`,
+	// 						},
+	// 					]);
+	// 				},
+	// 			},
+	// 			{
+	// 				name: 'icon',
+	// 				fieldType: 'file',
+	// 				type: '',
+	// 				label: 'Payment Provider icon',
+	// 				placeholder: 'Upload payment provider icon',
+	// 				showThumbnail: true,
+	// 			},
+	// 			{
+	// 				name: 'isActive',
+	// 				fieldType: 'switch',
+	// 				label: 'Set Active/Inacative',
+	// 				// isNewRow: false,
+	// 			},
+	// 		]);
+	// 	}
+	// }, [dynamicField, selectedProvider]);
 
 	const onBackClick = () => {
 		navigate('/payment');
