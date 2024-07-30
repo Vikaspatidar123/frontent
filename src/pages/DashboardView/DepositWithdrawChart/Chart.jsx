@@ -81,7 +81,7 @@ const LineBarChart = ({
 		toolbox: {
 			orient: 'start',
 			left: -5,
-			top: 0,
+			top: 25,
 			feature: {
 				dataView: { show: true, readOnly: false, title: 'Data View' },
 				magicType: {
@@ -171,6 +171,9 @@ const LineBarChart = ({
 				smooth: true,
 				yAxisIndex: 1,
 				data: counts,
+				lineStyle: {
+					width: 2,
+				},
 			},
 		],
 		textStyle: {

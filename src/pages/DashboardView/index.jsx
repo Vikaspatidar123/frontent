@@ -22,6 +22,7 @@ import PlayerReport from './PlayerReport';
 import RevenueReport from './RevenueChart';
 import DashboardFilters from './DashboardFilters';
 import DepositWithdrawChart from './DepositWithdrawChart';
+import BetsChart from './BetsChart.jsx';
 
 const KpiSummary = lazy(() => import('./KpiSummary'));
 const KpiReport = lazy(() => import('./KpiReport'));
@@ -66,13 +67,16 @@ const DashboardView = ({ t }) => {
 							</CardBody>
 						</Card>
 					</Col>
-					{/* <Col sm={12} md={12} lg={12} xl={6}>
+					<Col sm={12} md={12} lg={12} xl={6}>
 						<Card>
 							<CardBody>
-								<DepositWithdrawChart statsData={statsData} />
+								<BetsChart
+									statsData={statsData}
+									layoutModeType={layoutModeType}
+								/>
 							</CardBody>
 						</Card>
-					</Col> */}
+					</Col>
 				</Row>
 				<Row>
 					<Col xl="3">
