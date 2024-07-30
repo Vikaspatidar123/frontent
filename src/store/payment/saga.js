@@ -94,7 +94,12 @@ function* updatePaymentProviderWorker({ payload }) {
 function* getPaymentProviderWorker({ payload }) {
 	try {
 		const { data } = yield getPaymentProviderDetails(payload);
-		yield put(getPaymentcredentialsSuccess(data?.data?.providerCredentials));
+		yield put(
+			getPaymentcredentialsSuccess({
+				TypeOfAction: 'appendData',
+				data: data?.data,
+			})
+		);
 	} catch (error) {
 		yield put(
 			getPaymentcredentialsFail(error?.response?.data?.errors[0]?.description)
@@ -103,11 +108,20 @@ function* getPaymentProviderWorker({ payload }) {
 }
 
 function* addPaymentProviderWorker({ payload }) {
+	const perPage = payload?.providerCredentialsLength;
 	try {
-		payload = serialize(filterEmptyPayload(payload), { indices: true });
+		payload = serialize(filterEmptyPayload(payload?.data), { indices: true });
 		yield addProviderCredentials(payload);
-		const { data } = yield getPaymentProviderDetails();
-		yield put(getPaymentcredentialsSuccess(data?.data?.providerCredentials));
+		const { data } = yield getPaymentProviderDetails({
+			perPage,
+			page: payload?.page,
+		});
+		yield put(
+			getPaymentcredentialsSuccess({
+				TypeOfAction: 'notAppendData',
+				data: data?.data,
+			})
+		);
 		yield put(addPaymentProviderSuccess(true));
 
 		showToastr({
@@ -120,11 +134,20 @@ function* addPaymentProviderWorker({ payload }) {
 }
 
 function* UpdatePaymentProviderWorker({ payload }) {
+	const perPage = payload?.providerCredentialsLength;
 	try {
-		payload = serialize(filterEmptyPayload(payload), { indices: true });
+		payload = serialize(filterEmptyPayload(payload?.data), { indices: true });
 		yield updateProviderCredentials(payload);
-		const { data } = yield getPaymentProviderDetails(payload);
-		yield put(getPaymentcredentialsSuccess(data?.data?.providerCredentials));
+		const { data } = yield getPaymentProviderDetails({
+			perPage,
+			page: 1,
+		});
+		yield put(
+			getPaymentcredentialsSuccess({
+				TypeOfAction: 'notAppendData',
+				data: data?.data,
+			})
+		);
 		yield put(updatePaymentcredentialsSuccess(true));
 		showToastr({
 			message: 'Provider updated successfully',

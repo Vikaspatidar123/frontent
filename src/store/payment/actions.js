@@ -103,9 +103,13 @@ export const getPaymentcredentialsFail = (payload) => ({
 	payload,
 });
 
-export const addPaymentProvider = (payload) => ({
+export const addPaymentProvider = (data, providerCredentialsLength, page) => ({
 	type: ADD_PAYMENT_PROVIDER,
-	payload,
+	payload: {
+		data,
+		providerCredentialsLength,
+		page,
+	},
 });
 
 export const addPaymentProviderSuccess = (payload) => ({
@@ -117,9 +121,15 @@ export const addPaymentProviderFail = (payload) => ({
 	type: ADD_PAYMENT_FAIL,
 	payload,
 });
-export const updatePaymentcredentialsProvider = (payload) => ({
+export const updatePaymentcredentialsProvider = (
+	data,
+	providerCredentialsLength
+) => ({
 	type: UPDATE_PAYMENT_CREDENTIALS_PROVIDER,
-	payload,
+	payload: {
+		data,
+		providerCredentialsLength,
+	},
 });
 
 export const updatePaymentcredentialsSuccess = (payload) => ({

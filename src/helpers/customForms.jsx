@@ -53,27 +53,46 @@ export const CustomInputField = ({
 	max,
 	description,
 	isRequired,
+	onDelete,
 	...props
 }) => (
 	<>
 		{label && <Label className="form-label">{label}</Label>}
 		{isRequired && label && <span className="text-danger"> *</span>}
-		<Input
-			name={name}
-			type={type}
-			label={label}
-			value={value}
-			disabled={disabled}
-			validate={validate}
-			onChange={onChange}
-			onBlur={onBlur}
-			invalid={invalid}
-			placeholder={placeholder}
-			minlength={min}
-			maxlength={max}
-			autoComplete="new-password"
-			{...props}
-		/>
+		<InputGroup>
+			<Input
+				name={name}
+				type={type}
+				label={label}
+				value={value}
+				disabled={disabled}
+				validate={validate}
+				onChange={onChange}
+				onBlur={onBlur}
+				invalid={invalid}
+				placeholder={placeholder}
+				minlength={min}
+				maxlength={max}
+				autoComplete="new-password"
+				{...props}
+			/>
+			{onDelete && (
+				<InputGroupText
+					className="password-btn btn btn-danger font-size-14"
+					onClick={() => onDelete(name, value)}
+				>
+					<i className="mdi mdi-trash-can-outline" />
+				</InputGroupText>
+			)}
+		</InputGroup>
+		{/* <div>
+		  <Button
+		  	className="btn-danger"
+		  	onClick={() => onDelete()}
+		  >
+		  	<i className="mdi mdi-trash-can-outline" />
+		  </Button>
+		</div> */}
 		{description && <span className="text-muted">{description}</span>}
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
@@ -753,6 +772,7 @@ export const getField = (
 					max={maximum}
 					description={description}
 					isRequired={isRequired}
+					onDelete={onDelete}
 				/>
 			);
 		case 'select':
@@ -801,7 +821,7 @@ export const getField = (
 		case 'switch':
 			return (
 				<CustomSwitchButton
-					labelClassName="form-check-label"
+					labelClassName="form-check-label "
 					label={label}
 					htmlFor={`radio${name}`}
 					type="switch"

@@ -32,7 +32,9 @@ const INIT_STATE = {
 	updateLoading: false,
 	paymentDetailsLoading: false,
 	paymentDetails: null,
-	paymentProviderData: null,
+	paymentProviderData: {
+		providerCredentials: [],
+	},
 	isLoadinpaymentProvider: false,
 };
 
@@ -131,13 +133,31 @@ const getPayments = (state = INIT_STATE, { type, payload } = {}) => {
 				isLoadinpaymentProvider: true,
 			};
 
-		case GET_PAYMENT_PROVIDER_DATA_SUCCESS:
+		case GET_PAYMENT_PROVIDER_DATA_SUCCESS: {
+			const { data, TypeOfAction } = payload;
+			const { providerCredentials, ...rest } = data;
+			if (TypeOfAction === 'appendData') {
+				return {
+					...state,
+					isLoadingPaymentProvider: false,
+					paymentProviderData: {
+						providerCredentials: [
+							...state.paymentProviderData.providerCredentials,
+							...providerCredentials,
+						],
+						...rest,
+					},
+				};
+			}
 			return {
 				...state,
-				isLoadinpaymentProvider: false,
-				paymentProviderData: payload,
+				isLoadingPaymentProvider: false,
+				paymentProviderData: {
+					providerCredentials: [...providerCredentials],
+					...rest,
+				},
 			};
-
+		}
 		case GET_PAYMENT_PROVIDER_DATA_FAIL:
 			return {
 				...state,

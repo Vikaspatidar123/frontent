@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card } from 'reactstrap';
+import { Container, Row, Col, Card, Spinner, Button } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
 import useCreate from './hooks/useAddNewProvider';
 import FormPage from '../../components/Common/FormPage';
 import CrudSection from '../../components/Common/CrudSection';
+import NoDataFound from '../../components/Common/NoDataFound';
 
 const AddNewProvider = () => {
 	const [selectedProvider, setSelectedProvider] = useState(null);
 	const [type, setType] = useState();
 	const [previousSelectedProvider, setPreviousSelectedProvider] =
 		useState(null);
-	const [dynamicField, setDynamicField] = useState([]);
 
 	const {
 		validation,
@@ -20,16 +20,17 @@ const AddNewProvider = () => {
 		handleProviderClick,
 		setHeader,
 		paymentProviderData,
+		isLoadinpaymentProvider,
 		onBackClick,
 		buttonList,
+		fetchMoreData,
+		page,
 	} = useCreate({
 		selectedProvider,
 		setSelectedProvider,
 		type,
 		previousSelectedProvider,
 		setPreviousSelectedProvider,
-		dynamicField,
-		setDynamicField,
 	});
 
 	return (
@@ -47,9 +48,26 @@ const AddNewProvider = () => {
 			<Container fluid>
 				<Card className="p-2">
 					<CrudSection buttonList={buttonList} title="Payment provider" />
-
-					<Row>
-						{paymentProviderData?.map((provider) => (
+					{isLoadinpaymentProvider &&
+						paymentProviderData?.providerCredentials?.length === 0 && (
+							<div
+								className="d-flex justify-content-center align-items-center"
+								style={{ height: '200px' }}
+							>
+								<Spinner color="primary" />
+							</div>
+						)}
+					{!isLoadinpaymentProvider &&
+						paymentProviderData?.providerCredentials?.length === 0 && (
+							<div
+								className="d-flex justify-content-center align-items-center"
+								style={{ height: '200px' }}
+							>
+								<NoDataFound height="200px" width="300px" />
+							</div>
+						)}
+					<Row className="p-4">
+						{paymentProviderData?.providerCredentials?.map((provider) => (
 							<Col
 								xs="6"
 								sm="3"
@@ -91,6 +109,14 @@ const AddNewProvider = () => {
 							</Col>
 						))}
 					</Row>
+
+					{paymentProviderData?.totalPages > page && (
+						<div className="d-flex justify-content-center mt-3">
+							<Button color="primary" outline onClick={fetchMoreData}>
+								View More
+							</Button>
+						</div>
+					)}
 				</Card>
 			</Container>
 			<Container fluid style={{ marginTop: '15px' }}>
