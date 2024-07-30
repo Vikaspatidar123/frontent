@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable import/no-extraneous-dependencies */
 import moment from 'moment';
 import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
@@ -54,6 +53,11 @@ const LineBarChart = ({
 		};
 	}, [chartData, isDeposit]);
 
+	const legendNames = [
+		`Total ${isDeposit ? 'Deposit' : 'Withdraw'} Amount`,
+		`${isDeposit ? 'Deposit' : 'Withdraw'} Count`,
+	];
+
 	const options = {
 		grid: {
 			zlevel: 0,
@@ -90,7 +94,7 @@ const LineBarChart = ({
 		},
 		color: spineareaChartColors,
 		legend: {
-			data: ['Total Deposit Amount', 'Deposit Count'],
+			data: legendNames,
 			textStyle: {
 				color: axisLabelColor,
 				fontWeight: 600,
@@ -113,7 +117,7 @@ const LineBarChart = ({
 		yAxis: [
 			{
 				type: 'value',
-				name: 'Amount',
+				name: '',
 				min: 0,
 				axisLine: {
 					lineStyle: {
@@ -135,7 +139,7 @@ const LineBarChart = ({
 			},
 			{
 				type: 'value',
-				name: 'Count',
+				name: '',
 				min: 0,
 				axisLine: {
 					lineStyle: {
@@ -157,12 +161,12 @@ const LineBarChart = ({
 		],
 		series: [
 			{
-				name: `Total ${isDeposit ? 'Deposit' : 'Withdraw'} Amount`,
+				name: legendNames[0],
 				type: 'bar',
 				data: amounts,
 			},
 			{
-				name: `${isDeposit ? 'Deposit' : 'Withdraw'} Count`,
+				name: legendNames[1],
 				type: 'line',
 				smooth: true,
 				yAxisIndex: 1,
