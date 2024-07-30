@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable import/no-extraneous-dependencies */
+import moment from 'moment';
 import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
@@ -31,21 +32,21 @@ const LineBarChart = ({
 		colorScheme[layoutModeType] || colorScheme.light;
 
 	const { counts, amounts, dates } = useMemo(() => {
-		const filteredDates = chartData
-			.slice(0, 10)
-			.map((entry) => new Date(entry.date).toLocaleDateString());
-		const filteredCounts = chartData
-			.slice(0, 10)
-			.map((entry) =>
-				parseInt(isDeposit ? entry.deposit_count : entry.withdraw_count, 10)
-			);
-		const filteredAmounts = chartData
-			.slice(0, 10)
-			.map((entry) =>
-				parseFloat(
-					isDeposit ? entry.total_deposit_amount : entry.total_withdraw_amount
-				)
-			);
+		const filteredDates = chartData.map((val) =>
+			val.start_date !== val.end_date
+				? `${moment(val.start_date).format('D MMM')} - ${moment(
+						val.end_date
+				  ).format('D MMM YYYY')}`
+				: moment(val.end_date).format('D MMM YYYY')
+		);
+		const filteredCounts = chartData.map((val) =>
+			parseInt(isDeposit ? val.deposit_count : val.withdraw_count, 10)
+		);
+		const filteredAmounts = chartData.map((val) =>
+			parseFloat(
+				isDeposit ? val.total_deposit_amount : val.total_withdraw_amount
+			)
+		);
 		return {
 			dates: filteredDates,
 			counts: filteredCounts,

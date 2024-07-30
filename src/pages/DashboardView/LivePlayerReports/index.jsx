@@ -161,7 +161,7 @@ const Reports = (props) => {
 			// 	customClass: TAB_COLORS.success,
 			// },
 		],
-		[livePlayerData, isLivePlayerLoading, todayGGR]
+		[livePlayerData, isLivePlayerLoading, todayGGR, statsData]
 	);
 
 	return (

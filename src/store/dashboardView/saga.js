@@ -37,6 +37,73 @@ import {
 	statsDataRequest,
 } from '../../network/getRequests';
 
+function summarizeData(data, desiredLength) {
+	try {
+		const totalDataPoints = data.length;
+		const rangeSize = Math.ceil(totalDataPoints / desiredLength);
+
+		const summarizedData = [];
+		for (let i = 0; i < totalDataPoints; i += rangeSize) {
+			const rangeEnd = Math.min(i + rangeSize, totalDataPoints);
+
+			const summary = {
+				start_date: data[i].date,
+				end_date: data[rangeEnd - 1].date,
+				deposit_count: 0,
+				withdraw_count: 0,
+				total_deposit_amount: 0,
+				total_withdraw_amount: 0,
+				casino_bet_count: 0,
+				casino_win_count: 0,
+				total_casino_bet_amount: 0,
+				total_casino_win_amount: 0,
+				sportsbook_bet_count: 0,
+				sportsbook_win_count: 0,
+				total_sportsbook_bet_amount: 0,
+				total_sportsbook_win_amount: 0,
+			};
+
+			for (let j = i; j < rangeEnd; j += 1) {
+				summary.deposit_count += parseFloat(data[j].deposit_count || 0);
+				summary.withdraw_count += parseFloat(data[j].withdraw_count || 0);
+				summary.total_deposit_amount += parseFloat(
+					data[j].total_deposit_amount || 0
+				);
+				summary.total_withdraw_amount += parseFloat(
+					data[j].total_withdraw_amount || 0
+				);
+				summary.casino_bet_count += parseFloat(data[j].casino_bet_count || 0);
+				summary.casino_win_count += parseFloat(data[j].casino_win_count || 0);
+				summary.total_casino_bet_amount += parseFloat(
+					data[j].total_casino_bet_amount || 0
+				);
+				summary.total_casino_win_amount += parseFloat(
+					data[j].total_casino_win_amount || 0
+				);
+				summary.sportsbook_bet_count += parseFloat(
+					data[j].sportsbook_bet_count || 0
+				);
+				summary.sportsbook_win_count += parseFloat(
+					data[j].sportsbook_win_count || 0
+				);
+				summary.total_sportsbook_bet_amount += parseFloat(
+					data[j].total_sportsbook_bet_amount || 0
+				);
+				summary.total_sportsbook_win_amount += parseFloat(
+					data[j].total_sportsbook_win_amount || 0
+				);
+			}
+
+			summarizedData.push(summary);
+		}
+
+		return summarizedData;
+	} catch (err) {
+		console.log('Error while grouping dashboard chart data ', err?.message);
+		return data.slice(-1 * desiredLength);
+	}
+}
+
 function* getLivePlayerData() {
 	try {
 		const { data } = yield getDashboardLiveInfoService();
@@ -49,7 +116,13 @@ function* getLivePlayerData() {
 function* getStatsDataWorker({ payload }) {
 	try {
 		const { data } = yield statsDataRequest(payload);
-		yield put(getStatisticDataSuccess(data?.data));
+		const groupedData = summarizeData(data?.data?.stats || [], 10);
+		yield put(
+			getStatisticDataSuccess({
+				...(data?.data || {}),
+				grouped: groupedData,
+			})
+		);
 	} catch (e) {
 		yield put(getStatisticDataFail());
 	}

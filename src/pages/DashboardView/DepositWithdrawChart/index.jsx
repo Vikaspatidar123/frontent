@@ -17,7 +17,7 @@ const DepositWithdrawChart = ({ statsData, layoutModeType }) => {
 		<LineBarChart
 			dataColors='["--bs-primary", "--bs-success", "--bs-danger","--bs-info", "--bs-warning"]'
 			isDeposit={isDeposit}
-			chartData={statsData?.stats}
+			chartData={statsData?.grouped}
 			layoutModeType={layoutModeType}
 		/>
 	);

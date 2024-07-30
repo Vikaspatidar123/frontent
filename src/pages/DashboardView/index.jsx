@@ -35,14 +35,14 @@ const DashboardView = ({ t }) => {
 		isLivePlayerLoading,
 		livePlayerData,
 		loggedInOptions,
-		dashFilters,
-		setDashFilters,
+		// dashFilters,
+		// setDashFilters,
 		handleDashFilters,
 		statsData,
 		layoutModeType,
 	} = useDashboardView();
 	// Filter oo be used
-	console.log('filter data = ', dashFilters, setDashFilters);
+	// console.log('filter data = ', dashFilters, setDashFilters);
 	return (
 		<div className="page-content">
 			<Container fluid>
