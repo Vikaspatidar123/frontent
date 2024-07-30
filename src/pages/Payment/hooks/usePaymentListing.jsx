@@ -55,7 +55,7 @@ const usePaymentListing = (filterValues = {}) => {
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
-		navigate('add');
+		navigate('add-provider');
 	};
 
 	const handleEdit = (e, row) => {
@@ -71,7 +71,7 @@ const usePaymentListing = (filterValues = {}) => {
 
 	const buttonList = useMemo(() => [
 		{
-			label: 'Create',
+			label: 'Configure New',
 			handleClick: handleAddClick,
 			link: '#!',
 			module: modules.paymentManagement,

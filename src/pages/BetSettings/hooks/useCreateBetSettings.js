@@ -92,7 +92,6 @@ const useCreateBetSettings = () => {
 				optionLabel: r.sportName[0].name,
 				value: r.sportId,
 			}));
-
 			setFormFields([
 				...staticFormFields,
 				{

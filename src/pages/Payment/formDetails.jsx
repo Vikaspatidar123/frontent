@@ -1,19 +1,10 @@
 import * as Yup from 'yup';
 import { PAYMENT_PROVIDER_CATEGORY } from './constants';
 
+const { VITE_APP_API_URL } = import.meta.env;
+
 // Filter
 const staticFiltersFields = () => [
-	// {
-	// 	name: 'isActive',
-	// 	fieldType: 'select',
-	// 	label: '',
-	// 	placeholder: 'Status',
-	// 	optionList: IS_ACTIVE_TYPES?.map(({ id, label, value }) => ({
-	// 		id,
-	// 		optionLabel: label,
-	// 		value,
-	// 	})),
-	// },
 	{
 		name: 'search',
 		fieldType: 'textField',
@@ -24,13 +15,11 @@ const staticFiltersFields = () => [
 ];
 
 const filterValues = () => ({
-	// isActive: null,
 	search: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
-		// isActive: Yup.string().nullable(),
 		search: Yup.string().nullable(),
 	});
 
@@ -122,42 +111,120 @@ const generaFromFields = [
 	// },
 ];
 
-const getInitialValues = (paymentDetails) => {
-	const providerLimit = {};
-	if (paymentDetails?.providerLimits?.length)
-		paymentDetails?.providerLimits?.forEach((item) => {
-			providerLimit[parseFloat(item?.currencyId)] = {
-				...item,
-				currencyName: item?.currency?.name || '',
-			};
-		});
+const paymentProviderFormFields = [
+	{
+		name: 'name',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Provider Name',
+		isRequired: true,
+		placeholder: 'Provider Name',
+	},
+	{
+		name: 'Privatekey',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Private key',
+		// isRequired: true,
+		placeholder: 'Private key',
+	},
+	{
+		name: 'SecretKey',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Secret Key',
+		// isRequired: true,
+		placeholder: 'Secret Key',
+	},
+	{
+		name: 'MerchantId',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Merchant Id',
+		// isRequired: true,
+		placeholder: 'Merchant Id',
+	},
+	{
+		name: 'BaseURL',
+		fieldType: 'textField',
+		type: 'text',
+		label: 'Base URL',
+		// isRequired: true,
+		placeholder: 'BaseURL',
+		isDisabled: true,
+	},
+	{
+		name: 'isActive',
+		fieldType: 'switch',
+		label: 'Set Active/Inacative',
+		isNewRow: false,
+	},
+	{
+		name: 'icon',
+		fieldType: 'file',
+		type: '',
+		label: 'Payment Provider icon',
+		placeholder: 'Upload payment provider icon',
+		showThumbnail: true,
+	},
+];
 
-	return {
-		name: paymentDetails?.name?.EN || '',
-		// displayName: paymentDetails?.displayName?.EN || '',
-		description: paymentDetails?.description?.EN || '',
-		aggregator: paymentDetails?.aggregator || '',
-		category: paymentDetails?.category || null,
-		depositAllowed: paymentDetails?.depositAllowed
-			? paymentDetails?.depositAllowed
-			: false,
-		withdrawAllowed: paymentDetails?.withdrawAllowed
-			? paymentDetails?.withdrawAllowed
-			: false,
-		image: paymentDetails?.image || '',
-		// depositImage: paymentDetails?.depositImage || null,
-		// withdrawImage: paymentDetails?.withdrawImage || null,
-		providerLimit,
-		blockedCountries: paymentDetails?.blockedCountries || [],
-		currencyDetails: {
-			currencyId: null,
-			minDeposit: null,
-			maxDeposit: null,
-			minWithdraw: null,
-			maxWithdraw: null,
-		},
-	};
+const PaymentProviderStaticFormFields = [...paymentProviderFormFields];
+
+const getInitialValues = (defaultValue) => ({
+	name: defaultValue?.name || '',
+	icon: defaultValue?.icon || '',
+	Privatekey: defaultValue?.credentials?.Privatekey || '',
+	SecretKey: defaultValue?.credentials?.SecretKey || '',
+	MerchantId: defaultValue?.credentials?.MerchantId || '',
+	BaseURL: defaultValue?.credentials?.BaseURL || VITE_APP_API_URL,
+	isActive: defaultValue?.isActive || false,
+	providerType: 'payment',
+});
+
+const isRequired = (value) => {
+	if (typeof value === 'string' && value?.length > 0) return true;
+	// if (!value || !value.size) return false;
+	return true;
 };
+
+const validationSchema = Yup.object().shape({
+	name: Yup.string()
+		.required('Name is required')
+		.min(2, 'Name must be at least 2 characters'),
+	icon: Yup.mixed()
+		.required('icon is required')
+		.test('required', 'Image Required', isRequired)
+		// .imageDimensionCheck('Image Required', {
+		// 	exactWidth: 442,
+		// 	exactHeight: 240,
+		// })
+		.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
+			typeof value === 'string'
+				? true
+				: !value || (value && value.size <= 1024 * 1024)
+		)
+		.test('FILE_FORMAT', 'Uploaded file has unsupported format.', (value) =>
+			typeof value === 'string'
+				? true
+				: !value ||
+				  (value &&
+						['image/png', 'image/jpeg', 'image/jpg'].includes(value.type))
+		),
+	// Privatekey: Yup.string().notRequired(),
+	// SecretKey: Yup.string().notRequired(),
+	// Merchantid: Yup.string().notRequired(),
+	BaseURL: Yup.string()
+		.matches(
+			/^((https?):\/\/)?(www\.)?(([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}|(\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[^\s]*)?(\?[^\s]*)?|((https?):\/\/)?(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?(\/[^\s]*)?(\?[^\s]*)?$/,
+			'Enter correct URL!'
+		)
+		.nullable(),
+	isActive: Yup.boolean().notRequired(),
+	providerType: Yup.string()
+		.oneOf(['payment', 'subscription'], 'Invalid provider type')
+		.notRequired(),
+});
 
 export {
 	staticFiltersFields,
@@ -165,4 +232,6 @@ export {
 	filterValidationSchema,
 	generaFromFields,
 	getInitialValues,
+	PaymentProviderStaticFormFields,
+	validationSchema,
 };

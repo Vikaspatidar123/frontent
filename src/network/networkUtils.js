@@ -16,6 +16,7 @@ const MANAGEMENT = {
 	PAYMENT: '/payment/',
 	DISPUTE: '/dispute-management/',
 	CHAT: '/live-chat/',
+	INTERNAL: '/internal/',
 };
 
 const METHODS = {
