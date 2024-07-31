@@ -33,7 +33,10 @@ const useCreate = ({ type, setType }) => {
 				page,
 			})
 		);
-	}, [page]);
+		return () => {
+			dispatch(getPaymentcredentialsFail());
+		};
+	}, []);
 
 	useEffect(() => {
 		fields.current = dynamicField;
@@ -170,7 +173,7 @@ const useCreate = ({ type, setType }) => {
 
 	const onBackClick = () => {
 		navigate('/payment');
-		dispatch(getPaymentcredentialsFail());
+		// dispatch(getPaymentcredentialsFail());
 	};
 	const buttonList = useMemo(() => [
 		{
@@ -206,7 +209,7 @@ const useCreate = ({ type, setType }) => {
 			...dynamicField,
 			{
 				fieldType: 'addKeyValue',
-				TooltipMassage: 'add payment Provider credentials',
+				tooltipMessage: 'add payment Provider credentials',
 				callBack: ({ key, value }) => {
 					validation.setFieldValue(key, value);
 					setDynamicField((prev) => [

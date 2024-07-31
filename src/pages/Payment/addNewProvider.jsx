@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Spinner, Button } from 'reactstrap';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
 import useCreate from './hooks/useAddNewProvider';
@@ -97,7 +96,11 @@ const AddNewProvider = () => {
 											provider.isActive ? 'active-icon' : 'inactive-icon'
 										}`}
 									>
-										{provider.isActive ? <FaCheckCircle /> : <FaTimesCircle />}
+										{provider.isActive ? (
+											<i className="bx bx-check-circle" />
+										) : (
+											<i className="bx bx-x-circle" />
+										)}
 									</div>
 								</button>
 							</Col>
