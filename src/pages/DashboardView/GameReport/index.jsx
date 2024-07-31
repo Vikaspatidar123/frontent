@@ -78,7 +78,7 @@ const GameReport = () => {
 								<Col xl={3} className="d-flex align-items-center my-2">
 									<h4 className="card-title font-size-18 mb-3 d-flex align-items-center">
 										<span className="mdi mdi-soccer fs-1 me-3 text-success" />
-										{`Top ${activeGameReportTab}s`}
+										{`Top 5 ${activeGameReportTab}s`}
 									</h4>
 									<i
 										role="button"

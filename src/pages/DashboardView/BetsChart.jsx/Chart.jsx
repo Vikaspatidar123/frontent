@@ -244,7 +244,7 @@ const LineBarChart = ({
 
 	return (
 		<div>
-			<div className="d-flex justify-content-center">
+			<div className="d-flex justify-content-start">
 				<div
 					className="badge bg-success-subtle text-dark p-2 fs-4 rounded-4"
 					style={{ marginBottom: '10px' }}

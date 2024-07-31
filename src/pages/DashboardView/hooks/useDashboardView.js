@@ -6,10 +6,11 @@ import {
 	getStatisticData,
 } from '../../../store/dashboardView/actions';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+import { INITIAL_FILTERS } from '../constant';
 
 const useDashboardView = () => {
 	const dispatch = useDispatch();
-	const [dashFilters, setDashFilters] = useState(null);
+	const [dashFilters, setDashFilters] = useState(INITIAL_FILTERS);
 	const layoutModeType = useSelector((state) => state.Layout.layoutModeType);
 
 	const { isLivePlayerLoading, livePlayerData, statsData } = useSelector(
@@ -23,8 +24,15 @@ const useDashboardView = () => {
 	};
 
 	useEffect(() => {
-		dispatch(getStatisticData());
-	}, []);
+		dispatch(
+			getStatisticData({
+				currencyId: '',
+				fromDate: dashFilters?.fromDate || '',
+				toDate: dashFilters?.toDate || '',
+				dateOptions: 'custom',
+			})
+		);
+	}, [dashFilters]);
 
 	useEffect(() => {
 		dispatch(getLivePlayerInfoStart());

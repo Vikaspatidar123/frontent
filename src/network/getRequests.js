@@ -232,9 +232,10 @@ const getDashboardLiveInfoService = () =>
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-live-player-details`
 	);
 
-const statsDataRequest = () =>
+const statsDataRequest = (params) =>
 	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}statistics-summary`
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}statistics-summary`,
+		params
 	);
 
 const getDashboardDemoGraphicService = (data) =>
@@ -401,7 +402,10 @@ const getChannelMessages = (payload) =>
 		payload
 	);
 const getChatrain = (payload) =>
-	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}get-chat-rain`, payload);
+	getRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}get-chat-rain`,
+		payload
+	);
 const getPaymentProviderDetails = (payload) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.INTERNAL}credentials`,

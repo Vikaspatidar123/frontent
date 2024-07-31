@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /* eslint-disable import/prefer-default-export */
 export const dateConstants = [
 	{ label: 'Today', value: 'today' },
@@ -104,4 +106,13 @@ export const TAB_COLORS = {
 	success: 'bg-success-subtle',
 	info: 'bg-info-subtle',
 	warn: 'bg-warning-subtle',
+};
+
+export const INITIAL_FILTERS = {
+	fromDate: new Date(moment().subtract(7, 'days')),
+	toDate: new Date(),
+	categories: [
+		{ value: 'casino', label: 'Casino' },
+		{ value: 'sportsbook', label: 'SportsBook' },
+	],
 };

@@ -279,6 +279,82 @@ export const CustomRangeSelector = ({
 	</div>
 );
 
+// export const DateRangePicker = ({
+// 	name,
+// 	label,
+// 	placeholder,
+// 	value = ['', ''],
+// 	rangeKeys = ['fromDate', 'toDate'],
+// 	// eslint-disable-next-line no-unused-vars
+// 	onChange = () => { }, // need for preventing code break
+// 	isError,
+// 	errorMsg,
+// 	maxDate = new Date(),
+// 	minDate = moment().subtract(100, 'years').utc().toDate(),
+// 	validation,
+// 	dateFormat = 'd M Y',
+// 	customInputClass,
+// }) => {
+// 	const [isPickerVisible, setPickerVisible] = useState(false);
+// 	const pickerRef = useRef(null);
+
+// 	const handleInputClick = () => {
+// 		setPickerVisible((prev) => !prev);
+// 	};
+
+// 	const handleChange = (item) => {
+// 		const { startDate, endDate } = item.selection || {};
+// 		setFilters((prev) => ({
+// 			...prev,
+// 			fromDate: startDate,
+// 			toDate: endDate,
+// 		}));
+// 	};
+
+// 	useEffect(() => {
+// 		function handleClickOutside(event) {
+// 			if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+// 				setPickerVisible(false);
+// 			}
+// 		}
+// 		document.addEventListener('mousedown', handleClickOutside);
+// 		return () => {
+// 			document.removeEventListener('mousedown', handleClickOutside);
+// 		};
+// 	}, [pickerRef]);
+
+// 	return <div ref={pickerRef}>
+// 		<input
+// 			type="text"
+// 			className="form-control cursor-pointer"
+// 			onClick={handleInputClick}
+// 			value={`${filters?.fromDate?.toLocaleDateString() || ''} - ${filters?.toDate?.toLocaleDateString() || ''
+// 				}`}
+// 			readOnly
+// 		/>
+// 		{isPickerVisible && (
+// 			<DateRangePicker
+// 				className="dash-date-range"
+// 				onChange={handleChange}
+// 				showSelectionPreview
+// 				moveRangeOnFirstSelection={false}
+// 				months={2}
+// 				ranges={[
+// 					{
+// 						startDate: filters.fromDate,
+// 						endDate: filters.toDate,
+// 						key: 'selection',
+// 					},
+// 				]}
+// 				direction="horizontal"
+// 				preventSnapRefocus
+// 				calendarFocus="backwards"
+// 				maxDate={new Date()}
+// 			/>
+// 		)}
+// 	</div>
+// };
+
 export const KeyValueInput = ({ onChange }) => {
 	const [showInputs, setShowInputs] = useState(false);
 	const [key, setKey] = useState('');
