@@ -166,15 +166,25 @@ FormModal.propTypes = {
 	isOpen: PropTypes.bool,
 	toggle: PropTypes.func,
 	header: PropTypes.string,
-	validation: PropTypes.objectOf,
+	validation: PropTypes.objectOf({
+		values: PropTypes.objectOf({
+			key: PropTypes.string,
+		}),
+	}),
 	formFields: PropTypes.arrayOf,
 	submitLabel: PropTypes.string,
 	isLoading: PropTypes.bool,
 	customColClasses: PropTypes.string,
 	customComponent: PropTypes.element,
 	isSubmitLoading: PropTypes.bool,
-	colOptions: PropTypes.objectOf,
-	responsiveFormFields: PropTypes.arrayOf,
+	colOptions: PropTypes.objectOf({
+		xl: PropTypes.number,
+	}),
+	responsiveFormFields: PropTypes.arrayOf(
+		PropTypes.objectOf({
+			label: PropTypes.string,
+		})
+	),
 	className: PropTypes.string,
 	setIsOpen: PropTypes.func,
 	isEditOpen: PropTypes.bool,

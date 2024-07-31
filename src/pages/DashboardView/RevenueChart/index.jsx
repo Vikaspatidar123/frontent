@@ -108,5 +108,11 @@ RevenueChart.defaultProps = {
 };
 
 RevenueChart.propTypes = {
-	livePlayerData: PropTypes.objectOf,
+	livePlayerData: PropTypes.shape({
+		DailyRevenues: PropTypes.arrayOf(
+			PropTypes.objectOf({
+				date: PropTypes.string,
+			})
+		),
+	}),
 };

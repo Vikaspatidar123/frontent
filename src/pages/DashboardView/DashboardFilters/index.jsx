@@ -46,7 +46,7 @@ const DashboardFilters = ({ handleDashFilters }) => {
 	return (
 		<Card className="p-3">
 			<Row className="align-items-center">
-				<Col xl={4} xs={6}>
+				<Col xl={4} md={5} sm={5} xs={12} className="mt-1">
 					<div ref={pickerRef}>
 						<input
 							type="text"
@@ -79,10 +79,16 @@ const DashboardFilters = ({ handleDashFilters }) => {
 						)}
 					</div>
 				</Col>
-				<Col xl={4} xs={6}>
+				<Col xl={4} md={5} sm={5} xs={12} className="mt-1">
 					<MultiSelect filters={filters} setFilters={setFilters} />
 				</Col>
-				<Col xl={4} xs={6} className="d-flex justify-content-end">
+				<Col
+					xl={4}
+					md={2}
+					sm={2}
+					xs={12}
+					className="d-flex justify-content-end mt-1"
+				>
 					<Button color="primary" onClick={handleApplyFilter}>
 						Apply
 					</Button>

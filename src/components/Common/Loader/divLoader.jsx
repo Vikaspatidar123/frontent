@@ -27,8 +27,8 @@ DivLoader.propTypes = {
 	isWithoutPadding: PropTypes.bool,
 };
 DivLoader.defaultProps = {
-	isSmall: PropTypes.bool,
-	loaderVarient: PropTypes.string,
-	isWithoutPadding: PropTypes.bool,
+	isSmall: false,
+	loaderVarient: '',
+	isWithoutPadding: false,
 };
 export default DivLoader;

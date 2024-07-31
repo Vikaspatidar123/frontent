@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable camelcase */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
@@ -154,7 +155,7 @@ const Reports = (props) => {
 		<Row>
 			{isGranted(modules.livePlayerDetail, 'R') ? (
 				reportList.map((report) => (
-					<Col md="6" lg="3" xl="3">
+					<Col md="6" lg="3" xl="3" key={report?.title}>
 						<ReportList
 							title={report.title}
 							description={report.description}
@@ -179,19 +180,25 @@ const Reports = (props) => {
 };
 
 Reports.defaultProps = {
-	livePlayerData: 0,
+	livePlayerData: {},
 	isLivePlayerLoading: 0,
 	statsData: {},
 };
 
 Reports.propTypes = {
-	livePlayerData: PropTypes.string,
+	livePlayerData: PropTypes.shape({
+		sportsbookBetData: PropTypes.arrayOf(
+			PropTypes.shape({
+				totalWinAmount: PropTypes.number,
+			})
+		),
+		depositConvRate: PropTypes.string,
+		totalRegistrationToday: PropTypes.string,
+	}),
 	isLivePlayerLoading: PropTypes.bool,
-	defaultCurrency: PropTypes.shape({
-		symbol: PropTypes.string,
-	}).isRequired,
-	statsData: PropTypes.objectOf({
+	statsData: PropTypes.shape({
 		activeUsersCount: PropTypes.number,
+		totalGames: PropTypes.number,
 	}),
 };
 

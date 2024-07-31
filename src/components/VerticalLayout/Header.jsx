@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
@@ -179,7 +180,7 @@ const Header = (props) => {
 Header.defaultProps = {
 	// changeSidebarType: PropTypes.func,
 	// leftSideBarType: PropTypes.objectOf,
-	showRightSidebar: () => {},
+	showRightSidebar: false,
 	showRightSidebarAction: () => {},
 	// t: () => {},
 };
@@ -187,7 +188,7 @@ Header.defaultProps = {
 Header.propTypes = {
 	// changeSidebarType: PropTypes.func,
 	// leftSideBarType: PropTypes.objectOf,
-	showRightSidebar: PropTypes.objectOf,
+	showRightSidebar: PropTypes.bool,
 	showRightSidebarAction: PropTypes.func,
 	// t: PropTypes.func,
 };

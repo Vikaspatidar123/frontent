@@ -93,7 +93,9 @@ const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 };
 
 PlayersList.propTypes = {
-	userIds: PropTypes.objectOf,
+	userIds: PropTypes.objectOf({
+		key: PropTypes.string,
+	}),
 	toggleUserId: PropTypes.func,
 	customContainerClass: PropTypes.string,
 };

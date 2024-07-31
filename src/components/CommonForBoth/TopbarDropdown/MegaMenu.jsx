@@ -43,7 +43,7 @@ const MegaMenu = () => {
 										<ul className="list-unstyled megamenu-list">
 											{nav?.subMenu?.map((sub) => {
 												if (sub?.module && !isGranted(sub.module, 'R')) {
-													return <></>;
+													return null;
 												}
 												return (
 													<li key={sub.link}>
