@@ -374,7 +374,7 @@ export const CustomRangeSelector = ({
 // 	</div>
 // };
 
-export const KeyValueInput = ({ onChange, TooltipMassage }) => {
+export const KeyValueInput = ({ onChange, tooltipMessage }) => {
 	const [showInputs, setShowInputs] = useState(false);
 	const [key, setKey] = useState('');
 	const [value, setValue] = useState('');
@@ -454,7 +454,7 @@ export const KeyValueInput = ({ onChange, TooltipMassage }) => {
 							target="AddButton"
 							toggle={toggleTooltip}
 						>
-							{TooltipMassage ?? 'Create a new field'}
+							{tooltipMessage ?? 'Create a new field'}
 						</Tooltip>
 					</>
 				)}
@@ -742,7 +742,7 @@ export const getField = (
 		customInputClass,
 		dynamicDescription,
 		onchange,
-		TooltipMassage,
+		tooltipMessage,
 		...rest
 	},
 	validation
@@ -1282,7 +1282,7 @@ export const getField = (
 			);
 		case 'addKeyValue':
 			return (
-				<KeyValueInput onChange={callBack} TooltipMassage={TooltipMassage} />
+				<KeyValueInput onChange={callBack} tooltipMessage={tooltipMessage} />
 			);
 
 		default:
