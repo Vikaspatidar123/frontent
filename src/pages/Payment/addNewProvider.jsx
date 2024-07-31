@@ -5,16 +5,12 @@ import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
 import useCreate from './hooks/useAddNewProvider';
-import FormPage from '../../components/Common/FormPage';
+import FormModal from '../../components/Common/FormModal';
 import CrudSection from '../../components/Common/CrudSection';
 import NoDataFound from '../../components/Common/NoDataFound';
 
 const AddNewProvider = () => {
-	const [selectedProvider, setSelectedProvider] = useState(null);
 	const [type, setType] = useState();
-	const [previousSelectedProvider, setPreviousSelectedProvider] =
-		useState(null);
-
 	const {
 		validation,
 		formFields,
@@ -27,12 +23,11 @@ const AddNewProvider = () => {
 		buttonList,
 		fetchMoreData,
 		page,
-	} = useCreate({
+		toggleFormModal,
+		header,
 		selectedProvider,
-		setSelectedProvider,
+	} = useCreate({
 		type,
-		previousSelectedProvider,
-		setPreviousSelectedProvider,
 		setType,
 	});
 
@@ -117,18 +112,16 @@ const AddNewProvider = () => {
 						</div>
 					)}
 				</Card>
-			</Container>
-			<Container fluid style={{ marginTop: '15px' }}>
-				{isOpen && (
-					<FormPage
-						validation={validation}
-						responsiveFormFields={formFields}
-						colOptions={{ xs: 12, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
-						submitLabel="Submit"
-						isSubmit
-						customColClasses="mb-4"
-					/>
-				)}
+				<FormModal
+					isOpen={isOpen}
+					toggle={toggleFormModal}
+					header={header}
+					validation={validation}
+					formFields={formFields}
+					submitLabel="Submit"
+					isSubmit
+					customColClasses="mb-4"
+				/>
 			</Container>
 		</div>
 	);

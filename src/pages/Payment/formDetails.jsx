@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { PAYMENT_PROVIDER_CATEGORY } from './constants';
+import { PAYMENT_PROVIDER_CATEGORY, PAYMENT_PROVIDERS } from './constants';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
@@ -111,14 +111,18 @@ const generaFromFields = [
 	// },
 ];
 
-const PaymentProviderStaticFormFields = [
+const PaymentProviderStaticFormFields = (isDisabled) => [
 	{
 		name: 'name',
-		fieldType: 'textField',
-		type: 'text',
+		fieldType: 'select',
 		label: 'Provider Name',
 		isRequired: true,
-		placeholder: 'Provider Name',
+		isDisabled,
+		placeholder: ' Select Provider Name',
+		optionList: PAYMENT_PROVIDERS.map(({ label, value }) => ({
+			optionLabel: label,
+			value,
+		})),
 	},
 	// {
 	// 	name: 'Privatekey',
@@ -170,7 +174,7 @@ const PaymentProviderStaticFormFields = [
 ];
 
 const getInitialValues = (defaultValue) => ({
-	name: defaultValue?.name || '',
+	name: defaultValue?.name || null,
 	icon: defaultValue?.icon || '',
 	// Privatekey: defaultValue?.credentials?.Privatekey || '',
 	// SecretKey: defaultValue?.credentials?.SecretKey || '',
@@ -186,9 +190,7 @@ const isRequired = (value) => {
 };
 
 const validationSchema = Yup.object().shape({
-	name: Yup.string()
-		.required('Name is required')
-		.min(2, 'Name must be at least 2 characters'),
+	name: Yup.string().required('Name is required'),
 	icon: Yup.mixed()
 		.required('icon is required')
 		.test('required', 'Image Required', isRequired)
@@ -218,9 +220,6 @@ const validationSchema = Yup.object().shape({
 		)
 		.nullable(),
 	isActive: Yup.boolean().notRequired(),
-	providerType: Yup.string()
-		.oneOf(['payment', 'subscription'], 'Invalid provider type')
-		.notRequired(),
 });
 
 export {

@@ -108,13 +108,13 @@ function* getPaymentProviderWorker({ payload }) {
 }
 
 function* addPaymentProviderWorker({ payload }) {
-	const perPage = payload?.providerCredentialsLength;
+	// const perPage = payload?.providerCredentialsLength;
 	try {
 		payload = serialize(filterEmptyPayload(payload?.data), { indices: true });
 		yield addProviderCredentials(payload);
 		const { data } = yield getPaymentProviderDetails({
-			perPage,
-			page: payload?.page,
+			perPage: 10,
+			page: payload?.page ?? 1,
 		});
 		yield put(
 			getPaymentcredentialsSuccess({

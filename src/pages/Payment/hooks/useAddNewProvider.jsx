@@ -15,19 +15,13 @@ import {
 } from '../../../store/payment/actions';
 import { modules } from '../../../constants/permissions';
 
-const useCreate = ({
-	selectedProvider,
-	setSelectedProvider,
-	type,
-	previousSelectedProvider,
-	setPreviousSelectedProvider,
-	setType,
-}) => {
+const useCreate = ({ type, setType }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const [dynamicField, setDynamicField] = useState([]);
 	const fields = useRef();
+	const [selectedProvider, setSelectedProvider] = useState(null);
 	const { paymentProviderData, isLoadinpaymentProvider } = useSelector(
 		(state) => state.Payment
 	);
@@ -47,7 +41,6 @@ const useCreate = ({
 
 	const handleSubmit = (value, { resetForm }) => {
 		const { name, isActive, icon, BaseURL, ...rest } = value;
-
 		const filteredRest = Object.keys(rest)
 			.filter((key) => rest[key] !== null && rest[key] !== '')
 			.reduce((obj, key) => {
@@ -64,7 +57,6 @@ const useCreate = ({
 					obj[key] = payload[key];
 					return obj;
 				}, {});
-
 		if (type === 'Edit') {
 			const payload = createFilteredPayload({
 				id: selectedProvider?.id,
@@ -106,11 +98,9 @@ const useCreate = ({
 			);
 			resetForm();
 		}
-
 		// eslint-disable-next-line no-use-before-define
 		toggleFormModal();
 		setSelectedProvider();
-		setPreviousSelectedProvider();
 		setDynamicField([]);
 	};
 
@@ -127,7 +117,7 @@ const useCreate = ({
 		initialValues: getInitialValues(selectedProvider),
 		onSubmitEntry: handleSubmit,
 		validationSchema,
-		staticFormFields: PaymentProviderStaticFormFields,
+		staticFormFields: PaymentProviderStaticFormFields(selectedProvider?.name),
 	});
 	const toggleFormModal = () => {
 		setIsOpen((prev) => !prev);
@@ -135,17 +125,9 @@ const useCreate = ({
 	};
 
 	const handleProviderClick = (provider) => {
-		if (previousSelectedProvider?.id === provider.id) {
-			setIsOpen(false);
-			setSelectedProvider();
-			setPreviousSelectedProvider();
-			setDynamicField([]);
-		} else {
-			setSelectedProvider(provider);
-			setPreviousSelectedProvider(provider);
-			setIsOpen(true);
-			setDynamicField([]);
-		}
+		setSelectedProvider(provider);
+		setIsOpen(true);
+		setDynamicField([]);
 	};
 
 	const onRemoveField = (name) => {
@@ -171,13 +153,18 @@ const useCreate = ({
 						label: `Enter ${key}`,
 						placeholder: `Enter ${key} value`,
 					};
-					validation.setFieldValue(key, selectedProvider.credentials[key]);
+					if (key !== 'BaseURL') {
+						validation.setFieldValue(key, selectedProvider.credentials[key]);
+					}
 					return field;
 				})
-				.filter((field) => field.name !== 'BaseURL' || 'providerType');
-			setFormFields([...PaymentProviderStaticFormFields, ...credentialsFields]);
+				.filter((field) => field.name !== 'BaseURL');
+			setFormFields([
+				...PaymentProviderStaticFormFields(selectedProvider?.name),
+				...credentialsFields,
+			]);
 		} else {
-			setFormFields(PaymentProviderStaticFormFields);
+			setFormFields(PaymentProviderStaticFormFields(selectedProvider?.name));
 		}
 	}, [selectedProvider]);
 
@@ -191,6 +178,7 @@ const useCreate = ({
 			handleClick: () => {
 				handleProviderClick({ id: 'Create' });
 				setType('Configure');
+				setHeader('Configure Provider');
 			},
 			link: '#!',
 			module: modules.paymentManagement,
@@ -218,6 +206,7 @@ const useCreate = ({
 			...dynamicField,
 			{
 				fieldType: 'addKeyValue',
+				TooltipMassage: 'add payment Provider credentials',
 				callBack: ({ key, value }) => {
 					validation.setFieldValue(key, value);
 					setDynamicField((prev) => [
@@ -237,7 +226,6 @@ const useCreate = ({
 				name: 'isActive',
 				fieldType: 'switch',
 				label: 'Set Active/Inacative',
-				// isNewRow: false,
 			},
 			{
 				name: 'icon',
@@ -251,6 +239,7 @@ const useCreate = ({
 		buttonList,
 		fetchMoreData,
 		page,
+		selectedProvider,
 	};
 };
 

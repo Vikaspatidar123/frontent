@@ -374,7 +374,7 @@ export const CustomRangeSelector = ({
 // 	</div>
 // };
 
-export const KeyValueInput = ({ onChange }) => {
+export const KeyValueInput = ({ onChange, TooltipMassage }) => {
 	const [showInputs, setShowInputs] = useState(false);
 	const [key, setKey] = useState('');
 	const [value, setValue] = useState('');
@@ -412,7 +412,7 @@ export const KeyValueInput = ({ onChange }) => {
 	};
 
 	return (
-		<div>
+		<>
 			<div style={{ display: 'flex', alignItems: 'center' }}>
 				{showInputs ? (
 					<>
@@ -421,17 +421,17 @@ export const KeyValueInput = ({ onChange }) => {
 							placeholder="Enter key"
 							value={key}
 							onChange={handleKeyChange}
-							style={{ marginRight: '8px', marginTop: '27px' }}
+							style={{ marginRight: '8px' }}
 						/>
 						<Input
 							type="text"
 							placeholder="Enter value"
 							value={value}
 							onChange={handleValueChange}
-							style={{ marginRight: '8px', marginTop: '27px' }}
+							style={{ marginRight: '8px' }}
 						/>
 						<Button
-							style={{ marginTop: '27px', backgroundColor: '#556ee6' }}
+							style={{ backgroundColor: '#556ee6' }}
 							type="button"
 							onClick={handleSubmit}
 						>
@@ -443,7 +443,6 @@ export const KeyValueInput = ({ onChange }) => {
 						<Button
 							id="AddButton"
 							className="add-button"
-							style={{ marginTop: '27px' }}
 							type="button"
 							onClick={handleAddClick}
 						>
@@ -455,7 +454,7 @@ export const KeyValueInput = ({ onChange }) => {
 							target="AddButton"
 							toggle={toggleTooltip}
 						>
-							Create a new field
+							{TooltipMassage ?? 'Create a new field'}
 						</Tooltip>
 					</>
 				)}
@@ -465,7 +464,7 @@ export const KeyValueInput = ({ onChange }) => {
 					{error}
 				</FormFeedback>
 			)}
-		</div>
+		</>
 	);
 };
 export const CustomSwitchButton = ({
@@ -743,6 +742,7 @@ export const getField = (
 		customInputClass,
 		dynamicDescription,
 		onchange,
+		TooltipMassage,
 		...rest
 	},
 	validation
@@ -1281,7 +1281,9 @@ export const getField = (
 				</>
 			);
 		case 'addKeyValue':
-			return <KeyValueInput onChange={callBack} />;
+			return (
+				<KeyValueInput onChange={callBack} TooltipMassage={TooltipMassage} />
+			);
 
 		default:
 			return <div />;
