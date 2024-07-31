@@ -10,6 +10,8 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import ManageMoney from '../PlayerDetails/modals/ManageMoney';
+import FormModal from '../../components/Common/FormModal';
+import BulkUpdatePlayers from './BulkUpdatePlayers';
 
 const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 	// userIds and toggleUserId can be used while importing player page on another form like in notify player.
@@ -37,6 +39,8 @@ const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 		showManageMoney,
 		setShowManageMoney,
 		buttonList,
+		isOpen,
+		setIsOpen,
 	} = usePlayersListing(filterValidation.values, userIds, toggleUserId);
 
 	return (
@@ -87,6 +91,16 @@ const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 				show={!!showManageMoney}
 				toggle={() => setShowManageMoney('')}
 				playerId={showManageMoney}
+			/>
+			<FormModal
+				isOpen={isOpen}
+				toggle={() => {
+					setIsOpen((prev) => !prev);
+				}}
+				customComponent={<BulkUpdatePlayers />}
+				customColClasses="col-md-12"
+				modalSize="xl"
+				isSubmit={false}
 			/>
 		</div>
 	);
