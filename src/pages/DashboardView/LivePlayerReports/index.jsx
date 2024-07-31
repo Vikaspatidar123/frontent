@@ -48,42 +48,28 @@ const Reports = (props) => {
 		return (sportsGGR + casinoGGR)?.toFixed(2);
 	}, [livePlayerData, currencyById]);
 
-	// date(pin):"2024-05-25T00:00:00.000Z"
-	// deposit_count(pin):"2"
-	// withdraw_count(pin):"3"
-	// total_deposit_amount(pin):"6616.00"
-	// total_withdraw_amount(pin):"7072.00"
-	// casino_bet_count(pin):"0"
-	// casino_win_count(pin):"0"
-	// total_casino_bet_amount(pin):null
-	// total_casino_win_amount(pin):null
-	// sportsbook_bet_count(pin):"10"
-	// sportsbook_win_count(pin):"0"
-	// total_sportsbook_bet_amount(pin):"202.96"
-	// total_sportsbook_win_amount(pin):null
-
-	const { ttlDeposit, ttlWithdraw, ttlBets } = useMemo(() => {
-		let deposit = 0;
-		let withdraw = 0;
+	const { ttlBets } = useMemo(() => {
+		// let deposit = 0;
+		// let withdraw = 0;
 		let bets = 0;
 
 		statsData?.stats?.forEach(
 			({
-				total_deposit_amount,
-				total_withdraw_amount,
+				// total_deposit_amount,
+				// total_withdraw_amount,
 				casino_bet_count,
 				sportsbook_bet_count,
 			}) => {
-				deposit += Number(total_deposit_amount || 0);
-				withdraw += Number(total_withdraw_amount || 0);
+				// deposit += Number(total_deposit_amount || 0);
+				// withdraw += Number(total_withdraw_amount || 0);
 				bets +=
 					Number(casino_bet_count || 0) + Number(sportsbook_bet_count || 0);
 			}
 		);
 
 		return {
-			ttlDeposit: deposit?.toFixed(2),
-			ttlWithdraw: withdraw?.toFixed(2),
+			// ttlDeposit: deposit?.toFixed(2),
+			// ttlWithdraw: withdraw?.toFixed(2),
 			ttlBets: bets,
 		};
 	}, [statsData]);
@@ -111,13 +97,13 @@ const Reports = (props) => {
 				reportClass: 'reportList2',
 				customClass: TAB_COLORS.success,
 			},
-			// {
-			// 	title: "Today's registrations",
-			// 	description: `${livePlayerData.totalRegistrationToday || 0}`,
-			// 	iconClass: 'bx bxs-contact',
-			// 	reportClass: 'reportList3',
-			// 	customClass: TAB_COLORS.primary,
-			// },
+			{
+				title: "Today's registrations",
+				description: `${livePlayerData.totalRegistrationToday || 0}`,
+				iconClass: 'bx bxs-contact',
+				reportClass: 'reportList3',
+				customClass: TAB_COLORS.primary,
+			},
 			{
 				title: 'Number of Bets',
 				description: `${ttlBets || 0}`,
@@ -125,20 +111,20 @@ const Reports = (props) => {
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.primary,
 			},
-			{
-				title: 'Total Deposits',
-				description: `${ttlDeposit || 0}`,
-				iconClass: 'bx bx-money',
-				reportClass: 'reportList4',
-				customClass: TAB_COLORS.success,
-			},
-			{
-				title: 'Total Withdrawals',
-				description: `${ttlWithdraw || 0}`,
-				iconClass: 'bx bxs-credit-card-alt',
-				reportClass: 'reportList4',
-				customClass: TAB_COLORS.danger,
-			},
+			// {
+			// 	title: 'Total Deposits',
+			// 	description: `${ttlDeposit || 0}`,
+			// 	iconClass: 'bx bx-money',
+			// 	reportClass: 'reportList4',
+			// 	customClass: TAB_COLORS.success,
+			// },
+			// {
+			// 	title: 'Total Withdrawals',
+			// 	description: `${ttlWithdraw || 0}`,
+			// 	iconClass: 'bx bxs-credit-card-alt',
+			// 	reportClass: 'reportList4',
+			// 	customClass: TAB_COLORS.danger,
+			// },
 			{
 				title: 'Total Games',
 				description: `${statsData?.totalGames || 0}`,
@@ -153,13 +139,13 @@ const Reports = (props) => {
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.warn,
 			},
-			// {
-			// 	title: 'Deposit Conv. Rate',
-			// 	description: `${livePlayerData.depositConvRate || 0} %`,
-			// 	iconClass: 'bx bxs-credit-card',
-			// 	reportClass: 'reportList4',
-			// 	customClass: TAB_COLORS.success,
-			// },
+			{
+				title: 'Deposit Conv. Rate',
+				description: `${livePlayerData.depositConvRate || 0} %`,
+				iconClass: 'bx bxs-credit-card',
+				reportClass: 'reportList4',
+				customClass: TAB_COLORS.success,
+			},
 		],
 		[livePlayerData, isLivePlayerLoading, todayGGR, statsData]
 	);

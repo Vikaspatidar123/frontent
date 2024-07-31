@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/prop-types */
 import moment from 'moment';
 import React, { useMemo } from 'react';
@@ -9,6 +10,7 @@ const LineBarChart = ({
 	chartData = [],
 	isDeposit,
 	layoutModeType,
+	statsData,
 }) => {
 	const spineareaChartColors = getChartColorsArray(dataColors);
 
@@ -30,28 +32,42 @@ const LineBarChart = ({
 	const { axisLineColor, splitLineColor, textColor, axisLabelColor } =
 		colorScheme[layoutModeType] || colorScheme.light;
 
-	const { counts, amounts, dates } = useMemo(() => {
-		const filteredDates = chartData.map((val) =>
-			val.start_date !== val.end_date
-				? `${moment(val.start_date).format('D MMM')} - ${moment(
-						val.end_date
-				  ).format('D MMM YYYY')}`
-				: moment(val.end_date).format('D MMM YYYY')
-		);
-		const filteredCounts = chartData.map((val) =>
-			parseInt(isDeposit ? val.deposit_count : val.withdraw_count, 10)
-		);
-		const filteredAmounts = chartData.map((val) =>
-			parseFloat(
-				isDeposit ? val.total_deposit_amount : val.total_withdraw_amount
-			)
-		);
-		return {
-			dates: filteredDates,
-			counts: filteredCounts,
-			amounts: filteredAmounts,
-		};
-	}, [chartData, isDeposit]);
+	const { counts, amounts, dates, totalDeposits, totalWithdrawals } =
+		useMemo(() => {
+			const filteredDates = chartData.map((val) =>
+				val.start_date !== val.end_date
+					? `${moment(val.start_date).format('D MMM')} - ${moment(
+							val.end_date
+					  ).format('D MMM YYYY')}`
+					: moment(val.end_date).format('D MMM YYYY')
+			);
+			const filteredCounts = chartData.map((val) =>
+				parseInt(isDeposit ? val.deposit_count : val.withdraw_count, 10)
+			);
+			const filteredAmounts = chartData.map((val) =>
+				parseFloat(
+					isDeposit ? val.total_deposit_amount : val.total_withdraw_amount
+				)
+			);
+
+			let deposit = 0;
+			let withdraw = 0;
+
+			statsData?.stats?.forEach(
+				({ total_deposit_amount, total_withdraw_amount }) => {
+					deposit += Number(total_deposit_amount || 0);
+					withdraw += Number(total_withdraw_amount || 0);
+				}
+			);
+
+			return {
+				dates: filteredDates,
+				counts: filteredCounts,
+				amounts: filteredAmounts,
+				totalDeposits: deposit,
+				totalWithdrawals: withdraw,
+			};
+		}, [chartData, isDeposit, statsData]);
 
 	const legendNames = [
 		`Total ${isDeposit ? 'Deposit' : 'Withdraw'} Amount`,
@@ -130,7 +146,12 @@ const LineBarChart = ({
 					},
 				},
 				axisLabel: {
-					formatter: '$ {value}',
+					formatter: (value) => {
+						if (value >= 1000) {
+							return `$ ${(value / 1000).toFixed(1)}k`;
+						}
+						return `$ ${value}`;
+					},
 					textStyle: {
 						color: axisLabelColor,
 						fontWeight: 600,
@@ -172,7 +193,7 @@ const LineBarChart = ({
 				yAxisIndex: 1,
 				data: counts,
 				lineStyle: {
-					width: 2,
+					width: 3,
 				},
 			},
 		],
@@ -181,7 +202,30 @@ const LineBarChart = ({
 		},
 	};
 
-	return <ReactEcharts style={{ height: '350px' }} option={options} />;
+	return (
+		<div>
+			<div className="d-flex justify-content-start">
+				<div
+					className="badge bg-success-subtle text-dark p-3 fs-4 rounded-4"
+					style={{ marginBottom: '10px' }}
+				>
+					<h6 className="mb-0 font-weight-bold">
+						<span className="text-success">Deposits:</span> $ {totalDeposits}
+					</h6>
+				</div>
+				<div
+					className="badge bg-danger-subtle text-dark p-3 fs-4 rounded-4 ms-3"
+					style={{ marginBottom: '10px' }}
+				>
+					<h6 className="mb-0 font-weight-bold">
+						<span className="text-danger">Withdrawals:</span> ${' '}
+						{totalWithdrawals}
+					</h6>
+				</div>
+			</div>
+			<ReactEcharts style={{ height: '350px' }} option={options} />
+		</div>
+	);
 };
 
 export default LineBarChart;

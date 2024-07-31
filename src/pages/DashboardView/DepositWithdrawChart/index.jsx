@@ -19,6 +19,7 @@ const DepositWithdrawChart = ({ statsData, layoutModeType }) => {
 			isDeposit={isDeposit}
 			chartData={statsData?.grouped}
 			layoutModeType={layoutModeType}
+			statsData={statsData}
 		/>
 	);
 

@@ -162,7 +162,12 @@ const LineBarChart = ({
 					},
 				},
 				axisLabel: {
-					formatter: '$ {value}',
+					formatter: (value) => {
+						if (value >= 1000) {
+							return `$ ${(value / 1000).toFixed(1)}k`;
+						}
+						return `$ ${value}`;
+					},
 					textStyle: {
 						color: axisLabelColor,
 						fontWeight: 600,
@@ -246,7 +251,7 @@ const LineBarChart = ({
 		<div>
 			<div className="d-flex justify-content-start">
 				<div
-					className="badge bg-success-subtle text-dark p-2 fs-4 rounded-4"
+					className="badge bg-success-subtle text-dark p-3 fs-4 rounded-4"
 					style={{ marginBottom: '10px' }}
 				>
 					<h6 className="mb-0 font-weight-bold">
