@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card } from 'reactstrap';
+import { Container, Row, Col, Card, Spinner, Button } from 'reactstrap';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
 import useCreate from './hooks/useAddNewProvider';
-import FormPage from '../../components/Common/FormPage';
+import FormModal from '../../components/Common/FormModal';
 import CrudSection from '../../components/Common/CrudSection';
+import NoDataFound from '../../components/Common/NoDataFound';
 
 const AddNewProvider = () => {
-	const [selectedProvider, setSelectedProvider] = useState(null);
 	const [type, setType] = useState();
-	const [previousSelectedProvider, setPreviousSelectedProvider] =
-		useState(null);
-	const [dynamicField, setDynamicField] = useState([]);
-
 	const {
 		validation,
 		formFields,
@@ -20,16 +18,17 @@ const AddNewProvider = () => {
 		handleProviderClick,
 		setHeader,
 		paymentProviderData,
+		isLoadinpaymentProvider,
 		onBackClick,
 		buttonList,
-	} = useCreate({
+		fetchMoreData,
+		page,
+		toggleFormModal,
+		header,
 		selectedProvider,
-		setSelectedProvider,
+	} = useCreate({
 		type,
-		previousSelectedProvider,
-		setPreviousSelectedProvider,
-		dynamicField,
-		setDynamicField,
+		setType,
 	});
 
 	return (
@@ -47,9 +46,26 @@ const AddNewProvider = () => {
 			<Container fluid>
 				<Card className="p-2">
 					<CrudSection buttonList={buttonList} title="Payment provider" />
-
-					<Row>
-						{paymentProviderData?.map((provider) => (
+					{isLoadinpaymentProvider &&
+						paymentProviderData?.providerCredentials?.length === 0 && (
+							<div
+								className="d-flex justify-content-center align-items-center"
+								style={{ height: '200px' }}
+							>
+								<Spinner color="primary" />
+							</div>
+						)}
+					{!isLoadinpaymentProvider &&
+						paymentProviderData?.providerCredentials?.length === 0 && (
+							<div
+								className="d-flex justify-content-center align-items-center"
+								style={{ height: '200px' }}
+							>
+								<NoDataFound height="200px" width="300px" />
+							</div>
+						)}
+					<Row className="p-4">
+						{paymentProviderData?.providerCredentials?.map((provider) => (
 							<Col
 								xs="6"
 								sm="3"
@@ -70,40 +86,42 @@ const AddNewProvider = () => {
 										selectedProvider?.id === provider.id ? 'selected' : ''
 									}`}
 								>
-									{/* <div
-										className={`status ${
-											provider.isActive ? 'active' : 'inactive'
-										}`}
-									>
-										{provider.isActive ? (
-											<i className="mdi mdi-check-circle" />
-										) : (
-											<i className="mdi mdi-close-thick" />
-										)}
-									</div> */}
 									<img
 										src={provider.icon || fallbackImage}
 										alt={provider.name}
 										className="provider-image"
 									/>
 									<div className="provider-name">{provider.name}</div>
+									<div
+										className={`status-icon ${
+											provider.isActive ? 'active-icon' : 'inactive-icon'
+										}`}
+									>
+										{provider.isActive ? <FaCheckCircle /> : <FaTimesCircle />}
+									</div>
 								</button>
 							</Col>
 						))}
 					</Row>
+
+					{paymentProviderData?.totalPages > page && (
+						<div className="d-flex justify-content-center mt-3">
+							<Button color="primary" outline onClick={fetchMoreData}>
+								View More
+							</Button>
+						</div>
+					)}
 				</Card>
-			</Container>
-			<Container fluid style={{ marginTop: '15px' }}>
-				{isOpen && (
-					<FormPage
-						validation={validation}
-						responsiveFormFields={formFields}
-						colOptions={{ xs: 12, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
-						submitLabel="Submit"
-						isSubmit
-						customColClasses="mb-4"
-					/>
-				)}
+				<FormModal
+					isOpen={isOpen}
+					toggle={toggleFormModal}
+					header={header}
+					validation={validation}
+					formFields={formFields}
+					submitLabel="Submit"
+					isSubmit
+					customColClasses="mb-4"
+				/>
 			</Container>
 		</div>
 	);

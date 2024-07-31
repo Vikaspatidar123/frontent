@@ -62,7 +62,7 @@
 }
 
 .payment-card {
-	max-width: 140px;
+	max-width: 165px;
 }
 
 .add-button {
@@ -85,4 +85,23 @@
 
 .add-button::before {
 	content: '+';
+}
+
+.payment-card {
+	position: relative;
+}
+
+.status-icon {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 15px; /* Adjust as needed */
+}
+
+.active-icon {
+	color: green; /* Change color for active */
+}
+
+.inactive-icon {
+	color: red; /* Change color for inactive */
 }

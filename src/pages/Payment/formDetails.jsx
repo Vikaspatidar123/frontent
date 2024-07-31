@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { PAYMENT_PROVIDER_CATEGORY } from './constants';
+import { PAYMENT_PROVIDER_CATEGORY, PAYMENT_PROVIDERS } from './constants';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
@@ -111,39 +111,43 @@ const generaFromFields = [
 	// },
 ];
 
-const paymentProviderFormFields = [
+const PaymentProviderStaticFormFields = (isDisabled) => [
 	{
 		name: 'name',
-		fieldType: 'textField',
-		type: 'text',
+		fieldType: 'select',
 		label: 'Provider Name',
 		isRequired: true,
-		placeholder: 'Provider Name',
+		isDisabled,
+		placeholder: ' Select Provider Name',
+		optionList: PAYMENT_PROVIDERS.map(({ label, value }) => ({
+			optionLabel: label,
+			value,
+		})),
 	},
-	{
-		name: 'Privatekey',
-		fieldType: 'textField',
-		type: 'text',
-		label: 'Private key',
-		// isRequired: true,
-		placeholder: 'Private key',
-	},
-	{
-		name: 'SecretKey',
-		fieldType: 'textField',
-		type: 'text',
-		label: 'Secret Key',
-		// isRequired: true,
-		placeholder: 'Secret Key',
-	},
-	{
-		name: 'MerchantId',
-		fieldType: 'textField',
-		type: 'text',
-		label: 'Merchant Id',
-		// isRequired: true,
-		placeholder: 'Merchant Id',
-	},
+	// {
+	// 	name: 'Privatekey',
+	// 	fieldType: 'textField',
+	// 	type: 'text',
+	// 	label: 'Private key',
+	// 	// isRequired: true,
+	// 	placeholder: 'Private key',
+	// },
+	// {
+	// 	name: 'SecretKey',
+	// 	fieldType: 'textField',
+	// 	type: 'text',
+	// 	label: 'Secret Key',
+	// 	// isRequired: true,
+	// 	placeholder: 'Secret Key',
+	// },
+	// {
+	// 	name: 'MerchantId',
+	// 	fieldType: 'textField',
+	// 	type: 'text',
+	// 	label: 'Merchant Id',
+	// 	// isRequired: true,
+	// 	placeholder: 'Merchant Id',
+	// },
 	{
 		name: 'BaseURL',
 		fieldType: 'textField',
@@ -153,33 +157,30 @@ const paymentProviderFormFields = [
 		placeholder: 'BaseURL',
 		isDisabled: true,
 	},
-	{
-		name: 'isActive',
-		fieldType: 'switch',
-		label: 'Set Active/Inacative',
-		isNewRow: false,
-	},
-	{
-		name: 'icon',
-		fieldType: 'file',
-		type: '',
-		label: 'Payment Provider icon',
-		placeholder: 'Upload payment provider icon',
-		showThumbnail: true,
-	},
+	// {
+	// 	name: 'isActive',
+	// 	fieldType: 'switch',
+	// 	label: 'Set Active/Inacative',
+	// 	isNewRow: false,
+	// },
+	// {
+	// 	name: 'icon',
+	// 	fieldType: 'file',
+	// 	type: '',
+	// 	label: 'Payment Provider icon',
+	// 	placeholder: 'Upload payment provider icon',
+	// 	showThumbnail: true,
+	// },
 ];
 
-const PaymentProviderStaticFormFields = [...paymentProviderFormFields];
-
 const getInitialValues = (defaultValue) => ({
-	name: defaultValue?.name || '',
+	name: defaultValue?.name || null,
 	icon: defaultValue?.icon || '',
-	Privatekey: defaultValue?.credentials?.Privatekey || '',
-	SecretKey: defaultValue?.credentials?.SecretKey || '',
-	MerchantId: defaultValue?.credentials?.MerchantId || '',
+	// Privatekey: defaultValue?.credentials?.Privatekey || '',
+	// SecretKey: defaultValue?.credentials?.SecretKey || '',
+	// MerchantId: defaultValue?.credentials?.MerchantId || '',
 	BaseURL: defaultValue?.credentials?.BaseURL || VITE_APP_API_URL,
 	isActive: defaultValue?.isActive || false,
-	providerType: 'payment',
 });
 
 const isRequired = (value) => {
@@ -189,9 +190,7 @@ const isRequired = (value) => {
 };
 
 const validationSchema = Yup.object().shape({
-	name: Yup.string()
-		.required('Name is required')
-		.min(2, 'Name must be at least 2 characters'),
+	name: Yup.string().required('Name is required'),
 	icon: Yup.mixed()
 		.required('icon is required')
 		.test('required', 'Image Required', isRequired)
@@ -221,9 +220,6 @@ const validationSchema = Yup.object().shape({
 		)
 		.nullable(),
 	isActive: Yup.boolean().notRequired(),
-	providerType: Yup.string()
-		.oneOf(['payment', 'subscription'], 'Invalid provider type')
-		.notRequired(),
 });
 
 export {

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	getInitialValues,
@@ -9,80 +9,99 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	addPaymentProvider,
+	getPaymentcredentialsFail,
 	getPaymentcredentialsProvider,
 	updatePaymentcredentialsProvider,
 } from '../../../store/payment/actions';
 import { modules } from '../../../constants/permissions';
 
-const useCreate = ({
-	selectedProvider,
-	setSelectedProvider,
-	type,
-	previousSelectedProvider,
-	setPreviousSelectedProvider,
-	// dynamicField,
-	// setDynamicField,
-}) => {
+const useCreate = ({ type, setType }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
+	const [page, setPage] = useState(1);
+	const [dynamicField, setDynamicField] = useState([]);
+	const fields = useRef();
+	const [selectedProvider, setSelectedProvider] = useState(null);
 	const { paymentProviderData, isLoadinpaymentProvider } = useSelector(
 		(state) => state.Payment
 	);
 
 	useEffect(() => {
-		dispatch(getPaymentcredentialsProvider());
-	}, []);
+		dispatch(
+			getPaymentcredentialsProvider({
+				perPage: 10,
+				page,
+			})
+		);
+	}, [page]);
 
-	const handleSubmit = (value) => {
-		const {
-			name,
-			isActive,
-			icon,
-			BaseURL,
-			MerchantId,
-			Privatekey,
-			SecretKey,
-			...rest
-		} = value;
+	useEffect(() => {
+		fields.current = dynamicField;
+	}, [dynamicField]);
+
+	const handleSubmit = (value, { resetForm }) => {
+		const { name, isActive, icon, BaseURL, ...rest } = value;
+		const filteredRest = Object.keys(rest)
+			.filter((key) => rest[key] !== null && rest[key] !== '')
+			.reduce((obj, key) => {
+				// eslint-disable-next-line no-param-reassign
+				obj[key] = rest[key];
+				return obj;
+			}, {});
+
+		const createFilteredPayload = (payload) =>
+			Object.keys(payload)
+				.filter((key) => payload[key] !== null && payload[key] !== '')
+				.reduce((obj, key) => {
+					// eslint-disable-next-line no-param-reassign
+					obj[key] = payload[key];
+					return obj;
+				}, {});
 		if (type === 'Edit') {
+			const payload = createFilteredPayload({
+				id: selectedProvider?.id,
+				providerCredentialId: selectedProvider?.id,
+				name,
+				icon,
+				isActive,
+				providerType: 'payment',
+				credentials: {
+					BaseURL,
+					...filteredRest,
+				},
+			});
 			dispatch(
-				updatePaymentcredentialsProvider({
-					id: selectedProvider?.id,
-					providerCredentialId: selectedProvider?.id,
-					name,
-					icon,
-					isActive,
-					providerType: 'payment',
-					credentials: {
-						BaseURL,
-						MerchantId,
-						Privatekey,
-						SecretKey,
-						...rest,
-					},
-				})
+				updatePaymentcredentialsProvider(
+					payload,
+					paymentProviderData?.providerCredentials?.length
+				)
 			);
+			resetForm();
 		} else {
+			const payload = createFilteredPayload({
+				name,
+				icon,
+				isActive,
+				providerType: 'payment',
+				credentials: {
+					BaseURL,
+					...filteredRest,
+				},
+			});
+
 			dispatch(
-				addPaymentProvider({
-					name: value?.name,
-					icon: value?.icon,
-					isActive: value?.isActive,
-					providerType: 'payment',
-					credentials: {
-						EndPoint: value?.EndPoint,
-						Merchantid: value?.Merchantid,
-						Privatekey: value?.Privatekey,
-						SecretKey: value?.SecretKey,
-					},
-				})
+				addPaymentProvider(
+					payload,
+					paymentProviderData?.providerCredentials?.length,
+					page
+				)
 			);
+			resetForm();
 		}
 		// eslint-disable-next-line no-use-before-define
 		toggleFormModal();
 		setSelectedProvider();
-		setPreviousSelectedProvider();
+		setDynamicField([]);
 	};
 
 	const {
@@ -92,13 +111,13 @@ const useCreate = ({
 		validation,
 		setHeader,
 		formFields,
-		// setFormFields,
+		setFormFields,
 	} = useForm({
 		header: '',
 		initialValues: getInitialValues(selectedProvider),
 		onSubmitEntry: handleSubmit,
 		validationSchema,
-		staticFormFields: PaymentProviderStaticFormFields,
+		staticFormFields: PaymentProviderStaticFormFields(selectedProvider?.name),
 	});
 	const toggleFormModal = () => {
 		setIsOpen((prev) => !prev);
@@ -106,120 +125,71 @@ const useCreate = ({
 	};
 
 	const handleProviderClick = (provider) => {
-		if (previousSelectedProvider?.id === provider.id) {
-			setIsOpen(false);
-			setSelectedProvider();
-			setPreviousSelectedProvider();
-		} else {
-			// Otherwise, set the new provider
-			setSelectedProvider(provider);
-			setPreviousSelectedProvider(provider);
-			setIsOpen(true);
-		}
+		setSelectedProvider(provider);
+		setIsOpen(true);
+		setDynamicField([]);
 	};
 
-	// useEffect(() => {
-	// 	if (dynamicField) {
-	// 		setFormFields([
-	// 			...PaymentProviderStaticFormFields,
-	// 			...dynamicField,
-	// 			// {
-	// 			// 	fieldType: 'addKeyValue',
-	// 			// 	callBack: ({ key, value }) => {
-	// 			// 		validation.setFieldValue(key, value);
-	// 			// 		setDynamicField((prev) => [
-	// 			// 			...prev,
-	// 			// 			{
-	// 			// 				name: key,
-	// 			// 				fieldType: 'textField',
-	// 			// 				type: 'text',
-	// 			// 				label: `Enter ${key}`,
-	// 			// 				placeholder: `Enter ${key} value`,
-	// 			// 				// value,
-	// 			// 			},
-	// 			// 		]);
-	// 			// 	},
-	// 			// },
-	// 			{
-	// 				name: 'icon',
-	// 				fieldType: 'file',
-	// 				type: '',
-	// 				label: 'Payment Provider icon',
-	// 				placeholder: 'Upload payment provider icon',
-	// 				showThumbnail: true,
-	// 			},
-	// 			{
-	// 				name: 'isActive',
-	// 				fieldType: 'switch',
-	// 				label: 'Set Active/Inacative',
-	// 				// isNewRow: false,
-	// 			},
-	// 		]);
-	// 	}
-	// 	if (selectedProvider?.credentials) {
-	// 		const credentialsFields = Object?.keys(selectedProvider?.credentials)
-	// 			.map((key) => {
-	// 				const field = {
-	// 					name: key,
-	// 					fieldType: 'textField',
-	// 					type: 'text',
-	// 					label: `Enter ${key}`,
-	// 					placeholder: `Enter ${key} value`,
-	// 				};
-	// 				validation.setFieldValue(key, selectedProvider.credentials[key]);
-	// 				return field;
-	// 			})
-	// 			.filter((field) => field.name !== 'BaseURL' || 'providerType');
-	// 		setFormFields([
-	// 			...PaymentProviderStaticFormFields,
-	// 			...credentialsFields,
-	// 			...dynamicField,
-	// 			{
-	// 				fieldType: 'addKeyValue',
-	// 				callBack: ({ key, value }) => {
-	// 					validation.setFieldValue(key, value);
-	// 					setDynamicField((prev) => [
-	// 						...prev,
-	// 						{
-	// 							name: key,
-	// 							fieldType: 'textField',
-	// 							type: 'text',
-	// 							label: `Enter ${key}`,
-	// 							placeholder: `Enter ${key} value`,
-	// 						},
-	// 					]);
-	// 				},
-	// 			},
-	// 			{
-	// 				name: 'icon',
-	// 				fieldType: 'file',
-	// 				type: '',
-	// 				label: 'Payment Provider icon',
-	// 				placeholder: 'Upload payment provider icon',
-	// 				showThumbnail: true,
-	// 			},
-	// 			{
-	// 				name: 'isActive',
-	// 				fieldType: 'switch',
-	// 				label: 'Set Active/Inacative',
-	// 				// isNewRow: false,
-	// 			},
-	// 		]);
-	// 	}
-	// }, [dynamicField, selectedProvider]);
+	const onRemoveField = (name) => {
+		validation.setFieldValue(name, null);
+		const updatedFields = [];
+		// eslint-disable-next-line no-restricted-syntax
+		for (const field of fields.current) {
+			if (field.name !== name) {
+				updatedFields.push(field);
+			}
+		}
+		setDynamicField(updatedFields);
+	};
+
+	useEffect(() => {
+		if (selectedProvider?.credentials) {
+			const credentialsFields = Object?.keys(selectedProvider?.credentials)
+				.map((key) => {
+					const field = {
+						name: key,
+						fieldType: 'textField',
+						type: 'text',
+						label: `Enter ${key}`,
+						placeholder: `Enter ${key} value`,
+					};
+					if (key !== 'BaseURL') {
+						validation.setFieldValue(key, selectedProvider.credentials[key]);
+					}
+					return field;
+				})
+				.filter((field) => field.name !== 'BaseURL');
+			setFormFields([
+				...PaymentProviderStaticFormFields(selectedProvider?.name),
+				...credentialsFields,
+			]);
+		} else {
+			setFormFields(PaymentProviderStaticFormFields(selectedProvider?.name));
+		}
+	}, [selectedProvider]);
 
 	const onBackClick = () => {
 		navigate('/payment');
+		dispatch(getPaymentcredentialsFail());
 	};
 	const buttonList = useMemo(() => [
 		{
 			label: 'Configure Provider',
-			handleClick: () => handleProviderClick({ id: 'Create' }),
+			handleClick: () => {
+				handleProviderClick({ id: 'Create' });
+				setType('Configure');
+				setHeader('Configure Provider');
+			},
 			link: '#!',
 			module: modules.paymentManagement,
 			operation: 'C',
 		},
 	]);
+
+	const fetchMoreData = () => {
+		setPage((prevPage) => prevPage + 1);
+	};
+
 	return {
 		validation,
 		isOpen,
@@ -231,8 +201,45 @@ const useCreate = ({
 		paymentProviderData,
 		isLoadinpaymentProvider,
 		onBackClick,
-		formFields,
+		formFields: [
+			...formFields,
+			...dynamicField,
+			{
+				fieldType: 'addKeyValue',
+				TooltipMassage: 'add payment Provider credentials',
+				callBack: ({ key, value }) => {
+					validation.setFieldValue(key, value);
+					setDynamicField((prev) => [
+						...prev,
+						{
+							name: key,
+							fieldType: 'textField',
+							onDelete: onRemoveField,
+							type: 'text',
+							label: `Enter ${key}`,
+							placeholder: `Enter ${key} value`,
+						},
+					]);
+				},
+			},
+			{
+				name: 'isActive',
+				fieldType: 'switch',
+				label: 'Set Active/Inacative',
+			},
+			{
+				name: 'icon',
+				fieldType: 'file',
+				type: '',
+				label: 'Payment Provider icon',
+				placeholder: 'Upload payment provider icon',
+				showThumbnail: true,
+			},
+		],
 		buttonList,
+		fetchMoreData,
+		page,
+		selectedProvider,
 	};
 };
 

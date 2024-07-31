@@ -53,27 +53,46 @@ export const CustomInputField = ({
 	max,
 	description,
 	isRequired,
+	onDelete,
 	...props
 }) => (
 	<>
 		{label && <Label className="form-label">{label}</Label>}
 		{isRequired && label && <span className="text-danger"> *</span>}
-		<Input
-			name={name}
-			type={type}
-			label={label}
-			value={value}
-			disabled={disabled}
-			validate={validate}
-			onChange={onChange}
-			onBlur={onBlur}
-			invalid={invalid}
-			placeholder={placeholder}
-			minlength={min}
-			maxlength={max}
-			autoComplete="new-password"
-			{...props}
-		/>
+		<InputGroup>
+			<Input
+				name={name}
+				type={type}
+				label={label}
+				value={value}
+				disabled={disabled}
+				validate={validate}
+				onChange={onChange}
+				onBlur={onBlur}
+				invalid={invalid}
+				placeholder={placeholder}
+				minlength={min}
+				maxlength={max}
+				autoComplete="new-password"
+				{...props}
+			/>
+			{onDelete && (
+				<InputGroupText
+					className="password-btn btn btn-danger font-size-14"
+					onClick={() => onDelete(name, value)}
+				>
+					<i className="mdi mdi-trash-can-outline" />
+				</InputGroupText>
+			)}
+		</InputGroup>
+		{/* <div>
+		  <Button
+		  	className="btn-danger"
+		  	onClick={() => onDelete()}
+		  >
+		  	<i className="mdi mdi-trash-can-outline" />
+		  </Button>
+		</div> */}
 		{description && <span className="text-muted">{description}</span>}
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
@@ -355,7 +374,7 @@ export const CustomRangeSelector = ({
 // 	</div>
 // };
 
-export const KeyValueInput = ({ onChange }) => {
+export const KeyValueInput = ({ onChange, TooltipMassage }) => {
 	const [showInputs, setShowInputs] = useState(false);
 	const [key, setKey] = useState('');
 	const [value, setValue] = useState('');
@@ -380,7 +399,8 @@ export const KeyValueInput = ({ onChange }) => {
 		if (key && value) {
 			onChange({ key, value });
 			setShowInputs(false);
-			setKey('');
+			setKey(null);
+			setValue(null);
 			setError('');
 		} else {
 			setError('Key & Value are required.');
@@ -392,7 +412,7 @@ export const KeyValueInput = ({ onChange }) => {
 	};
 
 	return (
-		<div>
+		<>
 			<div style={{ display: 'flex', alignItems: 'center' }}>
 				{showInputs ? (
 					<>
@@ -401,17 +421,17 @@ export const KeyValueInput = ({ onChange }) => {
 							placeholder="Enter key"
 							value={key}
 							onChange={handleKeyChange}
-							style={{ marginRight: '8px', marginTop: '27px' }}
+							style={{ marginRight: '8px' }}
 						/>
 						<Input
 							type="text"
 							placeholder="Enter value"
 							value={value}
 							onChange={handleValueChange}
-							style={{ marginRight: '8px', marginTop: '27px' }}
+							style={{ marginRight: '8px' }}
 						/>
 						<Button
-							style={{ marginTop: '27px', backgroundColor: '#556ee6' }}
+							style={{ backgroundColor: '#556ee6' }}
 							type="button"
 							onClick={handleSubmit}
 						>
@@ -423,7 +443,6 @@ export const KeyValueInput = ({ onChange }) => {
 						<Button
 							id="AddButton"
 							className="add-button"
-							style={{ marginTop: '27px' }}
 							type="button"
 							onClick={handleAddClick}
 						>
@@ -435,7 +454,7 @@ export const KeyValueInput = ({ onChange }) => {
 							target="AddButton"
 							toggle={toggleTooltip}
 						>
-							Create a new field
+							{TooltipMassage ?? 'Create a new field'}
 						</Tooltip>
 					</>
 				)}
@@ -445,7 +464,7 @@ export const KeyValueInput = ({ onChange }) => {
 					{error}
 				</FormFeedback>
 			)}
-		</div>
+		</>
 	);
 };
 export const CustomSwitchButton = ({
@@ -723,6 +742,7 @@ export const getField = (
 		customInputClass,
 		dynamicDescription,
 		onchange,
+		TooltipMassage,
 		...rest
 	},
 	validation
@@ -753,6 +773,7 @@ export const getField = (
 					max={maximum}
 					description={description}
 					isRequired={isRequired}
+					onDelete={onDelete}
 				/>
 			);
 		case 'select':
@@ -801,7 +822,7 @@ export const getField = (
 		case 'switch':
 			return (
 				<CustomSwitchButton
-					labelClassName="form-check-label"
+					labelClassName="form-check-label "
 					label={label}
 					htmlFor={`radio${name}`}
 					type="switch"
@@ -1260,7 +1281,9 @@ export const getField = (
 				</>
 			);
 		case 'addKeyValue':
-			return <KeyValueInput onChange={callBack} />;
+			return (
+				<KeyValueInput onChange={callBack} TooltipMassage={TooltipMassage} />
+			);
 
 		default:
 			return <div />;
