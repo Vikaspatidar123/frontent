@@ -78,14 +78,14 @@ const Reports = (props) => {
 	const reportList = useMemo(
 		() => [
 			{
-				title: "Today's GGR",
+				title: 'GGR',
 				description: `${defaultCurrency?.symbol || ''} ${todayGGR}`,
 				iconClass: 'bx bxs-dollar-circle',
 				reportClass: 'reportList1',
 				customClass: TAB_COLORS.primary,
 			},
 			{
-				title: 'Total Players',
+				title: 'Players',
 				description: `${livePlayerData.totalPlayers || 0}`,
 				iconClass: 'bx bxs-user-plus',
 				reportClass: 'reportList2',
@@ -99,7 +99,7 @@ const Reports = (props) => {
 				customClass: TAB_COLORS.success,
 			},
 			{
-				title: "Today's registrations",
+				title: 'Registrations',
 				description: `${livePlayerData.totalRegistrationToday || 0}`,
 				iconClass: 'bx bxs-contact',
 				reportClass: 'reportList3',
@@ -127,14 +127,14 @@ const Reports = (props) => {
 			// 	customClass: TAB_COLORS.danger,
 			// },
 			{
-				title: 'Total Games',
+				title: 'Casino Games',
 				description: `${statsData?.totalGames || 0}`,
 				iconClass: 'bx bx-play',
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.info,
 			},
 			{
-				title: 'Total Providers',
+				title: 'Casino Providers',
 				description: `${statsData?.totalProviders || 0}`,
 				iconClass: 'bx bxs-chip',
 				reportClass: 'reportList4',

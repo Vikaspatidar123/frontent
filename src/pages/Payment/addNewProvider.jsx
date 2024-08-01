@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Spinner, Button } from 'reactstrap';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Breadcrumbs from '../../components/Common/Breadcrumb';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
-import useCreate from './hooks/useAddNewProvider';
+import useAddNewProvider from './hooks/useAddNewProvider';
 import FormModal from '../../components/Common/FormModal';
 import CrudSection from '../../components/Common/CrudSection';
 import NoDataFound from '../../components/Common/NoDataFound';
@@ -25,7 +25,7 @@ const AddNewProvider = () => {
 		toggleFormModal,
 		header,
 		selectedProvider,
-	} = useCreate({
+	} = useAddNewProvider({
 		type,
 		setType,
 	});

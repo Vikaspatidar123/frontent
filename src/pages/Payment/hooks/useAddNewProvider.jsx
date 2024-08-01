@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-	getInitialValues,
+	getInitialNewConfigure,
 	PaymentProviderStaticFormFields,
 	validationSchema,
 } from '../formDetails';
@@ -15,7 +15,7 @@ import {
 } from '../../../store/payment/actions';
 import { modules } from '../../../constants/permissions';
 
-const useCreate = ({ type, setType }) => {
+const useAddNewProvider = ({ type, setType }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
@@ -117,7 +117,7 @@ const useCreate = ({ type, setType }) => {
 		setFormFields,
 	} = useForm({
 		header: '',
-		initialValues: getInitialValues(selectedProvider),
+		initialValues: getInitialNewConfigure(selectedProvider),
 		onSubmitEntry: handleSubmit,
 		validationSchema,
 		staticFormFields: PaymentProviderStaticFormFields(selectedProvider?.name),
@@ -246,4 +246,4 @@ const useCreate = ({ type, setType }) => {
 	};
 };
 
-export default useCreate;
+export default useAddNewProvider;

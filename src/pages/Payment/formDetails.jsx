@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { PAYMENT_PROVIDER_CATEGORY, PAYMENT_PROVIDERS } from './constants';
+import { selectedLanguage } from '../../constants/config';
 
 const { VITE_APP_API_URL } = import.meta.env;
 
@@ -173,7 +174,7 @@ const PaymentProviderStaticFormFields = (isDisabled) => [
 	// },
 ];
 
-const getInitialValues = (defaultValue) => ({
+const getInitialNewConfigure = (defaultValue) => ({
 	name: defaultValue?.name || null,
 	icon: defaultValue?.icon || '',
 	// Privatekey: defaultValue?.credentials?.Privatekey || '',
@@ -187,6 +188,43 @@ const isRequired = (value) => {
 	if (typeof value === 'string' && value?.length > 0) return true;
 	// if (!value || !value.size) return false;
 	return true;
+};
+
+const getInitialValues = (paymentDetails) => {
+	const providerLimit = {};
+	if (paymentDetails?.providerLimits?.length)
+		paymentDetails?.providerLimits?.forEach((item) => {
+			providerLimit[parseFloat(item?.currencyId)] = {
+				...item,
+				currencyName: item?.currency?.name || '',
+			};
+		});
+
+	return {
+		name: paymentDetails?.name?.[selectedLanguage] || '',
+		// displayName: paymentDetails?.displayName?.[selectedLanguage] || '',
+		description: paymentDetails?.description?.[selectedLanguage] || '',
+		aggregator: paymentDetails?.aggregator || '',
+		category: paymentDetails?.category || null,
+		depositAllowed: paymentDetails?.depositAllowed
+			? paymentDetails?.depositAllowed
+			: false,
+		withdrawAllowed: paymentDetails?.withdrawAllowed
+			? paymentDetails?.withdrawAllowed
+			: false,
+		image: paymentDetails?.image || '',
+		// depositImage: paymentDetails?.depositImage || null,
+		// withdrawImage: paymentDetails?.withdrawImage || null,
+		providerLimit,
+		blockedCountries: paymentDetails?.blockedCountries || [],
+		currencyDetails: {
+			currencyId: null,
+			minDeposit: null,
+			maxDeposit: null,
+			minWithdraw: null,
+			maxWithdraw: null,
+		},
+	};
 };
 
 const validationSchema = Yup.object().shape({
@@ -228,6 +266,7 @@ export {
 	filterValidationSchema,
 	generaFromFields,
 	getInitialValues,
+	getInitialNewConfigure,
 	PaymentProviderStaticFormFields,
 	validationSchema,
 };
