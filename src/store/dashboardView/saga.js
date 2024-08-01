@@ -1,6 +1,7 @@
 import { put, takeEvery, all, fork } from 'redux-saga/effects';
 
 // Crypto Redux States
+import { groupBy, sortBy } from 'lodash';
 import {
 	GET_LIVE_PLAYER_START,
 	GET_DEMOGRAPHIC_START,
@@ -37,7 +38,61 @@ import {
 	statsDataRequest,
 } from '../../network/getRequests';
 
-function summarizeData(data, desiredLength) {
+const cumulativeDataOfAllCurrencies = (records) => {
+	const groupedByDates = groupBy(records, 'date');
+	const cumulativeCurrencyData = Object.entries(groupedByDates).map(
+		([date, values]) =>
+			values.reduce(
+				(acc, cur) => {
+					acc.active_users_count += Number(cur.active_users_count || 0);
+					acc.deposit_count += Number(cur.deposit_count || 0);
+					acc.withdraw_count += Number(cur.withdraw_count || 0);
+					acc.casino_bet_count += Number(cur.casino_bet_count || 0);
+					acc.casino_win_count += Number(cur.casino_win_count || 0);
+					acc.sportsbook_bet_count += Number(cur.sportsbook_bet_count || 0);
+					acc.sportsbook_win_count += Number(cur.sportsbook_win_count || 0);
+					acc.total_deposit_amount += parseFloat(cur.total_deposit_amount || 0);
+					acc.total_withdraw_amount += parseFloat(
+						cur.total_withdraw_amount || 0
+					);
+					acc.total_casino_bet_amount += parseFloat(
+						cur.total_casino_bet_amount || 0
+					);
+					acc.total_casino_win_amount += parseFloat(
+						cur.total_casino_win_amount || 0
+					);
+					acc.total_sportsbook_bet_amount += parseFloat(
+						cur.total_sportsbook_bet_amount || 0
+					);
+					acc.total_sportsbook_win_amount += parseFloat(
+						cur.total_sportsbook_win_amount || 0
+					);
+
+					return acc;
+				},
+				{
+					date,
+					active_users_count: 0,
+					deposit_count: 0,
+					withdraw_count: 0,
+					casino_bet_count: 0,
+					casino_win_count: 0,
+					sportsbook_bet_count: 0,
+					sportsbook_win_count: 0,
+					total_deposit_amount: 0,
+					total_withdraw_amount: 0,
+					total_casino_bet_amount: 0,
+					total_casino_win_amount: 0,
+					total_sportsbook_bet_amount: 0,
+					total_sportsbook_win_amount: 0,
+				}
+			)
+	);
+
+	return sortBy(cumulativeCurrencyData, 'date');
+};
+
+const formDataChunks = (data, desiredLength) => {
 	try {
 		const totalDataPoints = data.length;
 		const rangeSize = Math.ceil(totalDataPoints / desiredLength);
@@ -102,7 +157,7 @@ function summarizeData(data, desiredLength) {
 		console.log('Error while grouping dashboard chart data ', err?.message);
 		return data.slice(-1 * desiredLength);
 	}
-}
+};
 
 function* getLivePlayerData() {
 	try {
@@ -116,7 +171,10 @@ function* getLivePlayerData() {
 function* getStatsDataWorker({ payload }) {
 	try {
 		const { data } = yield statsDataRequest(payload);
-		const groupedData = summarizeData(data?.data?.stats || [], 10);
+		const cumulativeCurrencyData = cumulativeDataOfAllCurrencies(
+			data?.data?.stats || []
+		);
+		const groupedData = formDataChunks(cumulativeCurrencyData, 10);
 		yield put(
 			getStatisticDataSuccess({
 				...(data?.data || {}),
