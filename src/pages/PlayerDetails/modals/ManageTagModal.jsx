@@ -16,7 +16,10 @@ import {
 
 const tagSchema = () =>
 	Yup.object().shape({
-		tag: Yup.string().required('Tag Required'),
+		tag: Yup.string()
+			.required('Tag Required')
+			.min(3, 'tag must be at least 3 characters')
+			.max(30, 'tag must be at most 30 characters'),
 		tagAction: Yup.string().required('Tag Action Required'),
 	});
 
@@ -49,7 +52,7 @@ const staticFormFields = (options, isCreateTag) => [
 		placeholder: isCreateTag ? 'Enter tag' : 'Select Tag',
 		required: false,
 		optionList: options || [],
-		maximum: 50,
+		maximum: 30,
 	},
 ];
 

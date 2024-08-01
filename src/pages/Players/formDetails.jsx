@@ -16,7 +16,7 @@ const staticFiltersFields = () => [
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
-		placeholder: 'Search by email, username, phone or user id',
+		placeholder: 'Search by email, username',
 	},
 	// {
 	// 	name: 'affiliateName',
@@ -32,13 +32,13 @@ const staticFiltersFields = () => [
 		label: '',
 		placeholder: 'Search by Player Id',
 	},
-	{
-		name: 'pincode',
-		fieldType: 'textField',
-		type: 'number',
-		label: '',
-		placeholder: 'Search by Pincode',
-	},
+	// {
+	// 	name: 'pincode',
+	// 	fieldType: 'textField',
+	// 	type: 'number',
+	// 	label: '',
+	// 	placeholder: 'Search by Pincode',
+	// },
 	{
 		name: 'fromDate',
 		fieldType: 'datePicker',

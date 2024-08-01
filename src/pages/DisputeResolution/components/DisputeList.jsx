@@ -154,7 +154,7 @@ const DisputeList = ({
 					)
 				)}
 				{!disputes?.threadTickets?.length && !loading ? (
-					<p className="mt-4">No disputes found!</p>
+					<p className="no-disputes-message">No disputes found!</p>
 				) : null}
 			</div>
 

@@ -264,8 +264,9 @@ const TableContainer = ({
 				submitLabel="Save"
 				customColClasses="col-md-12"
 				isSubmitLoading={false}
-				colOptions={{ xs: 6, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
+				colOptions={{ xs: 6, sm: 6, md: 6, lg: 4, xl: 4, xxl: 4 }}
 				isSubmit={false}
+				modalSize="lg"
 			/>
 		</>
 	);

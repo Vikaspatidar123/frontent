@@ -228,7 +228,7 @@ const useAddNewProvider = ({ type, setType }) => {
 			{
 				name: 'isActive',
 				fieldType: 'switch',
-				label: 'Set Active/Inacative',
+				label: 'Set Active/Inactive',
 			},
 			{
 				name: 'icon',

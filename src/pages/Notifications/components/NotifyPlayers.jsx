@@ -21,7 +21,7 @@ const NotifyPlayers = () => {
 		<div className="page-content">
 			<Container fluid>
 				<Breadcrumbs
-					title="Content Management"
+					title="Notification"
 					breadcrumbItem="Send Notification"
 					leftTitle={
 						<>

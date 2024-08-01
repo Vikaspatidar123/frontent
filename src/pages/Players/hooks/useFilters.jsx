@@ -81,10 +81,10 @@ const useFilters = () => {
 				optionLabel: country?.name,
 				value: country.id,
 			}));
-			const languageData = languages?.languages?.map((language) => ({
-				optionLabel: language?.name,
-				value: language.id,
-			}));
+			// const languageData = languages?.languages?.map((language) => ({
+			// 	optionLabel: language?.name,
+			// 	value: language.id,
+			// }));
 			setFormFields([
 				...staticFiltersFields(),
 				// {
@@ -94,13 +94,13 @@ const useFilters = () => {
 				// 	placeholder: 'Select tag',
 				// 	optionList: tags,
 				// },
-				{
-					name: 'languageId',
-					fieldType: 'select',
-					label: '',
-					placeholder: 'Select Language',
-					optionList: languageData,
-				},
+				// {
+				// 	name: 'languageId',
+				// 	fieldType: 'select',
+				// 	label: '',
+				// 	placeholder: 'Select Language',
+				// 	optionList: languageData,
+				// },
 				{
 					name: 'countryId',
 					fieldType: 'select',

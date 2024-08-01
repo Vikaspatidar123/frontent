@@ -84,19 +84,11 @@ export const CustomInputField = ({
 					<i className="mdi mdi-trash-can-outline" />
 				</InputGroupText>
 			)}
+			{description && <span className="text-muted">{description}</span>}
+			{isError && errorMsg ? (
+				<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+			) : null}
 		</InputGroup>
-		{/* <div>
-		  <Button
-		  	className="btn-danger"
-		  	onClick={() => onDelete()}
-		  >
-		  	<i className="mdi mdi-trash-can-outline" />
-		  </Button>
-		</div> */}
-		{description && <span className="text-muted">{description}</span>}
-		{isError && errorMsg ? (
-			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
-		) : null}
 	</>
 );
 
@@ -1199,6 +1191,8 @@ export const getField = (
 						value={validation?.values?.[name]}
 						onChange={validation.handleChange}
 						onBlur={validation.handleBlur}
+						min={minimum}
+						max={maximum}
 						invalid={
 							!!(validation.touched?.[name] && validation.errors?.[name])
 						}

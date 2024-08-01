@@ -8,7 +8,7 @@ const staticFiltersFields = () => [
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
-		placeholder: 'Search by title and description',
+		placeholder: 'Search by name',
 	},
 ];
 
@@ -24,12 +24,12 @@ const filterValidationSchema = () =>
 	});
 
 const channelsList = channelCriteria.map((item) => ({
-		name: item.name,
-		fieldType: 'toggle',
-		label: item.label,
-		tooltipContent: item?.tooltipContent,
-		// isNewRow: true,
-	}));
+	name: item.name,
+	fieldType: 'toggle',
+	label: item.label,
+	tooltipContent: item?.tooltipContent,
+	// isNewRow: true,
+}));
 
 const generalStaticFormFields = (isDisabled) => [
 	{
@@ -38,6 +38,7 @@ const generalStaticFormFields = (isDisabled) => [
 		type: '',
 		label: 'Channel Title',
 		placeholder: 'Channel Title',
+		maximum: 52,
 	},
 	{
 		name: 'description',
