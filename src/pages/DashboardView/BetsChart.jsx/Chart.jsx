@@ -31,71 +31,75 @@ const LineBarChart = ({
 	const { axisLineColor, splitLineColor, textColor, axisLabelColor } =
 		colorScheme[layoutModeType] || colorScheme.light;
 
-	const { counts, amounts, winCounts, winAmounts, dates, averageBet } =
-		useMemo(() => {
-			const filteredDates = chartData.map((val) =>
-				val.start_date !== val.end_date
-					? `${moment(val.start_date).format('D MMM')} - ${moment(
-							val.end_date
-					  ).format('D MMM YYYY')}`
-					: moment(val.end_date).format('D MMM YYYY')
+	const {
+		counts,
+		amounts,
+		winCounts,
+		winAmounts,
+		dates,
+		averageBet,
+		betCount,
+	} = useMemo(() => {
+		const filteredDates = chartData.map((val) =>
+			val.start_date !== val.end_date
+				? `${moment(val.start_date).format('D MMM')} - ${moment(
+						val.end_date
+				  ).format('D MMM YYYY')}`
+				: moment(val.end_date).format('D MMM YYYY')
+		);
+		const filteredCounts = chartData.map((val) =>
+			parseInt(isCasino ? val.casino_bet_count : val.sportsbook_bet_count, 10)
+		);
+		const filteredAmounts = chartData.map((val) =>
+			parseFloat(
+				isCasino ? val.total_casino_bet_amount : val.total_sportsbook_bet_amount
+			)?.toFixed(2)
+		);
+		const filteredWinCounts = chartData.map((val) => {
+			const ran = Math.random() * 40;
+			return parseInt(
+				isCasino
+					? val.casino_win_count > ran
+						? val.casino_win_count - ran
+						: val.casino_win_count
+					: val.sportsbook_win_count,
+				10
 			);
-			const filteredCounts = chartData.map((val) =>
-				parseInt(isCasino ? val.casino_bet_count : val.sportsbook_bet_count, 10)
-			);
-			const filteredAmounts = chartData.map((val) =>
-				parseFloat(
-					isCasino
-						? val.total_casino_bet_amount
-						: val.total_sportsbook_bet_amount
-				)?.toFixed(2)
-			);
-			const filteredWinCounts = chartData.map((val) => {
-				const ran = Math.random() * 40;
-				return parseInt(
-					isCasino
-						? val.casino_win_count > ran
-							? val.casino_win_count - ran
-							: val.casino_win_count
-						: val.sportsbook_win_count,
-					10
-				);
-			});
-			const filteredWinAmounts = chartData.map((val) =>
-				parseFloat(
-					isCasino
-						? val.total_casino_win_amount
-						: val.total_sportsbook_win_amount
-				)?.toFixed(2)
-			);
+		});
+		const filteredWinAmounts = chartData.map((val) =>
+			parseFloat(
+				isCasino ? val.total_casino_win_amount : val.total_sportsbook_win_amount
+			)?.toFixed(2)
+		);
 
-			// Calculate average bet
-			const totalBets = filteredAmounts.reduce(
-				(acc, curr) => acc + Number(curr || 0),
-				0
-			);
-			const totalBetCount = filteredCounts.reduce(
-				(acc, curr) => acc + Number(curr || 0),
-				0
-			);
-			const avgBet = totalBetCount ? (totalBets / totalBetCount).toFixed(2) : 0;
+		// Calculate average bet
+		const totalBets = filteredAmounts.reduce(
+			(acc, curr) => acc + Number(curr || 0),
+			0
+		);
+		const totalBetCount = filteredCounts.reduce(
+			(acc, curr) => acc + Number(curr || 0),
+			0
+		);
+		const avgBet = totalBetCount ? (totalBets / totalBetCount).toFixed(2) : 0;
 
-			return {
-				dates: filteredDates,
-				counts: filteredCounts,
-				amounts: filteredAmounts,
-				winCounts: filteredWinCounts,
-				winAmounts: filteredWinAmounts,
-				averageBet: avgBet,
-			};
-		}, [chartData, isCasino]);
+		return {
+			dates: filteredDates,
+			counts: filteredCounts,
+			amounts: filteredAmounts,
+			winCounts: filteredWinCounts,
+			winAmounts: filteredWinAmounts,
+			averageBet: avgBet,
+			betCount: totalBetCount,
+		};
+	}, [chartData, isCasino]);
 
-	// const legendNames = [
-	// 	`Total ${isCasino ? 'Casino' : 'Sports'} Bet Amount`,
-	// 	`${isCasino ? 'Casino' : 'Sports'} Bet Count`,
-	// 	`${isCasino ? 'Casino' : 'Sports'} Win Amount`,
-	// 	`${isCasino ? 'Casino' : 'Sports'} Win Count`,
-	// ];
+	const legendNames = [
+		`Wagered Amount`,
+		`Wagered Count`,
+		`Payout Amount`,
+		`Payout Count`,
+	];
 
 	const options = {
 		grid: {
@@ -197,23 +201,20 @@ const LineBarChart = ({
 			},
 		],
 		legend: {
-			show: false,
+			data: legendNames,
+			textStyle: {
+				color: axisLabelColor,
+				fontWeight: 600,
+			},
 		},
-		// legend: {
-		// 	data: legendNames,
-		// 	textStyle: {
-		// 		color: axisLabelColor,
-		// 		fontWeight: 600,
-		// 	},
-		// },
 		series: [
 			{
-				name: `Total ${isCasino ? 'Casino' : 'Sports'} Bet Amount`,
+				name: `Wagered Amount`,
 				type: 'bar',
 				data: amounts,
 			},
 			{
-				name: `${isCasino ? 'Casino' : 'Sports'} Bet Count`,
+				name: `Wagered Count`,
 				type: 'line',
 				smooth: true,
 				yAxisIndex: 1,
@@ -223,7 +224,7 @@ const LineBarChart = ({
 				},
 			},
 			{
-				name: `${isCasino ? 'Casino' : 'Sports'} Win Amount`,
+				name: `Payout Amount`,
 				type: 'bar',
 				data: winAmounts,
 				itemStyle: {
@@ -231,7 +232,7 @@ const LineBarChart = ({
 				},
 			},
 			{
-				name: `${isCasino ? 'Casino' : 'Sports'} Win Count`,
+				name: `Payout Count`,
 				type: 'line',
 				smooth: true,
 				yAxisIndex: 1,
@@ -255,7 +256,15 @@ const LineBarChart = ({
 					style={{ marginBottom: '10px' }}
 				>
 					<h6 className="mb-0 font-weight-bold">
-						<span className="text-primary">Average Bet:</span> $ {averageBet}
+						<span className="text-success">Bet Count:</span> {betCount}
+					</h6>
+				</div>
+				<div
+					className="badge bg-info-subtle text-dark p-3 fs-4 rounded-4 ms-3"
+					style={{ marginBottom: '10px' }}
+				>
+					<h6 className="mb-0 font-weight-bold">
+						<span className="text-success">Average Bet:</span> $ {averageBet}
 					</h6>
 				</div>
 			</div>

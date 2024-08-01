@@ -49,47 +49,28 @@ const Reports = (props) => {
 		return (sportsGGR + casinoGGR)?.toFixed(2);
 	}, [livePlayerData, currencyById]);
 
-	const { ttlBets } = useMemo(() => {
-		// let deposit = 0;
-		// let withdraw = 0;
-		let bets = 0;
-
-		statsData?.stats?.forEach(
-			({
-				// total_deposit_amount,
-				// total_withdraw_amount,
-				casino_bet_count,
-				sportsbook_bet_count,
-			}) => {
-				// deposit += Number(total_deposit_amount || 0);
-				// withdraw += Number(total_withdraw_amount || 0);
-				bets +=
-					Number(casino_bet_count || 0) + Number(sportsbook_bet_count || 0);
-			}
-		);
-
-		return {
-			// ttlDeposit: deposit?.toFixed(2),
-			// ttlWithdraw: withdraw?.toFixed(2),
-			ttlBets: bets,
-		};
-	}, [statsData]);
-
 	const reportList = useMemo(
 		() => [
+			{
+				title: 'Overall GGR',
+				description: `${defaultCurrency?.symbol || ''} ${todayGGR}`,
+				iconClass: 'bx bx-money',
+				reportClass: 'reportList4',
+				customClass: TAB_COLORS.success,
+			},
 			{
 				title: 'GGR',
 				description: `${defaultCurrency?.symbol || ''} ${todayGGR}`,
 				iconClass: 'bx bxs-dollar-circle',
 				reportClass: 'reportList1',
-				customClass: TAB_COLORS.primary,
+				customClass: TAB_COLORS.info,
 			},
 			{
-				title: 'Players',
+				title: 'Total Players',
 				description: `${livePlayerData.totalPlayers || 0}`,
 				iconClass: 'bx bxs-user-plus',
 				reportClass: 'reportList2',
-				customClass: TAB_COLORS.info,
+				customClass: TAB_COLORS.primary,
 			},
 			{
 				title: 'Active Players',
@@ -106,39 +87,18 @@ const Reports = (props) => {
 				customClass: TAB_COLORS.primary,
 			},
 			{
-				title: 'Number of Bets',
-				description: `${ttlBets || 0}`,
-				iconClass: 'bx bxs-credit-card',
-				reportClass: 'reportList4',
-				customClass: TAB_COLORS.primary,
-			},
-			// {
-			// 	title: 'Total Deposits',
-			// 	description: `${ttlDeposit || 0}`,
-			// 	iconClass: 'bx bx-money',
-			// 	reportClass: 'reportList4',
-			// 	customClass: TAB_COLORS.success,
-			// },
-			// {
-			// 	title: 'Total Withdrawals',
-			// 	description: `${ttlWithdraw || 0}`,
-			// 	iconClass: 'bx bxs-credit-card-alt',
-			// 	reportClass: 'reportList4',
-			// 	customClass: TAB_COLORS.danger,
-			// },
-			{
-				title: 'Casino Games',
+				title: 'Total Games',
 				description: `${statsData?.totalGames || 0}`,
 				iconClass: 'bx bx-play',
 				reportClass: 'reportList4',
-				customClass: TAB_COLORS.info,
+				customClass: TAB_COLORS.warn,
 			},
 			{
-				title: 'Casino Providers',
+				title: 'Total Providers',
 				description: `${statsData?.totalProviders || 0}`,
 				iconClass: 'bx bxs-chip',
 				reportClass: 'reportList4',
-				customClass: TAB_COLORS.warn,
+				customClass: TAB_COLORS.info,
 			},
 			{
 				title: 'Deposit Conv. Rate',
