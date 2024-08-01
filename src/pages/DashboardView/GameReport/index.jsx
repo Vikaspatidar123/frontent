@@ -205,6 +205,8 @@ const GameReport = () => {
 									tabsData={tabData}
 									toggle={toggle}
 									navClass="rounded p-0"
+									nonActiveClass="bg-light"
+									navLinkClass="custom-border"
 								/>
 							</Row>
 							<Row>

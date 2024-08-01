@@ -55,6 +55,7 @@ const TabsPage = ({
 	tabCardClass = '',
 	customComponent,
 	navLinkClass,
+	nonActiveClass,
 }) => {
 	const [selectedDropdown, setSelectedDropdown] = useState('');
 	return (
@@ -87,7 +88,7 @@ const TabsPage = ({
 												id={`tab-${tab.id}`}
 												style={{ cursor: 'pointer' }}
 												className={`${
-													activeTab === tab.id ? 'active' : 'bg-light'
+													activeTab === tab.id ? 'active' : `${nonActiveClass}`
 												} ${navLinkClass}`}
 												onClick={() => {
 													toggle(tab.id);
@@ -151,7 +152,8 @@ TabsPage.defaultProps = {
 	tabContentClass: '',
 	tabCardClass: '',
 	customComponent: null,
-	navLinkClass: 'custom-border',
+	navLinkClass: '',
+	nonActiveClass: '',
 };
 
 TabsPage.propTypes = {
@@ -170,6 +172,7 @@ TabsPage.propTypes = {
 	tabCardClass: PropTypes.string,
 	customComponent: PropTypes.element,
 	navLinkClass: PropTypes.string,
+	nonActiveClass: PropTypes.string,
 };
 
 Dropdown.defaultProps = {

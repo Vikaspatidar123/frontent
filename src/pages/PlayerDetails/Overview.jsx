@@ -2,14 +2,12 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 import {
-	Button,
 	Card,
 	CardBody,
 	Col,
 	Dropdown,
 	DropdownItem,
 	DropdownMenu,
-	DropdownToggle,
 	Row,
 	Spinner,
 } from 'reactstrap';
@@ -35,9 +33,10 @@ import usePermission from '../../components/Common/Hooks/usePermission';
 import { showToastr } from '../../utils/helpers';
 import PlayerStats from './components/PlayerStats';
 import { PLAYER_STATS_NOT_AVAILABLE } from '../../constants/messages';
+import ActionButton from '../../components/Common/ActionButton';
 
 const ColumnContainer = ({ hidden, children }) => (
-	<Col xs={12} md={6} className="text-center mb-2" hidden={hidden}>
+	<Col xs={12} md={6} className="text-center mb-3" hidden={hidden}>
 		{children}
 	</Col>
 );
@@ -164,7 +163,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 									<Row>
 										{isGranted(modules.player, 'TS') && (
 											<ColumnContainer>
-												<Button
+												<ActionButton
 													className="actionButton w-100"
 													variant={
 														userDetails?.isActive
@@ -172,11 +171,12 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 															: 'outline-success'
 													}
 													onClick={() => updateUserStatus()}
+													iconClass="bx bxs-edit"
 												>
 													{userDetails && userDetails?.isActive
 														? 'Inactive'
 														: 'Active'}
-												</Button>
+												</ActionButton>
 											</ColumnContainer>
 										)}
 										{/* {(isGranted(modules.player, 'U') ||
@@ -184,20 +184,21 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 										<ColumnContainer
 											hidden={userDetails?.tags?.includes('Internal')}
 										>
-											<Button
+											<ActionButton
 												className="actionButton w-100"
 												variant="outline-warning"
 												onClick={() => openModal('internalModal')}
 											>
 												Internal
-											</Button>
+											</ActionButton>
 										</ColumnContainer>
 									)} */}
 										{isGranted(modules.player, 'VE') && (
 											<ColumnContainer>
-												<Button
+												<ActionButton
 													className="actionButton w-100"
 													variant="outline-success"
+													iconClass="bx bxs-envelope fs-4"
 													onClick={() => {
 														if (userDetails?.emailVerified) {
 															showToastr({
@@ -210,45 +211,47 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 													}}
 												>
 													Email verified
-												</Button>
+												</ActionButton>
 											</ColumnContainer>
 										)}
 										<ColumnContainer>
-											<Button
+											<ActionButton
 												variant="outline-warning"
 												onClick={() => openModal('manageTagModal')}
 												className="actionButton w-100"
+												iconClass="bx bxs-purchase-tag-alt fs-4"
 											>
 												Manage Tag
-											</Button>
+											</ActionButton>
 										</ColumnContainer>
 
 										{/* {isGranted(modules.bonus, 'Issue') && (
 										<ColumnContainer>
-											<Button
+											<ActionButton
 												className="actionButton w-100"
 												variant="outline-secondary"
 												onClick={() => openModal('giveBonusModal')}
 											>
 												Give Bonus
-											</Button>
+											</ActionButton>
 										</ColumnContainer>
 									)} */}
 										{isGranted(modules.player, 'MM') && (
 											<ColumnContainer>
-												<Button
+												<ActionButton
 													className="actionButton w-100"
 													variant="outline-success"
 													onClick={() => openModal('manageMoneyModal')}
+													iconClass="bx bx-money fs-4"
 												>
 													Manage Money
-												</Button>
+												</ActionButton>
 											</ColumnContainer>
 										)}
 										<ColumnContainer hidden>
 											{userDetails?.trackingToken &&
 												userDetails?.isAffiliateUpdated === false && (
-													<Button
+													<ActionButton
 														className="actionButton w-100"
 														variant="outline-success"
 														// onClick={() => setShowAddAffiliate(prev => true)}
@@ -262,14 +265,14 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 															aria-hidden="true"
 														/>
 														{/* )} */}
-													</Button>
+													</ActionButton>
 												)}
 										</ColumnContainer>
 										<ColumnContainer hidden>
 											{userDetails?.trackingToken &&
 												userDetails?.isAffiliateUpdated &&
 												userDetails?.affiliateStatus && (
-													<Button
+													<ActionButton
 														className="actionButton w-100"
 														variant="outline-danger"
 														// onClick={() => setShowRemoveAffiliate(true)}
@@ -283,18 +286,19 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 															aria-hidden="true"
 														/>
 														{/* )} */}
-													</Button>
+													</ActionButton>
 												)}
 										</ColumnContainer>
 										{isGranted(modules.player, 'U') && (
 											<ColumnContainer>
-												<Button
+												<ActionButton
 													className="actionButton w-100"
 													variant="outline-warning"
 													onClick={() => openModal('editUserModal')}
+													iconClass="bx bxs-user-detail fs-4"
 												>
 													Edit User Info
-												</Button>
+												</ActionButton>
 											</ColumnContainer>
 										)}
 										{isGranted(modules.player, 'U') && (
@@ -303,14 +307,14 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 													isOpen={openResetMenu}
 													toggle={() => setOpenResetMenu((prev) => !prev)}
 												>
-													<DropdownToggle
-														id="dropdown-autoclose-outside"
+													<ActionButton
 														className="actionButton w-100"
-														variant="outline-success"
+														variant="outline-warning"
+														onClick={() => setOpenResetMenu((prev) => !prev)}
+														iconClass="bx bxs-lock-open-alt fs-4"
 													>
 														Reset Password
-													</DropdownToggle>
-
+													</ActionButton>
 													<DropdownMenu className="dropdown-menu-end">
 														<DropdownItem
 															onClick={() => openModal('resetPasswordEmail')}
@@ -327,13 +331,14 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 											</ColumnContainer>
 										)}
 										<ColumnContainer>
-											<Button
+											<ActionButton
 												variant="outline-secondary"
 												onClick={() => openModal('duplicatesModal')}
 												className="actionButton w-100"
+												iconClass="bx bx-user-pin fs-4"
 											>
 												Fraud Detection ({duplicateUsers?.players?.length || 0})
-											</Button>
+											</ActionButton>
 										</ColumnContainer>
 									</Row>
 								</div>
