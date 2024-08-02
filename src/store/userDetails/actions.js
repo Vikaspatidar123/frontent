@@ -92,6 +92,9 @@ import {
 	USER_REFERRALS,
 	USER_REFERRALS_FAIL,
 	USER_REFERRALS_SUCCESS,
+	DELETE_TAG_SUCCESS,
+	DELETE_TAG_FAIL,
+	DELETE_TAG,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -556,5 +559,20 @@ export const userReferralsSuccess = (payload) => ({
 
 export const userReferralsFail = (payload) => ({
 	type: USER_REFERRALS_FAIL,
+	payload,
+});
+
+export const deleteTagSuccess = (payload) => ({
+	type: DELETE_TAG_SUCCESS,
+	payload,
+});
+
+export const deleteTagFail = (payload) => ({
+	type: DELETE_TAG_FAIL,
+	payload,
+});
+
+export const deleteTag = (payload) => ({
+	type: DELETE_TAG,
 	payload,
 });

@@ -30,7 +30,7 @@ const usePlayersListing = (filterValues = {}) => {
 	);
 	const [showManageMoney, setShowManageMoney] = useState(''); // will store player id for manage money
 	const [userIds, setUserIds] = useState({});
-
+	const selectedPlayers = Object.keys(userIds).map((key) => key);
 	const toggleUserId = (userId) => {
 		if (userIds[userId]) {
 			setUserIds((prev) => {
@@ -45,6 +45,15 @@ const usePlayersListing = (filterValues = {}) => {
 			}));
 		}
 	};
+	// const toggleUserId = (userId) => {
+	// 	setUserIds((prev) => {
+	// 		if (prev.includes(userId)) {
+	// 			return prev.filter((id) => id !== userId);
+	// 		}
+	// 			return [...prev, userId];
+
+	// 	});
+	// };
 
 	const CheckboxInput = ({ cell }) => (
 		<div className=" d-flex justify-content-center">
@@ -58,8 +67,6 @@ const usePlayersListing = (filterValues = {}) => {
 			/>
 		</div>
 	);
-
-	console.log(userIds);
 
 	const columns = useMemo(
 		() => [
@@ -203,21 +210,20 @@ const usePlayersListing = (filterValues = {}) => {
 	const handleEdit = () => {
 		setIsOpen((prev) => !prev);
 	};
-	console.log(userIds);
 	const buttonList = [
+		// {
+		// 	label: 'Attach Tag',
+		// 	link: '/users-bulk-update',
+		// 	module: modules.player,
+		// 	operation: 'U',
+		// },
 		{
-			label: 'Attach Tag',
-			link: '/users-bulk-update',
-			module: modules.player,
-			operation: 'U',
-		},
-		{
-			label: 'edit',
+			label: 'Edit',
 			link: '',
 			handleClick: handleEdit,
 			module: modules.player,
 			operation: 'U',
-			// isHide:userIds
+			isHide: !selectedPlayers?.length,
 		},
 	];
 
@@ -235,6 +241,7 @@ const usePlayersListing = (filterValues = {}) => {
 		buttonList,
 		isOpen,
 		setIsOpen,
+		selectedPlayers,
 	};
 };
 

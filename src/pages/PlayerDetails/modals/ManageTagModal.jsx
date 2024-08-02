@@ -72,14 +72,14 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 		if (formValues?.tagAction === 'addTag') {
 			dispatch(
 				attachTag({
-					userId: playerId,
+					userIds: [playerId],
 					tagId: formValues?.tag,
 				})
 			);
 		} else if (formValues?.tagAction === 'removeTag') {
 			dispatch(
 				removeTag({
-					userId: playerId,
+					userIds: [playerId],
 					tagId: formValues?.tag,
 				})
 			);

@@ -60,6 +60,8 @@ import {
 	userReferralsSuccess,
 	userReferralsFail,
 	getUserDetails as userDetailsStart,
+	deleteTagFail,
+	deleteTagSuccess,
 } from './actions';
 import {
 	ACTIVATE_KYC,
@@ -67,6 +69,7 @@ import {
 	CANCEL_USER_BONUS,
 	CREATE_TAG,
 	CREATE_USER_COMMENT,
+	DELETE_TAG,
 	DELETE_USER_COMMENT,
 	DEPOSIT_TO_OTHER,
 	DISABLE_USER,
@@ -131,7 +134,7 @@ import {
 } from '../../network/putRequests';
 import { formPageTitle } from '../../components/Common/constants';
 import { fetchPlayersSuccess } from '../actions';
-import { deleteUserComment } from '../../network/deleteRequests';
+import { deleteTags, deleteUserComment } from '../../network/deleteRequests';
 
 function* getUserDetailsWorker(action) {
 	try {
@@ -295,7 +298,8 @@ function* createUserTagsWorker(action) {
 		const payload = action && action.payload;
 		yield createUserTags(payload);
 		yield put(createTagSuccess(true));
-
+		const { data } = yield getAllUserTags();
+		yield put(getAllTagsSuccess(data?.data?.tags));
 		showToastr({
 			message: `Tag Created Successfully`,
 			type: 'success',
@@ -565,6 +569,17 @@ function* userReferralsWorker(action) {
 		yield put(userReferralsFail(e.message));
 	}
 }
+function* deleteTageWorker(action) {
+	try {
+		const payload = action && action.payload;
+		yield deleteTags(payload);
+		yield put(deleteTagSuccess());
+		const { data } = yield getAllUserTags();
+		yield put(getAllTagsSuccess(data?.data?.tags));
+	} catch (e) {
+		yield put(deleteTagFail());
+	}
+}
 
 function* userDetailsWatcher() {
 	yield takeLatest(GET_USER_DETAILS, getUserDetailsWorker);
@@ -596,6 +611,7 @@ function* userDetailsWatcher() {
 	yield takeLatest(INACTIVE_KYC, inActiveKycWorker);
 	yield takeLatest(DELETE_USER_COMMENT, deleteUserCommentWorker);
 	yield takeLatest(USER_REFERRALS, userReferralsWorker);
+	yield takeLatest(DELETE_TAG, deleteTageWorker);
 }
 
 function* UserDetailsSaga() {

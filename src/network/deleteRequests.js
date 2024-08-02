@@ -46,6 +46,12 @@ const deleteCategory = (data) =>
 		data
 	);
 
+const deleteTags = (data) =>
+	deleteRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}tag`,
+		data
+	);
+
 export {
 	deleteFromGallery,
 	deleteEmailTemplate,
@@ -54,4 +60,5 @@ export {
 	deleteUserComment,
 	deleteCmsRequest,
 	deleteCategory,
+	deleteTags,
 };

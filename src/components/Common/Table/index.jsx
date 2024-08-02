@@ -32,6 +32,7 @@ const TableContainer = ({
 	currentPage,
 	isShowColSettings,
 	customTableInfo,
+	handleAllSelect,
 }) => {
 	const {
 		getTableProps,
@@ -112,15 +113,22 @@ const TableContainer = ({
 													: {})}
 											>
 												<span className="d-flex align-items-center gap-1">
+													{column.id === 'select' && (
+														<input
+															type="checkbox"
+															onChange={handleAllSelect}
+															style={{ marginRight: '8px' }}
+														/>
+													)}
 													{column.render('Header')}
 													{generateSortingIndicator(column)}
-													{column?.tableHeaderTooltipContent ? (
+													{column?.tableHeaderTooltipContent && (
 														<span
 															className="mdi mdi-information-outline"
 															style={{ fontSize: '20px' }}
 															id={`id-${column.id}`}
 														/>
-													) : null}
+													)}
 												</span>
 												{column.subLabel && (
 													<div style={{ fontSize: 12 }}>
@@ -283,6 +291,7 @@ TableContainer.defaultProps = {
 	onChangePagination: () => {},
 	thCustomClass: '',
 	changeRowsPerPageCallback: () => {},
+	handleAllSelect: () => {},
 	tbodyHeight: '',
 	cellPadding: '',
 	isLongTable: false,
@@ -318,6 +327,7 @@ TableContainer.propTypes = {
 	totalPageCount: PropTypes.number,
 	isManualPagination: PropTypes.bool,
 	onChangePagination: PropTypes.func,
+	handleAllSelect: PropTypes.func,
 	isLoading: PropTypes.bool.isRequired,
 	thCustomClass: PropTypes.string,
 	changeRowsPerPageCallback: PropTypes.func,

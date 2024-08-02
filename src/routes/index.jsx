@@ -81,7 +81,6 @@ import CreateChatRain from '../pages/ChatRain/CreateChatRain';
 import PreviewChatrain from '../pages/ChatRain/ChatrainView';
 import EditChatrain from '../pages/ChatRain/EditChatrain';
 import AddNewProvider from '../pages/Payment/addNewProvider';
-import BulkUpdatePlayers from '../pages/Players/BulkUpdatePlayers';
 
 const authProtectedRoutes = [
 	{
@@ -185,13 +184,6 @@ const authProtectedRoutes = [
 		modules: [modules.player],
 		operation: 'U',
 	},
-	{
-		path: '/users-bulk-edit',
-		component: <BulkUpdatePlayers />,
-		modules: [modules.player],
-		operation: 'U',
-	},
-
 	{ path: '/cms', component: <Cms />, modules: [modules.page], operation: 'R' },
 	{
 		path: '/cms/create',

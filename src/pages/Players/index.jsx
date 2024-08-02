@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import {
+	Card,
+	CardBody,
+	Col,
+	Container,
+	Modal,
+	ModalBody,
+	ModalHeader,
+	Row,
+} from 'reactstrap';
 import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
@@ -10,7 +19,6 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import ManageMoney from '../PlayerDetails/modals/ManageMoney';
-import FormModal from '../../components/Common/FormModal';
 import BulkUpdatePlayers from './BulkUpdatePlayers';
 
 const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
@@ -41,6 +49,7 @@ const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 		buttonList,
 		isOpen,
 		setIsOpen,
+		selectedPlayers,
 	} = usePlayersListing(filterValidation.values, userIds, toggleUserId);
 
 	return (
@@ -92,16 +101,27 @@ const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 				toggle={() => setShowManageMoney('')}
 				playerId={showManageMoney}
 			/>
-			<FormModal
+			<Modal
 				isOpen={isOpen}
 				toggle={() => {
 					setIsOpen((prev) => !prev);
 				}}
-				customComponent={<BulkUpdatePlayers />}
-				customColClasses="col-md-12"
-				modalSize="xl"
-				isSubmit={false}
-			/>
+				className="col-md-12"
+				backdrop="static"
+				size="xl"
+			>
+				<ModalHeader
+					toggle={() => {
+						setIsOpen((prev) => !prev);
+					}}
+					tag="h4"
+				>
+					{`Update info for selected players (${selectedPlayers?.length})`}
+				</ModalHeader>
+				<ModalBody>
+					<BulkUpdatePlayers selectedPlayers={selectedPlayers} />
+				</ModalBody>
+			</Modal>
 		</div>
 	);
 };
