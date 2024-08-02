@@ -150,12 +150,15 @@ export const getDashboardFilterText = (dateOption, from, to, currencyName) => {
 };
 
 const capitalizeString = (str) => {
-	if(!str) return '';
-	
-	return str.replace(/\b\w/g, function(char) {
-		return char.toUpperCase();
-	});
-}
+	if (!str) return '';
+
+	return str.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+const addCommasToNumber = (number) => {
+	if (!number) return '';
+	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 
 export {
 	safeStringify,
@@ -164,5 +167,6 @@ export {
 	downloadFileInNewWindow,
 	dataURLtoBlob,
 	getPercentage,
-	capitalizeString
+	capitalizeString,
+	addCommasToNumber,
 };

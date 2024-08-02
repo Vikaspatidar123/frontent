@@ -1,7 +1,7 @@
-import { put, takeEvery, all, fork } from 'redux-saga/effects';
+import { put, takeEvery, all, fork, call } from 'redux-saga/effects';
 
 // Crypto Redux States
-import { groupBy, sortBy } from 'lodash';
+import { groupBy, keyBy, sortBy } from 'lodash';
 import {
 	GET_LIVE_PLAYER_START,
 	GET_DEMOGRAPHIC_START,
@@ -36,14 +36,18 @@ import {
 	getKpiSummary,
 	getTopPlayersRequest,
 	statsDataRequest,
+	getCurrencies,
 } from '../../network/getRequests';
 
-const cumulativeDataOfAllCurrencies = (records) => {
+const cumulativeDataOfAllCurrencies = (records, currencyById) => {
 	const groupedByDates = groupBy(records, 'date');
 	const cumulativeCurrencyData = Object.entries(groupedByDates).map(
 		([date, values]) =>
 			values.reduce(
 				(acc, cur) => {
+					const exchangeRate = Number(
+						currencyById?.[cur.currency_id]?.exchangeRate || 1
+					);
 					acc.active_users_count += Number(cur.active_users_count || 0);
 					acc.deposit_count += Number(cur.deposit_count || 0);
 					acc.withdraw_count += Number(cur.withdraw_count || 0);
@@ -51,22 +55,19 @@ const cumulativeDataOfAllCurrencies = (records) => {
 					acc.casino_win_count += Number(cur.casino_win_count || 0);
 					acc.sportsbook_bet_count += Number(cur.sportsbook_bet_count || 0);
 					acc.sportsbook_win_count += Number(cur.sportsbook_win_count || 0);
-					acc.total_deposit_amount += parseFloat(cur.total_deposit_amount || 0);
-					acc.total_withdraw_amount += parseFloat(
-						cur.total_withdraw_amount || 0
-					);
-					acc.total_casino_bet_amount += parseFloat(
-						cur.total_casino_bet_amount || 0
-					);
-					acc.total_casino_win_amount += parseFloat(
-						cur.total_casino_win_amount || 0
-					);
-					acc.total_sportsbook_bet_amount += parseFloat(
-						cur.total_sportsbook_bet_amount || 0
-					);
-					acc.total_sportsbook_win_amount += parseFloat(
-						cur.total_sportsbook_win_amount || 0
-					);
+
+					acc.total_deposit_amount +=
+						parseFloat(cur.total_deposit_amount || 0) * exchangeRate;
+					acc.total_withdraw_amount +=
+						parseFloat(cur.total_withdraw_amount || 0) * exchangeRate;
+					acc.total_casino_bet_amount +=
+						parseFloat(cur.total_casino_bet_amount || 0) * exchangeRate;
+					acc.total_casino_win_amount +=
+						parseFloat(cur.total_casino_win_amount || 0) * exchangeRate;
+					acc.total_sportsbook_bet_amount +=
+						parseFloat(cur.total_sportsbook_bet_amount || 0) * exchangeRate;
+					acc.total_sportsbook_win_amount +=
+						parseFloat(cur.total_sportsbook_win_amount || 0) * exchangeRate;
 
 					return acc;
 				},
@@ -173,8 +174,11 @@ function* getLivePlayerData() {
 function* getStatsDataWorker({ payload }) {
 	try {
 		const { data } = yield statsDataRequest(payload);
+		const response = yield call(getCurrencies);
+		const currencyById = keyBy(response?.data?.data?.currencies || [], 'id');
 		const cumulativeCurrencyData = cumulativeDataOfAllCurrencies(
-			data?.data?.stats || []
+			data?.data?.stats || [],
+			currencyById
 		);
 		const groupedData = formDataChunks(cumulativeCurrencyData, 10);
 		yield put(

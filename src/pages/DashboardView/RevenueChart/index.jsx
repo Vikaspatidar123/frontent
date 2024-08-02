@@ -1,69 +1,92 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { groupBy } from 'lodash';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 
-const RevenueChart = ({ livePlayerData }) => {
+const RevenueChart = ({ statsData, dashFilters }) => {
 	const chartColors = getChartColorsArray(
 		'["--bs-success", "--bs-primary", "--bs-danger"]'
 	);
 	const [series, setSeries] = useState([]);
 	const [xAxis, setxAxis] = useState([]);
-	const { defaultCurrency, currencyById } = useSelector(
-		(state) => state.Currencies
-	);
+	const { defaultCurrency } = useSelector((state) => state.Currencies);
 
 	useEffect(() => {
-		if (livePlayerData?.DailyRevenues?.length) {
-			const groupedByDate = groupBy(livePlayerData.DailyRevenues, 'date');
+		const xAxisData = [];
+		const totalWageredData = [];
+		const totalPayoutData = [];
+		const totalRevenueData = [];
 
-			const xAxisData = [];
-			const totalWageredData = [];
-			const totalPayoutData = [];
-			const totalRevenueData = [];
+		const isCasino = dashFilters?.categories?.find(
+			(cate) => cate.value === 'casino'
+		);
+		const isSportsbook = dashFilters?.categories?.find(
+			(cate) => cate.value === 'sportsbook'
+		);
+		const isBoth = isCasino && isSportsbook;
 
-			Object.entries(groupedByDate).forEach(([date, currencyWiseAmount]) => {
-				xAxisData.push(moment(date).format('Do MMM'));
-
-				let totalBetAmt = 0;
-				let totalWinAmt = 0;
-
-				currencyWiseAmount.forEach(
-					({ currency, totalBetAmount, totalWinAmount }) => {
-						const exchangeRate = Number(
-							currencyById[currency]?.exchangeRate || 1
-						);
-						totalBetAmt += Number(totalBetAmount || 0) * exchangeRate;
-						totalWinAmt += Number(totalWinAmount || 0) * exchangeRate;
-					}
+		statsData?.grouped?.forEach(
+			({
+				start_date,
+				end_date,
+				total_casino_bet_amount,
+				total_casino_win_amount,
+				total_sportsbook_bet_amount,
+				total_sportsbook_win_amount,
+			}) => {
+				xAxisData.push(
+					start_date !== end_date
+						? `${moment(start_date).format('D MMM')} - ${moment(
+								end_date
+						  ).format('D MMM YYYY')}`
+						: moment(end_date).format('D MMM YYYY')
 				);
 
-				totalWageredData.push(totalBetAmt?.toFixed(2));
-				totalPayoutData.push(totalWinAmt?.toFixed(2));
-				totalRevenueData.push((totalBetAmt - totalWinAmt)?.toFixed(2));
-			});
+				let betAmount = 0;
+				let winAmount = 0;
+				if (isBoth) {
+					betAmount +=
+						parseFloat(total_casino_bet_amount || 0) +
+						parseFloat(total_sportsbook_bet_amount || 0);
+					winAmount +=
+						parseFloat(total_casino_win_amount || 0) +
+						parseFloat(total_sportsbook_win_amount || 0);
+				} else if (isCasino) {
+					betAmount += parseFloat(total_casino_bet_amount || 0);
+					winAmount += parseFloat(total_casino_win_amount || 0);
+				} else if (isSportsbook) {
+					betAmount += parseFloat(total_sportsbook_bet_amount || 0);
+					winAmount += parseFloat(total_sportsbook_win_amount || 0);
+				}
 
-			const formateData = [
-				{
-					name: 'Total Revenue',
-					data: totalRevenueData,
-				},
-				{
-					name: 'Total Wagered Amount',
-					data: totalWageredData,
-				},
-				{
-					name: 'Total Payout Amount',
-					data: totalPayoutData,
-				},
-			];
-			setSeries(formateData);
-			setxAxis(xAxisData);
-		}
-	}, [livePlayerData?.DailyRevenues, currencyById]);
+				totalWageredData.push(betAmount?.toFixed(2));
+
+				totalPayoutData.push(winAmount?.toFixed(2));
+
+				totalRevenueData.push((betAmount - winAmount)?.toFixed(2));
+			}
+		);
+
+		const formateData = [
+			{
+				name: 'Total Revenue',
+				data: totalRevenueData,
+			},
+			{
+				name: 'Total Wagered Amount',
+				data: totalWageredData,
+			},
+			{
+				name: 'Total Payout Amount',
+				data: totalPayoutData,
+			},
+		];
+		setSeries(formateData);
+		setxAxis(xAxisData);
+	}, [statsData?.grouped, dashFilters]);
 
 	const options = {
 		chart: { type: 'bar', zoom: { enabled: false }, toolbar: { show: false } },
@@ -104,15 +127,22 @@ const RevenueChart = ({ livePlayerData }) => {
 export default RevenueChart;
 
 RevenueChart.defaultProps = {
-	livePlayerData: {},
+	statsData: {},
 };
 
 RevenueChart.propTypes = {
-	livePlayerData: PropTypes.shape({
-		DailyRevenues: PropTypes.arrayOf(
-			PropTypes.objectOf({
-				date: PropTypes.string,
+	statsData: PropTypes.shape({
+		activeUsersCount: PropTypes.number,
+		totalGames: PropTypes.number,
+		grouped: PropTypes.arrayOf({
+			date: PropTypes.string,
+		}),
+	}),
+	dashFilters: PropTypes.shape({
+		categories: PropTypes.arrayOf(
+			PropTypes.shape({
+				value: PropTypes.string,
 			})
 		),
-	}),
+	}).isRequired,
 };

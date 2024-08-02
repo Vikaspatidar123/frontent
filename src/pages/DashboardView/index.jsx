@@ -37,14 +37,11 @@ const DashboardView = ({ t }) => {
 		isLivePlayerLoading,
 		livePlayerData,
 		loggedInOptions,
-		// dashFilters,
-		// setDashFilters,
+		dashFilters,
 		handleDashFilters,
 		statsData,
 		layoutModeType,
 	} = useDashboardView();
-	// Filter oo be used
-	// console.log('filter data = ', dashFilters, setDashFilters);
 	return (
 		<div className="page-content">
 			<Container fluid>
@@ -52,6 +49,7 @@ const DashboardView = ({ t }) => {
 				<DashboardFilters handleDashFilters={handleDashFilters} />
 				<Row>
 					<LivePlayerReports
+						dashFilters={dashFilters}
 						isLivePlayerLoading={isLivePlayerLoading}
 						livePlayerData={livePlayerData}
 						statsData={statsData}
@@ -72,6 +70,7 @@ const DashboardView = ({ t }) => {
 						<Card>
 							<CardBody>
 								<BetsChart
+									dashFilters={dashFilters}
 									statsData={statsData}
 									layoutModeType={layoutModeType}
 								/>
@@ -84,11 +83,22 @@ const DashboardView = ({ t }) => {
 						<CardBody>
 							<h4 className="card-title font-size-16 d-flex align-items-center">
 								<span className="mdi mdi-finance fs-1 me-3 text-success" /> GGR
-								Report
+								Report ({' '}
+								{dashFilters?.categories?.map(
+									(cate, idx) =>
+										`${cate.label} ${
+											(dashFilters?.categories?.length || 1) - 1 !== idx
+												? '+ '
+												: ''
+										}`
+								) || '-'}{' '}
+								)
 							</h4>
 							<RevenueReport
+								statsData={statsData}
 								livePlayerData={livePlayerData}
 								isLivePlayerLoading={isLivePlayerLoading}
+								dashFilters={dashFilters}
 							/>
 						</CardBody>
 					</Card>

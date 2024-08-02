@@ -8,6 +8,7 @@ import {
 	FETCH_CURRENCIES_START,
 	TOGGLE_CURRENCY,
 } from './actionTypes';
+
 import {
 	createCurrencyFail,
 	createCurrencySuccess,

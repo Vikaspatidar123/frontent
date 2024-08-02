@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LineBarChart from './Chart';
 import { TABS } from '../constant';
 import TabsPage from '../../../components/Common/TabsPage';
 
-const BetsChart = ({ statsData, layoutModeType }) => {
+const BetsChart = ({ statsData, layoutModeType, dashFilters }) => {
 	const [activeTab, setActiveTab] = useState(TABS.CASINO);
 
 	const toggle = (tab) => {
@@ -13,10 +13,24 @@ const BetsChart = ({ statsData, layoutModeType }) => {
 		}
 	};
 
-	const betsChart = (isCasino) => (
+	useEffect(() => {
+		const isCasino = dashFilters?.categories?.find(
+			(cate) => cate.value === 'casino'
+		);
+		const isSportsbook = dashFilters?.categories?.find(
+			(cate) => cate.value === 'sportsbook'
+		);
+		if (isCasino && !isSportsbook) {
+			setActiveTab(TABS.CASINO);
+		} else if (isSportsbook && !isCasino) {
+			setActiveTab(TABS.SPORT);
+		}
+	}, [dashFilters?.categories]);
+
+	const betsChart = (casino) => (
 		<LineBarChart
 			dataColors='["--bs-success", "--bs-primary", "--bs-danger","--bs-info", "--bs-warning"]'
-			isCasino={isCasino}
+			isCasino={casino}
 			chartData={statsData?.grouped}
 			layoutModeType={layoutModeType}
 		/>
@@ -34,6 +48,7 @@ const BetsChart = ({ statsData, layoutModeType }) => {
 			component: betsChart(false),
 		},
 	];
+
 	return (
 		<TabsPage
 			activeTab={activeTab}
