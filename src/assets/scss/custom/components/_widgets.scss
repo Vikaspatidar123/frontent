@@ -5,7 +5,7 @@
 .mini-stats-wid {
 	.mini-stat-icon {
 		display: block;
-		@media (min-width: 1200px) and (max-width: 1350px) {
+		@media (min-width: 991px) and (max-width: 1350px) {
 			display: none;
 		}
 		overflow: hidden;
