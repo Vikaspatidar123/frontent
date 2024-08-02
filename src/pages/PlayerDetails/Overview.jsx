@@ -73,8 +73,8 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 	const updateUserStatus = () => {
 		dispatch(
 			updateSAUserStatus({
-				playerId,
-				isActive: userDetails?.isActive,
+				userIds: [playerId],
+				isActive: !userDetails?.isActive,
 			})
 		);
 	};
