@@ -8,7 +8,7 @@ const staticFiltersFields = (userId = '') => [
 		fieldType: 'textField',
 		type: 'search',
 		label: '',
-		placeholder: 'Search by email or username',
+		placeholder: 'Search by username',
 		isHide: !!userId,
 	},
 	{

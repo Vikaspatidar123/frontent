@@ -4,7 +4,10 @@ import * as Yup from 'yup';
 
 const generalFormSchema = () =>
 	Yup.object({
-		name: Yup.string().trim().required('Channel Title Required').nullable(),
+		name: Yup.string()
+			.min(3, 'Minimum 3 Characters Required')
+			.max(50, 'Maximum 50 Characters Allowed')
+			.required('Channel Title Required'),
 		description: Yup.string()
 			.trim()
 			.required('Channel Description Required')

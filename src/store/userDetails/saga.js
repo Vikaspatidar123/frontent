@@ -228,7 +228,9 @@ function* disableUserWorker(action) {
 function* updateSAUserStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield updateSAUserStatusCall(payload);
+		const { data } = yield updateSAUserStatusCall({
+			userId: payload?.playerId,
+		});
 		yield put(updateSAUserStatusSuccess(data?.data));
 
 		if (payload?.pageType === 'PlayerListing') {
@@ -248,7 +250,9 @@ function* updateSAUserStatusWorker(action) {
 			);
 		}
 		showToastr({
-			message: `Preferences Saved Successfully`,
+			message: payload?.isActive
+				? 'Player inactivated succesfully'
+				: 'Player activated succesfully',
 			type: 'success',
 		});
 	} catch (e) {

@@ -57,6 +57,7 @@ const staticFormFields = (currencySelect) => [
 		fieldType: 'textfieldWithAdornment',
 		label: 'Amount',
 		type: 'number',
+		maximum: 15,
 	},
 ];
 

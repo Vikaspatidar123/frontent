@@ -9,7 +9,7 @@ const validationSchema = () =>
 	Yup.object().shape({
 		message: Yup.string()
 			.required('Message is required!')
-			.min(4, 'At least 3 characters required!'),
+			.min(3, 'At least 3 characters required!'),
 		files: Yup.array()
 			.of(
 				Yup.mixed()

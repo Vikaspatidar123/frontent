@@ -73,7 +73,8 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 	const updateUserStatus = () => {
 		dispatch(
 			updateSAUserStatus({
-				userId: playerId,
+				playerId,
+				isActive: userDetails?.isActive,
 			})
 		);
 	};
@@ -210,7 +211,9 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 														}
 													}}
 												>
-													Email verified
+													{userDetails?.emailVerified
+														? 'Email verified'
+														: 'verify email'}
 												</ActionButton>
 											</ColumnContainer>
 										)}

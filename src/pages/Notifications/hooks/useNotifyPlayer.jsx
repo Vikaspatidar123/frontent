@@ -122,13 +122,14 @@ const useNotifyPlayer = () => {
 							}
 							// disabled={isView}
 							isRequired
+							max={51}
 						/>
 					</Col>
 					<Col className="mt-2" xl={4} xs={6}>
 						<CustomInputField
 							label="Description"
 							name={`description[${validation.values?.language}]`}
-							type="textarea"
+							type="text"
 							onChange={(e) => {
 								e.preventDefault();
 								validation.setFieldValue('description', {
@@ -159,6 +160,7 @@ const useNotifyPlayer = () => {
 								validation?.errors?.description?.[validation.values?.language]
 							}
 							isRequired
+							max={201}
 						/>
 					</Col>
 					<Col className="mt-2" xl={4} xs={6}>

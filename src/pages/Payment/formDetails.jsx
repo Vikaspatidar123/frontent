@@ -156,7 +156,7 @@ const PaymentProviderStaticFormFields = (isDisabled) => [
 		label: 'Base URL',
 		// isRequired: true,
 		placeholder: 'BaseURL',
-		isDisabled: true,
+		// isDisabled: true,
 	},
 	// {
 	// 	name: 'isActive',
