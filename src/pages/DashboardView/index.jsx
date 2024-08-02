@@ -23,6 +23,7 @@ import RevenueReport from './RevenueChart';
 import DashboardFilters from './DashboardFilters';
 import DepositWithdrawChart from './DepositWithdrawChart';
 import BetsChart from './BetsChart.jsx';
+import ActivePlayerChart from './ActivePlayerChart';
 
 const KpiSummary = lazy(() => import('./KpiSummary'));
 const KpiReport = lazy(() => import('./KpiReport'));
@@ -79,6 +80,20 @@ const DashboardView = ({ t }) => {
 					</Col>
 				</Row>
 				<Row>
+					<Card>
+						<CardBody>
+							<h4 className="card-title font-size-16 d-flex align-items-center">
+								<span className="mdi mdi-finance fs-1 me-3 text-success" /> GGR
+								Report
+							</h4>
+							<RevenueReport
+								livePlayerData={livePlayerData}
+								isLivePlayerLoading={isLivePlayerLoading}
+							/>
+						</CardBody>
+					</Card>
+				</Row>
+				<Row>
 					<Col xl="3">
 						<LoggedInPlayer
 							loggedInOptions={loggedInOptions}
@@ -87,14 +102,14 @@ const DashboardView = ({ t }) => {
 					</Col>
 					<Col xl="9">
 						<Card>
-							<CardBody>
+							<CardBody className="logged-player">
 								<h4 className="card-title font-size-16 d-flex align-items-center">
-									<span className="mdi mdi-finance fs-1 me-3 text-success" />{' '}
-									GGR Report
+									<span className="mdi mdi-account-star fs-1 me-3 text-success" />{' '}
+									Active players
 								</h4>
-								<RevenueReport
-									livePlayerData={livePlayerData}
-									isLivePlayerLoading={isLivePlayerLoading}
+								<ActivePlayerChart
+									statsData={statsData}
+									layoutModeType={layoutModeType}
 								/>
 							</CardBody>
 						</Card>

@@ -105,6 +105,7 @@ const formDataChunks = (data, desiredLength) => {
 				start_date: data[i].date,
 				end_date: data[rangeEnd - 1].date,
 				deposit_count: 0,
+				active_users_count: 0,
 				withdraw_count: 0,
 				total_deposit_amount: 0,
 				total_withdraw_amount: 0,
@@ -124,6 +125,7 @@ const formDataChunks = (data, desiredLength) => {
 				summary.total_deposit_amount += parseFloat(
 					data[j].total_deposit_amount || 0
 				);
+				summary.active_users_count += Number(data[j].active_users_count || 0);
 				summary.total_withdraw_amount += parseFloat(
 					data[j].total_withdraw_amount || 0
 				);
