@@ -231,9 +231,7 @@ function* disableUserWorker(action) {
 function* updateSAUserStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { data } = yield updateSAUserStatusCall({
-			userId: payload?.playerId,
-		});
+		const { data } = yield updateSAUserStatusCall(payload);
 		yield put(updateSAUserStatusSuccess(data?.data));
 
 		if (payload?.pageType === 'PlayerListing') {
@@ -253,7 +251,7 @@ function* updateSAUserStatusWorker(action) {
 			);
 		}
 		showToastr({
-			message: payload?.isActive
+			message: !payload?.isActive
 				? 'Player inactivated succesfully'
 				: 'Player activated succesfully',
 			type: 'success',
