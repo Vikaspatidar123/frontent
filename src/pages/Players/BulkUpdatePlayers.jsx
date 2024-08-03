@@ -14,10 +14,9 @@ import FormPage from '../../components/Common/FormPage';
 import useBulkUpdatePlayer from './hooks/useBulkUpdatePlayer';
 import { CustomSwitchButton } from '../../helpers/customForms';
 
-const BulkUpdatePlayers = ({ selectedPlayers }) => {
+const BulkUpdatePlayers = ({ selectedPlayers, onSuccess }) => {
 	const [open, setOpen] = useState('1');
 	const [isActive, setIsActive] = useState(true);
-
 	const toggle = (id) => {
 		if (open === id) {
 			setOpen();
@@ -26,8 +25,12 @@ const BulkUpdatePlayers = ({ selectedPlayers }) => {
 		}
 	};
 
-	const { validation, formFields, handleVerifyEmail, updateUserStatus } =
-		useBulkUpdatePlayer({ selectedPlayers });
+	const {
+		validation,
+		formFields,
+		//    handleVerifyEmail,
+		updateUserStatus,
+	} = useBulkUpdatePlayer(selectedPlayers, onSuccess);
 
 	const handleStatusChange = (value) => {
 		setIsActive(value === 'active');
@@ -84,7 +87,7 @@ const BulkUpdatePlayers = ({ selectedPlayers }) => {
 						</Card>
 					</AccordionBody>
 				</AccordionItem>
-				<AccordionItem>
+				{/* <AccordionItem>
 					<AccordionHeader targetId="2" className="accordion-header-custom">
 						Verify Email
 					</AccordionHeader>
@@ -104,7 +107,7 @@ const BulkUpdatePlayers = ({ selectedPlayers }) => {
 							</div>
 						</Card>
 					</AccordionBody>
-				</AccordionItem>
+				</AccordionItem> */}
 				<AccordionItem>
 					<AccordionHeader targetId="3" className="accordion-header-custom">
 						Manage Segment
@@ -128,10 +131,12 @@ const BulkUpdatePlayers = ({ selectedPlayers }) => {
 
 BulkUpdatePlayers.defaultProps = {
 	selectedPlayers: [],
+	onSuccess: () => {},
 };
 
 BulkUpdatePlayers.propTypes = {
 	selectedPlayers: PropTypes.arrayOf(PropTypes.string),
+	onSuccess: PropTypes.func,
 };
 
 export default BulkUpdatePlayers;

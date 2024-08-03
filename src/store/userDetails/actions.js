@@ -207,9 +207,10 @@ export const updateSAUserStatusFail = (payload) => ({
 	payload,
 });
 
-export const updateSAUserStatus = (payload) => ({
+export const updateSAUserStatus = (payload, callback) => ({
 	type: UPDATE_SA_USER_STATUS,
 	payload,
+	callback,
 });
 
 export const markUserAsInternalSuccess = (payload) => ({
@@ -422,9 +423,10 @@ export const attachTagFail = (payload) => ({
 	payload,
 });
 
-export const attachTag = (payload) => ({
+export const attachTag = (payload, callback) => ({
 	type: ATTACH_TAG,
 	payload,
+	callback,
 });
 
 export const createTagSuccess = (payload) => ({
@@ -437,9 +439,10 @@ export const createTagFail = (payload) => ({
 	payload,
 });
 
-export const createTag = (payload) => ({
+export const createTag = (payload, callback) => ({
 	type: CREATE_TAG,
 	payload,
+	callback,
 });
 
 export const getAllTagsSuccess = (payload) => ({
@@ -467,9 +470,10 @@ export const removeTagFail = (payload) => ({
 	payload,
 });
 
-export const removeTag = (payload) => ({
+export const removeTag = (payload, callback) => ({
 	type: REMOVE_TAG,
 	payload,
+	callback,
 });
 
 export const requestDocumentSuccess = (payload) => ({
@@ -572,7 +576,8 @@ export const deleteTagFail = (payload) => ({
 	payload,
 });
 
-export const deleteTag = (payload) => ({
+export const deleteTag = (payload, callback) => ({
 	type: DELETE_TAG,
 	payload,
+	callback,
 });

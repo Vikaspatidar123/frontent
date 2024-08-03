@@ -12,34 +12,45 @@ import {
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 
-const useBulkUpdatePlayer = ({ selectedPlayers }) => {
+const useBulkUpdatePlayer = (selectedPlayers, onSuccess) => {
 	const dispatch = useDispatch();
 	const [options, setOptions] = useState([]);
 	const { userTags } = useSelector((state) => state.UserDetails);
 
 	const handleVerifyEmail = () => {
 		dispatch(
-			verifyUserEmail({
-				userIds: selectedPlayers,
-			})
+			verifyUserEmail(
+				{
+					userIds: selectedPlayers,
+				},
+				onSuccess
+			)
 		);
 	};
-
 	const updateUserStatus = (isActive) => {
 		dispatch(
-			updateSAUserStatus({
-				userIds: selectedPlayers,
-				isActive,
-			})
+			updateSAUserStatus(
+				{
+					userIds: selectedPlayers,
+					isActive,
+				},
+				onSuccess
+			)
 		);
 	};
 	const tagSchema = () =>
 		Yup.object().shape({
-			tag: Yup.string(),
+			tag: Yup.string()
+				.required('Segment Required')
+				.max(30, 'Segment must be at most 30 characters'),
 			tagAction: Yup.string().required('Segment Action Required'),
 		});
 
 	const tagActionsOptionsList = [
+		{
+			optionLabel: 'Create Segment',
+			value: 'createTag',
+		},
 		{
 			optionLabel: 'Attach Segment',
 			value: 'addTag',
@@ -51,10 +62,6 @@ const useBulkUpdatePlayer = ({ selectedPlayers }) => {
 		{
 			optionLabel: 'Remove Segment',
 			value: 'removeTag',
-		},
-		{
-			optionLabel: 'Create Segment',
-			value: 'createTag',
 		},
 	];
 
@@ -87,30 +94,42 @@ const useBulkUpdatePlayer = ({ selectedPlayers }) => {
 	const submitTagsCreate = (formValues) => {
 		if (formValues?.tagAction === 'addTag') {
 			dispatch(
-				attachTag({
-					userIds: selectedPlayers,
-					tagId: formValues?.tag,
-				})
+				attachTag(
+					{
+						userIds: selectedPlayers,
+						tagId: formValues?.tag,
+					},
+					onSuccess
+				)
 			);
 		} else if (formValues?.tagAction === 'removeTag') {
 			dispatch(
-				removeTag({
-					userIds: selectedPlayers,
-					tagId: formValues?.tag,
-				})
+				removeTag(
+					{
+						userIds: selectedPlayers,
+						tagId: formValues?.tag,
+					},
+					onSuccess
+				)
 			);
 		} else if (formValues?.tagAction === 'createTag') {
 			dispatch(
-				createTag({
-					tag: formValues?.tag,
-					userIds: selectedPlayers,
-				})
+				createTag(
+					{
+						tag: formValues?.tag,
+						userIds: selectedPlayers,
+					}
+					// onSuccess
+				)
 			);
 		} else if (formValues?.tagAction === 'delete') {
 			dispatch(
-				deleteTag({
-					tagId: formValues?.tag,
-				})
+				deleteTag(
+					{
+						tagId: formValues?.tag,
+					},
+					onSuccess
+				)
 			);
 		}
 	};

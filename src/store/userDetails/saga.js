@@ -233,7 +233,9 @@ function* updateSAUserStatusWorker(action) {
 		const payload = action && action.payload;
 		const { data } = yield updateSAUserStatusCall(payload);
 		yield put(updateSAUserStatusSuccess(data?.data));
-
+		if (action?.callback) {
+			action.callback();
+		}
 		if (payload?.pageType === 'PlayerListing') {
 			const { players } = yield select((state) => state.Players);
 			const newPlayers = players?.users?.map((player) => {
@@ -299,9 +301,12 @@ function* createUserTagsWorker(action) {
 		const { data } = yield getAllUserTags();
 		yield put(getAllTagsSuccess(data?.data?.tags));
 		showToastr({
-			message: `Tag Created Successfully`,
+			message: `Segment Created Successfully`,
 			type: 'success',
 		});
+		if (action?.callback) {
+			action.callback();
+		}
 	} catch (e) {
 		yield put(createTagFail(e.message));
 	}
@@ -314,9 +319,12 @@ function* attachUserTagsWorker(action) {
 		yield put(attachTagSuccess());
 
 		showToastr({
-			message: `Tag Attached Successfully`,
+			message: `Segment Attached Successfully`,
 			type: 'success',
 		});
+		if (action?.callback) {
+			action.callback();
+		}
 	} catch (e) {
 		yield put(attachTagFail(e.message));
 	}
@@ -329,9 +337,12 @@ function* removeUserTagsWorker(action) {
 		yield put(removeTagSuccess());
 
 		showToastr({
-			message: `Tag Removed Successfully`,
+			message: `Segment Removed Successfully`,
 			type: 'success',
 		});
+		if (action?.callback) {
+			action.callback();
+		}
 	} catch (e) {
 		yield put(removeTagFail(e.message));
 	}
@@ -574,6 +585,13 @@ function* deleteTageWorker(action) {
 		yield put(deleteTagSuccess());
 		const { data } = yield getAllUserTags();
 		yield put(getAllTagsSuccess(data?.data?.tags));
+		showToastr({
+			message: 'Deleted Successfully',
+			type: 'success',
+		});
+		if (action?.callback) {
+			action.callback();
+		}
 	} catch (e) {
 		yield put(deleteTagFail());
 	}

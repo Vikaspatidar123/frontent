@@ -50,8 +50,8 @@ const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 		isOpen,
 		setIsOpen,
 		selectedPlayers,
+		onSuccess,
 	} = usePlayersListing(filterValidation.values, userIds, toggleUserId);
-
 	return (
 		<div className={userIds ? '' : 'page-content'}>
 			<Container fluid>
@@ -119,7 +119,10 @@ const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 					{`Update info for selected players (${selectedPlayers?.length})`}
 				</ModalHeader>
 				<ModalBody>
-					<BulkUpdatePlayers selectedPlayers={selectedPlayers} />
+					<BulkUpdatePlayers
+						selectedPlayers={selectedPlayers}
+						onSuccess={onSuccess}
+					/>
 				</ModalBody>
 			</Modal>
 		</div>

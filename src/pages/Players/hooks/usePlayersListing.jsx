@@ -28,9 +28,10 @@ const usePlayersListing = (filterValues = {}) => {
 	const { players, loading: isPlayersLoading } = useSelector(
 		(state) => state.Players
 	);
-	const [showManageMoney, setShowManageMoney] = useState(''); // will store player id for manage money
+	const [showManageMoney, setShowManageMoney] = useState('');
 	const [userIds, setUserIds] = useState({});
-	const selectedPlayers = Object.keys(userIds).map((key) => key);
+	const selectedPlayers = Object.keys(userIds)?.map((key) => key);
+
 	const toggleUserId = (userId) => {
 		if (userIds[userId]) {
 			setUserIds((prev) => {
@@ -45,15 +46,11 @@ const usePlayersListing = (filterValues = {}) => {
 			}));
 		}
 	};
-	// const toggleUserId = (userId) => {
-	// 	setUserIds((prev) => {
-	// 		if (prev.includes(userId)) {
-	// 			return prev.filter((id) => id !== userId);
-	// 		}
-	// 			return [...prev, userId];
 
-	// 	});
-	// };
+	const onSuccess = () => {
+		setUserIds({});
+		setIsOpen(false);
+	};
 
 	const CheckboxInput = ({ cell }) => (
 		<div className=" d-flex justify-content-center">
@@ -242,6 +239,7 @@ const usePlayersListing = (filterValues = {}) => {
 		isOpen,
 		setIsOpen,
 		selectedPlayers,
+		onSuccess,
 	};
 };
 
