@@ -106,7 +106,7 @@ const FormPage = ({
 						<div className="text-end">
 							{isSubmit && (
 								<Button
-									// type="submit"
+									type="submit"
 									className="waves-effect waves-light"
 									color="primary"
 									disabled={isSubmitLoading}
