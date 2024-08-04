@@ -22,7 +22,7 @@ const usePaymentListing = (filterValues = {}) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const { isLoading, paymentListing } = useSelector((state) => state.Payment);
+	const { paymentListing, isLoading } = useSelector((state) => state.Payment);
 
 	const [page, setPage] = useState(1);
 
@@ -49,14 +49,18 @@ const usePaymentListing = (filterValues = {}) => {
 		);
 	};
 
+	const fetchMoreData = () => {
+		setPage((prev) => prev + 1);
+	};
+
 	useEffect(() => {
 		if (location.pathname === '/payment') fetchData();
 	}, [page, location, itemsPerPage]);
 
-	const handleAddClick = (e) => {
-		e.preventDefault();
-		navigate('add-provider');
-	};
+	// const handleAddClick = (e) => {
+	// 	e.preventDefault();
+	// 	navigate('add-provider');
+	// };
 
 	const handleEdit = (e, row) => {
 		e.preventDefault();
@@ -72,8 +76,8 @@ const usePaymentListing = (filterValues = {}) => {
 	const buttonList = useMemo(() => [
 		{
 			label: 'Configure New',
-			handleClick: handleAddClick,
-			link: '#!',
+			// handleClick: handleAddClick,
+			link: 'add',
 			module: modules.paymentManagement,
 			operation: 'C',
 		},
@@ -184,6 +188,8 @@ const usePaymentListing = (filterValues = {}) => {
 		paymentListing,
 		buttonList,
 		onChangeRowsPerPage,
+		navigate,
+		fetchMoreData,
 	};
 };
 

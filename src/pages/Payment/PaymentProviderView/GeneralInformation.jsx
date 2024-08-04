@@ -17,7 +17,7 @@ const GeneralDetails = ({ paymentDetails }) => (
 					<img
 						src={paymentDetails?.image}
 						alt="Payment Provider"
-						style={{ height: '34vh', width: '20vw' }}
+						style={{ width: '20vw' }}
 					/>
 				) : (
 					<NoDataFound height="200px" width="300px" />
@@ -89,8 +89,9 @@ const GeneralDetails = ({ paymentDetails }) => (
 					</Col>
 					<Col>
 						<Badge
-							className="mb-3"
-							bg={paymentDetails?.isActive ? 'success' : 'dark'}
+							className={`mb-3 ${
+								paymentDetails?.isActive ? 'bg-success' : 'bg-danger'
+							}`}
 						>
 							{paymentDetails?.isActive ? (
 								<i className="mdi mdi-check-outline"> Active </i>
@@ -106,8 +107,9 @@ const GeneralDetails = ({ paymentDetails }) => (
 					</Col>
 					<Col>
 						<Badge
-							className="mb-3"
-							bg={paymentDetails?.depositAllowed ? 'success' : 'dark'}
+							className={`mb-3 ${
+								paymentDetails?.depositAllowed ? 'bg-success' : 'bg-danger'
+							}`}
 						>
 							{paymentDetails?.depositAllowed ? (
 								<i className="mdi mdi-check-outline"> Yes </i>
@@ -123,7 +125,9 @@ const GeneralDetails = ({ paymentDetails }) => (
 					</Col>
 					<Col>
 						<Badge
-							className="mb-3"
+							className={`mb-3 ${
+								paymentDetails?.depositAllowed ? 'bg-success' : 'bg-danger'
+							}`}
 							bg={paymentDetails?.withdrawAllowed ? 'success' : 'dark'}
 						>
 							{paymentDetails?.withdrawAllowed ? (
