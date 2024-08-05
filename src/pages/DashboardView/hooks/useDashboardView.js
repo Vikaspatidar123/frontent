@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-	getLivePlayerInfoStart,
-	getStatisticData,
-} from '../../../store/dashboardView/actions';
+import { getStatisticData } from '../../../store/dashboardView/actions';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 import { INITIAL_FILTERS } from '../constant';
 import useForm from '../../../components/Common/Hooks/useFormModal';
@@ -21,7 +18,7 @@ const useDashboardView = () => {
 	const [dashFilters, setDashFilters] = useState(INITIAL_FILTERS);
 	const layoutModeType = useSelector((state) => state.Layout.layoutModeType);
 
-	const { isLivePlayerLoading, livePlayerData, statsData } = useSelector(
+	const { isLivePlayerLoading, statsData } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
 
@@ -43,15 +40,7 @@ const useDashboardView = () => {
 	}, [dashFilters]);
 
 	useEffect(() => {
-		dispatch(getLivePlayerInfoStart());
-		return () => {
-			// Dispatch an action to reset Redux state here
-			dispatch({ type: 'RESET_DASHBOARD_STATE' });
-		};
-	}, []);
-
-	useEffect(() => {
-		if (livePlayerData) {
+		if (statsData) {
 			const apexsaleschartColors = getChartColorsArray(
 				'["--bs-primary", "--bs-success", "--bs-danger"]'
 			);
@@ -80,13 +69,13 @@ const useDashboardView = () => {
 			const series = [];
 			labels.push('Logged in players');
 			labels.push('Total players');
-			series.push(Number(livePlayerData?.totalLoggedInPlayers));
-			series.push(Number(livePlayerData?.totalPlayers));
+			series.push(Number(statsData?.totalLoggedInPlayers || 0));
+			series.push(Number(statsData?.totalPlayers || 0));
 			options.series = series;
 			options.labels = labels;
 			setLoggedInOptions(options);
 		}
-	}, [livePlayerData && livePlayerData?.totalLoggedInPlayers]);
+	}, [statsData]);
 
 	const {
 		isOpen: showElementControl,
@@ -105,7 +94,6 @@ const useDashboardView = () => {
 
 	return {
 		isLivePlayerLoading,
-		livePlayerData,
 		loggedInOptions,
 		dashFilters,
 		setDashFilters,

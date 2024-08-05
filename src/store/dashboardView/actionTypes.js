@@ -1,8 +1,3 @@
-/** Get Dashboard Chart data */
-export const GET_LIVE_PLAYER_START = 'GET_LIVE_PLAYER_START';
-export const GET_LIVE_PLAYER_SUCCESS = 'GET_LIVE_PLAYER_SUCCESS';
-export const GET_LIVE_PLAYER_FAIL = 'GET_LIVE_PLAYER_FAIL';
-
 export const GET_STATS_START = 'GET_STATS_START';
 export const GET_STATS_SUCCESS = 'GET_STATS_SUCCESS';
 export const GET_STATS_FAIL = 'GET_STATS_FAIL';

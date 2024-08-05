@@ -18,7 +18,7 @@ const Reports = (props) => {
 	);
 	const { isGranted } = usePermission();
 
-	const { GGR } = useMemo(() => {
+	const { GGR, overAllGgr } = useMemo(() => {
 		const isCasino = dashFilters?.categories?.find(
 			(cate) => cate.value === 'casino'
 		);
@@ -27,6 +27,7 @@ const Reports = (props) => {
 		);
 		const isBoth = isCasino && isSportsbook;
 		let ggr = 0;
+
 		statsData?.grouped?.forEach(
 			({
 				total_casino_bet_amount,
@@ -54,17 +55,42 @@ const Reports = (props) => {
 				ggr += betAmount - winAmount;
 			}
 		);
-		return { GGR: ggr.toFixed(2) };
+
+		let totalGgr = 0;
+
+		statsData?.overAllGgr?.forEach(
+			({
+				currency_id,
+				total_casino_bet_amount,
+				total_casino_win_amount,
+				total_sportsbook_bet_amount,
+				total_sportsbook_win_amount,
+				total_tournament_win,
+				total_tournament_buy,
+			}) => {
+				const exchangeRate = Number(
+					currencyById?.[currency_id]?.exchangeRate || 1
+				);
+				totalGgr +=
+					(Number(total_casino_bet_amount || 0) +
+						Number(total_sportsbook_bet_amount || 0) +
+						Number(total_tournament_buy || 0) -
+						(Number(total_casino_win_amount || 0) +
+							Number(total_sportsbook_win_amount || 0) +
+							Number(total_tournament_win || 0))) *
+					exchangeRate;
+			}
+		);
+		return { GGR: ggr.toFixed(2), overAllGgr: totalGgr?.toFixed(2) };
 	}, [statsData, currencyById, dashFilters]);
 
 	const reportList = useMemo(
 		() => [
 			{
 				title: 'Overall GGR',
-				description: `${defaultCurrency?.symbol || ''} ${
-					addCommasToNumber(statsData?.overallGGR) ||
-					addCommasToNumber('850544588.25')
-				}`,
+				description: `${defaultCurrency?.symbol || ''} ${addCommasToNumber(
+					overAllGgr || 0.0
+				)}`,
 				iconClass: 'bx bx-money',
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.success,
@@ -72,7 +98,7 @@ const Reports = (props) => {
 			{
 				title: 'GGR',
 				description: `${defaultCurrency?.symbol || ''} ${addCommasToNumber(
-					GGR || 0
+					GGR || 0.0
 				)}`,
 				iconClass: 'bx bxs-dollar-circle',
 				reportClass: 'reportList1',
@@ -80,42 +106,42 @@ const Reports = (props) => {
 			},
 			{
 				title: 'Total Players',
-				description: `${statsData?.totalPlayers || 892}`,
+				description: `${statsData?.totalPlayers || 0}`,
 				iconClass: 'bx bxs-user-plus',
 				reportClass: 'reportList2',
 				customClass: TAB_COLORS.primary,
 			},
 			{
 				title: 'Active Players',
-				description: `${statsData?.activeUsersCount || 489}`,
+				description: `${statsData?.activeUsersCount || 0}`,
 				iconClass: 'bx bxs-user-check',
 				reportClass: 'reportList2',
 				customClass: TAB_COLORS.success,
 			},
 			{
 				title: 'Registrations',
-				description: `${statsData?.totalRegistrationToday || 3}`,
+				description: `${statsData?.totalRegistrationToday || 0}`,
 				iconClass: 'bx bxs-contact',
 				reportClass: 'reportList3',
 				customClass: TAB_COLORS.primary,
 			},
 			{
 				title: 'Total Games',
-				description: `${statsData?.totalGames || 589}`,
+				description: `${statsData?.totalGames || 0}`,
 				iconClass: 'bx bx-play',
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.warn,
 			},
 			{
 				title: 'Total Providers',
-				description: `${statsData?.totalProviders || 56}`,
+				description: `${statsData?.totalProviders || 0}`,
 				iconClass: 'bx bxs-chip',
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.info,
 			},
 			{
 				title: 'Deposit Conv. Rate',
-				description: `${statsData?.depositConvRate || 98} %`,
+				description: `${statsData?.depositConvRate || 0} %`,
 				iconClass: 'bx bxs-credit-card',
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.success,
@@ -153,21 +179,11 @@ const Reports = (props) => {
 };
 
 Reports.defaultProps = {
-	livePlayerData: {},
 	isLivePlayerLoading: false,
 	statsData: {},
 };
 
 Reports.propTypes = {
-	livePlayerData: PropTypes.shape({
-		sportsbookBetData: PropTypes.arrayOf(
-			PropTypes.shape({
-				totalWinAmount: PropTypes.number,
-			})
-		),
-		depositConvRate: PropTypes.string,
-		totalRegistrationToday: PropTypes.string,
-	}),
 	isLivePlayerLoading: PropTypes.bool,
 	statsData: PropTypes.shape({
 		activeUsersCount: PropTypes.number,

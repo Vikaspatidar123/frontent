@@ -147,6 +147,9 @@ const useUserOverview = ({ user }) => {
 					: 'Pending',
 		},
 	];
+
+	const addNumbers = (a, b) => Number((a + b).toFixed(3));
+
 	const totalPlayerStats = useMemo(() => {
 		const accumulator = {};
 		userStatsData?.forEach((item) => {
@@ -154,54 +157,52 @@ const useUserOverview = ({ user }) => {
 				currencyById?.[item?.currency_id]?.exchangeRate || 1
 			);
 
-			const addWithPrecision = (a, b) => Number((a + b).toFixed(3));
-
-			accumulator.total_deposit = addWithPrecision(
+			accumulator.total_deposit = addNumbers(
 				Number(item?.total_deposit || 0) * exchangeRate,
 				Number(accumulator?.total_deposit || 0)
 			);
 
-			accumulator.total_withdraw = addWithPrecision(
+			accumulator.total_withdraw = addNumbers(
 				Number(item?.total_withdraw || 0) * exchangeRate,
 				Number(accumulator?.total_withdraw || 0)
 			);
 
-			accumulator.total_casino_bet_count = addWithPrecision(
+			accumulator.total_casino_bet_count = addNumbers(
 				Number(item?.total_casino_bet_count || 0),
 				Number(accumulator?.total_casino_bet_count || 0)
 			);
 
-			accumulator.total_casino_bet = addWithPrecision(
+			accumulator.total_casino_bet = addNumbers(
 				Number(item?.total_casino_bet || 0) * exchangeRate,
 				Number(accumulator?.total_casino_bet || 0)
 			);
 
-			accumulator.total_casino_win = addWithPrecision(
+			accumulator.total_casino_win = addNumbers(
 				Number(item?.total_casino_win || 0) * exchangeRate,
 				Number(accumulator?.total_casino_win || 0)
 			);
 
-			accumulator.total_sb_bet_count = addWithPrecision(
+			accumulator.total_sb_bet_count = addNumbers(
 				Number(item?.total_sb_bet_count || 0),
 				Number(accumulator?.total_sb_bet_count || 0)
 			);
 
-			accumulator.total_sb_bet = addWithPrecision(
+			accumulator.total_sb_bet = addNumbers(
 				Number(item?.total_sb_bet || 0) * exchangeRate,
 				Number(accumulator?.total_sb_bet || 0)
 			);
 
-			accumulator.total_sb_win = addWithPrecision(
+			accumulator.total_sb_win = addNumbers(
 				Number(item?.total_sb_win || 0) * exchangeRate,
 				Number(accumulator?.total_sb_win || 0)
 			);
 
-			accumulator.total_deposit_count = addWithPrecision(
+			accumulator.total_deposit_count = addNumbers(
 				Number(item?.total_deposit_count || 0),
 				Number(accumulator?.total_deposit_count || 0)
 			);
 
-			accumulator.total_bet_amt = addWithPrecision(
+			accumulator.total_bet_amt = addNumbers(
 				Number(accumulator.total_bet_amt || 0),
 				Number(item?.total_sb_bet || 0) * exchangeRate +
 					Number(item?.total_casino_bet || 0) * exchangeRate

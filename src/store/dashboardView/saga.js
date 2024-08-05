@@ -3,7 +3,6 @@ import { put, takeEvery, all, fork, call } from 'redux-saga/effects';
 // Crypto Redux States
 import { groupBy, keyBy, sortBy } from 'lodash';
 import {
-	GET_LIVE_PLAYER_START,
 	GET_DEMOGRAPHIC_START,
 	GET_KPI_REPORT_START,
 	GET_GAME_REPORT_START,
@@ -12,8 +11,6 @@ import {
 	GET_STATS_START,
 } from './actionTypes';
 import {
-	getLivePlayerInfoSuccess,
-	getLivePlayerInfoFail,
 	getDemographicSuccess,
 	getDemographicFail,
 	// getKpiReportStart,
@@ -29,7 +26,6 @@ import {
 	getStatisticDataFail,
 } from './actions';
 import {
-	getDashboardLiveInfoService,
 	getDashboardDemoGraphicService,
 	getGameReports,
 	getKpiReport,
@@ -162,15 +158,6 @@ const formDataChunks = (data, desiredLength) => {
 	}
 };
 
-function* getLivePlayerData() {
-	try {
-		const { data } = yield getDashboardLiveInfoService();
-		yield put(getLivePlayerInfoSuccess(data?.data));
-	} catch (e) {
-		yield put(getLivePlayerInfoFail());
-	}
-}
-
 function* getStatsDataWorker({ payload }) {
 	try {
 		const { data } = yield statsDataRequest(payload);
@@ -244,7 +231,6 @@ function* topPlayersWorker(action) {
 }
 
 export function* watchDashboardViewData() {
-	yield takeEvery(GET_LIVE_PLAYER_START, getLivePlayerData);
 	yield takeEvery(GET_STATS_START, getStatsDataWorker);
 	yield takeEvery(GET_DEMOGRAPHIC_START, getDemoGraphicData);
 	yield takeEvery(GET_KPI_REPORT_START, getKpiData);

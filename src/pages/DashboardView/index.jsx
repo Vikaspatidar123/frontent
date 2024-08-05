@@ -37,7 +37,6 @@ const DashboardView = ({ t }) => {
 
 	const {
 		isLivePlayerLoading,
-		livePlayerData,
 		loggedInOptions,
 		dashFilters,
 		handleDashFilters,
@@ -68,7 +67,6 @@ const DashboardView = ({ t }) => {
 						<LivePlayerReports
 							dashFilters={dashFilters}
 							isLivePlayerLoading={isLivePlayerLoading}
-							livePlayerData={livePlayerData}
 							statsData={statsData}
 						/>
 					</Row>
@@ -119,7 +117,6 @@ const DashboardView = ({ t }) => {
 								</h4>
 								<RevenueReport
 									statsData={statsData}
-									livePlayerData={livePlayerData}
 									isLivePlayerLoading={isLivePlayerLoading}
 									dashFilters={dashFilters}
 								/>

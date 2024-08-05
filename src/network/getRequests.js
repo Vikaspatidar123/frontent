@@ -227,11 +227,6 @@ const getGlobalRegistration = () =>
 const getloyaltyLevel = () =>
 	getRequest(`${VITE_APP_API_URL}${API_NAMESPACE}/bonus/loyalty-level`);
 
-const getDashboardLiveInfoService = () =>
-	getRequest(
-		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}get-live-player-details`
-	);
-
 const statsDataRequest = (params) =>
 	getRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.DASHBOARD}statistics-summary`,
@@ -450,7 +445,6 @@ export {
 	getSiteConfiguration,
 	getGlobalRegistration,
 	getloyaltyLevel,
-	getDashboardLiveInfoService,
 	getUserDetails,
 	getUserDocument,
 	getImageGalleryData,
