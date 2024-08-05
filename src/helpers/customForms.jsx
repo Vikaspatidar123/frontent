@@ -819,9 +819,9 @@ export const getField = (
 					htmlFor={`radio${name}`}
 					type="switch"
 					id={`radio${name}`}
-					value={!!validation.values[name]}
+					value={!!validation?.values?.[name]}
 					name={name}
-					checked={!!validation.values[name]}
+					checked={!!validation?.values?.[name]}
 					inputClassName="form-check-input"
 					onClick={() =>
 						validation.setFieldValue(name, !validation.values[name])

@@ -171,7 +171,10 @@ FormModal.propTypes = {
 			key: PropTypes.string,
 		}),
 	}),
-	formFields: PropTypes.arrayOf,
+	formFields: PropTypes.arrayOf({
+		name: PropTypes.string,
+		label: PropTypes.string,
+	}),
 	submitLabel: PropTypes.string,
 	isLoading: PropTypes.bool,
 	customColClasses: PropTypes.string,

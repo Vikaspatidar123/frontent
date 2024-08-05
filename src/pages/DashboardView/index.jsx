@@ -24,6 +24,8 @@ import DashboardFilters from './DashboardFilters';
 import DepositWithdrawChart from './DepositWithdrawChart';
 import BetsChart from './BetsChart.jsx';
 import ActivePlayerChart from './ActivePlayerChart';
+import FormModal from '../../components/Common/FormModal';
+import { DASH_REPORTS } from './formFields';
 
 const KpiSummary = lazy(() => import('./KpiSummary'));
 const KpiReport = lazy(() => import('./KpiReport'));
@@ -41,113 +43,161 @@ const DashboardView = ({ t }) => {
 		handleDashFilters,
 		statsData,
 		layoutModeType,
+		showElementControl,
+		setShowElementControl,
+		formFields,
+		validation,
 	} = useDashboardView();
+
+	const elementsToShow = validation.values;
+
 	return (
 		<div className="page-content">
 			<Container fluid>
-				<Breadcrumbs title={t('Dashboards')} breadcrumbItem={t('Dashboard')} />
+				<Breadcrumbs
+					title={t('Dashboards')}
+					breadcrumbItem={t('Dashboard')}
+					showRightInfo={false}
+					showElementControl
+					paddingBottom="10px"
+					toggleElementControl={() => setShowElementControl((prev) => !prev)}
+				/>
 				<DashboardFilters handleDashFilters={handleDashFilters} />
-				<Row>
-					<LivePlayerReports
-						dashFilters={dashFilters}
-						isLivePlayerLoading={isLivePlayerLoading}
-						livePlayerData={livePlayerData}
-						statsData={statsData}
-					/>
-				</Row>
-				<Row>
-					<Col sm={12} md={12} lg={12} xl={6}>
-						<Card>
-							<CardBody>
-								<DepositWithdrawChart
-									statsData={statsData}
-									layoutModeType={layoutModeType}
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-					<Col sm={12} md={12} lg={12} xl={6}>
-						<Card>
-							<CardBody>
-								<BetsChart
-									dashFilters={dashFilters}
-									statsData={statsData}
-									layoutModeType={layoutModeType}
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
-				<Row>
-					<Card>
-						<CardBody>
-							<h4 className="card-title font-size-16 d-flex align-items-center">
-								<span className="mdi mdi-finance fs-1 me-3 text-success" /> GGR
-								Report ({' '}
-								{dashFilters?.categories?.map(
-									(cate, idx) =>
-										`${cate.label} ${
-											(dashFilters?.categories?.length || 1) - 1 !== idx
-												? '+ '
-												: ''
-										}`
-								) || '-'}{' '}
-								)
-							</h4>
-							<RevenueReport
-								statsData={statsData}
-								livePlayerData={livePlayerData}
-								isLivePlayerLoading={isLivePlayerLoading}
-								dashFilters={dashFilters}
-							/>
-						</CardBody>
-					</Card>
-				</Row>
-				<Row>
-					<Col xl="3">
-						<LoggedInPlayer
-							loggedInOptions={loggedInOptions}
+				{elementsToShow?.[DASH_REPORTS.reportCards] ? (
+					<Row>
+						<LivePlayerReports
+							dashFilters={dashFilters}
 							isLivePlayerLoading={isLivePlayerLoading}
+							livePlayerData={livePlayerData}
+							statsData={statsData}
 						/>
-					</Col>
-					<Col xl="9">
+					</Row>
+				) : null}
+				<Row>
+					{elementsToShow?.[DASH_REPORTS.depositWithdraw] ? (
+						<Col sm={12} md={12} lg={12} xl={6}>
+							<Card>
+								<CardBody>
+									<DepositWithdrawChart
+										statsData={statsData}
+										layoutModeType={layoutModeType}
+									/>
+								</CardBody>
+							</Card>
+						</Col>
+					) : null}
+					{elementsToShow?.[DASH_REPORTS.betsChart] ? (
+						<Col sm={12} md={12} lg={12} xl={6}>
+							<Card>
+								<CardBody>
+									<BetsChart
+										dashFilters={dashFilters}
+										statsData={statsData}
+										layoutModeType={layoutModeType}
+									/>
+								</CardBody>
+							</Card>
+						</Col>
+					) : null}
+				</Row>
+				<Row>
+					{elementsToShow?.[DASH_REPORTS.ggrReport] ? (
 						<Card>
-							<CardBody className="logged-player">
+							<CardBody>
 								<h4 className="card-title font-size-16 d-flex align-items-center">
-									<span className="mdi mdi-account-star fs-1 me-3 text-success" />{' '}
-									Active players
+									<span className="mdi mdi-finance fs-1 me-3 text-success" />{' '}
+									GGR Report ({' '}
+									{dashFilters?.categories?.map(
+										(cate, idx) =>
+											`${cate.label} ${
+												(dashFilters?.categories?.length || 1) - 1 !== idx
+													? '+ '
+													: ''
+											}`
+									) || '-'}{' '}
+									)
 								</h4>
-								<ActivePlayerChart
+								<RevenueReport
 									statsData={statsData}
-									layoutModeType={layoutModeType}
+									livePlayerData={livePlayerData}
+									isLivePlayerLoading={isLivePlayerLoading}
+									dashFilters={dashFilters}
 								/>
 							</CardBody>
 						</Card>
-					</Col>
+					) : null}
 				</Row>
 				<Row>
-					<Col xl="12">
-						<DemographicReport />
-					</Col>
+					{elementsToShow?.[DASH_REPORTS.playerLogin] ? (
+						<Col xl="3">
+							<LoggedInPlayer
+								loggedInOptions={loggedInOptions}
+								isLivePlayerLoading={isLivePlayerLoading}
+							/>
+						</Col>
+					) : null}
+					{elementsToShow?.[DASH_REPORTS.activePlayers] ? (
+						<Col xl="9">
+							<Card>
+								<CardBody className="logged-player">
+									<h4 className="card-title font-size-16 d-flex align-items-center">
+										<span className="mdi mdi-account-star fs-1 me-3 text-success" />{' '}
+										Active players
+									</h4>
+									<ActivePlayerChart
+										statsData={statsData}
+										layoutModeType={layoutModeType}
+									/>
+								</CardBody>
+							</Card>
+						</Col>
+					) : null}
 				</Row>
+				{elementsToShow?.[DASH_REPORTS.demographic] ? (
+					<Row>
+						<Col xl="12">
+							<DemographicReport />
+						</Col>
+					</Row>
+				) : null}
 				<Row>
-					<Suspense>
-						<KpiSummary />
-					</Suspense>
+					{elementsToShow?.[DASH_REPORTS.kpiSummary] ? (
+						<Suspense>
+							<KpiSummary />
+						</Suspense>
+					) : null}
 
-					<Suspense>
-						<GameReport />
-					</Suspense>
+					{elementsToShow?.[DASH_REPORTS.topGames] ? (
+						<Suspense>
+							<GameReport />
+						</Suspense>
+					) : null}
 
-					<Suspense>
-						<PlayerReport />
-					</Suspense>
+					{elementsToShow?.[DASH_REPORTS.topPlayers] ? (
+						<Suspense>
+							<PlayerReport />
+						</Suspense>
+					) : null}
 
-					<Suspense>
-						<KpiReport />
-					</Suspense>
+					{elementsToShow?.[DASH_REPORTS.kpiReport] ? (
+						<Suspense>
+							<KpiReport />
+						</Suspense>
+					) : null}
 				</Row>
 			</Container>
+			<FormModal
+				isOpen={showElementControl}
+				setIsOpen={() => setShowElementControl((prev) => !prev)}
+				header="Dashboard Reports"
+				validation={validation}
+				responsiveFormFields={formFields}
+				customColClasses="col-md-12"
+				isSubmitLoading={false}
+				colOptions={{ xs: 6, sm: 6, md: 6, lg: 4, xl: 4, xxl: 4 }}
+				isSubmit={false}
+				modalSize="lg"
+			/>
 		</div>
 	);
 };

@@ -53,6 +53,7 @@ const formPageTitle = {
 const STORAGE_KEY = {
 	ADMIN_EDIT: 'admin_edit_key',
 	ADMIN_VIEW: 'admin_view_key',
+	DASH_CONFIG: 'dashboard_configs',
 };
 
 export { rowsPerPageOptions, defaultPageSize, formPageTitle, STORAGE_KEY };

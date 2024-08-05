@@ -7,6 +7,14 @@ import {
 } from '../../../store/dashboardView/actions';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 import { INITIAL_FILTERS } from '../constant';
+import useForm from '../../../components/Common/Hooks/useFormModal';
+import {
+	dashboardElements,
+	initialElement,
+	validationSchema,
+} from '../formFields';
+import { setItem } from '../../../network/storageUtils';
+import { STORAGE_KEY } from '../../../components/Common/constants';
 
 const useDashboardView = () => {
 	const dispatch = useDispatch();
@@ -80,6 +88,21 @@ const useDashboardView = () => {
 		}
 	}, [livePlayerData && livePlayerData?.totalLoggedInPlayers]);
 
+	const {
+		isOpen: showElementControl,
+		setIsOpen: setShowElementControl,
+		validation,
+		formFields,
+	} = useForm({
+		initialValues: initialElement(),
+		validationSchema: validationSchema(),
+		staticFormFields: dashboardElements(),
+	});
+
+	useEffect(() => {
+		setItem(STORAGE_KEY.DASH_CONFIG, JSON.stringify(validation.values));
+	}, [validation.values]);
+
 	return {
 		isLivePlayerLoading,
 		livePlayerData,
@@ -89,6 +112,10 @@ const useDashboardView = () => {
 		handleDashFilters,
 		statsData,
 		layoutModeType,
+		showElementControl,
+		setShowElementControl,
+		formFields,
+		validation,
 	};
 };
 

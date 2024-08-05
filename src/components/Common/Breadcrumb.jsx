@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
@@ -16,6 +19,9 @@ const Breadcrumb = ({
 	setShowModal,
 	callBack,
 	isNotFormModal,
+	showElementControl,
+	paddingBottom,
+	toggleElementControl,
 }) => {
 	const navigate = useNavigate();
 	const onBackClick = () => {
@@ -39,7 +45,10 @@ const Breadcrumb = ({
 	return (
 		<Row>
 			<Col xs="12">
-				<div className="page-title-box d-flex align-items-center justify-content-between">
+				<div
+					className="d-flex align-items-center justify-content-between"
+					style={{ paddingBottom }}
+				>
 					<div className="d-flex align-items-center">
 						{showBackButton && (
 							<h4
@@ -79,6 +88,12 @@ const Breadcrumb = ({
 							</ol>
 						</div>
 					)}
+					{showElementControl && (
+						<i
+							className="bx bx-customize bx-tada dash-element-icon fs-2 me-4 p-2"
+							onClick={toggleElementControl}
+						/>
+					)}
 				</div>
 			</Col>
 		</Row>
@@ -95,6 +110,9 @@ Breadcrumb.defaultProps = {
 	values: null,
 	callBack: undefined,
 	isNotFormModal: true,
+	showElementControl: false,
+	paddingBottom: '24px',
+	toggleElementControl: () => {},
 };
 
 Breadcrumb.propTypes = {
@@ -109,6 +127,9 @@ Breadcrumb.propTypes = {
 	values: PropTypes.objectOf(),
 	callBack: PropTypes.func,
 	isNotFormModal: PropTypes.bool,
+	showElementControl: PropTypes.bool,
+	paddingBottom: PropTypes.string,
+	toggleElementControl: PropTypes.func,
 };
 
 export default Breadcrumb;
