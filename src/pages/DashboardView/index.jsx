@@ -36,7 +36,7 @@ const DashboardView = ({ t }) => {
 	document.title = projectName;
 
 	const {
-		isLivePlayerLoading,
+		statsDataLoading,
 		loggedInOptions,
 		dashFilters,
 		handleDashFilters,
@@ -66,7 +66,7 @@ const DashboardView = ({ t }) => {
 					<Row>
 						<LivePlayerReports
 							dashFilters={dashFilters}
-							isLivePlayerLoading={isLivePlayerLoading}
+							statsDataLoading={statsDataLoading}
 							statsData={statsData}
 						/>
 					</Row>
@@ -117,7 +117,7 @@ const DashboardView = ({ t }) => {
 								</h4>
 								<RevenueReport
 									statsData={statsData}
-									isLivePlayerLoading={isLivePlayerLoading}
+									statsDataLoading={statsDataLoading}
 									dashFilters={dashFilters}
 								/>
 							</CardBody>
@@ -129,7 +129,7 @@ const DashboardView = ({ t }) => {
 						<Col xl="3">
 							<LoggedInPlayer
 								loggedInOptions={loggedInOptions}
-								isLivePlayerLoading={isLivePlayerLoading}
+								statsDataLoading={statsDataLoading}
 							/>
 						</Col>
 					) : null}

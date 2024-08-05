@@ -12,7 +12,7 @@ import { TAB_COLORS } from '../constant';
 import { addCommasToNumber } from '../../../utils/helpers';
 
 const Reports = (props) => {
-	const { isLivePlayerLoading, statsData, dashFilters } = props;
+	const { statsDataLoading, statsData, dashFilters } = props;
 	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
 	);
@@ -159,7 +159,7 @@ const Reports = (props) => {
 							title={report.title}
 							description={report.description}
 							iconClass={report.iconClass}
-							isLoading={isLivePlayerLoading}
+							isLoading={statsDataLoading}
 							reportClass={report.reportClass}
 							customClass={report.customClass}
 						/>
@@ -179,12 +179,12 @@ const Reports = (props) => {
 };
 
 Reports.defaultProps = {
-	isLivePlayerLoading: false,
+	statsDataLoading: false,
 	statsData: {},
 };
 
 Reports.propTypes = {
-	isLivePlayerLoading: PropTypes.bool,
+	statsDataLoading: PropTypes.bool,
 	statsData: PropTypes.shape({
 		activeUsersCount: PropTypes.number,
 		totalGames: PropTypes.number,

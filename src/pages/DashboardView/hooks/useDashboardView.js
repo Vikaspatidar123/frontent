@@ -18,7 +18,7 @@ const useDashboardView = () => {
 	const [dashFilters, setDashFilters] = useState(INITIAL_FILTERS);
 	const layoutModeType = useSelector((state) => state.Layout.layoutModeType);
 
-	const { isLivePlayerLoading, statsData } = useSelector(
+	const { statsDataLoading, statsData } = useSelector(
 		(state) => state.DashboardViewInfo
 	);
 
@@ -93,7 +93,7 @@ const useDashboardView = () => {
 	}, [validation.values]);
 
 	return {
-		isLivePlayerLoading,
+		statsDataLoading,
 		loggedInOptions,
 		dashFilters,
 		setDashFilters,

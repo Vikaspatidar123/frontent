@@ -19,7 +19,6 @@ import {
 } from './actionTypes';
 
 const INIT_STATE = {
-	isLivePlayerLoading: false,
 	isDemographicLoading: false,
 	demoGraphicData: {},
 	kPISummary: null,

@@ -6,7 +6,7 @@ import DivLoader from '../../../components/Common/Loader/divLoader';
 import { NoDataLoggedInContainer } from '../style';
 
 const LoggedInPlayer = (props) => {
-	const { loggedInOptions, isLivePlayerLoading } = props;
+	const { loggedInOptions, statsDataLoading } = props;
 	return (
 		<Col xl="12">
 			<Card className="logged-player">
@@ -17,7 +17,7 @@ const LoggedInPlayer = (props) => {
 					</h4>
 					<div>
 						<div id="donut-chart">
-							{!isLivePlayerLoading && loggedInOptions?.series?.length > 0 && (
+							{!statsDataLoading && loggedInOptions?.series?.length > 0 && (
 								<ReactApexChart
 									options={loggedInOptions}
 									series={loggedInOptions.series}
@@ -26,7 +26,7 @@ const LoggedInPlayer = (props) => {
 									className="apex-charts"
 								/>
 							)}
-							{isLivePlayerLoading && (
+							{statsDataLoading && (
 								<NoDataLoggedInContainer>
 									<DivLoader isSmall loaderVarient="text-secondary" />
 								</NoDataLoggedInContainer>
