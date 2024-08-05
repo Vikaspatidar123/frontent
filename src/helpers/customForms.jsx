@@ -9,6 +9,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import { convertToRaw, ContentState, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import Select, { components } from 'react-select';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import {
@@ -21,7 +22,6 @@ import {
 	InputGroupText,
 	Tooltip,
 } from 'reactstrap';
-import Select from 'react-select';
 
 import FlatPickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
@@ -146,6 +146,46 @@ export const CustomSelectField = ({
 		) : null}
 	</>
 );
+
+const CheckboxOption = (props) => (
+	<components.Option {...props}>
+		<div style={{ display: 'flex', alignItems: 'center' }}>
+			<input
+				type="checkbox"
+				checked={props?.isSelected}
+				onChange={() => null} // Prevents user from toggling manually
+				style={{ marginRight: 8 }}
+			/>
+			<Label>{props?.label}</Label>
+		</div>
+	</components.Option>
+);
+
+export const MultiSelectOption = ({
+	options,
+	label,
+	value,
+	setOption,
+	isRequired,
+}) => {
+	const handleChange = (selected) => {
+		setOption(selected);
+	};
+	return (
+		<div className="container">
+			{label && <Label className="form-label">{label}</Label>}
+			{isRequired && label && <span className="text-danger"> *</span>}
+			<Select
+				options={options}
+				isMulti
+				closeMenuOnSelect={false}
+				components={{ Option: CheckboxOption }}
+				onChange={handleChange}
+				value={value || []}
+			/>
+		</div>
+	);
+};
 
 export const CustomDateField = ({
 	name,
@@ -800,6 +840,17 @@ export const getField = (
 					description={description}
 					dynamicDescription={dynamicDescription}
 					validation={validation}
+				/>
+			);
+		case 'MultiSelectOptions':
+			return (
+				<MultiSelectOption
+					label={label}
+					options={multiSelectOption}
+					value={validation.values[name]}
+					setOption={(selected) => {
+						validation.setFieldValue(name, selected);
+					}}
 				/>
 			);
 		case 'switch':

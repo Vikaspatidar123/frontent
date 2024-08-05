@@ -51,7 +51,7 @@ const filterValues = () => ({
 	toDate: null,
 	type: null,
 	purpose: null,
-	tagId: null,
+	tagIds: null,
 	currencyId: defaultCurrencyId,
 });
 
@@ -63,7 +63,7 @@ const filterValidationSchema = () =>
 		toDate: Yup.string().nullable(),
 		type: Yup.string().nullable(),
 		purpose: Yup.string().nullable(),
-		tagId: Yup.string().nullable(),
+		tagIds: Yup.string().nullable(),
 		currencyId: Yup.string().nullable(),
 	});
 

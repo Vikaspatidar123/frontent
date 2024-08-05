@@ -56,8 +56,8 @@ const useFilters = (userId = '') => {
 	}, []);
 
 	useEffect(() => {
-		if (userTags && currencies) {
-			const tags = userTags?.map((row) => ({
+		if (userTags?.tags && currencies) {
+			const tags = userTags?.tags?.map((row) => ({
 				optionLabel: row?.tag,
 				value: row.id,
 			}));
@@ -70,10 +70,10 @@ const useFilters = (userId = '') => {
 			setFormFields([
 				...staticFiltersFields(userId),
 				{
-					name: 'tagId',
+					name: 'tagIds',
 					fieldType: 'select',
 					label: '',
-					placeholder: 'Select tag',
+					placeholder: 'Select Segment',
 					optionList: tags,
 				},
 				{

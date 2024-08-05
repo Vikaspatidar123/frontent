@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'reactstrap';
 import { isEmpty } from 'lodash';
 import { commonFields, getBonusInitialValues } from '../formDetails';
@@ -8,6 +9,7 @@ import Spinners from '../../../components/Common/Spinner';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { generalFormSchema } from '../Validation/schema';
 import Actions from './Actions';
+import { getAllTags } from '../../../store/actions';
 
 const General = ({
 	isLoading,
@@ -19,6 +21,8 @@ const General = ({
 	toggleTab,
 	tabsToShow,
 }) => {
+	const dispatch = useDispatch();
+	const { userTags } = useSelector((state) => state.UserDetails);
 	const handleSubmit = (values) => {
 		setAllFields((prev) => ({
 			...prev,
@@ -42,16 +46,51 @@ const General = ({
 		}));
 	};
 
+	useEffect(() => {
+		if (!userTags) {
+			dispatch(getAllTags());
+		}
+	}, []);
+
 	const { formFields, validation, setFormFields } = useForm({
 		initialValues: getBonusInitialValues(),
 		validationSchema: generalFormSchema(),
 		staticFormFields: commonFields({}, handleBonusTypeChange),
 		onSubmitEntry: handleSubmit,
 	});
+
 	useEffect(() => {
+		const tags = userTags?.tags?.map((row) => ({
+			label: row?.tag,
+			value: row.id,
+		}));
 		if (!isEmpty(bonusDetails)) {
 			validation.setValues(getBonusInitialValues(bonusDetails));
-			setFormFields(commonFields(bonusDetails, handleBonusTypeChange));
+			setFormFields(
+				commonFields(bonusDetails, handleBonusTypeChange, [
+					{
+						name: 'tagIds',
+						fieldType: 'MultiSelectOptions',
+						label: 'Select Segment',
+						placeholder: 'Select Segment',
+						multiple: true,
+						multiSelectOption: tags,
+					},
+				])
+			);
+		} else {
+			setFormFields(
+				commonFields({}, handleBonusTypeChange, [
+					{
+						name: 'tagIds',
+						fieldType: 'MultiSelectOptions',
+						label: 'Select Segment',
+						placeholder: 'Select Segment',
+						multiple: true,
+						multiSelectOption: tags,
+					},
+				])
+			);
 		}
 	}, [bonusDetails]);
 

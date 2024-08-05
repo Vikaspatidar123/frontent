@@ -68,7 +68,7 @@ const useFilters = (userId = '') => {
 
 	useEffect(() => {
 		if (userTags && currencies) {
-			const tags = userTags?.map((row) => ({
+			const tags = userTags?.tags?.map((row) => ({
 				optionLabel: row?.tag,
 				value: row.id,
 			}));

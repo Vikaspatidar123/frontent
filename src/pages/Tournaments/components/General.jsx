@@ -10,7 +10,7 @@ import {
 import FormPage from '../../../components/Common/FormPage';
 import Spinners from '../../../components/Common/Spinner';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getLanguagesStart } from '../../../store/actions';
+import { getAllTags, getLanguagesStart } from '../../../store/actions';
 import TabsPage from '../../../components/Common/TabsPage';
 import { CustomInputField } from '../../../helpers/customForms';
 import Actions from './Actions';
@@ -29,10 +29,14 @@ const General = ({
 	const dispatch = useDispatch();
 	const [activeLangTab, setActiveLangTab] = useState('EN');
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
+	const { userTags } = useSelector((state) => state.UserDetails);
 
 	useEffect(() => {
 		if (!languageData) {
 			dispatch(getLanguagesStart());
+		}
+		if (!userTags) {
+			dispatch(getAllTags());
 		}
 	}, [languageData]);
 
@@ -50,7 +54,7 @@ const General = ({
 		window.scrollTo(0, 0);
 	};
 
-	const { formFields, validation } = useForm({
+	const { formFields, validation, setFormFields } = useForm({
 		initialValues: generalStepInitialValues(tournamentDetail),
 		validationSchema: generalFormSchema(),
 		staticFormFields: staticFormFields(),
@@ -81,6 +85,27 @@ const General = ({
 			validation.setValues(generalStepInitialValues(tournamentDetail));
 		}
 	}, [tournamentDetail, tournamentId]);
+
+	useEffect(() => {
+		if (userTags) {
+			const tags = userTags?.tags?.map((row) => ({
+				label: row?.tag,
+				value: row.id,
+			}));
+			setFormFields(
+				staticFormFields([
+					{
+						name: 'tagIds',
+						fieldType: 'MultiSelectOptions',
+						label: 'Select Segment',
+						placeholder: 'Select Segment',
+						multiple: true,
+						multiSelectOption: tags,
+					},
+				])
+			);
+		}
+	}, [userTags]);
 
 	const tabData = languageData?.languages?.map((item) => ({
 		id: item.code,

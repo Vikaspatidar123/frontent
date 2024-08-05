@@ -603,6 +603,11 @@ const updateProviderCredentials = (data) =>
 			'Content-Type': 'multipart/form-data',
 		}
 	);
+const updateUserTags = (data) =>
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.PLAYER}tag/update-tag`,
+		data
+	);
 
 export {
 	createSuperAdminCMS,
@@ -698,4 +703,5 @@ export {
 	updateChatrain,
 	addProviderCredentials,
 	updateProviderCredentials,
+	updateUserTags,
 };
