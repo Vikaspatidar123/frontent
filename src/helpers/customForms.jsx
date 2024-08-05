@@ -59,36 +59,27 @@ export const CustomInputField = ({
 	<>
 		{label && <Label className="form-label">{label}</Label>}
 		{isRequired && label && <span className="text-danger"> *</span>}
-		<InputGroup>
-			<Input
-				name={name}
-				type={type}
-				label={label}
-				value={value}
-				disabled={disabled}
-				validate={validate}
-				onChange={onChange}
-				onBlur={onBlur}
-				invalid={invalid}
-				placeholder={placeholder}
-				minlength={min}
-				maxlength={max}
-				autoComplete="new-password"
-				{...props}
-			/>
-			{onDelete && (
-				<InputGroupText
-					className="password-btn btn btn-danger font-size-14"
-					onClick={() => onDelete(name, value)}
-				>
-					<i className="mdi mdi-trash-can-outline" />
-				</InputGroupText>
-			)}
-			{description && <span className="text-muted">{description}</span>}
-			{isError && errorMsg ? (
-				<FormFeedback type="invalid">{errorMsg}</FormFeedback>
-			) : null}
-		</InputGroup>
+		<Input
+			name={name}
+			type={type}
+			label={label}
+			value={value}
+			disabled={disabled}
+			validate={validate}
+			onChange={onChange}
+			onBlur={onBlur}
+			invalid={invalid}
+			placeholder={placeholder}
+			minlength={min}
+			maxlength={max}
+			autoComplete="new-password"
+			{...props}
+		/>
+
+		{description && <span className="text-muted">{description}</span>}
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid">{errorMsg}</FormFeedback>
+		) : null}
 	</>
 );
 

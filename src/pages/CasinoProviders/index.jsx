@@ -51,6 +51,7 @@ const CasinoProviders = () => {
 		isEdit,
 		showModal,
 		setShowModal,
+		buttonList,
 	} = useCreateProvider();
 
 	return (
@@ -66,7 +67,7 @@ const CasinoProviders = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={[]} title="Casino Providers" />
+							<CrudSection buttonList={buttonList} title="Casino Providers" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

@@ -8,6 +8,7 @@ import {
 	validationSchema,
 } from '../formDetails';
 import {
+	createCasinoProvidersStart,
 	editCasinoProvidersStart,
 	getLanguagesStart,
 	// getAggregatorsList,
@@ -25,6 +26,7 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import { dataURLtoBlob } from '../../../utils/helpers';
+import { modules } from '../../../constants/permissions';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
@@ -36,6 +38,7 @@ const useCreateProvider = () => {
 		casinoProvidersData,
 		isEditProviderLoading,
 		languageData,
+		isCreateProviderSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 
 	useEffect(() => {
@@ -58,6 +61,22 @@ const useCreateProvider = () => {
 			editCasinoProvidersStart({
 				data: {
 					...values,
+					language: '',
+				},
+			})
+		);
+	};
+
+	const handleAddProvider = (values) => {
+		dispatch(
+			createCasinoProvidersStart({
+				data: {
+					...values,
+					providerType: 'casino',
+					name: values.name?.EN,
+					icon: values.file,
+					file: '',
+					language: '',
 				},
 			})
 		);
@@ -75,8 +94,8 @@ const useCreateProvider = () => {
 		header: 'Add Provider',
 		initialValues: getInitialValues(),
 		validationSchema: validationSchema(langState),
-		staticFormFields,
-		onSubmitEntry: handleEditProvider,
+		staticFormFields: staticFormFields(),
+		onSubmitEntry: isEdit?.open ? handleEditProvider : handleAddProvider,
 	});
 
 	const onClickEdit = (selectedRow) => {
@@ -109,6 +128,14 @@ const useCreateProvider = () => {
 		});
 	};
 
+	const handleAddClick = (e) => {
+		e.preventDefault();
+		setIsOpen((prev) => !prev);
+		validation.resetForm(getInitialValues({ name: { EN: '' } }));
+		setHeader('Configure provider');
+		setIsEdit({ open: false, selectedRow: '' });
+	};
+
 	useEffect(() => {
 		if (languageData?.languages?.length) {
 			const langOptions = languageData?.languages?.map((r) => ({
@@ -131,14 +158,14 @@ const useCreateProvider = () => {
 					fieldType: 'inputGroup',
 					onDelete: onRemoveLanguage,
 				},
-				...staticFormFields,
+				...staticFormFields(),
 			]);
 		}
 	}, [languageData, isEdit]);
 
 	useEffect(() => {
-		if (isEditProviderLoading) setIsOpen(false);
-	}, [isEditProviderLoading]);
+		if (isEditProviderLoading || isCreateProviderSuccess) setIsOpen(false);
+	}, [isEditProviderLoading, isCreateProviderSuccess]);
 
 	useEffect(() => {
 		if (
@@ -209,6 +236,16 @@ const useCreateProvider = () => {
 		[casinoProvidersData]
 	);
 
+	const buttonList = [
+		{
+			label: 'Configure New',
+			handleClick: handleAddClick,
+			link: '#!',
+			module: modules.casinoManagement,
+			operation: 'C',
+		},
+	];
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -223,6 +260,7 @@ const useCreateProvider = () => {
 		showModal,
 		setShowModal,
 		isEdit,
+		buttonList,
 	};
 };
 

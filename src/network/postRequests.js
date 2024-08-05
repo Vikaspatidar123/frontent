@@ -576,10 +576,17 @@ const createChannel = (data) =>
 		data
 	);
 const createChatrain = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}create-chat-rain`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}create-chat-rain`,
+		data
+	);
 
 const updateChatrain = (data) =>
-	postRequest(`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}update-chat-rain`, data);
+	postRequest(
+		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.CHAT}update-chat-rain`,
+		data
+	);
+
 const addProviderCredentials = (data) =>
 	postRequest(
 		`${VITE_APP_API_URL}${API_NAMESPACE}${MANAGEMENT.INTERNAL}create-credentials`,

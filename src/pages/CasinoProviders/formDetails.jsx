@@ -3,8 +3,8 @@
 import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
-	language: '',
-	name: defaultValue?.name || '',
+	language: null,
+	name: defaultValue?.name || {},
 	providerId: defaultValue?.id || null,
 	file: defaultValue?.iconUrl || '',
 });
@@ -48,7 +48,7 @@ const validationSchema = (name) =>
 			),
 	});
 
-const staticFormFields = [
+const staticFormFields = () => [
 	{
 		name: 'file',
 		fieldType: 'file',

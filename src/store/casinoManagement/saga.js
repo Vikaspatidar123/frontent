@@ -68,7 +68,6 @@ import {
 
 import {
 	createCasinoCategory,
-	createCasinoProvider,
 	isCasinoFeaturedService,
 	addGamesToCategory,
 	casinoManagementToggle,
@@ -78,12 +77,14 @@ import {
 	editCasinoGames,
 	editCasinoProvider,
 	removeGamesFromCategory,
+	addProviderCredentials,
 } from '../../network/postRequests';
 
 import { objectToFormData } from '../../utils/objectToFormdata';
 import { showToastr } from '../../utils/helpers';
 import { formPageTitle } from '../../components/Common/constants';
 import { deleteCategory } from '../../network/deleteRequests';
+import { filterEmptyPayload } from '../../network/networkUtils';
 
 function* getCasinoCategoryWorker(action) {
 	const payload = action && action.payload;
@@ -185,7 +186,7 @@ function* getAllCasinoGamesWorker(action) {
 function* createCasinoProviderWorker(action) {
 	try {
 		const { data } = action && action.payload;
-		yield createCasinoProvider(objectToFormData(data));
+		yield addProviderCredentials(objectToFormData(filterEmptyPayload(data)));
 
 		showToastr({
 			message: `Provider Created Successfully`,
@@ -202,7 +203,7 @@ function* createCasinoProviderWorker(action) {
 function* editCasinoProviderWorker(action) {
 	try {
 		const { data } = action && action.payload;
-		yield editCasinoProvider(objectToFormData(data));
+		yield editCasinoProvider(objectToFormData(filterEmptyPayload(data)));
 
 		showToastr({
 			message: `Provider Updated Successfully`,
