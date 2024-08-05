@@ -20,18 +20,37 @@ import { CustomSwitchButton } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
 // import { getDateTime } from '../../../utils/dateFormatter';
 
-const usePlayersListing = (
-	filterValues = {},
-	userIds = null,
-	toggleUserId = () => {}
-) => {
+const usePlayersListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [isOpen, setIsOpen] = useState(false);
 	const { players, loading: isPlayersLoading } = useSelector(
 		(state) => state.Players
 	);
-	const [showManageMoney, setShowManageMoney] = useState(''); // will store player id for manage money
+	const [showManageMoney, setShowManageMoney] = useState('');
+	const [userIds, setUserIds] = useState({});
+	const selectedPlayers = Object.keys(userIds)?.map((key) => key);
+
+	const toggleUserId = (userId) => {
+		if (userIds[userId]) {
+			setUserIds((prev) => {
+				// eslint-disable-next-line no-param-reassign
+				delete prev[userId];
+				return { ...prev };
+			});
+		} else {
+			setUserIds((prev) => ({
+				...prev,
+				[userId]: true,
+			}));
+		}
+	};
+
+	const onSuccess = () => {
+		setUserIds({});
+		setIsOpen(false);
+	};
 
 	const CheckboxInput = ({ cell }) => (
 		<div className=" d-flex justify-content-center">
@@ -136,18 +155,15 @@ const usePlayersListing = (
 			// 	accessor: 'isInternal',
 			// 	Cell: ({ cell }) => <IsInternal value={cell.value} />,
 			// },
-			...(!userIds
-				? [
-						{
-							Header: 'Action',
-							accessor: 'action',
-							disableSortBy: true,
-							Cell: ({ cell }) => (
-								<Action cell={cell} setShowManageMoney={setShowManageMoney} />
-							),
-						},
-				  ]
-				: []),
+
+			{
+				Header: 'Action',
+				accessor: 'action',
+				disableSortBy: true,
+				Cell: ({ cell }) => (
+					<Action cell={cell} setShowManageMoney={setShowManageMoney} />
+				),
+			},
 		],
 		[userIds]
 	);
@@ -188,12 +204,23 @@ const usePlayersListing = (
 		setItemsPerPage(value);
 	};
 
+	const handleEdit = () => {
+		setIsOpen((prev) => !prev);
+	};
 	const buttonList = [
+		// {
+		// 	label: 'Attach Tag',
+		// 	link: '/users-bulk-update',
+		// 	module: modules.player,
+		// 	operation: 'U',
+		// },
 		{
-			label: 'Attach Tag',
-			link: '/users-bulk-update',
+			label: 'Edit',
+			link: '',
+			handleClick: handleEdit,
 			module: modules.player,
 			operation: 'U',
+			isHide: !selectedPlayers?.length,
 		},
 	];
 
@@ -209,6 +236,10 @@ const usePlayersListing = (
 		showManageMoney,
 		setShowManageMoney,
 		buttonList,
+		isOpen,
+		setIsOpen,
+		selectedPlayers,
+		onSuccess,
 	};
 };
 

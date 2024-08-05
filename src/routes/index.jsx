@@ -184,7 +184,6 @@ const authProtectedRoutes = [
 		modules: [modules.player],
 		operation: 'U',
 	},
-
 	{ path: '/cms', component: <Cms />, modules: [modules.page], operation: 'R' },
 	{
 		path: '/cms/create',
@@ -565,7 +564,7 @@ const authProtectedRoutes = [
 	// },
 	{
 		path: '/chat/channel/create',
-		component: <CreateChannel />
+		component: <CreateChannel />,
 	},
 	{
 		path: '/chat/chat-rain/add',

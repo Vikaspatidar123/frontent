@@ -114,13 +114,13 @@ const TableContainer = ({
 												<span className="d-flex align-items-center gap-1">
 													{column.render('Header')}
 													{generateSortingIndicator(column)}
-													{column?.tableHeaderTooltipContent ? (
+													{column?.tableHeaderTooltipContent && (
 														<span
 															className="mdi mdi-information-outline"
 															style={{ fontSize: '20px' }}
 															id={`id-${column.id}`}
 														/>
-													) : null}
+													)}
 												</span>
 												{column.subLabel && (
 													<div style={{ fontSize: 12 }}>

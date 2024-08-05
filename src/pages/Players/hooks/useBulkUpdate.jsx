@@ -5,7 +5,6 @@ import PlayersList from '../index';
 
 const useBulkUpdate = () => {
 	const [userIds, setUserIds] = useState({});
-
 	const toggleUserId = (userId) => {
 		if (userIds[userId]) {
 			setUserIds((prev) => {

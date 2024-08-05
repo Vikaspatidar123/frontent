@@ -95,6 +95,9 @@ import {
 	USER_REFERRALS_SUCCESS,
 	USER_REFERRALS,
 	USER_REFERRALS_FAIL,
+	DELETE_TAG_SUCCESS,
+	DELETE_TAG_FAIL,
+	DELETE_TAG,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -196,6 +199,9 @@ const INIT_STATE = {
 	referralsLoading: false,
 	referrals: null,
 	referralsError: null,
+	deleteTageLoading: false,
+	deleteTage: null,
+	deleteTageError: null,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -930,6 +936,29 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				...state,
 				referralsLoading: false,
 				referralsError: payload,
+			};
+		case DELETE_TAG:
+			return {
+				...state,
+				deleteTagLoading: true,
+				deleteTag: null,
+				deleteTagError: null,
+			};
+
+		case DELETE_TAG_SUCCESS:
+			return {
+				...state,
+				deleteTagLoading: false,
+				deleteTag: true,
+				deleteTagError: null,
+			};
+
+		case DELETE_TAG_FAIL:
+			return {
+				...state,
+				deleteTagLoading: false,
+				deleteTag: null,
+				deleteTagError: payload,
 			};
 
 		default:

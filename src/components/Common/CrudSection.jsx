@@ -21,27 +21,31 @@ const CrudSection = ({ title, buttonList, exportComponent }) => {
 							operation,
 							tooltip,
 							icon,
-						}) => (
-							<Fragment key={link}>
-								<Link
-									hidden={module && operation && !isGranted(module, operation)}
-									to={link}
-									onClick={handleClick}
-									className={`btn btn-primary me-1 ${
-										icon ? 'icon-button-padding' : ''
-									}`}
-									id={`id-${label}`}
-								>
-									{label}
-									{icon}
-								</Link>
-								{tooltip && (
-									<UncontrolledTooltip placement="top" target={`id-${label}`}>
-										{tooltip}
-									</UncontrolledTooltip>
-								)}
-							</Fragment>
-						)
+							isHide,
+						}) =>
+							!isHide && (
+								<Fragment key={link}>
+									<Link
+										hidden={
+											module && operation && !isGranted(module, operation)
+										}
+										to={link}
+										onClick={handleClick}
+										className={`btn btn-primary me-1 ${
+											icon ? 'icon-button-padding' : ''
+										}`}
+										id={`id-${label}`}
+									>
+										{label}
+										{icon}
+									</Link>
+									{tooltip && (
+										<UncontrolledTooltip placement="top" target={`id-${label}`}>
+											{tooltip}
+										</UncontrolledTooltip>
+									)}
+								</Fragment>
+							)
 					)}
 				</div>
 				<div className="flex-shrink-0">
