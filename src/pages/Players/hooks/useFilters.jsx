@@ -110,7 +110,7 @@ const useFilters = () => {
 				},
 			]);
 		}
-	}, [countries, languages]);
+	}, [countries, languages, userTags]);
 
 	useEffect(() => {
 		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
