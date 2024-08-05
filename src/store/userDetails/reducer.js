@@ -98,6 +98,9 @@ import {
 	DELETE_TAG_SUCCESS,
 	DELETE_TAG_FAIL,
 	DELETE_TAG,
+	UPDATE_TAG,
+	UPDATE_TAG_SUCCESS,
+	UPDATE_TAG_FAIL,
 } from './actionTypes';
 
 const INIT_STATE = {
@@ -199,9 +202,8 @@ const INIT_STATE = {
 	referralsLoading: false,
 	referrals: null,
 	referralsError: null,
-	deleteTageLoading: false,
-	deleteTage: null,
-	deleteTageError: null,
+	deleteTagLoading: false,
+	updateTagLoading: false,
 };
 
 const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
@@ -941,24 +943,33 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				deleteTagLoading: true,
-				deleteTag: null,
-				deleteTagError: null,
 			};
 
 		case DELETE_TAG_SUCCESS:
 			return {
 				...state,
 				deleteTagLoading: false,
-				deleteTag: true,
-				deleteTagError: null,
 			};
 
 		case DELETE_TAG_FAIL:
 			return {
 				...state,
 				deleteTagLoading: false,
-				deleteTag: null,
-				deleteTagError: payload,
+			};
+		case UPDATE_TAG:
+			return {
+				...state,
+				updateTagLoading: true,
+			};
+		case UPDATE_TAG_SUCCESS:
+			return {
+				...state,
+				updateTagLoading: false,
+			};
+		case UPDATE_TAG_FAIL:
+			return {
+				...state,
+				updateTagLoading: false,
 			};
 
 		default:

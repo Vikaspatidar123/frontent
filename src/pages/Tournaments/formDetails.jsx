@@ -291,7 +291,7 @@ const currencyValidate = () =>
 		});
 	});
 
-const staticFormFields = () => [
+const staticFormFields = (otherFields = []) => [
 	{
 		name: 'registrationEndDate',
 		fieldType: 'dateTimePicker',
@@ -338,6 +338,7 @@ const staticFormFields = () => [
 		customThumbnailBackground: '#1A1D29',
 		customPadding: '8px',
 	},
+	...otherFields,
 	{
 		name: 'isActive',
 		fieldType: 'toggle',

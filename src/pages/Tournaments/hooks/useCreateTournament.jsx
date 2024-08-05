@@ -77,6 +77,8 @@ const useCreateTournaments = () => {
 					...updatedAllFields,
 					currencyDetails: currencyData,
 					casinoGameIds: selectedGames?.map((game) => game.casinoGameId),
+					tagIds:
+						allFields?.tagIds?.map((tag) => parseInt(tag?.value, 10)) || [],
 				};
 
 				if (typeof data?.image === 'string') {

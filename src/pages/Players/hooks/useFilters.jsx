@@ -73,10 +73,10 @@ const useFilters = () => {
 
 	useEffect(() => {
 		if (!isEmpty(countries) && !isEmpty(languages)) {
-			// const tags = userTags?.map((userTag) => ({
-			// 	optionLabel: userTag?.tag,
-			// 	value: userTag.id,
-			// }));
+			const tags = userTags?.tags?.map((userTag) => ({
+				optionLabel: userTag?.tag,
+				value: userTag.id,
+			}));
 			const countriesData = countries?.countries?.map((country) => ({
 				optionLabel: country?.name,
 				value: country.id,
@@ -87,13 +87,13 @@ const useFilters = () => {
 			// }));
 			setFormFields([
 				...staticFiltersFields(),
-				// {
-				// 	name: 'tagId',
-				// 	fieldType: 'select',
-				// 	label: '',
-				// 	placeholder: 'Select tag',
-				// 	optionList: tags,
-				// },
+				{
+					name: 'tagIds',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select Segment',
+					optionList: tags,
+				},
 				// {
 				// 	name: 'languageId',
 				// 	fieldType: 'select',

@@ -149,6 +149,7 @@ const useCreateBonus = ({ isEdit }) => {
 				// removed the unused payload
 				bonusImage: null,
 				selectedTemplate: null,
+				tagIds: allFields?.tagIds?.map((tag) => parseInt(tag?.value, 10)) || [],
 			};
 
 			dispatch(updateBonus(payload));
@@ -186,8 +187,8 @@ const useCreateBonus = ({ isEdit }) => {
 				// removed the unused payload
 				bonusImage: null,
 				selectedTemplate: null,
+				tagIds: allFields?.tagIds?.map((tag) => parseInt(tag?.value, 10)) || [],
 			};
-
 			dispatch(createBonus(payload));
 		}
 	};

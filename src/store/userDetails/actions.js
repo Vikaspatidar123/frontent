@@ -95,6 +95,9 @@ import {
 	DELETE_TAG_SUCCESS,
 	DELETE_TAG_FAIL,
 	DELETE_TAG,
+	UPDATE_TAG,
+	UPDATE_TAG_SUCCESS,
+	UPDATE_TAG_FAIL,
 } from './actionTypes';
 
 export const getUserDetailsSuccess = (payload) => ({
@@ -580,4 +583,20 @@ export const deleteTag = (payload, callback) => ({
 	type: DELETE_TAG,
 	payload,
 	callback,
+});
+
+export const updateTag = (payload, callback) => ({
+	type: UPDATE_TAG,
+	payload,
+	callback,
+});
+
+export const updateTagSuccess = (tag) => ({
+	type: UPDATE_TAG_SUCCESS,
+	payload: tag,
+});
+
+export const updateTagFail = (error) => ({
+	type: UPDATE_TAG_FAIL,
+	payload: error,
 });

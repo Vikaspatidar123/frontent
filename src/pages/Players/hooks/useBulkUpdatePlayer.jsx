@@ -151,7 +151,7 @@ const useBulkUpdatePlayer = (selectedPlayers, onSuccess) => {
 		}
 		if (validation?.values?.tagAction !== 'createTag') {
 			setOptions(
-				userTags?.map((tag) => ({
+				userTags?.tags.map((tag) => ({
 					id: tag?.id,
 					optionLabel: tag?.tag,
 					value: tag?.id,

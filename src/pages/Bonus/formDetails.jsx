@@ -81,7 +81,11 @@ const getBonusInitialValues = (bonusDetails) => {
 	};
 };
 
-const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
+const commonFields = (
+	bonusDetails,
+	handleBonusTypeChange = () => {},
+	otherFields = []
+) => [
 	{
 		name: 'promotionTitle',
 		fieldType: 'textField',
@@ -122,6 +126,7 @@ const commonFields = (bonusDetails, handleBonusTypeChange = () => {}) => [
 		rangeKeys: ['validFrom', 'validTo'],
 		// isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
+	...otherFields,
 	{
 		name: 'daysToClear',
 		fieldType: 'textField',

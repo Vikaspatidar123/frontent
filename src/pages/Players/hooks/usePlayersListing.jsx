@@ -12,6 +12,7 @@ import {
 	PlayerId,
 	// RegistrationDate,
 	Status,
+	Tags,
 	// Tags,
 	UserName,
 } from '../PlayersListCol';
@@ -125,12 +126,12 @@ const usePlayersListing = (filterValues = {}) => {
 			// 	filterable: true,
 			// 	Cell: ({ cell }) => <PhoneNumber value={cell.value} />,
 			// },
-			// {
-			// 	Header: 'Tags',
-			// 	accessor: 'userTags',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <Tags value={cell?.value} />,
-			// },
+			{
+				Header: 'Segment',
+				accessor: 'userTags',
+				filterable: true,
+				Cell: ({ cell }) => <Tags value={cell?.value} />,
+			},
 			{
 				Header: 'Status',
 				accessor: 'status',

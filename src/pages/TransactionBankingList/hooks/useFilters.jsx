@@ -62,10 +62,10 @@ const useFilters = (userId = '') => {
 
 	useEffect(() => {
 		if (currencies) {
-			// const tags = userTags?.map((row) => ({
-			// 	optionLabel: row?.tag,
-			// 	value: row.id,
-			// }));
+			const tags = userTags?.tags?.map((row) => ({
+				optionLabel: row?.tag,
+				value: row.id,
+			}));
 
 			const currencyOptions = currencies?.currencies?.map((currency) => ({
 				optionLabel: currency.code,
@@ -74,13 +74,13 @@ const useFilters = (userId = '') => {
 
 			setFormFields([
 				...staticFiltersFields(userId),
-				// {
-				// 	name: 'tagId',
-				// 	fieldType: 'select',
-				// 	label: '',
-				// 	placeholder: 'Select tag',
-				// 	optionList: tags,
-				// },
+				{
+					name: 'tagIds',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select Segment',
+					optionList: tags,
+				},
 				{
 					name: 'currencyId',
 					fieldType: 'select',

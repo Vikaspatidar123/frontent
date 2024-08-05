@@ -62,6 +62,7 @@ import {
 	getUserDetails as userDetailsStart,
 	deleteTagFail,
 	deleteTagSuccess,
+	getAllTags,
 } from './actions';
 import {
 	ACTIVATE_KYC,
@@ -88,6 +89,7 @@ import {
 	RESET_USER_LIMIT,
 	SEND_PASSWORD_RESET,
 	UPDATE_SA_USER_STATUS,
+	UPDATE_TAG,
 	UPDATE_USER_COMMENT,
 	UPDATE_USER_INFO,
 	UPDATE_USER_PASSWORD,
@@ -123,6 +125,7 @@ import {
 	updateSAUserStatusCall,
 	updateUserInfoCall,
 	updateUserPassword,
+	updateUserTags,
 	verifyDocument,
 	verifyPlayerEmail,
 } from '../../network/postRequests';
@@ -163,7 +166,7 @@ function* getAllUserTagsWorker(action) {
 		const payload = action && action.payload;
 		const { data } = yield getAllUserTags(payload);
 
-		yield put(getAllTagsSuccess(data?.data?.tags));
+		yield put(getAllTagsSuccess(data?.data));
 	} catch (e) {
 		yield put(getAllTagsFail(e.message));
 	}
@@ -254,8 +257,8 @@ function* updateSAUserStatusWorker(action) {
 		}
 		showToastr({
 			message: !payload?.isActive
-				? 'Player inactivated succesfully'
-				: 'Player activated succesfully',
+				? 'Player inactivated successfully'
+				: 'Player activated successfully',
 			type: 'success',
 		});
 	} catch (e) {
@@ -298,8 +301,9 @@ function* createUserTagsWorker(action) {
 		const payload = action && action.payload;
 		yield createUserTags(payload);
 		yield put(createTagSuccess(true));
-		const { data } = yield getAllUserTags();
-		yield put(getAllTagsSuccess(data?.data?.tags));
+		// const { data } = yield getAllUserTags();
+		// yield put(getAllTagsSuccess(data?.data));
+		yield put(getAllTags());
 		showToastr({
 			message: `Segment Created Successfully`,
 			type: 'success',
@@ -578,15 +582,35 @@ function* userReferralsWorker(action) {
 		yield put(userReferralsFail(e.message));
 	}
 }
-function* deleteTageWorker(action) {
+function* deleteTegWorker(action) {
 	try {
 		const payload = action && action.payload;
 		yield deleteTags(payload);
 		yield put(deleteTagSuccess());
-		const { data } = yield getAllUserTags();
-		yield put(getAllTagsSuccess(data?.data?.tags));
+		// const { data } = yield getAllUserTags();
+		// yield put(getAllTagsSuccess(data?.data));
+		yield put(getAllTags());
 		showToastr({
 			message: 'Deleted Successfully',
+			type: 'success',
+		});
+		if (action?.callback) {
+			action.callback();
+		}
+	} catch (e) {
+		yield put(deleteTagFail());
+	}
+}
+function* updateTegWorker(action) {
+	try {
+		const payload = action && action.payload;
+		yield updateUserTags(payload);
+		yield put(deleteTagSuccess());
+		// const { data } = yield getAllUserTags();
+		// yield put(getAllTagsSuccess(data?.data));
+		yield put(getAllTags());
+		showToastr({
+			message: 'Update Successfully',
 			type: 'success',
 		});
 		if (action?.callback) {
@@ -627,7 +651,8 @@ function* userDetailsWatcher() {
 	yield takeLatest(INACTIVE_KYC, inActiveKycWorker);
 	yield takeLatest(DELETE_USER_COMMENT, deleteUserCommentWorker);
 	yield takeLatest(USER_REFERRALS, userReferralsWorker);
-	yield takeLatest(DELETE_TAG, deleteTageWorker);
+	yield takeLatest(DELETE_TAG, deleteTegWorker);
+	yield takeLatest(UPDATE_TAG, updateTegWorker);
 }
 
 function* UserDetailsSaga() {

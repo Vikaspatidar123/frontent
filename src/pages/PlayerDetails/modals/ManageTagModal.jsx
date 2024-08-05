@@ -111,7 +111,7 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 	useEffect(() => {
 		if (userTags?.length > 0 && validation?.values?.tagAction === 'addTag') {
 			setOptions(
-				userTags?.map((tag) => ({
+				userTags?.tags?.map((tag) => ({
 					id: tag?.id,
 					optionLabel: tag?.tag,
 					value: tag?.id,
@@ -121,7 +121,7 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 
 		if (validation?.values?.tagAction === 'removeTag' && userDetails) {
 			setOptions(
-				userDetails?.userTags?.map((tag) => ({
+				userDetails?.userTags?.tags?.map((tag) => ({
 					id: tag.tagId,
 					optionLabel: tag?.tag?.tag,
 					value: tag.tagId,

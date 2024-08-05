@@ -81,6 +81,7 @@ import CreateChatRain from '../pages/ChatRain/CreateChatRain';
 import PreviewChatrain from '../pages/ChatRain/ChatrainView';
 import EditChatrain from '../pages/ChatRain/EditChatrain';
 import AddNewProvider from '../pages/Payment/addNewProvider';
+import Segmentation from '../pages/Sagmentation';
 
 const authProtectedRoutes = [
 	{
@@ -582,6 +583,12 @@ const authProtectedRoutes = [
 		path: '/chat/chat-rain/:chatRainId',
 		component: <PreviewChatrain />,
 		modules: [modules.paymentManagement],
+		operation: 'C',
+	},
+	{
+		path: '/Segmentation',
+		component: <Segmentation />,
+		modules: [modules.tag],
 		operation: 'C',
 	},
 

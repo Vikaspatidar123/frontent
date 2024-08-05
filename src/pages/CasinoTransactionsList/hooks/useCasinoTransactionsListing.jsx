@@ -68,7 +68,6 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
-
 	const formattedCasinoTransactions = useMemo(() => {
 		const formattedValues = [];
 		if (casinoTransactions) {
@@ -171,7 +170,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 				Cell: ({ cell }) => <ActionType value={cell.value} />,
 			},
 			{
-				Header: 'Tags',
+				Header: 'Segments',
 				accessor: 'userTags',
 				filterable: true,
 				Cell: ({ cell }) => <Tags value={cell?.value} />,

@@ -88,8 +88,9 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 						?.label,
 					createdAt: getDateTime(txn?.createdAt),
 					userTags:
-						txn?.user?.userTags?.map((tags) => tags?.tag?.tag)?.join(', ') ||
-						'-',
+						txn?.user?.userTags?.tags
+							?.map((tags) => tags?.tag?.tag)
+							?.join(', ') || '-',
 				})
 			);
 		}
@@ -153,7 +154,7 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 				Cell: ({ cell }) => <ActionType value={cell.value} />,
 			},
 			{
-				Header: 'Tags',
+				Header: 'Segments',
 				accessor: 'userTags',
 				filterable: true,
 				Cell: ({ cell }) => <Tags value={cell?.value} />,
@@ -222,7 +223,8 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 			status: STATUS_TYPE.find((status) => status.value === txn?.status)?.label,
 			createdAt: getDateTime(txn?.createdAt),
 			userTags:
-				txn?.user?.userTags?.map((tags) => tags?.tag?.tag)?.join(', ') || '-',
+				txn?.user?.userTags?.tags?.map((tags) => tags?.tag?.tag)?.join(', ') ||
+				'-',
 		}));
 		downloadReport('csv', json2csv(csvJsonData), 'Sports Transactions Report');
 	};
