@@ -31,43 +31,13 @@ const usePlayersListing = (filterValues = {}) => {
 		(state) => state.Players
 	);
 	const [showManageMoney, setShowManageMoney] = useState('');
-	const [userIds, setUserIds] = useState({});
 	const [selectedUsers, setSelectedUsers] = useState([]);
-
-	const selectedPlayers = Object.keys(userIds)?.map((key) => key);
-
-	// const toggleUserId = (userId) => {
-	// 	if (userIds[userId]) {
-	// 		setUserIds((prev) => {
-	// 			// eslint-disable-next-line no-param-reassign
-	// 			delete prev[userId];
-	// 			return { ...prev };
-	// 		});
-	// 	} else {
-	// 		setUserIds((prev) => ({
-	// 			...prev,
-	// 			[userId]: true,
-	// 		}));
-	// 	}
-	// };
+	const selectedPlayers = selectedUsers?.map((user) => parseInt(user.id, 10));
 
 	const onSuccess = () => {
-		setUserIds({});
+		setSelectedUsers([]);
 		setIsOpen(false);
 	};
-
-	// const CheckboxInput = ({ cell }) => (
-	// 	<div className=" d-flex justify-content-center">
-	// 		<CustomSwitchButton
-	// 			type="checkbox"
-	// 			containerClass="false"
-	// 			className="form-check-input"
-	// 			checked={userIds[cell?.row?.original?.id]}
-	// 			switchSizeClass="form-switch-md"
-	// 			onClick={() => toggleUserId(cell?.row?.original?.id)}
-	// 		/>
-	// 	</div>
-	// );
 
 	// eslint-disable-next-line no-shadow
 	const CheckboxInput = ({ cell, selectedUsers, toggleSelectUser }) => (
@@ -95,7 +65,7 @@ const usePlayersListing = (filterValues = {}) => {
 		{
 			Header: () => (
 				<div className="d-flex align-items-center">
-					<p className="mx-3 mb-0">All</p>
+					<p className="mx-3 mb-0">Select All</p>
 					<CustomSwitchButton
 						type="checkbox"
 						name="selectAll"
@@ -122,7 +92,6 @@ const usePlayersListing = (filterValues = {}) => {
 									return filteredUsers;
 								});
 							}
-							console.log(newData);
 						}}
 					/>
 				</div>
@@ -245,16 +214,12 @@ const usePlayersListing = (filterValues = {}) => {
 	];
 
 	const toggleSelectUser = (id) => {
-		console.log(id);
 		const found = selectedUsers?.find((user) => user.id === id);
-		console.log(found, selectedUsers);
 		if (found) {
-			console.log('@@@', selectedUsers);
 			const updatedUsers = selectedUsers?.filter(
 				// eslint-disable-next-line no-shadow
-				({ id }) => id !== id.toString()
+				(user) => user.id !== id.toString()
 			);
-			console.log(updatedUsers);
 			setSelectedUsers(updatedUsers);
 		} else {
 			setSelectedUsers((prev) => [...prev, { id }]);
