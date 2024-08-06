@@ -93,9 +93,6 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 					status: STATUS_TYPE.find((status) => status.value === txn?.status)
 						?.label,
 					createdAt: getDateTime(txn?.createdAt),
-					userTags:
-						txn?.user?.userTags?.map((tags) => tags?.tag?.tag)?.join(', ') ||
-						'-',
 				})
 			);
 		}
@@ -169,12 +166,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 				filterable: true,
 				Cell: ({ cell }) => <ActionType value={cell.value} />,
 			},
-			// {
-			// 	Header: 'Segments',
-			// 	accessor: 'userTags',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <Tags value={cell?.value} />,
-			// },
+
 			{
 				Header: 'Purpose',
 				accessor: 'purpose',
@@ -239,8 +231,6 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 			purpose: txn?.ledger?.purpose,
 			status: STATUS_TYPE.find((status) => status.value === txn?.status)?.label,
 			createdAt: getDateTime(txn?.createdAt),
-			userTags:
-				txn?.user?.userTags?.map((tags) => tags?.tag?.tag)?.join(', ') || '-',
 		}));
 		downloadReport('csv', json2csv(csvJsonData), 'Casino Transactions Report');
 	};

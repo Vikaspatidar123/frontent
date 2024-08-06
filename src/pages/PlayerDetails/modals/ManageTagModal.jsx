@@ -17,23 +17,40 @@ import {
 const tagSchema = () =>
 	Yup.object().shape({
 		tag: Yup.string()
-			.required('Tag Required')
-			.min(3, 'tag must be at least 3 characters')
-			.max(30, 'tag must be at most 30 characters'),
-		tagAction: Yup.string().required('Tag Action Required'),
+			.required('Segment name is required')
+			.test('tag-conditional-validation', 'Segment Required', function (value) {
+				const { tagAction } = this.parent;
+				if (tagAction === 'createTag') {
+					if (!value) {
+						return this.createError({ message: 'Segment Required' });
+					}
+					if (value.length < 3) {
+						return this.createError({
+							message: 'Segment must be at least 3 characters',
+						});
+					}
+					if (value.length > 30) {
+						return this.createError({
+							message: 'Segment must be at most 30 characters',
+						});
+					}
+				}
+				return true;
+			}),
+		tagAction: Yup.string().required('Segment Action Required'),
 	});
 
 const tagActionsOptionsList = [
 	{
-		optionLabel: 'Attach Tag',
+		optionLabel: 'Attach',
 		value: 'addTag',
 	},
 	{
-		optionLabel: 'Remove Tag',
+		optionLabel: 'Remove',
 		value: 'removeTag',
 	},
 	{
-		optionLabel: 'Create Tag',
+		optionLabel: 'Create',
 		value: 'createTag',
 	},
 ];
@@ -42,14 +59,14 @@ const staticFormFields = (options, isCreateTag) => [
 	{
 		name: 'tagAction',
 		fieldType: 'radioGroup',
-		label: 'Tag Action',
+		label: 'Segment Action',
 		optionList: tagActionsOptionsList,
 	},
 	{
 		name: 'tag',
 		fieldType: isCreateTag ? 'textField' : 'select',
 		// label: '',
-		placeholder: isCreateTag ? 'Enter tag' : 'Select Tag',
+		placeholder: isCreateTag ? 'Enter Segment' : 'Select Segment',
 		required: false,
 		optionList: options || [],
 		maximum: 30,
@@ -94,7 +111,7 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 
 	const { isOpen, setIsOpen, header, validation, formFields, setFormFields } =
 		useForm({
-			header: `Manage Tags for ${userDetails?.firstName} ${userDetails?.lastName}`,
+			header: `Manage Segment for ${userDetails?.firstName} ${userDetails?.lastName}`,
 			initialValues: {
 				tag: null,
 				tagAction: '',
@@ -109,7 +126,10 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 		});
 
 	useEffect(() => {
-		if (userTags?.length > 0 && validation?.values?.tagAction === 'addTag') {
+		if (
+			userTags?.tags?.length > 0 &&
+			validation?.values?.tagAction === 'addTag'
+		) {
 			setOptions(
 				userTags?.tags?.map((tag) => ({
 					id: tag?.id,
@@ -121,7 +141,7 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 
 		if (validation?.values?.tagAction === 'removeTag' && userDetails) {
 			setOptions(
-				userDetails?.userTags?.tags?.map((tag) => ({
+				userDetails?.userTags?.map((tag) => ({
 					id: tag.tagId,
 					optionLabel: tag?.tag?.tag,
 					value: tag.tagId,
