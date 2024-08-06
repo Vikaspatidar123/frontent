@@ -13,7 +13,11 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getInitialValues } from '../formDetails';
 import Actions from './Actions';
 import TableContainer from '../../../components/Common/Table';
-import { tableCustomClass, tbodyClass } from '../../../constants/config';
+import {
+	debounceTime,
+	tableCustomClass,
+	tbodyClass,
+} from '../../../constants/config';
 
 const KeyValueCell = ({ cell }) => (cell.value ? cell.value : '');
 
@@ -59,6 +63,8 @@ const columnsArray = ({ blockedCountries, toggleBlockedCountry }) => [
 	},
 ];
 
+let debounce;
+
 const Countries = ({
 	setAllFields,
 	paymentDetails,
@@ -99,13 +105,16 @@ const Countries = ({
 	}, [paymentDetails, countries]);
 
 	useEffect(() => {
-		dispatch(
-			fetchCountriesStart({
-				perPage: itemsPerPage,
-				page: currentPage,
-				search: searchText,
-			})
-		);
+		debounce = setTimeout(() => {
+			dispatch(
+				fetchCountriesStart({
+					perPage: itemsPerPage,
+					page: currentPage,
+					searchString: searchText,
+				})
+			);
+		}, debounceTime);
+		return () => clearTimeout(debounce);
 	}, [itemsPerPage, currentPage, searchText]);
 
 	const handleNextClick = async (nextTab) => {
