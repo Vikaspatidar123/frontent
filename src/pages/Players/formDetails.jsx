@@ -100,19 +100,18 @@ const staticFiltersFields = () => [
 	},
 ];
 
-const filterValues = () => ({
+const filterValues = (tagIds) => ({
 	searchString: '',
 	pincode: '',
 	kycStatus: null,
 	userId: '',
-	tagIds: null,
+	tagIds: tagIds || null,
 	orderBy: null,
 	isActive: null,
 	fromDate: '',
 	toDate: '',
 	sort: '',
 });
-
 const filterValidationSchema = () =>
 	Yup.object({
 		searchString: Yup.string().nullable(),

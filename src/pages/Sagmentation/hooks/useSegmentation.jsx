@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
-import { ActionButtons, IsActive, KeyValueCellNA } from '../SegmentColList';
+import {
+	ActionButtons,
+	IsActive,
+	KeyValueCellNA,
+	Segment,
+} from '../SegmentColList';
 import {
 	staticFormFields,
 	getSegmentInitialValues,
@@ -24,9 +29,6 @@ const useSegmentation = () => {
 	const { userTags, userTagsLoading } = useSelector(
 		(state) => state.UserDetails
 	);
-
-	console.log(userTagsLoading);
-
 	const handleSegments = (values) => {
 		if (isEdit?.open) {
 			dispatch(
@@ -158,7 +160,7 @@ const useSegmentation = () => {
 				Header: 'Segment Name',
 				accessor: 'tag',
 				filterable: true,
-				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
+				Cell: ({ cell }) => <Segment cell={cell} />,
 			},
 			{
 				Header: 'Status',
