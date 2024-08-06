@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { uniqBy } from 'lodash';
 import { fetchPlayersStart, resetPlayersData } from '../../../store/actions';
 import {
 	Action,
@@ -30,144 +31,131 @@ const usePlayersListing = (filterValues = {}) => {
 		(state) => state.Players
 	);
 	const [showManageMoney, setShowManageMoney] = useState('');
-	const [userIds, setUserIds] = useState({});
-	const selectedPlayers = Object.keys(userIds)?.map((key) => key);
-
-	const toggleUserId = (userId) => {
-		if (userIds[userId]) {
-			setUserIds((prev) => {
-				// eslint-disable-next-line no-param-reassign
-				delete prev[userId];
-				return { ...prev };
-			});
-		} else {
-			setUserIds((prev) => ({
-				...prev,
-				[userId]: true,
-			}));
-		}
-	};
+	const [selectedUsers, setSelectedUsers] = useState([]);
+	const selectedPlayers = selectedUsers?.map((user) => parseInt(user.id, 10));
 
 	const onSuccess = () => {
-		setUserIds({});
+		setSelectedUsers([]);
 		setIsOpen(false);
 	};
 
-	const CheckboxInput = ({ cell }) => (
-		<div className=" d-flex justify-content-center">
+	// eslint-disable-next-line no-shadow
+	const CheckboxInput = ({ cell, selectedUsers, toggleSelectUser }) => (
+		<div className="d-flex justify-content-center">
 			<CustomSwitchButton
 				type="checkbox"
-				containerClass="false"
+				containerClass="form-switch-md"
 				className="form-check-input"
-				checked={userIds[cell?.row?.original?.id]}
-				switchSizeClass="form-switch-md"
-				onClick={() => toggleUserId(cell?.row?.original?.id)}
+				checked={selectedUsers?.find(
+					({ id }) => id === cell?.row?.original?.id.toString()
+				)}
+				switchSizeClass="form-switch-sm"
+				onClick={() => toggleSelectUser(cell?.row?.original?.id)}
 			/>
 		</div>
 	);
 
-	const columns = useMemo(
-		() => [
-			userIds
-				? {
-						Header: 'SELECT',
-						accessor: 'select',
-						disableSortBy: true,
-						notHidable: true,
-						Cell: ({ cell }) => <CheckboxInput cell={cell} />,
-				  }
-				: {
-						Header: '#',
-						disableFilters: true,
-						filterable: true,
-						notHidable: true,
-						disableSortBy: true,
-						accessor: (prop) => {
-							const { fullName, randomColor } = prop;
-							return (
-								<div className="avatar-xs">
-									<span
-										className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
-									>
-										{fullName.charAt(0).toUpperCase()}
-									</span>
-								</div>
-							);
-						},
-				  },
-			{
-				Header: 'Player Id',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <PlayerId value={cell.value} />,
-			},
-			{
-				Header: 'Username',
-				accessor: 'username',
-				filterable: true,
-				Cell: ({ cell }) => <UserName cell={cell} />,
-			},
-			{
-				Header: 'Email',
-				accessor: 'email',
-				filterable: true,
-				Cell: ({ cell }) => <Email value={cell.value} />,
-			},
-			{
-				Header: 'Country',
-				accessor: 'country',
-				filterable: true,
-				Cell: ({ cell }) => <CountryName value={cell?.value?.name} />,
-			},
-			// {
-			// 	Header: 'Phone Number',
-			// 	accessor: 'phone',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <PhoneNumber value={cell.value} />,
-			// },
-			{
-				Header: 'Segment',
-				accessor: 'userTags',
-				filterable: true,
-				Cell: ({ cell }) => <Tags value={cell?.value} />,
-			},
-			{
-				Header: 'Status',
-				accessor: 'status',
-				filterable: true,
-				disableSortBy: true,
-				Cell: ({ cell }) => <Status value={cell.value} />,
-			},
-			{
-				Header: 'Kyc Status',
-				accessor: 'kycStatus',
-				Cell: ({ cell }) => <KycStatus value={cell.value} />,
-			},
-			// {
-			// 	Header: 'Registration Date',
-			// 	accessor: 'createdAt',
-			// 	Cell: ({ cell }) => (
-			// 		<RegistrationDate value={getDateTime(cell?.value)} />
-			// 	),
-			// },
-			// {
-			// 	Header: 'Is Internal',
-			// 	accessor: 'isInternal',
-			// 	Cell: ({ cell }) => <IsInternal value={cell.value} />,
-			// },
-
-			{
-				Header: 'Action',
-				accessor: 'action',
-				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<Action cell={cell} setShowManageMoney={setShowManageMoney} />
-				),
-			},
-		],
-		[userIds]
-	);
+	const columnsArray = ({
+		// eslint-disable-next-line no-shadow
+		selectedUsers,
+		toggleSelectUser,
+		// eslint-disable-next-line no-shadow
+		setSelectedUsers,
+	}) => [
+		{
+			Header: () => (
+				<div className="d-flex align-items-center">
+					<p className="mx-3 mb-0">All</p>
+					<CustomSwitchButton
+						type="checkbox"
+						name="selectAll"
+						containerClass="form-switch-md"
+						className="form-check-input"
+						checked={
+							players?.users?.length > 0 &&
+							players?.users?.every((v) =>
+								selectedUsers?.find(({ id }) => id === v?.id?.toString())
+							)
+						}
+						switchSizeClass="form-switch-sm"
+						onClick={(e) => {
+							const newData = [];
+							if (!e.target.checked) {
+								players?.users?.forEach((v) => newData.push({ id: v.id }));
+								setSelectedUsers((prev) => uniqBy([...prev, ...newData], 'id'));
+							} else {
+								setSelectedUsers((prev) => {
+									const filteredUsers = prev.filter(
+										({ id }) =>
+											!players?.users.find((item) => item.id.toString() === id)
+									);
+									return filteredUsers;
+								});
+							}
+						}}
+					/>
+				</div>
+			),
+			accessor: 'code',
+			disableSortBy: true,
+			Cell: ({ cell }) => (
+				<CheckboxInput
+					selectedUsers={selectedUsers}
+					toggleSelectUser={toggleSelectUser}
+					cell={cell}
+				/>
+			),
+		},
+		{
+			Header: 'Player Id',
+			accessor: 'id',
+			notHidable: true,
+			filterable: true,
+			Cell: ({ cell }) => <PlayerId value={cell.value} />,
+		},
+		{
+			Header: 'Username',
+			accessor: 'username',
+			filterable: true,
+			Cell: ({ cell }) => <UserName cell={cell} />,
+		},
+		{
+			Header: 'Email',
+			accessor: 'email',
+			filterable: true,
+			Cell: ({ cell }) => <Email value={cell.value} />,
+		},
+		{
+			Header: 'Country',
+			accessor: 'country',
+			filterable: true,
+			Cell: ({ cell }) => <CountryName value={cell?.value?.name} />,
+		},
+		{
+			Header: 'Segment',
+			accessor: 'userTags',
+			filterable: true,
+			Cell: ({ cell }) => <Tags value={cell?.value} />,
+		},
+		{
+			Header: 'Status',
+			accessor: 'status',
+			filterable: true,
+			disableSortBy: true,
+			Cell: ({ cell }) => <Status value={cell.value} />,
+		},
+		{
+			Header: 'Kyc Status',
+			accessor: 'kycStatus',
+			Cell: ({ cell }) => <KycStatus value={cell.value} />,
+		},
+		{
+			Header: 'Action',
+			accessor: 'action',
+			disableSortBy: true,
+			Cell: ({ cell }) => <Action cell={cell} />,
+		},
+	];
 
 	useEffect(() => {
 		dispatch(
@@ -224,6 +212,29 @@ const usePlayersListing = (filterValues = {}) => {
 			disabled: !selectedPlayers?.length,
 		},
 	];
+
+	const toggleSelectUser = (id) => {
+		const found = selectedUsers?.find((user) => user.id === id);
+		if (found) {
+			const updatedUsers = selectedUsers?.filter(
+				// eslint-disable-next-line no-shadow
+				(user) => user.id !== id.toString()
+			);
+			setSelectedUsers(updatedUsers);
+		} else {
+			setSelectedUsers((prev) => [...prev, { id }]);
+		}
+	};
+
+	const columns = useMemo(
+		() =>
+			columnsArray({
+				selectedUsers,
+				toggleSelectUser,
+				setSelectedUsers,
+			}),
+		[selectedUsers, formattedPlayers]
+	);
 
 	return {
 		currentPage,
