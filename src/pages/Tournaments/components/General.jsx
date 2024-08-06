@@ -25,6 +25,7 @@ const General = ({
 	toggleTab,
 	tabsToShow,
 	activeTab,
+	tournamentSegmentDetail,
 }) => {
 	const dispatch = useDispatch();
 	const [activeLangTab, setActiveLangTab] = useState('EN');
@@ -79,12 +80,24 @@ const General = ({
 				console.log('Error in general form = ', err?.errors);
 			});
 	};
-
 	useEffect(() => {
+		const specificIdsLookup = {};
+		tournamentSegmentDetail?.forEach((item) => {
+			specificIdsLookup[item?.id] = true;
+		});
+
+		const filteredTags = userTags?.tags
+			.filter((row) => specificIdsLookup[row.id])
+			.map((row) => ({
+				label: row.tag,
+				value: row.id,
+			}));
 		if (tournamentDetail && tournamentId) {
-			validation.setValues(generalStepInitialValues(tournamentDetail));
+			validation.setValues(
+				generalStepInitialValues(tournamentDetail, null, filteredTags)
+			);
 		}
-	}, [tournamentDetail, tournamentId]);
+	}, [tournamentDetail, tournamentId, tournamentSegmentDetail]);
 
 	useEffect(() => {
 		if (userTags) {

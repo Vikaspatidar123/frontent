@@ -31,6 +31,7 @@ const initialState = {
 	isTournamentsInfoLoading: false,
 	isTournamentsInfoError: null,
 	tournamentDetail: null,
+	tournamentSegmentDetail: null,
 	tournamentDetailLoading: false,
 	isTournamentDetailError: null,
 	updateTournament: false,
@@ -135,7 +136,8 @@ const EliteQuestData = (state = initialState, { type, payload } = {}) => {
 				...state,
 				tournamentDetailLoading: false,
 				isTournamentDetailError: null,
-				tournamentDetail: payload,
+				tournamentDetail: payload?.tournament,
+				tournamentSegmentDetail: payload?.tags,
 			};
 
 		case GET_TOURNAMENT_DETAIL_BY_ID_FAIL:

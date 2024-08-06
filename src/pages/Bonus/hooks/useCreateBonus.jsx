@@ -49,7 +49,7 @@ const useCreateBonus = ({ isEdit }) => {
 
 	const { languages } = useSelector((state) => state.Languages);
 
-	const { bonusDetails, getBonusDetailsLoading } = useSelector(
+	const { bonusDetails, bonusSegment, getBonusDetailsLoading } = useSelector(
 		(state) => state.UserDetails
 	);
 
@@ -239,6 +239,7 @@ const useCreateBonus = ({ isEdit }) => {
 					setAllFields={setAllFields}
 					setLangContent={setLangContent}
 					bonusDetails={bonusDetails}
+					bonusSegment={bonusSegment}
 					submitButtonLoading={createBonusLoading || updateBonusLoading}
 					toggleTab={toggleTab}
 					activeTab={activeTab}

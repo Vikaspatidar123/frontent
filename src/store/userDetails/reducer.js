@@ -147,6 +147,7 @@ const INIT_STATE = {
 	getAllBonusError: false,
 	getBonusDetailsLoading: false,
 	bonusDetails: null,
+	bonusSegment: null,
 	getBonusDetailsError: false,
 	issueBonusLoading: false,
 	issueBonusSuccess: false,
@@ -504,7 +505,8 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				getBonusDetailsLoading: false,
-				bonusDetails: payload,
+				bonusDetails: payload?.bonus,
+				bonusSegment: payload?.tags,
 				getBonusDetailsError: null,
 			};
 
