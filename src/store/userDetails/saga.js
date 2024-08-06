@@ -366,7 +366,7 @@ function* getBonusDetailsWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield getBonusDetail(payload);
-		yield put(getUserBonusDetailsSuccess(data?.data?.bonus));
+		yield put(getUserBonusDetailsSuccess(data?.data));
 	} catch (e) {
 		yield put(getUserBonusDetailsFail(e.message));
 	}

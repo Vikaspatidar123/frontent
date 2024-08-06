@@ -118,7 +118,7 @@ function* getTournamentDetailByIdWorker(action) {
 	try {
 		const payload = action && action.payload;
 		const { data } = yield getTournamentDetailById(payload);
-		yield put(getTournamentDetailByIdSuccess(data?.data?.tournament));
+		yield put(getTournamentDetailByIdSuccess(data?.data));
 	} catch (e) {
 		yield put(
 			getTournamentDetailByIdFail(e?.response?.data?.errors[0]?.description)

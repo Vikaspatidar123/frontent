@@ -11,7 +11,7 @@ import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 const currentDate = moment().toDate();
 const nextDayDate = moment().add(1, 'days').toDate();
 
-const getBonusInitialValues = (bonusDetails) => {
+const getBonusInitialValues = (bonusDetails, SegmentInitialValue = []) => {
 	const validOnDays = bonusDetails?.validOnDays
 		? daysOfWeek.map(({ value, id }) => {
 				if (`${bonusDetails.validOnDays}`?.[id]) {
@@ -78,6 +78,7 @@ const getBonusInitialValues = (bonusDetails) => {
 		bonusImage: bonusDetails?.imageUrl || null,
 		currencyDetails,
 		gameIds,
+		tagIds: SegmentInitialValue,
 	};
 };
 

@@ -20,6 +20,7 @@ const General = ({
 	submitButtonLoading,
 	toggleTab,
 	tabsToShow,
+	bonusSegment,
 }) => {
 	const dispatch = useDispatch();
 	const { userTags } = useSelector((state) => state.UserDetails);
@@ -64,8 +65,21 @@ const General = ({
 			label: row?.tag,
 			value: row.id,
 		}));
+
+		const specificIdsLookup = {};
+		bonusSegment?.forEach((item) => {
+			specificIdsLookup[item?.id] = true;
+		});
+
+		const filteredTags = userTags?.tags
+			.filter((row) => specificIdsLookup[row.id])
+			.map((row) => ({
+				label: row.tag,
+				value: row.id,
+			}));
+
 		if (!isEmpty(bonusDetails)) {
-			validation.setValues(getBonusInitialValues(bonusDetails));
+			validation.setValues(getBonusInitialValues(bonusDetails, filteredTags));
 			setFormFields(
 				commonFields(bonusDetails, handleBonusTypeChange, [
 					{
@@ -92,7 +106,7 @@ const General = ({
 				])
 			);
 		}
-	}, [bonusDetails]);
+	}, [bonusDetails, bonusSegment]);
 
 	const handleNextClick = (nextTab) => {
 		generalFormSchema()

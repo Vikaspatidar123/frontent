@@ -76,7 +76,11 @@ const formatCurrencyDetails = (allCurrencies, tournamentCurrencies) => {
 	// }
 };
 
-const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
+const generalStepInitialValues = (
+	tournamentDetail,
+	allCurrencies,
+	filteredTags = []
+) => {
 	const currencyDetails = formatCurrencyDetails(
 		allCurrencies,
 		tournamentDetail?.tournamentCurrencies
@@ -100,6 +104,7 @@ const generalStepInitialValues = (tournamentDetail, allCurrencies) => {
 			: null,
 
 		currencyDetails,
+		tagIds: filteredTags,
 	};
 };
 

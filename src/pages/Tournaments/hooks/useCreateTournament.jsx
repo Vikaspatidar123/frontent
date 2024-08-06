@@ -26,6 +26,7 @@ const useCreateTournaments = () => {
 	const {
 		isCreateTournamentLoading,
 		tournamentDetail,
+		tournamentSegmentDetail,
 		isUpdateTournamentLoading,
 	} = useSelector((state) => state.Tournament);
 
@@ -144,6 +145,7 @@ const useCreateTournaments = () => {
 					allFields={allFields}
 					setAllFields={setAllFields}
 					tournamentDetail={tournamentDetail}
+					tournamentSegmentDetail={tournamentSegmentDetail}
 					tournamentId={tournamentId}
 					submitButtonLoading={isCreateTournamentLoading}
 					tabsToShow={tabsToShow}
