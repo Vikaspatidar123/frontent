@@ -2,8 +2,10 @@
 /* eslint-disable react/prop-types */
 import moment from 'moment';
 import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import ReactEcharts from 'echarts-for-react';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+import { addCommasToNumber, formatInKMB } from '../../../utils/helpers';
 
 const LineBarChart = ({
 	dataColors,
@@ -13,7 +15,7 @@ const LineBarChart = ({
 	statsData,
 }) => {
 	const spineareaChartColors = getChartColorsArray(dataColors);
-
+	const { defaultCurrency } = useSelector((state) => state.Currencies);
 	const colorScheme = {
 		light: {
 			axisLineColor: '#8791af',
@@ -146,12 +148,8 @@ const LineBarChart = ({
 					},
 				},
 				axisLabel: {
-					formatter: (value) => {
-						if (value >= 1000) {
-							return `$ ${(value / 1000).toFixed(1)}k`;
-						}
-						return `$ ${value}`;
-					},
+					formatter: (value) =>
+						`${defaultCurrency?.symbol || ''} ${formatInKMB(value) || ''}`,
 					textStyle: {
 						color: axisLabelColor,
 						fontWeight: 600,
@@ -173,6 +171,7 @@ const LineBarChart = ({
 					},
 				},
 				axisLabel: {
+					formatter: (value) => `${formatInKMB(value) || ''}`,
 					textStyle: {
 						color: axisLabelColor,
 						fontWeight: 600,
@@ -210,7 +209,8 @@ const LineBarChart = ({
 					style={{ marginBottom: '10px' }}
 				>
 					<h6 className="mb-0 font-weight-bold">
-						<span className="text-success">Deposits:</span> $ {totalDeposits}
+						<span className="text-success">Deposits:</span> ${' '}
+						{addCommasToNumber(totalDeposits)}
 					</h6>
 				</div>
 				<div
@@ -219,7 +219,7 @@ const LineBarChart = ({
 				>
 					<h6 className="mb-0 font-weight-bold">
 						<span className="text-danger">Withdrawals:</span> ${' '}
-						{totalWithdrawals}
+						{addCommasToNumber(totalWithdrawals)}
 					</h6>
 				</div>
 			</div>

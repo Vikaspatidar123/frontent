@@ -1,5 +1,7 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-param-reassign */
 /* eslint-disable eqeqeq */
+import { isNaN } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import toastr from 'toastr';
@@ -155,9 +157,35 @@ const capitalizeString = (str) => {
 	return str.replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
-const addCommasToNumber = (number) => {
-	if (!number) return '';
-	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const addCommasToNumber = (value) => {
+	const val = typeof value === 'string' ? parseFloat(value) : value;
+
+	if (isNaN(val)) {
+		return 0;
+	}
+	return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+const formatInKMB = (value) => {
+	const num = typeof value === 'string' ? parseFloat(value) : value;
+
+	if (isNaN(num)) {
+		return 0;
+	}
+
+	const thresholds = [
+		{ limit: 1e9, suffix: 'B' }, // Billion
+		{ limit: 1e6, suffix: 'M' }, // Million
+		{ limit: 1e3, suffix: 'K' }, // Thousand
+	];
+
+	for (const { limit, suffix } of thresholds) {
+		if (num >= limit) {
+			return (num / limit).toFixed(0) + suffix;
+		}
+	}
+
+	return num.toString();
 };
 
 export {
@@ -169,4 +197,5 @@ export {
 	getPercentage,
 	capitalizeString,
 	addCommasToNumber,
+	formatInKMB,
 };

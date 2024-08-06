@@ -2,8 +2,10 @@
 /* eslint-disable react/prop-types */
 import moment from 'moment';
 import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import ReactEcharts from 'echarts-for-react';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+import { addCommasToNumber, formatInKMB } from '../../../utils/helpers';
 
 const LineBarChart = ({
 	dataColors,
@@ -12,7 +14,7 @@ const LineBarChart = ({
 	layoutModeType,
 }) => {
 	const spineareaChartColors = getChartColorsArray(dataColors);
-
+	const { defaultCurrency } = useSelector((state) => state.Currencies);
 	const colorScheme = {
 		light: {
 			axisLineColor: '#8791af',
@@ -95,8 +97,8 @@ const LineBarChart = ({
 	}, [chartData, isCasino]);
 
 	const legendNames = [
-		`Wagered Amount`,
-		`Wagered Count`,
+		`Wager Amount`,
+		`Wager Count`,
 		`Payout Amount`,
 		`Payout Count`,
 	];
@@ -166,12 +168,8 @@ const LineBarChart = ({
 					},
 				},
 				axisLabel: {
-					formatter: (value) => {
-						if (value >= 1000) {
-							return `$ ${(value / 1000).toFixed(1)}k`;
-						}
-						return `$ ${value}`;
-					},
+					formatter: (value) =>
+						`${defaultCurrency?.symbol || ''} ${formatInKMB(value) || ''}`,
 					textStyle: {
 						color: axisLabelColor,
 						fontWeight: 600,
@@ -193,6 +191,7 @@ const LineBarChart = ({
 					},
 				},
 				axisLabel: {
+					formatter: (value) => `${formatInKMB(value) || ''}`,
 					textStyle: {
 						color: axisLabelColor,
 						fontWeight: 600,
@@ -209,12 +208,12 @@ const LineBarChart = ({
 		},
 		series: [
 			{
-				name: `Wagered Amount`,
+				name: `Wager Amount`,
 				type: 'bar',
 				data: amounts,
 			},
 			{
-				name: `Wagered Count`,
+				name: `Wager Count`,
 				type: 'line',
 				smooth: true,
 				yAxisIndex: 1,
@@ -256,7 +255,8 @@ const LineBarChart = ({
 					style={{ marginBottom: '10px' }}
 				>
 					<h6 className="mb-0 font-weight-bold">
-						<span className="text-success">Bet Count:</span> {betCount}
+						<span className="text-success">Wager Count:</span>{' '}
+						{addCommasToNumber(betCount)}
 					</h6>
 				</div>
 				<div
@@ -264,7 +264,7 @@ const LineBarChart = ({
 					style={{ marginBottom: '10px' }}
 				>
 					<h6 className="mb-0 font-weight-bold">
-						<span className="text-success">Average Bet:</span> $ {averageBet}
+						<span className="text-success">Average Wager:</span> $ {averageBet}
 					</h6>
 				</div>
 			</div>

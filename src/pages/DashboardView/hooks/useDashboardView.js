@@ -31,13 +31,12 @@ const useDashboardView = () => {
 	useEffect(() => {
 		dispatch(
 			getStatisticData({
-				currencyId: '',
 				fromDate: dashFilters?.fromDate || '',
 				toDate: dashFilters?.toDate || '',
 				dateOptions: 'custom',
 			})
 		);
-	}, [dashFilters]);
+	}, [dashFilters.fromDate, dashFilters.toDate]);
 
 	useEffect(() => {
 		if (statsData) {
@@ -69,7 +68,7 @@ const useDashboardView = () => {
 			const series = [];
 			labels.push('Logged in players');
 			labels.push('Total players');
-			series.push(Number(statsData?.totalLoggedInPlayers || 0));
+			series.push(Number(statsData?.loggedInUsers || 0));
 			series.push(Number(statsData?.totalPlayers || 0));
 			options.series = series;
 			options.labels = labels;

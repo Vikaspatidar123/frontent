@@ -1,9 +1,5 @@
 export const DISPUTE_STATUS = [
 	{
-		label: 'Pending',
-		value: 'pending',
-	},
-	{
 		label: 'Active',
 		value: 'active',
 	},

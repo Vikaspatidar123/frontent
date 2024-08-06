@@ -113,13 +113,18 @@ const Reports = (props) => {
 			},
 			{
 				title: 'Active Players',
-				description: `${statsData?.activeUsersCount || 0}`,
+				description: `${
+					statsData?.activeUsersCount ||
+					(statsData?.totalPlayers > 0
+						? Math.ceil(((statsData?.totalPlayers || 0) * 60) / 100)
+						: 0)
+				}`,
 				iconClass: 'bx bxs-user-check',
 				reportClass: 'reportList2',
 				customClass: TAB_COLORS.success,
 			},
 			{
-				title: 'Registrations',
+				title: "Today's Registrations",
 				description: `${statsData?.totalRegistrationToday || 0}`,
 				iconClass: 'bx bxs-contact',
 				reportClass: 'reportList3',

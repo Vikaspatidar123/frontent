@@ -73,7 +73,7 @@ const DashboardView = ({ t }) => {
 				) : null}
 				<Row>
 					{elementsToShow?.[DASH_REPORTS.depositWithdraw] ? (
-						<Col sm={12} md={12} lg={12} xl={6}>
+						<Col sm={12} md={12} lg={12} xl={12} xxl={6}>
 							<Card>
 								<CardBody>
 									<DepositWithdrawChart
@@ -85,7 +85,7 @@ const DashboardView = ({ t }) => {
 						</Col>
 					) : null}
 					{elementsToShow?.[DASH_REPORTS.betsChart] ? (
-						<Col sm={12} md={12} lg={12} xl={6}>
+						<Col sm={12} md={12} lg={12} xl={12} xxl={6}>
 							<Card>
 								<CardBody>
 									<BetsChart
@@ -105,14 +105,16 @@ const DashboardView = ({ t }) => {
 								<h4 className="card-title font-size-16 d-flex align-items-center">
 									<span className="mdi mdi-finance fs-1 me-3 text-success" />{' '}
 									GGR Report ({' '}
-									{dashFilters?.categories?.map(
-										(cate, idx) =>
-											`${cate.label} ${
-												(dashFilters?.categories?.length || 1) - 1 !== idx
-													? '+ '
-													: ''
-											}`
-									) || '-'}{' '}
+									{dashFilters?.categories?.length
+										? dashFilters?.categories?.map(
+												(cate, idx) =>
+													`${cate.label} ${
+														(dashFilters?.categories?.length || 1) - 1 !== idx
+															? '+ '
+															: ''
+													}`
+										  ) || '-'
+										: '-'}{' '}
 									)
 								</h4>
 								<RevenueReport
