@@ -53,9 +53,9 @@ const ActiveUsersBarChart = ({
 	const options = {
 		grid: {
 			zlevel: 0,
-			left: 0,
+			left: 30,
 			right: '10%',
-			bottom: '3%',
+			bottom: 0,
 			containLabel: true,
 		},
 		tooltip: {
