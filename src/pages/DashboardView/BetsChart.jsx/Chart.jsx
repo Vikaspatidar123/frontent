@@ -106,8 +106,8 @@ const LineBarChart = ({
 	const options = {
 		grid: {
 			zlevel: 0,
-			x: 80,
-			x2: 50,
+			x: 60,
+			x2: 40,
 			y: 30,
 			y2: 30,
 			borderWidth: 0,
@@ -123,20 +123,20 @@ const LineBarChart = ({
 				},
 			},
 		},
-		toolbox: {
-			orient: 'start',
-			left: -5,
-			top: 25,
-			feature: {
-				dataView: { show: true, readOnly: false, title: 'Data View' },
-				magicType: {
-					show: true,
-					type: ['line', 'bar'],
-					title: { line: 'For line chart', bar: 'For bar chart' },
-				},
-				saveAsImage: { show: true, title: 'Download Image' },
-			},
-		},
+		// toolbox: {
+		// 	orient: 'start',
+		// 	left: -5,
+		// 	top: 25,
+		// 	feature: {
+		// 		dataView: { show: true, readOnly: false, title: 'Data View' },
+		// 		magicType: {
+		// 			show: true,
+		// 			type: ['line', 'bar'],
+		// 			title: { line: 'For line chart', bar: 'For bar chart' },
+		// 		},
+		// 		saveAsImage: { show: true, title: 'Download Image' },
+		// 	},
+		// },
 		color: spineareaChartColors.concat(['#ff4d4f']), // Add red color for win series
 		xAxis: [
 			{

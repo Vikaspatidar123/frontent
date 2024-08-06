@@ -55,7 +55,7 @@ const LineBarChart = ({
 			let deposit = 0;
 			let withdraw = 0;
 
-			statsData?.stats?.forEach(
+			statsData?.grouped?.forEach(
 				({ total_deposit_amount, total_withdraw_amount }) => {
 					deposit += Number(total_deposit_amount || 0);
 					withdraw += Number(total_withdraw_amount || 0);
@@ -66,8 +66,8 @@ const LineBarChart = ({
 				dates: filteredDates,
 				counts: filteredCounts,
 				amounts: filteredAmounts,
-				totalDeposits: deposit,
-				totalWithdrawals: withdraw,
+				totalDeposits: deposit?.toFixed(2),
+				totalWithdrawals: withdraw?.toFixed(2),
 			};
 		}, [chartData, isDeposit, statsData]);
 
@@ -79,8 +79,8 @@ const LineBarChart = ({
 	const options = {
 		grid: {
 			zlevel: 0,
-			x: 80,
-			x2: 50,
+			x: 60,
+			x2: 40,
 			y: 30,
 			y2: 30,
 			borderWidth: 0,
@@ -96,20 +96,20 @@ const LineBarChart = ({
 				},
 			},
 		},
-		toolbox: {
-			orient: 'start',
-			left: -5,
-			top: 25,
-			feature: {
-				dataView: { show: true, readOnly: false, title: 'Data View' },
-				magicType: {
-					show: true,
-					type: ['line', 'bar'],
-					title: { line: 'For line chart', bar: 'For bar chart' },
-				},
-				saveAsImage: { show: true, title: 'Download Image' },
-			},
-		},
+		// toolbox: {
+		// 	orient: 'start',
+		// 	left: -5,
+		// 	top: 25,
+		// 	feature: {
+		// 		dataView: { show: true, readOnly: false, title: 'Data View' },
+		// 		magicType: {
+		// 			show: true,
+		// 			type: ['line', 'bar'],
+		// 			title: { line: 'For line chart', bar: 'For bar chart' },
+		// 		},
+		// 		saveAsImage: { show: true, title: 'Download Image' },
+		// 	},
+		// },
 		color: spineareaChartColors,
 		legend: {
 			data: legendNames,
