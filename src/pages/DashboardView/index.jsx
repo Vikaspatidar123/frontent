@@ -24,8 +24,9 @@ import DashboardFilters from './DashboardFilters';
 import DepositWithdrawChart from './DepositWithdrawChart';
 import BetsChart from './BetsChart.jsx';
 import ActivePlayerChart from './ActivePlayerChart';
-import FormModal from '../../components/Common/FormModal';
 import { DASH_REPORTS } from './formFields';
+import FormPage from '../../components/Common/FormPage';
+import Drawer from '../../components/Common/Drawer';
 
 const KpiSummary = lazy(() => import('./KpiSummary'));
 const KpiReport = lazy(() => import('./KpiReport'));
@@ -185,18 +186,23 @@ const DashboardView = ({ t }) => {
 					) : null}
 				</Row>
 			</Container>
-			<FormModal
+			<Drawer
+				title="Dashboard Reports"
 				isOpen={showElementControl}
-				setIsOpen={() => setShowElementControl((prev) => !prev)}
-				header="Dashboard Reports"
-				validation={validation}
-				responsiveFormFields={formFields}
-				customColClasses="col-md-12"
-				isSubmitLoading={false}
-				colOptions={{ xs: 6, sm: 6, md: 6, lg: 4, xl: 4, xxl: 4 }}
-				isSubmit={false}
-				modalSize="lg"
-			/>
+				toggle={() => setShowElementControl((prev) => !prev)}
+			>
+				<FormPage
+					isOpen
+					setIsOpen={() => setShowElementControl((prev) => !prev)}
+					validation={validation}
+					responsiveFormFields={formFields}
+					customColClasses="col-md-12"
+					isSubmitLoading={false}
+					colOptions={{ xs: 12, sm: 12, md: 6, lg: 6, xl: 6, xxl: 6 }}
+					isSubmit={false}
+					modalSize="lg"
+				/>
+			</Drawer>
 		</div>
 	);
 };

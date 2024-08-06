@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+import { formatInKMB } from '../../../utils/helpers';
 
 const RevenueChart = ({ statsData, dashFilters }) => {
 	const chartColors = getChartColorsArray(
@@ -98,8 +99,10 @@ const RevenueChart = ({ statsData, dashFilters }) => {
 		},
 		yaxis: {
 			labels: {
-				formatter(value) {
-					return `${defaultCurrency?.symbol || ''} ${value}`;
+				formatter: (value) =>
+					`${defaultCurrency?.symbol || ''} ${formatInKMB(value) || ''}`,
+				textStyle: {
+					fontWeight: 600,
 				},
 			},
 		},

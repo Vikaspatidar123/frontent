@@ -75,7 +75,7 @@ const GameReport = () => {
 					{isGranted(modules.kpiReport, 'R') ? (
 						<>
 							<Row>
-								<Col xl={3} className="d-flex align-items-center my-2">
+								<Col xl={4} className="d-flex align-items-center my-2">
 									<h4 className="card-title font-size-18 mb-3 d-flex align-items-center">
 										<span className="mdi mdi-soccer fs-1 me-3 text-success" />
 										{`Top 5 ${activeGameReportTab}s`}
@@ -117,7 +117,7 @@ const GameReport = () => {
 										All Game Report
 									</UncontrolledTooltip>
 								</Col>
-								<Col xl={9} className="float-end my-2">
+								<Col xl={8} className="float-end my-2">
 									<div className="d-flex justify-content-between align-items-center">
 										<CustomSelectField
 											name="kpiSummaryDateFilter"

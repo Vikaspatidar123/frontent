@@ -50,3 +50,10 @@
 .dash-element-icon {
 	cursor: pointer;
 }
+.custom-switch-dash {
+	display: flex;
+	justify-content: start;
+	text-align: start;
+	vertical-align: middle;
+	flex-direction: row-reverse;
+}

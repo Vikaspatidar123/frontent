@@ -506,9 +506,10 @@ export const CustomSwitchButton = ({
 	isError,
 	errorMsg,
 	disabled,
+	switchSpanClass,
 	...rest
 }) => (
-	<span className="form-check form-check-inline">
+	<span className={`form-check form-check-inline ${switchSpanClass || ''}`}>
 		{label && (
 			<Label
 				htmlFor={htmlFor}
@@ -766,6 +767,7 @@ export const getField = (
 		dynamicDescription,
 		onchange,
 		tooltipMessage,
+		switchSpanClass,
 		...rest
 	},
 	validation
@@ -870,6 +872,7 @@ export const getField = (
 					}
 					onBlur={validation.handleBlur}
 					disabled={!!isDisabled}
+					switchSpanClass={switchSpanClass}
 				/>
 			);
 		case 'toggle':

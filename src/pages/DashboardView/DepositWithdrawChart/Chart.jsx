@@ -49,7 +49,7 @@ const LineBarChart = ({
 			const filteredAmounts = chartData.map((val) =>
 				parseFloat(
 					isDeposit ? val.total_deposit_amount : val.total_withdraw_amount
-				)
+				)?.toFixed(2)
 			);
 
 			let deposit = 0;
