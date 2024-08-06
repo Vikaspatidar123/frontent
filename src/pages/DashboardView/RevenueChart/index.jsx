@@ -6,8 +6,9 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 import { formatInKMB } from '../../../utils/helpers';
+import Spinners from '../../../components/Common/Spinner';
 
-const RevenueChart = ({ statsData, dashFilters }) => {
+const RevenueChart = ({ statsData, dashFilters, statsDataLoading }) => {
 	const chartColors = getChartColorsArray(
 		'["--bs-success", "--bs-primary", "--bs-danger"]'
 	);
@@ -116,7 +117,11 @@ const RevenueChart = ({ statsData, dashFilters }) => {
 		grid: { borderColor: '#f1f1f1' },
 	};
 
-	return (
+	return statsDataLoading && !statsData?.grouped ? (
+		<div style={{ height: '380px' }}>
+			<Spinners />
+		</div>
+	) : (
 		<ReactApexChart
 			options={options}
 			series={series}
@@ -131,9 +136,11 @@ export default RevenueChart;
 
 RevenueChart.defaultProps = {
 	statsData: {},
+	statsDataLoading: false,
 };
 
 RevenueChart.propTypes = {
+	statsDataLoading: PropTypes.bool,
 	statsData: PropTypes.shape({
 		activeUsersCount: PropTypes.number,
 		totalGames: PropTypes.number,

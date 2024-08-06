@@ -4,7 +4,11 @@ import LineBarChart from './Chart';
 import { TABS } from '../constant';
 import TabsPage from '../../../components/Common/TabsPage';
 
-const DepositWithdrawChart = ({ statsData, layoutModeType }) => {
+const DepositWithdrawChart = ({
+	statsData,
+	layoutModeType,
+	statsDataLoading,
+}) => {
 	const [activeTab, setActiveTab] = useState(TABS.DEPOSIT);
 
 	const toggle = (tab) => {
@@ -20,6 +24,7 @@ const DepositWithdrawChart = ({ statsData, layoutModeType }) => {
 			chartData={statsData?.grouped}
 			layoutModeType={layoutModeType}
 			statsData={statsData}
+			statsDataLoading={statsDataLoading}
 		/>
 	);
 

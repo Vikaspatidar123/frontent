@@ -4,7 +4,12 @@ import LineBarChart from './Chart';
 import { TABS } from '../constant';
 import TabsPage from '../../../components/Common/TabsPage';
 
-const BetsChart = ({ statsData, layoutModeType, dashFilters }) => {
+const BetsChart = ({
+	statsData,
+	layoutModeType,
+	dashFilters,
+	statsDataLoading,
+}) => {
 	const [activeTab, setActiveTab] = useState(TABS.CASINO);
 
 	const toggle = (tab) => {
@@ -33,6 +38,7 @@ const BetsChart = ({ statsData, layoutModeType, dashFilters }) => {
 			isCasino={casino}
 			chartData={statsData?.grouped}
 			layoutModeType={layoutModeType}
+			statsDataLoading={statsDataLoading}
 		/>
 	);
 

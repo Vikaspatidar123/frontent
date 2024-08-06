@@ -160,7 +160,7 @@ const capitalizeString = (str) => {
 const addCommasToNumber = (value) => {
 	const val = typeof value === 'string' ? parseFloat(value) : value;
 
-	if (isNaN(val)) {
+	if (isNaN(val) || val === null || val === undefined) {
 		return 0;
 	}
 	return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');

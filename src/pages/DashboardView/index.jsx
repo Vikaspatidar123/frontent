@@ -78,6 +78,7 @@ const DashboardView = ({ t }) => {
 							<Card>
 								<CardBody>
 									<DepositWithdrawChart
+										statsDataLoading={statsDataLoading}
 										statsData={statsData}
 										layoutModeType={layoutModeType}
 									/>
@@ -90,6 +91,7 @@ const DashboardView = ({ t }) => {
 							<Card>
 								<CardBody>
 									<BetsChart
+										statsDataLoading={statsDataLoading}
 										dashFilters={dashFilters}
 										statsData={statsData}
 										layoutModeType={layoutModeType}
@@ -101,30 +103,32 @@ const DashboardView = ({ t }) => {
 				</Row>
 				<Row>
 					{elementsToShow?.[DASH_REPORTS.ggrReport] ? (
-						<Card>
-							<CardBody>
-								<h4 className="card-title font-size-16 d-flex align-items-center">
-									<span className="mdi mdi-finance fs-1 me-3 text-success" />{' '}
-									GGR Report ({' '}
-									{dashFilters?.categories?.length
-										? dashFilters?.categories?.map(
-												(cate, idx) =>
-													`${cate.label} ${
-														(dashFilters?.categories?.length || 1) - 1 !== idx
-															? '+ '
-															: ''
-													}`
-										  ) || '-'
-										: '-'}{' '}
-									)
-								</h4>
-								<RevenueReport
-									statsData={statsData}
-									statsDataLoading={statsDataLoading}
-									dashFilters={dashFilters}
-								/>
-							</CardBody>
-						</Card>
+						<Col xxl={12}>
+							<Card>
+								<CardBody>
+									<h4 className="card-title font-size-16 d-flex align-items-center">
+										<span className="mdi mdi-finance fs-1 me-3 text-success" />{' '}
+										GGR Report ({' '}
+										{dashFilters?.categories?.length
+											? dashFilters?.categories?.map(
+													(cate, idx) =>
+														`${cate.label} ${
+															(dashFilters?.categories?.length || 1) - 1 !== idx
+																? '+ '
+																: ''
+														}`
+											  ) || '-'
+											: '-'}{' '}
+										)
+									</h4>
+									<RevenueReport
+										statsData={statsData}
+										statsDataLoading={statsDataLoading}
+										dashFilters={dashFilters}
+									/>
+								</CardBody>
+							</Card>
+						</Col>
 					) : null}
 				</Row>
 				<Row>
@@ -145,6 +149,7 @@ const DashboardView = ({ t }) => {
 										Active players
 									</h4>
 									<ActivePlayerChart
+										statsDataLoading={statsDataLoading}
 										statsData={statsData}
 										layoutModeType={layoutModeType}
 									/>

@@ -6,12 +6,14 @@ import { useSelector } from 'react-redux';
 import ReactEcharts from 'echarts-for-react';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 import { addCommasToNumber, formatInKMB } from '../../../utils/helpers';
+import Spinners from '../../../components/Common/Spinner';
 
 const LineBarChart = ({
 	dataColors,
-	chartData = [],
+	chartData,
 	isCasino,
 	layoutModeType,
+	statsDataLoading,
 }) => {
 	const spineareaChartColors = getChartColorsArray(dataColors);
 	const { defaultCurrency } = useSelector((state) => state.Currencies);
@@ -42,22 +44,22 @@ const LineBarChart = ({
 		averageBet,
 		betCount,
 	} = useMemo(() => {
-		const filteredDates = chartData.map((val) =>
+		const filteredDates = chartData?.map((val) =>
 			val.start_date !== val.end_date
 				? `${moment(val.start_date).format('D MMM')} - ${moment(
 						val.end_date
 				  ).format('D MMM YYYY')}`
 				: moment(val.end_date).format('D MMM YYYY')
 		);
-		const filteredCounts = chartData.map((val) =>
+		const filteredCounts = chartData?.map((val) =>
 			parseInt(isCasino ? val.casino_bet_count : val.sportsbook_bet_count, 10)
 		);
-		const filteredAmounts = chartData.map((val) =>
+		const filteredAmounts = chartData?.map((val) =>
 			parseFloat(
 				isCasino ? val.total_casino_bet_amount : val.total_sportsbook_bet_amount
 			)?.toFixed(2)
 		);
-		const filteredWinCounts = chartData.map((val) => {
+		const filteredWinCounts = chartData?.map((val) => {
 			const ran = Math.random() * 40;
 			return parseInt(
 				isCasino
@@ -68,22 +70,22 @@ const LineBarChart = ({
 				10
 			);
 		});
-		const filteredWinAmounts = chartData.map((val) =>
+		const filteredWinAmounts = chartData?.map((val) =>
 			parseFloat(
 				isCasino ? val.total_casino_win_amount : val.total_sportsbook_win_amount
 			)?.toFixed(2)
 		);
 
 		// Calculate average bet
-		const totalBets = filteredAmounts.reduce(
+		const totalBets = filteredAmounts?.reduce(
 			(acc, curr) => acc + Number(curr || 0),
 			0
 		);
-		const totalBetCount = filteredCounts.reduce(
+		const totalBetCount = filteredCounts?.reduce(
 			(acc, curr) => acc + Number(curr || 0),
 			0
 		);
-		const avgBet = totalBetCount ? (totalBets / totalBetCount).toFixed(2) : 0;
+		const avgBet = totalBetCount ? (totalBets / totalBetCount)?.toFixed(2) : 0;
 
 		return {
 			dates: filteredDates,
@@ -268,7 +270,13 @@ const LineBarChart = ({
 					</h6>
 				</div>
 			</div>
-			<ReactEcharts style={{ height: '350px' }} option={options} />
+			{statsDataLoading && !chartData ? (
+				<div style={{ height: '350px' }}>
+					<Spinners />
+				</div>
+			) : (
+				<ReactEcharts style={{ height: '350px' }} option={options} />
+			)}
 		</div>
 	);
 };

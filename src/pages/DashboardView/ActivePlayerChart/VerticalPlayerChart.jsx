@@ -4,11 +4,13 @@ import moment from 'moment';
 import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
+import Spinners from '../../../components/Common/Spinner';
 
 const ActiveUsersBarChart = ({
 	dataColors,
-	chartData = [],
+	chartData,
 	layoutModeType,
+	statsDataLoading,
 }) => {
 	const spineareaChartColors = getChartColorsArray(dataColors);
 
@@ -31,14 +33,14 @@ const ActiveUsersBarChart = ({
 		colorScheme[layoutModeType] || colorScheme.light;
 
 	const { activeUsersCount, dates } = useMemo(() => {
-		const filteredDates = chartData.map((val) =>
+		const filteredDates = chartData?.map((val) =>
 			val.start_date !== val.end_date
 				? `${moment(val.start_date).format('D MMM')} - ${moment(
 						val.end_date
 				  ).format('D MMM YYYY')}`
 				: moment(val.end_date).format('D MMM YYYY')
 		);
-		const filteredActiveUsersCount = chartData.map((val) =>
+		const filteredActiveUsersCount = chartData?.map((val) =>
 			parseInt(val.active_users_count, 10)
 		);
 
@@ -123,7 +125,13 @@ const ActiveUsersBarChart = ({
 
 	return (
 		<div>
-			<ReactEcharts style={{ height: '350px' }} option={options} />
+			{statsDataLoading && !chartData ? (
+				<div style={{ height: '350px' }}>
+					<Spinners />
+				</div>
+			) : (
+				<ReactEcharts style={{ height: '350px' }} option={options} />
+			)}
 		</div>
 	);
 };

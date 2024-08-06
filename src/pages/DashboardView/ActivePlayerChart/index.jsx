@@ -2,11 +2,12 @@
 import React from 'react';
 import VerticalBarChart from './VerticalPlayerChart';
 
-const ActivePlayerChart = ({ statsData, layoutModeType }) => (
+const ActivePlayerChart = ({ statsData, layoutModeType, statsDataLoading }) => (
 	<VerticalBarChart
 		dataColors='["--bs-success", "--bs-primary", "--bs-danger","--bs-info", "--bs-warning"]'
 		chartData={statsData?.grouped}
 		layoutModeType={layoutModeType}
+		statsDataLoading={statsDataLoading}
 	/>
 );
 

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import ReactEcharts from 'echarts-for-react';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
 import { addCommasToNumber, formatInKMB } from '../../../utils/helpers';
+import Spinners from '../../../components/Common/Spinner';
 
 const LineBarChart = ({
 	dataColors,
@@ -13,6 +14,7 @@ const LineBarChart = ({
 	isDeposit,
 	layoutModeType,
 	statsData,
+	statsDataLoading,
 }) => {
 	const spineareaChartColors = getChartColorsArray(dataColors);
 	const { defaultCurrency } = useSelector((state) => state.Currencies);
@@ -223,7 +225,13 @@ const LineBarChart = ({
 					</h6>
 				</div>
 			</div>
-			<ReactEcharts style={{ height: '350px' }} option={options} />
+			{statsDataLoading && !statsData?.grouped ? (
+				<div style={{ height: '350px' }}>
+					<Spinners />
+				</div>
+			) : (
+				<ReactEcharts style={{ height: '350px' }} option={options} />
+			)}
 		</div>
 	);
 };
