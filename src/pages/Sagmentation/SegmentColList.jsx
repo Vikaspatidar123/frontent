@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Badge, Button, UncontrolledTooltip } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { modules } from '../../constants/permissions';
 
@@ -17,6 +18,15 @@ const IsActive = ({ value }) => {
 			return '';
 	}
 };
+
+const Segment = ({ cell }) =>
+	cell.value ? (
+		<Link to="/users" state={{ Segment: cell?.row?.original }}>
+			{cell.value}
+		</Link>
+	) : (
+		''
+	);
 
 const ActionButtons = ({ onClickEdit, row, handleDelete }) => {
 	const { isGranted } = usePermission();
@@ -55,4 +65,4 @@ const ActionButtons = ({ onClickEdit, row, handleDelete }) => {
 	);
 };
 
-export { KeyValueCellNA, IsActive, ActionButtons };
+export { KeyValueCellNA, IsActive, ActionButtons, Segment };

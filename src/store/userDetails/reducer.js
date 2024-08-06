@@ -764,7 +764,6 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				userTagsLoading: false,
-				userTags: null,
 				userTagsError: payload,
 			};
 
@@ -772,7 +771,6 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 			return {
 				...state,
 				userTagsLoading: true,
-				userTags: null,
 				userTagsError: null,
 			};
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isEqual } from 'lodash';
+import { useLocation } from 'react-router-dom';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -19,6 +20,7 @@ let debounce;
 const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
+	const location = useLocation();
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
@@ -42,7 +44,7 @@ const useFilters = () => {
 	};
 
 	const { validation, formFields, setFormFields } = useForm({
-		initialValues: filterValues(),
+		initialValues: filterValues(location?.state?.Segment?.id),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(),
@@ -51,10 +53,10 @@ const useFilters = () => {
 	// const handleAdvance = () => {
 	// 	toggleAdvance();
 	// };
-
 	const handleClear = () => {
 		const initialValues = filterValues();
 		validation.resetForm(initialValues);
+		validation.setFieldValue('tagIds', null);
 	};
 
 	useEffect(() => {
