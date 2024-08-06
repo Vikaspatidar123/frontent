@@ -33,6 +33,7 @@ const useBulkUpdatePlayer = (selectedPlayers, onSuccess) => {
 				{
 					userIds: selectedPlayers,
 					isActive,
+					pageType: 'PlayerListing',
 				},
 				onSuccess
 			)

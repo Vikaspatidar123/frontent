@@ -234,16 +234,19 @@ function* disableUserWorker(action) {
 function* updateSAUserStatusWorker(action) {
 	try {
 		const payload = action && action.payload;
+		// eslint-disable-next-line prefer-destructuring
+		const pageType = payload.pageType;
+		delete payload.pageType;
 		const { data } = yield updateSAUserStatusCall(payload);
 		yield put(updateSAUserStatusSuccess(data?.data));
 		if (action?.callback) {
 			action.callback();
 		}
-		if (payload?.pageType === 'PlayerListing') {
+		if (pageType === 'PlayerListing') {
 			const { players } = yield select((state) => state.Players);
 			const newPlayers = players?.users?.map((player) => {
-				if (player?.id === payload?.userId) {
-					player.isActive = !player.isActive;
+				if (payload?.userIds?.includes(player?.id)) {
+					player.isActive = payload.isActive;
 				}
 				return player;
 			});

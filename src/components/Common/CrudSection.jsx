@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, CardBody, Spinner, UncontrolledTooltip } from 'reactstrap';
@@ -22,6 +23,7 @@ const CrudSection = ({ title, buttonList, exportComponent }) => {
 							tooltip,
 							icon,
 							isHide,
+							disabled,
 						}) =>
 							!isHide && (
 								<Fragment key={link}>
@@ -29,9 +31,11 @@ const CrudSection = ({ title, buttonList, exportComponent }) => {
 										hidden={
 											module && operation && !isGranted(module, operation)
 										}
-										to={link}
-										onClick={handleClick}
-										className={`btn btn-primary me-1 ${
+										to={disabled ? null : link}
+										onClick={disabled ? null : handleClick}
+										className={`${
+											disabled ? 'disabled' : ''
+										} btn btn-primary me-1 ${
 											icon ? 'icon-button-padding' : ''
 										}`}
 										id={`id-${label}`}

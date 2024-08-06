@@ -221,7 +221,7 @@ const usePlayersListing = (filterValues = {}) => {
 			handleClick: handleEdit,
 			module: modules.player,
 			operation: 'U',
-			isHide: !selectedPlayers?.length,
+			disabled: !selectedPlayers?.length,
 		},
 	];
 

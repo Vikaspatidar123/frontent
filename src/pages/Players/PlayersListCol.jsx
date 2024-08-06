@@ -71,7 +71,8 @@ const Action = ({ cell, setShowManageMoney }) => {
 							onClick={() =>
 								dispatch(
 									updateSAUserStatus({
-										userId,
+										userIds: [userId],
+										isActive: !active,
 										pageType: 'PlayerListing',
 									})
 								)
@@ -94,7 +95,8 @@ const Action = ({ cell, setShowManageMoney }) => {
 							onClick={() =>
 								dispatch(
 									updateSAUserStatus({
-										userId,
+										userIds: [userId],
+										isActive: !active,
 										pageType: 'PlayerListing',
 									})
 								)
