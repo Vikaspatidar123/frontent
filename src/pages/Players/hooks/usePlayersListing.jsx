@@ -65,7 +65,7 @@ const usePlayersListing = (filterValues = {}) => {
 		{
 			Header: () => (
 				<div className="d-flex align-items-center">
-					<p className="mx-3 mb-0">Select All</p>
+					<p className="mx-3 mb-0">All</p>
 					<CustomSwitchButton
 						type="checkbox"
 						name="selectAll"
