@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Badge, Button, UncontrolledTooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { modules } from '../../constants/permissions';
 import usePermission from '../../components/Common/Hooks/usePermission';
 import { updateSAUserStatus } from '../../store/actions';
@@ -29,8 +29,19 @@ const RegistrationDate = ({ value }) => value ?? '-';
 
 const IsInternal = ({ value }) => value ?? '-';
 
-const Tags = ({ value }) =>
-	value?.map((tags) => tags?.tag?.tag)?.join(', ') || '-';
+const Tags = ({ value }) => {
+	const { userTags } = useSelector((state) => state.UserDetails);
+	const getTagByTagId = (tagId) => {
+		const tag = userTags?.tags?.find((t) => t.id === tagId);
+		return tag ? tag.tag : null;
+	};
+	const tagNames =
+		value
+			?.map((item) => getTagByTagId(item.tagId))
+			.filter(Boolean)
+			.join(', ') || '-';
+	return tagNames;
+};
 
 const Action = ({ cell, setShowManageMoney }) => {
 	const active = cell?.row?.original?.isActive;

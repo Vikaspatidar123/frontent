@@ -21,7 +21,7 @@ import {
 	Id,
 	Purpose,
 	Status,
-	Tags,
+	// Tags,
 	ToWallet,
 	// UserEmail,
 } from '../CasinoTransactionsListCol';
@@ -169,12 +169,12 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 				filterable: true,
 				Cell: ({ cell }) => <ActionType value={cell.value} />,
 			},
-			{
-				Header: 'Segments',
-				accessor: 'userTags',
-				filterable: true,
-				Cell: ({ cell }) => <Tags value={cell?.value} />,
-			},
+			// {
+			// 	Header: 'Segments',
+			// 	accessor: 'userTags',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Tags value={cell?.value} />,
+			// },
 			{
 				Header: 'Purpose',
 				accessor: 'purpose',
