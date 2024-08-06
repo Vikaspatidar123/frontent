@@ -76,7 +76,7 @@ const useFilters = (userId) => {
 					name: 'tagIds',
 					fieldType: 'select',
 					label: '',
-					placeholder: 'Select tag',
+					placeholder: 'Select Segment',
 					optionList: tags,
 				},
 				{
