@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, CardTitle, Col, Row } from 'reactstrap';
 import { useSelector } from 'react-redux';
+import { addCommasToNumber } from '../utils/helpers';
 
 const DepositWithdrawalInfo = ({ currencyId, values }) => {
 	const { defaultCurrency, currencyById } = useSelector(
@@ -20,7 +21,7 @@ const DepositWithdrawalInfo = ({ currencyId, values }) => {
 								{currencyId
 									? currencyById[currencyId]?.symbol || ''
 									: defaultCurrency?.symbol || ''}{' '}
-								{Number(value || 0)?.toFixed(2)}
+								{addCommasToNumber(Number(value || 0)?.toFixed(2))}
 							</h4>
 						</CardBody>
 					</Card>
