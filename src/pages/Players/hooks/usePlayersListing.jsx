@@ -21,7 +21,11 @@ import { CustomSwitchButton } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
 // import { getDateTime } from '../../../utils/dateFormatter';
 
-const usePlayersListing = (filterValues = {}) => {
+const usePlayersListing = (
+	filterValues = {},
+	userIds = {},
+	toggleUserId = () => {}
+) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -30,25 +34,10 @@ const usePlayersListing = (filterValues = {}) => {
 		(state) => state.Players
 	);
 	const [showManageMoney, setShowManageMoney] = useState('');
-	const [userIds, setUserIds] = useState({});
-	const selectedPlayers = Object.keys(userIds)?.map((key) => key);
-
-	const toggleUserId = (userId) => {
-		if (userIds[userId]) {
-			setUserIds((prev) => {
-				// eslint-disable-next-line no-param-reassign
-				delete prev[userId];
-				return { ...prev };
-			});
-		} else {
-			setUserIds((prev) => ({
-				...prev,
-				[userId]: true,
-			}));
-		}
-	};
+	const selectedPlayers = Object.keys(userIds || {})?.map((key) => key);
 
 	const onSuccess = () => {
+		toggleUserId('', true); // clear the selected users
 		setIsOpen(false);
 	};
 
@@ -69,31 +58,31 @@ const usePlayersListing = (filterValues = {}) => {
 		() => [
 			userIds
 				? {
-					Header: 'SELECT',
-					accessor: 'select',
-					disableSortBy: true,
-					notHidable: true,
-					Cell: ({ cell }) => <CheckboxInput cell={cell} />,
-				}
+						Header: 'SELECT',
+						accessor: 'select',
+						disableSortBy: true,
+						notHidable: true,
+						Cell: ({ cell }) => <CheckboxInput cell={cell} />,
+				  }
 				: {
-					Header: '#',
-					disableFilters: true,
-					filterable: true,
-					notHidable: true,
-					disableSortBy: true,
-					accessor: (prop) => {
-						const { fullName, randomColor } = prop;
-						return (
-							<div className="avatar-xs">
-								<span
-									className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
-								>
-									{fullName.charAt(0).toUpperCase()}
-								</span>
-							</div>
-						);
-					},
-				},
+						Header: '#',
+						disableFilters: true,
+						filterable: true,
+						notHidable: true,
+						disableSortBy: true,
+						accessor: (prop) => {
+							const { fullName, randomColor } = prop;
+							return (
+								<div className="avatar-xs">
+									<span
+										className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
+									>
+										{fullName.charAt(0).toUpperCase()}
+									</span>
+								</div>
+							);
+						},
+				  },
 			{
 				Header: 'Player Id',
 				accessor: 'id',

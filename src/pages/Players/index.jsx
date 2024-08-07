@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-param-reassign */
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
 	Card,
@@ -21,7 +22,29 @@ import Filters from '../../components/Common/Filters';
 import ManageMoney from '../PlayerDetails/modals/ManageMoney';
 import BulkUpdatePlayers from './BulkUpdatePlayers';
 
-const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
+const PlayersList = ({
+	userIds = null,
+	toggleUserId = null,
+	customContainerClass,
+}) => {
+	const [userIdsForLocalOperation, setUserIdsForLocalOperation] = useState({});
+
+	const toggleLocalUserId = (userId, isClear) => {
+		if (isClear) {
+			setUserIdsForLocalOperation({});
+		} else if (userIdsForLocalOperation[userId]) {
+			setUserIdsForLocalOperation((prev) => {
+				delete prev[userId];
+				return { ...prev };
+			});
+		} else {
+			setUserIdsForLocalOperation((prev) => ({
+				...prev,
+				[userId]: true,
+			}));
+		}
+	};
+
 	// userIds and toggleUserId can be used while importing player page on another form like in notify player.
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
@@ -51,7 +74,11 @@ const PlayersList = ({ userIds, toggleUserId, customContainerClass }) => {
 		setIsOpen,
 		selectedPlayers,
 		onSuccess,
-	} = usePlayersListing(filterValidation.values, userIds, toggleUserId);
+	} = usePlayersListing(
+		filterValidation.values,
+		userIds || userIdsForLocalOperation,
+		toggleUserId || toggleLocalUserId
+	);
 	return (
 		<div className={userIds ? '' : 'page-content'}>
 			<Container fluid>
@@ -139,7 +166,7 @@ PlayersList.propTypes = {
 
 PlayersList.defaultProps = {
 	userIds: null,
-	toggleUserId: () => {},
+	toggleUserId: null,
 	customContainerClass: '',
 };
 
