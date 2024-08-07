@@ -173,14 +173,14 @@ const authProtectedRoutes = [
 		operation: 'U',
 	},
 	{
-		path: '/users',
+		path: '/players',
 		component: <PlayersList />,
 		modules: [modules.player],
 		operation: 'R',
 	},
 
 	{
-		path: '/users-bulk-update',
+		path: '/players-bulk-update',
 		component: <BulkUpdate />,
 		modules: [modules.player],
 		operation: 'U',

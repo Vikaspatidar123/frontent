@@ -29,9 +29,9 @@ const sideBarElements = [
 	},
 	{
 		id: 4,
-		link: '/users',
+		link: '/players',
 		label: 'Players',
-		searchString: 'all users',
+		searchString: 'all players',
 		iconName: 'bx bx-group',
 		linkClass: '',
 		anchorClass: '',
@@ -212,6 +212,11 @@ const sideBarElements = [
 				module: modules.page,
 			},
 		],
+	},
+	{
+		id: 115,
+		isSeparator: true,
+		title: '',
 	},
 	{
 		id: 6,

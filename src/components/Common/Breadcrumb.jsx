@@ -78,7 +78,7 @@ const Breadcrumb = ({
 					</div>
 					{showRightInfo && (
 						<div className="page-title-right">
-							<ol className="breadcrumb m-0">
+							<ol className="breadcrumb m-0 p-0">
 								<BreadcrumbItem>
 									<Link to={titleLink || '#'}>{title}</Link>
 								</BreadcrumbItem>
@@ -111,7 +111,7 @@ Breadcrumb.defaultProps = {
 	callBack: undefined,
 	isNotFormModal: true,
 	showElementControl: false,
-	paddingBottom: '24px',
+	paddingBottom: '15px',
 	toggleElementControl: () => {},
 };
 

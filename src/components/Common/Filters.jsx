@@ -62,11 +62,11 @@ const Filters = ({
 														className={`${icon} align-middle filter-icons`}
 														onClick={handleClick}
 														onKeyDown={() => {}}
-														id={id || 'clear-filter'}
+														id={id || icon || 'clear-filter'}
 													/>
 													<UncontrolledTooltip
 														placement="top"
-														target={id || 'clear-filter'}
+														target={id || icon || 'clear-filter'}
 													>
 														{tooltip}
 													</UncontrolledTooltip>

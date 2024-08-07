@@ -73,9 +73,12 @@ const TableContainer = ({
 									className="mdi mdi-settings align-middle filter-icons bx-spin cursor-pointer"
 									onClick={handleColumnSettings}
 									onKeyDown={() => {}}
-									id="clear"
+									id="mdi-settings-clear-id"
 								/>
-								<UncontrolledTooltip placement="top" target="clear">
+								<UncontrolledTooltip
+									placement="top"
+									target="mdi-settings-clear-id"
+								>
 									Columns settings
 								</UncontrolledTooltip>
 							</div>

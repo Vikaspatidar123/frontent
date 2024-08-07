@@ -55,7 +55,7 @@ const MegaMenu = () => {
 									)}
 								</Col>
 							))}
-							<Col md={2}>
+							<Col md={2} className="menu-image">
 								<div>
 									<img
 										src={megamenuImg}

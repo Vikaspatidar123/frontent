@@ -65,6 +65,17 @@
 }
 
 .custom-border {
-	border-radius: 12px 12px 0 0 !important;
+	border-radius: 8px 8px 0 0 !important;
 	margin: 0px 3px;
+}
+
+.menu-image {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+}
+
+.scrollable-sidebar {
+	max-height: 90vh;
+	overflow: auto;
 }

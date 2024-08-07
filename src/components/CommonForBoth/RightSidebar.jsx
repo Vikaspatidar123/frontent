@@ -58,7 +58,7 @@ const RightSidebar = (props) => (
 
 					<hr className="my-0" />
 
-					<div className="p-4">
+					<div className="p-4 scrollable-sidebar">
 						{/* <div className="radio-toolbar">
 							<span className="mb-2 d-block">Layouts</span>
 							<input

@@ -9,7 +9,7 @@ import {
 	// IsInternal,
 	KycStatus,
 	// PhoneNumber,
-	PlayerId,
+	// PlayerId,
 	// RegistrationDate,
 	Status,
 	Tags,
@@ -19,6 +19,7 @@ import {
 import { getRandomColor } from '../../../helpers/common';
 import { CustomSwitchButton } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
+import { PER_PAGE } from '../../../constants/config';
 // import { getDateTime } from '../../../utils/dateFormatter';
 
 const usePlayersListing = (
@@ -27,7 +28,7 @@ const usePlayersListing = (
 	toggleUserId = () => {}
 ) => {
 	const dispatch = useDispatch();
-	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const [itemsPerPage, setItemsPerPage] = useState(PER_PAGE);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isOpen, setIsOpen] = useState(false);
 	const { players, loading: isPlayersLoading } = useSelector(
@@ -83,13 +84,13 @@ const usePlayersListing = (
 							);
 						},
 				  },
-			{
-				Header: 'Player Id',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <PlayerId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Player Id',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <PlayerId value={cell.value} />,
+			// },
 			{
 				Header: 'Username',
 				accessor: 'username',
@@ -197,12 +198,6 @@ const usePlayersListing = (
 		setIsOpen((prev) => !prev);
 	};
 	const buttonList = [
-		// {
-		// 	label: 'Attach Tag',
-		// 	link: '/users-bulk-update',
-		// 	module: modules.player,
-		// 	operation: 'U',
-		// },
 		{
 			label: 'Edit',
 			link: '',

@@ -224,7 +224,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 												className="actionButton w-100"
 												iconClass="bx bxs-purchase-tag-alt fs-4"
 											>
-												Manage Tag
+												Manage Segment
 											</ActionButton>
 										</ColumnContainer>
 

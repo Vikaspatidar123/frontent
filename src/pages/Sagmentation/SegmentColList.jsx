@@ -21,7 +21,7 @@ const IsActive = ({ value }) => {
 
 const Segment = ({ cell }) =>
 	cell.value ? (
-		<Link to="/users" state={{ Segment: cell?.row?.original }}>
+		<Link to="/players" state={{ Segment: cell?.row?.original }}>
 			{cell.value}
 		</Link>
 	) : (

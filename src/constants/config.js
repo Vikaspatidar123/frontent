@@ -16,6 +16,8 @@ const tbodyClass = '';
 
 const itemsPerPage = 10;
 
+const PER_PAGE = 15;
+
 const debounceTime = 700;
 
 const selectedLanguage = 'EN';
@@ -45,4 +47,5 @@ export {
 	YMDdate,
 	dateTimeFormatWithA,
 	defaultCurrencyId,
+	PER_PAGE,
 };

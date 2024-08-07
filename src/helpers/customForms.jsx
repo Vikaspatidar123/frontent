@@ -540,6 +540,55 @@ export const CustomSwitchButton = ({
 	</span>
 );
 
+export const CustomRadioButton = ({
+	label,
+	labelClassName,
+	htmlFor,
+	type,
+	id,
+	name,
+	inputClassName,
+	value,
+	onClick,
+	onBlur,
+	style,
+	checked,
+	isError,
+	errorMsg,
+	disabled,
+	switchSpanClass,
+	...rest
+}) => (
+	<span className={`form-check form-check-inline ${switchSpanClass || ''}`}>
+		{label && (
+			<Label
+				htmlFor={htmlFor}
+				className={labelClassName}
+				style={{ paddingTop: 2 }}
+			>
+				{label}
+			</Label>
+		)}
+		<Input
+			type={type}
+			id={id}
+			name={name}
+			className={inputClassName}
+			value={value}
+			onClick={onClick}
+			onBlur={onBlur}
+			style={{ padding: 8, marginRight: 16, ...(style || {}) }}
+			checked={checked}
+			disabled={disabled}
+			{...rest}
+		/>
+		{isError && errorMsg ? (
+			<FormFeedback type="invalid" className="d-block">
+				{errorMsg}
+			</FormFeedback>
+		) : null}
+	</span>
+);
 export const CustomButtonGroup = ({
 	label,
 	labelClassName,
@@ -1124,11 +1173,11 @@ export const getField = (
 					<div>
 						{!!optionList.length &&
 							optionList.map((option) => (
-								<CustomSwitchButton
+								<CustomRadioButton
 									labelClassName="form-check-label"
 									label={option.optionLabel}
 									htmlFor={`customRadioInline${option.value}`}
-									type="switch"
+									type="radio"
 									id={`customRadioInline${option.value}`}
 									value={!!validation.values[name]}
 									name={name}
