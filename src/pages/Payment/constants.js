@@ -21,8 +21,13 @@ export const currencyFields = [
 export const PAYMENT_PROVIDERS = [
 	{ label: 'FonePaisa', value: 'FonePaisa' },
 	{ label: 'CoinPayment', value: 'CoinPayment' },
+	{ label: 'Swift', value: 'Swift' },
+	{ label: 'Sbi Debit card', value: 'Sbi Debit card' },
+	{ label: 'SKRILL', value: 'SKRILL' },
+	{ label: 'NETELLER', value: 'NETELLER' },
 	{ label: 'CoinGate', value: 'CoinGate' },
 	{ label: 'Phantom', value: 'Phantom' },
+	{ label: 'ipay', value: 'ipay' },
 	{ label: 'Shift4', value: 'Shift4' },
 	{ label: 'Pay near me', value: 'Pay near me' },
 	{ label: 'Prizeout', value: 'Prizeout' },

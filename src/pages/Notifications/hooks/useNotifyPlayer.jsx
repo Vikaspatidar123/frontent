@@ -146,7 +146,7 @@ const useNotifyPlayer = () => {
 						<CustomInputField
 							label="Description"
 							name={`description[${validation.values?.language}]`}
-							type="text"
+							type="textarea"
 							onChange={(e) => {
 								e.preventDefault();
 								validation.setFieldValue('description', {

@@ -57,6 +57,8 @@ const PaymentProviders = () => {
 		fetchMoreData,
 	} = usePaymentListing(false, filterValidation.values);
 
+	console.log(paymentListing);
+
 	// const {
 	// 	validation,
 	// 	formFields,
