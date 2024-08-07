@@ -25,6 +25,7 @@ import BulkUpdatePlayers from './BulkUpdatePlayers';
 const PlayersList = ({
 	userIds = null,
 	toggleUserId = null,
+	toggleAllUsers = null,
 	customContainerClass,
 }) => {
 	const [userIdsForLocalOperation, setUserIdsForLocalOperation] = useState({});
@@ -43,6 +44,23 @@ const PlayersList = ({
 				[userId]: true,
 			}));
 		}
+	};
+
+	const toggleLocalAllUsers = (allUserIds) => {
+		setUserIdsForLocalOperation((prev) => {
+			const newUserIds = { ...prev };
+			const areAllSelected = allUserIds.every((userId) => newUserIds[userId]);
+			if (areAllSelected) {
+				allUserIds.forEach((userId) => {
+					delete newUserIds[userId];
+				});
+			} else {
+				allUserIds.forEach((userId) => {
+					newUserIds[userId] = true;
+				});
+			}
+			return newUserIds;
+		});
 	};
 
 	// userIds and toggleUserId can be used while importing player page on another form like in notify player.
@@ -77,7 +95,8 @@ const PlayersList = ({
 	} = usePlayersListing(
 		filterValidation.values,
 		userIds || userIdsForLocalOperation,
-		toggleUserId || toggleLocalUserId
+		toggleUserId || toggleLocalUserId,
+		toggleAllUsers || toggleLocalAllUsers
 	);
 	return (
 		<div className={userIds ? '' : 'page-content'}>
@@ -161,12 +180,14 @@ PlayersList.propTypes = {
 		key: PropTypes.string,
 	}),
 	toggleUserId: PropTypes.func,
+	toggleAllUsers: PropTypes.func,
 	customContainerClass: PropTypes.string,
 };
 
 PlayersList.defaultProps = {
 	userIds: null,
 	toggleUserId: null,
+	toggleAllUsers: null,
 	customContainerClass: '',
 };
 

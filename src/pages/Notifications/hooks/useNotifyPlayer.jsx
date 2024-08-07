@@ -39,6 +39,23 @@ const useNotifyPlayer = () => {
 		}
 	};
 
+	const toggleAllUsers = (allUserIds) => {
+		setUserIds((prev) => {
+			const newUserIds = { ...prev };
+			const areAllSelected = allUserIds.every((userId) => newUserIds[userId]);
+			if (areAllSelected) {
+				allUserIds.forEach((userId) => {
+					delete newUserIds[userId];
+				});
+			} else {
+				allUserIds.forEach((userId) => {
+					newUserIds[userId] = true;
+				});
+			}
+			return newUserIds;
+		});
+	};
+
 	const notifyPlayersSubmit = (data) => {
 		if (data.choosePlayers && isEmpty(userIds)) {
 			showToastr({
@@ -232,6 +249,7 @@ const useNotifyPlayer = () => {
 						userIds={userIds}
 						toggleUserId={toggleUserId}
 						customContainerClass="p-0"
+						toggleAllUsers={toggleAllUsers}
 					/>
 				) : null}
 			</>

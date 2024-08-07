@@ -25,7 +25,8 @@ import { PER_PAGE } from '../../../constants/config';
 const usePlayersListing = (
 	filterValues = {},
 	userIds = {},
-	toggleUserId = () => {}
+	toggleUserId = () => {},
+	toggleAllUsers = () => {}
 ) => {
 	const dispatch = useDispatch();
 	const [itemsPerPage, setItemsPerPage] = useState(PER_PAGE);
@@ -61,12 +62,29 @@ const usePlayersListing = (
 			/>
 		</div>
 	);
-
+	const allUsersSelected =
+		players?.users?.length > 0 &&
+		players?.users?.every((user) => userIds[user.id]);
 	const columns = useMemo(
 		() => [
 			userIds
 				? {
-						Header: 'SELECT',
+						Header: () => (
+							<div className="d-flex align-items-center">
+								<p className="mx-3 mb-0">All</p>
+								<CustomSwitchButton
+									type="checkbox"
+									name="selectAll"
+									containerClass="form-switch-md"
+									className="form-check-input"
+									checked={allUsersSelected}
+									switchSizeClass="form-switch-sm"
+									onClick={() =>
+										toggleAllUsers(players?.users?.map((user) => user.id))
+									}
+								/>
+							</div>
+						),
 						accessor: 'select',
 						disableSortBy: true,
 						notHidable: true,
@@ -162,7 +180,7 @@ const usePlayersListing = (
 				),
 			},
 		],
-		[userIds]
+		[userIds, players]
 	);
 
 	useEffect(() => {
