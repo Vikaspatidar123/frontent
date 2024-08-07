@@ -40,6 +40,13 @@ const usePlayersListing = (
 	const onSuccess = () => {
 		toggleUserId('', true); // clear the selected users
 		setIsOpen(false);
+		dispatch(
+			fetchPlayersStart({
+				perPage: itemsPerPage,
+				page: currentPage,
+				...filterValues,
+			})
+		);
 	};
 
 	const CheckboxInput = ({ cell }) => (
