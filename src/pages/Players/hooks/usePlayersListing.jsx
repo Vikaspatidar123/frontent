@@ -69,31 +69,31 @@ const usePlayersListing = (filterValues = {}) => {
 		() => [
 			userIds
 				? {
-						Header: 'SELECT',
-						accessor: 'select',
-						disableSortBy: true,
-						notHidable: true,
-						Cell: ({ cell }) => <CheckboxInput cell={cell} />,
-				  }
+					Header: 'SELECT',
+					accessor: 'select',
+					disableSortBy: true,
+					notHidable: true,
+					Cell: ({ cell }) => <CheckboxInput cell={cell} />,
+				}
 				: {
-						Header: '#',
-						disableFilters: true,
-						filterable: true,
-						notHidable: true,
-						disableSortBy: true,
-						accessor: (prop) => {
-							const { fullName, randomColor } = prop;
-							return (
-								<div className="avatar-xs">
-									<span
-										className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
-									>
-										{fullName.charAt(0).toUpperCase()}
-									</span>
-								</div>
-							);
-						},
-				  },
+					Header: '#',
+					disableFilters: true,
+					filterable: true,
+					notHidable: true,
+					disableSortBy: true,
+					accessor: (prop) => {
+						const { fullName, randomColor } = prop;
+						return (
+							<div className="avatar-xs">
+								<span
+									className={`avatar-title rounded-circle bg-${randomColor}-subtle text-${randomColor}`}
+								>
+									{fullName.charAt(0).toUpperCase()}
+								</span>
+							</div>
+						);
+					},
+				},
 			{
 				Header: 'Player Id',
 				accessor: 'id',
