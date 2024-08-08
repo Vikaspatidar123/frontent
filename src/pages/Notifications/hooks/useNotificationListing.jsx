@@ -1,16 +1,17 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { UncontrolledTooltip } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchNotificationsStart } from '../../../store/actions';
 import { selectedLanguage } from '../../../constants/config';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { KeyValueCell, Status } from '../NotificationListCol';
+import Actions from '../../../components/Common/Actions';
 
 const useNotificationListing = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { permissions } = usePermission();
 
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -58,6 +59,19 @@ const useNotificationListing = () => {
 		},
 	]);
 
+	const handleViewClick = (row) =>
+		navigate('/notification-details', { state: { details: row } });
+
+	const actionsList = [
+		{
+			actionName: 'Notification Details',
+			actionHandler: handleViewClick,
+			isHidden: false,
+			icon: 'mdi mdi-eye-outline',
+			iconColor: 'text-primary',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
 			// {
@@ -91,30 +105,7 @@ const useNotificationListing = () => {
 				accessor: 'actions',
 				disableSortBy: true,
 				disableFilters: true,
-				Cell: ({ cell }) => (
-					<ul className="list-unstyled hstack gap-1 mb-0">
-						<li data-bs-toggle="tooltip" data-bs-placement="top">
-							<Link
-								to="/notification-details"
-								state={{
-									details: cell.row.original,
-								}}
-								className="btn btn-sm btn-soft-primary"
-							>
-								<i
-									className="mdi mdi-eye-outline"
-									id={`viewtooltip-${cell?.value || ''}`}
-								/>
-								<UncontrolledTooltip
-									placement="top"
-									target={`viewtooltip-${cell?.value || ''}`}
-								>
-									Notification details
-								</UncontrolledTooltip>
-							</Link>
-						</li>
-					</ul>
-				),
+				Cell: ({ cell }) => <Actions actionsList={actionsList} cell={cell} />,
 			},
 		],
 		[permissions]

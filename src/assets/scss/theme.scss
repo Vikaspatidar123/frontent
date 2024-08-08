@@ -897,3 +897,11 @@ body[data-bs-theme='dark'] .react-tel-input .search {
 body[data-bs-theme='light'] .react-tel-input .form-control {
 	background-color: #fff;
 }
+
+.text-ellipsis {
+	width: 60%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+}
