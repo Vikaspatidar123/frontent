@@ -1,82 +1,74 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import { Card, Col } from 'reactstrap';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
 	resetEmailTemplate,
 	createEmailTemplate,
+	getImageGallery,
 } from '../../../store/actions';
 
 import {
 	getInitialValues,
 	staticFormFields,
 	emailTemplateSchema,
-	initialData,
 } from '../formDetails';
 
 import { showToastr } from '../../../utils/helpers';
-import CreateTemplate from '../CreateTemplate';
-import { formPageTitle } from '../../../components/Common/constants';
-import { decryptCredentials } from '../../../network/storageUtils';
+import { modules } from '../../../constants/permissions';
 
 const useCreateEmailTemplate = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [customComponent, setCustomComponent] = useState();
-
-	const [template, setTemplate] = useState('');
-	const [content, setContent] = useState({ EN: '' });
-	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
-	const [existingFilledFields, setExistingFilledFields] = useState([]);
-	const [showModal, setShowModal] = useState(false);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
+	const { imageGallery } = useSelector((state) => state.EmailTemplate);
+	const [imageComponent, setImageComponent] = useState();
 
-	useEffect(() => {
-		setContent((prev) => ({
-			...prev,
-			[selectedTab]: template,
-		}));
-	}, [template]);
+	const languageOptions = useMemo(() => {
+		if (languageData) {
+			return languageData?.languages?.map((item) => ({
+				optionLabel: item?.code,
+				value: item.code,
+			}));
+		}
+		return [];
+	}, [languageData]);
 
 	const formSubmitHandler = (values) => {
-		if (isEmpty(content[selectedTab])) {
-			showToastr({
-				message: 'Content cannot be empty.',
-				type: 'error',
-			});
-		} else {
-			dispatch(
-				createEmailTemplate({
-					data: {
-						label: values?.label,
-						templateCode: content,
-						eventType: values?.type,
-						isDefault: values?.isDefault,
-					},
-					navigate,
-				})
-			);
-		}
-	};
-
-	const onChangeRowsPerPage = () => {
-		// setItemsPerPage(value);
+		dispatch(
+			createEmailTemplate({
+				data: {
+					label: values?.label,
+					templateCode: values?.content,
+					eventType: values?.type,
+					isDefault: values?.isDefault,
+				},
+				navigate,
+			})
+		);
 	};
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
+		dispatch(getImageGallery());
 	}, []);
 
-	const { validation, formFields, setFormFields } = useForm({
+	const { header, validation, formFields, setFormFields } = useForm({
+		header: 'Create Email Template',
 		initialValues: getInitialValues(),
-		validationSchema: emailTemplateSchema,
-		staticFormFields: staticFormFields(),
+		validationSchema: emailTemplateSchema(),
+		staticFormFields: staticFormFields(languageOptions),
 		onSubmitEntry: formSubmitHandler,
 	});
+
+	useEffect(() => {
+		setFormFields(staticFormFields(languageOptions));
+	}, [languageOptions]);
 
 	useEffect(
 		() => () => {
@@ -84,26 +76,7 @@ const useCreateEmailTemplate = () => {
 		},
 		[]
 	);
-
-	useEffect(() => {
-		setCustomComponent(
-			<CreateTemplate
-				languageData={languageData}
-				setTemplate={setTemplate}
-				validation={validation}
-				selectedTab={selectedTab}
-				setSelectedTab={setSelectedTab}
-				showGallery={showGallery}
-				setShowGallery={setShowGallery}
-				content={content}
-				setContent={setContent}
-				template={template}
-			/>
-		);
-	}, [languageData, template, selectedTab, showGallery, content]);
-
-	const handleGalleryClick = (e) => {
-		e.preventDefault();
+	const handleGalleryClick = () => {
 		setShowGallery(true);
 	};
 
@@ -115,58 +88,76 @@ const useCreateEmailTemplate = () => {
 		},
 	]);
 
-	useEffect(() => {
-		setExistingFilledFields({
-			...existingFilledFields,
-			values: {
-				...validation.values,
-				content,
-			},
-		});
-	}, [validation.values, content]);
-
-	useEffect(() => {
-		if (localStorage.getItem(formPageTitle.crm)) {
-			const values = JSON.parse(
-				decryptCredentials(localStorage.getItem(formPageTitle.crm))
-			);
-			validation.setValues({
-				label: values?.label,
-				type: values?.type,
-				isDefault: values?.isDefault,
-			});
-			setContent(values?.content);
-		}
-	}, []);
-
-	const onBackClick = () => {
-		if (!isEmpty(existingFilledFields)) {
-			const existingFilledFieldsCopy = existingFilledFields?.values;
-			const isDataEqual = isEqual(existingFilledFieldsCopy, initialData);
-			if (!isDataEqual) {
-				setShowModal(true);
-			} else {
-				navigate('/email-templates');
-			}
-		}
+	const handleCreateClick = (e) => {
+		e.preventDefault();
+		navigate('create');
 	};
+
+	const buttonList = useMemo(() => [
+		{
+			label: 'Create',
+			handleClick: handleCreateClick,
+			link: '#!',
+			module: modules.emailTemplate,
+			operation: 'C',
+		},
+	]);
+
+	useEffect(() => {
+		if (imageGallery?.length) {
+			setImageComponent(
+				<div
+					className="d-flex justify-content-center flex-wrap gap-3 dropzone-previews mt-3"
+					id="file-previews"
+				>
+					{imageGallery.map((f) => (
+						<Col>
+							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
+								<div className="p-2">
+									<CopyToClipboard
+										text={f}
+										onCopy={() => {
+											setShowGallery(false);
+											showToastr({
+												message: 'Copied To ClipBoard',
+												type: 'success',
+											});
+										}}
+									>
+										<img
+											data-dz-thumbnail=""
+											height="200"
+											width="250"
+											className="rounded me-2 bg-light"
+											alt={f.name}
+											src={f}
+										/>
+									</CopyToClipboard>
+								</div>
+							</Card>
+						</Col>
+					))}
+				</div>
+			);
+		} else {
+			setImageComponent(
+				<div className="text-center text-danger">No Images Found</div>
+			);
+		}
+	}, [imageGallery]);
 
 	return {
 		validation,
 		galleryList,
 		formFields,
 		setFormFields,
-		customComponent,
-		setCustomComponent,
-		onChangeRowsPerPage,
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,
-		showModal,
-		setShowModal,
-		navigate,
-		existingFilledFields,
-		onBackClick,
+		languageOptions,
+		imageComponent,
+		buttonList,
+		header,
 	};
 };
 
