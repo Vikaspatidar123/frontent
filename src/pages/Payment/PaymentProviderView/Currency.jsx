@@ -35,16 +35,21 @@ const Currencies = ({ paymentDetails }) => {
 							)}
 							<CustomSelectField
 								id="currencyId"
-								type="select"
+								type="textField"
 								name="currencyId"
 								disabled
-								options={
-									<option value={null} selected disabled>
-										{currencies?.currencies?.find(
-											(cur) => cur.id === currency.currencyId
-										)?.name || ''}
-									</option>
+								value={
+									currencies?.currencies?.find(
+										(cur) => cur.id === currency.currencyId
+									)?.name || ''
 								}
+								// options={
+								// 	<option value={null} selected disabled>
+								// 		{currencies?.currencies?.find(
+								// 			(cur) => cur.id === currency.currencyId
+								// 		)?.name || ''}
+								// 	</option>
+								// }
 							/>
 						</Col>
 						{currencyFields?.map(({ key, label }) => (

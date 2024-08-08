@@ -16,6 +16,7 @@ const SingleLangComponent = ({
 			<CustomInputField
 				placeholder="Enter Title"
 				label="Title"
+				max="50"
 				value={langContent?.name?.[lang]}
 				onChange={(e) =>
 					setLangContent((prev) => ({
@@ -30,6 +31,8 @@ const SingleLangComponent = ({
 				placeholder="Enter Description"
 				value={langContent?.description?.[lang]}
 				label="Description"
+				type="textarea"
+				max="300"
 				onChange={(e) =>
 					setLangContent((prev) => ({
 						...prev,

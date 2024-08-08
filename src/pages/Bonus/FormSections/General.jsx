@@ -48,9 +48,7 @@ const General = ({
 	};
 
 	useEffect(() => {
-		if (!userTags) {
-			dispatch(getAllTags());
-		}
+		dispatch(getAllTags());
 	}, []);
 
 	const { formFields, validation, setFormFields } = useForm({

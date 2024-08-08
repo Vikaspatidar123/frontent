@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 
 import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
+import Filters from '../../components/Common/Filters';
 
 import {
 	RTP,
@@ -53,7 +54,7 @@ const columns = (
 				),
 			},
 			{
-				Header: 'Name',
+				Header: 'Game Name',
 				accessor: 'name',
 				Cell: ({ cell }) => <TemplateName cell={cell} />,
 			},
@@ -208,6 +209,7 @@ const CasinoGamesForm = ({
 
 	return (
 		<Container fluid>
+			<Filters />
 			<TableContainer
 				columns={columns(
 					handleChange,

@@ -24,13 +24,13 @@ const filterValidationSchema = () =>
 		search: Yup.string().nullable(),
 	});
 
-const generaFromFields = (isDisabled) => [
+const generaFromFields = (isEdit) => [
 	{
 		name: 'name',
-		fieldType: 'select',
+		fieldType: isEdit ? 'textField' : 'select',
 		label: 'Provider Name',
 		isRequired: true,
-		isDisabled,
+		isDisabled: isEdit,
 		placeholder: ' Select Provider Name',
 		optionList: PAYMENT_PROVIDERS.map(({ label, value }) => ({
 			optionLabel: label,

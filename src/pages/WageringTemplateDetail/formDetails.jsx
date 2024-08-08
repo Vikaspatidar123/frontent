@@ -27,9 +27,13 @@ const getInitialValues = (defaultValue) => ({
 });
 
 const createWageringTemplate = Yup.object().shape({
-	name: Yup.string().required('Template Name Required'),
+	name: Yup.string()
+		.required('Template Name Required')
+		.min(3, 'Minimum 3 Characters Required')
+		.max(50, 'Maximum 50 Characters Allowed'),
 	wageringMultiplier: Yup.number()
 		.min(0.01, 'Wagering multiplier should be greater than 0')
+		.max(100, 'Wagering multiplier should not exceed 100')
 		.required('Wagering multiplier required'),
 	wageringRequirementType: Yup.string().required('Wagering type required'),
 	searchString: Yup.string().nullable(),
@@ -41,6 +45,7 @@ const leftStaticFormFields = () => [
 		fieldType: 'textField',
 		label: 'Template Name',
 		placeholder: 'Enter name',
+		maximum: 51,
 	},
 	{
 		name: 'wageringRequirementType',
@@ -73,7 +78,7 @@ const rightStaticFormFields = () => [
 	{
 		name: 'searchString',
 		fieldType: 'textField',
-		label: 'Search',
+		label: 'Search Game',
 		placeholder: 'Search by game name',
 	},
 ];
