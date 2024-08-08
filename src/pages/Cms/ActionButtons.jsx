@@ -17,34 +17,34 @@ const ActionButtons = ({
 	const id = row?.original?.id;
 	return (
 		<ul className="list-unstyled hstack gap-1 mb-0">
-			<li>
+			<li id={`editTooltip-${id}`}>
 				<Button
 					hidden={!isGranted(modules.page, 'U')}
 					type="button"
 					className="btn btn-sm btn-soft-info"
 					onClick={(e) => handleEditClick(e, id)}
 				>
-					<i className="mdi mdi-pencil-outline" id="edittooltip" />
-					<UncontrolledTooltip placement="top" target="edittooltip">
+					<i className="mdi mdi-pencil-outline" />
+					<UncontrolledTooltip placement="top" target={`editTooltip-${id}`}>
 						Edit
 					</UncontrolledTooltip>
 				</Button>
 			</li>
 
-			<li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+			<li id={`view-${id}`}>
 				<Button
 					hidden={!isGranted(modules.page, 'R')}
 					className="btn btn-sm btn-soft-primary"
 					onClick={(e) => handleViewClick(e, id)}
 				>
-					<i className="mdi mdi-eye-outline" id="viewtooltip" />
-					<UncontrolledTooltip placement="top" target="viewtooltip">
+					<i className="mdi mdi-eye-outline" />
+					<UncontrolledTooltip placement="top" target={`view-${id}`}>
 						View
 					</UncontrolledTooltip>
 				</Button>
 			</li>
 
-			<li>
+			<li id={`activetooltip-${id}`}>
 				{status ? (
 					<Button
 						hidden={!isGranted(modules.page, 'TS')}
@@ -55,7 +55,7 @@ const ActionButtons = ({
 							})
 						}
 					>
-						<i className="mdi mdi-close-thick" id={`activetooltip-${id}`} />
+						<i className="mdi mdi-close-thick" />
 						<UncontrolledTooltip placement="top" target={`activetooltip-${id}`}>
 							Set Inactive
 						</UncontrolledTooltip>
@@ -71,14 +71,14 @@ const ActionButtons = ({
 							})
 						}
 					>
-						<i className="mdi mdi-check-circle" id={`activetooltip-${id}`} />
+						<i className="mdi mdi-check-circle" />
 						<UncontrolledTooltip placement="top" target={`activetooltip-${id}`}>
 							Set Active
 						</UncontrolledTooltip>
 					</Button>
 				)}
 			</li>
-			<li>
+			<li id={`deleteToolTip-${id}`}>
 				<Button
 					hidden={!isGranted(modules.page, 'D')}
 					id="deleteToolTip"
@@ -86,7 +86,7 @@ const ActionButtons = ({
 					onClick={() => handleDelete(id)}
 				>
 					<i className="mdi mdi-delete-outline" />
-					<UncontrolledTooltip placement="top" target="deleteToolTip">
+					<UncontrolledTooltip placement="top" target={`deleteToolTip-${id}`}>
 						Delete
 					</UncontrolledTooltip>
 				</Button>

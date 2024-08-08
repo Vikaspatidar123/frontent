@@ -21,7 +21,8 @@ const currencyValidate = (allFields) =>
 				then: (schema) =>
 					schema
 						.required('Max Amount claimed required')
-						.min(0.01, 'Amount should be greater than 0'),
+						.min(0.01, 'Amount should be greater than 0')
+						.max(10000, 'Amount should not exceed 10,000'),
 			})
 			.nullable(),
 		zeroOutThreshold: Yup.number()
@@ -35,7 +36,8 @@ const currencyValidate = (allFields) =>
 				then: (schema) =>
 					schema
 						.required('Zero out threshold required')
-						.min(0.01, 'Amount should be greater than 0'),
+						.min(0.01, 'Amount should be greater than 0')
+						.max(10000, 'Amount should not exceed 10,000'),
 			})
 			.nullable(),
 		joiningAmount: Yup.number()
@@ -49,7 +51,8 @@ const currencyValidate = (allFields) =>
 				then: (schema) =>
 					schema
 						.required('Joining amount required')
-						.min(0.01, 'Amount should be greater than 0'),
+						.min(0.01, 'Amount should be greater than 0')
+						.max(10000, 'Amount should not exceed 10,000'),
 			})
 			.nullable(),
 		minBetAmount: Yup.number()

@@ -26,6 +26,7 @@ const SingleLangComponent = ({
 						promoTitle: { ...prev.promoTitle, [lang]: e.target.value },
 					}))
 				}
+				max="60"
 			/>
 		</Col>
 		<Col className="mb-3">
@@ -34,6 +35,7 @@ const SingleLangComponent = ({
 				value={langContent.desc[lang]}
 				label="Description"
 				defaultValue={bonusDetails?.description?.[lang]}
+				type="textarea"
 				onValueChange={(value) =>
 					setLangContent((prev) => ({
 						...prev,

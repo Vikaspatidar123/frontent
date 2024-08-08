@@ -14,8 +14,14 @@ const getInitialValues = (defaultValue) => ({
 
 const validationSchema = () =>
 	Yup.object().shape({
-		title: Yup.string().required('Title Required'),
-		comment: Yup.string().required('Comment Required'),
+		title: Yup.string()
+			.required('Title Required')
+			.max(50, 'Maximum 200 Characters Allowed')
+			.min(3, 'Minimum 3 Characters Required'),
+		comment: Yup.string()
+			.required('Note Required')
+			.max(200, 'Maximum 200 Characters Allowed')
+			.min(3, 'Minimum 3 Characters Required'),
 	});
 
 const staticFormFields = [
