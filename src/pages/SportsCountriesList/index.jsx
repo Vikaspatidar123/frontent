@@ -64,7 +64,6 @@ const SportsCountriesListing = () => {
 									data={formattedSportsCountries}
 									isPagination
 									customPageSize={itemsPerPage}
-									tableClass="table-bordered align-middle nowrap mt-2"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									totalPageCount={totalSportLocationPages}

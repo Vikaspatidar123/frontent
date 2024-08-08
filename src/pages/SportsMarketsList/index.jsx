@@ -59,8 +59,6 @@ const SportsMarketsList = () => {
 									data={formattedSportsMarkets}
 									isPagination
 									customPageSize={itemsPerPage}
-									tableClass="table-bordered align-middle nowrap mt-2"
-									// paginationDiv="col-sm-12 col-md-7"
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"
 									totalPageCount={totalSportsMarketsCount}

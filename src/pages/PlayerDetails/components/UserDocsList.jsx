@@ -13,7 +13,7 @@ import {
 	verifyDocument,
 } from '../../../store/actions';
 import { Actionee, Name, Reason, ThumbnailUrl } from './UserDocsListCol';
-import { Id, Status } from '../TableCol';
+import { Status } from '../TableCol';
 import ActionButtons from '../ActionButtons';
 import CrudSection from '../../../components/Common/CrudSection';
 import { DOCUMENT_STATUS_TYPES } from '../constants';
@@ -104,13 +104,13 @@ const UserDocsList = ({ userDetails, userId }) => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'DOCUMENT ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'DOCUMENT ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',

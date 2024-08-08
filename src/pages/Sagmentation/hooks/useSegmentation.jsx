@@ -1,12 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
-import {
-	ActionButtons,
-	IsActive,
-	KeyValueCellNA,
-	Segment,
-} from '../SegmentColList';
+import { ActionButtons, IsActive, Segment } from '../SegmentColList';
 import {
 	staticFormFields,
 	getSegmentInitialValues,
@@ -149,12 +144,12 @@ const useSegmentation = () => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'Id',
-				accessor: 'id',
-				filterable: true,
-				Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Id',
+			// 	accessor: 'id',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
+			// },
 
 			{
 				Header: 'Segment Name',

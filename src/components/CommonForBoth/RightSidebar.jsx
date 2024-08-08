@@ -34,7 +34,7 @@ import {
 	topBarThemeTypes,
 	leftSidebarTypes,
 	leftSideBarThemeTypes,
-	tableHeaderClass,
+	// tableHeaderClass,
 } from '../../constants/layout';
 
 const RightSidebar = (props) => (
@@ -285,7 +285,7 @@ const RightSidebar = (props) => (
 							</>
 						)}
 
-						<hr className="mt-1" />
+						{/* <hr className="mt-1" />
 						<div className="radio-toolbar">
 							<span className="mb-2 d-block" id="radio-title">
 								Table Header{' '}
@@ -322,7 +322,7 @@ const RightSidebar = (props) => (
 							<label className="me-1" htmlFor="whiteHeader">
 								LIGHT
 							</label>
-						</div>
+						</div> */}
 
 						<hr className="mt-1" />
 
@@ -579,8 +579,8 @@ RightSidebar.propTypes = {
 	leftSideBarType: PropTypes.string.isRequired,
 	showRightSidebarAction: PropTypes.func.isRequired,
 	topbarTheme: PropTypes.string.isRequired,
-	setTableHeaderClass: PropTypes.func.isRequired,
-	tableHeaderClass: PropTypes.string.isRequired,
+	// setTableHeaderClass: PropTypes.func.isRequired,
+	// tableHeaderClass: PropTypes.string.isRequired,
 	setBreadcrumb: PropTypes.func.isRequired,
 	showBreadcrumb: PropTypes.bool.isRequired,
 };
