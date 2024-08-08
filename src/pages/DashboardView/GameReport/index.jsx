@@ -6,7 +6,6 @@ import { CSVLink } from 'react-csv';
 import FlatPickr from 'react-flatpickr';
 import { Link } from 'react-router-dom';
 import TableContainer from '../../../components/Common/Table';
-import { tableCustomClass } from '../../../constants/config';
 import { GAME_ORDER_BY, TABS, dateConstants } from '../constant';
 import { CustomSelectField } from '../../../helpers/customForms';
 import TabsPage from '../../../components/Common/TabsPage';
@@ -43,7 +42,6 @@ const GameReport = () => {
 				data={gameReport || []}
 				isGlobalFilter={false}
 				customPageSize={gameReport?.length || 300}
-				tableClass={`table-bordered align-middle table-striped nowrap ${tableCustomClass}`}
 				isShowColSettings={false}
 			/>
 		</SimpleBar>

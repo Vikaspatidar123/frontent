@@ -46,7 +46,7 @@ const leftSideBarThemeTypes = {
 };
 
 const tableHeaderClass = {
-	GREY: 'table-light',
+	GREY: '',
 	TRANSPARENT: '',
 };
 

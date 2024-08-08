@@ -15,10 +15,8 @@ const TableContainer = ({
 	columns = [],
 	data = [],
 	customPageSize,
-	tableClass,
 	paginationDiv,
 	isPagination,
-	theadClass,
 	tbodyClass,
 	totalPageCount,
 	isManualPagination,
@@ -91,12 +89,13 @@ const TableContainer = ({
 					isLongTable && 'scrollable'
 				}`}
 			>
-				<Table {...getTableProps()} className={tableClass} id="generic-table">
+				<Table
+					{...getTableProps()}
+					className="table-responsive mt-2"
+					id="generic-table"
+				>
 					{!hideHeader && (
-						<thead
-							className={`${tableHeaderClass} ${theadClass}`}
-							id="generic-table-head"
-						>
+						<thead className={`${tableHeaderClass}`} id="generic-table-head">
 							{headerGroups?.map((headerGroup) => (
 								<tr
 									key={headerGroup.id}
@@ -277,10 +276,8 @@ const TableContainer = ({
 
 TableContainer.defaultProps = {
 	hideHeader: false,
-	tableClass: '',
 	paginationDiv: '',
 	isPagination: false,
-	theadClass: '',
 	tbodyClass: '',
 	isManualPagination: false,
 	onChangePagination: () => {},
@@ -313,10 +310,8 @@ TableContainer.propTypes = {
 	// eslint-disable-next-line react/forbid-prop-types
 	data: PropTypes.arrayOf(PropTypes.object).isRequired,
 	customPageSize: PropTypes.number,
-	tableClass: PropTypes.string,
 	paginationDiv: PropTypes.string,
 	isPagination: PropTypes.bool,
-	theadClass: PropTypes.string,
 	tbodyClass: PropTypes.string,
 	totalPageCount: PropTypes.number,
 	isManualPagination: PropTypes.bool,
