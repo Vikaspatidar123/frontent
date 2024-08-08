@@ -44,7 +44,16 @@ import { filterEmptyPayload } from '../../network/networkUtils';
 function* getPaymentWorker(action) {
 	try {
 		const { data } = yield getPaymentList(action.payload);
-		yield put(getPaymentListingSuccess(data?.data));
+		if (action?.callBack) {
+			yield put(
+				getPaymentListingSuccess({
+					data: data?.data,
+					typeOfAction: 'appendData',
+				})
+			);
+		} else {
+			yield put(getPaymentListingSuccess({ data: data?.data }));
+		}
 	} catch (error) {
 		yield put(
 			getPaymentListingFail(error?.response?.data?.errors[0]?.description)

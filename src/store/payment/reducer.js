@@ -25,7 +25,9 @@ import {
 
 const INIT_STATE = {
 	isLoading: true,
-	paymentListing: null,
+	paymentListing: {
+		paymentProviders: [],
+	},
 	createSuccess: false,
 	createLoading: false,
 	updateSuccess: false,
@@ -46,17 +48,39 @@ const getPayments = (state = INIT_STATE, { type, payload } = {}) => {
 				isLoading: true,
 			};
 
-		case GET_PAYMENT_DATA_SUCCESS:
+		case GET_PAYMENT_DATA_SUCCESS: {
+			const { data, typeOfAction } = payload;
+			const { paymentProviders, ...rest } = data;
+			if (typeOfAction) {
+				return {
+					...state,
+					isLoading: false,
+					paymentListing: {
+						paymentProviders: [
+							...state.paymentListing.paymentProviders,
+							...paymentProviders,
+						],
+						...rest,
+					},
+				};
+			}
 			return {
 				...state,
 				isLoading: false,
-				paymentListing: payload,
+				paymentListing: {
+					paymentProviders: [...paymentProviders],
+					...rest,
+				},
 			};
+		}
 
 		case GET_PAYMENT_DATA_FAIL:
 			return {
 				...state,
 				isLoading: false,
+				paymentListing: {
+					paymentProviders: [],
+				},
 			};
 
 		case CREATE_PAYMENT_PROVIDER:

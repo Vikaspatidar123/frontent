@@ -47,8 +47,15 @@ const countriesValidate = () =>
 const generalFormSchema = () =>
 	Yup.object({
 		name: Yup.string().required('Payment Name Required'),
-		description: Yup.string().required('Description Required'),
-		aggregator: Yup.string().required('Payment Aggregator Required'),
+		description: Yup.string()
+			.required('Description Required')
+			.max(200, 'Maximum 200 Characters Allowed')
+			.min(3, 'Minimum 3 Characters Required'),
+
+		aggregator: Yup.string()
+			.required('Payment Aggregator Required')
+			.max(50, 'Maximum 50 Characters Allowed')
+			.min(3, 'Minimum 3 Characters Required'),
 		category: Yup.string().required('Payment Category Required'),
 		// displayName: Yup.string().required('Title Required'),
 		image: Yup.mixed()

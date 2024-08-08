@@ -35,14 +35,13 @@ const General = ({
 	const { formFields, validation, setFormFields } = useForm({
 		initialValues: getInitialValues(),
 		validationSchema: generalFormSchema(),
-		staticFormFields: generaFromFields,
+		staticFormFields: generaFromFields(paymentDetails?.name?.EN),
 		onSubmitEntry: handleSubmit,
 	});
-
 	useEffect(() => {
 		if (!isEmpty(paymentDetails)) {
 			validation.setValues(getInitialValues(paymentDetails));
-			setFormFields(generaFromFields);
+			setFormFields(generaFromFields(paymentDetails?.name?.EN));
 		}
 	}, [paymentDetails]);
 

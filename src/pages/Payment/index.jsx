@@ -153,7 +153,7 @@ const PaymentProviders = () => {
 										</Row>
 
 										{paymentListing?.totalPages > page && (
-											<div className="d-flex justify-content-center mt-3">
+											<div className="d-flex justify-content-center mb-3">
 												<Button color="primary" outline onClick={fetchMoreData}>
 													View More
 												</Button>
