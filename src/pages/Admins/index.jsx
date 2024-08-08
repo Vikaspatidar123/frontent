@@ -4,11 +4,7 @@ import { Container, Col, Row, Card, CardBody } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
-import {
-	projectName,
-	tableCustomClass,
-	tbodyClass,
-} from '../../constants/config';
+import { projectName, tbodyClass } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
@@ -65,7 +61,6 @@ const Admins = () => {
 									isGlobalFilter
 									isPagination
 									customPageSize={itemsPerPage}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
 									tbodyClass={tbodyClass}
 									paginationDiv="justify-content-center"
 									pagination="pagination justify-content-start pagination-rounded"

@@ -1,7 +1,11 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPlayersStart, resetPlayersData } from '../../../store/actions';
+import {
+	fetchPlayersStart,
+	getAllTags,
+	resetPlayersData,
+} from '../../../store/actions';
 import {
 	Action,
 	CountryName,
@@ -36,6 +40,7 @@ const usePlayersListing = (
 		(state) => state.Players
 	);
 	const [showManageMoney, setShowManageMoney] = useState('');
+	const { userTags } = useSelector((state) => state.UserDetails);
 	const selectedPlayers = Object.keys(userIds || {})?.map((key) => key);
 
 	const onSuccess = () => {
@@ -65,25 +70,23 @@ const usePlayersListing = (
 	const allUsersSelected =
 		players?.users?.length > 0 &&
 		players?.users?.every((user) => userIds[user.id]);
+
 	const columns = useMemo(
 		() => [
 			userIds
 				? {
 						Header: () => (
-							<div className="d-flex align-items-center">
-								<p className="mx-3 mb-0">All</p>
-								<CustomSwitchButton
-									type="checkbox"
-									name="selectAll"
-									containerClass="form-switch-md"
-									className="form-check-input"
-									checked={allUsersSelected}
-									switchSizeClass="form-switch-sm"
-									onClick={() =>
-										toggleAllUsers(players?.users?.map((user) => user.id))
-									}
-								/>
-							</div>
+							<CustomSwitchButton
+								type="checkbox"
+								name="selectAll"
+								containerClass="form-switch-md"
+								className="form-check-input"
+								checked={allUsersSelected}
+								switchSizeClass="form-switch-sm"
+								onClick={() =>
+									toggleAllUsers(players?.users?.map((user) => user.id))
+								}
+							/>
 						),
 						accessor: 'select',
 						disableSortBy: true,
@@ -154,7 +157,7 @@ const usePlayersListing = (
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
-				Header: 'Kyc Status',
+				Header: 'Kyc',
 				accessor: 'kycStatus',
 				Cell: ({ cell }) => <KycStatus value={cell.value} />,
 			},
@@ -193,6 +196,12 @@ const usePlayersListing = (
 		);
 	}, [currentPage, itemsPerPage]);
 
+	useEffect(() => {
+		if (!userTags) {
+			dispatch(getAllTags());
+		}
+	}, []);
+
 	// resetting players list redux state
 	useEffect(() => () => dispatch(resetPlayersData()), []);
 
@@ -206,6 +215,12 @@ const usePlayersListing = (
 					fullName: `${player.firstName} ${player.lastName}`,
 					status: player.isActive ? 'Active' : 'Inactive',
 					isInternal: player.isInternalUser ? 'YES' : 'NO',
+					userTags: player?.userTags?.map((tag) => {
+						const userTag = userTags?.tags?.find(
+							(tags) => tags?.id === tag?.tagId
+						)?.tag;
+						return userTag;
+					}),
 					// kycStatus: player?.kycStatus ? 'Approved' : 'Pending',
 					randomColor,
 				};

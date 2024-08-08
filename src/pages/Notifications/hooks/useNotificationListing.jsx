@@ -7,7 +7,7 @@ import { fetchNotificationsStart } from '../../../store/actions';
 import { selectedLanguage } from '../../../constants/config';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
-import { Id, KeyValueCell, Status } from '../NotificationListCol';
+import { KeyValueCell, Status } from '../NotificationListCol';
 
 const useNotificationListing = () => {
 	const dispatch = useDispatch();
@@ -60,13 +60,13 @@ const useNotificationListing = () => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				// filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	// filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'Title',
 				accessor: 'titleEN',
