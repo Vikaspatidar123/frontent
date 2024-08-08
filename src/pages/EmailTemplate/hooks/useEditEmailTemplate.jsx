@@ -1,16 +1,14 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { isEmpty } from 'lodash';
 
-import { Card, Col } from 'reactstrap';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	getLanguagesStart,
 	getEmailTemplate,
 	updateEmailTemplate,
 	resetEmailTemplate,
-	getImageGallery,
 } from '../../../store/actions';
 
 import {
@@ -20,17 +18,22 @@ import {
 } from '../formDetails';
 
 import { showToastr } from '../../../utils/helpers';
+import CreateTemplate from '../CreateTemplate';
 
 const useEditEmailTemplate = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { emailTemplateId } = useParams();
+	const [customComponent, setCustomComponent] = useState();
+
+	const [template, setTemplate] = useState('');
+	const [content, setContent] = useState({ EN: '' });
+	const [selectedTab, setSelectedTab] = useState('EN');
 	const [showGallery, setShowGallery] = useState(false);
+	const isEdit = true;
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
 	const { emailTemplate } = useSelector((state) => state.EmailTemplate);
-	const { imageGallery } = useSelector((state) => state.EmailTemplate);
-	const [imageComponent, setImageComponent] = useState();
 
 	useEffect(() => {
 		if (emailTemplateId) {
@@ -38,49 +41,82 @@ const useEditEmailTemplate = () => {
 		}
 	}, [emailTemplateId]);
 
+	useEffect(() => {
+		setContent((prev) => ({
+			...prev,
+			[selectedTab]: template,
+		}));
+	}, [template]);
+
+	useEffect(() => {
+		if (emailTemplate) {
+			setContent(emailTemplate?.templateCode);
+		}
+	}, [emailTemplate]);
+
 	// resetting email template details redux state
 	useEffect(() => () => dispatch(resetEmailTemplate()), []);
 
 	const formSubmitHandler = (values) => {
-		dispatch(
-			updateEmailTemplate({
-				data: {
-					emailTemplateId,
-					templateCode: values?.content,
-					eventType: values?.type,
-					isDefault: values?.isDefault,
-				},
-				navigate,
-			})
-		);
+		if (isEmpty(content[selectedTab])) {
+			showToastr({
+				message: 'Content cannot be empty.',
+				type: 'error',
+			});
+		} else {
+			dispatch(
+				updateEmailTemplate({
+					data: {
+						emailTemplateId,
+						templateCode: content,
+						eventType: values?.type,
+						isDefault: values?.isDefault,
+					},
+					navigate,
+				})
+			);
+		}
+	};
+
+	const onChangeRowsPerPage = () => {
+		// setItemsPerPage(value);
 	};
 
 	useEffect(() => {
 		dispatch(getLanguagesStart());
-		dispatch(getImageGallery());
 	}, []);
 
-	const languageOptions = useMemo(() => {
-		if (languageData) {
-			return languageData?.languages?.map((item) => ({
-				optionLabel: item?.code,
-				value: item.code,
-			}));
-		}
-		return [];
-	}, [languageData]);
-
-	const { header, validation, formFields, setFormFields } = useForm({
-		header: `Edit Email Template ${emailTemplateId}`,
+	const { validation, formFields, setFormFields } = useForm({
 		initialValues: getInitialValues(emailTemplate),
 		validationSchema: emailTemplateSchema,
-		staticFormFields: staticFormFields(languageOptions),
+		staticFormFields: staticFormFields(isEdit),
 		onSubmitEntry: formSubmitHandler,
 	});
 
 	useEffect(() => {
-		setFormFields(staticFormFields(languageOptions));
-	}, [languageOptions, emailTemplateId]);
+		setCustomComponent(
+			<CreateTemplate
+				languageData={languageData}
+				setTemplate={setTemplate}
+				validation={validation}
+				selectedTab={selectedTab}
+				setSelectedTab={setSelectedTab}
+				showGallery={showGallery}
+				setShowGallery={setShowGallery}
+				isEdit={isEdit}
+				content={content}
+				setContent={setContent}
+				template={template}
+			/>
+		);
+	}, [
+		languageData,
+		content,
+		selectedTab,
+		showGallery,
+		emailTemplate,
+		template,
+	]);
 
 	const handleGalleryClick = () => {
 		setShowGallery(true);
@@ -94,62 +130,19 @@ const useEditEmailTemplate = () => {
 		},
 	]);
 
-	useEffect(() => {
-		if (imageGallery?.length) {
-			setImageComponent(
-				<div
-					className="d-flex justify-content-center flex-wrap gap-3 dropzone-previews mt-3"
-					id="file-previews"
-				>
-					{imageGallery.map((f) => (
-						<Col>
-							<Card className="align-items-center mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete">
-								<div className="p-2">
-									<CopyToClipboard
-										text={f}
-										onCopy={() => {
-											setShowGallery(false);
-											showToastr({
-												message: 'Copied To ClipBoard',
-												type: 'success',
-											});
-										}}
-									>
-										<img
-											data-dz-thumbnail=""
-											height="200"
-											width="250"
-											className="rounded me-2 bg-light"
-											alt={f.name}
-											src={f}
-										/>
-									</CopyToClipboard>
-								</div>
-							</Card>
-						</Col>
-					))}
-				</div>
-			);
-		} else {
-			setImageComponent(
-				<div className="text-center text-danger">No Images Found</div>
-			);
-		}
-	}, [imageGallery]);
-
 	return {
 		validation,
 		galleryList,
 		formFields,
 		setFormFields,
+		customComponent,
+		setCustomComponent,
+		onChangeRowsPerPage,
 		showGallery,
 		setShowGallery,
 		handleGalleryClick,
 		emailTemplateId,
 		emailTemplate,
-		header,
-		imageComponent,
-		languageOptions,
 	};
 };
 

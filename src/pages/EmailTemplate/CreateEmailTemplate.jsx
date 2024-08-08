@@ -8,8 +8,6 @@ import FormPage from '../../components/Common/FormPage';
 import useCreateEmailTemplate from './hooks/useCreateEmailTemplate';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 import { formPageTitle } from '../../components/Common/constants';
-import { CustomComponent } from './EmailTemplateListCol';
-import Modal from '../../components/Common/Modal';
 
 const CreateEmailTemplate = () => {
 	// Set meta title
@@ -19,15 +17,12 @@ const CreateEmailTemplate = () => {
 		galleryList,
 		validation,
 		formFields,
+		customComponent,
 		showModal,
 		setShowModal,
 		navigate,
 		existingFilledFields,
-		languageOptions,
-		imageComponent,
-		header,
-		showGallery,
-		setShowGallery,
+		onBackClick,
 	} = useCreateEmailTemplate();
 
 	return (
@@ -36,12 +31,12 @@ const CreateEmailTemplate = () => {
 				<Breadcrumbs
 					title="Email Template"
 					breadcrumbItem="Create"
-					titleLink="/email-templates"
 					leftTitle={
 						<>
 							<i className="fas fa-angle-left" /> Back
 						</>
 					}
+					callBack={onBackClick}
 				/>
 				<Row>
 					<Col lg="12">
@@ -51,29 +46,14 @@ const CreateEmailTemplate = () => {
 								title="Create Email Template"
 							/>
 							<FormPage
-								formTitle={header}
 								validation={validation}
 								responsiveFormFields={formFields}
-								customComponent={
-									<CustomComponent
-										validation={validation}
-										languages={languageOptions}
-									/>
-								}
+								customComponent={customComponent}
 								submitLabel="Submit"
 								customColClasses=""
 								isSubmitLoading={false}
 								formClass="ms-2"
 							/>
-							<Modal
-								openModal={showGallery}
-								toggleModal={() => setShowGallery(!showGallery)}
-								headerTitle="Gallery"
-								hideFooter
-								className="modal-dialog modal-lg"
-							>
-								{imageComponent}
-							</Modal>
 							<ConfirmationModal
 								openModal={showModal}
 								setOpenModal={setShowModal}

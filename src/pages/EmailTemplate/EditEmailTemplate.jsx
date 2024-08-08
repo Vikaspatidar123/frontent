@@ -6,8 +6,6 @@ import CrudSection from '../../components/Common/CrudSection';
 import { projectName } from '../../constants/config';
 import FormPage from '../../components/Common/FormPage';
 import useEditEmailTemplate from './hooks/useEditEmailTemplate';
-import { CustomComponent } from './EmailTemplateListCol';
-import Modal from '../../components/Common/Modal';
 
 const EditEmailTemplate = () => {
 	// Set meta title
@@ -17,12 +15,8 @@ const EditEmailTemplate = () => {
 		galleryList,
 		validation,
 		formFields,
+		customComponent,
 		emailTemplate,
-		languageOptions,
-		imageComponent,
-		header,
-		showGallery,
-		setShowGallery,
 	} = useEditEmailTemplate();
 
 	return (
@@ -46,29 +40,14 @@ const EditEmailTemplate = () => {
 								title={`Edit Email Template - ${emailTemplate?.label}`}
 							/>
 							<FormPage
-								formTitle={header}
 								validation={validation}
 								responsiveFormFields={formFields}
-								customComponent={
-									<CustomComponent
-										validation={validation}
-										languages={languageOptions}
-										isEdit
-									/>
-								}
+								customComponent={customComponent}
 								submitLabel="Submit"
-								customColClasses="mb-0"
+								customColClasses=""
 								isSubmitLoading={false}
+								formClass="ms-2"
 							/>
-							<Modal
-								openModal={showGallery}
-								toggleModal={() => setShowGallery(!showGallery)}
-								headerTitle="Gallery"
-								hideFooter
-								className="modal-dialog modal-lg"
-							>
-								{imageComponent}
-							</Modal>
 						</Card>
 					</Col>
 				</Row>
