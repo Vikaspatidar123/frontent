@@ -6,8 +6,6 @@ import {
 	sendMessage,
 	updateDisputeStatus,
 } from '../../../store/actions';
-import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getInitialValues, validationSchema } from '../formDetails';
 import { debounceTime } from '../../../constants/config';
 
 let debounce;
@@ -26,6 +24,7 @@ const useDisputeResolution = () => {
 		detailsLoading,
 		disputeDetails,
 		sendMessageLoading,
+		sendMessageSuccess,
 	} = useSelector((state) => state.Disputes);
 
 	const handleDisputeDetails = () => {
@@ -60,31 +59,19 @@ const useDisputeResolution = () => {
 		dispatch(updateDisputeStatus(payload));
 	};
 
-	const resetForm = () => {
-		// eslint-disable-next-line no-use-before-define
-		validation?.resetForm();
-	};
-
-	const handleSendMessage = (values) => {
+	const handleSendMessage = ({ attachment, message }) => {
 		dispatch(
 			sendMessage({
 				data: {
-					...values,
 					files: null,
-					file: values.files?.[0],
+					file: attachment?.[1],
 					threadId: selectedDispute,
 					userId: disputeDetails?.userId,
+					message,
 				},
-				resetForm,
 			})
 		);
 	};
-
-	const { validation } = useForm({
-		initialValues: getInitialValues(),
-		validationSchema,
-		onSubmitEntry: handleSendMessage,
-	});
 
 	return {
 		disputes,
@@ -93,8 +80,9 @@ const useDisputeResolution = () => {
 		setSelectedDispute,
 		detailsLoading,
 		disputeDetails,
-		validation,
 		sendMessageLoading,
+		handleSendMessage,
+		sendMessageSuccess,
 		updateStatus,
 		setPage,
 		page,
