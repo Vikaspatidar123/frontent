@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,11 +10,13 @@ import {
 	getLanguagesStart,
 	deleteEmailTemplate,
 	resetAllEmailTemplates,
+	makeEmailTemplatePrimary,
 } from '../../../store/actions';
-import ActionButtons from '../ActionButtons';
-import { EmailTemplateId, Label, Primary } from '../EmailTemplateListCol';
+import { Label, Primary } from '../EmailTemplateListCol';
 import { CustomSelectField } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
+import Actions from '../../../components/Common/Actions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
 
 const useEmailTemplate = () => {
 	const {
@@ -27,6 +30,7 @@ const useEmailTemplate = () => {
 	const [clickId, setClickId] = useState('');
 	const [customComponent, setCustomComponent] = useState();
 	const [language, setLanguage] = useState('EN');
+	const { isGranted } = usePermission();
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -85,27 +89,24 @@ const useEmailTemplate = () => {
 		fetchData();
 	}, []);
 
-	const handleEditClick = (e, emailTemplateId) => {
-		e.preventDefault();
-		navigate(`/email-templates/edit/${emailTemplateId}`);
+	const handleEditClick = (row) => {
+		navigate(`/email-templates/edit/${row?.id}`);
 	};
 
 	const toggleView = () => {
 		setClickId('');
 	};
 
-	const handleViewClick = (e, emailTemplateId) => {
-		e.preventDefault();
-		setClickId(emailTemplateId);
-		dispatch(getEmailTemplate(emailTemplateId));
+	const handleViewClick = (row) => {
+		setClickId(row?.id);
+		dispatch(getEmailTemplate(row?.id));
 	};
 
-	const handleDeleteClick = (e, emailTemplateId, eventType) => {
-		e.preventDefault();
+	const handleDeleteClick = (row) => {
 		dispatch(
 			deleteEmailTemplate({
-				emailTemplateId: Number(emailTemplateId),
-				eventType,
+				emailTemplateId: Number(row?.id),
+				eventType: row?.eventType,
 			})
 		);
 	};
@@ -113,6 +114,17 @@ const useEmailTemplate = () => {
 	const handleCreateClick = (e) => {
 		e.preventDefault();
 		navigate('create');
+	};
+
+	const handleMakePrimary = (row) => {
+		dispatch(
+			makeEmailTemplatePrimary({
+				data: {
+					emailTemplateId: parseInt(row?.id, 10),
+					eventType: row?.eventType,
+				},
+			})
+		);
 	};
 
 	const buttonList = useMemo(() => [
@@ -125,13 +137,44 @@ const useEmailTemplate = () => {
 		},
 	]);
 
+	const actionsList = [
+		{
+			actionName: 'Make Template Primary',
+			actionHandler: handleMakePrimary,
+			isHidden: isGranted(modules.emailTemplate, 'U'),
+			icon: 'mdi mdi-pencil-outline',
+			iconColor: 'text-primary',
+		},
+		{
+			actionName: 'View',
+			actionHandler: handleViewClick,
+			isHidden: false,
+			icon: 'mdi mdi-eye-outline',
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Edit',
+			actionHandler: handleEditClick,
+			isHidden: isGranted(modules.emailTemplate, 'U'),
+			icon: 'mdi mdi-pencil-outline',
+			iconColor: 'text-info',
+		},
+		{
+			actionName: 'Delete',
+			actionHandler: handleDeleteClick,
+			isHidden: isGranted(modules.emailTemplate, 'D'),
+			icon: 'mdi mdi-delete-outline',
+			iconColor: 'text-danger',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				Cell: (id) => <EmailTemplateId value={id} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	Cell: (id) => <EmailTemplateId value={id} />,
+			// },
 			{
 				Header: 'LABEL',
 				accessor: 'label',
@@ -145,19 +188,26 @@ const useEmailTemplate = () => {
 			{
 				Header: 'ACTIONS',
 				accessor: 'id',
-				Cell: (id, eventType, isDefault) => (
-					<ActionButtons // Maintain different condition for action
-						id={id}
-						eventType={eventType}
-						isDefault={isDefault}
-						handleEditClick={handleEditClick}
-						handleViewClick={handleViewClick}
-						handleDeleteClick={handleDeleteClick}
+				Cell: (id, eventype, isDefault) => (
+					<Actions
+						cell={{
+							row: {
+								original: {
+									id,
+									eventype,
+									isDefault,
+								},
+							},
+						}}
+						actionsList={actionsList}
 					/>
 				),
 			},
 		],
-		[]
+		[
+			isGranted(modules.emailTemplate, 'U'),
+			isGranted(modules.emailTemplate, 'D'),
+		]
 	);
 
 	return {

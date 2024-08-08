@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	fetchPlayersStart,
 	getAllTags,
 	resetPlayersData,
+	updateSAUserStatus,
 } from '../../../store/actions';
 import {
-	Action,
 	CountryName,
 	Email,
 	// IsInternal,
@@ -24,6 +25,8 @@ import { getRandomColor } from '../../../helpers/common';
 import { CustomSwitchButton } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
 import { PER_PAGE } from '../../../constants/config';
+import Actions from '../../../components/Common/Actions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
 // import { getDateTime } from '../../../utils/dateFormatter';
 
 const usePlayersListing = (
@@ -33,9 +36,11 @@ const usePlayersListing = (
 	toggleAllUsers = () => {}
 ) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(PER_PAGE);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isOpen, setIsOpen] = useState(false);
+	const { isGranted } = usePermission();
 	const { players, loading: isPlayersLoading } = useSelector(
 		(state) => state.Players
 	);
@@ -70,6 +75,46 @@ const usePlayersListing = (
 	const allUsersSelected =
 		players?.users?.length > 0 &&
 		players?.users?.every((user) => userIds[user.id]);
+
+	const handleEditClick = (row) => {
+		navigate(`/player-details/${row?.id}`);
+	};
+
+	const handleToggleStatus = (row) => {
+		dispatch(
+			updateSAUserStatus({
+				userIds: [row.id],
+				isActive: !row?.isActive,
+				pageType: 'PlayerListing',
+			})
+		);
+	};
+
+	const handleManageTag = (row) => setShowManageMoney(row?.id);
+
+	const actionsList = [
+		{
+			actionName: 'Edit',
+			actionHandler: handleEditClick,
+			isHidden: !isGranted(modules.player, 'U'),
+			icon: 'mdi mdi-pencil-outline',
+			iconColor: 'text-primary',
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleToggleStatus,
+			isHidden: !isGranted(modules.player, 'TS'),
+			icon: 'mdi mdi-close-thick',
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Manage Money',
+			actionHandler: handleManageTag,
+			isHidden: !isGranted(modules.player, 'U'),
+			icon: 'mdi mdi-cash-multiple',
+			iconColor: 'text-info',
+		},
+	];
 
 	const columns = useMemo(
 		() => [
@@ -129,13 +174,13 @@ const usePlayersListing = (
 				Header: 'Email',
 				accessor: 'email',
 				filterable: true,
-				Cell: ({ cell }) => <Email value={cell.value} />,
+				Cell: ({ cell }) => <Email value={cell} />,
 			},
 			{
 				Header: 'Country',
 				accessor: 'country',
 				filterable: true,
-				Cell: ({ cell }) => <CountryName value={cell?.value?.name} />,
+				Cell: ({ cell }) => <CountryName value={cell} />,
 			},
 			// {
 			// 	Header: 'Phone Number',
@@ -178,12 +223,15 @@ const usePlayersListing = (
 				Header: 'Action',
 				accessor: 'action',
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<Action cell={cell} setShowManageMoney={setShowManageMoney} />
-				),
+				Cell: ({ cell }) => <Actions actionsList={actionsList} cell={cell} />,
 			},
 		],
-		[userIds, players]
+		[
+			userIds,
+			players,
+			isGranted(modules.player, 'U'),
+			isGranted(modules.player, 'TS'),
+		]
 	);
 
 	useEffect(() => {
@@ -227,7 +275,7 @@ const usePlayersListing = (
 			});
 		}
 		return formattedValues;
-	}, [players]);
+	}, [players, userTags]);
 
 	const onChangeRowsPerPage = (value) => {
 		setCurrentPage(1);

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
-import { ActionButtons, IsActive, Segment } from '../SegmentColList';
+import { IsActive, Segment } from '../SegmentColList';
 import {
 	staticFormFields,
 	getSegmentInitialValues,
@@ -17,9 +17,12 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import Actions from '../../../components/Common/Actions';
 
 const useSegmentation = () => {
 	const dispatch = useDispatch();
+	const { isGranted } = usePermission();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const { userTags, userTagsLoading } = useSelector(
 		(state) => state.UserDetails
@@ -51,10 +54,10 @@ const useSegmentation = () => {
 		}
 	};
 
-	const handleDelete = (id) => {
+	const handleDelete = (row) => {
 		dispatch(
 			deleteTag({
-				tagId: parseInt(id, 10),
+				tagId: parseInt(row?.id, 10),
 			})
 		);
 	};
@@ -142,6 +145,23 @@ const useSegmentation = () => {
 		setIsOpen((prev) => !prev);
 	};
 
+	const actionsList = [
+		{
+			actionName: 'Edit',
+			actionHandler: onClickEdit,
+			isHidden: !isGranted(modules.banner, 'U'),
+			icon: 'mdi mdi-pencil-outline',
+			iconColor: 'text-primary',
+		},
+		{
+			actionName: 'Delete',
+			actionHandler: handleDelete,
+			isHidden: !isGranted(modules.tag, 'D'),
+			icon: 'mdi mdi-delete-outline',
+			iconColor: 'text-danger',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
 			// {
@@ -168,13 +188,7 @@ const useSegmentation = () => {
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
-						onClickEdit={onClickEdit}
-						handleDelete={handleDelete}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
 		[userTags]
