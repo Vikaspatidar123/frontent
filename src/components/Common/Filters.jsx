@@ -1,26 +1,65 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
-import { Card, Col, Row, Form, UncontrolledTooltip } from 'reactstrap';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { isEqual } from 'lodash';
+import { Card, Col, Row, UncontrolledTooltip } from 'reactstrap';
 import PropTypes, { oneOfType } from 'prop-types';
 import { getField } from '../../helpers/customForms';
+import { debounceTime } from '../../constants/config';
 
+let debounce;
 const Filters = ({
 	filterFields,
 	validation,
-	actionButtons,
-	isFilterChanged,
 	customFieldCols,
-}) => (
-	<Row>
-		<Col lg={12}>
-			<Card className="filter-card">
-				<Form
-					onSubmit={(e) => {
-						e.preventDefault();
-						validation.handleSubmit();
-						return false;
-					}}
-				>
+	filterValues,
+	customActions,
+	handleFilter,
+}) => {
+	const [isFilterChanged, setIsFilterChanged] = useState(false);
+	const ref = useRef({
+		isFirst: true,
+		prevValues: null,
+	});
+
+	const handleClear = () => {
+		const initialValues = filterValues();
+		validation.resetForm(initialValues);
+	};
+
+	useEffect(() => {
+		if (
+			!ref.isFirst.current &&
+			!isEqual(validation.values, ref.prevValues.current)
+		) {
+			setIsFilterChanged(true);
+			debounce = setTimeout(() => {
+				handleFilter(validation.values);
+			}, debounceTime);
+			ref.prevValues.current = validation.values;
+		}
+		ref.isFirst.current = false;
+		if (isEqual(filterValues(), validation.values)) {
+			setIsFilterChanged(false);
+		}
+		return () => clearTimeout(debounce);
+	}, [validation.values]);
+
+	const actionButtons = useMemo(() => [
+		{
+			type: 'button',
+			label: '',
+			icon: 'mdi mdi-refresh',
+			handleClick: handleClear,
+			tooltip: 'Clear filter',
+			id: 'clear',
+		},
+		...customActions,
+	]);
+
+	return (
+		<Row>
+			<Col lg={12}>
+				<Card className="filter-card">
 					<Row>
 						<Col xxl={11} xl={11} lg={11} md={11} sm={11}>
 							<Row className="g-3">
@@ -76,21 +115,22 @@ const Filters = ({
 								)}
 						</Col>
 					</Row>
-				</Form>
-			</Card>
-		</Col>
-	</Row>
-);
+				</Card>
+			</Col>
+		</Row>
+	);
+};
 
 Filters.defaultProps = {
 	// isAdvanceOpen: false,
-	isFilterChanged: true,
 	validation: {},
 	customFieldCols: {},
+	customActions: [],
 };
 
 Filters.propTypes = {
 	filterFields: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
+	handleFilter: PropTypes.func.isRequired,
 	validation: PropTypes.objectOf(
 		oneOfType([
 			PropTypes.object,
@@ -100,12 +140,11 @@ Filters.propTypes = {
 			PropTypes.string,
 		])
 	),
-	actionButtons: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
-	// isAdvanceOpen: PropTypes.bool,
-	isFilterChanged: PropTypes.bool,
+	customActions: PropTypes.arrayOf(PropTypes.objectOf),
 	customFieldCols: PropTypes.objectOf({
 		xxl: PropTypes.number,
 	}),
+	filterValues: PropTypes.func.isRequired,
 };
 
 export default Filters;
