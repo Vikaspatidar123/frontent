@@ -33,9 +33,10 @@ export const getPaymentListingFail = (payload) => ({
 	payload,
 });
 
-export const getPaymentListing = (payload) => ({
+export const getPaymentListing = (payload, callBack) => ({
 	type: GET_PAYMENT_DATA,
 	payload,
+	callBack,
 });
 
 export const createPaymentProvider = (payload) => ({

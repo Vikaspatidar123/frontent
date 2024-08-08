@@ -32,8 +32,6 @@ const General = ({
 		}));
 	};
 
-	console.log(paymentDetails);
-
 	const { formFields, validation, setFormFields } = useForm({
 		initialValues: getInitialValues(),
 		validationSchema: generalFormSchema(),

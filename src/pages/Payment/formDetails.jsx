@@ -44,6 +44,7 @@ const generaFromFields = (isDisabled) => [
 		label: 'Aggregator',
 		isRequired: true,
 		placeholder: 'Aggregator',
+		maximum: 51,
 	},
 	{
 		name: 'category',
@@ -72,6 +73,7 @@ const generaFromFields = (isDisabled) => [
 		label: 'Description',
 		isRequired: true,
 		placeholder: 'Description',
+		maximum: 201,
 	},
 	{
 		name: 'depositAllowed',

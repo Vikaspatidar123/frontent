@@ -51,11 +51,21 @@ const usePaymentListing = (filterValues = {}) => {
 
 	const fetchMoreData = () => {
 		setPage((prev) => prev + 1);
+		dispatch(
+			getPaymentListing(
+				{
+					perPage: itemsPerPage,
+					page: page + 1,
+					...filterValues,
+				},
+				'MoreData'
+			)
+		);
 	};
 
 	useEffect(() => {
 		if (location.pathname === '/payment') fetchData();
-	}, [page, location, itemsPerPage]);
+	}, [location, itemsPerPage]);
 
 	// const handleAddClick = (e) => {
 	// 	e.preventDefault();
