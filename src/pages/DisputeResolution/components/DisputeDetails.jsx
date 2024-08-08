@@ -1,33 +1,85 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-script-url */
+/* eslint-disable react/jsx-no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-nested-ternary */
-import React, { useEffect, useMemo, useRef } from 'react';
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import uuid from 'react-uuid';
-import { useSelector } from 'react-redux';
 import {
-	Row,
-	Col,
-	Card,
-	CardBody,
-	Spinner,
 	Button,
+	Card,
+	Col,
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownToggle,
+	Row,
+	UncontrolledDropdown,
 	UncontrolledTooltip,
 } from 'reactstrap';
-import { CustomInputField } from '../../../helpers/customForms';
+import { map } from 'lodash';
+import SimpleBar from 'simplebar-react';
+import moment from 'moment';
+import EmojiPicker from 'emoji-picker-react';
+import { showToastr } from '../../../utils/helpers';
+import { DISPUTE_STATUS } from '../constants';
+import Spinners from '../../../components/Common/Spinner';
 
 const DisputeDetails = ({
 	disputeDetails,
+	updateStatus,
 	detailsLoading,
-	validation,
+	handleSendMessage,
 	sendMessageLoading,
+	sendMessageSuccess,
 }) => {
-	const superAdminUser = useSelector(
-		(state) => state.PermissionDetails.superAdminUser
-	);
+	const [info, setLocalInfo] = useState({
+		emoji: false,
+		emojiArray: [],
+		attachment: [],
+		message: '',
+		statusDropDown: false,
+		username: '',
+	});
 	const cardRef = useRef(null);
+	const scrollRef = useRef();
+	const setInfo = (key, value) => {
+		setLocalInfo((prev) => ({
+			...prev,
+			[key]: value,
+		}));
+	};
+
+	const handleImageChange = (event) => {
+		event.preventDefault();
+		const file = event.target.files[0];
+		if (file && file.type.startsWith('image/')) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				setInfo('attachment', [reader.result, file]); // For showing and sending on BE
+			};
+			reader.readAsDataURL(file);
+		}
+	};
+
+	const copyMsg = (ele) => {
+		const copyText = ele
+			.closest('.conversation-list')
+			.querySelector('p').innerHTML;
+		navigator.clipboard.writeText(copyText);
+		showToastr({
+			message: 'Copied !',
+			type: 'success',
+		});
+	};
+
+	const onEmojiClick = (event, emojiObject) => {
+		setInfo('emojiArray', [...info.emojiArray, emojiObject.emoji]);
+		setInfo('message', info.message + event.emoji);
+	};
 
 	useEffect(() => {
 		const scrollToBottom = () => {
@@ -35,162 +87,254 @@ const DisputeDetails = ({
 				cardRef.current.scrollTop = cardRef.current.scrollHeight;
 			}
 		};
-
 		setTimeout(scrollToBottom, 100);
-	}, [disputeDetails]);
 
-	const messages = useMemo(
-		() =>
-			disputeDetails?.threadMessages?.map(
-				({ content, threadAttachements, user, adminId, createdAt }) => {
-					const username = adminId ? superAdminUser?.username : user?.username;
-					const email = adminId ? superAdminUser?.email : user?.email;
-					return (
-						<>
-							<div className="d-flex mb-4">
-								<div className="avatar-xs">
-									<span
-										className={`m-2 avatar-title rounded-circle ${
-											adminId ? 'bg-gradient' : 'bg-success'
-										} text-white`}
-									>
-										{username?.[0]?.toUpperCase() || '#'}
-									</span>
-								</div>
-								<div className="ms-4">
-									<h5 className="font-size-14 mt-1">{username || '-'}</h5>
-									<small className="text-muted">{email || '-'}</small>
-								</div>
-								{createdAt ? (
-									<div className="ms-auto">
-										{moment(createdAt).format('MMM Do YY, h:mm a')}
-									</div>
-								) : null}
-							</div>
+		for (let i = 0; i < disputeDetails?.threadMessages?.length; i += 1) {
+			if (disputeDetails?.threadMessages?.[i]?.user?.username) {
+				setInfo(
+					'username',
+					disputeDetails?.threadMessages?.[i]?.user?.username
+				);
+				break;
+			}
+		}
+	}, [disputeDetails?.threadMessages]);
 
-							<div className="ps-5 ms-2">
-								<h4 className="mt-0 mb-3 font-size-16">{content}</h4>
-								<Row>
-									{threadAttachements?.map(({ filePath }) => (
-										<Col xl="3" xs="4">
-											<Card>
-												<img className="" src={filePath} alt={filePath} />
-											</Card>
-										</Col>
-									))}
-								</Row>
-							</div>
-							{/* <hr className="bold-line" /> */}
-							<hr />
-						</>
-					);
-				}
-			),
-		[disputeDetails?.threadMessages, superAdminUser]
-	);
+	console.log('Values', info);
 
-	const handleDelete = (fileToDelete) => {
-		const allFiles = validation.values.files;
-		validation.setFieldValue(
-			'files',
-			allFiles.filter((file) => file !== fileToDelete)
-		);
-	};
-
-	const attachmentList = useMemo(
-		() =>
-			validation.values.files?.length ? (
-				<div className="attachments ps-3 pe-3 d-flex">
-					{validation.values.files?.map((file) => (
-						<div className="img-parent h-100 position-relative">
-							<img
-								key={uuid()}
-								src={URL.createObjectURL(file)}
-								className="img-thumbnail"
-								alt="thumbnail"
-								style={{ maxHeight: '100px', marginRight: '10px' }}
-							/>
-							<Col className="trash-btn position-absolute top-0 end-0">
-								<Button
-									className="btn btn-sm btn-soft-danger"
-									onClick={() => handleDelete(file)}
-								>
-									<i className="mdi mdi-delete-outline" id="deletetooltip" />
-									<UncontrolledTooltip placement="top" target="deletetooltip">
-										Delete
-									</UncontrolledTooltip>
-								</Button>
-							</Col>
-						</div>
-					))}
-				</div>
-			) : null,
-		[validation.values.files]
-	);
+	useEffect(() => {
+		if (sendMessageSuccess) {
+			setLocalInfo((prev) => ({
+				...prev,
+				emoji: false,
+				emojiArray: [],
+				attachment: '',
+				message: '',
+				statusDropDown: false,
+			}));
+		}
+	}, [sendMessageSuccess]);
 
 	return (
-		<Card className="email-rightbar mb-3">
-			<div className="details-card overflow-scroll-hide">
-				{detailsLoading ? (
-					<Spinner
-						color="primary"
-						className="position-absolute top-50 start-50 mt-100"
-					/>
-				) : (
-					<>
-						<h5 className="ms-4 mt-4 pe-2">
-							Subject: <b>{disputeDetails?.subject}</b>
-						</h5>
-						<hr />
-						<CardBody innerRef={cardRef}>{messages}</CardBody>
-					</>
-				)}
-			</div>
-			{attachmentList}
-			<div className="d-flex align-items-center p-3">
-				<CustomInputField
-					rows="1"
-					name="message"
-					id="message"
-					type="textarea"
-					onChange={validation.handleChange}
-					value={validation.values?.message}
-					placeholder="Enter message"
-					className="flex-grow-1"
-					style={{ resize: 'none' }}
-				/>
-				<input
-					type="file"
-					id="files"
-					multiple
-					className="d-none"
-					onChange={(e) =>
-						validation.setFieldValue('files', Array.from(e.target.files))
-					}
-				/>
-				<i
-					className="mdi mdi-paperclip paper-clip-input"
-					onClick={() => document.getElementById('files').click()}
-				/>
-				<Button
-					disabled={sendMessageLoading}
-					className="btn btn-success ms-2 w-105"
-					onClick={() => validation.submitForm()}
-				>
-					{sendMessageLoading ? (
-						<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
-					) : (
-						'Send'
-					)}{' '}
-					<i className="mdi mdi-send" />
-				</Button>
-			</div>
-			{validation.touched.message || validation.touched.files ? (
-				<p className="text-danger file-input-error">
-					{validation.errors.message || validation.errors.files}
-				</p>
-			) : null}
-		</Card>
+		<div className="w-100 user-chat">
+			<Card>
+				<div className="p-4 border-bottom ">
+					<Row>
+						<Col md="9" xs="9">
+							<h5 className="font-size-15 mb-1">{info.username}</h5>
+							<p className="text-muted mb-0">
+								<i className="mdi mdi-circle text-success align-middle me-1" />{' '}
+								Active now
+							</p>
+							<p className="font-size-15 mt-3 pb-0 mb-0">
+								Subject: {disputeDetails?.subject}
+							</p>
+						</Col>
+						<Col md="3" xs="3">
+							<ul className="list-inline user-chat-nav text-end mb-0">
+								<li className="list-inline-item">
+									<Dropdown
+										isOpen={info.statusDropDown}
+										toggle={() =>
+											setLocalInfo((prev) => ({
+												...prev,
+												statusDropDown: !prev.statusDropDown,
+											}))
+										}
+									>
+										<DropdownToggle className="btn nav-btn" tag="a">
+											<i className="bx bx-dots-horizontal-rounded" />
+										</DropdownToggle>
+										<DropdownMenu className="dropdown-menu-end">
+											{DISPUTE_STATUS?.map(({ label, value }) => (
+												<DropdownItem
+													onClick={() => {
+														updateStatus({
+															threadId: disputeDetails?.id,
+															status: value,
+														});
+														setInfo('statusDropDown', false);
+													}}
+												>
+													{label}{' '}
+													{disputeDetails?.status === value ? (
+														<i className="mdi mdi-check font-size-16 text-success me-1" />
+													) : (
+														''
+													)}
+												</DropdownItem>
+											))}
+										</DropdownMenu>
+									</Dropdown>
+								</li>
+							</ul>
+						</Col>
+					</Row>
+				</div>
+
+				<div>
+					<div className="chat-conversation p-3">
+						<SimpleBar ref={scrollRef} style={{ height: '486px' }}>
+							{detailsLoading ? (
+								<Spinners />
+							) : (
+								<ul className="list-unstyled mb-0">
+									{map(
+										disputeDetails?.threadMessages,
+										({
+											id,
+											content,
+											threadAttachements,
+											user,
+											adminId,
+											createdAt,
+										}) => (
+											<li key={id} className={adminId ? 'right' : ''}>
+												<div className="conversation-list">
+													<UncontrolledDropdown>
+														<DropdownToggle
+															href="#!"
+															tag="a"
+															className="dropdown-toggle"
+														>
+															<i className="bx bx-dots-vertical-rounded" />
+														</DropdownToggle>
+														<DropdownMenu>
+															<DropdownItem
+																onClick={(e) => copyMsg(e.target)}
+																href="#"
+															>
+																Copy
+															</DropdownItem>
+														</DropdownMenu>
+													</UncontrolledDropdown>
+													<div className="ctext-wrap">
+														<div className="conversation-name d-flex">
+															{adminId ? 'You' : user?.username}
+														</div>
+														<p className="mb-0">{content}</p>
+														{threadAttachements?.length
+															? threadAttachements.map(({ filePath }) => (
+																	<img src={filePath} alt="" width="150px" />
+															  ))
+															: null}
+														{createdAt && (
+															<p className="chat-time mb-0">
+																<i className="bx bx-time-five align-middle me-1" />
+																{moment(createdAt).format('lll')}
+															</p>
+														)}
+													</div>
+												</div>
+											</li>
+										)
+									)}
+								</ul>
+							)}
+						</SimpleBar>
+					</div>
+					{info.attachment?.[0] && (
+						<div className="replymessage-block mb-0 d-flex align-items-start">
+							<div className="flex-grow-1">
+								<img
+									src={info.attachment?.[0]}
+									alt="select img"
+									style={{ width: '150px', height: 'auto' }}
+								/>
+							</div>
+							<div className="flex-shrink-0">
+								<button
+									type="button"
+									id="close_toggle"
+									className="btn btn-sm btn-link mt-n2 me-n3 fs-3"
+									onClick={() => setInfo('attachment', [])}
+								>
+									<i className="bx bx-x align-middle" />
+								</button>
+							</div>
+						</div>
+					)}
+
+					{info.emoji && (
+						<EmojiPicker onEmojiClick={onEmojiClick} width={250} height={382} />
+					)}
+					<div className="p-3 chat-input-section">
+						<form>
+							<Row>
+								<Col>
+									<div className="position-relative">
+										<input
+											type="text"
+											value={info.message}
+											// onKeyPress={onKeyPress}
+											onChange={(e) => setInfo('message', e.target.value)}
+											className="form-control chat-input"
+											placeholder="Enter Message..."
+										/>
+										<div className="chat-input-links">
+											<ul className="list-inline mb-0">
+												{/* <li className="list-inline-item" onClick={() => setInfo('emoji', !info.emoji)}>
+												<Link to="javascript:void(0)">
+													<i className="mdi mdi-emoticon-happy-outline me-1 fs-4" id="Emojitooltip" />
+													<UncontrolledTooltip
+														placement="top"
+														target="Emojitooltip"
+													>
+														Emojis
+													</UncontrolledTooltip>
+												</Link>
+											</li> */}
+												<li className="list-inline-item">
+													<label
+														htmlFor="imageInput"
+														style={{ color: '#556ee6', fontSize: 16 }}
+													>
+														<i
+															className="mdi mdi-file-image-outline me-1 fs-3 position-relative"
+															id="Imagetooltip"
+															style={{ top: '2px' }}
+														/>
+														<UncontrolledTooltip
+															placement="top"
+															target="Imagetooltip"
+														>
+															Images
+														</UncontrolledTooltip>
+													</label>
+													<input
+														type="file"
+														id="imageInput"
+														className="d-none"
+														onChange={handleImageChange}
+													/>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</Col>
+								<Col className="col-auto">
+									<Button
+										type="submit"
+										color="primary"
+										disabled={sendMessageLoading || info.message.length === 0}
+										onClick={() => handleSendMessage(info)}
+										className="btn btn-primary btn-rounded chat-send w-md "
+									>
+										<span className="d-none d-sm-inline-block me-2">
+											{sendMessageLoading && (
+												<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />
+											)}
+											Send
+										</span>{' '}
+										<i className="mdi mdi-send" />
+									</Button>
+								</Col>
+							</Row>
+						</form>
+					</div>
+				</div>
+			</Card>
+		</div>
 	);
 };
 
@@ -203,15 +347,10 @@ DisputeDetails.propTypes = {
 		}),
 	}),
 	detailsLoading: PropTypes.bool,
-	values: PropTypes.objectOf({
-		message: PropTypes.string,
-	}).isRequired,
-	validation: PropTypes.objectOf({
-		values: PropTypes.objectOf({
-			message: PropTypes.string,
-		}),
-	}).isRequired,
+	updateStatus: PropTypes.func.isRequired,
 	sendMessageLoading: PropTypes.bool.isRequired,
+	handleSendMessage: PropTypes.func.isRequired,
+	sendMessageSuccess: PropTypes.bool.isRequired,
 };
 
 DisputeDetails.defaultProps = {

@@ -205,7 +205,7 @@ const SidebarContent = ({ t }) => {
 	return (
 		<SimpleBar className="h-100 simple-bar" forceVisible ref={ref}>
 			<div id="sidebar-menu" className="h-100 position-relative">
-				<ul className="metismenu list-unstyled" id="side-menu">
+				<ul className="metismenu list-unstyled pb-5" id="side-menu">
 					{renderSideBar}
 				</ul>
 				{/* <p className="text-center w-100 bottom-text">

@@ -21,6 +21,7 @@ const initialState = {
 	detailsError: '',
 
 	sendMessageLoading: false,
+	sendMessageSuccess: false,
 };
 
 const disputesReducer = (state = initialState, { type, payload } = {}) => {
@@ -64,16 +65,19 @@ const disputesReducer = (state = initialState, { type, payload } = {}) => {
 		case SEND_MESSAGE:
 			return {
 				...state,
+				sendMessageSuccess: false,
 				sendMessageLoading: true,
 			};
 		case SEND_MESSAGE_SUCCESS:
 			return {
 				...state,
+				sendMessageSuccess: true,
 				sendMessageLoading: false,
 			};
 		case SEND_MESSAGE_FAIL:
 			return {
 				...state,
+				sendMessageSuccess: false,
 				sendMessageLoading: false,
 			};
 

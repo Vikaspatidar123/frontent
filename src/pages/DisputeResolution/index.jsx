@@ -6,7 +6,7 @@ import DisputeDetails from './components/DisputeDetails';
 import DisputeList from './components/DisputeList';
 import useDisputeResolution from './hooks/useDisputeResolution';
 
-const DisputeResolution = () => {
+const DisputeResolutionH = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 	const {
 		disputes,
@@ -15,9 +15,10 @@ const DisputeResolution = () => {
 		setSelectedDispute,
 		detailsLoading,
 		disputeDetails,
-		validation,
 		sendMessageLoading,
 		updateStatus,
+		handleSendMessage,
+		sendMessageSuccess,
 		setPage,
 		page,
 		filters,
@@ -35,23 +36,26 @@ const DisputeResolution = () => {
 				)}
 				<Row>
 					<Col lg="12">
-						<DisputeList
-							disputes={disputes}
-							loading={loading}
-							selectedDispute={selectedDispute}
-							setSelectedDispute={setSelectedDispute}
-							updateStatus={updateStatus}
-							setPage={setPage}
-							page={page}
-							filters={filters}
-							setFilters={setFilters}
-						/>
-						<DisputeDetails
-							detailsLoading={detailsLoading}
-							disputeDetails={disputeDetails}
-							validation={validation}
-							sendMessageLoading={sendMessageLoading}
-						/>
+						<div className="d-lg-flex">
+							<DisputeList
+								disputes={disputes}
+								loading={loading}
+								selectedDispute={selectedDispute}
+								setSelectedDispute={setSelectedDispute}
+								setPage={setPage}
+								page={page}
+								filters={filters}
+								setFilters={setFilters}
+							/>
+							<DisputeDetails
+								detailsLoading={detailsLoading}
+								disputeDetails={disputeDetails}
+								updateStatus={updateStatus}
+								sendMessageLoading={sendMessageLoading}
+								handleSendMessage={handleSendMessage}
+								sendMessageSuccess={sendMessageSuccess}
+							/>
+						</div>
 					</Col>
 				</Row>
 			</Container>
@@ -59,4 +63,4 @@ const DisputeResolution = () => {
 	);
 };
 
-export default DisputeResolution;
+export default DisputeResolutionH;
