@@ -18,7 +18,7 @@ import { getRandomColor } from '../../../helpers/common';
 import { STORAGE_KEY } from '../../../components/Common/constants';
 import { encryptCredentials } from '../../../network/storageUtils';
 import { modules } from '../../../constants/permissions';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
 
@@ -117,22 +117,22 @@ const useAdminListing = (filterValues = {}) => {
 			actionName: 'View',
 			actionHandler: handleView,
 			isHidden: !isGranted(modules.admin, 'R'),
-			icon: iconClass.view,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.view,
+			iconColor: TEXT_COLORS.info,
 		},
 		{
 			actionName: 'Edit',
 			actionHandler: handleEdit,
 			isHidden: !isGranted(modules.admin, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Toggle Status',
 			actionHandler: handleStatus,
 			isHidden: !isGranted(modules.admin, 'TS'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 			isDisabled,
 		},
 	];

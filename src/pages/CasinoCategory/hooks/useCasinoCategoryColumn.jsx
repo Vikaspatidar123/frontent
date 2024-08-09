@@ -11,7 +11,7 @@ import {
 } from '../CasinoCategoryListCol';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../constants/permissions';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
 
 const useCasinoCategoryColumn = ({
@@ -29,31 +29,31 @@ const useCasinoCategoryColumn = ({
 			actionName: 'Edit',
 			actionHandler: onClickEdit,
 			isHidden: !isGranted(modules.casinoManagement, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Toggle Status',
 			actionHandler: handleStatus,
 			isHidden: !isGranted(modules.casinoManagement, 'TS'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 			isDisabled,
 		},
 		{
 			actionName: 'Delete',
 			actionHandler: onClickDelete,
 			isHidden: !isGranted(modules.casinoManagement, 'U'),
-			icon: iconClass.delete,
-			iconColor: 'text-danger',
+			icon: ICON_CLASS.delete,
+			iconColor: TEXT_COLORS.danger,
 			isDisabled,
 		},
 		{
 			actionName: 'Add Games to category',
 			actionHandler: handleAddGameClick,
 			isHidden: !isGranted(modules.casinoManagement, 'TS'),
-			icon: iconClass.addOne,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.addOne,
+			iconColor: TEXT_COLORS.info,
 		},
 	];
 

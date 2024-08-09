@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { ID, Name, Status } from '../AggregatorListCol';
 import usePermission from '../../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../../constants/permissions';
-import { iconClass } from '../../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../../utils/constant';
 import Actions from '../../../../components/Common/Actions';
 
 const useAggregatorList = (handleStatus) => {
@@ -14,8 +14,8 @@ const useAggregatorList = (handleStatus) => {
 			actionName: 'Toggle Status',
 			actionHandler: handleStatus,
 			isHidden: !isGranted(modules.casinoManagement, 'TS'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 		},
 	];
 

@@ -23,7 +23,7 @@ import {
 import { selectedLanguage } from '../../../constants/config';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
 
 const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
@@ -124,22 +124,22 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			actionName: 'Edit',
 			actionHandler: onClickEdit,
 			isHidden: !isGranted(modules.casinoManagement, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Toggle Status',
 			actionHandler: handleStatus,
 			isHidden: !isGranted(modules.casinoManagement, 'TS'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 		},
 		{
 			actionName: 'View Restricted Countries',
 			actionHandler: handleRestrictedCountries,
 			isHidden: !isGranted(modules.casinoManagement, 'U'),
-			icon: iconClass.restricted,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.restricted,
+			iconColor: TEXT_COLORS.info,
 		},
 	];
 

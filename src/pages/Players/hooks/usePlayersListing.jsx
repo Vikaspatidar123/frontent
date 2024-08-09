@@ -27,7 +27,7 @@ import { modules } from '../../../constants/permissions';
 import { PER_PAGE } from '../../../constants/config';
 import Actions from '../../../components/Common/Actions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 // import { getDateTime } from '../../../utils/dateFormatter';
 
 const usePlayersListing = (
@@ -98,22 +98,22 @@ const usePlayersListing = (
 			actionName: 'Edit',
 			actionHandler: handleEditClick,
 			isHidden: !isGranted(modules.player, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Toggle Status',
 			actionHandler: handleToggleStatus,
 			isHidden: !isGranted(modules.player, 'TS'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 		},
 		{
 			actionName: 'Manage Money',
 			actionHandler: handleManageTag,
 			isHidden: !isGranted(modules.player, 'U'),
-			icon: iconClass.moneyMultiple,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.moneyMultiple,
+			iconColor: TEXT_COLORS.info,
 		},
 	];
 

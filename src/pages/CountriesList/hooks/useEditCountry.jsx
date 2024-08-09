@@ -19,7 +19,7 @@ import {
 	Language,
 	Status,
 } from '../CountriesListCol';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../constants/permissions';
 import Actions from '../../../components/Common/Actions';
@@ -106,15 +106,15 @@ const useEditCountry = () => {
 			actionName: 'Edit',
 			actionHandler: handleEditClick,
 			isHidden: !isGranted(modules.casinoManagement, 'TS'),
-			icon: iconClass.edit,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Toggle Status',
 			actionHandler: handleStatus,
 			isHidden: false,
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 		},
 	];
 

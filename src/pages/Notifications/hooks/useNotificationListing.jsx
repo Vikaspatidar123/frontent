@@ -8,7 +8,7 @@ import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { KeyValueCell, Status } from '../NotificationListCol';
 import Actions from '../../../components/Common/Actions';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 
 const useNotificationListing = () => {
 	const dispatch = useDispatch();
@@ -68,8 +68,8 @@ const useNotificationListing = () => {
 			actionName: 'Notification Details',
 			actionHandler: handleViewClick,
 			isHidden: false,
-			icon: iconClass.view,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.view,
+			iconColor: TEXT_COLORS.info,
 		},
 	];
 

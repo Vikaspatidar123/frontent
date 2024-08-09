@@ -21,7 +21,11 @@ import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
-import { currencySymbols, iconClass } from '../../../utils/constant';
+import {
+	currencySymbols,
+	ICON_CLASS,
+	TEXT_COLORS,
+} from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
 
 const useCreateCurrency = () => {
@@ -173,16 +177,16 @@ const useCreateCurrency = () => {
 			actionName: 'Edit',
 			actionHandler: onClickEdit,
 			isHidden: !isGranted(modules.currency, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 			isDisabled: isEditDisabled,
 		},
 		{
 			actionName: 'Toggle Status',
 			actionHandler: handleToggleStatus,
 			isHidden: !isGranted(modules.emailTemplate, 'TS'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 			isDisabled: isToggleDisabled,
 		},
 	];

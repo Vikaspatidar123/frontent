@@ -9,7 +9,7 @@ import {
 	updateSaCmsStatus,
 } from '../../../store/cms/actions';
 import { Title, Slug, Portal, Status } from '../CmsListCol';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
@@ -107,29 +107,29 @@ const useCmsListing = (filterValues = {}) => {
 			actionName: 'View',
 			actionHandler: handleViewClick,
 			isHidden: !isGranted(modules.page, 'R'),
-			icon: iconClass.view,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.view,
+			iconColor: TEXT_COLORS.info,
 		},
 		{
 			actionName: 'Edit',
 			actionHandler: handleEditClick,
 			isHidden: !isGranted(modules.page, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Toggle Status',
 			actionHandler: handleStatus,
 			isHidden: !isGranted(modules.page, 'TS'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 		},
 		{
 			actionName: 'Delete',
 			actionHandler: handleDelete,
 			isHidden: !isGranted(modules.page, 'D'),
-			icon: iconClass.delete,
-			iconColor: 'text-danger',
+			icon: ICON_CLASS.delete,
+			iconColor: TEXT_COLORS.danger,
 		},
 	];
 

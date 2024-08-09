@@ -9,7 +9,7 @@ import useCreateComment from './hooks/useCreateComment';
 import CrudSection from '../../components/Common/CrudSection';
 import { formPageTitle } from '../../components/Common/constants';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
-import { iconClass } from '../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../utils/constant';
 import Actions from '../../components/Common/Actions';
 
 const Notes = ({ userDetails, userId }) => {
@@ -43,15 +43,15 @@ const Notes = ({ userDetails, userId }) => {
 			actionName: 'Edit',
 			actionHandler: handleUpdateClick,
 			isHidden: false,
-			icon: iconClass.edit,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Delete',
 			actionHandler: handleDelete,
 			isHidden: false,
-			icon: iconClass.delete,
-			iconColor: 'text-danger',
+			icon: ICON_CLASS.delete,
+			iconColor: TEXT_COLORS.danger,
 		},
 	];
 

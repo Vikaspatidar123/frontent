@@ -14,7 +14,7 @@ import {
 import { showLinearProgress } from '../../../store/progressLoading/actions';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
 
 const useWageringTemplate = (filterValues = {}) => {
@@ -80,15 +80,15 @@ const useWageringTemplate = (filterValues = {}) => {
 			actionName: 'View',
 			actionHandler: handleViewClick,
 			isHidden: !isGranted(modules.bonus, 'R'),
-			icon: iconClass.view,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.view,
+			iconColor: TEXT_COLORS.info,
 		},
 		{
 			actionName: 'Edit',
 			actionHandler: handleEditClick,
 			isHidden: !isGranted(modules.bonus, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 	];
 

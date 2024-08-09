@@ -17,7 +17,7 @@ import { CustomSelectField } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
 import Actions from '../../../components/Common/Actions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 
 const useEmailTemplate = () => {
 	const {
@@ -145,29 +145,29 @@ const useEmailTemplate = () => {
 			actionName: 'Make Template Primary',
 			actionHandler: handleMakePrimary,
 			isHidden: !isGranted(modules.emailTemplate, 'U'),
-			icon: iconClass.markPrimary,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.markPrimary,
+			iconColor: TEXT_COLORS.info,
 		},
 		{
 			actionName: 'View',
 			actionHandler: handleViewClick,
 			isHidden: false,
-			icon: iconClass.view,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.view,
+			iconColor: TEXT_COLORS.secondary,
 		},
 		{
 			actionName: 'Edit',
 			actionHandler: handleEditClick,
 			isHidden: !isGranted(modules.emailTemplate, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Delete',
 			actionHandler: handleDeleteClick,
 			isHidden: !isGranted(modules.emailTemplate, 'D'),
-			icon: iconClass.delete,
-			iconColor: 'text-danger',
+			icon: ICON_CLASS.delete,
+			iconColor: TEXT_COLORS.danger,
 			isDisabled: isDeleteDisabled,
 		},
 	];
