@@ -131,11 +131,13 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 			validation?.values?.tagAction === 'addTag'
 		) {
 			setOptions(
-				userTags?.tags?.map((tag) => ({
-					id: tag?.id,
-					optionLabel: tag?.tag,
-					value: tag?.id,
-				}))
+				userTags?.tags
+					.filter((userTag) => userTag.isActive !== false)
+					.map((tag) => ({
+						id: tag?.id,
+						optionLabel: tag?.tag,
+						value: tag?.id,
+					}))
 			);
 		}
 

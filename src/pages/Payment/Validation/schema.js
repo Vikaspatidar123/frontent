@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import * as Yup from 'yup';
 
+const maxLimit = 1000000;
 const currencyValidate = () =>
 	Yup.object().test('currency_limit_validate', (value) => {
 		const currencySchema = {};
@@ -10,7 +11,8 @@ const currencyValidate = () =>
 				currencyId: Yup.string().nullable(),
 				minDeposit: Yup.number()
 					.nullable()
-					.min(0, 'Amount should be greater than 0')
+					.min(0.1, 'Amount should be greater than 0')
+					.max(maxLimit, `Amount should not exceed ${maxLimit}`)
 					.when('maxDeposit', (items, schema) =>
 						items?.[0] && items?.[0] !== null
 							? schema.lessThan(
@@ -19,10 +21,14 @@ const currencyValidate = () =>
 							  )
 							: schema
 					),
-				maxDeposit: Yup.number().nullable(),
+				maxDeposit: Yup.number()
+					.nullable()
+					.min(0.1, 'Amount should be greater than 0')
+					.max(maxLimit, `Amount should not exceed ${maxLimit}`),
 				minWithdraw: Yup.number()
 					.nullable()
-					.min(0, 'Amount should be greater than 0')
+					.min(0.1, 'Amount should be greater than 0')
+					.max(maxLimit, `Amount should not exceed ${maxLimit}`)
 					.when('maxWithdraw', (items, schema) =>
 						items?.[0] && items?.[0] !== null
 							? schema.lessThan(
@@ -31,7 +37,10 @@ const currencyValidate = () =>
 							  )
 							: schema
 					),
-				maxWithdraw: Yup.number().nullable(),
+				maxWithdraw: Yup.number()
+					.nullable()
+					.min(0.1, 'Amount should be greater than 0')
+					.max(maxLimit, `Amount should not exceed ${maxLimit}`),
 			});
 		}
 		const validateSchema = Yup.object().shape(currencySchema);
