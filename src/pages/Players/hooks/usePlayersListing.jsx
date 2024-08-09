@@ -246,9 +246,7 @@ const usePlayersListing = (
 	}, [currentPage, itemsPerPage]);
 
 	useEffect(() => {
-		if (!userTags) {
-			dispatch(getAllTags());
-		}
+		dispatch(getAllTags());
 	}, []);
 
 	// resetting players list redux state

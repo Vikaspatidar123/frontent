@@ -152,11 +152,13 @@ const useBulkUpdatePlayer = (selectedPlayers, onSuccess) => {
 		}
 		if (validation?.values?.tagAction !== 'createTag') {
 			setOptions(
-				userTags?.tags.map((tag) => ({
-					id: tag?.id,
-					optionLabel: tag?.tag,
-					value: tag?.id,
-				}))
+				userTags?.tags
+					.filter((userTag) => userTag.isActive !== false)
+					.map((tag) => ({
+						id: tag?.id,
+						optionLabel: tag?.tag,
+						value: tag?.id,
+					}))
 			);
 		}
 	}, [validation?.values?.tagAction, validation?.values?.tag, userTags]);

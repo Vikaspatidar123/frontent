@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty, isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
 	staticFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { getBonusesStart } from '../../../store/actions';
+import { getAllTags, getBonusesStart } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
 
 let debounce;
@@ -18,6 +18,7 @@ const useFilters = () => {
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
+	const { userTags } = useSelector((state) => state.UserDetails);
 
 	const fetchData = (values) => {
 		dispatch(
@@ -33,12 +34,37 @@ const useFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields } = useForm({
+	useEffect(() => {
+		if (!userTags) {
+			dispatch(getAllTags());
+		}
+	}, []);
+
+	const { validation, formFields, setFormFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(),
 	});
+
+	useEffect(() => {
+		if (!isEmpty(userTags)) {
+			const tags = userTags?.tags?.map((userTag) => ({
+				optionLabel: userTag?.tag,
+				value: userTag.id,
+			}));
+			setFormFields([
+				...staticFiltersFields(),
+				{
+					name: 'tagIds',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select Segment',
+					optionList: tags,
+				},
+			]);
+		}
+	}, [userTags]);
 
 	// const handleAdvance = () => {
 	// 	toggleAdvance();

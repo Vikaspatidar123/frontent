@@ -111,14 +111,12 @@ const useSegmentation = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	useEffect(() => {
-		if (!userTags) {
-			dispatch(
-				getAllTags({
-					perPage: itemsPerPage,
-					page: currentPage,
-				})
-			);
-		}
+		dispatch(
+			getAllTags({
+				perPage: itemsPerPage,
+				page: currentPage,
+			})
+		);
 	}, []);
 
 	const formattedSegments = useMemo(

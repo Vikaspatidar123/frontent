@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty, isEqual } from 'lodash';
 import moment from 'moment';
 import {
 	filterValidationSchema,
@@ -10,6 +10,7 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { debounceTime } from '../../../constants/config';
 import { getTournamentDetailsStart } from '../../../store/tournaments/actions';
+import { getAllTags } from '../../../store/actions';
 
 let debounce;
 const useFilters = (itemsPerPage) => {
@@ -19,6 +20,7 @@ const useFilters = (itemsPerPage) => {
 	const prevValues = useRef(null);
 	const isFirst = useRef(true);
 	const [isFilterChanged, setIsFilterChanged] = useState(false);
+	const { userTags } = useSelector((state) => state.UserDetails);
 
 	const fetchData = (values) => {
 		const data = {
@@ -38,7 +40,13 @@ const useFilters = (itemsPerPage) => {
 		fetchData(values);
 	};
 
-	const { validation, formFields } = useForm({
+	useEffect(() => {
+		if (!userTags) {
+			dispatch(getAllTags());
+		}
+	}, []);
+
+	const { validation, formFields, setFormFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
@@ -48,6 +56,25 @@ const useFilters = (itemsPerPage) => {
 	// const handleAdvance = () => {
 	// 	toggleAdvance();
 	// };
+
+	useEffect(() => {
+		if (!isEmpty(userTags)) {
+			const tags = userTags?.tags?.map((userTag) => ({
+				optionLabel: userTag?.tag,
+				value: userTag.id,
+			}));
+			setFormFields([
+				...staticFiltersFields(),
+				{
+					name: 'tagIds',
+					fieldType: 'select',
+					label: '',
+					placeholder: 'Select Segment',
+					optionList: tags,
+				},
+			]);
+		}
+	}, [userTags]);
 
 	const handleClear = () => {
 		const initialValues = filterValues();
