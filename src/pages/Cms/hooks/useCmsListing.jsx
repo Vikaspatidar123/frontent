@@ -8,8 +8,11 @@ import {
 	resetAllCmsDetails,
 	updateSaCmsStatus,
 } from '../../../store/cms/actions';
-import { CmsPageId, Title, Slug, Portal, Status } from '../CmsListCol';
-import ActionButtons from '../ActionButtons';
+import { Title, Slug, Portal, Status } from '../CmsListCol';
+import { iconClass } from '../../../utils/constant';
+import { modules } from '../../../constants/permissions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import Actions from '../../../components/Common/Actions';
 
 const useCmsListing = (filterValues = {}) => {
 	const navigate = useNavigate();
@@ -22,6 +25,7 @@ const useCmsListing = (filterValues = {}) => {
 	const [selectedClient, setSelectedClient] = useState('');
 	const [deleteCmsId, setDeleteCmsId] = useState('');
 	const [isDeleteConfirmationOpen, setDeleteConfirmation] = useState(false);
+	const { isGranted } = usePermission();
 
 	const dispatch = useDispatch();
 
@@ -53,12 +57,10 @@ const useCmsListing = (filterValues = {}) => {
 		);
 	};
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { id } = props;
+	const handleStatus = (row) => {
 		dispatch(
 			updateSaCmsStatus({
-				pageId: id,
+				pageId: row?.id,
 			})
 		);
 	};
@@ -80,19 +82,17 @@ const useCmsListing = (filterValues = {}) => {
 		);
 	};
 
-	const handleEditClick = (e, cmsPageId) => {
-		e.preventDefault();
-		navigate(`edit/${cmsPageId}`);
+	const handleEditClick = (row) => {
+		navigate(`edit/${row?.id}`);
 	};
 
-	const handleViewClick = (e, cmsPageId) => {
-		e.preventDefault();
-		navigate(`details/${cmsPageId}`);
+	const handleViewClick = (row) => {
+		navigate(`details/${row?.id}`);
 	};
 
-	const handleDelete = (id) => {
+	const handleDelete = (row) => {
 		setDeleteConfirmation(true);
-		setDeleteCmsId(id);
+		setDeleteCmsId(row?.id);
 	};
 
 	useEffect(() => {
@@ -102,15 +102,46 @@ const useCmsListing = (filterValues = {}) => {
 	// resetting cms list redux state
 	useEffect(() => () => dispatch(resetAllCmsDetails()), []);
 
+	const actionsList = [
+		{
+			actionName: 'View',
+			actionHandler: handleViewClick,
+			isHidden: !isGranted(modules.page, 'R'),
+			icon: iconClass.view,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Edit',
+			actionHandler: handleEditClick,
+			isHidden: !isGranted(modules.page, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-info',
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.page, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Delete',
+			actionHandler: handleDelete,
+			isHidden: !isGranted(modules.page, 'D'),
+			icon: iconClass.delete,
+			iconColor: 'text-danger',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <CmsPageId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <CmsPageId value={cell.value} />,
+			// },
 			{
 				Header: 'TITLE',
 				accessor: 'title',
@@ -141,18 +172,15 @@ const useCmsListing = (filterValues = {}) => {
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
-						handleStatus={handleStatus}
-						handleEditClick={handleEditClick}
-						handleViewClick={handleViewClick}
-						handleDelete={handleDelete}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[]
+		[
+			formattedCmsDetails,
+			isGranted(modules.page, 'R'),
+			isGranted(modules.page, 'U'),
+			isGranted(modules.page, 'TS'),
+		]
 	);
 
 	return {

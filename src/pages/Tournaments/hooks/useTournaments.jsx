@@ -5,20 +5,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-import { Date, Id, Name, NonSettled, StatusBadge } from '../TournamentListCol';
+import {
+	Date as DateComponent,
+	// Id,
+	Name,
+	NonSettled,
+	StatusBadge,
+} from '../TournamentListCol';
 import { modules } from '../../../constants/permissions';
 import useFilters from './useFilters';
-import ActionButtons from '../components/ActionButtons';
 import {
 	getTournamentDetailsStart,
 	updateTournamentStart,
 	updateTournamentStatusStart,
 } from '../../../store/tournaments/actions';
 import { ThumbnailUrl } from '../../CasinoGames/CasinoGamesListCol';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useTournaments = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { isGranted } = usePermission();
+
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [showSettleModal, setShowSettleModal] = useState({
@@ -84,19 +94,18 @@ const useTournaments = () => {
 		setItemsPerPage(value);
 	};
 
-	const handleEdit = (id) => {
-		navigate(`/tournaments/edit/${id}`);
+	const handleEdit = (row) => {
+		navigate(`/tournaments/edit/${row?.id}`);
 	};
 
-	const handleView = (id) => {
-		navigate(`/tournaments/view/${id}`);
+	const handleView = (row) => {
+		navigate(`/tournaments/view/${row?.id}`);
 	};
 
-	const handleStatus = (e, id) => {
-		e.preventDefault();
+	const handleStatus = (row) => {
 		dispatch(
 			updateTournamentStatusStart({
-				tournamentId: id,
+				tournamentId: row?.id,
 			})
 		);
 	};
@@ -142,14 +151,72 @@ const useTournaments = () => {
 		}));
 	};
 
+	const isDisabled = (row) => {
+		const isSettled = row?.status === 'settled';
+		const isCancelled = row?.status === 'cancelled';
+		const isRegistrationEnded = row?.registrationEndDate
+			? new Date(row?.registrationEndDate).getTime() < new Date().getTime()
+			: false;
+
+		return isSettled || isCancelled || isRegistrationEnded;
+	};
+
+	const isCancelDisable = (row) => {
+		const isSettled = row?.status === 'settled';
+		const isCancelled = row?.status === 'cancelled';
+
+		return isSettled || isCancelled;
+	};
+
+	const handleCancel = (row) =>
+		setShowStatusModal((prev) => ({
+			...prev,
+			isOpen: true,
+			selectedTournament: row,
+		}));
+
+	const actionsList = [
+		{
+			actionName: 'View',
+			actionHandler: handleView,
+			isHidden: !isGranted(modules.tournamentManagement, 'R'),
+			icon: iconClass.view,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Edit',
+			actionHandler: handleEdit,
+			isHidden: !isGranted(modules.tournamentManagement, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-info',
+			isDisabled,
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.bonus, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+			isDisabled,
+		},
+		{
+			actionName: 'Cancel',
+			actionHandler: handleCancel,
+			isHidden: !isGranted(modules.tournamentManagement, 'U'),
+			icon: iconClass.restricted,
+			iconColor: 'text-danger',
+			isDisabled: isCancelDisable,
+		},
+	];
+
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				// filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	// filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',
@@ -172,13 +239,13 @@ const useTournaments = () => {
 				Header: 'START DATE',
 				accessor: 'startDate',
 				// filterable: true,
-				Cell: ({ cell }) => <Date value={cell.value} />,
+				Cell: ({ cell }) => <DateComponent value={cell.value} />,
 			},
 			{
 				Header: 'END DATE',
 				accessor: 'endDate',
 				// filterable: true,
-				Cell: ({ cell }) => <Date value={cell.value} />,
+				Cell: ({ cell }) => <DateComponent value={cell.value} />,
 			},
 			// {
 			// 	Header: 'Image',
@@ -190,7 +257,7 @@ const useTournaments = () => {
 				Header: 'REGISTRATION CLOSE DATE',
 				accessor: 'registrationEndDate',
 				// filterable: true,
-				Cell: ({ cell }) => <Date value={cell.value} />,
+				Cell: ({ cell }) => <DateComponent value={cell.value} />,
 			},
 			{
 				Header: 'SETTLE',
@@ -211,18 +278,15 @@ const useTournaments = () => {
 				accessor: 'actions',
 				disableSortBy: true,
 				disableFilters: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						cell={cell}
-						handleEdit={handleEdit}
-						handleView={handleView}
-						setShowStatusModal={setShowStatusModal}
-						handleStatus={handleStatus}
-					/>
-				),
+				Cell: ({ cell }) => <Actions actionsList={actionsList} cell={cell} />,
 			},
 		],
-		[tournamentsInfo]
+		[
+			tournamentsInfo,
+			isGranted(modules.tournamentManagement, 'R'),
+			isGranted(modules.tournamentManagement, 'U'),
+			isGranted(modules.bonus, 'TS'),
+		]
 	);
 
 	const handleAddClick = (e) => {

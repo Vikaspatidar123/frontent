@@ -17,6 +17,7 @@ import { CustomSelectField } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
 import Actions from '../../../components/Common/Actions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
+import { iconClass } from '../../../utils/constant';
 
 const useEmailTemplate = () => {
 	const {
@@ -137,34 +138,37 @@ const useEmailTemplate = () => {
 		},
 	]);
 
+	const isDeleteDisabled = (row) => row?.isDefault;
+
 	const actionsList = [
 		{
 			actionName: 'Make Template Primary',
 			actionHandler: handleMakePrimary,
-			isHidden: isGranted(modules.emailTemplate, 'U'),
-			icon: 'mdi mdi-pencil-outline',
+			isHidden: !isGranted(modules.emailTemplate, 'U'),
+			icon: iconClass.markPrimary,
 			iconColor: 'text-primary',
 		},
 		{
 			actionName: 'View',
 			actionHandler: handleViewClick,
 			isHidden: false,
-			icon: 'mdi mdi-eye-outline',
+			icon: iconClass.view,
 			iconColor: 'text-success',
 		},
 		{
 			actionName: 'Edit',
 			actionHandler: handleEditClick,
-			isHidden: isGranted(modules.emailTemplate, 'U'),
-			icon: 'mdi mdi-pencil-outline',
+			isHidden: !isGranted(modules.emailTemplate, 'U'),
+			icon: iconClass.edit,
 			iconColor: 'text-info',
 		},
 		{
 			actionName: 'Delete',
 			actionHandler: handleDeleteClick,
-			isHidden: isGranted(modules.emailTemplate, 'D'),
-			icon: 'mdi mdi-delete-outline',
+			isHidden: !isGranted(modules.emailTemplate, 'D'),
+			icon: iconClass.delete,
 			iconColor: 'text-danger',
+			isDisabled: isDeleteDisabled,
 		},
 	];
 
@@ -205,6 +209,7 @@ const useEmailTemplate = () => {
 			},
 		],
 		[
+			emailTemplates,
 			isGranted(modules.emailTemplate, 'U'),
 			isGranted(modules.emailTemplate, 'D'),
 		]

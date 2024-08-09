@@ -7,13 +7,15 @@ import {
 	resetWageringTemplateDetail,
 } from '../../../store/wageringTemplate/actions';
 import {
-	WageringTemplateId,
+	// WageringTemplateId,
 	CustomValues,
 	WagerMultiplier,
 } from '../WageringTemplateListCol';
-import ActionButtons from '../ActionButtons';
 import { showLinearProgress } from '../../../store/progressLoading/actions';
 import { modules } from '../../../constants/permissions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useWageringTemplate = (filterValues = {}) => {
 	const { wageringTemplateDetail, wageringTemplateDetailLoading } = useSelector(
@@ -23,6 +25,7 @@ const useWageringTemplate = (filterValues = {}) => {
 	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
+	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -72,14 +75,31 @@ const useWageringTemplate = (filterValues = {}) => {
 		},
 	]);
 
+	const actionsList = [
+		{
+			actionName: 'View',
+			actionHandler: handleViewClick,
+			isHidden: !isGranted(modules.bonus, 'R'),
+			icon: iconClass.view,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Edit',
+			actionHandler: handleEditClick,
+			isHidden: !isGranted(modules.bonus, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-info',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'Template Id',
-				accessor: 'id',
-				filterable: true,
-				Cell: ({ cell }) => <WageringTemplateId cell={cell} />,
-			},
+			// {
+			// 	Header: 'Template Id',
+			// 	accessor: 'id',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <WageringTemplateId cell={cell} />,
+			// },
 			{
 				Header: 'Template Name',
 				accessor: 'name',
@@ -103,16 +123,14 @@ const useWageringTemplate = (filterValues = {}) => {
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						cell={cell}
-						handleEdit={handleEditClick}
-						handleView={handleViewClick}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[]
+		[
+			wageringTemplateDetail,
+			isGranted(modules.bonus, 'R'),
+			isGranted(modules.bonus, 'U'),
+		]
 	);
 
 	return {

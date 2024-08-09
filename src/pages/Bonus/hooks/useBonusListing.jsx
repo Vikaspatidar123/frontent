@@ -9,17 +9,12 @@ import {
 	resetBonusDetails,
 	updateSABonusStatus,
 } from '../../../store/actions';
-import {
-	BonusId,
-	Title,
-	BonusType,
-	Status,
-	Date,
-	Custom,
-} from '../BonusListCol';
-import ActionButtons from '../ActionButtons';
+import { Title, BonusType, Status, Date, Custom } from '../BonusListCol';
 import { modules } from '../../../constants/permissions';
 import { BONUS_TYPES } from '../constants';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useBonusListing = (filterValues = {}) => {
 	const { bonusDetails, isLoading, isDeleteBonusLoading } = useSelector(
@@ -28,6 +23,7 @@ const useBonusListing = (filterValues = {}) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [isDeleteConfirmationOpen, setDeleteConfirmation] = useState(false);
 	const [deleteBonusId, setDeleteBonusId] = useState('');
+	const { isGranted } = usePermission();
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -68,12 +64,11 @@ const useBonusListing = (filterValues = {}) => {
 	// resetting bonus listing redux state
 	useEffect(() => () => dispatch(resetBonusDetails()), []);
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { bonusId } = props;
+	const handleStatus = (props) => {
+		const { id } = props;
 		dispatch(
 			updateSABonusStatus({
-				bonusId,
+				bonusId: id,
 			})
 		);
 	};
@@ -84,9 +79,9 @@ const useBonusListing = (filterValues = {}) => {
 		fetchData();
 	};
 
-	const handleDelete = (bonusId) => {
+	const handleDelete = (props) => {
 		setDeleteConfirmation(true);
-		setDeleteBonusId(bonusId);
+		setDeleteBonusId(props?.id);
 	};
 
 	const bonusDeleteHandler = () => {
@@ -127,14 +122,52 @@ const useBonusListing = (filterValues = {}) => {
 		},
 	]);
 
+	const handleEdit = (row) =>
+		navigate(`/bonus/edit/${row?.id}/${row?.bonusType}`);
+
+	const isDisabled = (row) => row?.claimedCount;
+
+	const actionsList = [
+		{
+			actionName: 'View',
+			actionHandler: handleView,
+			isHidden: !isGranted(modules.bonus, 'R'),
+			icon: iconClass.view,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Edit',
+			actionHandler: handleEdit,
+			isHidden: !isGranted(modules.bonus, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-info',
+			isDisabled,
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.bonus, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Delete',
+			actionHandler: handleDelete,
+			isHidden: !isGranted(modules.bonus, 'D'),
+			icon: iconClass.delete,
+			iconColor: 'text-danger',
+			isDisabled,
+		},
+	];
+
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'Id',
-				accessor: 'id',
-				filterable: true,
-				Cell: ({ cell }) => <BonusId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Id',
+			// 	accessor: 'id',
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <BonusId value={cell.value} />,
+			// },
 			{
 				Header: 'Title',
 				accessor: 'promotionTitle',
@@ -197,17 +230,16 @@ const useBonusListing = (filterValues = {}) => {
 				accessor: 'actions',
 				disableSortBy: true,
 				disableFilters: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
-						handleStatus={handleStatus}
-						handleView={handleView}
-						handleDelete={handleDelete}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[]
+		[
+			formattedBonusDetails,
+			isGranted(modules.bonus, 'R'),
+			isGranted(modules.bonus, 'U'),
+			isGranted(modules.bonus, 'D'),
+			isGranted(modules.bonus, 'TS'),
+		]
 	);
 
 	return {

@@ -19,6 +19,7 @@ import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
+import { iconClass } from '../../../utils/constant';
 
 const useSegmentation = () => {
 	const dispatch = useDispatch();
@@ -150,14 +151,14 @@ const useSegmentation = () => {
 			actionName: 'Edit',
 			actionHandler: onClickEdit,
 			isHidden: !isGranted(modules.banner, 'U'),
-			icon: 'mdi mdi-pencil-outline',
+			icon: iconClass.edit,
 			iconColor: 'text-primary',
 		},
 		{
 			actionName: 'Delete',
 			actionHandler: handleDelete,
 			isHidden: !isGranted(modules.tag, 'D'),
-			icon: 'mdi mdi-delete-outline',
+			icon: iconClass.delete,
 			iconColor: 'text-danger',
 		},
 	];
