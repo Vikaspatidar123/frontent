@@ -13,6 +13,15 @@ const Purpose = ({ value }) => value ?? '';
 
 const GameName = ({ value }) => value ?? '-';
 
+const WalletAmount = ({ value, type, defaultCurrency }) =>
+	value ? (
+		<div
+			className={type ? 'text-danger' : 'text-success'}
+		>{`${defaultCurrency?.symbol} ${value}`}</div>
+	) : (
+		'-'
+	);
+
 const Amount = ({ value }) =>
 	value ? <div className="text-success">{value}</div> : '-';
 
@@ -115,4 +124,5 @@ export {
 	UserName,
 	IsActive,
 	KycStatus,
+	WalletAmount,
 };

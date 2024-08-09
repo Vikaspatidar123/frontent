@@ -119,6 +119,7 @@ const SelfExclusionCard = ({ limit, userId }) => {
 						<CustomInputField
 							label="Months"
 							name="days"
+							type="number"
 							placeholder="Enter Months"
 							value={validation?.values?.days}
 							onChange={validation.handleChange}

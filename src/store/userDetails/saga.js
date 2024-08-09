@@ -568,7 +568,7 @@ function* inActiveKycWorker(action) {
 		yield inActiveKyc(payload);
 		yield put(inActiveKycSuccess(true));
 		showToastr({
-			message: 'Kyc Approved',
+			message: 'Kyc Rejected',
 			type: 'success',
 		});
 	} catch (e) {

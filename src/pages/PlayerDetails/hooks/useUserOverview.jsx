@@ -73,7 +73,7 @@ const useUserOverview = ({ user }) => {
 		// { label: 'Portal', value: `${tenant?.name} (${tenant?.domain})` },
 		{ label: 'Reason', value: !isActive ? reason : '' },
 		{
-			label: 'Tags',
+			label: 'Segment',
 			value: tags || 'NA',
 		},
 		// { label: 'SumSub Applicant Id', value: applicantId },

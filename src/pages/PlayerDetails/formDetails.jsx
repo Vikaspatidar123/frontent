@@ -16,7 +16,7 @@ const validationSchema = () =>
 	Yup.object().shape({
 		title: Yup.string()
 			.required('Title Required')
-			.max(50, 'Maximum 200 Characters Allowed')
+			.max(50, 'Maximum 50 Characters Allowed')
 			.min(3, 'Minimum 3 Characters Required'),
 		comment: Yup.string()
 			.required('Note Required')
@@ -31,6 +31,7 @@ const staticFormFields = [
 		label: 'Title',
 		required: true,
 		placeholder: 'Enter the Title',
+		maximum: 51,
 	},
 	{
 		name: 'comment',
@@ -38,17 +39,22 @@ const staticFormFields = [
 		label: 'Note',
 		required: true,
 		placeholder: 'Enter Note',
+		maximum: 201,
 	},
 ];
 
-const limitsSchema = ({ minimum, currLabel, label }) =>
+const limitsSchema = ({ minimum, maximum = 1000000, currLabel, label }) =>
 	Yup.object().shape({
 		limit: Yup.number()
-			.positive('Limit must be positive number')
+			.positive('Limit must be a positive number')
 			.integer('Limit must be an integer')
 			.min(
 				parseInt(minimum, 10) + 1,
 				`${currLabel} Must Be Greater Than ${label} (${minimum})`
+			)
+			.max(
+				parseInt(maximum, 10),
+				`${currLabel} must be less than or equal to (${maximum})`
 			)
 			.required('Limit Required'),
 	});
@@ -60,11 +66,14 @@ const setDisableUserlimitsSchema = () =>
 			.integer('Time Period must be an integer')
 			.required('Time Period Required'),
 	});
+const maxValue = 60;
 
 const selfExclusionSchema = () =>
 	Yup.object().shape({
 		days: Yup.number()
-			.positive('Month must be positive number')
+			.min(1, 'Month must be at least 1')
+			.max(maxValue, `Month must be at most ${maxValue}`)
+			.positive('Month must be a positive number')
 			.integer('Month must be an integer')
 			.required('Month Required'),
 	});
