@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,12 +13,14 @@ import {
 	Role,
 	// Group,
 } from '../AdminsListCol';
-import ActionButtons from '../ActionButtons';
 import { updateSuperAdminStatusStart } from '../../../store/adminUser/actions';
 import { getRandomColor } from '../../../helpers/common';
 import { STORAGE_KEY } from '../../../components/Common/constants';
 import { encryptCredentials } from '../../../network/storageUtils';
 import { modules } from '../../../constants/permissions';
+import { iconClass } from '../../../utils/constant';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import Actions from '../../../components/Common/Actions';
 
 const useAdminListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -25,6 +28,7 @@ const useAdminListing = (filterValues = {}) => {
 	const location = useLocation();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const { adminDetails, isLoading } = useSelector((state) => state.AllAdmins);
+	const { isGranted, permissions, superAdminUser } = usePermission();
 
 	const { roles } = useSelector((state) => state?.AdminRoles);
 	const [page, setPage] = useState(1);
@@ -46,18 +50,16 @@ const useAdminListing = (filterValues = {}) => {
 		return [];
 	}, [adminDetails, roles]);
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { adminUserId } = props;
+	const handleStatus = (props) => {
+		const { id } = props;
 		dispatch(
 			updateSuperAdminStatusStart({
-				childAdminId: Number(adminUserId),
+				childAdminId: Number(id),
 			})
 		);
 	};
 
-	const handleView = (e, adminData) => {
-		e.preventDefault();
+	const handleView = (adminData) => {
 		localStorage.setItem(
 			`${STORAGE_KEY.ADMIN_VIEW}_${adminData.id}`,
 			encryptCredentials(JSON.stringify(adminData))
@@ -84,15 +86,18 @@ const useAdminListing = (filterValues = {}) => {
 		e.preventDefault();
 		navigate('add');
 	};
-	const handleEdit = (e, row) => {
-		e.preventDefault();
-		localStorage.setItem(
-			`${STORAGE_KEY.ADMIN_EDIT}_${row.id}`,
-			encryptCredentials(JSON.stringify(row))
-		);
-		setTimeout(() => {
-			navigate(`edit/${row.id}`);
-		}, 200);
+	const handleEdit = (row) => {
+		if (row?.id == superAdminUser?.id) {
+			navigate('/profile');
+		} else {
+			localStorage.setItem(
+				`${STORAGE_KEY.ADMIN_EDIT}_${row.id}`,
+				encryptCredentials(JSON.stringify(row))
+			);
+			setTimeout(() => {
+				navigate(`edit/${row.id}`);
+			}, 200);
+		}
 	};
 
 	const buttonList = [
@@ -102,6 +107,33 @@ const useAdminListing = (filterValues = {}) => {
 			link: '#!',
 			module: modules.admin,
 			operation: 'C',
+		},
+	];
+
+	const isDisabled = (row) => row?.adminRole?.level === 1;
+
+	const actionsList = [
+		{
+			actionName: 'View',
+			actionHandler: handleView,
+			isHidden: !isGranted(modules.admin, 'R'),
+			icon: iconClass.view,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Edit',
+			actionHandler: handleEdit,
+			isHidden: !isGranted(modules.admin, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-info',
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.admin, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+			isDisabled,
 		},
 	];
 
@@ -169,17 +201,10 @@ const useAdminListing = (filterValues = {}) => {
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						handleEdit={handleEdit}
-						row={cell.row}
-						handleStatus={handleStatus}
-						handleView={handleView}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[]
+		[adminDetails, permissions]
 	);
 
 	const onChangeRowsPerPage = (value) => {

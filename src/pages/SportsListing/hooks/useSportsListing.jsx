@@ -9,7 +9,10 @@ import {
 } from '../../../store/actions';
 
 import { SportId, SportName, Status, Icon } from '../sportsListCol';
-import ActionButtons from '../ActionButtons';
+import { modules } from '../../../constants/permissions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useSportsListing = (filterValues = {}) => {
 	const {
@@ -23,6 +26,7 @@ const useSportsListing = (filterValues = {}) => {
 	const [showUploadModal, setShowUploadModal] = useState(false);
 	const [sportId, setSportId] = useState('');
 	const dispatch = useDispatch();
+	const { isGranted, permissions } = usePermission();
 
 	const onChangeRowsPerPage = (value) => {
 		setPage(1);
@@ -63,21 +67,37 @@ const useSportsListing = (filterValues = {}) => {
 		}
 	}, [uploadImageSuccess]);
 
-	const handleUpload = (sportId) => {
-		setSportId(sportId);
+	const handleUpload = ({ id }) => {
+		setSportId(id);
 		setShowUploadModal(true);
 	};
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { sportId } = props;
+	const handleStatus = (props) => {
+		const { id } = props;
 		dispatch(
 			updateStatusStart({
 				type: 'sport',
-				id: sportId,
+				id,
 			})
 		);
 	};
+
+	const actionsList = [
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.sportsbookManagement, 'U'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Upload Icon',
+			actionHandler: handleUpload,
+			isHidden: !isGranted(modules.sportsbookManagement, 'U'),
+			icon: iconClass.upload,
+			iconColor: 'text-info',
+		},
+	];
 
 	const columns = useMemo(
 		() => [
@@ -113,16 +133,10 @@ const useSportsListing = (filterValues = {}) => {
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
-						handleStatus={handleStatus}
-						handleUpload={handleUpload}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[]
+		[formattedSportsList, permissions]
 	);
 
 	return {

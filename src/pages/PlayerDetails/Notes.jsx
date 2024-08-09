@@ -7,9 +7,10 @@ import { Comment, Id, KeyValueCell, KeyValueCellNA } from './TableCol';
 import FormModal from '../../components/Common/FormModal';
 import useCreateComment from './hooks/useCreateComment';
 import CrudSection from '../../components/Common/CrudSection';
-import CommentActionButtons from './CommentActions';
 import { formPageTitle } from '../../components/Common/constants';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
+import { iconClass } from '../../utils/constant';
+import Actions from '../../components/Common/Actions';
 
 const Notes = ({ userDetails, userId }) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -36,6 +37,23 @@ const Notes = ({ userDetails, userId }) => {
 		handleAddClick,
 		handleDelete,
 	} = useCreateComment({ userId });
+
+	const actionsList = [
+		{
+			actionName: 'Edit',
+			actionHandler: handleUpdateClick,
+			isHidden: false,
+			icon: iconClass.edit,
+			iconColor: 'text-info',
+		},
+		{
+			actionName: 'Delete',
+			actionHandler: handleDelete,
+			isHidden: false,
+			icon: iconClass.delete,
+			iconColor: 'text-danger',
+		},
+	];
 
 	const columns = useMemo(
 		() => [
@@ -71,13 +89,7 @@ const Notes = ({ userDetails, userId }) => {
 			{
 				Header: 'ACTION',
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<CommentActionButtons
-						handleUpdate={handleUpdateClick}
-						handleDelete={handleDelete}
-						cell={cell}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
 		[userComment]

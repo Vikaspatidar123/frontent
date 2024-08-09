@@ -12,7 +12,10 @@ import {
 	Icon,
 	Status,
 } from '../sportsCountriesListCol';
-import ActionButtons from '../ActionButtons';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { modules } from '../../../constants/permissions';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useSportsCountriesListing = (filterValues = {}) => {
 	const {
@@ -26,6 +29,7 @@ const useSportsCountriesListing = (filterValues = {}) => {
 	const [page, setPage] = useState(1);
 	const [showUploadModal, setShowUploadModal] = useState(false);
 	const [locationId, setLocationId] = useState('');
+	const { isGranted, permissions } = usePermission();
 	const dispatch = useDispatch();
 
 	const onChangeRowsPerPage = (value) => {
@@ -60,18 +64,17 @@ const useSportsCountriesListing = (filterValues = {}) => {
 		}
 	}, [uploadSportsCountryImageSuccess]);
 
-	const handleUpload = (id) => {
+	const handleUpload = ({ id }) => {
 		setLocationId(id);
 		setShowUploadModal(true);
 	};
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { id: sportCountryId } = props;
+	const handleStatus = (props) => {
+		const { id } = props;
 		dispatch(
 			updateStatusStart({
 				type: 'location',
-				id: sportCountryId,
+				id,
 			})
 		);
 	};
@@ -82,6 +85,23 @@ const useSportsCountriesListing = (filterValues = {}) => {
 
 	// resetting sports countries redux state
 	useEffect(() => () => dispatch(resetSportsCountries()), []);
+
+	const actionsList = [
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.sportsbookManagement, 'U'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'Upload Icon',
+			actionHandler: handleUpload,
+			isHidden: !isGranted(modules.sportsbookManagement, 'U'),
+			icon: iconClass.upload,
+			iconColor: 'text-info',
+		},
+	];
 
 	const columns = useMemo(
 		() => [
@@ -117,16 +137,10 @@ const useSportsCountriesListing = (filterValues = {}) => {
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
-						handleStatus={handleStatus}
-						handleUpload={handleUpload}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[]
+		[formattedSportsCountries, permissions]
 	);
 
 	return {

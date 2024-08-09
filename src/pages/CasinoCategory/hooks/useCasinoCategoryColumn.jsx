@@ -3,7 +3,6 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 
-import { Button, UncontrolledTooltip } from 'reactstrap';
 import {
 	GameCategoryId,
 	Status,
@@ -12,7 +11,8 @@ import {
 } from '../CasinoCategoryListCol';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../constants/permissions';
-import { selectedLanguage } from '../../../constants/config';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useCasinoCategoryColumn = ({
 	handleStatus,
@@ -21,6 +21,42 @@ const useCasinoCategoryColumn = ({
 	onClickDelete,
 }) => {
 	const { isGranted, permissions } = usePermission();
+
+	const isDisabled = (row) => row?.isDefault;
+
+	const actionsList = [
+		{
+			actionName: 'Edit',
+			actionHandler: onClickEdit,
+			isHidden: !isGranted(modules.casinoManagement, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-primary',
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.casinoManagement, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+			isDisabled,
+		},
+		{
+			actionName: 'Delete',
+			actionHandler: onClickDelete,
+			isHidden: !isGranted(modules.casinoManagement, 'U'),
+			icon: iconClass.delete,
+			iconColor: 'text-danger',
+			isDisabled,
+		},
+		{
+			actionName: 'Add Games to category',
+			actionHandler: handleAddGameClick,
+			isHidden: !isGranted(modules.casinoManagement, 'TS'),
+			icon: iconClass.addOne,
+			iconColor: 'text-primary',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
 			{
@@ -61,139 +97,7 @@ const useCasinoCategoryColumn = ({
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => {
-					const status = cell?.row?.original?.isActive;
-					const categoryId = cell?.row?.original?.id;
-					const categoryName = cell?.row?.original?.name[selectedLanguage];
-					const isDefault = cell?.row?.original?.isDefault;
-					return (
-						<ul className="list-unstyled hstack gap-1 mb-0">
-							<li>
-								{status ? (
-									<Button
-										hidden={!isGranted(modules.casinoManagement, 'TS')}
-										className="btn btn-sm btn-soft-danger"
-										disabled={isDefault}
-										onClick={(e) =>
-											handleStatus(e, {
-												status,
-												categoryId,
-											})
-										}
-									>
-										<i
-											className="mdi mdi-close-thick"
-											id={`active-${categoryId}`}
-										/>
-										<UncontrolledTooltip
-											placement="top"
-											target={`active-${categoryId}`}
-										>
-											Set Inactive
-										</UncontrolledTooltip>
-									</Button>
-								) : (
-									<Button
-										hidden={!isGranted(modules.casinoManagement, 'TS')}
-										className="btn btn-sm btn-soft-success"
-										disabled={isDefault}
-										onClick={(e) =>
-											handleStatus(e, {
-												status,
-												categoryId,
-											})
-										}
-									>
-										<i
-											className="mdi mdi-check-circle"
-											id={`active-${categoryId}`}
-										/>
-										<UncontrolledTooltip
-											placement="top"
-											target={`active-${categoryId}`}
-										>
-											Set Active
-										</UncontrolledTooltip>
-									</Button>
-								)}
-							</li>
-
-							<li>
-								<Button
-									type="button"
-									hidden={!isGranted(modules.casinoManagement, 'U')}
-									className="btn btn-sm btn-soft-info"
-									onClick={(e) => {
-										e.preventDefault();
-										onClickEdit(cell?.row?.original);
-									}}
-								>
-									<i
-										className="mdi mdi-pencil-outline"
-										id={`edit-${categoryId}`}
-									/>
-									<UncontrolledTooltip
-										placement="top"
-										target={`edit-${categoryId}`}
-									>
-										Edit
-									</UncontrolledTooltip>
-								</Button>
-							</li>
-
-							<li>
-								<Button
-									type="button"
-									hidden={!isGranted(modules.casinoManagement, 'D')}
-									disabled={isDefault}
-									className="btn btn-sm btn-soft-danger"
-									onClick={(e) => {
-										e.preventDefault();
-										onClickDelete(categoryId);
-									}}
-								>
-									<i
-										className="mdi mdi-delete-outline"
-										id={`delete-${categoryId}`}
-									/>
-									<UncontrolledTooltip
-										placement="top"
-										target={`delete-${categoryId}`}
-									>
-										Delete
-									</UncontrolledTooltip>
-								</Button>
-							</li>
-
-							<li>
-								<Button
-									type="button"
-									hidden={!isGranted(modules.casinoManagement, 'TS')}
-									// disabled={isGlobal}
-									className="btn btn-sm btn-soft-primary"
-									onClick={(e) =>
-										handleAddGameClick({
-											e,
-											categoryId,
-											categoryName,
-										})
-									}
-								>
-									<i
-										className="mdi mdi-plus-one"
-										id={`plus-one-${categoryId}`}
-									/>
-									<UncontrolledTooltip
-										placement="top"
-										target={`plus-one-${categoryId}`}
-									>
-										Add Games to category
-									</UncontrolledTooltip>
-								</Button>
-							</li>
-						</ul>
-					);
-				},
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
 		[permissions]

@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
 	fetchSportsMatchesStart,
 	resetSportsMatchesData,
@@ -9,7 +10,6 @@ import {
 } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 import {
-	Action,
 	Id,
 	// IsFeatured,
 	// Live,
@@ -19,9 +19,12 @@ import {
 	Title,
 	Tournament,
 } from '../SportsMatchesListCol';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useSportsMatchesListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 	const {
@@ -72,6 +75,18 @@ const useSportsMatchesListing = (filterValues = {}) => {
 	// 	};
 	// 	dispatch(updateFeaturedMatchStart(data));
 	// };
+
+	const handleViewClick = ({ id }) => navigate(`/match/${id}`);
+
+	const actionsList = [
+		{
+			actionName: 'Match Detail',
+			actionHandler: handleViewClick,
+			isHidden: false,
+			icon: iconClass.view,
+			iconColor: 'text-success',
+		},
+	];
 
 	const columns = useMemo(
 		() => [
@@ -138,7 +153,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 				Header: 'Actions',
 				accessor: 'action',
 				disableSortBy: true,
-				Cell: ({ cell }) => <Action row={cell.row} />,
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
 		[]

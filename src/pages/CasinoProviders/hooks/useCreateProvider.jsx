@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import {
 	getInitialValues,
@@ -21,12 +22,14 @@ import {
 	ThumbnailUrl,
 	Status,
 } from '../CasinoProvidersListCol';
-import ActionButtons from '../ActionButtons';
+import { iconClass } from '../../../utils/constant';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
 import { dataURLtoBlob } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import Actions from '../../../components/Common/Actions';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
@@ -41,17 +44,19 @@ const useCreateProvider = () => {
 		isCreateProviderSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 
+	const navigate = useNavigate();
+	const { isGranted } = usePermission();
+
 	useEffect(() => {
 		dispatch(getLanguagesStart());
 	}, []);
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { casinoProviderId } = props;
+	const handleStatus = (props) => {
+		const { id } = props;
 		dispatch(
 			updateCasinoStatusStart({
 				type: 'provider',
-				id: casinoProviderId,
+				id,
 			})
 		);
 	};
@@ -190,6 +195,39 @@ const useCreateProvider = () => {
 		}
 	}, [isOpen]);
 
+	const handleRestrictedCountries = (row) => {
+		navigate(`/casino-providers/restrict-countries/${row?.id}`, {
+			state: {
+				type: 'providers',
+				restrictedCountries: row?.restrictedCountries,
+			},
+		});
+	};
+
+	const actionsList = [
+		{
+			actionName: 'Edit',
+			actionHandler: onClickEdit,
+			isHidden: !isGranted(modules.casinoManagement, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-primary',
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.casinoManagement, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'View Restricted Countries',
+			actionHandler: handleRestrictedCountries,
+			isHidden: !isGranted(modules.casinoManagement, 'U'),
+			icon: iconClass.moneyMultiple,
+			iconColor: 'text-info',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
 			{
@@ -224,16 +262,14 @@ const useCreateProvider = () => {
 				accessor: 'action',
 				disableSortBy: true,
 				disableFilters: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
-						handleStatus={handleStatus}
-						onClickEdit={onClickEdit}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[casinoProvidersData]
+		[
+			casinoProvidersData,
+			isGranted(modules.casinoManagement, 'U'),
+			isGranted(modules.casinoManagement, 'TS'),
+		]
 	);
 
 	const buttonList = [

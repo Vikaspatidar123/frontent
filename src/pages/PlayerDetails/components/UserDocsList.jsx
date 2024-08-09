@@ -14,12 +14,13 @@ import {
 } from '../../../store/actions';
 import { Actionee, Name, Reason, ThumbnailUrl } from './UserDocsListCol';
 import { Status } from '../TableCol';
-import ActionButtons from '../ActionButtons';
 import CrudSection from '../../../components/Common/CrudSection';
 import { DOCUMENT_STATUS_TYPES } from '../constants';
 import ModalView from '../../../components/Common/Modal';
 import { CustomInputField } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const UserDocsList = ({ userDetails, userId }) => {
 	const dispatch = useDispatch();
@@ -56,18 +57,18 @@ const UserDocsList = ({ userDetails, userId }) => {
 		return [];
 	}, [documentLabels]);
 
-	const handleRequestDocument = ({ documentLabelId }) => {
+	const handleRequestDocument = ({ id }) => {
 		dispatch(
 			requestDocument({
-				documentLabelId,
+				documentLabelId: id,
 				userId,
 			})
 		);
 	};
 
-	const handleVerifyDocument = ({ documentLabelId }) => {
+	const handleVerifyDocument = ({ id }) => {
 		const userDocumentId = userDetails?.documents?.find(
-			(document) => documentLabelId === document?.documentLabelId
+			(document) => id === document?.documentLabelId
 		)?.id;
 		dispatch(
 			verifyDocument({
@@ -77,9 +78,9 @@ const UserDocsList = ({ userDetails, userId }) => {
 		);
 	};
 
-	const toggleModal = (documentLabelId) => {
+	const toggleModal = ({ id }) => {
 		setShowModal((prev) => ({
-			documentLabelId,
+			documentLabelId: id,
 			show: !prev?.show,
 		}));
 	};
@@ -101,6 +102,42 @@ const UserDocsList = ({ userDetails, userId }) => {
 		setPage(1);
 		setItemsPerPage(value);
 	};
+
+	const isRequestDocumentDisabled = ({ status }) =>
+		status === 'Requested' || status === 'Pending';
+
+	const isVerifyDocumentDisabled = ({ status }) =>
+		status === 'Requested' ||
+		status === 'Approved' ||
+		status === 'Rejected' ||
+		status === 'Not Provided';
+
+	const actionsList = [
+		{
+			actionName: 'Request Document',
+			actionHandler: handleRequestDocument,
+			isHidden: false,
+			icon: iconClass.file,
+			iconColor: 'text-primary',
+			isDisabled: isRequestDocumentDisabled,
+		},
+		{
+			actionName: 'Verify Document',
+			actionHandler: handleVerifyDocument,
+			isHidden: false,
+			icon: iconClass.editFile,
+			iconColor: 'text-info',
+			isDisabled: isVerifyDocumentDisabled,
+		},
+		{
+			actionName: 'Reject Document',
+			actionHandler: toggleModal,
+			isHidden: false,
+			icon: iconClass.cancelFile,
+			iconColor: 'text-danger',
+			isDisabled: isVerifyDocumentDisabled,
+		},
+	];
 
 	const columns = useMemo(
 		() => [
@@ -142,14 +179,7 @@ const UserDocsList = ({ userDetails, userId }) => {
 			},
 			{
 				Header: 'Action',
-				Cell: ({ cell }) => (
-					<ActionButtons
-						cell={cell}
-						handleRequestDocument={handleRequestDocument}
-						handleVerifyDocument={handleVerifyDocument}
-						toggleModal={toggleModal}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
 		[userDetails]

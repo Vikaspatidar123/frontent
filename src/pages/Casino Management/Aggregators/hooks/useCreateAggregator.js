@@ -54,12 +54,11 @@ const useCreateAggregator = () => {
 	// 	setIsOpen((prev) => !prev);
 	// };
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { gameAggregatorId } = props;
+	const handleStatus = (props) => {
+		const { id } = props;
 		dispatch(
 			updateAggregatorStatusStart({
-				id: gameAggregatorId,
+				id,
 				type: 'aggregator',
 			})
 		);

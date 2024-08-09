@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -19,9 +20,11 @@ import {
 	Status,
 	IsFeatured,
 } from '../CasinoGamesListCol';
-import ActionButtons from '../ActionButtons';
 import { selectedLanguage } from '../../../constants/config';
 import { modules } from '../../../constants/permissions';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 	const [page, setPage] = useState(1);
@@ -34,6 +37,9 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 		casinoProvidersData,
 		isEditCasinoGamesSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
+
+	const { isGranted, permissions } = usePermission();
+	const navigate = useNavigate();
 
 	const onChangeRowsPerPage = (value) => {
 		setPage(1);
@@ -77,9 +83,8 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 		if (isEditCasinoGamesSuccess) fetchData();
 	}, [isEditCasinoGamesSuccess]);
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { casinoGameId: id } = props;
+	const handleStatus = (props) => {
+		const { id } = props;
 		dispatch(
 			updateCasinoStatusStart({
 				type: 'game',
@@ -105,6 +110,38 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			operation: 'U',
 		},
 	]);
+
+	const handleRestrictedCountries = (row) =>
+		navigate(`/casino-games/restrict-countries/${row?.id}`, {
+			state: {
+				type: 'games',
+				restrictedCountries: row?.restrictedCountries,
+			},
+		});
+
+	const actionsList = [
+		{
+			actionName: 'Edit',
+			actionHandler: onClickEdit,
+			isHidden: !isGranted(modules.casinoManagement, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-primary',
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.casinoManagement, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+		},
+		{
+			actionName: 'View Restricted Countries',
+			actionHandler: handleRestrictedCountries,
+			isHidden: !isGranted(modules.casinoManagement, 'U'),
+			icon: iconClass.restricted,
+			iconColor: 'text-info',
+		},
+	];
 
 	const columns = useMemo(
 		() => [
@@ -176,16 +213,10 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
-						handleStatus={handleStatus}
-						onClickEdit={onClickEdit}
-					/>
-				),
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[casinoGames]
+		[casinoGames, permissions]
 	);
 
 	return {
