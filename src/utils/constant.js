@@ -213,3 +213,15 @@ export const currencySymbols = {
 	ZWD: 'Z$',
 	ZWL: '$',
 };
+
+export const iconClass = {
+	view: 'mdi mdi-eye-outline',
+	edit: 'mdi mdi-pencil-outline',
+	markPrimary: 'mdi mdi-check-all',
+	toggleStatus: 'mdi mdi-close-thick',
+	moneyMultiple: 'mdi mdi-cash-multiple',
+	delete: 'mdi mdi-delete-outline',
+	restricted: 'mdi mdi-block-helper',
+	addOne: 'mdi mdi-plus-one',
+	upload: 'mdi mdi-upload',
+};

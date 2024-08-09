@@ -5,7 +5,7 @@ import {
 	fetchLanguagesStart,
 	resetLanguagesData,
 } from '../../../store/actions';
-import { Id, LanguageCode, LanguageName } from '../LanguageListCol';
+import { LanguageCode, LanguageName } from '../LanguageListCol';
 
 const useLanguageListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -46,13 +46,13 @@ const useLanguageListing = (filterValues = {}) => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'Id',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Id',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'Language Name',
 				accessor: 'name',

@@ -14,9 +14,19 @@ const Actions = ({ cell, actionsList }) => (
 		</DropdownToggle>
 		<DropdownMenu>
 			{actionsList?.map(
-				({ actionName, actionHandler, isHidden, icon, iconColor }) =>
+				({
+					actionName,
+					actionHandler,
+					isHidden,
+					icon,
+					iconColor,
+					isDisabled = () => null,
+				}) =>
 					!isHidden && (
-						<DropdownItem onClick={() => actionHandler(cell?.row?.original)}>
+						<DropdownItem
+							disabled={isDisabled(cell?.row?.original)}
+							onClick={() => actionHandler(cell?.row?.original)}
+						>
 							{icon && <i className={`${icon} ${iconColor} me-2`} />}{' '}
 							{actionName}
 						</DropdownItem>

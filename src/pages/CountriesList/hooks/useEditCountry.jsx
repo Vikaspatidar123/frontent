@@ -16,14 +16,17 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import {
 	CountryCode,
 	CountryName,
-	Id,
 	Language,
 	Status,
 } from '../CountriesListCol';
-import ActionButtons from '../ActionButtons';
+import { iconClass } from '../../../utils/constant';
+import usePermission from '../../../components/Common/Hooks/usePermission';
+import { modules } from '../../../constants/permissions';
+import Actions from '../../../components/Common/Actions';
 
 const useEditCountry = () => {
 	const dispatch = useDispatch();
+	const { isGranted } = usePermission();
 	const {
 		editCountriesLoading: isEditCountryLoading,
 		editCountriesSuccess: isEditCountrySuccess,
@@ -61,12 +64,10 @@ const useEditCountry = () => {
 		setIsOpen((prev) => !prev);
 	};
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { countryId } = props;
+	const handleStatus = (row) => {
 		dispatch(
 			updateCountryStatusStart({
-				countryId,
+				countryId: row?.id,
 			})
 		);
 	};
@@ -100,15 +101,32 @@ const useEditCountry = () => {
 		if (isEditCountrySuccess) setIsOpen(false);
 	}, [isEditCountrySuccess]);
 
+	const actionsList = [
+		{
+			actionName: 'Edit',
+			actionHandler: handleEditClick,
+			isHidden: !isGranted(modules.casinoManagement, 'TS'),
+			icon: iconClass.edit,
+			iconColor: 'text-primary',
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: false,
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'Id',
-				accessor: 'id',
-				notHidable: true,
-				// filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Id',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	// filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'Country Code',
 				accessor: 'countryCode',
@@ -139,16 +157,10 @@ const useEditCountry = () => {
 				disableSortBy: true,
 				accessor: 'actions',
 				// filterable: true,
-				Cell: ({ cell }) => (
-					<ActionButtons
-						row={cell.row}
-						handleEditClick={handleEditClick}
-						handleStatus={handleStatus}
-					/>
-				),
+				Cell: ({ cell }) => <Actions actionsList={actionsList} cell={cell} />,
 			},
 		],
-		[]
+		[isGranted(modules.casinoManagement, 'TS')]
 	);
 
 	return {

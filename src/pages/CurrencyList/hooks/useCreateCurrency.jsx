@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
 import { React, useEffect, useMemo, useState } from 'react';
-import { Button, UncontrolledTooltip } from 'reactstrap';
 // import PropTypes from 'prop-types';
 
 import { isEqual } from 'lodash';
@@ -17,12 +16,13 @@ import {
 	toggleCurrency,
 } from '../../../store/actions';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import { Code, ExchangeRate, Id, Name, Status, Type } from '../CurrencyListCol';
+import { Code, ExchangeRate, Name, Status, Type } from '../CurrencyListCol';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
-import { currencySymbols } from '../../../utils/constant';
+import { currencySymbols, iconClass } from '../../../utils/constant';
+import Actions from '../../../components/Common/Actions';
 
 const useCreateCurrency = () => {
 	const dispatch = useDispatch();
@@ -156,15 +156,46 @@ const useCreateCurrency = () => {
 		setIsOpen((prev) => !prev);
 	};
 
+	const handleToggleStatus = (row) =>
+		dispatch(
+			toggleCurrency({
+				data: {
+					currencyId: row?.id,
+				},
+			})
+		);
+
+	const isEditDisabled = (row) => row?.isDefault;
+	const isToggleDisabled = (row) => row?.code === 'BONUS';
+
+	const actionsList = [
+		{
+			actionName: 'Edit',
+			actionHandler: onClickEdit,
+			isHidden: !isGranted(modules.currency, 'U'),
+			icon: iconClass.edit,
+			iconColor: 'text-primary',
+			isDisabled: isEditDisabled,
+		},
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleToggleStatus,
+			isHidden: !isGranted(modules.emailTemplate, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+			isDisabled: isToggleDisabled,
+		},
+	];
+
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				// filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	// filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',
@@ -207,67 +238,7 @@ const useCreateCurrency = () => {
 				accessor: 'actions',
 				disableSortBy: true,
 				disableFilters: true,
-				Cell: ({ cell }) => (
-					<ul className="list-unstyled hstack gap-1 mb-0">
-						<li>
-							<Button
-								hidden={!isGranted(modules.emailTemplate, 'TS')}
-								className="btn btn-sm btn-soft-success"
-								disabled={cell?.row?.original?.isDefault}
-								onClick={(e) => {
-									e.preventDefault();
-									dispatch(
-										toggleCurrency({
-											data: {
-												currencyId: cell?.row?.original?.id,
-											},
-										})
-									);
-								}}
-							>
-								<i
-									className={`mdi ${
-										cell?.row?.original?.isActive
-											? 'mdi-close-thick'
-											: 'mdi-check-circle'
-									}`}
-									id={`active-${cell?.row?.original?.id}`}
-								/>
-								<UncontrolledTooltip
-									placement="top"
-									target={`active-${cell?.row?.original?.id}`}
-								>
-									{cell?.row?.original?.isActive
-										? 'Set Inactive'
-										: 'Set Active'}
-								</UncontrolledTooltip>
-							</Button>
-						</li>
-						<li>
-							<Button
-								hidden={!isGranted(modules.currency, 'U')}
-								type="button"
-								className="btn btn-sm btn-soft-info"
-								disabled={cell?.row?.original?.code === 'BONUS'}
-								onClick={(e) => {
-									e.preventDefault();
-									onClickEdit(cell?.row?.original);
-								}}
-							>
-								<i
-									className="mdi mdi-pencil-outline"
-									id={`edittooltip-${cell?.row?.original?.id}`}
-								/>
-								<UncontrolledTooltip
-									placement="top"
-									target={`edittooltip-${cell?.row?.original?.id}`}
-								>
-									Edit
-								</UncontrolledTooltip>
-							</Button>
-						</li>
-					</ul>
-				),
+				Cell: ({ cell }) => <Actions actionsList={actionsList} cell={cell} />,
 			},
 		],
 		[permissions]

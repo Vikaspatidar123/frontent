@@ -8,6 +8,7 @@ import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { KeyValueCell, Status } from '../NotificationListCol';
 import Actions from '../../../components/Common/Actions';
+import { iconClass } from '../../../utils/constant';
 
 const useNotificationListing = () => {
 	const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const useNotificationListing = () => {
 			actionName: 'Notification Details',
 			actionHandler: handleViewClick,
 			isHidden: false,
-			icon: 'mdi mdi-eye-outline',
+			icon: iconClass.view,
 			iconColor: 'text-primary',
 		},
 	];
