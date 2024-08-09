@@ -19,7 +19,7 @@ import { DOCUMENT_STATUS_TYPES } from '../constants';
 import ModalView from '../../../components/Common/Modal';
 import { CustomInputField } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
 
 const UserDocsList = ({ userDetails, userId }) => {
@@ -117,24 +117,24 @@ const UserDocsList = ({ userDetails, userId }) => {
 			actionName: 'Request Document',
 			actionHandler: handleRequestDocument,
 			isHidden: false,
-			icon: iconClass.file,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.file,
+			iconColor: TEXT_COLORS.primary,
 			isDisabled: isRequestDocumentDisabled,
 		},
 		{
 			actionName: 'Verify Document',
 			actionHandler: handleVerifyDocument,
 			isHidden: false,
-			icon: iconClass.editFile,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.editFile,
+			iconColor: TEXT_COLORS.success,
 			isDisabled: isVerifyDocumentDisabled,
 		},
 		{
 			actionName: 'Reject Document',
 			actionHandler: toggleModal,
 			isHidden: false,
-			icon: iconClass.cancelFile,
-			iconColor: 'text-danger',
+			icon: ICON_CLASS.cancelFile,
+			iconColor: TEXT_COLORS.danger,
 			isDisabled: isVerifyDocumentDisabled,
 		},
 	];

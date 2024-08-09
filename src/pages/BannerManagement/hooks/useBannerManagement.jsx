@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Pages, BannerPreview } from '../BannerManagementListCol';
 import { getSABanners, resetSABannersData } from '../../../store/actions';
 import { modules } from '../../../constants/permissions';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
 
@@ -35,8 +35,8 @@ const useBannerManagement = (onClickEdit) => {
 			actionName: 'Edit',
 			actionHandler: onClickEdit,
 			isHidden: !isGranted(modules.banner, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 	];
 

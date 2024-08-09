@@ -214,7 +214,7 @@ export const currencySymbols = {
 	ZWL: '$',
 };
 
-export const iconClass = {
+export const ICON_CLASS = {
 	view: 'mdi mdi-eye-outline',
 	edit: 'mdi mdi-pencil-outline',
 	markPrimary: 'mdi mdi-check-all',
@@ -227,4 +227,12 @@ export const iconClass = {
 	file: 'mdi mdi-file-document',
 	editFile: 'mdi mdi-file-document-edit',
 	cancelFile: 'mdi mdi-file-cancel',
+};
+
+export const TEXT_COLORS = {
+	primary: 'text-primary',
+	success: 'text-success',
+	info: 'text-info',
+	danger: 'text-danger',
+	secondary: 'text-secondary',
 };

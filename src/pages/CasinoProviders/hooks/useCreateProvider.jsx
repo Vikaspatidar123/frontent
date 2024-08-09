@@ -22,7 +22,7 @@ import {
 	ThumbnailUrl,
 	Status,
 } from '../CasinoProvidersListCol';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
@@ -209,22 +209,22 @@ const useCreateProvider = () => {
 			actionName: 'Edit',
 			actionHandler: onClickEdit,
 			isHidden: !isGranted(modules.casinoManagement, 'U'),
-			icon: iconClass.edit,
-			iconColor: 'text-primary',
+			icon: ICON_CLASS.edit,
+			iconColor: TEXT_COLORS.primary,
 		},
 		{
 			actionName: 'Toggle Status',
 			actionHandler: handleStatus,
 			isHidden: !isGranted(modules.casinoManagement, 'TS'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 		},
 		{
 			actionName: 'View Restricted Countries',
 			actionHandler: handleRestrictedCountries,
 			isHidden: !isGranted(modules.casinoManagement, 'U'),
-			icon: iconClass.moneyMultiple,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.moneyMultiple,
+			iconColor: TEXT_COLORS.info,
 		},
 	];
 

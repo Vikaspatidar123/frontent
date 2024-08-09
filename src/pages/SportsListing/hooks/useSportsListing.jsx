@@ -11,7 +11,7 @@ import {
 import { SportId, SportName, Status, Icon } from '../sportsListCol';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
-import { iconClass } from '../../../utils/constant';
+import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
 
 const useSportsListing = (filterValues = {}) => {
@@ -87,15 +87,15 @@ const useSportsListing = (filterValues = {}) => {
 			actionName: 'Toggle Status',
 			actionHandler: handleStatus,
 			isHidden: !isGranted(modules.sportsbookManagement, 'U'),
-			icon: iconClass.toggleStatus,
-			iconColor: 'text-success',
+			icon: ICON_CLASS.toggleStatus,
+			iconColor: TEXT_COLORS.success,
 		},
 		{
 			actionName: 'Upload Icon',
 			actionHandler: handleUpload,
 			isHidden: !isGranted(modules.sportsbookManagement, 'U'),
-			icon: iconClass.upload,
-			iconColor: 'text-info',
+			icon: ICON_CLASS.upload,
+			iconColor: TEXT_COLORS.primary,
 		},
 	];
 
