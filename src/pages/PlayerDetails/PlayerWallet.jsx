@@ -2,11 +2,15 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { Card, Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
-import { KeyValueCell } from './TableCol';
+import { KeyValueCell, WalletAmount } from './TableCol';
 
 const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
+	const { currencies, defaultCurrency } = useSelector(
+		(state) => state.Currencies
+	);
 	const walletData = useMemo(() => {
 		if (userDetails?.wallets?.length > 0) {
 			return userDetails?.wallets?.map((wallet) => ({
@@ -35,7 +39,20 @@ const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
 				Header: 'Amount',
 				accessor: 'amount',
 				// filterable: true,
-				Cell: ({ value }) => <KeyValueCell value={value} />,
+				Cell: ({ cell, row }) => {
+					const currency =
+						currencies?.currencies?.find(
+							(curr) => curr.id === row.original.currencyId
+						) || defaultCurrency;
+
+					return (
+						<WalletAmount
+							value={cell.value}
+							type={row.original.ledger?.fromWalletId}
+							defaultCurrency={currency}
+						/>
+					);
+				},
 			},
 			{
 				Header: 'Bonus',
@@ -44,7 +61,7 @@ const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
 				Cell: ({ value }) => <KeyValueCell value={value} />,
 			},
 		],
-		[]
+		[currencies, defaultCurrency]
 	);
 
 	return (

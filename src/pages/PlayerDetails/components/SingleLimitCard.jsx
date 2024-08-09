@@ -118,6 +118,7 @@ const SingleLimitCard = ({ limit, currencyCode, userId }) => {
 							<CustomInputField
 								name="limit"
 								placeholder="Enter Limit"
+								type="number"
 								value={validation?.values?.limit}
 								onChange={validation.handleChange}
 								onBlur={validation.handleBlur}
