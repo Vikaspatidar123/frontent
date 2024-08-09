@@ -17,7 +17,7 @@ const WalletAmount = ({ value, type, defaultCurrency }) =>
 	value ? (
 		<div
 			className={type ? 'text-danger' : 'text-success'}
-		>{`${defaultCurrency.symbol} ${value}`}</div>
+		>{`${defaultCurrency?.symbol} ${value}`}</div>
 	) : (
 		'-'
 	);

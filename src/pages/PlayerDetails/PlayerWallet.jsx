@@ -8,9 +8,10 @@ import TableContainer from '../../components/Common/Table';
 import { KeyValueCell, WalletAmount } from './TableCol';
 
 const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
-	const { currencies, defaultCurrency } = useSelector(
+	const { currencies, defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
 	);
+
 	const walletData = useMemo(() => {
 		if (userDetails?.wallets?.length > 0) {
 			return userDetails?.wallets?.map((wallet) => ({
@@ -39,20 +40,15 @@ const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
 				Header: 'Amount',
 				accessor: 'amount',
 				// filterable: true,
-				Cell: ({ cell, row }) => {
-					const currency =
-						currencies?.currencies?.find(
-							(curr) => curr.id === row.original.currencyId
-						) || defaultCurrency;
-
-					return (
-						<WalletAmount
-							value={cell.value}
-							type={row.original.ledger?.fromWalletId}
-							defaultCurrency={currency}
-						/>
-					);
-				},
+				Cell: ({ cell, row }) => (
+					<WalletAmount
+						value={cell.value}
+						type={row.original.ledger?.fromWalletId}
+						defaultCurrency={
+							currencyById[row?.orhiginal?.currencyId] || defaultCurrency
+						}
+					/>
+				),
 			},
 			{
 				Header: 'Bonus',
