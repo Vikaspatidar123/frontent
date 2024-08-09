@@ -1,12 +1,24 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
-import { Button, UncontrolledTooltip } from 'reactstrap';
 import { ID, Name, Status } from '../AggregatorListCol';
 import usePermission from '../../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../../constants/permissions';
+import { iconClass } from '../../../../utils/constant';
+import Actions from '../../../../components/Common/Actions';
 
 const useAggregatorList = (handleStatus) => {
 	const { isGranted, permissions } = usePermission();
+
+	const actionsList = [
+		{
+			actionName: 'Toggle Status',
+			actionHandler: handleStatus,
+			isHidden: !isGranted(modules.casinoManagement, 'TS'),
+			icon: iconClass.toggleStatus,
+			iconColor: 'text-success',
+		},
+	];
+
 	const columns = useMemo(
 		() => [
 			{
@@ -34,60 +46,7 @@ const useAggregatorList = (handleStatus) => {
 				accessor: 'action',
 				disableSortBy: true,
 				disableFilters: true,
-				Cell: ({ cell }) => {
-					const active = cell?.row?.original?.isActive;
-					const gameAggregatorId = cell?.row?.original?.id;
-					return (
-						<ul className="list-unstyled hstack gap-1 mb-0">
-							<li>
-								{active ? (
-									<Button
-										hidden={!isGranted(modules.casinoManagement, 'TS')}
-										className="btn btn-sm btn-soft-danger"
-										onClick={(e) =>
-											handleStatus(e, {
-												gameAggregatorId,
-											})
-										}
-									>
-										<i
-											className="mdi mdi-close-thick"
-											id={`aggregator-${gameAggregatorId}`}
-										/>
-										<UncontrolledTooltip
-											placement="top"
-											target={`aggregator-${gameAggregatorId}`}
-										>
-											Set Inactive
-										</UncontrolledTooltip>
-									</Button>
-								) : (
-									<Button
-										hidden={!isGranted(modules.casinoManagement, 'TS')}
-										className="btn btn-sm btn-soft-success"
-										onClick={(e) =>
-											handleStatus(e, {
-												active,
-												gameAggregatorId,
-											})
-										}
-									>
-										<i
-											className="mdi mdi-check-circle"
-											id={`aggregator-${gameAggregatorId}`}
-										/>
-										<UncontrolledTooltip
-											placement="top"
-											target={`aggregator-${gameAggregatorId}`}
-										>
-											Set Active
-										</UncontrolledTooltip>
-									</Button>
-								)}
-							</li>
-						</ul>
-					);
-				},
+				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
 		[permissions]

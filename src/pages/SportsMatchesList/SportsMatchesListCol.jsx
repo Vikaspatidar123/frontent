@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { UncontrolledTooltip } from 'reactstrap';
 import { CustomToggleButton } from '../../helpers/customForms';
 import DivLoader from '../../components/Common/Loader/divLoader';
 
@@ -70,28 +69,6 @@ const Status = ({ value }) => {
 
 // const Live = ({ value }) => (value ? 'YES' : 'NO');
 
-const Action = ({ row: { original } }) => (
-	<ul className="list-unstyled hstack gap-1 mb-0">
-		<li data-bs-toggle="tooltip" data-bs-placement="top">
-			<Link
-				to={`/match/${original?.id}`}
-				className="btn btn-sm btn-soft-primary"
-			>
-				<i
-					className="mdi mdi-eye-outline"
-					id={`view-tooltip-${original?.id}`}
-				/>
-			</Link>
-		</li>
-		<UncontrolledTooltip
-			placement="top"
-			target={`view-tooltip-${original?.id}`}
-		>
-			Match Detail
-		</UncontrolledTooltip>
-	</ul>
-);
-
 IsFeatured.propTypes = {
 	cell: PropTypes.oneOfType([PropTypes.object]),
 	toggleIsFeatured: PropTypes.func,
@@ -110,6 +87,5 @@ export {
 	FromDate,
 	Status,
 	// Live,
-	Action,
 };
 export default IsFeatured;

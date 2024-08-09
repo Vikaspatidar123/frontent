@@ -72,8 +72,8 @@ const useCreateComment = ({ userId }) => {
 		setIsOpen((prev) => !prev);
 	};
 
-	const handleDelete = (commentId) => {
-		dispatch(deleteUserComment({ commentId }));
+	const handleDelete = ({ id }) => {
+		dispatch(deleteUserComment({ commentId: id }));
 	};
 
 	useEffect(() => {

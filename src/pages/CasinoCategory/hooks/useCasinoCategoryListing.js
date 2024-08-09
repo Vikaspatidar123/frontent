@@ -64,28 +64,26 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		dispatch(getLanguagesStart());
 	}, []);
 
-	const handleStatus = (e, props) => {
-		e.preventDefault();
-		const { categoryId } = props;
+	const handleStatus = (props) => {
+		const { id } = props;
 		dispatch(
 			updateCasinoStatusStart({
 				type: 'category',
-				id: categoryId,
+				id,
 			})
 		);
 	};
 
-	const handleAddGameClick = ({ e, categoryId, categoryName }) => {
-		e.preventDefault();
-		navigate(`addGames/${categoryId}`, {
+	const handleAddGameClick = ({ id, categoryName }) => {
+		navigate(`addGames/${id}`, {
 			state: { categoryName },
 		});
 	};
 
-	const onClickDelete = (categoryId) => {
+	const onClickDelete = (row) => {
 		dispatch(
 			deleteCasinoCategoryStart({
-				categoryId,
+				categoryId: row?.id,
 			})
 		);
 	};

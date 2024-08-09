@@ -224,4 +224,7 @@ export const iconClass = {
 	restricted: 'mdi mdi-block-helper',
 	addOne: 'mdi mdi-plus-one',
 	upload: 'mdi mdi-upload',
+	file: 'mdi mdi-file-document',
+	editFile: 'mdi mdi-file-document-edit',
+	cancelFile: 'mdi mdi-file-cancel',
 };
