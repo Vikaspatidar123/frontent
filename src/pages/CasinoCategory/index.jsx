@@ -15,6 +15,7 @@ import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 import { formPageTitle } from '../../components/Common/constants';
+import YesNoModal from '../../components/Common/YesNoModal';
 
 const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
@@ -39,7 +40,10 @@ const GetCasinoCategoryDetails = () => {
 		onChangeRowsPerPage,
 		handleStatus,
 		handleAddGameClick,
-		onClickDelete,
+		deleteModalState,
+		handleDeleteClick,
+		onClickConfirmDelete,
+		toggleDeleteModal,
 	} = useCasinoCategoryListing(filterValidation.values);
 
 	const {
@@ -60,7 +64,7 @@ const GetCasinoCategoryDetails = () => {
 		handleStatus,
 		onClickEdit,
 		handleAddGameClick,
-		onClickDelete,
+		handleDeleteClick,
 	});
 
 	return (
@@ -118,6 +122,12 @@ const GetCasinoCategoryDetails = () => {
 									setOpenModal={setShowModal}
 									validation={validation}
 									pageType={formPageTitle.categories}
+								/>
+								<YesNoModal
+									show={deleteModalState.open}
+									content="Do you really want to delete the Category?"
+									handleYes={onClickConfirmDelete}
+									handleClose={toggleDeleteModal}
 								/>
 							</CardBody>
 						</Card>

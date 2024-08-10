@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	GameRevenue,
-	IdValue,
+	// IdValue,
 	Name,
 	NumberPlayer,
 	Payout,
@@ -64,13 +64,13 @@ const useGameReport = () => {
 			defaultCurrency;
 
 		return [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <IdValue cell={cell?.value || '-'} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <IdValue cell={cell?.value || '-'} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',

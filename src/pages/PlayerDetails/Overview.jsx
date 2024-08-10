@@ -15,7 +15,6 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useUserOverview from './hooks/useUserOverview';
 // import DisableReason from './modals/DisableReason';
-import YesNoModal from './modals/YesNoModal';
 import {
 	markUserAsInternal,
 	sendPasswordReset,
@@ -34,6 +33,7 @@ import { showToastr } from '../../utils/helpers';
 import PlayerStats from './components/PlayerStats';
 import { PLAYER_STATS_NOT_AVAILABLE } from '../../constants/messages';
 import ActionButton from '../../components/Common/ActionButton';
+import YesNoModal from '../../components/Common/YesNoModal';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-3" hidden={hidden}>
@@ -143,7 +143,8 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 													: label !== 'Reason') && (
 													<div
 														key={label}
-														className="d-flex justify-content-between m-1"
+														className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
+														style={{ wordBreak: 'break-word' }}
 													>
 														<h6 className="px-2">{label}</h6>
 														<span className={`${subValue} px-2 email-ellipsis`}>
@@ -171,7 +172,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 															? 'outline-danger'
 															: 'outline-success'
 													}
-													onClick={() => updateUserStatus()}
+													onClick={() => openModal('activeInactiveModal')}
 													iconClass="bx bxs-edit"
 												>
 													{userDetails && userDetails?.isActive
@@ -353,7 +354,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 									Other Info <hr className="h4-hr" />
 								</h4>
 								<div className="div-overview">
-									<h5 className="px-2 mx-1">
+									<h5 className="px-2 mx-3">
 										Contact Info <hr className="h5-hr m-0 mt-2" />
 									</h5>
 									{contactInfo?.map(({ label, value, subValue }) =>
@@ -364,7 +365,8 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 													: label !== 'Reason') && (
 													<div
 														key={label}
-														className="d-flex justify-content-between m-1"
+														className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
+														style={{ wordBreak: 'break-word' }}
 													>
 														<h6 className="px-2 overview-leftlabel">{label}</h6>
 														<span className={`${subValue} px-2`}>
@@ -392,7 +394,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 									)}
 								</div> */}
 
-									<h5 className="px-2 mx-1 mt-2">
+									<h5 className="px-2 mx-3 mt-2">
 										KYC Info <hr className="h5-hr m-0 mt-2" />
 									</h5>
 									{kycInfo?.map(({ label, value, subValue }) =>
@@ -403,7 +405,8 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 													: label !== 'Reason') && (
 													<div
 														key={label}
-														className="d-flex justify-content-between m-1"
+														className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
+														style={{ wordBreak: 'break-word' }}
 													>
 														<h6 className="px-2 overview-leftlabel">{label}</h6>
 														<span className={`${subValue} px-2`}>
@@ -415,15 +418,6 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 								</div>
 							</Card>
 						</Col>
-						{/* {userDetails?.isActive ? (
-						<DisableReason
-							userData={userDetails}
-							show={modalStates.activeInactiveModal}
-							markUserStatusInactive={updateUserStatus}
-							handleClose={() => closeModal('activeInactiveModal')}
-							name={`${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
-						/>
-					) : (
 						<YesNoModal
 							show={modalStates.activeInactiveModal}
 							handleYes={updateUserStatus}
@@ -434,7 +428,6 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 								userDetails?.isActive ? 'Active' : 'Inactive'
 							}?`}
 						/>
-					)} */}
 						<YesNoModal
 							show={modalStates.internalModal}
 							handleClose={() => closeModal('internalModal')}

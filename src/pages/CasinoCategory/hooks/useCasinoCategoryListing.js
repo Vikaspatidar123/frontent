@@ -24,6 +24,10 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 	const [isEdit, setIsEdit] = useState(false);
 	const [job, setJob] = useState(null);
 	const dispatch = useDispatch();
+	const [deleteModalState, setDeleteModalState] = useState({
+		open: false,
+		row: '',
+	});
 
 	const onChangeRowsPerPage = (value) => {
 		setPage(1);
@@ -80,12 +84,27 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		});
 	};
 
-	const onClickDelete = (row) => {
+	const onClickConfirmDelete = () => {
+		const { id } = deleteModalState.row || {};
 		dispatch(
 			deleteCasinoCategoryStart({
-				categoryId: row?.id,
+				categoryId: id,
 			})
 		);
+	};
+
+	const toggleDeleteModal = () =>
+		setDeleteModalState((prev) => ({
+			...prev,
+			open: !prev.open,
+		}));
+
+	const handleDeleteClick = (row) => {
+		setDeleteModalState((prev) => ({
+			...prev,
+			open: !prev.open,
+			row,
+		}));
 	};
 
 	return {
@@ -105,7 +124,10 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		handleStatus,
 		onChangeRowsPerPage,
 		handleAddGameClick,
-		onClickDelete,
+		onClickConfirmDelete,
+		deleteModalState,
+		toggleDeleteModal,
+		handleDeleteClick,
 	};
 };
 

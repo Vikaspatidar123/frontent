@@ -7,7 +7,7 @@ import {
 	resetSportsTournamentList,
 } from '../../../store/actions';
 import {
-	TournamentId,
+	// TournamentId,
 	TournamentName,
 	CountryName,
 	SportName,
@@ -62,13 +62,13 @@ const useSportsTounamentListing = (filterValues = {}) => {
 	useEffect(() => () => dispatch(resetSportsTournamentList()), []);
 
 	const columns = useMemo(() => [
-		{
-			Header: 'ID',
-			accessor: 'id',
-			notHidable: true,
-			filterable: true,
-			Cell: ({ cell }) => <TournamentId value={cell.value} />,
-		},
+		// {
+		// 	Header: 'ID',
+		// 	accessor: 'id',
+		// 	notHidable: true,
+		// 	filterable: true,
+		// 	Cell: ({ cell }) => <TournamentId value={cell.value} />,
+		// },
 		{
 			Header: 'NAME',
 			accessor: 'tournamentName',

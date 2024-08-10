@@ -185,6 +185,21 @@ const passwordValidation = () =>
 			)
 			.max(50)
 			.required('Password Required'),
+		confirmPassword: Yup.string()
+			.matches(
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+				'Password must include at least 1 lowercase letter, 1 uppercase letter, 1 digit, 1 special character (@$!%*?&), and be at least 8 characters long'
+			)
+			.max(50)
+			.required('Password Required')
+			.test(
+				'isEqual',
+				'Confirm Password should be same as Password',
+				(value, testContext) => {
+					if (testContext.parent.password !== value) return false;
+					return true;
+				}
+			),
 	});
 
 // Bet History filters

@@ -17,7 +17,7 @@ import {
 } from '../../../store/actions';
 
 import {
-	CasinoProviderId,
+	// CasinoProviderId,
 	Name,
 	ThumbnailUrl,
 	Status,
@@ -230,13 +230,13 @@ const useCreateProvider = () => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <CasinoProviderId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <CasinoProviderId value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',

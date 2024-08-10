@@ -4,7 +4,7 @@
 import React, { useMemo } from 'react';
 
 import {
-	GameCategoryId,
+	// GameCategoryId,
 	Status,
 	Name,
 	ThumbnailUrl,
@@ -18,7 +18,7 @@ const useCasinoCategoryColumn = ({
 	handleStatus,
 	onClickEdit,
 	handleAddGameClick,
-	onClickDelete,
+	handleDeleteClick,
 }) => {
 	const { isGranted, permissions } = usePermission();
 
@@ -42,7 +42,7 @@ const useCasinoCategoryColumn = ({
 		},
 		{
 			actionName: 'Delete',
-			actionHandler: onClickDelete,
+			actionHandler: handleDeleteClick,
 			isHidden: !isGranted(modules.casinoManagement, 'U'),
 			icon: ICON_CLASS.delete,
 			iconColor: TEXT_COLORS.danger,
@@ -59,13 +59,13 @@ const useCasinoCategoryColumn = ({
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <GameCategoryId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <GameCategoryId value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'nameEN',

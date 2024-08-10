@@ -10,7 +10,7 @@ import {
 	updateCasinoStatusStart,
 } from '../../../store/actions';
 import {
-	CasinoGameId,
+	// CasinoGameId,
 	Name,
 	Provider,
 	Rtp,
@@ -157,13 +157,13 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 					/>
 				),
 			},
-			{
-				Header: 'GAME ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'GAME ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <CasinoGameId value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',

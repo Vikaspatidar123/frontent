@@ -6,6 +6,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSegmentation from './hooks/useSegmentation';
 import FormModal from '../../components/Common/FormModal';
+import YesNoModal from '../../components/Common/YesNoModal';
 
 const Segmentation = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
@@ -24,6 +25,9 @@ const Segmentation = () => {
 		validation,
 		formFields,
 		userTagsLoading,
+		deleteModalState,
+		handleDelete,
+		toggleDeleteModal,
 	} = useSegmentation();
 
 	return (
@@ -67,6 +71,12 @@ const Segmentation = () => {
 					customColClasses="col-md-12"
 					formFields={formFields}
 					// isSubmitLoading={}
+				/>
+				<YesNoModal
+					show={deleteModalState.open}
+					content="Do you really want to delete the Segment?"
+					handleYes={handleDelete}
+					handleClose={toggleDeleteModal}
 				/>
 			</Container>
 		</div>

@@ -7,7 +7,7 @@ import {
 	updateStatusStart,
 } from '../../../store/actions';
 import {
-	CountryId,
+	// CountryId,
 	CountryName,
 	Icon,
 	Status,
@@ -105,13 +105,13 @@ const useSportsCountriesListing = (filterValues = {}) => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <CountryId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <CountryId value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'countryName',

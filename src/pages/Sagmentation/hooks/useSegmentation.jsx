@@ -23,11 +23,16 @@ import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 
 const useSegmentation = () => {
 	const dispatch = useDispatch();
-	const { isGranted } = usePermission();
+	const { isGranted, permissions } = usePermission();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const { userTags, userTagsLoading } = useSelector(
 		(state) => state.UserDetails
 	);
+	const [deleteModalState, setDeleteModalState] = useState({
+		open: false,
+		row: '',
+	});
+
 	const handleSegments = (values) => {
 		if (isEdit?.open) {
 			dispatch(
@@ -55,12 +60,27 @@ const useSegmentation = () => {
 		}
 	};
 
-	const handleDelete = (row) => {
+	const handleDelete = () => {
+		const { id } = deleteModalState.row || {};
 		dispatch(
 			deleteTag({
-				tagId: parseInt(row?.id, 10),
+				tagId: parseInt(id, 10),
 			})
 		);
+	};
+
+	const toggleDeleteModal = () =>
+		setDeleteModalState((prev) => ({
+			...prev,
+			open: !prev.open,
+		}));
+
+	const handleDeleteClick = (row) => {
+		setDeleteModalState((prev) => ({
+			...prev,
+			open: !prev.open,
+			row,
+		}));
 	};
 
 	const { isOpen, setIsOpen, validation, setHeader, header, formFields } =
@@ -154,7 +174,7 @@ const useSegmentation = () => {
 		},
 		{
 			actionName: 'Delete',
-			actionHandler: handleDelete,
+			actionHandler: handleDeleteClick,
 			isHidden: !isGranted(modules.tag, 'D'),
 			icon: ICON_CLASS.delete,
 			iconColor: TEXT_COLORS.danger,
@@ -190,7 +210,7 @@ const useSegmentation = () => {
 				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[userTags]
+		[userTags, permissions]
 	);
 
 	return {
@@ -207,6 +227,9 @@ const useSegmentation = () => {
 		validation,
 		formFields,
 		userTagsLoading,
+		toggleDeleteModal,
+		deleteModalState,
+		handleDelete,
 	};
 };
 
