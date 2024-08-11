@@ -82,11 +82,11 @@ const SportsTransactionsList = ({ userId }) => {
 													{
 														label: 'Total Wagered',
 														value: sportsTransactions?.totalBetAmount || 0,
+														type: 'in',
 													},
 													{
 														label: 'Total Payout',
 														value: sportsTransactions?.totalWinAmount || 0,
-														colorClass: 'text-danger',
 													},
 													{
 														label: 'Total Profit',
@@ -94,6 +94,7 @@ const SportsTransactionsList = ({ userId }) => {
 															Number(sportsTransactions?.totalBetAmount || 0) -
 															Number(sportsTransactions?.totalWinAmount || 0)
 														)?.toFixed(2),
+														type: 'in',
 													},
 												]}
 											/>

@@ -80,6 +80,7 @@ const CasinoTransactionsList = ({ userId }) => {
 													{
 														label: 'Total Wagered',
 														value: casinoTransactions?.totalBetAmount || 0,
+														type: 'in',
 													},
 													{
 														label: 'Total Payout',
@@ -92,6 +93,7 @@ const CasinoTransactionsList = ({ userId }) => {
 															Number(casinoTransactions?.totalBetAmount || 0) -
 															Number(casinoTransactions?.totalWinAmount || 0)
 														)?.toFixed(2),
+														type: 'in',
 													},
 												]}
 											/>

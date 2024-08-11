@@ -81,6 +81,7 @@ const TransactionBankingList = ({ userId }) => {
 													{
 														label: 'Total Deposit',
 														value: transactionBanking?.totalDepositAmount || 0,
+														type: 'in',
 													},
 													{
 														label: 'Total Withdrawal',

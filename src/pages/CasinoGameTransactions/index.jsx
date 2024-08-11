@@ -81,6 +81,7 @@ const GameTransactionsList = () => {
 												{
 													label: 'Total Wagered',
 													value: gameTransactions?.totalBetAmount || 0,
+													type: 'in',
 												},
 												{
 													label: 'Total Payout',
@@ -93,6 +94,7 @@ const GameTransactionsList = () => {
 														Number(gameTransactions?.totalBetAmount || 0) -
 														Number(gameTransactions?.totalWinAmount || 0)
 													)?.toFixed(2),
+													type: 'in',
 												},
 											]}
 										/>

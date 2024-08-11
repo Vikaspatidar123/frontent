@@ -1,7 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
 import { useLocation } from 'react-router-dom';
+import { isEmpty } from 'lodash';
+import CustomFilters from '../../../components/Common/CustomFilters';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -14,17 +18,13 @@ import {
 	fetchPlayersStart,
 	getAllTags,
 } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { itemsPerPage } from '../../../constants/config';
+import SelectedFilters from '../../../components/Common/SelectedFilters';
+import TableSearchInput from '../../../components/Common/TableSearchInput';
 
-let debounce;
 const useFilters = () => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const location = useLocation();
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const prevValues = useRef(null);
-	const isFirst = useRef(true);
-	const [isFilterChanged, setIsFilterChanged] = useState(false);
 	const { userTags } = useSelector((state) => state.UserDetails);
 	const { countries } = useSelector((state) => state.Countries);
 	const { languages } = useSelector((state) => state.Languages);
@@ -46,18 +46,8 @@ const useFilters = () => {
 	const { validation, formFields, setFormFields } = useForm({
 		initialValues: filterValues(location?.state?.Segment?.id),
 		validationSchema: filterValidationSchema(),
-		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(),
 	});
-
-	// const handleAdvance = () => {
-	// 	toggleAdvance();
-	// };
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
-		validation.setFieldValue('tagIds', null);
-	};
 
 	useEffect(() => {
 		if (!userTags) {
@@ -83,10 +73,6 @@ const useFilters = () => {
 				optionLabel: country?.name,
 				value: country.id,
 			}));
-			// const languageData = languages?.languages?.map((language) => ({
-			// 	optionLabel: language?.name,
-			// 	value: language.id,
-			// }));
 			setFormFields([
 				...staticFiltersFields(),
 				{
@@ -96,13 +82,6 @@ const useFilters = () => {
 					placeholder: 'Select Segment',
 					optionList: tags,
 				},
-				// {
-				// 	name: 'languageId',
-				// 	fieldType: 'select',
-				// 	label: '',
-				// 	placeholder: 'Select Language',
-				// 	optionList: languageData,
-				// },
 				{
 					name: 'countryId',
 					fieldType: 'select',
@@ -114,52 +93,26 @@ const useFilters = () => {
 		}
 	}, [countries, languages, userTags]);
 
-	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
-			setIsFilterChanged(true);
-			debounce = setTimeout(() => {
-				handleFilter(validation.values);
-			}, debounceTime);
-			prevValues.current = validation.values;
-		}
-		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
-			setIsFilterChanged(false);
-		}
-		return () => clearTimeout(debounce);
-	}, [validation.values]);
+	const selectedFiltersComponent = <SelectedFilters validation={validation} />;
 
-	const actionButtons = useMemo(() => [
-		// {
-		// 	// type: 'button', // if you pass type button handle the click event
-		// 	label: 'Filter',
-		// 	icon: 'bx bx-filter-alt',
-		// 	// handleClick: handleFilter,
-		// },
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-		// {
-		// 	type: 'button',
-		// 	label: 'Advance',
-		// 	icon: 'bx bx-add-to-queue',
-		// 	handleClick: handleAdvance,
-		// 	color: 'btn-secondary',
-		// },
-	]);
+	const filterComponent = (
+		<CustomFilters
+			filterFields={formFields}
+			validation={validation}
+			handleFilter={handleFilter}
+		/>
+	);
+
+	const customSearchInput = <TableSearchInput validation={validation} />;
 
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
 		filterFields: formFields,
-		actionButtons,
+		filterValues,
+		handleFilter,
 		filterValidation: validation,
-		isFilterChanged,
+		filterComponent,
+		customSearchInput,
+		selectedFiltersComponent,
 	};
 };
 
