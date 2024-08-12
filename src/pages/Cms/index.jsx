@@ -12,7 +12,6 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useCreateCms from './hooks/useCreateCms';
-import YesNoModal from '../../components/Common/YesNoModal';
 
 const Cms = () => {
 	// Set meta title
@@ -38,9 +37,6 @@ const Cms = () => {
 		totalCmsCount,
 		onChangeRowsPerPage,
 		columns,
-		isDeleteConfirmationOpen,
-		setDeleteConfirmation,
-		cmsDeleteHandler,
 	} = useCmsListing(filterValidation.values);
 
 	const { buttonList } = useCreateCms();
@@ -85,12 +81,6 @@ const Cms = () => {
 					</Col>
 				</Row>
 			</Container>
-			<YesNoModal
-				show={isDeleteConfirmationOpen}
-				content="Are you sure you want to delete this page?"
-				handleYes={() => cmsDeleteHandler()}
-				handleClose={() => setDeleteConfirmation(false)}
-			/>
 		</div>
 	);
 };

@@ -15,15 +15,15 @@ import { BONUS_TYPES } from '../constants';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
+import { useConfirmModal } from '../../../components/Common/ConfirmModal';
 
 const useBonusListing = (filterValues = {}) => {
 	const { bonusDetails, isLoading, isDeleteBonusLoading } = useSelector(
 		(state) => state.AllBonusDetails
 	);
+	const { openConfirmModal } = useConfirmModal();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
-	const [isDeleteConfirmationOpen, setDeleteConfirmation] = useState(false);
-	const [deleteBonusId, setDeleteBonusId] = useState('');
-	const { isGranted } = usePermission();
+	const { isGranted, permissions } = usePermission();
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -74,24 +74,23 @@ const useBonusListing = (filterValues = {}) => {
 	};
 
 	const handleClose = () => {
-		setDeleteConfirmation(false);
-		setDeleteBonusId('');
 		fetchData();
 	};
 
-	const handleDelete = (props) => {
-		setDeleteConfirmation(true);
-		setDeleteBonusId(props?.id);
-	};
-
-	const bonusDeleteHandler = () => {
+	const bonusDeleteHandler = (bonusId) => {
 		dispatch(
 			deleteBonusStart({
 				data: {
-					bonusId: deleteBonusId,
+					bonusId,
 				},
 				handleClose,
 			})
+		);
+	};
+
+	const handleDelete = (row) => {
+		openConfirmModal('Are you sure you want to delete this bonus?', () =>
+			bonusDeleteHandler(row?.id)
 		);
 	};
 
@@ -233,13 +232,7 @@ const useBonusListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
 			},
 		],
-		[
-			formattedBonusDetails,
-			isGranted(modules.bonus, 'R'),
-			isGranted(modules.bonus, 'U'),
-			isGranted(modules.bonus, 'D'),
-			isGranted(modules.bonus, 'TS'),
-		]
+		[formattedBonusDetails, permissions]
 	);
 
 	return {
@@ -252,8 +245,6 @@ const useBonusListing = (filterValues = {}) => {
 		setPage,
 		onChangeRowsPerPage,
 		columns,
-		isDeleteConfirmationOpen,
-		setDeleteConfirmation,
 		bonusDeleteHandler,
 		isDeleteBonusLoading,
 		buttonList,

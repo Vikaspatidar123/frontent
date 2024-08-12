@@ -20,18 +20,16 @@ import { decryptCredentials } from '../../../network/storageUtils';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
+import { useConfirmModal } from '../../../components/Common/ConfirmModal';
 
 const useSegmentation = () => {
 	const dispatch = useDispatch();
+	const { openConfirmModal } = useConfirmModal();
 	const { isGranted, permissions } = usePermission();
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const { userTags, userTagsLoading } = useSelector(
 		(state) => state.UserDetails
 	);
-	const [deleteModalState, setDeleteModalState] = useState({
-		open: false,
-		row: '',
-	});
 
 	const handleSegments = (values) => {
 		if (isEdit?.open) {
@@ -60,8 +58,7 @@ const useSegmentation = () => {
 		}
 	};
 
-	const handleDelete = () => {
-		const { id } = deleteModalState.row || {};
+	const handleDelete = (id) => {
 		dispatch(
 			deleteTag({
 				tagId: parseInt(id, 10),
@@ -69,18 +66,10 @@ const useSegmentation = () => {
 		);
 	};
 
-	const toggleDeleteModal = () =>
-		setDeleteModalState((prev) => ({
-			...prev,
-			open: !prev.open,
-		}));
-
 	const handleDeleteClick = (row) => {
-		setDeleteModalState((prev) => ({
-			...prev,
-			open: !prev.open,
-			row,
-		}));
+		openConfirmModal('Do you really want to delete the Segment?', () =>
+			handleDelete(row?.id)
+		);
 	};
 
 	const { isOpen, setIsOpen, validation, setHeader, header, formFields } =
@@ -227,8 +216,6 @@ const useSegmentation = () => {
 		validation,
 		formFields,
 		userTagsLoading,
-		toggleDeleteModal,
-		deleteModalState,
 		handleDelete,
 	};
 };

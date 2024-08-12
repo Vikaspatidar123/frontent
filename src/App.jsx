@@ -15,6 +15,7 @@ import VerticalLayout from './components/VerticalLayout';
 import HorizontalLayout from './components/HorizontalLayout';
 import NonAuthLayout from './components/NonAuthLayout';
 import LinearLoading from './components/Common/LinearLoading';
+import { ConfirmModalProvider } from './components/Common/ConfirmModal';
 
 const App = () => {
 	const selectLayoutState = (state) => state.Layout;
@@ -40,7 +41,7 @@ const App = () => {
 	const Layout = getLayout(layoutType);
 
 	return (
-		<>
+		<ConfirmModalProvider>
 			<LinearLoading />
 			<Routes>
 				{publicRoutes.map((route) => (
@@ -69,7 +70,7 @@ const App = () => {
 					/>
 				))}
 			</Routes>
-		</>
+		</ConfirmModalProvider>
 	);
 };
 

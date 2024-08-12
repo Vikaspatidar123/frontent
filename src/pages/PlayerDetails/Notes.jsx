@@ -11,7 +11,6 @@ import { formPageTitle } from '../../components/Common/constants';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 import { ICON_CLASS, TEXT_COLORS } from '../../utils/constant';
 import Actions from '../../components/Common/Actions';
-import YesNoModal from '../../components/Common/YesNoModal';
 
 const Notes = ({ userDetails, userId }) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -35,24 +34,8 @@ const Notes = ({ userDetails, userId }) => {
 		setShowModal,
 		handleUpdateClick,
 		handleAddClick,
-		handleDelete,
-		deleteModalState,
-		setDeleteModalState,
+		confirmDelete,
 	} = useCreateComment({ userId });
-
-	const toggleDeleteModal = () =>
-		setDeleteModalState((prev) => ({
-			...prev,
-			open: !prev.open,
-		}));
-
-	const handleDeleteClick = (row) => {
-		setDeleteModalState((prev) => ({
-			...prev,
-			open: !prev.open,
-			row,
-		}));
-	};
 
 	const actionsList = [
 		{
@@ -64,7 +47,7 @@ const Notes = ({ userDetails, userId }) => {
 		},
 		{
 			actionName: 'Delete',
-			actionHandler: handleDeleteClick,
+			actionHandler: confirmDelete,
 			isHidden: false,
 			icon: ICON_CLASS.delete,
 			iconColor: TEXT_COLORS.danger,
@@ -169,12 +152,6 @@ const Notes = ({ userDetails, userId }) => {
 					setOpenModal={setShowModal}
 					validation={validation}
 					pageType={formPageTitle.notes}
-				/>
-				<YesNoModal
-					show={deleteModalState.open}
-					content="Do you really want to delete the Note?"
-					handleYes={handleDelete}
-					handleClose={toggleDeleteModal}
 				/>
 			</Card>
 		</Container>

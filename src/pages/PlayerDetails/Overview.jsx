@@ -16,7 +16,7 @@ import { useParams } from 'react-router-dom';
 import useUserOverview from './hooks/useUserOverview';
 // import DisableReason from './modals/DisableReason';
 import {
-	markUserAsInternal,
+	// markUserAsInternal,
 	sendPasswordReset,
 	updateSAUserStatus,
 	verifyUserEmail,
@@ -33,7 +33,7 @@ import { showToastr } from '../../utils/helpers';
 import PlayerStats from './components/PlayerStats';
 import { PLAYER_STATS_NOT_AVAILABLE } from '../../constants/messages';
 import ActionButton from '../../components/Common/ActionButton';
-import YesNoModal from '../../components/Common/YesNoModal';
+import { useConfirmModal } from '../../components/Common/ConfirmModal';
 
 const ColumnContainer = ({ hidden, children }) => (
 	<Col xs={12} md={6} className="text-center mb-3" hidden={hidden}>
@@ -44,17 +44,15 @@ const ColumnContainer = ({ hidden, children }) => (
 const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 	const { isGranted } = usePermission();
 	const dispatch = useDispatch();
+	const { openConfirmModal } = useConfirmModal();
 	const { playerId } = useParams();
 	const [openResetMenu, setOpenResetMenu] = useState(false);
 	const [modalStates, setModalStates] = useState({
-		internalModal: false,
-		activeInactiveModal: false,
-		verifyEmailModal: false,
+		// internalModal: false,
 		manageTagModal: false,
 		duplicatesModal: false,
 		giveBonusModal: false,
 		editUserModal: false,
-		resetPasswordEmail: false,
 		resetUserPassword: false,
 	});
 	const openModal = (modalName) => {
@@ -79,13 +77,13 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		);
 	};
 
-	const handleInternalChange = () => {
-		dispatch(
-			markUserAsInternal({
-				userId: playerId,
-			})
-		);
-	};
+	// const handleInternalChange = () => {
+	// 	dispatch(
+	// 		markUserAsInternal({
+	// 			userId: playerId,
+	// 		})
+	// 	);
+	// };
 
 	const handleVerifyEmail = () => {
 		dispatch(
@@ -100,6 +98,31 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 			sendPasswordReset({
 				userId: parseInt(playerId, 10),
 			})
+		);
+	};
+
+	const toggleUserStatus = () => {
+		openConfirmModal(
+			`Are you sure you want to mark ${userDetails?.firstName} ${
+				userDetails?.lastName
+			} (${userDetails?.email}) ${
+				userDetails?.isActive ? 'Active' : 'Inactive'
+			}?`,
+			updateUserStatus
+		);
+	};
+
+	const toggleEmailVerification = () => {
+		openConfirmModal(
+			`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) as Verified?`,
+			handleVerifyEmail
+		);
+	};
+
+	const confirmResetPasswordEmail = () => {
+		openConfirmModal(
+			`Send Password Reset Email to ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`,
+			handleSendResetPasswordEmail
 		);
 	};
 
@@ -172,7 +195,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 															? 'outline-danger'
 															: 'outline-success'
 													}
-													onClick={() => openModal('activeInactiveModal')}
+													onClick={toggleUserStatus}
 													iconClass="bx bxs-edit"
 												>
 													{userDetails && userDetails?.isActive
@@ -208,7 +231,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 																type: 'info',
 															});
 														} else {
-															openModal('verifyEmailModal');
+															toggleEmailVerification();
 														}
 													}}
 												>
@@ -320,9 +343,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 														Reset Password
 													</ActionButton>
 													<DropdownMenu className="dropdown-menu-end">
-														<DropdownItem
-															onClick={() => openModal('resetPasswordEmail')}
-														>
+														<DropdownItem onClick={confirmResetPasswordEmail}>
 															Send Email
 														</DropdownItem>
 														<DropdownItem
@@ -418,28 +439,12 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 								</div>
 							</Card>
 						</Col>
-						<YesNoModal
-							show={modalStates.activeInactiveModal}
-							handleYes={updateUserStatus}
-							handleClose={() => closeModal('activeInactiveModal')}
-							content={`Are you sure you want to mark ${
-								userDetails?.firstName
-							} ${userDetails?.lastName} (${userDetails?.email}) ${
-								userDetails?.isActive ? 'Active' : 'Inactive'
-							}?`}
-						/>
-						<YesNoModal
+						{/* <YesNoModal
 							show={modalStates.internalModal}
 							handleClose={() => closeModal('internalModal')}
 							handleYes={handleInternalChange}
 							content={`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} as Internal?`}
-						/>
-						<YesNoModal
-							show={modalStates.verifyEmailModal}
-							handleClose={() => closeModal('verifyEmailModal')}
-							handleYes={handleVerifyEmail}
-							content={`Do you really want to mark ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) as Verified?`}
-						/>
+						/> */}
 						<ManageTagModal
 							show={modalStates.manageTagModal}
 							userDetails={userDetails}
@@ -463,12 +468,6 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 							show={modalStates.editUserModal}
 							toggle={() => closeModal('editUserModal')}
 							header={`Update ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email}) Info`}
-						/>
-						<YesNoModal
-							show={modalStates.resetPasswordEmail}
-							handleClose={() => closeModal('resetPasswordEmail')}
-							handleYes={handleSendResetPasswordEmail}
-							content={`Send Password Reset Email to ${userDetails?.firstName} ${userDetails?.lastName} (${userDetails?.email})`}
 						/>
 						<ResetUserPassword
 							show={modalStates.resetUserPassword}

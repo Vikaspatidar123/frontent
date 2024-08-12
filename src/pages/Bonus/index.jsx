@@ -10,7 +10,6 @@ import useBonusListing from './hooks/useBonusListing';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
-import YesNoModal from '../../components/Common/YesNoModal';
 
 const BonusDetail = () => {
 	// meta title
@@ -35,9 +34,6 @@ const BonusDetail = () => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		isDeleteConfirmationOpen,
-		setDeleteConfirmation,
-		bonusDeleteHandler,
 		buttonList,
 	} = useBonusListing(filterValidation.values);
 
@@ -80,12 +76,6 @@ const BonusDetail = () => {
 					</Col>
 				</Row>
 			</Container>
-			<YesNoModal
-				show={isDeleteConfirmationOpen}
-				content="Are you sure you want to delete bonus?"
-				handleYes={() => bonusDeleteHandler()}
-				handleClose={() => setDeleteConfirmation(false)}
-			/>
 		</div>
 	);
 };

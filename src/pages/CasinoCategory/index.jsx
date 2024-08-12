@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Row, Card, CardBody } from 'reactstrap';
@@ -15,7 +14,6 @@ import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 import { formPageTitle } from '../../components/Common/constants';
-import YesNoModal from '../../components/Common/YesNoModal';
 
 const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
@@ -40,10 +38,7 @@ const GetCasinoCategoryDetails = () => {
 		onChangeRowsPerPage,
 		handleStatus,
 		handleAddGameClick,
-		deleteModalState,
 		handleDeleteClick,
-		onClickConfirmDelete,
-		toggleDeleteModal,
 	} = useCasinoCategoryListing(filterValidation.values);
 
 	const {
@@ -122,12 +117,6 @@ const GetCasinoCategoryDetails = () => {
 									setOpenModal={setShowModal}
 									validation={validation}
 									pageType={formPageTitle.categories}
-								/>
-								<YesNoModal
-									show={deleteModalState.open}
-									content="Do you really want to delete the Category?"
-									handleYes={onClickConfirmDelete}
-									handleClose={toggleDeleteModal}
 								/>
 							</CardBody>
 						</Card>

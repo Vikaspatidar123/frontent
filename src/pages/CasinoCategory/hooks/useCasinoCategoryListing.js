@@ -8,6 +8,7 @@ import {
 	getLanguagesStart,
 	updateCasinoStatusStart,
 } from '../../../store/casinoManagement/actions';
+import { useConfirmModal } from '../../../components/Common/ConfirmModal';
 
 const useCasinoCategoryListing = (filterValues = {}) => {
 	const {
@@ -18,16 +19,13 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		isEditCategorySuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 	const navigate = useNavigate();
+	const { openConfirmModal } = useConfirmModal();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [modal, setModal] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [job, setJob] = useState(null);
 	const dispatch = useDispatch();
-	const [deleteModalState, setDeleteModalState] = useState({
-		open: false,
-		row: '',
-	});
 
 	const onChangeRowsPerPage = (value) => {
 		setPage(1);
@@ -84,27 +82,18 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		});
 	};
 
-	const onClickConfirmDelete = () => {
-		const { id } = deleteModalState.row || {};
+	const onClickConfirmDelete = (categoryId) => {
 		dispatch(
 			deleteCasinoCategoryStart({
-				categoryId: id,
+				categoryId,
 			})
 		);
 	};
 
-	const toggleDeleteModal = () =>
-		setDeleteModalState((prev) => ({
-			...prev,
-			open: !prev.open,
-		}));
-
 	const handleDeleteClick = (row) => {
-		setDeleteModalState((prev) => ({
-			...prev,
-			open: !prev.open,
-			row,
-		}));
+		openConfirmModal('Do you really want to delete the Category?', () =>
+			onClickConfirmDelete(row?.id)
+		);
 	};
 
 	return {
@@ -125,8 +114,6 @@ const useCasinoCategoryListing = (filterValues = {}) => {
 		onChangeRowsPerPage,
 		handleAddGameClick,
 		onClickConfirmDelete,
-		deleteModalState,
-		toggleDeleteModal,
 		handleDeleteClick,
 	};
 };
