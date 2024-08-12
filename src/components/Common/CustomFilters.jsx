@@ -41,22 +41,26 @@ const CustomFilters = ({
 		return () => clearTimeout(debounce);
 	}, [validation.values]);
 
-	const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
+	// const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
 
 	const handleClose = () => {
 		setDropdownOpen(false);
 	};
 
 	return (
-		<UncontrolledDropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+		<UncontrolledDropdown isOpen={dropdownOpen}>
 			<DropdownToggle
 				type="button"
 				className="btn btn-light btn-outline-primary"
+				onClick={() => setDropdownOpen(true)} // Only open the dropdown on click
 			>
 				<i className="mdi mdi-plus" /> Add Filters
 			</DropdownToggle>
 			<DropdownMenu className="dropdown-menu-md p-4" style={{ width: '40rem' }}>
-				<h6>Filters</h6>
+				<h5>
+					<b>Filters</b>
+				</h5>
+				<hr />
 				<Row>
 					<Col lg={12}>
 						<Card className="filter-card">
@@ -84,7 +88,11 @@ const CustomFilters = ({
 									</Row>
 									<Row className="mt-3">
 										<Col className="d-flex justify-content-end">
-											<Button color="primary" onClick={handleClose}>
+											<Button
+												color="link"
+												className="btn btn-link waves-effect"
+												onClick={handleClose}
+											>
 												Close
 											</Button>
 										</Col>

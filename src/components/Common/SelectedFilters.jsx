@@ -4,7 +4,7 @@
 import React from 'react';
 import { Badge, Button } from 'reactstrap';
 
-const SelectedFilters = ({ validation }) => {
+const SelectedFilters = ({ validation, filterFormatter }) => {
 	const clearFilter = (filterName) => {
 		validation.setFieldValue(filterName, '');
 		// handleFilter({ ...validation.values, [filterName]: '' });
@@ -17,10 +17,12 @@ const SelectedFilters = ({ validation }) => {
 					return (
 						<Badge
 							key={filterName}
-							className="me-2 p-2 bg-secondary"
+							className="me-2 p-2 bg-light fs-6"
 							style={{ cursor: 'pointer' }}
 						>
-							{`${filterName}: ${validation.values[filterName]}`}
+							{filterFormatter
+								? filterFormatter(filterName, validation.values[filterName])
+								: `${filterName}: ${validation.values[filterName]}`}
 							<i
 								className="mdi mdi-close ms-1"
 								onClick={() => clearFilter(filterName)}
