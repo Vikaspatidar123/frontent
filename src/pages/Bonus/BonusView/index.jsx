@@ -6,7 +6,7 @@ import Currencies from './Currency';
 import WageringContribution from './WageringContribution';
 import Breadcrumb from '../../../components/Common/Breadcrumb';
 import TabsPage from '../../../components/Common/TabsPage';
-import { getBonusDetail } from '../../../store/actions';
+import { getAllTags, getBonusDetail } from '../../../store/actions';
 import GeneralDetails from './GeneralInformation';
 import Games from './Games';
 import Spinners from '../../../components/Common/Spinner';
@@ -17,16 +17,17 @@ const BonusPreview = () => {
 	const dispatch = useDispatch();
 	const { bonusId, bonusType } = useParams();
 	const [activeTab, setActiveTab] = useState('1');
+	const { isBonusDetailsLoading, gameBonusDetail, gameBonusSegment } =
+		useSelector((state) => state.AllBonusDetails);
 
-	const { isBonusDetailsLoading, gameBonusDetail } = useSelector(
-		(state) => state.AllBonusDetails
-	);
+	useEffect(() => {
+		dispatch(getAllTags());
+	}, []);
 
 	const bonusDetails = useMemo(
 		() => getViewBonusInitialValues(gameBonusDetail),
 		[gameBonusDetail]
 	);
-
 	const toggle = (tab) => {
 		if (activeTab !== tab) {
 			setActiveTab(tab);
@@ -40,7 +41,12 @@ const BonusPreview = () => {
 		{
 			id: '1',
 			title: 'General',
-			component: <GeneralDetails bonusDetails={bonusDetails} />,
+			component: (
+				<GeneralDetails
+					bonusDetails={bonusDetails}
+					gameBonusSegment={gameBonusSegment}
+				/>
+			),
 		},
 		{
 			id: '2',

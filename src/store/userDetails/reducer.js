@@ -1,3 +1,4 @@
+import { keyBy } from 'lodash';
 import {
 	ATTACH_TAG,
 	ATTACH_TAG_FAIL,
@@ -177,6 +178,7 @@ const INIT_STATE = {
 	attachTagLoading: false,
 	attachTagError: null,
 	userTags: null,
+	userTagsById: {},
 	userTagsLoading: false,
 	userTagsError: null,
 	removeUserTag: false,
@@ -760,6 +762,7 @@ const UserDetails = (state = INIT_STATE, { type, payload } = {}) => {
 				userTagsLoading: false,
 				userTags: payload,
 				userTagsError: null,
+				userTagsById: keyBy(payload?.tags, 'id'),
 			};
 
 		case GET_ALL_TAGS_FAIL:

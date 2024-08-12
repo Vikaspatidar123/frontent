@@ -14,7 +14,7 @@ import {
 } from '../constants';
 import { YMDFormat, selectedLanguage } from '../../../constants/config';
 
-const GeneralDetails = ({ bonusDetails }) => (
+const GeneralDetails = ({ bonusDetails, gameBonusSegment }) => (
 	<>
 		<Row>
 			<Col sm={4}>
@@ -25,6 +25,19 @@ const GeneralDetails = ({ bonusDetails }) => (
 						</Col>
 						<Col>
 							<p>{bonusDetails?.promotionTitle?.[selectedLanguage] || '-'}</p>
+						</Col>
+					</Row>
+					<Row>
+						<Col>
+							<h6 className="text-nowrap font-weight-bold">Segments:</h6>
+						</Col>
+						<Col>
+							{gameBonusSegment?.length > 0 &&
+								gameBonusSegment?.map((tagId) => (
+									<Badge className="badge-soft-secondary me-1">
+										{tagId?.tag || '-'}
+									</Badge>
+								))}
 						</Col>
 					</Row>
 
@@ -287,10 +300,12 @@ const GeneralDetails = ({ bonusDetails }) => (
 
 GeneralDetails.defaultProps = {
 	bonusDetails: {},
+	gameBonusSegment: [],
 };
 
 GeneralDetails.propTypes = {
 	bonusDetails: PropTypes.objectOf,
+	gameBonusSegment: PropTypes.arrayOf,
 };
 
 export default GeneralDetails;

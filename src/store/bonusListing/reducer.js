@@ -22,6 +22,7 @@ const INIT_STATE = {
 	error: null,
 	isLoading: true,
 	gameBonusDetail: null,
+	gameBonusSegment: null,
 	isBonusDetailsLoading: false,
 	isUpdateSABonusStatusLoading: false,
 	isUpdateSABonusStatusError: null,
@@ -93,7 +94,8 @@ const getAllBonusDetails = (state = INIT_STATE, { type, payload } = {}) => {
 		case GET_BONUS_DETAIL_SUCCESS:
 			return {
 				...state,
-				gameBonusDetail: payload,
+				gameBonusDetail: payload?.bonus,
+				gameBonusSegment: payload?.tags,
 				error: null,
 				isBonusDetailsLoading: false,
 			};
