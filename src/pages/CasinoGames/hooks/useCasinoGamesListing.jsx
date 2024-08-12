@@ -56,7 +56,10 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 				providerName: item?.casinoProvider?.name?.[selectedLanguage],
 				category: item?.casinoCategory?.name?.[selectedLanguage],
 				thumbnail: item?.thumbnailUrl,
-				devices: item?.devices?.join(', '),
+				devices:
+					typeof item?.devices === 'object'
+						? item?.devices?.join(', ')
+						: item?.devices,
 			}));
 		}
 		return [];
