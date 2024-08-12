@@ -108,7 +108,7 @@ const userSchema = () =>
 			.min(3, 'Minimum 3 Characters Required')
 			.max(50, 'Maximum 50 Characters Allowed')
 			.required('Last Name Required'),
-		phone: Yup.string().required(),
+		phone: Yup.string(),
 		// .test('Invalid', 'Invalid Phone', (value, context) => {
 		//   if (value && (value?.charAt(
 		//     context.phoneCode?.length
@@ -138,17 +138,12 @@ const userSchema = () =>
 			.matches(
 				/^[a-zA-Z0-9\s,.'-]{3,}$/,
 				"Address can only contain letters, numbers, spaces, and the following characters: , . ' -"
-			)
-			.required('Address Required'),
-		city: Yup.string()
-			.max(50, 'Maximum 50 Characters Allowed')
-			.required('City Required'),
-		zipCode: Yup.string()
-			.matches(
-				/^\d{5}(-\d{4})?$/,
-				'Invalid ZIP Code format. Must be 5 digits or 5 digits followed by a hyphen and 4 more digits.'
-			)
-			.required('ZipCode Required'),
+			),
+		city: Yup.string().max(50, 'Maximum 50 Characters Allowed'),
+		zipCode: Yup.string().matches(
+			/^\d{5}(-\d{4})?$/,
+			'Invalid ZIP Code format. Must be 5 digits or 5 digits followed by a hyphen and 4 more digits.'
+		),
 		currencyCode: Yup.string(),
 		countryCode: Yup.string()?.required('Country Required'),
 	});

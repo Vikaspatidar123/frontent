@@ -19,6 +19,7 @@ import {
 import { CustomSelectField } from '../../helpers/customForms';
 import { StatusBadge } from './TournamentListCol';
 import { defaultCurrencyId } from '../../constants/config';
+import { getAllTags } from '../../store/actions';
 
 const TournamentDetail = () => {
 	const { tournamentId } = useParams();
@@ -32,6 +33,11 @@ const TournamentDetail = () => {
 	const { tournamentDetail, tournamentDetailLoading } = useSelector(
 		(state) => state.Tournament
 	);
+	const { userTagsById } = useSelector((state) => state.UserDetails);
+
+	useEffect(() => {
+		dispatch(getAllTags());
+	}, []);
 
 	const toggle = (tab) => {
 		if (activeTab !== tab) {
@@ -198,10 +204,17 @@ const TournamentDetail = () => {
 										<Badge className="bg-danger font-size-12">No</Badge>
 									)}
 								</div>
-								{/* <div className="vr" /> */}
-								{/* <div className="text-muted">
-									Created At : {formatDateYMD(tournamentDetail?.createdAt)}
-								</div> */}
+								<div className="vr" />
+								<div className="text-muted">
+									segments :{' '}
+									{tournamentDetail?.tagIds?.length
+										? tournamentDetail?.tagIds?.map((tagId) => (
+												<Badge className="badge-soft-secondary me-1">
+													{userTagsById[tagId]?.tag}
+												</Badge>
+										  ))
+										: '-'}
+								</div>
 							</div>
 
 							<Row className="mt-4">

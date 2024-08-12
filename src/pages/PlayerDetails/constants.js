@@ -42,6 +42,26 @@ export const portalValues = [
 ];
 
 export const timePeriodValues = [
+	// {
+	// 	optionLabel: '1 Day',
+	// 	value: 1,
+	// },
+	// {
+	// 	optionLabel: '7 Days',
+	// 	value: 7,
+	// },
+	// {
+	// 	optionLabel: '30 Days',
+	// 	value: 30,
+	// },
+	// {
+	// 	optionLabel: '6 Months',
+	// 	value: 180,
+	// },
+	// {
+	// 	optionLabel: '12 Months',
+	// 	value: 365,
+	// },
 	{
 		optionLabel: 'Custom Value',
 		value: 'custom',
