@@ -10,6 +10,7 @@ const DemoGraphicTable = (props) => {
 	return (
 		<div className="demo-graph-table">
 			<TableContainer
+				key={`${formattedDemoGraphicData?.length}-table`}
 				columns={demoGraphColumn || []}
 				data={formattedDemoGraphicData || []}
 				isGlobalFilter={false}
