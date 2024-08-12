@@ -11,13 +11,13 @@ export const kycLabels = [
 ];
 
 const staticFiltersFields = () => [
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by email, username',
-	},
+	// {
+	// 	name: 'searchString',
+	// 	fieldType: 'textField',
+	// 	type: 'search',
+	// 	label: '',
+	// 	placeholder: 'Search by email, username',
+	// },
 	// {
 	// 	name: 'affiliateName',
 	// 	fieldType: 'textField',
