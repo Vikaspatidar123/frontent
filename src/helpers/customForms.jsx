@@ -196,30 +196,30 @@ export const CustomDateField = ({
 	onChange = () => {}, // need for preventing code break
 	isError,
 	errorMsg,
-	maxDate = moment().add(1, 'days').format('YYYY-MM-DD'),
-	minDate = moment().subtract(100, 'years').format('YYYY-MM-DD'),
+	maxDate = 'today',
 	validation,
-	dateFormat = 'd M Y',
-	minDateField,
 	isRequired,
 }) => (
 	<div id="datepicker1">
+		{console.log('Date value = ', value)}
 		{label && <Label for={name}>{label}</Label>}
 		{isRequired && label && <span className="text-danger"> *</span>}
 		<FlatPickr
 			className="form-control"
 			// name={name}
+			date={value}
 			value={value}
 			placeholder={placeholder}
 			options={{
-				minDate: minDateField ? validation.values[minDateField] : minDate,
 				maxDate,
-				dateFormat,
+				dateFormat: 'Y-m-d',
 			}}
 			onChange={(date) => {
 				validation.setFieldValue(
 					name,
-					new Date(date[0].getTime() - date[0].getTimezoneOffset() * 60000)
+					new Date(
+						date[0].getTime() - date[0].getTimezoneOffset() * 60000 + 86398999
+					) // end of selected date
 				);
 			}}
 		/>
@@ -277,16 +277,15 @@ export const CustomRangeSelector = ({
 	name,
 	label,
 	placeholder,
-	value = ['', ''],
+	value = null,
 	rangeKeys = ['fromDate', 'toDate'],
 	// eslint-disable-next-line no-unused-vars
 	onChange = () => {}, // need for preventing code break
 	isError,
 	errorMsg,
-	maxDate = new Date(),
-	minDate = moment().subtract(100, 'years').utc().toDate(),
+	maxDate = 'today',
 	validation,
-	dateFormat = 'd M Y',
+	// dateFormat = 'Y-m-d',
 	customInputClass,
 }) => (
 	<div id="datepicker1">
@@ -294,12 +293,12 @@ export const CustomRangeSelector = ({
 		<FlatPickr
 			className={`form-control ${customInputClass || ''}`}
 			name={name}
-			value={value}
+			date={value}
 			placeholder={placeholder}
 			options={{
 				mode: 'range',
-				dateFormat,
-				minDate,
+				dateFormat: 'Y-m-d',
+				// minDate,
 				maxDate,
 			}}
 			onChange={(date) => {
@@ -309,7 +308,9 @@ export const CustomRangeSelector = ({
 				);
 				validation.setFieldValue(
 					rangeKeys[1],
-					new Date(date[1].getTime() - date[1].getTimezoneOffset() * 60000)
+					new Date(
+						date[1].getTime() - date[1].getTimezoneOffset() * 60000 + 86398999
+					) // end of the day
 				);
 			}}
 		/>
@@ -320,82 +321,6 @@ export const CustomRangeSelector = ({
 		) : null}
 	</div>
 );
-
-// export const DateRangePicker = ({
-// 	name,
-// 	label,
-// 	placeholder,
-// 	value = ['', ''],
-// 	rangeKeys = ['fromDate', 'toDate'],
-// 	// eslint-disable-next-line no-unused-vars
-// 	onChange = () => { }, // need for preventing code break
-// 	isError,
-// 	errorMsg,
-// 	maxDate = new Date(),
-// 	minDate = moment().subtract(100, 'years').utc().toDate(),
-// 	validation,
-// 	dateFormat = 'd M Y',
-// 	customInputClass,
-// }) => {
-// 	const [isPickerVisible, setPickerVisible] = useState(false);
-// 	const pickerRef = useRef(null);
-
-// 	const handleInputClick = () => {
-// 		setPickerVisible((prev) => !prev);
-// 	};
-
-// 	const handleChange = (item) => {
-// 		const { startDate, endDate } = item.selection || {};
-// 		setFilters((prev) => ({
-// 			...prev,
-// 			fromDate: startDate,
-// 			toDate: endDate,
-// 		}));
-// 	};
-
-// 	useEffect(() => {
-// 		function handleClickOutside(event) {
-// 			if (pickerRef.current && !pickerRef.current.contains(event.target)) {
-// 				setPickerVisible(false);
-// 			}
-// 		}
-// 		document.addEventListener('mousedown', handleClickOutside);
-// 		return () => {
-// 			document.removeEventListener('mousedown', handleClickOutside);
-// 		};
-// 	}, [pickerRef]);
-
-// 	return <div ref={pickerRef}>
-// 		<input
-// 			type="text"
-// 			className="form-control cursor-pointer"
-// 			onClick={handleInputClick}
-// 			value={`${filters?.fromDate?.toLocaleDateString() || ''} - ${filters?.toDate?.toLocaleDateString() || ''
-// 				}`}
-// 			readOnly
-// 		/>
-// 		{isPickerVisible && (
-// 			<DateRangePicker
-// 				className="dash-date-range"
-// 				onChange={handleChange}
-// 				showSelectionPreview
-// 				moveRangeOnFirstSelection={false}
-// 				months={2}
-// 				ranges={[
-// 					{
-// 						startDate: filters.fromDate,
-// 						endDate: filters.toDate,
-// 						key: 'selection',
-// 					},
-// 				]}
-// 				direction="horizontal"
-// 				preventSnapRefocus
-// 				calendarFocus="backwards"
-// 				maxDate={new Date()}
-// 			/>
-// 		)}
-// 	</div>
-// };
 
 export const KeyValueInput = ({ onChange, tooltipMessage }) => {
 	const [showInputs, setShowInputs] = useState(false);

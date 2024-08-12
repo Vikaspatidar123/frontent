@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable camelcase */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -80,7 +81,7 @@ const DisputeList = ({
 								<ul className="list-unstyled chat-list" id="recent-list">
 									{loading ? (
 										<Spinners />
-									) : (
+									) : disputes?.threadTickets?.length ? (
 										<SimpleBar style={{ height: '480px' }}>
 											{map(
 												disputes?.threadTickets,
@@ -130,6 +131,8 @@ const DisputeList = ({
 												)
 											)}
 										</SimpleBar>
+									) : (
+										<p>No Dispute found!</p>
 									)}
 								</ul>
 							</div>

@@ -78,6 +78,7 @@ const PlayersList = ({
 		setIsOpen,
 		selectedPlayers,
 		onSuccess,
+		actionList,
 	} = usePlayersListing(
 		filterValidation.values,
 		userIds || userIdsForLocalOperation,
@@ -106,6 +107,7 @@ const PlayersList = ({
 						filterComponent={filterComponent}
 						customSearchInput={customSearchInput}
 						selectedFiltersComponent={selectedFiltersComponent}
+						actionList={actionList}
 					/>
 				</div>
 			</Container>

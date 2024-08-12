@@ -28,6 +28,7 @@ import { PER_PAGE } from '../../../constants/config';
 import Actions from '../../../components/Common/Actions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
+import ButtonList from '../../../components/Common/ButtonList';
 // import { getDateTime } from '../../../utils/dateFormatter';
 
 const usePlayersListing = (
@@ -295,6 +296,8 @@ const usePlayersListing = (
 		},
 	];
 
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -306,7 +309,7 @@ const usePlayersListing = (
 		columns,
 		showManageMoney,
 		setShowManageMoney,
-		buttonList,
+		actionList,
 		isOpen,
 		setIsOpen,
 		selectedPlayers,

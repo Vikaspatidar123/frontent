@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -21,6 +22,24 @@ import {
 import { itemsPerPage } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import TableSearchInput from '../../../components/Common/TableSearchInput';
+
+const keyMapping = {
+	kycStatus: 'KYC Status',
+	isActive: 'Active',
+	toDate: 'To Date',
+	fromDate: 'From Date',
+	tagIds: 'Segment',
+	countryId: 'Country',
+	searchString: 'Search',
+	dateOfBirth: 'Date of Birth',
+	userId: 'User Id',
+	gender: 'Gender',
+};
+
+const isActiveMapping = {
+	true: 'Yes',
+	false: 'No',
+};
 
 const useFilters = () => {
 	const dispatch = useDispatch();
@@ -93,7 +112,47 @@ const useFilters = () => {
 		}
 	}, [countries, languages, userTags]);
 
-	const selectedFiltersComponent = <SelectedFilters validation={validation} />;
+	const filterFormatter = (key, value) => {
+		const formattedKey = keyMapping[key] || key;
+
+		let formattedValue = value;
+
+		switch (key) {
+			case 'kycStatus':
+				formattedValue = value ? 'Approved' : 'Pending';
+				break;
+			case 'isActive':
+				formattedValue = isActiveMapping[value] || value;
+				break;
+			case 'toDate':
+			case 'fromDate':
+			case 'dateOfBirth': {
+				const date = new Date(value);
+				formattedValue = date.toLocaleDateString('en-GB');
+				break;
+			}
+			case 'tagIds':
+				formattedValue =
+					userTags?.tags?.find((tag) => tag.id == value)?.tag || '';
+				break;
+			case 'countryId':
+				formattedValue =
+					countries?.countries?.find((country) => country.id == value)?.name ||
+					'';
+				break;
+			default:
+				break;
+		}
+
+		return `${formattedKey}: ${formattedValue}`;
+	};
+
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={filterFormatter}
+		/>
+	);
 
 	const filterComponent = (
 		<CustomFilters
