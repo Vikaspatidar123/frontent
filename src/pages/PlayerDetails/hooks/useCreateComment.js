@@ -14,18 +14,16 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import { useConfirmModal } from '../../../components/Common/ConfirmModal';
 
 const useCreateComment = ({ userId }) => {
 	const dispatch = useDispatch();
+	const { openConfirmModal } = useConfirmModal();
 	const { createUserCommentsSuccess, updateUserCommentSuccess } = useSelector(
 		(state) => state.UserDetails
 	);
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const [showModal, setShowModal] = useState(false);
-	const [deleteModalState, setDeleteModalState] = useState({
-		open: false,
-		row: '',
-	});
 
 	const handleCreateComment = (values) => {
 		dispatch(
@@ -76,9 +74,14 @@ const useCreateComment = ({ userId }) => {
 		setIsOpen((prev) => !prev);
 	};
 
-	const handleDelete = () => {
-		const { id } = deleteModalState.row || {};
-		dispatch(deleteUserComment({ commentId: id }));
+	const handleDelete = (commentId) => {
+		dispatch(deleteUserComment({ commentId }));
+	};
+
+	const confirmDelete = (row) => {
+		openConfirmModal('Do you really want to delete the Note?', () =>
+			handleDelete(row?.id)
+		);
 	};
 
 	useEffect(() => {
@@ -106,8 +109,7 @@ const useCreateComment = ({ userId }) => {
 		handleUpdateClick,
 		handleAddClick,
 		handleDelete,
-		deleteModalState,
-		setDeleteModalState,
+		confirmDelete,
 	};
 };
 

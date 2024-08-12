@@ -23,23 +23,16 @@ import { ThumbnailUrl } from '../../CasinoGames/CasinoGamesListCol';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
+import { useConfirmModal } from '../../../components/Common/ConfirmModal';
 
 const useTournaments = () => {
 	const dispatch = useDispatch();
+	const { openConfirmModal } = useConfirmModal();
 	const navigate = useNavigate();
-	const { isGranted } = usePermission();
+	const { isGranted, permissions } = usePermission();
 
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [showSettleModal, setShowSettleModal] = useState({
-		isOpen: false,
-		selectedTournament: '',
-		type: '',
-	});
-	const [showStatusModal, setShowStatusModal] = useState({
-		isOpen: false,
-		selectedTournament: '',
-	});
 
 	const {
 		toggleAdvance,
@@ -81,15 +74,6 @@ const useTournaments = () => {
 		}
 	}, [updateTournament]);
 
-	useEffect(() => {
-		if (updateTournament) {
-			setShowSettleModal((prev) => ({
-				...prev,
-				isOpen: false,
-			}));
-		}
-	}, [updateTournament]);
-
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
@@ -110,45 +94,26 @@ const useTournaments = () => {
 		);
 	};
 
-	const closeToggleSettleModal = () =>
-		setShowSettleModal((prev) => ({
-			...prev,
-			isOpen: false,
-			selectedTournament: '',
-		}));
-
-	const closeToggleStatusModal = () =>
-		setShowStatusModal((prev) => ({
-			...prev,
-			isOpen: false,
-			selectedTournament: '',
-		}));
-
-	const acceptSettleToggle = () => {
+	const acceptSettleToggle = (id) => {
 		dispatch(
 			updateTournamentStart({
 				data: {
-					tournamentId: showSettleModal?.selectedTournament,
+					tournamentId: id,
 					type: 'settled',
 				},
 			})
 		);
 	};
 
-	const acceptStatusToggle = () => {
+	const acceptStatusToggle = (tournamentId) => {
 		dispatch(
 			updateTournamentStart({
 				data: {
 					type: 'cancelled',
-					tournamentId: showStatusModal?.selectedTournament.id,
+					tournamentId,
 				},
 			})
 		);
-		setShowStatusModal((prev) => ({
-			...prev,
-			isOpen: false,
-			selectedTournament: '',
-		}));
 	};
 
 	const isDisabled = (row) => {
@@ -169,19 +134,15 @@ const useTournaments = () => {
 	};
 
 	const handleCancel = (row) =>
-		setShowStatusModal((prev) => ({
-			...prev,
-			isOpen: true,
-			selectedTournament: row,
-		}));
+		openConfirmModal('Do You Really Want to Cancel this Tournament?', () =>
+			acceptStatusToggle(row?.id)
+		);
 
 	const handleSettleClick = (row) =>
 		row?.status !== 'settled' &&
-		setShowSettleModal((prev) => ({
-			...prev,
-			isOpen: true,
-			selectedTournament: row?.id,
-		}));
+		openConfirmModal('Do You Really Want to Settle this Tournament?', () =>
+			acceptSettleToggle(row?.id)
+		);
 
 	const actionsList = [
 		{
@@ -297,12 +258,7 @@ const useTournaments = () => {
 				Cell: ({ cell }) => <Actions actionsList={actionsList} cell={cell} />,
 			},
 		],
-		[
-			tournamentsInfo,
-			isGranted(modules.tournamentManagement, 'R'),
-			isGranted(modules.tournamentManagement, 'U'),
-			isGranted(modules.bonus, 'TS'),
-		]
+		[tournamentsInfo, permissions]
 	);
 
 	const handleAddClick = (e) => {
@@ -331,13 +287,7 @@ const useTournaments = () => {
 		columns,
 		buttonList,
 		isTournamentsInfoLoading,
-		showSettleModal,
-		setShowSettleModal,
-		closeToggleSettleModal,
 		acceptSettleToggle,
-		showStatusModal,
-		setShowStatusModal,
-		closeToggleStatusModal,
 		acceptStatusToggle,
 		toggleAdvance,
 		isAdvanceOpen,

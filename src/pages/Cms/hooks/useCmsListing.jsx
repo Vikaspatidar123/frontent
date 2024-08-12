@@ -13,9 +13,11 @@ import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
+import { useConfirmModal } from '../../../components/Common/ConfirmModal';
 
 const useCmsListing = (filterValues = {}) => {
 	const navigate = useNavigate();
+	const { openConfirmModal } = useConfirmModal();
 	const { cmsDetails, isLoading, error, isDeleteCmsLoading } = useSelector(
 		(state) => state.AllCms
 	);
@@ -23,8 +25,6 @@ const useCmsListing = (filterValues = {}) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const [selectedClient, setSelectedClient] = useState('');
-	const [deleteCmsId, setDeleteCmsId] = useState('');
-	const [isDeleteConfirmationOpen, setDeleteConfirmation] = useState(false);
 	const { isGranted } = usePermission();
 
 	const dispatch = useDispatch();
@@ -66,16 +66,14 @@ const useCmsListing = (filterValues = {}) => {
 	};
 
 	const handleClose = () => {
-		setDeleteConfirmation(false);
-		setDeleteCmsId('');
 		fetchData();
 	};
 
-	const cmsDeleteHandler = () => {
+	const cmsDeleteHandler = (id) => {
 		dispatch(
 			deleteCms({
 				data: {
-					pageId: deleteCmsId,
+					pageId: id,
 				},
 				handleClose,
 			})
@@ -90,17 +88,18 @@ const useCmsListing = (filterValues = {}) => {
 		navigate(`details/${row?.id}`);
 	};
 
-	const handleDelete = (row) => {
-		setDeleteConfirmation(true);
-		setDeleteCmsId(row?.id);
-	};
-
 	useEffect(() => {
 		fetchData();
 	}, [limit, selectedClient, page, itemsPerPage]);
 
 	// resetting cms list redux state
 	useEffect(() => () => dispatch(resetAllCmsDetails()), []);
+
+	const confirmDelete = (row) => {
+		openConfirmModal('Are you sure you want to delete this page?', () =>
+			cmsDeleteHandler(row?.id)
+		);
+	};
 
 	const actionsList = [
 		{
@@ -126,7 +125,7 @@ const useCmsListing = (filterValues = {}) => {
 		},
 		{
 			actionName: 'Delete',
-			actionHandler: handleDelete,
+			actionHandler: confirmDelete,
 			isHidden: !isGranted(modules.page, 'D'),
 			icon: ICON_CLASS.delete,
 			iconColor: TEXT_COLORS.danger,
@@ -196,8 +195,6 @@ const useCmsListing = (filterValues = {}) => {
 		handleStatus,
 		onChangeRowsPerPage,
 		columns,
-		isDeleteConfirmationOpen,
-		setDeleteConfirmation,
 		cmsDeleteHandler,
 		isDeleteCmsLoading,
 	};

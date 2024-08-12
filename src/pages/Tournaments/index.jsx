@@ -6,7 +6,6 @@ import CrudSection from '../../components/Common/CrudSection';
 import TableContainer from '../../components/Common/Table/index';
 import Filters from '../../components/Common/Filters';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import YesNoModal from '../../components/Common/YesNoModal';
 
 const Tournament = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
@@ -21,12 +20,6 @@ const Tournament = () => {
 		columns,
 		buttonList,
 		isTournamentsInfoLoading,
-		showSettleModal,
-		closeToggleSettleModal,
-		acceptSettleToggle,
-		showStatusModal,
-		closeToggleStatusModal,
-		acceptStatusToggle,
 		toggleAdvance,
 		isAdvanceOpen,
 		filterFields,
@@ -73,18 +66,6 @@ const Tournament = () => {
 						</Card>
 					</Col>
 				</Row>
-				<YesNoModal
-					show={showSettleModal.isOpen}
-					content="Do You Really Want to Settle this Tournament?"
-					handleYes={acceptSettleToggle}
-					handleClose={closeToggleSettleModal}
-				/>
-				<YesNoModal
-					show={showStatusModal.isOpen}
-					content="Are you sure?"
-					handleYes={acceptStatusToggle}
-					handleClose={closeToggleStatusModal}
-				/>
 			</Container>
 		</div>
 	);

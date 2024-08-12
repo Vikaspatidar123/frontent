@@ -12,7 +12,6 @@ import Modal from '../../components/Common/Modal';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 
 import { EMAIL_TEMPLATE_EVENT_TYPES } from './Constant';
-import YesNoModal from '../../components/Common/YesNoModal';
 
 const EmailTemplate = () => {
 	// meta title
@@ -30,9 +29,7 @@ const EmailTemplate = () => {
 		columns,
 		clickId,
 		buttonList,
-		deleteModalState,
-		toggleDeleteModal,
-		handleDeleteSubmit,
+		permissions,
 	} = useEmailTemplate();
 
 	const handleChange = (e, panel) => {
@@ -119,7 +116,7 @@ const EmailTemplate = () => {
 					</div>
 				</div>
 			)),
-		[expanded, emailTemplateloading, emailTemplates]
+		[expanded, emailTemplateloading, emailTemplates, permissions]
 	);
 
 	return (
@@ -155,12 +152,6 @@ const EmailTemplate = () => {
 				>
 					{customComponent}
 				</Modal>
-				<YesNoModal
-					show={deleteModalState.open}
-					content="Do you really want to delete the Template?"
-					handleYes={handleDeleteSubmit}
-					handleClose={toggleDeleteModal}
-				/>
 			</Container>
 		</div>
 	);

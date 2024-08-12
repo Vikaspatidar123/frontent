@@ -12,6 +12,7 @@ import {
 	resetAllEmailTemplates,
 	makeEmailTemplatePrimary,
 } from '../../../store/actions';
+import { useConfirmModal } from '../../../components/Common/ConfirmModal';
 import { Label, Primary } from '../EmailTemplateListCol';
 import { CustomSelectField } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
@@ -28,13 +29,10 @@ const useEmailTemplate = () => {
 	} = useSelector((state) => state.EmailTemplate);
 
 	const { languageData } = useSelector((state) => state.CasinoManagementData);
+	const { openConfirmModal } = useConfirmModal();
 	const [clickId, setClickId] = useState('');
 	const [customComponent, setCustomComponent] = useState();
 	const [language, setLanguage] = useState('EN');
-	const [deleteModalState, setDeleteModalState] = useState({
-		open: false,
-		row: '',
-	});
 	const { isGranted, permissions } = usePermission();
 
 	const dispatch = useDispatch();
@@ -102,33 +100,24 @@ const useEmailTemplate = () => {
 		setClickId('');
 	};
 
-	const toggleDeleteModal = () =>
-		setDeleteModalState((prev) => ({
-			...prev,
-			open: !prev.open,
-		}));
-
 	const handleViewClick = (row) => {
 		setClickId(row?.id);
 		dispatch(getEmailTemplate(row?.id));
 	};
 
-	const handleDeleteSubmit = () => {
-		const { id, eventType } = deleteModalState.row || {};
+	const handleDeleteSubmit = (id, eventType) =>
 		dispatch(
 			deleteEmailTemplate({
 				emailTemplateId: Number(id),
 				eventType,
 			})
 		);
-	};
 
 	const handleDeleteClick = (row) => {
-		setDeleteModalState((prev) => ({
-			...prev,
-			open: !prev.open,
-			row,
-		}));
+		openConfirmModal(
+			'Are you sure you want to delete this Email Template?',
+			() => handleDeleteSubmit(row?.id, row?.eventType)
+		);
 	};
 
 	const handleCreateClick = (e) => {
@@ -240,11 +229,12 @@ const useEmailTemplate = () => {
 		columns,
 		clickId,
 		buttonList,
-		deleteModalState,
-		setDeleteModalState,
-		toggleDeleteModal,
 		handleDeleteSubmit,
 		handleDeleteClick,
+		useConfirmModal,
+		openConfirmModal,
+		isGranted,
+		permissions,
 	};
 };
 
