@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row, Spinner } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
 import useCmsListing from './hooks/useCmsListing';
@@ -12,7 +12,7 @@ import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import Filters from '../../components/Common/Filters';
 import useCreateCms from './hooks/useCreateCms';
-import ModalView from '../../components/Common/Modal';
+import YesNoModal from '../../components/Common/YesNoModal';
 
 const Cms = () => {
 	// Set meta title
@@ -41,7 +41,6 @@ const Cms = () => {
 		isDeleteConfirmationOpen,
 		setDeleteConfirmation,
 		cmsDeleteHandler,
-		isDeleteCmsLoading,
 	} = useCmsListing(filterValidation.values);
 
 	const { buttonList } = useCreateCms();
@@ -86,32 +85,12 @@ const Cms = () => {
 					</Col>
 				</Row>
 			</Container>
-			<ModalView
-				openModal={isDeleteConfirmationOpen}
-				toggleModal={() => setDeleteConfirmation(false)}
-				firstBtnName="Cancel"
-				secondBtnClass="btn-danger ms-2"
-				handleClick={() => cmsDeleteHandler()}
-				secondBtnName={
-					isDeleteCmsLoading ? (
-						<span>
-							<Spinner
-								as="span"
-								animation="border"
-								role="status"
-								aria-hidden="true"
-								style={{ height: '15px', width: '15px' }}
-							/>
-						</span>
-					) : (
-						'Yes'
-					)
-				}
-				headerTitle="CMS Delete Confirmation"
-				isDisabled={isDeleteCmsLoading}
-			>
-				<h5>Are you sure you want to delete this page?</h5>
-			</ModalView>
+			<YesNoModal
+				show={isDeleteConfirmationOpen}
+				content="Are you sure you want to delete this page?"
+				handleYes={() => cmsDeleteHandler()}
+				handleClose={() => setDeleteConfirmation(false)}
+			/>
 		</div>
 	);
 };

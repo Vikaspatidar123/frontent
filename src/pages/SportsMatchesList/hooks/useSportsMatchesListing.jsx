@@ -10,7 +10,7 @@ import {
 } from '../../../store/actions';
 import { getDateTime } from '../../../utils/dateFormatter';
 import {
-	Id,
+	// Id,
 	// IsFeatured,
 	// Live,
 	Sport,
@@ -103,13 +103,13 @@ const useSportsMatchesListing = (filterValues = {}) => {
 			// 		/>
 			// 	),
 			// },
-			{
-				Header: 'Id',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Id',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'Title',
 				accessor: 'title',

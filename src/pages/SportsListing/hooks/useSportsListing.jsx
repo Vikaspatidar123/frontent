@@ -8,7 +8,12 @@ import {
 	updateStatusStart,
 } from '../../../store/actions';
 
-import { SportId, SportName, Status, Icon } from '../sportsListCol';
+import {
+	//  SportId,
+	SportName,
+	Status,
+	Icon,
+} from '../sportsListCol';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
@@ -101,13 +106,13 @@ const useSportsListing = (filterValues = {}) => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <SportId value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <SportId value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'sportName',

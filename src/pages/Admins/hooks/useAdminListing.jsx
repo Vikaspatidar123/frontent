@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getAllAdmins, resetAdminsData } from '../../../store/actions';
 import {
-	AdminUserID,
+	// AdminUserID,
 	Email,
 	FullName,
 	Status,
@@ -158,13 +158,13 @@ const useAdminListing = (filterValues = {}) => {
 					);
 				},
 			},
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <AdminUserID value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <AdminUserID value={cell.value} />,
+			// },
 			{
 				Header: 'Name',
 				accessor: 'fullName',

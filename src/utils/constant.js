@@ -227,6 +227,7 @@ export const ICON_CLASS = {
 	file: 'mdi mdi-file-document',
 	editFile: 'mdi mdi-file-document-edit',
 	cancelFile: 'mdi mdi-file-cancel',
+	settle: 'fas fa-file-signature',
 };
 
 export const TEXT_COLORS = {

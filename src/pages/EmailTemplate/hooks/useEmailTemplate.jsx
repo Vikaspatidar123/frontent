@@ -31,7 +31,11 @@ const useEmailTemplate = () => {
 	const [clickId, setClickId] = useState('');
 	const [customComponent, setCustomComponent] = useState();
 	const [language, setLanguage] = useState('EN');
-	const { isGranted } = usePermission();
+	const [deleteModalState, setDeleteModalState] = useState({
+		open: false,
+		row: '',
+	});
+	const { isGranted, permissions } = usePermission();
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -98,18 +102,33 @@ const useEmailTemplate = () => {
 		setClickId('');
 	};
 
+	const toggleDeleteModal = () =>
+		setDeleteModalState((prev) => ({
+			...prev,
+			open: !prev.open,
+		}));
+
 	const handleViewClick = (row) => {
 		setClickId(row?.id);
 		dispatch(getEmailTemplate(row?.id));
 	};
 
-	const handleDeleteClick = (row) => {
+	const handleDeleteSubmit = () => {
+		const { id, eventType } = deleteModalState.row || {};
 		dispatch(
 			deleteEmailTemplate({
-				emailTemplateId: Number(row?.id),
-				eventType: row?.eventType,
+				emailTemplateId: Number(id),
+				eventType,
 			})
 		);
+	};
+
+	const handleDeleteClick = (row) => {
+		setDeleteModalState((prev) => ({
+			...prev,
+			open: !prev.open,
+			row,
+		}));
 	};
 
 	const handleCreateClick = (e) => {
@@ -208,11 +227,7 @@ const useEmailTemplate = () => {
 				),
 			},
 		],
-		[
-			emailTemplates,
-			isGranted(modules.emailTemplate, 'U'),
-			isGranted(modules.emailTemplate, 'D'),
-		]
+		[emailTemplates, permissions]
 	);
 
 	return {
@@ -225,6 +240,11 @@ const useEmailTemplate = () => {
 		columns,
 		clickId,
 		buttonList,
+		deleteModalState,
+		setDeleteModalState,
+		toggleDeleteModal,
+		handleDeleteSubmit,
+		handleDeleteClick,
 	};
 };
 

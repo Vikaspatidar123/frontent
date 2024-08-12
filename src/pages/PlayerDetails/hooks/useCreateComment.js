@@ -22,6 +22,10 @@ const useCreateComment = ({ userId }) => {
 	);
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const [showModal, setShowModal] = useState(false);
+	const [deleteModalState, setDeleteModalState] = useState({
+		open: false,
+		row: '',
+	});
 
 	const handleCreateComment = (values) => {
 		dispatch(
@@ -72,7 +76,8 @@ const useCreateComment = ({ userId }) => {
 		setIsOpen((prev) => !prev);
 	};
 
-	const handleDelete = ({ id }) => {
+	const handleDelete = () => {
+		const { id } = deleteModalState.row || {};
 		dispatch(deleteUserComment({ commentId: id }));
 	};
 
@@ -101,6 +106,8 @@ const useCreateComment = ({ userId }) => {
 		handleUpdateClick,
 		handleAddClick,
 		handleDelete,
+		deleteModalState,
+		setDeleteModalState,
 	};
 };
 

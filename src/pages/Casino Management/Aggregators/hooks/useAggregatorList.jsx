@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
-import { ID, Name, Status } from '../AggregatorListCol';
+import {
+	// ID,
+	Name,
+	Status,
+} from '../AggregatorListCol';
 import usePermission from '../../../../components/Common/Hooks/usePermission';
 import { modules } from '../../../../constants/permissions';
 import { ICON_CLASS, TEXT_COLORS } from '../../../../utils/constant';
@@ -21,13 +25,13 @@ const useAggregatorList = (handleStatus) => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <ID value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <ID value={cell.value} />,
+			// },
 			{
 				Header: 'NAME',
 				accessor: 'name',

@@ -9,7 +9,7 @@ import {
 	Date as DateComponent,
 	// Id,
 	Name,
-	NonSettled,
+	// NonSettled,
 	StatusBadge,
 } from '../TournamentListCol';
 import { modules } from '../../../constants/permissions';
@@ -175,6 +175,14 @@ const useTournaments = () => {
 			selectedTournament: row,
 		}));
 
+	const handleSettleClick = (row) =>
+		row?.status !== 'settled' &&
+		setShowSettleModal((prev) => ({
+			...prev,
+			isOpen: true,
+			selectedTournament: row?.id,
+		}));
+
 	const actionsList = [
 		{
 			actionName: 'View',
@@ -198,6 +206,14 @@ const useTournaments = () => {
 			icon: ICON_CLASS.toggleStatus,
 			iconColor: TEXT_COLORS.success,
 			isDisabled,
+		},
+		{
+			actionName: 'Settle',
+			actionHandler: handleSettleClick,
+			isHidden: !isGranted(modules.tournamentManagement, 'R'),
+			icon: ICON_CLASS.settle,
+			iconColor: TEXT_COLORS.primary,
+			isDisabled: isCancelDisable,
 		},
 		{
 			actionName: 'Cancel',
@@ -259,14 +275,14 @@ const useTournaments = () => {
 				// filterable: true,
 				Cell: ({ cell }) => <DateComponent value={cell.value} />,
 			},
-			{
-				Header: 'SETTLE',
-				accessor: 'isSettled',
-				// filterable: true,
-				Cell: ({ cell }) => (
-					<NonSettled cell={cell} setShowSettleModal={setShowSettleModal} />
-				),
-			},
+			// {
+			// 	Header: 'SETTLE',
+			// 	accessor: 'isSettled',
+			// 	// filterable: true,
+			// 	Cell: ({ cell }) => (
+			// 		<NonSettled cell={cell} setShowSettleModal={setShowSettleModal} />
+			// 	),
+			// },
 			{
 				Header: 'STATUS',
 				accessor: 'status',

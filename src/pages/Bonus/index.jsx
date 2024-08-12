@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row, Spinner } from 'reactstrap';
+import { Card, CardBody, Col, Container, Row } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
 import { projectName } from '../../constants/config';
@@ -10,7 +10,7 @@ import useBonusListing from './hooks/useBonusListing';
 import CrudSection from '../../components/Common/CrudSection';
 import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
-import ModalView from '../../components/Common/Modal';
+import YesNoModal from '../../components/Common/YesNoModal';
 
 const BonusDetail = () => {
 	// meta title
@@ -38,7 +38,6 @@ const BonusDetail = () => {
 		isDeleteConfirmationOpen,
 		setDeleteConfirmation,
 		bonusDeleteHandler,
-		isDeleteBonusLoading,
 		buttonList,
 	} = useBonusListing(filterValidation.values);
 
@@ -81,32 +80,12 @@ const BonusDetail = () => {
 					</Col>
 				</Row>
 			</Container>
-			<ModalView
-				openModal={isDeleteConfirmationOpen}
-				toggleModal={() => setDeleteConfirmation(false)}
-				firstBtnName="Cancel"
-				secondBtnClass="btn-danger ms-2"
-				handleClick={() => bonusDeleteHandler()}
-				secondBtnName={
-					isDeleteBonusLoading ? (
-						<span>
-							<Spinner
-								as="span"
-								animation="border"
-								role="status"
-								aria-hidden="true"
-								style={{ height: '15px', width: '15px' }}
-							/>
-						</span>
-					) : (
-						'Yes'
-					)
-				}
-				headerTitle="Bonus Delete Confirmation"
-				isDisabled={isDeleteBonusLoading}
-			>
-				<h5>Are you sure you want to delete bonus?</h5>
-			</ModalView>
+			<YesNoModal
+				show={isDeleteConfirmationOpen}
+				content="Are you sure you want to delete bonus?"
+				handleYes={() => bonusDeleteHandler()}
+				handleClose={() => setDeleteConfirmation(false)}
+			/>
 		</div>
 	);
 };
