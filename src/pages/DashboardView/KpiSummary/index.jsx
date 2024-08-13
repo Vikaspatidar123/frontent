@@ -161,7 +161,7 @@ const KpiSummary = () => {
 										'',
 										'',
 										'',
-										currencyById[currencyId]?.name
+										currencyById?.[currencyId]?.name
 									)}
 								</div>
 							</Row>

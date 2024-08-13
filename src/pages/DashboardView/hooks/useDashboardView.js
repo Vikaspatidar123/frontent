@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { getStatisticData } from '../../../store/dashboardView/actions';
 import getChartColorsArray from '../../../components/Common/ChartsDynamicColor';
@@ -12,6 +13,7 @@ import {
 } from '../formFields';
 import { setItem } from '../../../network/storageUtils';
 import { STORAGE_KEY } from '../../../components/Common/constants';
+import { YMDdate } from '../../../constants/config';
 
 const useDashboardView = () => {
 	const dispatch = useDispatch();
@@ -31,8 +33,8 @@ const useDashboardView = () => {
 	useEffect(() => {
 		dispatch(
 			getStatisticData({
-				fromDate: dashFilters?.fromDate || '',
-				toDate: dashFilters?.toDate || '',
+				fromDate: moment(dashFilters?.fromDate).format(YMDdate) || '',
+				toDate: moment(dashFilters?.toDate).format(YMDdate) || '',
 				dateOptions: 'custom',
 			})
 		);

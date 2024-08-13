@@ -25,7 +25,7 @@ const DepositWithdrawalInfo = ({ currencyId, values }) => {
 							{label} :{' '}
 						</span>{' '}
 						{currencyId
-							? currencyById[currencyId]?.symbol || ''
+							? currencyById?.[currencyId]?.symbol || ''
 							: defaultCurrency?.symbol || ''}{' '}
 						{addCommasToNumber(Number(value || 0)?.toFixed(2))}
 					</h6>
