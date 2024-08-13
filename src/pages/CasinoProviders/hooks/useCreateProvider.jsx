@@ -33,14 +33,14 @@ import Actions from '../../../components/Common/Actions';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
-	const [langState, setLangState] = useState({ EN: '' });
+	// const [langState, setLangState] = useState({ EN: '' });
 	const [isEdit, setIsEdit] = useState({ open: false, selectedRow: '' });
 	const [showModal, setShowModal] = useState(false);
 	const {
 		isCreateProviderLoading,
 		casinoProvidersData,
 		isEditProviderLoading,
-		languageData,
+		// languageData,
 		isCreateProviderSuccess,
 	} = useSelector((state) => state.CasinoManagementData);
 
@@ -66,6 +66,7 @@ const useCreateProvider = () => {
 			editCasinoProvidersStart({
 				data: {
 					...values,
+					name: { EN: values?.name },
 					language: '',
 				},
 			})
@@ -78,7 +79,7 @@ const useCreateProvider = () => {
 				data: {
 					...values,
 					providerType: 'casino',
-					name: values.name?.EN,
+					name: values?.name,
 					icon: values.file,
 					file: '',
 					language: '',
@@ -98,8 +99,8 @@ const useCreateProvider = () => {
 	} = useForm({
 		header: 'Add Provider',
 		initialValues: getInitialValues(),
-		validationSchema: validationSchema(langState),
-		staticFormFields: staticFormFields(),
+		validationSchema: validationSchema(),
+		staticFormFields: staticFormFields(isEdit?.open),
 		onSubmitEntry: isEdit?.open ? handleEditProvider : handleAddProvider,
 	});
 
@@ -112,26 +113,26 @@ const useCreateProvider = () => {
 		setIsOpen((prev) => !prev);
 	};
 
-	const onChangeLanguage = (e) => {
-		validation.setValues((prev) => ({
-			...prev,
-			name: { ...prev.name, [e.target.value]: '' },
-		}));
-		setLangState((prev) => ({ ...prev, [e.target.value]: '' }));
-	};
+	// const onChangeLanguage = (e) => {
+	// 	validation.setValues((prev) => ({
+	// 		...prev,
+	// 		name: { ...prev.name, [e.target.value]: '' },
+	// 	}));
+	// 	setLangState((prev) => ({ ...prev, [e.target.value]: '' }));
+	// };
 
-	const onRemoveLanguage = (e) => {
-		validation.setValues((prev) => {
-			const { name } = prev;
-			const { [e]: key, ...rest } = name;
-			return { ...prev, name: rest };
-		});
+	// const onRemoveLanguage = (e) => {
+	// 	validation.setValues((prev) => {
+	// 		const { name } = prev;
+	// 		const { [e]: key, ...rest } = name;
+	// 		return { ...prev, name: rest };
+	// 	});
 
-		setLangState((prev) => {
-			const { [e]: key, ...rest } = prev;
-			return rest;
-		});
-	};
+	// 	setLangState((prev) => {
+	// 		const { [e]: key, ...rest } = prev;
+	// 		return rest;
+	// 	});
+	// };
 
 	const handleAddClick = (e) => {
 		e.preventDefault();
@@ -141,32 +142,36 @@ const useCreateProvider = () => {
 		setIsEdit({ open: false, selectedRow: '' });
 	};
 
+	// useEffect(() => {
+	// 	if (languageData?.languages?.length) {
+	// 		const langOptions = languageData?.languages?.map((r) => ({
+	// 			id: r.id,
+	// 			optionLabel: r.name,
+	// 			value: r.code,
+	// 		}));
+	// 		setFormFields([
+	// 			// {
+	// 			// 	name: 'language',
+	// 			// 	fieldType: 'select',
+	// 			// 	label: 'Language',
+	// 			// 	placeholder: 'Select Language',
+	// 			// 	optionList: langOptions,
+	// 			// 	callBack: onChangeLanguage,
+	// 			// },
+	// 			// {
+	// 			// 	name: 'name',
+	// 			// 	label: 'Provider Name',
+	// 			// 	fieldType: 'inputGroup',
+	// 			// 	onDelete: onRemoveLanguage,
+	// 			// },
+	// 			...staticFormFields(),
+	// 		]);
+	// 	}
+	// }, [languageData, isEdit]);
+
 	useEffect(() => {
-		if (languageData?.languages?.length) {
-			const langOptions = languageData?.languages?.map((r) => ({
-				id: r.id,
-				optionLabel: r.name,
-				value: r.code,
-			}));
-			setFormFields([
-				{
-					name: 'language',
-					fieldType: 'select',
-					label: 'Language',
-					placeholder: 'Select Language',
-					optionList: langOptions,
-					callBack: onChangeLanguage,
-				},
-				{
-					name: 'name',
-					label: 'Provider Name',
-					fieldType: 'inputGroup',
-					onDelete: onRemoveLanguage,
-				},
-				...staticFormFields(),
-			]);
-		}
-	}, [languageData, isEdit]);
+		setFormFields([...staticFormFields(isEdit?.open)]);
+	}, [isEdit]);
 
 	useEffect(() => {
 		if (isEditProviderLoading || isCreateProviderSuccess) setIsOpen(false);

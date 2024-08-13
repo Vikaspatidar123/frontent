@@ -1,27 +1,31 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 import * as Yup from 'yup';
+import { CASINO_PROVIDERS } from './constants';
 
 const getInitialValues = (defaultValue) => ({
-	language: null,
-	name: defaultValue?.name || {},
+	language: 'EN',
+	name: defaultValue?.name?.EN || null,
 	providerId: defaultValue?.id || null,
 	file: defaultValue?.iconUrl || '',
 });
 
-const validateName = (name) => {
-	const validationObject = {};
-	for (const file in name) {
-		validationObject[file] = Yup.string()
-			.required('Label Name Required!')
-			.nullable();
-	}
-	return Yup.object(validationObject);
-};
+// const validateName = (name) => {
+// 	const validationObject = {};
+// 	for (const file in name) {
+// 		validationObject[file] = Yup.string()
+// 			.required('Label Name Required!')
+// 			.nullable();
+// 	}
+// 	return Yup.object(validationObject);
+// };
 
-const validationSchema = (name) =>
+const validationSchema = () =>
 	Yup.object().shape({
-		name: validateName(name),
+		name: Yup.string()
+			// .min(3, 'Minimum 3 Characters Required')
+			// .max(50, 'Maximum 50 Characters Allowed')
+			.required('Provider Name Required'),
 		file: Yup.mixed()
 			.test('File Size', 'File Size Should be Less Than 1MB', (value) =>
 				typeof value === 'string'
@@ -48,7 +52,19 @@ const validationSchema = (name) =>
 			),
 	});
 
-const staticFormFields = () => [
+const staticFormFields = (isEdit) => [
+	{
+		name: 'name',
+		fieldType: isEdit ? 'textField' : 'select',
+		label: 'Provider Name',
+		isRequired: true,
+		isDisabled: isEdit,
+		placeholder: ' Select Provider Name',
+		optionList: CASINO_PROVIDERS.map(({ label, value }) => ({
+			optionLabel: label,
+			value,
+		})),
+	},
 	{
 		name: 'file',
 		fieldType: 'file',
