@@ -24,17 +24,22 @@ import { timePeriodValues } from '../constants';
 const SelfExclusionCard = ({ limit, userId }) => {
 	const dispatch = useDispatch();
 	const [isResetLimit, setIsResetLimit] = useState({ open: false, data: '' });
-	const [isPermanentExclude, setIsPermanentExclude] = useState(false);
-
+	const [customValue, setCustomValue] = useState(false);
 	const onResetLimit = () => {
 		setIsResetLimit({ open: true, data: limit });
 	};
-
 	const { validation } = useForm({
 		validationSchema: selfExclusionSchema,
 		initialValues: {
-			days: limit?.days === -1 ? '1' : limit?.days,
-			permanent: limit?.days === -1 ? 'true' : 'false',
+			days: [0, 1, 7, 30, 180, 365].includes(limit?.days)
+				? ''
+				: limit?.days || '',
+			// eslint-disable-next-line no-nested-ternary
+			permanent: [-1, 1, 7, 30, 180, 365].includes(limit?.days)
+				? limit?.days
+				: limit?.days === 0
+				? null
+				: 'custom' || null,
 		},
 		onSubmitEntry: (formValues) =>
 			dispatch(
@@ -42,22 +47,29 @@ const SelfExclusionCard = ({ limit, userId }) => {
 					userId,
 					reset: false,
 					expireIn:
-						formValues?.permanent === 'permanent'
-							? -1
-							: Number(formValues?.days) * 30,
+						formValues?.permanent !== 'custom'
+							? Number(formValues?.permanent)
+							: Number(formValues?.days),
 					value: 'temporary',
 				})
 			),
 	});
 
 	useEffect(() => {
-		if (validation?.values?.permanent === 'permanent') {
-			setIsPermanentExclude(true);
-			validation?.setFieldValue('days', '1');
+		if (validation?.values?.permanent === 'custom') {
+			setCustomValue(true);
 		} else {
-			setIsPermanentExclude(false);
+			setCustomValue(false);
 		}
 	}, [validation?.values]);
+
+	useEffect(() => {
+		if ([-1, 0, 1, 7, 30, 180, 365].includes(limit?.days)) {
+			setCustomValue(false);
+		} else {
+			setCustomValue(true);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (limit.value) {
@@ -109,18 +121,23 @@ const SelfExclusionCard = ({ limit, userId }) => {
 						errorMsg={
 							validation.touched.permanent && validation.errors.permanent
 						}
-						options={timePeriodValues.map(({ optionLabel, value }) => (
-							<option key={value} value={value}>
-								{optionLabel}
-							</option>
-						))}
+						options={[
+							<option key="default" value="" disabled selected>
+								Select a time period
+							</option>,
+							...timePeriodValues.map(({ optionLabel, value }) => (
+								<option key={value} value={value}>
+									{optionLabel}
+								</option>
+							)),
+						]}
 					/>
-					{!isPermanentExclude && (
+					{customValue && (
 						<CustomInputField
-							label="Months"
+							label="Enter Days"
 							name="days"
 							type="number"
-							placeholder="Enter Months"
+							placeholder="Enter Days"
 							value={validation?.values?.days}
 							onChange={validation.handleChange}
 							onBlur={validation.handleBlur}

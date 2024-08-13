@@ -83,7 +83,7 @@ const Limits = ({ userDetails, userId, userDetailsLoading }) => {
 													Math.round(
 														moment().diff(
 															selfExclusionLimit?.expireAt,
-															'months',
+															'days',
 															true
 														)
 													)
