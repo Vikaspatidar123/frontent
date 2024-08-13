@@ -12,6 +12,8 @@ import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { DEMOGRAPHY } from '../../../constants/messages';
 import { getDashboardFilterText } from '../../../utils/helpers';
+import { flatPickerFormat } from '../../../constants/config';
+import { MultiSelectOption } from '../../../helpers/customForms';
 
 const DemographicReport = () => {
 	const { isGranted } = usePermission();
@@ -23,6 +25,9 @@ const DemographicReport = () => {
 		demoDateOptions: { selected, fromDate, toDate },
 		setDemoDateOptions,
 		isDemographicLoading,
+		countries,
+		setCountries,
+		countrySelectOptions,
 	} = useDemoGraphicReport();
 
 	return (
@@ -32,7 +37,7 @@ const DemographicReport = () => {
 					{isGranted(modules.demography, 'R') ? (
 						<>
 							<Row className="mb-2">
-								<Col xl={selected === 'custom' ? '8' : '10'}>
+								<Col xl={selected === 'custom' ? '6' : '8'}>
 									<div className="d-flex align-items-center">
 										<h4 className="card-title font-size-16 d-flex align-items-center">
 											<span className="mdi mdi-map-marker-radius fs-1 me-3 text-success" />
@@ -44,12 +49,12 @@ const DemographicReport = () => {
 									<Col xl="2">
 										<FlatPickr
 											className="form-control form-input-sm"
-											value={[fromDate, toDate]}
+											date={[fromDate, toDate]}
 											placeholder="Select Date Range"
 											options={{
 												mode: 'range',
-												dateFormat: 'd M Y',
-												maxDate: new Date(),
+												dateFormat: flatPickerFormat,
+												maxDate: 'today',
 											}}
 											onChange={(date) => {
 												setDemoDateOptions((prev) => ({
@@ -61,11 +66,11 @@ const DemographicReport = () => {
 										/>
 									</Col>
 								) : null}
-								<Col xl="2">
+								<Col xl="4">
 									<div className="d-flex justify-content-between align-items-center">
 										<select
 											value={selected}
-											className="form-select form-select-sm me-2"
+											className="form-select me-2"
 											onChange={(e) => {
 												setDemoDateOptions((prev) => ({
 													...prev,
@@ -81,6 +86,14 @@ const DemographicReport = () => {
 												</option>
 											))}
 										</select>
+										<MultiSelectOption
+											placeholder="Select Countries"
+											options={countrySelectOptions}
+											value={countries}
+											setOption={(sel) => {
+												setCountries(sel);
+											}}
+										/>
 										{!isEmpty(formattedDemoGraphicData) && (
 											<CSVLink
 												data={formattedDemoGraphicData || []}

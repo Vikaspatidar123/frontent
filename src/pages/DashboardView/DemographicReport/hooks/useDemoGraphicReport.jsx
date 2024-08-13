@@ -18,6 +18,7 @@ const useDemoGraphicReport = () => {
 		fromDate: '',
 		toDate: '',
 	});
+	const [countries, setCountries] = useState([]);
 	const [demoGrapFormatedData, setDemoGrapFormatedData] = useState([]);
 	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
@@ -35,6 +36,15 @@ const useDemoGraphicReport = () => {
 			})
 		);
 	};
+
+	const countrySelectOptions = useMemo(
+		() =>
+			demoGraphicData?.demograph?.map((item) => ({
+				label: item.countryName,
+				value: item.countryCode,
+			})),
+		[demoGraphicData]
+	);
 
 	const formattedDemoGraphicData = useMemo(
 		() =>
@@ -97,9 +107,18 @@ const useDemoGraphicReport = () => {
 	}, [demoDateOptions]);
 
 	useEffect(() => {
-		if (demoGraphicData?.demograph)
+		if (demoGraphicData?.demograph) {
+			setCountries(
+				demoGraphicData?.demograph
+					?.slice(0, 12)
+					?.map(({ countryName, countryCode }) => ({
+						value: countryCode,
+						label: countryName,
+					}))
+			);
 			formatDataHandler(demoGraphicData?.demograph);
-	}, [demoGraphicData]);
+		}
+	}, [demoGraphicData?.demograph]);
 
 	const demoGraphOptions = {
 		chart: {
@@ -177,6 +196,9 @@ const useDemoGraphicReport = () => {
 		demoDateOptions,
 		setDemoDateOptions,
 		isDemographicLoading,
+		countries,
+		setCountries,
+		countrySelectOptions,
 	};
 };
 

@@ -30,6 +30,8 @@ const dateTimeFormatWithA = `${YMDFormat} hh:mm A`;
 
 const YMDdate = 'YYYY-MM-DD';
 
+const flatPickerFormat = 'Y-m-d';
+
 const defaultCurrencyId = '1';
 
 export {
@@ -48,4 +50,5 @@ export {
 	dateTimeFormatWithA,
 	defaultCurrencyId,
 	PER_PAGE,
+	flatPickerFormat,
 };

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -32,6 +33,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { flatPickerFormat } from '../constants/config';
 
 const { VITE_APP_AWS_GALLERY_URL } = import.meta.env;
 
@@ -147,19 +149,50 @@ export const CustomSelectField = ({
 	</>
 );
 
+const customStyles = {
+	valueContainer: (base) => ({
+		...base,
+		display: 'flex',
+		flexWrap: 'nowrap',
+		overflow: 'hidden',
+	}),
+};
+
 const CheckboxOption = (props) => (
 	<components.Option {...props}>
-		<div style={{ display: 'flex', alignItems: 'center' }}>
+		<div style={{ display: 'flex', alignItems: 'start' }}>
 			<input
 				type="checkbox"
 				checked={props?.isSelected}
-				onChange={() => null} // Prevents user from toggling manually
-				style={{ marginRight: 8 }}
+				onChange={() => null}
+				className="custom-checkbox"
 			/>
-			<Label>{props?.label}</Label>
+			<label>{props?.label}</label>
 		</div>
 	</components.Option>
 );
+
+const MultiValue = (props) => {
+	const { index, children } = props;
+	if (index >= 1) {
+		return null;
+	}
+	return <components.MultiValue {...props}>{children}</components.MultiValue>;
+};
+
+const MultiValueContainer = ({ selectProps, children }) => {
+	const selectedValues = selectProps.value;
+	const remainingCount = selectedValues.length - 1;
+
+	return (
+		<div style={{ display: 'flex', alignItems: 'center' }}>
+			{children}
+			{remainingCount > 0 && (
+				<span style={{ marginLeft: '5px' }}>+{remainingCount}</span>
+			)}
+		</div>
+	);
+};
 
 export const MultiSelectOption = ({
 	options,
@@ -171,17 +204,26 @@ export const MultiSelectOption = ({
 	const handleChange = (selected) => {
 		setOption(selected);
 	};
+
 	return (
 		<div className="container">
-			{label && <Label className="form-label">{label}</Label>}
+			{label && <label className="form-label">{label}</label>}
 			{isRequired && label && <span className="text-danger"> *</span>}
 			<Select
 				options={options}
 				isMulti
+				hideSelectedOptions={false}
 				closeMenuOnSelect={false}
-				components={{ Option: CheckboxOption }}
+				isSearchable={false}
+				components={{
+					Option: CheckboxOption,
+					MultiValue,
+					MultiValueContainer,
+					SingleValue: () => null,
+				}}
 				onChange={handleChange}
 				value={value || []}
+				styles={customStyles}
 			/>
 		</div>
 	);
@@ -211,7 +253,7 @@ export const CustomDateField = ({
 			placeholder={placeholder}
 			options={{
 				maxDate,
-				dateFormat: 'Y-m-d',
+				dateFormat: flatPickerFormat,
 			}}
 			onChange={(date) => {
 				validation.setFieldValue(
@@ -296,7 +338,7 @@ export const CustomRangeSelector = ({
 			placeholder={placeholder}
 			options={{
 				mode: 'range',
-				dateFormat: 'Y-m-d',
+				dateFormat: flatPickerFormat,
 				// minDate,
 				maxDate,
 			}}
