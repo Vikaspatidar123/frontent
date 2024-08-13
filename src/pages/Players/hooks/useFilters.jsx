@@ -162,7 +162,12 @@ const useFilters = () => {
 		/>
 	);
 
-	const customSearchInput = <TableSearchInput validation={validation} />;
+	const customSearchInput = (
+		<TableSearchInput
+			validation={validation}
+			placeholder="Search by username"
+		/>
+	);
 
 	return {
 		filterFields: formFields,
