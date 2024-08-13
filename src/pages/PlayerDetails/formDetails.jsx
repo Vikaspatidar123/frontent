@@ -66,16 +66,15 @@ const setDisableUserlimitsSchema = () =>
 			.integer('Time Period must be an integer')
 			.required('Time Period Required'),
 	});
-const maxValue = 60;
-
+const maxValue = 2000;
 const selfExclusionSchema = () =>
 	Yup.object().shape({
+		permanent: Yup.string().required('Please select a time period'),
 		days: Yup.number()
-			.min(1, 'Month must be at least 1')
-			.max(maxValue, `Month must be at most ${maxValue}`)
-			.positive('Month must be a positive number')
-			.integer('Month must be an integer')
-			.required('Month Required'),
+			.min(1, 'Days must be at least 1.')
+			.max(maxValue, `Days must be at most ${maxValue}.`)
+			.positive('Days must be a positive number.')
+			.integer('Days must be an integer.'),
 	});
 
 const getLimitInitialValues = (defaultValue) => ({
