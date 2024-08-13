@@ -201,7 +201,6 @@ export const CustomDateField = ({
 	isRequired,
 }) => (
 	<div id="datepicker1">
-		{console.log('Date value = ', value)}
 		{label && <Label for={name}>{label}</Label>}
 		{isRequired && label && <span className="text-danger"> *</span>}
 		<FlatPickr

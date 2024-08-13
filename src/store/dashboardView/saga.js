@@ -1,7 +1,7 @@
-import { put, takeEvery, all, fork, call } from 'redux-saga/effects';
+import { put, takeEvery, all, fork, call, select } from 'redux-saga/effects';
 
 // Crypto Redux States
-import { groupBy, keyBy, sortBy } from 'lodash';
+import { groupBy, isEmpty, keyBy, sortBy } from 'lodash';
 import {
 	GET_DEMOGRAPHIC_START,
 	GET_KPI_REPORT_START,
@@ -161,8 +161,12 @@ const formDataChunks = (data, desiredLength) => {
 function* getStatsDataWorker({ payload }) {
 	try {
 		const { data } = yield statsDataRequest(payload);
-		const response = yield call(getCurrencies);
-		const currencyById = keyBy(response?.data?.data?.currencies || [], 'id');
+		let currencyById = select((state) => state.Currencies.currencyById);
+		if (isEmpty(currencyById)) {
+			const response = yield call(getCurrencies);
+			currencyById = keyBy(response?.data?.data?.currencies || [], 'id');
+		}
+
 		const cumulativeCurrencyData = cumulativeDataOfAllCurrencies(
 			data?.data?.stats || [],
 			currencyById

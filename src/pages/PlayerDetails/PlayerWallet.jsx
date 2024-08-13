@@ -45,7 +45,7 @@ const PlayerWallet = ({ userDetails, heading = 'Player Wallet' }) => {
 						value={cell.value}
 						type={row.original.ledger?.fromWalletId}
 						defaultCurrency={
-							currencyById[row?.original?.currencyId] || defaultCurrency
+							currencyById?.[row?.original?.currencyId] || defaultCurrency
 						}
 					/>
 				),
