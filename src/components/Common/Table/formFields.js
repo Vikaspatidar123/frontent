@@ -9,12 +9,14 @@ const getInitialValues = (columns) => {
 };
 
 const staticFormFields = (columns) =>
-	columns.map((col) => ({
-		name: col.accessor,
-		fieldType: 'switch',
-		label: col.Header,
-		isDisabled: col?.notHidable,
-	}));
+	columns
+		.filter(({ Header }) => typeof Header === 'string')
+		.map((col) => ({
+			name: col.accessor,
+			fieldType: 'switch',
+			label: col.Header,
+			isDisabled: col?.notHidable,
+		}));
 
 const validationSchema = () => Yup.object({});
 
