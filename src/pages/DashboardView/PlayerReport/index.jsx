@@ -6,7 +6,7 @@ import { CSVLink } from 'react-csv';
 import { Link } from 'react-router-dom';
 import SimpleBar from 'simplebar-react';
 import TableContainer from '../../../components/Common/Table';
-import { tableCustomClass } from '../../../constants/config';
+import { flatPickerFormat, tableCustomClass } from '../../../constants/config';
 import { TABS, dateConstants, topPlayerOrder } from '../constant';
 import { CustomSelectField } from '../../../helpers/customForms';
 import usePlayerReport from './hooks/usePlayerReport';
@@ -147,12 +147,12 @@ const PlayerReport = () => {
 										{selected === 'custom' ? (
 											<FlatPickr
 												className="form-control mx-2"
-												value={[fromDate, toDate]}
+												date={[fromDate, toDate]}
 												placeholder="Select Date Range"
 												options={{
 													mode: 'range',
-													dateFormat: 'd M Y',
-													maxDate: new Date(),
+													dateFormat: flatPickerFormat,
+													maxDate: 'today',
 												}}
 												onChange={(date) => {
 													setTopPlayersDateOption((prev) => ({

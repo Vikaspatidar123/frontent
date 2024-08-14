@@ -6,7 +6,7 @@ import SimpleBar from 'simplebar-react';
 import { CSVLink } from 'react-csv';
 import TableContainer from '../../../components/Common/Table';
 import { TABS, dateConstants } from '../constant';
-import { tableCustomClass } from '../../../constants/config';
+import { flatPickerFormat, tableCustomClass } from '../../../constants/config';
 import TabsPage from '../../../components/Common/TabsPage';
 import { CustomSelectField } from '../../../helpers/customForms';
 import useKpiReport from './hooks/useKpiReport';
@@ -115,12 +115,12 @@ const KpiReport = () => {
 										{selected === 'custom' ? (
 											<FlatPickr
 												className="form-control mx-2"
-												value={[fromDate, toDate]}
+												date={[fromDate, toDate]}
 												placeholder="Select Date Range"
 												options={{
 													mode: 'range',
-													dateFormat: 'd M Y',
-													maxDate: new Date(),
+													dateFormat: flatPickerFormat,
+													maxDate: 'today',
 												}}
 												onChange={(date) => {
 													setKpiReportDateOption((prev) => ({

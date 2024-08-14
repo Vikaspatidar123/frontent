@@ -14,6 +14,7 @@ import { GAME_REPORT } from '../../../constants/messages';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { getDashboardFilterText } from '../../../utils/helpers';
+import { flatPickerFormat } from '../../../constants/config';
 
 const GameReport = () => {
 	const {
@@ -153,12 +154,12 @@ const GameReport = () => {
 										{selected === 'custom' ? (
 											<FlatPickr
 												className="form-control mx-2"
-												value={[fromDate, toDate]}
+												date={[fromDate, toDate]}
 												placeholder="Select Date Range"
 												options={{
 													mode: 'range',
-													dateFormat: 'd M Y',
-													maxDate: new Date(),
+													dateFormat: flatPickerFormat,
+													maxDate: 'today',
 												}}
 												onChange={(date) => {
 													setGameReportDateOption((prev) => ({

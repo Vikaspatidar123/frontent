@@ -48,7 +48,7 @@ const DemographicReport = () => {
 								{selected === 'custom' ? (
 									<Col xl="2">
 										<FlatPickr
-											className="form-control form-input-sm"
+											className="form-control"
 											date={[fromDate, toDate]}
 											placeholder="Select Date Range"
 											options={{
