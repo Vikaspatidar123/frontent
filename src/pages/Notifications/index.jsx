@@ -29,10 +29,7 @@ const Notifications = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb
-						title="Content Management"
-						breadcrumbItem="Notifications"
-					/>
+					<Breadcrumb title="CRM" breadcrumbItem="Notifications" />
 				)}
 				<Row>
 					<Col lg="12">

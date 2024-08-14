@@ -63,7 +63,7 @@ const usePlayersListing = (
 	};
 
 	const CheckboxInput = ({ cell }) => (
-		<div className=" d-flex justify-content-center">
+		<div>
 			<CustomSwitchButton
 				type="checkbox"
 				containerClass="false"

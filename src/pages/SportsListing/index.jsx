@@ -45,7 +45,7 @@ const SportsListing = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb title="Sports Book" breadcrumbItem="Sports" />
+					<Breadcrumb title="Sportsbook" breadcrumbItem="Sports" />
 				)}
 				<Row>
 					<Col lg="12">

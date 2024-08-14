@@ -29,10 +29,7 @@ const DisputeResolutionH = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb
-						title="Content Management"
-						breadcrumbItem="Dispute resolution"
-					/>
+					<Breadcrumb title="CRM" breadcrumbItem="Dispute Resolution" />
 				)}
 				<Row>
 					<Col lg="12">

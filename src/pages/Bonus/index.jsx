@@ -46,7 +46,7 @@ const BonusDetail = () => {
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Bonuses" />
+							<CrudSection buttonList={buttonList} title="Bonus" />
 							<CardBody>
 								<Filters
 									validation={filterValidation}

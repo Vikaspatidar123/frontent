@@ -45,7 +45,7 @@ const WageringTemplate = () => {
 			<Container fluid>
 				{showBreadcrumb && (
 					<Breadcrumb
-						title="Wagering Template List"
+						title="Bonus Management"
 						breadcrumbItem="Wagering Template"
 					/>
 				)}

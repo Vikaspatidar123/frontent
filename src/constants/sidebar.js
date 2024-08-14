@@ -561,7 +561,7 @@ const sideBarElements = [
 	{
 		id: 31,
 		link: '/#',
-		label: 'Sports Book',
+		label: 'Sportsbook',
 		searchString: 'sportsbook sports book',
 		iconName: 'bx bx-football',
 		linkClass: 'has-arrow',

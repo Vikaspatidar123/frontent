@@ -123,7 +123,7 @@ const EmailTemplate = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb title="Content Management" breadcrumbItem="Crm" />
+					<Breadcrumb title="CRM" breadcrumbItem="Email Template" />
 				)}
 				<Card>
 					<CardBody>

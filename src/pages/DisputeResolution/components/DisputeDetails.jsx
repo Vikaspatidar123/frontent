@@ -100,8 +100,6 @@ const DisputeDetails = ({
 		}
 	}, [disputeDetails?.threadMessages]);
 
-	console.log('Values', info);
-
 	useEffect(() => {
 		if (sendMessageSuccess) {
 			setLocalInfo((prev) => ({
