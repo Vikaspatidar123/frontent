@@ -20,7 +20,18 @@ const Notes = ({ userDetails, userId }) => {
 	);
 
 	useEffect(() => {
-		setUserComment(userDetails?.userComment ? [userDetails?.userComment] : []);
+		setUserComment(
+			userDetails?.userComment
+				? [
+						{
+							id: userDetails?.userComment?.id,
+							title: userDetails?.userComment?.title,
+							comment: userDetails?.userComment?.comment,
+							commenterName: userDetails?.userComment?.adminUser?.username,
+						},
+				  ]
+				: []
+		);
 	}, [userDetails?.userComment]);
 
 	const {
@@ -77,7 +88,7 @@ const Notes = ({ userDetails, userId }) => {
 			},
 			{
 				Header: 'NOTED BY',
-				accessor: 'commenterId',
+				accessor: 'commenterName',
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			// {
