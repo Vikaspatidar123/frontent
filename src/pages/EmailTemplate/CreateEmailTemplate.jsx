@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { Card, Col, Container, Row } from 'reactstrap';
 import Breadcrumbs from '../../components/Common/Breadcrumb';
@@ -23,7 +22,6 @@ const CreateEmailTemplate = () => {
 		setShowModal,
 		navigate,
 		existingFilledFields,
-		languageOptions,
 		imageComponent,
 		header,
 		showGallery,
@@ -45,7 +43,7 @@ const CreateEmailTemplate = () => {
 				/>
 				<Row>
 					<Col lg="12">
-						<Card>
+						<Card key={`content[${validation?.values?.language}]`}>
 							<CrudSection
 								buttonList={galleryList}
 								title="Create Email Template"
@@ -54,12 +52,7 @@ const CreateEmailTemplate = () => {
 								formTitle={header}
 								validation={validation}
 								responsiveFormFields={formFields}
-								customComponent={
-									<CustomComponent
-										validation={validation}
-										languages={languageOptions}
-									/>
-								}
+								customComponent={<CustomComponent validation={validation} />}
 								submitLabel="Submit"
 								customColClasses=""
 								isSubmitLoading={false}

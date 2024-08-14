@@ -1,28 +1,23 @@
 import React from 'react';
 import PropTypes, { oneOfType } from 'prop-types';
 import { Col } from 'reactstrap';
-import { CustomTextEditor } from '../../helpers/customForms';
+import CkEditor from '../../components/Common/CkEditor';
 
-const CustomComponent = ({ validation, isEdit, isView }) => (
+const CustomComponent = ({ validation }) => (
 	<Col className="mb-2">
-		{(isEdit || isView) &&
-		!Object.keys(validation?.values?.content ? validation?.values?.content : {})
-			?.length ? null : (
-			<CustomTextEditor
-				label="Content"
-				name={`content[${validation?.values?.language}]`}
-				placeholder="Enter Content"
-				validate={{ required: { value: true } }}
-				isError
-				validation={validation}
-				defaultValue={
-					validation?.values?.content?.[validation?.values?.language]
-				}
-				value={validation?.values?.content?.[validation?.values?.language]}
-				errorMsg={validation.errors?.content?.[validation?.values?.language]}
-				readOnly={isView}
-			/>
-		)}
+		<CkEditor
+			label="Content"
+			isRequired
+			isError
+			errorMsg={validation.errors?.content?.[validation?.values?.language]}
+			initialData={validation?.values?.content?.[validation?.values?.language]}
+			onChangeHandler={(data) => {
+				validation.setFieldValue(
+					`content[${validation?.values?.language}]`,
+					data
+				);
+			}}
+		/>
 	</Col>
 );
 
@@ -31,11 +26,6 @@ const EmailTemplateId = ({ value }) => value ?? '';
 const Label = ({ value }) => value ?? '';
 
 const Primary = ({ value }) => (value ? 'Yes' : 'No');
-
-CustomComponent.defaultProps = {
-	isEdit: false,
-	isView: false,
-};
 
 CustomComponent.propTypes = {
 	validation: PropTypes.objectOf(
@@ -47,8 +37,6 @@ CustomComponent.propTypes = {
 			PropTypes.string,
 		])
 	).isRequired,
-	isEdit: PropTypes.string,
-	isView: PropTypes.string,
 };
 
 export { EmailTemplateId, Label, Primary, CustomComponent };
