@@ -26,8 +26,8 @@ import TableSearchInput from '../../../components/Common/TableSearchInput';
 const keyMapping = {
 	kycStatus: 'KYC Status',
 	isActive: 'Active',
-	toDate: 'To Date',
-	fromDate: 'From Date',
+	toDate: 'Registration till',
+	fromDate: 'Registration from',
 	tagIds: 'Segment',
 	countryId: 'Country',
 	searchString: 'Search',
