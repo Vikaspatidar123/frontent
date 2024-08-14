@@ -4,14 +4,14 @@
 import React from 'react';
 import { Input } from 'reactstrap';
 
-const TableSearchInput = ({ validation }) => (
+const TableSearchInput = ({ validation, placeholder }) => (
 	<div className="filter-search me-2">
 		<div className="position-relative">
 			<Input
 				type="text"
 				value={validation.values.searchString}
 				className="form-control border-0"
-				placeholder="Search..."
+				placeholder={placeholder || 'Search...'}
 				onChange={(e) =>
 					validation.setFieldValue('searchString', e.target.value)
 				}

@@ -31,8 +31,9 @@ const useSegmentation = () => {
 		(state) => state.UserDetails
 	);
 
-	const handleSegments = (values) => {
+	const handleSegments = (values, reset) => {
 		if (isEdit?.open) {
+			reset();
 			dispatch(
 				updateTag(
 					{
@@ -83,6 +84,7 @@ const useSegmentation = () => {
 
 	const onSuccess = () => {
 		setIsOpen((prev) => !prev);
+		validation.resetForm();
 	};
 
 	const handleAddClick = (e) => {

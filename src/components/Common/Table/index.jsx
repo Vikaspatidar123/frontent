@@ -71,7 +71,7 @@ const TableContainer = ({
 		<>
 			<div className="mb-2 d-flex justify-content-between">
 				{customTableInfo || customSearchInput}
-				<div className="d-flex justify-content-end">
+				<div className="d-flex justify-content-end ">
 					{actionList}
 					{filterComponent}
 					{isShowColSettings ? (
@@ -79,7 +79,7 @@ const TableContainer = ({
 							<i
 								className="mdi mdi-settings align-middle filter-icons bx-spin cursor-pointer"
 								onClick={handleColumnSettings}
-								onKeyDown={() => { }}
+								onKeyDown={() => {}}
 								id="mdi-settings-clear-id"
 							/>
 							<UncontrolledTooltip
@@ -96,8 +96,9 @@ const TableContainer = ({
 				{selectedFiltersComponent}
 				<CardBody>
 					<div
-						className={`table-responsive react-table ${isLongTable && 'scrollable'
-							}`}
+						className={`table-responsive react-table ${
+							isLongTable && 'scrollable'
+						}`}
 					>
 						<Table
 							{...getTableProps()}
@@ -160,8 +161,9 @@ const TableContainer = ({
 
 							<tbody
 								{...getTableBodyProps({
-									height: `${tbodyHeight || (isLoading || !page?.length ? '500px' : '0')
-										}`,
+									height: `${
+										tbodyHeight || (isLoading || !page?.length ? '500px' : '0')
+									}`,
 								})}
 								id="generic-table-body"
 								className={tbodyClass}
@@ -298,9 +300,9 @@ TableContainer.defaultProps = {
 	customPaginationC: '',
 	tbodyClass: '',
 	isManualPagination: false,
-	onChangePagination: () => { },
+	onChangePagination: () => {},
 	thCustomClass: '',
-	changeRowsPerPageCallback: () => { },
+	changeRowsPerPageCallback: () => {},
 	tbodyHeight: '',
 	cellPadding: '',
 	isLongTable: false,

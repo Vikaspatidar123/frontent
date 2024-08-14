@@ -40,6 +40,10 @@ const isActiveMapping = {
 	true: 'Yes',
 	false: 'No',
 };
+const iskycStatusMapping = {
+	true: 'Approved',
+	false: 'Pending',
+};
 
 const useFilters = () => {
 	const dispatch = useDispatch();
@@ -119,7 +123,7 @@ const useFilters = () => {
 
 		switch (key) {
 			case 'kycStatus':
-				formattedValue = value ? 'Approved' : 'Pending';
+				formattedValue = iskycStatusMapping[value];
 				break;
 			case 'isActive':
 				formattedValue = isActiveMapping[value] || value;
@@ -162,7 +166,12 @@ const useFilters = () => {
 		/>
 	);
 
-	const customSearchInput = <TableSearchInput validation={validation} />;
+	const customSearchInput = (
+		<TableSearchInput
+			validation={validation}
+			placeholder="Search by username"
+		/>
+	);
 
 	return {
 		filterFields: formFields,

@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardBody, Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
-import { Comment, Id, KeyValueCell, KeyValueCellNA } from './TableCol';
+import { Comment, KeyValueCell, KeyValueCellNA } from './TableCol';
 import FormModal from '../../components/Common/FormModal';
 import useCreateComment from './hooks/useCreateComment';
 import CrudSection from '../../components/Common/CrudSection';
@@ -20,7 +20,18 @@ const Notes = ({ userDetails, userId }) => {
 	);
 
 	useEffect(() => {
-		setUserComment(userDetails?.userComment ? [userDetails?.userComment] : []);
+		setUserComment(
+			userDetails?.userComment
+				? [
+						{
+							id: userDetails?.userComment?.id,
+							title: userDetails?.userComment?.title,
+							comment: userDetails?.userComment?.comment,
+							commenterName: userDetails?.userComment?.adminUser?.username,
+						},
+				  ]
+				: []
+		);
 	}, [userDetails?.userComment]);
 
 	const {
@@ -56,13 +67,13 @@ const Notes = ({ userDetails, userId }) => {
 
 	const columns = useMemo(
 		() => [
-			{
-				Header: 'ID',
-				accessor: 'id',
-				notHidable: true,
-				filterable: true,
-				Cell: ({ cell }) => <Id value={cell.value} />,
-			},
+			// {
+			// 	Header: 'ID',
+			// 	accessor: 'id',
+			// 	notHidable: true,
+			// 	filterable: true,
+			// 	Cell: ({ cell }) => <Id value={cell.value} />,
+			// },
 			{
 				Header: 'TITLE',
 				accessor: 'title',
@@ -77,7 +88,7 @@ const Notes = ({ userDetails, userId }) => {
 			},
 			{
 				Header: 'NOTED BY',
-				accessor: 'commenterId',
+				accessor: 'commenterName',
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
 			// {

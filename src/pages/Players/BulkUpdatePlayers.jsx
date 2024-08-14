@@ -15,7 +15,7 @@ import useBulkUpdatePlayer from './hooks/useBulkUpdatePlayer';
 import { CustomSwitchButton } from '../../helpers/customForms';
 
 const BulkUpdatePlayers = ({ selectedPlayers, onSuccess }) => {
-	const [open, setOpen] = useState('1');
+	const [open, setOpen] = useState('');
 	const [isActive, setIsActive] = useState(true);
 	const toggle = (id) => {
 		if (open === id) {
