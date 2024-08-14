@@ -69,11 +69,7 @@ const TableContainer = ({
 
 	return (
 		<>
-			<div
-				className={`mb-2 d-flex justify-content-between ${
-					!(customTableInfo || customSearchInput) && 'float-end'
-				}`}
-			>
+			<div className="mb-2 d-flex justify-content-between">
 				{customTableInfo || customSearchInput}
 				<div className="d-flex justify-content-end ">
 					{actionList}
