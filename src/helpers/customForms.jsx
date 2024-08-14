@@ -156,6 +156,16 @@ const customStyles = {
 		flexWrap: 'nowrap',
 		overflow: 'hidden',
 	}),
+	multiValue: (base) => ({
+		...base,
+		color:
+			document.body.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000',
+	}),
+	multiValueLabel: (base) => ({
+		...base,
+		color:
+			document.body.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000',
+	}),
 };
 
 const CheckboxOption = (props) => (

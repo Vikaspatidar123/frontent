@@ -42,35 +42,9 @@ const useDemoGraphicReport = () => {
 			demoGraphicData?.demograph?.map((item) => ({
 				label: item.countryName,
 				value: item.countryCode,
+				...item,
 			})),
-		[demoGraphicData]
-	);
-
-	const formattedDemoGraphicData = useMemo(
-		() =>
-			demoGraphicData?.demograph?.map((item) => {
-				let totalDeposits = 0;
-				let totalDepoCount = 0;
-
-				item?.deposits?.forEach(
-					({ currencyId, depositAmount, depositorCount }) => {
-						const exchangeRate = Number(
-							currencyById?.[currencyId]?.exchangeRate || 1
-						);
-						const amount = Number(depositAmount || 0);
-						totalDeposits += amount * exchangeRate;
-						totalDepoCount += Number(depositorCount || 0);
-					}
-				);
-				const copiedItem = { ...item };
-				delete copiedItem.deposits;
-				return {
-					...copiedItem,
-					depositorCount: totalDepoCount,
-					depositAmount: totalDeposits?.toFixed(2),
-				};
-			}),
-		[demoGraphicData, currencyById]
+		[demoGraphicData?.demograph]
 	);
 
 	const formatDataHandler = (list) => {
@@ -95,6 +69,33 @@ const useDemoGraphicReport = () => {
 		setDemoGrapFormatedData(finalData);
 	};
 
+	const formattedDemoGraphicData = useMemo(
+		() =>
+			countries?.map((item) => {
+				let totalDeposits = 0;
+				let totalDepoCount = 0;
+
+				item?.deposits?.forEach(
+					({ currencyId, depositAmount, depositorCount }) => {
+						const exchangeRate = Number(
+							currencyById?.[currencyId]?.exchangeRate || 1
+						);
+						const amount = Number(depositAmount || 0);
+						totalDeposits += amount * exchangeRate;
+						totalDepoCount += Number(depositorCount || 0);
+					}
+				);
+				const copiedItem = { ...item };
+				delete copiedItem.deposits;
+				return {
+					...copiedItem,
+					depositorCount: totalDepoCount,
+					depositAmount: totalDeposits?.toFixed(2),
+				};
+			}),
+		[countries, currencyById]
+	);
+
 	useEffect(() => {
 		const { fromDate, toDate, selected } = demoDateOptions;
 		if (selected === 'custom') {
@@ -107,16 +108,18 @@ const useDemoGraphicReport = () => {
 	}, [demoDateOptions]);
 
 	useEffect(() => {
+		formatDataHandler(countries);
+	}, [countries?.length]);
+	useEffect(() => {
 		if (demoGraphicData?.demograph) {
-			setCountries(
-				demoGraphicData?.demograph
-					?.slice(0, 12)
-					?.map(({ countryName, countryCode }) => ({
-						value: countryCode,
-						label: countryName,
-					}))
-			);
-			formatDataHandler(demoGraphicData?.demograph);
+			const initialCountries = demoGraphicData?.demograph
+				?.slice(0, 12)
+				?.map((item) => ({
+					value: item.countryCode,
+					label: item.countryName,
+					...item,
+				}));
+			setCountries(initialCountries);
 		}
 	}, [demoGraphicData?.demograph]);
 

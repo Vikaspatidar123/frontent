@@ -56,7 +56,10 @@ const CustomFilters = ({
 			>
 				<i className="mdi mdi-plus" /> Add Filters
 			</DropdownToggle>
-			<DropdownMenu className="dropdown-menu-md p-4" style={{ width: '40rem' }}>
+			<DropdownMenu
+				className="dropdown-menu-md p-4"
+				style={{ width: '65vw', maxWidth: '40rem' }}
+			>
 				<h5>
 					<b>Filters</b>
 				</h5>
