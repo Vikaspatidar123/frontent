@@ -170,11 +170,11 @@ const SidebarContent = ({ t }) => {
 				})
 				?.map((nav) => {
 					if (nav?.isSeparator) {
-						return (
+						return nav.title ? (
 							<li className="menu-title" key={nav?.id}>
 								{nav.title}{' '}
 							</li>
-						);
+						) : null;
 					}
 					return (
 						<li key={nav?.id}>
