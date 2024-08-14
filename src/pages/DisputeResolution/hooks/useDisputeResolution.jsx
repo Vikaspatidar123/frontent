@@ -14,7 +14,7 @@ const useDisputeResolution = () => {
 	const [page, setPage] = useState(1);
 	const [selectedDispute, setSelectedDispute] = useState('');
 	const [filters, setFilters] = useState({
-		username: '',
+		subject: '',
 		status: null,
 	});
 

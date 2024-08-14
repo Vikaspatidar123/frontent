@@ -42,10 +42,10 @@ const DisputeList = ({
 							type="text"
 							value={filters?.username}
 							onChange={(e) =>
-								setFilters((prev) => ({ ...prev, username: e.target.value }))
+								setFilters((prev) => ({ ...prev, subject: e.target.value }))
 							}
 							className="form-control"
-							placeholder="Username..."
+							placeholder="Search by UserId & Subject"
 						/>
 						<i className="bx bx-search-alt search-icon" />
 					</div>
