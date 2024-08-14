@@ -25,13 +25,13 @@ const staticFiltersFields = () => [
 	// 	label: '',
 	// 	placeholder: 'Search by Affiliate',
 	// },
-	// {
-	// 	name: 'userId',
-	// 	fieldType: 'textField',
-	// 	type: 'number',
-	// 	label: '',
-	// 	placeholder: 'Search by Player Id',
-	// },
+	{
+		name: 'userId',
+		fieldType: 'textField',
+		type: 'number',
+		label: '',
+		placeholder: 'Search by Player Id',
+	},
 	// {
 	// 	name: 'pincode',
 	// 	fieldType: 'textField',
