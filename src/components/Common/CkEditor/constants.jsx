@@ -3,44 +3,77 @@
 /* eslint-disable arrow-body-style */
 import {
 	AccessibilityHelp,
+	Alignment,
 	Autoformat,
 	AutoImage,
 	AutoLink,
 	Autosave,
+	BalloonToolbar,
+	BlockQuote,
 	Bold,
+	CloudServices,
 	Code,
 	CodeBlock,
 	Essentials,
+	FindAndReplace,
+	FontBackgroundColor,
+	FontColor,
+	FontFamily,
+	FontSize,
 	GeneralHtmlSupport,
 	Heading,
+	Highlight,
+	HorizontalLine,
+	HtmlComment,
 	HtmlEmbed,
 	ImageBlock,
 	ImageCaption,
 	ImageInline,
-	ImageInsert,
 	ImageInsertViaUrl,
 	ImageResize,
 	ImageStyle,
 	ImageTextAlternative,
 	ImageToolbar,
 	ImageUpload,
+	Indent,
+	IndentBlock,
 	Italic,
 	Link,
 	LinkImage,
 	List,
 	ListProperties,
+	Markdown,
+	MediaEmbed,
+	Mention,
+	PageBreak,
 	Paragraph,
+	PasteFromMarkdownExperimental,
+	PasteFromOffice,
+	RemoveFormat,
 	SelectAll,
 	ShowBlocks,
-	SimpleUploadAdapter,
+	SpecialCharacters,
+	SpecialCharactersArrows,
+	SpecialCharactersCurrency,
+	SpecialCharactersEssentials,
+	SpecialCharactersLatin,
+	SpecialCharactersMathematical,
+	SpecialCharactersText,
+	Strikethrough,
+	Style,
+	Subscript,
+	Superscript,
 	Table,
 	TableCaption,
 	TableCellProperties,
 	TableColumnResize,
 	TableProperties,
 	TableToolbar,
+	TextPartLanguage,
 	TextTransformation,
+	Title,
 	TodoList,
+	Underline,
 	Undo,
 } from 'ckeditor5';
 import CustomUploadAdapter from './CustomUploaderAdapter';
@@ -51,6 +84,83 @@ function customUploadAdapterPlugin(editor) {
 	};
 }
 
+function SpecialCharactersEmoji(editor) {
+	editor.plugins.get('SpecialCharacters').addItems(
+		'Emoji',
+		[
+			// Emoticons
+			{ title: 'smiley face', character: '😊' },
+			{ title: 'grinning face', character: '😀' },
+			{ title: 'winking face', character: '😉' },
+			{ title: 'sad face', character: '☹️' },
+			{ title: 'crying face', character: '😢' },
+			{ title: 'angry face', character: '😠' },
+			{ title: 'heart', character: '❤️' },
+			{ title: 'broken heart', character: '💔' },
+			{ title: 'thumbs up', character: '👍' },
+			{ title: 'thumbs down', character: '👎' },
+			{ title: 'clapping hands', character: '👏' },
+			{ title: 'waving hand', character: '👋' },
+			{ title: 'face with tears of joy', character: '😂' },
+			{ title: 'face with open mouth', character: '😮' },
+			{ title: 'kissing face', character: '😘' },
+			{ title: 'thinking face', character: '🤔' },
+			{ title: 'face with medical mask', character: '😷' },
+
+			// Objects
+			{ title: 'rocket', character: '🚀' },
+			{ title: 'floppy disk', character: '💾' },
+			{ title: 'computer', character: '💻' },
+			{ title: 'mobile phone', character: '📱' },
+			{ title: 'light bulb', character: '💡' },
+			{ title: 'book', character: '📚' },
+			{ title: 'money bag', character: '💰' },
+			{ title: 'shopping cart', character: '🛒' },
+			{ title: 'package', character: '📦' },
+			{ title: 'calendar', character: '📅' },
+			{ title: 'hourglass', character: '⏳' },
+			{ title: 'scissors', character: '✂️' },
+
+			// Nature
+			{ title: 'wind blowing face', character: '🌬️' },
+			{ title: 'sun', character: '☀️' },
+			{ title: 'cloud', character: '☁️' },
+			{ title: 'rainbow', character: '🌈' },
+			{ title: 'tree', character: '🌳' },
+			{ title: 'flower', character: '🌸' },
+			{ title: 'fire', character: '🔥' },
+			{ title: 'water droplet', character: '💧' },
+			{ title: 'snowflake', character: '❄️' },
+
+			// Activities
+			{ title: 'soccer ball', character: '⚽' },
+			{ title: 'basketball', character: '🏀' },
+			{ title: 'trophy', character: '🏆' },
+			{ title: 'music note', character: '🎵' },
+			{ title: 'microphone', character: '🎤' },
+			{ title: 'camera', character: '📷' },
+			{ title: 'paint palette', character: '🎨' },
+			{ title: 'guitar', character: '🎸' },
+			{ title: 'clapper board', character: '🎬' },
+
+			// Symbols
+			{ title: 'check mark', character: '✔️' },
+			{ title: 'cross mark', character: '❌' },
+			{ title: 'warning sign', character: '⚠️' },
+			{ title: 'information', character: 'ℹ️' },
+			{ title: 'question mark', character: '❓' },
+			{ title: 'exclamation mark', character: '❗' },
+			{ title: 'recycling symbol', character: '♻️' },
+			{ title: 'no entry sign', character: '🚫' },
+			{ title: 'arrow right', character: '➡️' },
+			{ title: 'arrow left', character: '⬅️' },
+			{ title: 'arrow up', character: '⬆️' },
+			{ title: 'arrow down', character: '⬇️' },
+		],
+		{ label: 'Emoticons' }
+	);
+}
+
 export const editorConfig = {
 	extraPlugins: [customUploadAdapterPlugin],
 	toolbar: {
@@ -59,70 +169,139 @@ export const editorConfig = {
 			'redo',
 			'|',
 			'showBlocks',
-			'selectAll',
 			'|',
 			'heading',
 			'|',
+			// 'style',
+			// '|',
+			'fontSize',
+			'fontFamily',
+			'fontColor',
+			'fontBackgroundColor',
+			'|',
+			'code',
+			'codeBlock',
+			'|',
+			'|',
 			'bold',
 			'italic',
-			'code',
+			'underline',
+			'strikethrough',
+			'subscript',
+			'superscript',
+			'removeFormat',
 			'|',
-			'link',
 			'insertImage',
+			'link',
+			'specialCharacters',
 			'insertTable',
-			'codeBlock',
-			'htmlEmbed',
+			'highlight',
+			'blockQuote',
+			'horizontalLine',
+			'pageBreak',
+			'|',
+			'alignment',
 			'|',
 			'bulletedList',
 			'numberedList',
 			'todoList',
-			'|',
-			'accessibilityHelp',
+			'outdent',
+			'indent',
 		],
 		shouldNotGroupWhenFull: false,
 	},
 	plugins: [
 		AccessibilityHelp,
+		Alignment,
 		Autoformat,
 		AutoImage,
 		AutoLink,
 		Autosave,
+		BalloonToolbar,
+		BlockQuote,
 		Bold,
+		CloudServices,
 		Code,
 		CodeBlock,
 		Essentials,
+		FindAndReplace,
+		FontBackgroundColor,
+		FontColor,
+		FontFamily,
+		FontSize,
 		GeneralHtmlSupport,
 		Heading,
+		Highlight,
+		HorizontalLine,
+		HtmlComment,
 		HtmlEmbed,
 		ImageBlock,
 		ImageCaption,
 		ImageInline,
-		ImageInsert,
 		ImageInsertViaUrl,
 		ImageResize,
 		ImageStyle,
 		ImageTextAlternative,
 		ImageToolbar,
 		ImageUpload,
+		Indent,
+		IndentBlock,
 		Italic,
 		Link,
 		LinkImage,
 		List,
 		ListProperties,
+		Markdown,
+		MediaEmbed,
+		Mention,
+		PageBreak,
 		Paragraph,
+		PasteFromMarkdownExperimental,
+		PasteFromOffice,
+		RemoveFormat,
 		SelectAll,
 		ShowBlocks,
-		SimpleUploadAdapter,
+		SpecialCharacters,
+		SpecialCharactersArrows,
+		SpecialCharactersCurrency,
+		SpecialCharactersEssentials,
+		SpecialCharactersLatin,
+		SpecialCharactersMathematical,
+		SpecialCharactersText,
+		SpecialCharactersEmoji,
+		Strikethrough,
+		Subscript,
+		Superscript,
+		Style,
 		Table,
 		TableCaption,
 		TableCellProperties,
 		TableColumnResize,
 		TableProperties,
 		TableToolbar,
+		TextPartLanguage,
 		TextTransformation,
+		Title,
 		TodoList,
+		Underline,
 		Undo,
 	],
+	balloonToolbar: [
+		'bold',
+		'italic',
+		'|',
+		'link',
+		'|',
+		'bulletedList',
+		'numberedList',
+	],
+	fontFamily: {
+		supportAllValues: true,
+	},
+	fontSize: {
+		options: [10, 12, 14, 'default', 18, 20, 22],
+		supportAllValues: true,
+	},
 	heading: {
 		options: [
 			{
@@ -190,69 +369,6 @@ export const editorConfig = {
 			'resizeImage',
 		],
 	},
-	// 	initialData: `
-	//   <!DOCTYPE html>
-	// <html lang="en">
-
-	// <head>
-	// <title>Welcome</title>
-	// <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-	// <link rel="preconnect" href="https://fonts.googleapis.com">
-	// <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	// <link rel="stylesheet"
-	//   href="https://fonts.googleapis.com/css2?family=Jura:wght@500&family=Roboto:wght@100;300;400;500;700;900&family=Style+Script&display=swap">
-	// <style>
-	//   * {
-	//     box-sizing: border-box;
-	//     padding: 0;
-	//     margin: 0;
-	//   }
-	// </style>
-	// </head>
-
-	// <body>
-	// <table border="0"
-	//   style="width: 600px; background-color: #0B195C; font-family: 'Roboto', sans-serif; color: #ffffff; line-height: 1.4; margin: 15px auto;">
-	//   <tbody>
-	//     <tr>
-	//       <td style="padding: 20px;">
-	//         <img src={{{siteLogo}}} style="width: 100px; display: block; margin: auto;" alt="img">
-	//       </td>
-	//     </tr>
-	//     <tr>
-	//       <td style="text-align: center;">
-	//       </td>
-	//     </tr>
-	//     <tr>
-	//       <td style="text-align: center;">
-	//         <div style="min-height: 260px; margin-top: 40px; align-items: center; padding: 20px;">
-	//           <h6
-	//             style="font-size: 28px; font-weight: 900; letter-spacing: 1.5px; text-align: center; margin-bottom: 35px;">
-	//             <span style="color: #68E752; display: block;">Welcome {{{userName}}}</span>
-	//           </h6>
-	//           <h3 style="color: #ffffff; text-align: left; padding-bottom: 10px;">Hello {{{playerFullName}}}</h3>
-	//           <p style="color: #ffffff; letter-spacing: .5px; text-align: left;">Money won is twice as sweet as money
-	//             earned. Start your Gambling journey with us and win exciting rewards.</p>
-	//           <a style="color: #ffffff;" target="_blank" href={{{siteLoginUrl}}}>
-	//             <button type="button"
-	//               style="min-width: 275px; background-color: transparent; border: 3px solid #ffffff; border-radius: 36px; color: #ffffff; font-size: 22px; margin-top: 50px; font-weight: 700; letter-spacing: .5px; cursor: pointer; padding: 12px 30px;">
-	//               Get Started</button></a>
-	//         </div>
-	//       </td>
-	//     </tr>
-	//     <tr>
-	//       <td style="text-align: center; padding: 15px 20px 15px;">
-	//         <p style="color: #ffffff; font-size: 15px; font-weight: 900; letter-spacing: .5px; text-align: center;">@2023
-	//           {{{siteName}}}</p>
-	//       </td>
-	//     </tr>
-	//   </tbody>
-	// </table>
-	// </body>
-
-	// </html>
-
-	//   `,
 	link: {
 		addTargetToExternalLinks: true,
 		defaultProtocol: 'https://',
@@ -273,6 +389,19 @@ export const editorConfig = {
 			reversed: true,
 		},
 	},
+	mention: {
+		feeds: [
+			{
+				marker: '@',
+				feed: [
+					/* See: https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html */
+				],
+			},
+		],
+	},
+	menuBar: {
+		isVisible: true,
+	},
 	placeholder: 'Type or paste your content here!',
 	table: {
 		contentToolbar: [
@@ -283,4 +412,53 @@ export const editorConfig = {
 			'tableCellProperties',
 		],
 	},
+	// style: {
+	// 	definitions: [
+	// 		{
+	// 			name: 'Article category',
+	// 			element: 'h3',
+	// 			classes: ['category'],
+	// 		},
+	// 		{
+	// 			name: 'Title',
+	// 			element: 'h2',
+	// 			classes: ['document-title'],
+	// 		},
+	// 		{
+	// 			name: 'Subtitle',
+	// 			element: 'h3',
+	// 			classes: ['document-subtitle'],
+	// 		},
+	// 		{
+	// 			name: 'Info box',
+	// 			element: 'p',
+	// 			classes: ['info-box'],
+	// 		},
+	// 		{
+	// 			name: 'Side quote',
+	// 			element: 'blockquote',
+	// 			classes: ['side-quote'],
+	// 		},
+	// 		{
+	// 			name: 'Marker',
+	// 			element: 'span',
+	// 			classes: ['marker'],
+	// 		},
+	// 		{
+	// 			name: 'Spoiler',
+	// 			element: 'span',
+	// 			classes: ['spoiler'],
+	// 		},
+	// 		{
+	// 			name: 'Code (dark)',
+	// 			element: 'pre',
+	// 			classes: ['fancy-code', 'fancy-code-dark'],
+	// 		},
+	// 		{
+	// 			name: 'Code (bright)',
+	// 			element: 'pre',
+	// 			classes: ['fancy-code', 'fancy-code-bright'],
+	// 		},
+	// 	],
+	// },
 };
