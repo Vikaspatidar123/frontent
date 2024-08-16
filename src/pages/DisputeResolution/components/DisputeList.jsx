@@ -45,7 +45,7 @@ const DisputeList = ({
 								setFilters((prev) => ({ ...prev, subject: e.target.value }))
 							}
 							className="form-control"
-							placeholder="Search by UserId & Subject"
+							placeholder="Search by Subject or User Id"
 						/>
 						<i className="bx bx-search-alt search-icon" />
 					</div>
