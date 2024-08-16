@@ -151,7 +151,7 @@ const PlayerDetailsPage = ({ t }) => {
 				},
 				{
 					id: 3,
-					title: 'Sports Book',
+					title: 'Sportsbook',
 					component: <SportsTransactionsList userId={playerId} />,
 				},
 				{

@@ -40,7 +40,7 @@ const Admins = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb title="Dashboard" breadcrumbItem="Staff" />
+					<Breadcrumb title="Staff Management" breadcrumbItem="Staff" />
 				)}
 				<Row>
 					<Col lg="12">

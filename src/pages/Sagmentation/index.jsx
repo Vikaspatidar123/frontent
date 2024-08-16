@@ -30,7 +30,7 @@ const Segmentation = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb title="Segmentation" breadcrumbItem="Segmentation" />
+					<Breadcrumb title="CRM" breadcrumbItem="Segmentation" />
 				)}
 				<Row>
 					<Col lg="12">

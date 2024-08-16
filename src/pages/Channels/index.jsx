@@ -41,7 +41,7 @@ const Channels = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb title="Channel Management" breadcrumbItem="Channel" />
+					<Breadcrumb title="Chat Management" breadcrumbItem="Channel" />
 				)}
 				<Row>
 					<Col lg="12">

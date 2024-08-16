@@ -31,12 +31,18 @@ const AllReferrals = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb title="Bonus" breadcrumbItem="Referrals" />
+					<Breadcrumb
+						title="Bonus Management"
+						breadcrumbItem="Referral Management"
+					/>
 				)}
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Referrals" />
+							<CrudSection
+								buttonList={buttonList}
+								title="Referral Management"
+							/>
 							<CardBody>
 								<TableContainer
 									isLoading={referralsLoading}

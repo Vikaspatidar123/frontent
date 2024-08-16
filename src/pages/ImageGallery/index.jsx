@@ -37,7 +37,7 @@ const ImageGallery = () => {
 		<div className="page-content">
 			{isGranted(modules.gallery, 'R') && (
 				<Container fluid>
-					<Breadcrumbs title="Image Gallery" breadcrumbItem="Gallery" />
+					<Breadcrumbs title="Content Management" breadcrumbItem="Gallery" />
 					<Row>
 						<Col>
 							<Card>

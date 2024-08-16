@@ -84,7 +84,7 @@ const KYCLabels = () => {
 		<div className="page-content">
 			<Container fluid>
 				{showBreadcrumb && (
-					<Breadcrumb title="Player" breadcrumbItem="KYC Labels" />
+					<Breadcrumb title="Player Verification" breadcrumbItem="KYC Labels" />
 				)}
 				<Row>
 					<Col lg="12">
