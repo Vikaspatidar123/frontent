@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
 	useTable,
 	useGlobalFilter,
@@ -7,14 +7,14 @@ import {
 	useExpanded,
 	usePagination,
 } from 'react-table';
-import { isEmpty } from 'lodash';
-import { useSelector } from 'react-redux';
-import useForm from '../Hooks/useFormModal';
 import {
-	getInitialValues,
-	staticFormFields,
-	validationSchema,
-} from './formFields';
+	UncontrolledDropdown,
+	DropdownToggle,
+	DropdownMenu,
+	DropdownItem,
+	Button,
+} from 'reactstrap';
+import { useSelector } from 'react-redux';
 
 const useTableCustom = (
 	data,
@@ -25,32 +25,30 @@ const useTableCustom = (
 	totalPageCount,
 	isLoading
 ) => {
-	const [filteredColumns, setFilteredColumns] = useState(columns);
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+
+	const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
+	const [filteredColumns, setFilteredColumns] = useState(() =>
+		columns.reduce((acc, column) => {
+			acc[column.Header] = true;
+			return acc;
+		}, {})
+	);
 
 	const tableHeaderClass = useSelector(
 		(state) => state.Layout.tableHeaderClass
 	);
 
-	const {
-		isOpen,
-		setIsOpen,
-		header,
-		validation,
-		formFields,
-		setFormFields,
-		setHeader,
-	} = useForm({
-		header: 'Column settings',
-		initialValues: getInitialValues(columns),
-		validationSchema: validationSchema(),
-		staticFormFields: staticFormFields(columns),
-		onSubmitEntry: () => {},
-	});
+	const visibleColumns = useMemo(
+		() => columns.filter((column) => filteredColumns[column.Header] === true),
+		[columns, filteredColumns]
+	);
 
 	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow } =
 		useTable(
 			{
-				columns: filteredColumns,
+				columns: visibleColumns,
 				data,
 				initialState: {
 					pageIndex: 0,
@@ -66,24 +64,10 @@ const useTableCustom = (
 			usePagination
 		);
 
-	useEffect(() => {
-		if (!isEmpty(validation.values)) {
-			setFilteredColumns(
-				columns.filter((col) => validation.values[col.accessor])
-			);
-		} else {
-			setFilteredColumns(columns);
-		}
-	}, [validation.values, columns]);
-
 	const handlePagination = (newPage) => {
 		if (isManualPagination) {
 			onChangePagination((newPage?.selected || 0) + 1);
 		}
-	};
-
-	const handleColumnSettings = () => {
-		setIsOpen(true);
 	};
 
 	const noDataFound = !isLoading && !page.length;
@@ -104,6 +88,56 @@ const useTableCustom = (
 		return null;
 	};
 
+	// Toggle column visibility
+	const handleColumnHide = useCallback((header) => {
+		setFilteredColumns((prevState) => ({
+			...prevState,
+			[header]: !prevState[header],
+		}));
+	}, []);
+
+	const customColSetting = (
+		<UncontrolledDropdown isOpen={dropdownOpen}>
+			<DropdownToggle
+				type="button"
+				className="btn btn-light btn-outline-primary"
+				onClick={toggleDropdown}
+			>
+				Column Visibility
+			</DropdownToggle>
+			<DropdownMenu className="dropdown-menu px-2">
+				<div role="menu">
+					{columns
+						?.filter(({ Header }) => typeof Header === 'string')
+						?.map((column) => (
+							<DropdownItem
+								key={column.accessor}
+								className="px-2 columns dropdown-item d-flex justify-content-between"
+								tabIndex={0}
+								onClick={() => {
+									handleColumnHide(column.Header);
+								}}
+							>
+								<span>{column.Header}</span>
+								{filteredColumns[column.Header] && (
+									<i className="bx bx-check me-2 text-primary" />
+								)}
+							</DropdownItem>
+						))}
+				</div>
+				<div className="d-flex justify-content-end">
+					<Button
+						color="link"
+						className="btn btn-link waves-effect"
+						onClick={toggleDropdown}
+					>
+						Close
+					</Button>
+				</div>
+			</DropdownMenu>
+		</UncontrolledDropdown>
+	);
+
 	return {
 		getTableProps,
 		getTableBodyProps,
@@ -114,14 +148,7 @@ const useTableCustom = (
 		noDataFound,
 		tableHeaderClass,
 		handlePagination,
-		handleColumnSettings,
-		isOpen,
-		setIsOpen,
-		header,
-		validation,
-		formFields,
-		setFormFields,
-		setHeader,
+		customColSetting,
 	};
 };
 

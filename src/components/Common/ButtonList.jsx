@@ -30,7 +30,7 @@ const ButtonList = ({ buttonList }) => {
 								onClick={disabled ? null : handleClick}
 								className={`${
 									disabled ? 'disabled' : ''
-								} btn btn-light btn-outline-primary me-1 ${
+								} btn btn-light btn-outline-primary ${
 									icon ? 'icon-button-padding' : ''
 								}`}
 								id={`id-${label}`}

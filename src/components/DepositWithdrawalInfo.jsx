@@ -7,16 +7,14 @@ const DepositWithdrawalInfo = ({ currencyId, values }) => {
 	const { defaultCurrency, currencyById } = useSelector(
 		(state) => state.Currencies
 	);
-	// const cols = 12 / (values?.length || 1);
 
 	return (
-		<div className="my-1 d-flex">
+		<div className="d-flex">
 			{values?.map(({ label, value, type }) => (
 				<div
 					className={`badge ${
 						type === 'in' ? 'bg-success-subtle' : 'bg-danger-subtle'
 					} text-dark p-3 fs-4 rounded-4 me-3`}
-					style={{ marginBottom: '10px' }}
 				>
 					<h6 className="mb-0 font-weight-bold">
 						<span

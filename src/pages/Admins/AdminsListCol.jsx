@@ -1,3 +1,6 @@
+/* eslint-disable no-script-url */
+/* eslint-disable react/jsx-no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -10,7 +13,7 @@ const AdminUserID = ({ value }) => (
 const FullName = ({ value }) => value ?? '';
 
 const Email = ({ value, adminData, handleView }) => (
-	<Link to="!#" onClick={(e) => handleView(e, adminData)}>
+	<Link to="javascript:void(0)" onClick={() => handleView(adminData)}>
 		{value ?? ''}
 	</Link>
 );

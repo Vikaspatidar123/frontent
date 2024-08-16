@@ -52,7 +52,7 @@ const CustomFilters = ({
 			<DropdownToggle
 				type="button"
 				className="btn btn-light btn-outline-primary"
-				onClick={() => setDropdownOpen(true)} // Only open the dropdown on click
+				onClick={() => setDropdownOpen((prev) => !prev)} // Only open the dropdown on click
 			>
 				<i className="mdi mdi-plus" /> Add Filters
 			</DropdownToggle>

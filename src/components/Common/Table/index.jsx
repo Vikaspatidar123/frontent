@@ -17,7 +17,6 @@ import { CustomSelectField } from '../../../helpers/customForms';
 import { defaultPageSize, rowsPerPageOptions } from '../constants';
 import NoDataFound from '../NoDataFound';
 import useTableCustom from './useTableCustom';
-import FormModal from '../FormModal';
 
 const TableContainer = ({
 	columns = [],
@@ -51,12 +50,7 @@ const TableContainer = ({
 		noDataFound,
 		tableHeaderClass,
 		handlePagination,
-		handleColumnSettings,
-		isOpen,
-		setIsOpen,
-		header,
-		formFields,
-		validation,
+		customColSetting,
 	} = useTableCustom(
 		data,
 		columns,
@@ -69,27 +63,12 @@ const TableContainer = ({
 
 	return (
 		<>
-			<div className="mb-2 d-flex justify-content-between">
+			<div className="d-flex justify-content-between">
 				{customTableInfo || customSearchInput}
 				<div className="d-flex justify-content-end w-100 ">
 					{actionList}
 					{filterComponent}
-					{isShowColSettings ? (
-						<div className="position-relative h-100 hstack justify-content-end px-3 float-end">
-							<i
-								className="mdi mdi-settings align-middle filter-icons bx-spin cursor-pointer"
-								onClick={handleColumnSettings}
-								onKeyDown={() => {}}
-								id="mdi-settings-clear-id"
-							/>
-							<UncontrolledTooltip
-								placement="top"
-								target="mdi-settings-clear-id"
-							>
-								Columns settings
-							</UncontrolledTooltip>
-						</div>
-					) : null}
+					{isShowColSettings ? customColSetting : null}
 				</div>
 			</div>
 			<Card>
@@ -278,19 +257,6 @@ const TableContainer = ({
 					)}
 				</CardBody>
 			</Card>
-			<FormModal
-				isOpen={isOpen}
-				setIsOpen={setIsOpen}
-				header={header}
-				validation={validation}
-				responsiveFormFields={formFields}
-				submitLabel="Save"
-				customColClasses="col-md-12"
-				isSubmitLoading={false}
-				colOptions={{ xs: 6, sm: 6, md: 6, lg: 4, xl: 4, xxl: 4 }}
-				isSubmit={false}
-				modalSize="lg"
-			/>
 		</>
 	);
 };
