@@ -4,7 +4,7 @@ import { Col } from 'reactstrap';
 import CkEditor from '../../components/Common/CkEditor';
 
 const CustomComponent = ({ validation }) => (
-	<Col className="mb-2">
+	<Col className="mb-2 ps-4">
 		<CkEditor
 			label="Content"
 			isRequired
