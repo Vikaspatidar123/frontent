@@ -9,8 +9,7 @@ const editWageringTemplate = () => {
 	// Set meta title
 	document.title = projectName;
 
-	const { validation, leftFormFields, rightFormFields, customComponent } =
-		useEditWageringTemplate();
+	const { validation, formFields, customComponent } = useEditWageringTemplate();
 
 	return (
 		<div className="page-content">
@@ -30,12 +29,12 @@ const editWageringTemplate = () => {
 						<FormPage
 							formTitle="Edit Wagering Template"
 							validation={validation}
-							leftFormFields={leftFormFields}
-							rightFormFields={rightFormFields}
+							responsiveFormFields={formFields}
 							customComponent={customComponent}
 							submitLabel="Submit"
 							customColClasses=""
 							isSubmitLoading={false}
+							colOptions={{ xs: 12, sm: 4, md: 4, lg: 4, xl: 4, xxl: 4 }}
 						/>
 					</Col>
 				</Row>

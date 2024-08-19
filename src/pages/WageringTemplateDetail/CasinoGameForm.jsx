@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo, useState } from 'react';
 
-import { Container } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import Filters from '../../components/Common/Filters';
 
@@ -126,6 +126,12 @@ const CasinoGamesForm = ({
 	isCasinoGamesLoading,
 	page,
 	setPage,
+	toggleAdvance,
+	isAdvanceOpen,
+	filterFields,
+	actionButtons,
+	filterValidation,
+	isFilterChanged,
 }) => {
 	const [isAllSelected, setIsAllSelected] = useState(false);
 	const [commonContribution, setCommonContribution] = useState('');
@@ -209,7 +215,16 @@ const CasinoGamesForm = ({
 
 	return (
 		<Container fluid>
-			<Filters />
+			<Row className="ps-2">
+				<Filters
+					validation={filterValidation}
+					filterFields={filterFields}
+					actionButtons={actionButtons}
+					isAdvanceOpen={isAdvanceOpen}
+					toggleAdvance={toggleAdvance}
+					isFilterChanged={isFilterChanged}
+				/>
+			</Row>
 			<TableContainer
 				columns={columns(
 					handleChange,

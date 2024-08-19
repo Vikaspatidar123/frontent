@@ -9,7 +9,12 @@ import {
 
 const Actions = ({ cell, actionsList }) => (
 	<UncontrolledDropdown>
-		<DropdownToggle className="btn btn-primary" color="" type="button">
+		<DropdownToggle
+			className="btn btn-primary"
+			color=""
+			type="button"
+			style={{ width: '95px' }}
+		>
 			Actions <i className="mdi mdi-chevron-down" />
 		</DropdownToggle>
 		<DropdownMenu>

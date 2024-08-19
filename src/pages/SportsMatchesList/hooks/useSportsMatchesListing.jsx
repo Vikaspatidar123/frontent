@@ -61,7 +61,7 @@ const useSportsMatchesListing = (filterValues = {}) => {
 					title: `${match?.eventParticipants?.[0]?.participant?.name} vs ${match?.eventParticipants?.[1]?.participant?.name}`,
 					tournamentName: match?.league?.name,
 					sportName: match?.league?.sport?.name,
-					fromDate: getDateTime(match.fromDate),
+					fromDate: getDateTime(match.startDate),
 				})
 			);
 		}

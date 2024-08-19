@@ -14,6 +14,16 @@ const filterValues = () => ({
 	searchString: '',
 });
 
+const createFilterValues = () => ({
+	searchString: '',
+	casinoProviderId: null,
+});
+
+const createFilterValidationSchema = () =>
+	Yup.object({
+		searchString: Yup.string().nullable(),
+	});
+
 const filterValidationSchema = () =>
 	Yup.object({
 		searchString: Yup.string().nullable(),
@@ -23,7 +33,7 @@ const getInitialValues = (defaultValue) => ({
 	name: defaultValue?.name || '',
 	wageringMultiplier: defaultValue?.wageringMultiplier || '',
 	wageringRequirementType: defaultValue?.wageringRequirementType || null,
-	searchString: '',
+	// searchString: '',
 });
 
 const createWageringTemplate = Yup.object().shape({
@@ -36,10 +46,10 @@ const createWageringTemplate = Yup.object().shape({
 		.max(100, 'Wagering multiplier should not exceed 100')
 		.required('Wagering multiplier required'),
 	wageringRequirementType: Yup.string().required('Wagering type required'),
-	searchString: Yup.string().nullable(),
+	// searchString: Yup.string().nullable(),
 });
 
-const leftStaticFormFields = () => [
+const staticFormFields = [
 	{
 		name: 'name',
 		fieldType: 'textField',
@@ -65,21 +75,12 @@ const leftStaticFormFields = () => [
 			},
 		],
 	},
-];
-
-const rightStaticFormFields = () => [
 	{
 		name: 'wageringMultiplier',
 		fieldType: 'textField',
 		label: 'Wagering Multiplier',
 		placeholder: 'Wagering Multiplier',
 		type: 'number',
-	},
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		label: 'Search Game',
-		placeholder: 'Search by game name',
 	},
 ];
 
@@ -89,6 +90,7 @@ export {
 	filterValidationSchema,
 	getInitialValues,
 	createWageringTemplate,
-	leftStaticFormFields,
-	rightStaticFormFields,
+	staticFormFields,
+	createFilterValidationSchema,
+	createFilterValues,
 };

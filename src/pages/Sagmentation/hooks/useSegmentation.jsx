@@ -31,9 +31,9 @@ const useSegmentation = () => {
 		(state) => state.UserDetails
 	);
 
-	const handleSegments = (values, reset) => {
+	const handleSegments = (values) => {
 		if (isEdit?.open) {
-			reset();
+			// reset();
 			dispatch(
 				updateTag(
 					{
