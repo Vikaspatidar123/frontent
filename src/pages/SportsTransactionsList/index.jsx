@@ -7,7 +7,6 @@ import Breadcrumb from '../../components/Common/Breadcrumb';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
-import Filters from '../../components/Common/Filters';
 import useSportsTransactionsListing from './hooks/useSportsTransactionsListing';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
 
@@ -15,14 +14,8 @@ const SportsTransactionsList = ({ userId }) => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters(userId);
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters(userId);
 
 	const {
 		currentPage,
@@ -51,14 +44,6 @@ const SportsTransactionsList = ({ userId }) => {
 								title="Sports Transactions"
 							/>
 							<CardBody>
-								<Filters
-									validation={filterValidation}
-									filterFields={filterFields}
-									actionButtons={actionButtons}
-									isAdvanceOpen={isAdvanceOpen}
-									toggleAdvance={toggleAdvance}
-									isFilterChanged={isFilterChanged}
-								/>
 								<TableContainer
 									isLoading={loading}
 									columns={columns}
@@ -100,6 +85,8 @@ const SportsTransactionsList = ({ userId }) => {
 											/>
 										) : null
 									}
+									filterComponent={filterComponent}
+									selectedFiltersComponent={selectedFiltersComponent}
 								/>
 							</CardBody>
 						</Card>

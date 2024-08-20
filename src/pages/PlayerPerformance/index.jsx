@@ -6,7 +6,6 @@ import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import { projectName } from '../../constants/config';
 import useFilters from './hooks/useFilters';
-import Filters from '../../components/Common/Filters';
 import usePlayerPerformance from './hooks/usePlayerPerformance';
 import CrudSection from '../../components/Common/CrudSection';
 
@@ -15,12 +14,10 @@ const PlayerPerformance = () => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
 		filterValidation,
-		isFilterChanged,
+		filterComponent,
+		selectedFiltersComponent,
+		customSearchInput,
 	} = useFilters();
 
 	const {
@@ -49,14 +46,6 @@ const PlayerPerformance = () => {
 								title="Player Performance"
 							/>
 							<CardBody>
-								<Filters
-									validation={filterValidation}
-									filterFields={filterFields}
-									actionButtons={actionButtons}
-									isAdvanceOpen={isAdvanceOpen}
-									toggleAdvance={toggleAdvance}
-									isFilterChanged={isFilterChanged}
-								/>
 								<TableContainer
 									isLoading={loading}
 									columns={columns}
@@ -70,6 +59,9 @@ const PlayerPerformance = () => {
 									onChangePagination={setCurrentPage}
 									currentPage={currentPage}
 									changeRowsPerPageCallback={onChangeRowsPerPage}
+									filterComponent={filterComponent}
+									selectedFiltersComponent={selectedFiltersComponent}
+									customSearchInput={customSearchInput}
 								/>
 							</CardBody>
 						</Card>
