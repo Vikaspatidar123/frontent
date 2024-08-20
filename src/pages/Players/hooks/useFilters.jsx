@@ -40,7 +40,7 @@ const isActiveMapping = {
 	true: 'Yes',
 	false: 'No',
 };
-const iskycStatusMapping = {
+const isKycStatusMapping = {
 	true: 'Approved',
 	false: 'Pending',
 };
@@ -123,7 +123,7 @@ const useFilters = () => {
 
 		switch (key) {
 			case 'kycStatus':
-				formattedValue = iskycStatusMapping[value];
+				formattedValue = isKycStatusMapping[value];
 				break;
 			case 'isActive':
 				formattedValue = isActiveMapping[value] || value;

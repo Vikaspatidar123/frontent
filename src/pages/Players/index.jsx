@@ -12,6 +12,7 @@ import ManageMoney from '../PlayerDetails/modals/ManageMoney';
 import BulkUpdatePlayers from './BulkUpdatePlayers';
 
 const PlayersList = ({
+	// userIds and toggleUserId can be used while importing player page on another form like in notify player.
 	userIds = null,
 	toggleUserId = null,
 	toggleAllUsers = null,
@@ -52,7 +53,6 @@ const PlayersList = ({
 		});
 	};
 
-	// userIds and toggleUserId can be used while importing player page on another form like in notify player.
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
