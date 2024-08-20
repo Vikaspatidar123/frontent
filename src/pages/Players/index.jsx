@@ -11,8 +11,8 @@ import useFilters from './hooks/useFilters';
 import ManageMoney from '../PlayerDetails/modals/ManageMoney';
 import BulkUpdatePlayers from './BulkUpdatePlayers';
 
+// userIds and toggleUserId can be used while importing player page on another form like in notify player.
 const PlayersList = ({
-	// userIds and toggleUserId can be used while importing player page on another form like in notify player.
 	userIds = null,
 	toggleUserId = null,
 	toggleAllUsers = null,
@@ -83,7 +83,8 @@ const PlayersList = ({
 		filterValidation.values,
 		userIds || userIdsForLocalOperation,
 		toggleUserId || toggleLocalUserId,
-		toggleAllUsers || toggleLocalAllUsers
+		toggleAllUsers || toggleLocalAllUsers,
+		!userIds
 	);
 	return (
 		<div className={userIds ? '' : 'page-content'}>

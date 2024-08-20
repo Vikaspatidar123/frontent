@@ -19,7 +19,7 @@ import {
 	fetchPlayersStart,
 	getAllTags,
 } from '../../../store/actions';
-import { itemsPerPage } from '../../../constants/config';
+import { PER_PAGE } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import TableSearchInput from '../../../components/Common/TableSearchInput';
 
@@ -55,7 +55,7 @@ const useFilters = () => {
 	const fetchData = (values) => {
 		dispatch(
 			fetchPlayersStart({
-				perPage: itemsPerPage,
+				perPage: PER_PAGE,
 				page: 1,
 				...values,
 			})

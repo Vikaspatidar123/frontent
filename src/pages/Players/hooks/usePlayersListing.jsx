@@ -35,7 +35,8 @@ const usePlayersListing = (
 	filterValues = {},
 	userIds = {},
 	toggleUserId = () => {},
-	toggleAllUsers = () => {}
+	toggleAllUsers = () => {},
+	isLocal = false
 ) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -221,18 +222,26 @@ const usePlayersListing = (
 			// 	Cell: ({ cell }) => <IsInternal value={cell.value} />,
 			// },
 
-			{
-				Header: 'Action',
-				accessor: 'action',
-				disableSortBy: true,
-				Cell: ({ cell }) => <Actions actionsList={actionsList} cell={cell} />,
-			},
+			...(isLocal
+				? [
+						{
+							Header: 'Action',
+							accessor: 'action',
+							disableSortBy: true,
+							Cell: ({ cell }) => (
+								<Actions actionsList={actionsList} cell={cell} />
+							),
+						},
+				  ]
+				: []),
 		],
 		[
 			userIds,
 			players,
 			isGranted(modules.player, 'U'),
 			isGranted(modules.player, 'TS'),
+			allUsersSelected,
+			isLocal,
 		]
 	);
 
