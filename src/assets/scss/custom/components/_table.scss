@@ -59,3 +59,48 @@
 [data-bs-theme='dark'] .table-info-deposit {
 	background: linear-gradient(45deg, rgb(85, 110, 230, 0.5), $header-dark-bg);
 }
+
+.custom-btn-group > *:first-child .btn {
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+.custom-btn-group > *:last-child .btn {
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+.custom-btn-group .btn {
+	border-radius: 0; /* Reset border-radius for all buttons */
+	border-right-width: 0; /* Remove the right border from all buttons except the last one */
+}
+
+.custom-btn-group > *:not(:last-child) .btn {
+	border-right-width: 0; /* No border on the right side of buttons except the last one */
+}
+
+.custom-btn-group > *:last-child .btn {
+	border-right-width: 1px; /* Restore the right border for the last button */
+}
+
+.custom-btn-group .btn-outline-primary {
+	border-color: #007bff; /* Ensure the border color matches the btn-outline-primary style */
+}
+
+.filter-search {
+	width: 75%;
+	max-width: 35rem;
+}
+
+.table-actions {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+@media screen and (max-width: 700px) {
+	.table-actions {
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+}

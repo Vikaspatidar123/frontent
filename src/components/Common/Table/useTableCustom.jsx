@@ -103,7 +103,7 @@ const useTableCustom = (
 				className="btn btn-light btn-outline-primary"
 				onClick={toggleDropdown}
 			>
-				Column Visibility
+				Columns
 			</DropdownToggle>
 			<DropdownMenu className="dropdown-menu px-2">
 				<div role="menu">

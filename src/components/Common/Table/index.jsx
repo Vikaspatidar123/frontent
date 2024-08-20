@@ -63,9 +63,9 @@ const TableContainer = ({
 
 	return (
 		<>
-			<div className="d-flex justify-content-between">
+			<div className="table-actions">
 				{customTableInfo || customSearchInput}
-				<div className="d-flex justify-content-end w-100 ">
+				<div className="d-flex justify-content-end w-100 custom-btn-group">
 					{actionList}
 					{filterComponent}
 					{isShowColSettings ? customColSetting : null}
