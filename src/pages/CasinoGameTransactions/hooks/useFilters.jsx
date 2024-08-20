@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+/* eslint-disable eqeqeq */
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -9,18 +9,33 @@ import {
 
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { fetchCurrenciesStart } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { itemsPerPage } from '../../../constants/config';
 import { fetchGameTransactionsStart } from '../../../store/gameTransactions/actions';
+import SelectedFilters from '../../../components/Common/SelectedFilters';
+import CustomFilters from '../../../components/Common/CustomFilters';
 
-let debounce;
+const keyMapping = {
+	gameName: 'Game Name',
+	tab: 'Tab',
+	toDate: 'Registration till',
+	fromDate: 'Registration from',
+	dateOptions: 'Date Options',
+	orderBy: 'Order By',
+};
+
+const gameOrderByMapping = {
+	totalBetAmount: 'Top wagered',
+	totalPlayers: 'Most played',
+	totalWinAmount: 'Top payout',
+};
+
+const tabsTypeMapping = {
+	game: 'Game',
+	provider: 'Provider',
+};
+
 const useFilters = () => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	// const { currencies } = useSelector((state) => state.Currencies);
-	const prevValues = useRef(null);
-	const isFirst = useRef(true);
-	const [isFilterChanged, setIsFilterChanged] = useState(false);
 	const { currencies } = useSelector((state) => state.Currencies);
 
 	const fetchData = (values) => {
@@ -70,44 +85,56 @@ const useFilters = () => {
 		}
 	}, [currencies]);
 
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
+	const filterFormatter = (key, value) => {
+		const formattedKey = keyMapping[key] || key;
+
+		let formattedValue = value;
+
+		switch (key) {
+			case 'toDate':
+			case 'fromDate': {
+				const date = new Date(value);
+				formattedValue = date.toLocaleDateString('en-GB');
+				break;
+			}
+			case 'tab':
+				formattedValue = tabsTypeMapping[value] || value;
+				break;
+			case 'orderBy':
+				formattedValue = gameOrderByMapping[value] || value;
+				break;
+			case 'currencyId':
+				formattedValue =
+					currencies?.currencies?.find((currency) => currency.id == value)
+						?.code || '';
+				break;
+			default:
+				break;
+		}
+
+		return `${formattedKey}: ${formattedValue}`;
 	};
 
-	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
-			setIsFilterChanged(true);
-			debounce = setTimeout(() => {
-				handleFilter(validation.values);
-			}, debounceTime);
-			prevValues.current = validation.values;
-		}
-		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
-			setIsFilterChanged(false);
-		}
-		return () => clearTimeout(debounce);
-	}, [validation.values]);
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={filterFormatter}
+		/>
+	);
 
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
+	const filterComponent = (
+		<CustomFilters
+			filterFields={formFields}
+			validation={validation}
+			handleFilter={handleFilter}
+		/>
+	);
 
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
 		filterFields: formFields,
-		actionButtons,
 		filterValidation: validation,
-		isFilterChanged,
+		filterComponent,
+		selectedFiltersComponent,
 	};
 };
 

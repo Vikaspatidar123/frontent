@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+/* eslint-disable eqeqeq */
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -13,17 +13,40 @@ import {
 	fetchCurrenciesStart,
 	getAllTags,
 } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { itemsPerPage } from '../../../constants/config';
+import SelectedFilters from '../../../components/Common/SelectedFilters';
+import CustomFilters from '../../../components/Common/CustomFilters';
 
-let debounce;
+const keyMapping = {
+	gameName: 'Game Name',
+	searchString: 'Search',
+	toDate: 'Registration till',
+	fromDate: 'Registration from',
+	gameId: 'Game Id',
+	walletId: 'Wallet Id',
+	actioneeId: 'Actionee Id',
+	transactionId: 'Transaction Id',
+	conversionRate: 'Conversion Id',
+	purpose: 'Purpose',
+	status: 'Status',
+	currencyId: 'Currency Id',
+	tagId: 'Segments',
+};
+
+const isStatusMapping = {
+	pending: 'Pending',
+	completed: 'Complete',
+	failes: 'Failed',
+};
+
+const purposeMapping = {
+	CasinoBet: 'Casino Bet',
+	CasinoWin: 'Casino Win',
+	CasinoRefund: 'Casino Refund',
+};
+
 const useFilters = (userId) => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	// const { currencies } = useSelector((state) => state.Currencies);
-	const prevValues = useRef(null);
-	const isFirst = useRef(true);
-	const [isFilterChanged, setIsFilterChanged] = useState(false);
 	const { userTags } = useSelector((state) => state.UserDetails);
 	const { currencies } = useSelector((state) => state.Currencies);
 
@@ -90,44 +113,62 @@ const useFilters = (userId) => {
 		}
 	}, [userTags, currencies]);
 
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
+	const filterFormatter = (key, value) => {
+		const formattedKey = keyMapping[key] || key;
+
+		let formattedValue = value;
+
+		switch (key) {
+			case 'status':
+				formattedValue = isStatusMapping[value];
+				break;
+			case 'purpose':
+				formattedValue = purposeMapping[value] || value;
+				break;
+			case 'toDate':
+			case 'fromDate': {
+				const date = new Date(value);
+				formattedValue = date.toLocaleDateString('en-GB');
+				break;
+			}
+			case 'tagIds':
+				formattedValue =
+					userTags?.tags?.find((tag) => tag.id == value)?.tag || '';
+				break;
+			case 'currencyId':
+				formattedValue =
+					currencies?.currencies?.find((currency) => currency.id == value)
+						?.code || '';
+				break;
+			default:
+				break;
+		}
+
+		return `${formattedKey}: ${formattedValue}`;
 	};
 
-	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
-			setIsFilterChanged(true);
-			debounce = setTimeout(() => {
-				handleFilter(validation.values);
-			}, debounceTime);
-			prevValues.current = validation.values;
-		}
-		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
-			setIsFilterChanged(false);
-		}
-		return () => clearTimeout(debounce);
-	}, [validation.values]);
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={filterFormatter}
+		/>
+	);
 
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
+	const filterComponent = (
+		<CustomFilters
+			filterFields={formFields}
+			validation={validation}
+			handleFilter={handleFilter}
+		/>
+	);
 
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
 		filterFields: formFields,
-		actionButtons,
+		filterValues,
+		handleFilter,
 		filterValidation: validation,
-		isFilterChanged,
+		filterComponent,
+		selectedFiltersComponent,
 	};
 };
 

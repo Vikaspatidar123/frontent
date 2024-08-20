@@ -7,7 +7,6 @@ import TableContainer from '../../components/Common/Table';
 import useTransactionBankingListing from './hooks/useTransactionBankingListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
-import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
 
@@ -17,13 +16,11 @@ const TransactionBankingList = ({ userId }) => {
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
 		filterValidation,
-		isFilterChanged,
-	} = useFilters(userId);
+		filterComponent,
+		customSearchInput,
+		selectedFiltersComponent,
+	} = useFilters();
 
 	const {
 		currentPage,
@@ -52,14 +49,6 @@ const TransactionBankingList = ({ userId }) => {
 								title="Transactions Banking"
 							/>
 							<CardBody>
-								<Filters
-									validation={filterValidation}
-									filterFields={filterFields}
-									actionButtons={actionButtons}
-									isAdvanceOpen={isAdvanceOpen}
-									toggleAdvance={toggleAdvance}
-									isFilterChanged={isFilterChanged}
-								/>
 								<TableContainer
 									isLoading={isTransactionBankingLoading}
 									columns={columns}
@@ -92,6 +81,9 @@ const TransactionBankingList = ({ userId }) => {
 											/>
 										) : null
 									}
+									filterComponent={filterComponent}
+									customSearchInput={customSearchInput}
+									selectedFiltersComponent={selectedFiltersComponent}
 								/>
 							</CardBody>
 						</Card>

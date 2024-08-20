@@ -8,21 +8,14 @@ import useCasinoTransactionsListing from './hooks/useCasinoTransactionsListing';
 import { projectName } from '../../constants/config';
 import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
-import Filters from '../../components/Common/Filters';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
 
 const CasinoTransactionsList = ({ userId }) => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters(userId);
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters(userId);
 
 	const {
 		currentPage,
@@ -51,14 +44,6 @@ const CasinoTransactionsList = ({ userId }) => {
 								title="Casino Transactions"
 							/>
 							<CardBody>
-								<Filters
-									validation={filterValidation}
-									filterFields={filterFields}
-									actionButtons={actionButtons}
-									isAdvanceOpen={isAdvanceOpen}
-									toggleAdvance={toggleAdvance}
-									isFilterChanged={isFilterChanged}
-								/>
 								<TableContainer
 									isLoading={isCasinoTransactionsLoading}
 									columns={columns}
@@ -99,6 +84,8 @@ const CasinoTransactionsList = ({ userId }) => {
 											/>
 										) : null
 									}
+									filterComponent={filterComponent}
+									selectedFiltersComponent={selectedFiltersComponent}
 								/>
 							</CardBody>
 						</Card>

@@ -3,13 +3,13 @@ import { TOP_PLAYER_ORDER } from '../DashboardView/constant';
 import { defaultCurrencyId } from '../../constants/config';
 
 const staticFiltersFields = () => [
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by username',
-	},
+	// {
+	// 	name: 'searchString',
+	// 	fieldType: 'textField',
+	// 	type: 'search',
+	// 	label: '',
+	// 	placeholder: 'Search by username',
+	// },
 	{
 		name: 'orderBy',
 		fieldType: 'select',
