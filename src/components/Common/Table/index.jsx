@@ -81,7 +81,7 @@ const TableContainer = ({
 					>
 						<Table
 							{...getTableProps()}
-							className="table-responsive mt-2"
+							className="mt-2 text-nowrap"
 							id="generic-table"
 						>
 							{!hideHeader && (

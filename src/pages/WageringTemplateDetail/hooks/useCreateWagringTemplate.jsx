@@ -6,7 +6,6 @@ import { showToastr } from '../../../utils/helpers';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import CasinoGameForm from '../CasinoGameForm';
 import {
-	getCasinoProvidersDataStart,
 	getCasinoGamesStart,
 	createWageringTemplateDetails,
 } from '../../../store/actions';
@@ -14,14 +13,12 @@ import {
 import {
 	getInitialValues,
 	createWageringTemplate,
-	leftStaticFormFields,
-	rightStaticFormFields,
+	staticFormFields,
 } from '../formDetails';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
-import { debounceTime, selectedLanguage } from '../../../constants/config';
+import useCreateFilters from './useCreateFilter';
 
-let debounce;
 const useCreateWageringTemplate = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -36,7 +33,17 @@ const useCreateWageringTemplate = () => {
 	const [existingFilledData, setExistingFilledData] = useState({});
 
 	const {
+		toggleAdvance,
+		isAdvanceOpen,
+		filterFields,
+		actionButtons,
+		filterValidation,
+		isFilterChanged,
 		casinoProvidersData,
+	} = useCreateFilters();
+
+	const {
+		// casinoProvidersData,
 		casinoGames,
 		isCasinoGamesLoading,
 		createWageringTemplateDetailLoading,
@@ -84,60 +91,23 @@ const useCreateWageringTemplate = () => {
 		setItemsPerPage(value);
 	};
 
-	const {
-		header,
-		validation,
-		leftFormFields,
-		setLeftFormFields,
-		rightFormFields,
-		setRightFormFields,
-	} = useForm({
+	const { header, validation, formFields, setFormFields } = useForm({
 		header: 'Create',
 		initialValues: getInitialValues(),
 		validationSchema: createWageringTemplate,
 		onSubmitEntry: formSubmitHandler,
-		leftStaticFormFields,
-		rightStaticFormFields,
+		staticFormFields,
 	});
 
 	useEffect(() => {
-		if (casinoProvidersData?.providers) {
-			setLeftFormFields([
-				...leftStaticFormFields(),
-				{
-					name: 'provider',
-					fieldType: 'select',
-					label: 'Provider Name ',
-					placeholder: 'Provider',
-					optionList: casinoProvidersData?.providers?.map(({ id, name }) => ({
-						optionLabel: name?.[selectedLanguage],
-						value: id,
-					})),
-				},
-			]);
-		} else {
-			dispatch(getCasinoProvidersDataStart());
-		}
-	}, [casinoProvidersData]);
-
-	useEffect(() => {
-		debounce = setTimeout(() => {
-			dispatch(
-				getCasinoGamesStart({
-					perPage: itemsPerPage,
-					page,
-					searchString: validation?.values?.searchString || '',
-					casinoProviderId: validation?.values?.provider || '',
-				})
-			);
-		}, debounceTime);
-		return () => clearTimeout(debounce);
-	}, [
-		validation?.values?.searchString,
-		validation?.values?.provider,
-		itemsPerPage,
-		page,
-	]);
+		dispatch(
+			getCasinoGamesStart({
+				perPage: itemsPerPage,
+				page,
+				...filterValidation?.values,
+			})
+		);
+	}, [itemsPerPage, page, filterValidation?.values]);
 
 	useEffect(() => {
 		setCustomComponent(
@@ -153,12 +123,18 @@ const useCreateWageringTemplate = () => {
 				isCasinoGamesLoading={isCasinoGamesLoading}
 				page={page}
 				setPage={setPage}
+				toggleAdvance={toggleAdvance}
+				isAdvanceOpen={isAdvanceOpen}
+				filterFields={filterFields}
+				actionButtons={actionButtons}
+				filterValidation={filterValidation}
+				isFilterChanged={isFilterChanged}
 			/>
 		);
 	}, [
-		validation?.values,
+		casinoProvidersData,
+		filterValidation?.values,
 		casinoGames,
-		validation?.values?.searchString,
 		itemsPerPage,
 		page,
 		isCasinoGamesLoading,
@@ -192,10 +168,8 @@ const useCreateWageringTemplate = () => {
 	return {
 		header,
 		validation,
-		leftFormFields,
-		rightFormFields,
-		setLeftFormFields,
-		setRightFormFields,
+		formFields,
+		setFormFields,
 		customComponent,
 		setCustomComponent,
 		selectedId,
