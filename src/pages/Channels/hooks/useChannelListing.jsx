@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getChannels } from '../../../store/actions';
-import { Title, Status, GLobal, Description } from '../ChannelListCol';
+import { Title, Status, GLobal } from '../ChannelListCol';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useChannelListing = (filterValues = {}) => {
+	const navigate = useNavigate();
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
@@ -66,6 +69,27 @@ const useChannelListing = (filterValues = {}) => {
 		[]
 	);
 
+	const handleAddClick = (e) => {
+		e.preventDefault();
+		navigate('/chat/channel/create');
+	};
+
+	const buttonList = useMemo(() => [
+		{
+			label: (
+				<>
+					{' '}
+					<i className="mdi mdi-plus" /> Create
+				</>
+			),
+			handleClick: handleAddClick,
+			link: '#!',
+			operation: 'C',
+		},
+	]);
+
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	return {
 		formattedchannelDetails,
 		channels,
@@ -76,6 +100,7 @@ const useChannelListing = (filterValues = {}) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
+		actionList,
 	};
 };
 
