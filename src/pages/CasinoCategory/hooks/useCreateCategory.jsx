@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uuid from 'react-uuid';
 import { isEmpty } from 'lodash';
@@ -15,6 +15,7 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useCreateCategory = () => {
 	const dispatch = useDispatch();
@@ -177,6 +178,8 @@ const useCreateCategory = () => {
 		setIsOpen((prev) => !prev);
 	};
 
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -191,6 +194,7 @@ const useCreateCategory = () => {
 		showModal,
 		setShowModal,
 		toggleFormModal,
+		actionList,
 	};
 };
 
