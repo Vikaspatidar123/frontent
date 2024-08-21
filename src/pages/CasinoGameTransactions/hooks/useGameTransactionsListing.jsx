@@ -20,6 +20,7 @@ import { fetchGameTransactionsStart } from '../../../store/gameTransactions/acti
 import { downloadReport } from '../../../helpers/common';
 import { showToastr } from '../../../utils/helpers';
 import { getGameReports } from '../../../network/getRequests';
+import ExportList from '../../../components/Common/ExportList';
 
 const useGameTransactionsListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -137,19 +138,21 @@ const useGameTransactionsListing = (filterValues = {}) => {
 		downloadReport('csv', json2csv(data?.data?.gameReport), 'Game Reports');
 	};
 
-	const exportComponent = useMemo(() => [
+	const exportList = useMemo(() => [
 		{
-			label: 'All-Pages',
+			label: 'Download',
 			isDownload: true,
 			isCsv: true,
 			tooltip: 'Download CSV Report',
-			icon: <i className="mdi mdi-file-document-multiple" />,
+			icon: <i className="mdi mdi-download-multiple" />,
 			buttonColor: 'primary',
 			type: 'fullCsv',
 			handleDownload: fetchReportData,
 			isDownloading: isDownloading.fullCsv,
 		},
 	]);
+
+	const actionList = <ExportList exportList={exportList} />;
 
 	return {
 		currentPage,
@@ -160,7 +163,7 @@ const useGameTransactionsListing = (filterValues = {}) => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		exportComponent,
+		actionList,
 	};
 };
 
