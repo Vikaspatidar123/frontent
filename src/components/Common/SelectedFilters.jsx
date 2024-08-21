@@ -7,7 +7,6 @@ import { Badge, Button } from 'reactstrap';
 const SelectedFilters = ({ validation, filterFormatter }) => {
 	const clearFilter = (filterName) => {
 		validation.setFieldValue(filterName, '');
-		// handleFilter({ ...validation.values, [filterName]: '' });
 	};
 	const hasFilters = Object.keys(validation.values || {}).some(
 		(value) => validation.values[value]

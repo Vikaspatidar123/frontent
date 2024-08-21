@@ -37,7 +37,6 @@ const useFilters = () => {
 	const { validation, formFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
-		onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(),
 	});
 

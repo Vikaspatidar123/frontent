@@ -1,15 +1,7 @@
 import * as Yup from 'yup';
 
 // Filters
-const staticFiltersFields = () => [
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		// type: 'search',
-		label: '',
-		placeholder: 'Search by name',
-	},
-];
+const staticFiltersFields = () => [];
 
 const filterValues = () => ({
 	searchString: '',

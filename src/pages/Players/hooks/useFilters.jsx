@@ -159,9 +159,6 @@ const useFilters = () => {
 	);
 
 	return {
-		filterFields: formFields,
-		filterValues,
-		handleFilter,
 		filterValidation: validation,
 		filterComponent,
 		selectedFiltersComponent,
