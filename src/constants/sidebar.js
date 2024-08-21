@@ -200,7 +200,7 @@ const sideBarElements = [
 			},
 			{
 				id: 112,
-				link: '/Segmentation',
+				link: '/segmentation',
 				label: 'Segmentation',
 				searchString: 'Segmentation',
 				iconName: '',

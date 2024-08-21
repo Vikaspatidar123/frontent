@@ -111,7 +111,7 @@ const useSegmentation = () => {
 
 	const buttonList = useMemo(() => [
 		{
-			label: 'Create Segment',
+			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#/',
 			module: modules.tag,

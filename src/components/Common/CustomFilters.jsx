@@ -68,69 +68,67 @@ const CustomFilters = ({
 						tableElement
 				  )
 				: null}
-			<UncontrolledDropdown isOpen={dropdownOpen}>
-				<DropdownToggle
-					type="button"
-					style={{
-						display:
-							hideCustomFilter || !filterFields?.length ? 'none' : 'block',
-					}}
-					className="btn btn-light btn-outline-primary"
-					onClick={() => setDropdownOpen((prev) => !prev)} // Only open the dropdown on click
-				>
-					<i className="mdi mdi-plus" /> Add Filters
-				</DropdownToggle>
-				<DropdownMenu
-					className="dropdown-menu-md p-4"
-					style={{ width: '65vw', maxWidth: '40rem' }}
-				>
-					<h5>
-						<b>Filters</b>
-					</h5>
-					<hr />
-					<Row>
-						<Col lg={12}>
-							<Card className="filter-card">
-								<Row>
-									<Col xxl={12} xl={12} lg={12} md={12} sm={12}>
-										<Row className="g-3">
-											{filterFields?.map(
-												(field) =>
-													!field?.isHide && (
-														<Col
-															xxl={customFieldCols?.xxl}
-															xl={customFieldCols?.xl}
-															lg={customFieldCols?.lg}
-															md={customFieldCols?.md}
-															sm={customFieldCols?.sm}
-															key={field?.name || field?.label}
-														>
-															<div className="position-relative">
-																<input style={{ display: 'none' }} />
-																{getField(field, validation)}
-															</div>
-														</Col>
-													)
-											)}
-										</Row>
-										<Row className="mt-3">
-											<Col className="d-flex justify-content-end">
-												<Button
-													color="link"
-													className="btn btn-link waves-effect"
-													onClick={handleClose}
-												>
-													Close
-												</Button>
-											</Col>
-										</Row>
-									</Col>
-								</Row>
-							</Card>
-						</Col>
-					</Row>
-				</DropdownMenu>
-			</UncontrolledDropdown>
+			{!(hideCustomFilter || !filterFields?.length) ? (
+				<UncontrolledDropdown isOpen={dropdownOpen}>
+					<DropdownToggle
+						type="button"
+						className="btn btn-light btn-outline-primary"
+						onClick={() => setDropdownOpen((prev) => !prev)} // Only open the dropdown on click
+					>
+						<i className="mdi mdi-plus" /> Add Filters
+					</DropdownToggle>
+					<DropdownMenu
+						className="dropdown-menu-md p-4"
+						style={{ width: '65vw', maxWidth: '40rem' }}
+					>
+						<h5>
+							<b>Filters</b>
+						</h5>
+						<hr />
+						<Row>
+							<Col lg={12}>
+								<Card className="filter-card">
+									<Row>
+										<Col xxl={12} xl={12} lg={12} md={12} sm={12}>
+											<Row className="g-3">
+												{filterFields?.map(
+													(field) =>
+														!field?.isHide && (
+															<Col
+																xxl={customFieldCols?.xxl}
+																xl={customFieldCols?.xl}
+																lg={customFieldCols?.lg}
+																md={customFieldCols?.md}
+																sm={customFieldCols?.sm}
+																key={field?.name || field?.label}
+															>
+																<div className="position-relative">
+																	<input style={{ display: 'none' }} />
+																	{getField(field, validation)}
+																</div>
+															</Col>
+														)
+												)}
+											</Row>
+											<Row className="mt-3">
+												<Col className="d-flex justify-content-end">
+													<Button
+														color="link"
+														className="btn btn-link waves-effect"
+														onClick={handleClose}
+													>
+														Close
+													</Button>
+												</Col>
+											</Row>
+										</Col>
+									</Row>
+								</Card>
+							</Col>
+						</Row>
+					</DropdownMenu>
+				</UncontrolledDropdown>
+			) : null}
 		</>
 	);
 };
