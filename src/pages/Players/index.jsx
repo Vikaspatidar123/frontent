@@ -104,6 +104,7 @@ const PlayersList = ({
 						filterComponent={filterComponent}
 						selectedFiltersComponent={selectedFiltersComponent}
 						actionList={actionList}
+						customSearchClass="w-50"
 					/>
 				</div>
 			</Container>

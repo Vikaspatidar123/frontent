@@ -12,12 +12,8 @@ const PlayerPerformance = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		filterValidation,
-		filterComponent,
-		selectedFiltersComponent,
-		customSearchInput,
-	} = useFilters();
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters();
 
 	const {
 		currentPage,
@@ -51,7 +47,7 @@ const PlayerPerformance = () => {
 					changeRowsPerPageCallback={onChangeRowsPerPage}
 					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
-					customSearchInput={customSearchInput}
+					customSearchClass="w-50"
 				/>
 			</Container>
 		</div>

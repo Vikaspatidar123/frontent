@@ -13,7 +13,6 @@ import { itemsPerPage } from '../../../constants/config';
 import { fetchPlayerPerformanceStart } from '../../../store/playerPerformance/actions';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import CustomFilters from '../../../components/Common/CustomFilters';
-import TableSearchInput from '../../../components/Common/TableSearchInput';
 
 const keyMapping = {
 	searchString: 'Search',
@@ -124,19 +123,11 @@ const useFilters = () => {
 		/>
 	);
 
-	const customSearchInput = (
-		<TableSearchInput
-			validation={validation}
-			placeholder="Search by username"
-		/>
-	);
-
 	return {
 		filterFields: formFields,
 		filterValidation: validation,
 		selectedFiltersComponent,
 		filterComponent,
-		customSearchInput,
 	};
 };
 

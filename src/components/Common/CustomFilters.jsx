@@ -69,7 +69,10 @@ const CustomFilters = ({
 			<UncontrolledDropdown isOpen={dropdownOpen}>
 				<DropdownToggle
 					type="button"
-					style={{ display: hideCustomFilter ? 'none' : 'block' }}
+					style={{
+						display:
+							hideCustomFilter || !filterFields?.length ? 'none' : 'block',
+					}}
 					className="btn btn-light btn-outline-primary"
 					onClick={() => setDropdownOpen((prev) => !prev)} // Only open the dropdown on click
 				>

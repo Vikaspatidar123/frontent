@@ -19,15 +19,6 @@ const staticFormFields = [
 ];
 
 // Country filter
-const staticFiltersFields = () => [
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		// type: 'search',
-		label: '',
-		placeholder: 'Search by country name',
-	},
-];
 
 const filterValues = () => ({
 	searchString: '',
@@ -42,7 +33,6 @@ export {
 	validationSchema,
 	getInitialValues,
 	staticFormFields,
-	staticFiltersFields,
 	filterValues,
 	filterValidationSchema,
 };

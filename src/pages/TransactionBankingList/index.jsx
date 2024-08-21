@@ -14,12 +14,8 @@ const TransactionBankingList = ({ userId }) => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		filterValidation,
-		filterComponent,
-		customSearchInput,
-		selectedFiltersComponent,
-	} = useFilters();
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters();
 
 	const {
 		currentPage,
@@ -74,7 +70,6 @@ const TransactionBankingList = ({ userId }) => {
 								) : null
 							}
 							filterComponent={filterComponent}
-							customSearchInput={customSearchInput}
 							selectedFiltersComponent={selectedFiltersComponent}
 							actionList={actionList}
 						/>

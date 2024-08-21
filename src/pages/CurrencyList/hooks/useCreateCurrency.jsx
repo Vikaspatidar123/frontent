@@ -27,6 +27,7 @@ import {
 	TEXT_COLORS,
 } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useCreateCurrency = () => {
 	const dispatch = useDispatch();
@@ -120,6 +121,8 @@ const useCreateCurrency = () => {
 			operation: 'C',
 		},
 	]);
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const onClickEdit = (selectedRow) => {
 		const symbol = Object.keys(currencySymbols)?.includes(selectedRow?.code)
@@ -263,6 +266,7 @@ const useCreateCurrency = () => {
 		setShowModal,
 		isEdit,
 		toggleFormModal,
+		actionList,
 	};
 };
 

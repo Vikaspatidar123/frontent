@@ -38,6 +38,7 @@ const TableContainer = ({
 	filterComponent,
 	selectedFiltersComponent,
 	actionList,
+	customSearchClass,
 }) => {
 	const {
 		getTableProps,
@@ -63,7 +64,7 @@ const TableContainer = ({
 	return (
 		<>
 			<div className="table-actions">
-				<div id="search-input-portal" />{' '}
+				<div id="search-input-portal" className={customSearchClass} />
 				{/* Do not remove this empty div as it is used for creating portal of search input */}
 				{customTableInfo}
 				<div className="d-flex justify-content-end w-100 custom-btn-group">
@@ -282,6 +283,7 @@ TableContainer.defaultProps = {
 	customSearchInput: null,
 	selectedFiltersComponent: null,
 	actionList: null,
+	customSearchClass: '',
 };
 
 TableContainer.propTypes = {
@@ -319,6 +321,7 @@ TableContainer.propTypes = {
 	customSearchInput: PropTypes.element,
 	selectedFiltersComponent: PropTypes.element,
 	actionList: PropTypes.element,
+	customSearchClass: PropTypes.string,
 };
 
 export default TableContainer;
