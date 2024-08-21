@@ -24,6 +24,7 @@ const CustomFilters = ({
 	handleFilter,
 	showSearchInput,
 	searchInputPlaceHolder,
+	hideCustomFilter,
 }) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false); // State to control dropdown open/close
 	const ref = useRef({
@@ -68,6 +69,7 @@ const CustomFilters = ({
 			<UncontrolledDropdown isOpen={dropdownOpen}>
 				<DropdownToggle
 					type="button"
+					style={{ display: hideCustomFilter ? 'none' : 'block' }}
 					className="btn btn-light btn-outline-primary"
 					onClick={() => setDropdownOpen((prev) => !prev)} // Only open the dropdown on click
 				>
@@ -133,6 +135,7 @@ CustomFilters.defaultProps = {
 	customFieldCols: { xxl: 6, xl: 6, lg: 6, md: 6, sm: 6 },
 	showSearchInput: true,
 	searchInputPlaceHolder: 'Search...',
+	hideCustomFilter: false,
 };
 
 CustomFilters.propTypes = {
@@ -152,6 +155,7 @@ CustomFilters.propTypes = {
 	}),
 	showSearchInput: PropTypes.bool,
 	searchInputPlaceHolder: PropTypes.string,
+	hideCustomFilter: PropTypes.bool,
 };
 
 export default CustomFilters;
