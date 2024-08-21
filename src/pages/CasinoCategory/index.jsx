@@ -18,16 +18,8 @@ const GetCasinoCategoryDetails = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		// toggleAdvance,
-		// isAdvanceOpen,
-		// filterFields,
-		// actionButtons,
-		filterValidation,
-		filterComponent,
-		selectedFiltersComponent,
-		// isFilterChanged,
-	} = useFilters();
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters();
 
 	const {
 		formattedCasinoCategoriesData,
@@ -72,7 +64,6 @@ const GetCasinoCategoryDetails = () => {
 						breadcrumbItem="Casino Category"
 					/>
 				)}
-
 				<TableContainer
 					columns={columns}
 					data={formattedCasinoCategoriesData}
@@ -80,8 +71,6 @@ const GetCasinoCategoryDetails = () => {
 					isGlobalFilter
 					isPagination
 					customPageSize={itemsPerPage}
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
 					totalPageCount={totalPages}
 					isManualPagination
 					onChangePagination={setPage}

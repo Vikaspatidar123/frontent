@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { React, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	filterValidationSchema,
@@ -145,7 +145,6 @@ const useFilters = () => {
 	};
 
 	const selectedFiltersComponent = (
-		// eslint-disable-next-line react/react-in-jsx-scope
 		<SelectedFilters
 			validation={validation}
 			filterFormatter={filterFormatter}
@@ -153,7 +152,6 @@ const useFilters = () => {
 	);
 
 	const filterComponent = (
-		// eslint-disable-next-line react/react-in-jsx-scope
 		<CustomFilters
 			filterFields={formFields}
 			validation={validation}

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { React, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
 	filterValidationSchema,
@@ -56,12 +56,8 @@ const useFilters = () => {
 		},
 	]);
 
-	const selectedFiltersComponent = (
-		// eslint-disable-next-line react/react-in-jsx-scope
-		<SelectedFilters validation={validation} />
-	);
+	const selectedFiltersComponent = <SelectedFilters validation={validation} />;
 	const filterComponent = (
-		// eslint-disable-next-line react/react-in-jsx-scope
 		<CustomFilters
 			validation={validation}
 			handleFilter={handleFilter}

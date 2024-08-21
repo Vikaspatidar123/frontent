@@ -51,8 +51,6 @@ const CasinoGames = () => {
 						isGlobalFilter
 						isPagination
 						customPageSize={itemsPerPage}
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
 						totalPageCount={totalCasinoPages}
 						isManualPagination
 						onChangePagination={setPage}

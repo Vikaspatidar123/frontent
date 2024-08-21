@@ -8,7 +8,6 @@ import Breadcrumb from '../../../components/Common/Breadcrumb';
 // redux
 import { projectName } from '../../../constants/config';
 import useCreateAggregator from './hooks/useCreateAggregator';
-// import CrudSection from '../../../components/Common/CrudSection';
 import FormModal from '../../../components/Common/FormModal';
 import { formPageTitle } from '../../../components/Common/constants';
 import ConfirmationModal from '../../../components/Common/ConfirmationModal';
@@ -28,7 +27,6 @@ const CasinoAggregators = () => {
 		validation,
 		formFields,
 		isCreateAggregatorLoading,
-		// buttonList,
 		handleStatus,
 	} = useCreateAggregator();
 
@@ -58,8 +56,6 @@ const CasinoAggregators = () => {
 					isGlobalFilter
 					isPagination
 					customPageSize={itemsPerPage}
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
 					totalPageCount={aggregatorsData?.totalPages}
 					isManualPagination
 					onChangePagination={setCurrentPage}
