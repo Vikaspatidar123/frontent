@@ -4,16 +4,20 @@
 import React from 'react';
 import { Input } from 'reactstrap';
 
-const TableSearchInput = ({ validation, placeholder }) => (
+const TableSearchInput = ({
+	validation,
+	placeholder,
+	searchInputName = 'searchString',
+}) => (
 	<div className="filter-search me-2">
 		<div className="position-relative">
 			<Input
 				type="text"
-				value={validation.values.searchString}
+				value={validation.values[searchInputName]}
 				className="form-control border-0"
 				placeholder={placeholder || 'Search...'}
 				onChange={(e) =>
-					validation.setFieldValue('searchString', e.target.value)
+					validation.setFieldValue(searchInputName, e.target.value)
 				}
 			/>
 			<i
@@ -26,7 +30,7 @@ const TableSearchInput = ({ validation, placeholder }) => (
 				}}
 			/>
 
-			{validation.values.searchString && (
+			{validation.values[searchInputName] && (
 				<i
 					className="mdi mdi-close clear-icon"
 					style={{
@@ -36,7 +40,7 @@ const TableSearchInput = ({ validation, placeholder }) => (
 						transform: 'translateY(-50%)',
 						cursor: 'pointer',
 					}}
-					onClick={() => validation.setFieldValue('searchString', '')}
+					onClick={() => validation.setFieldValue(searchInputName, '')}
 				/>
 			)}
 		</div>

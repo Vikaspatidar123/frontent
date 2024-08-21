@@ -4,13 +4,6 @@ import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 // CMS Filter
 const staticFiltersFields = () => [
 	{
-		name: 'searchString',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by name',
-	},
-	{
 		name: 'isActive',
 		fieldType: 'select',
 		label: '',

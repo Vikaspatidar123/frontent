@@ -1,14 +1,12 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import useSportsListing from './hooks/useSportsListing';
 import { projectName } from '../../constants/config';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
-import Filters from '../../components/Common/Filters';
 import Modal from '../../components/Common/Modal';
 import IconUploader from '../IconUploader';
 
@@ -17,14 +15,8 @@ const SportsListing = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters();
 
 	const {
 		formattedSportsList,
@@ -47,37 +39,21 @@ const SportsListing = () => {
 				{showBreadcrumb && (
 					<Breadcrumb title="Sportsbook" breadcrumbItem="Sports" />
 				)}
-				<Row>
-					<Col lg="12">
-						<Card>
-							<CrudSection buttonList={[]} title="Sports" />
-							<CardBody>
-								<Filters
-									validation={filterValidation}
-									filterFields={filterFields}
-									actionButtons={actionButtons}
-									isAdvanceOpen={isAdvanceOpen}
-									toggleAdvance={toggleAdvance}
-									isFilterChanged={isFilterChanged}
-								/>
-								<TableContainer
-									columns={columns}
-									data={formattedSportsList}
-									isPagination
-									customPageSize={itemsPerPage}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={sportsPages}
-									isManualPagination
-									onChangePagination={setPage}
-									currentPage={page}
-									isLoading={!isSportsListLoading}
-									changeRowsPerPageCallback={onChangeRowsPerPage}
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
+				<TableContainer
+					columns={columns}
+					data={formattedSportsList}
+					isPagination
+					customPageSize={itemsPerPage}
+					totalPageCount={sportsPages}
+					isManualPagination
+					onChangePagination={setPage}
+					currentPage={page}
+					isLoading={!isSportsListLoading}
+					changeRowsPerPageCallback={onChangeRowsPerPage}
+					filterValidation={filterValidation}
+					filterComponent={filterComponent}
+					selectedFiltersComponent={selectedFiltersComponent}
+				/>
 				<Modal
 					openModal={showUploadModal}
 					toggleModal={() => setShowUploadModal(!showUploadModal)}
