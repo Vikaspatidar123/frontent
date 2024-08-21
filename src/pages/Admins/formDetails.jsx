@@ -127,13 +127,6 @@ const staticFiltersFields = () => [
 			value,
 		})),
 	},
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by email or name',
-	},
 ];
 
 const filterValues = () => ({
