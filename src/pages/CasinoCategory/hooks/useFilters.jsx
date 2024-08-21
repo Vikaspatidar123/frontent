@@ -9,6 +9,8 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getCasinoCategoryDetailStart } from '../../../store/actions';
 import { debounceTime, itemsPerPage } from '../../../constants/config';
+import SelectedFilters from '../../../components/Common/SelectedFilters';
+import TableSearchInput from '../../../components/Common/TableSearchInput';
 
 let debounce;
 const useFilters = () => {
@@ -75,6 +77,27 @@ const useFilters = () => {
 		},
 	]);
 
+	const selectedFiltersComponent = (
+		// eslint-disable-next-line react/react-in-jsx-scope
+		<SelectedFilters validation={validation} />
+	);
+
+	// const filterComponent = (
+	// 	<CustomFilters
+	// 		filterFields={formFields}
+	// 		validation={validation}
+	// 		handleFilter={handleFilter}
+	// 	/>
+	// );
+
+	const customSearchInput = (
+		// eslint-disable-next-line react/react-in-jsx-scope
+		<TableSearchInput
+			validation={validation}
+			placeholder="Search by Category"
+		/>
+	);
+
 	return {
 		toggleAdvance,
 		isAdvanceOpen,
@@ -82,6 +105,8 @@ const useFilters = () => {
 		actionButtons,
 		filterValidation: validation,
 		isFilterChanged,
+		customSearchInput,
+		selectedFiltersComponent,
 	};
 };
 

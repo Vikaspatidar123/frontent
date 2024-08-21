@@ -15,6 +15,7 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useCreateCategory = () => {
 	const dispatch = useDispatch();
@@ -177,6 +178,9 @@ const useCreateCategory = () => {
 		setIsOpen((prev) => !prev);
 	};
 
+	// eslint-disable-next-line react/react-in-jsx-scope
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	return {
 		isOpen,
 		setIsOpen,
@@ -191,6 +195,7 @@ const useCreateCategory = () => {
 		showModal,
 		setShowModal,
 		toggleFormModal,
+		actionList,
 	};
 };
 

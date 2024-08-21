@@ -30,6 +30,7 @@ import { dataURLtoBlob } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useCreateProvider = () => {
 	const dispatch = useDispatch();
@@ -279,13 +280,14 @@ const useCreateProvider = () => {
 
 	const buttonList = [
 		{
-			label: 'Configure New',
+			label: 'Create',
 			handleClick: handleAddClick,
 			link: '#!',
 			module: modules.casinoManagement,
 			operation: 'C',
 		},
 	];
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	return {
 		isOpen,
@@ -301,7 +303,7 @@ const useCreateProvider = () => {
 		showModal,
 		setShowModal,
 		isEdit,
-		buttonList,
+		actionList,
 	};
 };
 
