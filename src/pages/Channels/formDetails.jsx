@@ -2,25 +2,17 @@
 import * as Yup from 'yup';
 import { channelCriteria } from './constants';
 
-const staticFiltersFields = () => [
-	{
-		name: 'search',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by name',
-	},
-];
+const staticFiltersFields = () => [];
 
 const filterValues = () => ({
 	isActive: null,
-	search: '',
+	searchName: '',
 });
 
 const filterValidationSchema = () =>
 	Yup.object({
 		isActive: Yup.string().nullable(),
-		search: Yup.string().nullable(),
+		searchName: Yup.string().nullable(),
 	});
 
 const channelsList = channelCriteria.map((item) => ({
