@@ -24,6 +24,7 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
 import { useConfirmModal } from '../../../components/Common/ConfirmModal';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useTournaments = () => {
 	const dispatch = useDispatch();
@@ -34,14 +35,8 @@ const useTournaments = () => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters(itemsPerPage);
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters(itemsPerPage);
 
 	const { tournamentsInfo, isTournamentsInfoLoading, updateTournament } =
 		useSelector((state) => state.Tournament);
@@ -276,6 +271,8 @@ const useTournaments = () => {
 		},
 	]);
 
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	return {
 		itemsPerPage,
 		setItemsPerPage,
@@ -285,16 +282,12 @@ const useTournaments = () => {
 		totalPages: tournamentsInfo?.totalPages,
 		tournamentsInfo,
 		columns,
-		buttonList,
+		actionList,
 		isTournamentsInfoLoading,
 		acceptSettleToggle,
 		acceptStatusToggle,
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
+		filterComponent,
+		selectedFiltersComponent,
 	};
 };
 

@@ -25,6 +25,7 @@ const CustomFilters = ({
 	showSearchInput,
 	searchInputPlaceHolder,
 	hideCustomFilter,
+	searchInputName,
 }) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false); // State to control dropdown open/close
 	const ref = useRef({
@@ -62,6 +63,7 @@ const CustomFilters = ({
 						<TableSearchInput
 							validation={validation}
 							placeholder={searchInputPlaceHolder}
+							searchInputName={searchInputName}
 						/>,
 						tableElement
 				  )
@@ -139,6 +141,7 @@ CustomFilters.defaultProps = {
 	showSearchInput: true,
 	searchInputPlaceHolder: 'Search...',
 	hideCustomFilter: false,
+	searchInputName: 'searchString',
 };
 
 CustomFilters.propTypes = {
@@ -159,6 +162,7 @@ CustomFilters.propTypes = {
 	showSearchInput: PropTypes.bool,
 	searchInputPlaceHolder: PropTypes.string,
 	hideCustomFilter: PropTypes.bool,
+	searchInputName: PropTypes.string,
 };
 
 export default CustomFilters;
