@@ -1,13 +1,12 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import { projectName } from '../../constants/config';
 import useFilters from './hooks/useFilters';
 import usePlayerPerformance from './hooks/usePlayerPerformance';
-import CrudSection from '../../components/Common/CrudSection';
 
 const PlayerPerformance = () => {
 	document.title = projectName;
@@ -37,36 +36,23 @@ const PlayerPerformance = () => {
 				{showBreadcrumb && (
 					<Breadcrumb title="Reports" breadcrumbItem="Player Performance" />
 				)}
-				<Row>
-					<Col lg="12">
-						<Card>
-							<CrudSection
-								buttonList={[]}
-								// exportComponent={exportComponent}
-								title="Player Performance"
-							/>
-							<CardBody>
-								<TableContainer
-									isLoading={loading}
-									columns={columns}
-									data={playerPerformance}
-									isPagination
-									customPageSize={itemsPerPage}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalCount}
-									isManualPagination
-									onChangePagination={setCurrentPage}
-									currentPage={currentPage}
-									changeRowsPerPageCallback={onChangeRowsPerPage}
-									filterComponent={filterComponent}
-									selectedFiltersComponent={selectedFiltersComponent}
-									customSearchInput={customSearchInput}
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
+				<TableContainer
+					isLoading={loading}
+					columns={columns}
+					data={playerPerformance}
+					isPagination
+					customPageSize={itemsPerPage}
+					paginationDiv="justify-content-center"
+					pagination="pagination justify-content-start pagination-rounded"
+					totalPageCount={totalCount}
+					isManualPagination
+					onChangePagination={setCurrentPage}
+					currentPage={currentPage}
+					changeRowsPerPageCallback={onChangeRowsPerPage}
+					filterComponent={filterComponent}
+					selectedFiltersComponent={selectedFiltersComponent}
+					customSearchInput={customSearchInput}
+				/>
 			</Container>
 		</div>
 	);

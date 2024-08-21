@@ -29,6 +29,7 @@ import { STATUS_TYPE } from '../constants';
 import { downloadReport } from '../../../helpers/common';
 import { getCasinoTransactions } from '../../../network/getRequests';
 import { showToastr } from '../../../utils/helpers';
+import ExportList from '../../../components/Common/ExportList';
 // import { modules } from '../../../constants/permissions';
 // import { getAccessToken } from '../../../network/storageUtils';
 // import { downloadFileInNewWindow } from '../../../utils/helpers';
@@ -235,19 +236,21 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 		downloadReport('csv', json2csv(csvJsonData), 'Casino Transactions Report');
 	};
 
-	const exportComponent = useMemo(() => [
+	const exportList = useMemo(() => [
 		{
-			label: 'All-Pages',
+			label: 'Download',
 			isDownload: true,
 			isCsv: true,
 			tooltip: 'Download CSV Report',
-			icon: <i className="mdi mdi-file-document-multiple" />,
+			icon: <i className="mdi mdi-download-multiple" />,
 			buttonColor: 'primary',
 			type: 'fullCsv',
 			handleDownload: fetchReportData,
 			isDownloading: isDownloading.fullCsv,
 		},
 	]);
+
+	const actionList = <ExportList exportList={exportList} />;
 
 	return {
 		currentPage,
@@ -258,7 +261,7 @@ const useCasinoTransactionsListing = (filterValues = {}, userId = '') => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		exportComponent,
+		actionList,
 	};
 };
 

@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useCasinoTransactionsListing from './hooks/useCasinoTransactionsListing';
 import { projectName } from '../../constants/config';
-import CrudSection from '../../components/Common/CrudSection';
 import useFilters from './hooks/useFilters';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
 
@@ -26,7 +25,7 @@ const CasinoTransactionsList = ({ userId }) => {
 		casinoTransactions,
 		onChangeRowsPerPage,
 		columns,
-		exportComponent,
+		actionList,
 	} = useCasinoTransactionsListing(filterValidation.values, userId);
 
 	return (
@@ -35,62 +34,51 @@ const CasinoTransactionsList = ({ userId }) => {
 				{showBreadcrumb && (
 					<Breadcrumb title="Reports" breadcrumbItem="Casino Transactions" />
 				)}
-				<Row>
-					<Col lg="12">
-						<Card>
-							<CrudSection
-								buttonList={[]}
-								exportComponent={exportComponent}
-								title="Casino Transactions"
+
+				<TableContainer
+					isLoading={isCasinoTransactionsLoading}
+					columns={columns}
+					data={formattedCasinoTransactions}
+					isPagination
+					customPageSize={itemsPerPage}
+					paginationDiv="justify-content-center"
+					pagination="pagination justify-content-start pagination-rounded"
+					totalPageCount={casinoTransactions?.totalPages || 0}
+					isManualPagination
+					onChangePagination={setCurrentPage}
+					currentPage={currentPage}
+					changeRowsPerPageCallback={onChangeRowsPerPage}
+					customTableInfo={
+						!userId ? (
+							<DepositWithdrawalInfo // Hide deposit withdraw info from specific player report
+								currencyId={filterValidation.values?.currencyId}
+								values={[
+									{
+										label: 'Total Wagered',
+										value: casinoTransactions?.totalBetAmount || 0,
+										type: 'in',
+									},
+									{
+										label: 'Total Payout',
+										value: casinoTransactions?.totalWinAmount || 0,
+										colorClass: 'text-danger',
+									},
+									{
+										label: 'Total Profit',
+										value: (
+											Number(casinoTransactions?.totalBetAmount || 0) -
+											Number(casinoTransactions?.totalWinAmount || 0)
+										)?.toFixed(2),
+										type: 'in',
+									},
+								]}
 							/>
-							<CardBody>
-								<TableContainer
-									isLoading={isCasinoTransactionsLoading}
-									columns={columns}
-									data={formattedCasinoTransactions}
-									isPagination
-									customPageSize={itemsPerPage}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={casinoTransactions?.totalPages || 0}
-									isManualPagination
-									onChangePagination={setCurrentPage}
-									currentPage={currentPage}
-									changeRowsPerPageCallback={onChangeRowsPerPage}
-									customTableInfo={
-										!userId ? (
-											<DepositWithdrawalInfo // Hide deposit withdraw info from specific player report
-												currencyId={filterValidation.values?.currencyId}
-												values={[
-													{
-														label: 'Total Wagered',
-														value: casinoTransactions?.totalBetAmount || 0,
-														type: 'in',
-													},
-													{
-														label: 'Total Payout',
-														value: casinoTransactions?.totalWinAmount || 0,
-														colorClass: 'text-danger',
-													},
-													{
-														label: 'Total Profit',
-														value: (
-															Number(casinoTransactions?.totalBetAmount || 0) -
-															Number(casinoTransactions?.totalWinAmount || 0)
-														)?.toFixed(2),
-														type: 'in',
-													},
-												]}
-											/>
-										) : null
-									}
-									filterComponent={filterComponent}
-									selectedFiltersComponent={selectedFiltersComponent}
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
+						) : null
+					}
+					filterComponent={filterComponent}
+					selectedFiltersComponent={selectedFiltersComponent}
+					actionList={actionList}
+				/>
 			</Container>
 		</div>
 	);

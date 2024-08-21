@@ -26,6 +26,7 @@ import { fetchSportsTransactionsStart } from '../../../store/sportsTransactions/
 import { downloadReport } from '../../../helpers/common';
 import { getSportsTransactions } from '../../../network/getRequests';
 import { showToastr } from '../../../utils/helpers';
+import ExportList from '../../../components/Common/ExportList';
 
 const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 	const dispatch = useDispatch();
@@ -229,19 +230,21 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 		downloadReport('csv', json2csv(csvJsonData), 'Sports Transactions Report');
 	};
 
-	const exportComponent = useMemo(() => [
+	const exportList = useMemo(() => [
 		{
-			label: 'All-Pages',
+			label: 'Download',
 			isDownload: true,
 			isCsv: true,
 			tooltip: 'Download CSV Report',
-			icon: <i className="mdi mdi-file-document-multiple" />,
+			icon: <i className="mdi mdi-download-multiple" />,
 			buttonColor: 'primary',
 			type: 'fullCsv',
 			handleDownload: fetchReportData,
 			isDownloading: isDownloading.fullCsv,
 		},
 	]);
+
+	const actionList = <ExportList exportList={exportList} />;
 
 	return {
 		currentPage,
@@ -252,7 +255,7 @@ const useSportsTransactionsListing = (filterValues = {}, userId = '') => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		exportComponent,
+		actionList,
 	};
 };
 

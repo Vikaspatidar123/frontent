@@ -22,6 +22,7 @@ import { STATUS_TYPE } from '../constants';
 import { showToastr } from '../../../utils/helpers';
 import { getTransactionBanking } from '../../../network/getRequests';
 import { downloadReport } from '../../../helpers/common';
+import ExportList from '../../../components/Common/ExportList';
 
 const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 	const dispatch = useDispatch();
@@ -204,19 +205,22 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 		downloadReport('csv', json2csv(csvJsonData), 'Transactions Banking Report');
 	};
 
-	const exportComponent = useMemo(() => [
+	const exportList = useMemo(() => [
 		{
-			label: 'All-Pages',
+			label: 'Download',
 			isDownload: true,
 			isCsv: true,
 			tooltip: 'Download CSV Report',
-			icon: <i className="mdi mdi-file-document-multiple" />,
+			icon: <i className="mdi mdi-download-multiple" />,
 			buttonColor: 'primary',
 			type: 'fullCsv',
 			handleDownload: fetchReportData,
 			isDownloading: isDownloading.fullCsv,
 		},
 	]);
+
+	const actionList = <ExportList exportList={exportList} />;
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -227,7 +231,7 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		exportComponent,
+		actionList,
 	};
 };
 
