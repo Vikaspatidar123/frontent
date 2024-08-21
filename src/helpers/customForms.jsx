@@ -195,24 +195,21 @@ const CheckboxOption = (props) => (
 );
 
 const MultiValue = (props) => {
-	const { index, children } = props;
-	if (index >= 1) {
+	const { index, children, selectProps } = props;
+	const visibleCount = 2; // Show 2 selected options
+	const remainingCount = selectProps.value.length - visibleCount;
+
+	if (index >= visibleCount) {
 		return null;
 	}
-	return <components.MultiValue {...props}>{children}</components.MultiValue>;
-};
-
-const MultiValueContainer = ({ selectProps, children }) => {
-	const selectedValues = selectProps.value;
-	const remainingCount = selectedValues.length - 1;
 
 	return (
-		<div style={{ display: 'flex', alignItems: 'center' }}>
-			{children}
-			{remainingCount > 0 && (
+		<>
+			<components.MultiValue {...props}>{children}</components.MultiValue>
+			{index === visibleCount - 1 && remainingCount > 0 && (
 				<span style={{ marginLeft: '5px' }}>+{remainingCount}</span>
 			)}
-		</div>
+		</>
 	);
 };
 
@@ -240,7 +237,7 @@ export const MultiSelectOption = ({
 				components={{
 					Option: CheckboxOption,
 					MultiValue,
-					MultiValueContainer,
+					// MultiValueContainer,
 					SingleValue: () => null,
 				}}
 				onChange={handleChange}

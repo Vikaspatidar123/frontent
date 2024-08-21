@@ -9,9 +9,12 @@ const SelectedFilters = ({ validation, filterFormatter }) => {
 		validation.setFieldValue(filterName, '');
 		// handleFilter({ ...validation.values, [filterName]: '' });
 	};
+	const hasFilters = Object.keys(validation.values || {}).some(
+		(value) => validation.values[value]
+	);
 
 	return (
-		<div className="m-2">
+		<div className={`${hasFilters ? 'm-2' : 'm-0'}`}>
 			{Object.keys(validation.values || {}).map((filterName) => {
 				if (validation.values[filterName]) {
 					return (
@@ -32,9 +35,7 @@ const SelectedFilters = ({ validation, filterFormatter }) => {
 				}
 				return null;
 			})}
-			{Object.keys(validation.values || {}).some(
-				(value) => validation.values[value]
-			) ? (
+			{hasFilters ? (
 				<Button
 					color="link"
 					className="btn btn-link waves-effect"
