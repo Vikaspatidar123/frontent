@@ -21,6 +21,7 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import { useConfirmModal } from '../../../components/Common/ConfirmModal';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useSegmentation = () => {
 	const dispatch = useDispatch();
@@ -117,6 +118,8 @@ const useSegmentation = () => {
 			operation: 'C',
 		},
 	]);
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -219,6 +222,7 @@ const useSegmentation = () => {
 		formFields,
 		userTagsLoading,
 		handleDelete,
+		actionList,
 	};
 };
 
