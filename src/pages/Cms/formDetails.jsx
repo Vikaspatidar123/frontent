@@ -2,13 +2,13 @@ import * as Yup from 'yup';
 
 // CMS Filter
 const staticFiltersFields = () => [
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by title or Slug',
-	},
+	// {
+	// 	name: 'searchString',
+	// 	fieldType: 'textField',
+	// 	type: 'search',
+	// 	label: '',
+	// 	placeholder: 'Search by title or Slug',
+	// },
 	{
 		name: 'isActive',
 		fieldType: 'select',

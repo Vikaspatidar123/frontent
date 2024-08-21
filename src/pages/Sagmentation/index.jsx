@@ -1,8 +1,7 @@
 import React from 'react';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
-import CrudSection from '../../components/Common/CrudSection';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSegmentation from './hooks/useSegmentation';
 import FormModal from '../../components/Common/FormModal';
@@ -12,7 +11,7 @@ const Segmentation = () => {
 
 	const {
 		columns,
-		buttonList,
+		actionList,
 		formattedSegments,
 		itemsPerPage,
 		setCurrentPage,
@@ -32,32 +31,21 @@ const Segmentation = () => {
 				{showBreadcrumb && (
 					<Breadcrumb title="CRM" breadcrumbItem="Segmentation" />
 				)}
-				<Row>
-					<Col lg="12">
-						<Card>
-							<CrudSection buttonList={buttonList} title="Segmentation" />
-							<CardBody>
-								<TableContainer
-									isLoading={userTagsLoading}
-									columns={columns || []}
-									data={formattedSegments}
-									isPagination
-									customPageSize={itemsPerPage}
-									tableClass="table-bordered align-middle nowrap mt-2"
-									// paginationDiv="col-sm-12 col-md-7"
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={1}
-									isManualPagination
-									onChangePagination={setCurrentPage}
-									currentPage={currentPage}
-									changeRowsPerPageCallback={onChangeRowsPerPage}
-									isShowColSettings={false}
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
+				<TableContainer
+					isLoading={userTagsLoading}
+					columns={columns || []}
+					data={formattedSegments}
+					isPagination
+					customPageSize={itemsPerPage}
+					tableClass="table-bordered align-middle nowrap mt-2"
+					isShowColSettings
+					totalPageCount={1}
+					isManualPagination
+					onChangePagination={setCurrentPage}
+					currentPage={currentPage}
+					changeRowsPerPageCallback={onChangeRowsPerPage}
+					actionList={actionList}
+				/>
 				<FormModal
 					isOpen={isOpen}
 					toggle={toggleFormModal}

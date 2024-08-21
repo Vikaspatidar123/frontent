@@ -21,6 +21,7 @@ import {
 
 import { showToastr } from '../../../utils/helpers';
 import { modules } from '../../../constants/permissions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useCreateCms = () => {
 	const navigate = useNavigate();
@@ -84,6 +85,8 @@ const useCreateCms = () => {
 			operation: 'C',
 		},
 	]);
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const galleryList = useMemo(() => [
 		{
@@ -151,6 +154,7 @@ const useCreateCms = () => {
 		handleGalleryClick,
 		imageComponent,
 		languageOptions,
+		actionList,
 	};
 };
 

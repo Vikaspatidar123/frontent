@@ -2,12 +2,11 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
 import useBannerManagement from './hooks/useBannerManagement';
 import { projectName } from '../../constants/config';
-import CrudSection from '../../components/Common/CrudSection';
 import FormModal from '../../components/Common/FormModal';
 import useCreateBanner from './hooks/useCreateBanner';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
@@ -42,23 +41,12 @@ const BannerManagement = () => {
 						breadcrumbItem="Banner Management"
 					/>
 				)}
-				<Row>
-					<Col lg="12">
-						<Card>
-							<CrudSection buttonList={[]} title="Banners" />
-							<CardBody>
-								<TableContainer
-									columns={columns}
-									data={formattedSABanners}
-									isLoading={SABannersloading}
-									customPageSize={10}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
+				<TableContainer
+					columns={columns}
+					data={formattedSABanners}
+					isLoading={SABannersloading}
+					customPageSize={10}
+				/>
 				<FormModal
 					isOpen={isOpen}
 					setIsOpen={setIsOpen}

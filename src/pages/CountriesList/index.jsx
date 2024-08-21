@@ -50,8 +50,6 @@ const CountriesList = () => {
 					data={formattedCountries}
 					isPagination
 					customPageSize={itemsPerPage}
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
 					totalPageCount={totalCountriesCount}
 					isManualPagination
 					onChangePagination={setCurrentPage}
