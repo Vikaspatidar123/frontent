@@ -9,6 +9,7 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 import { KeyValueCell, Status } from '../NotificationListCol';
 import Actions from '../../../components/Common/Actions';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useNotificationListing = () => {
 	const dispatch = useDispatch();
@@ -73,6 +74,8 @@ const useNotificationListing = () => {
 		},
 	];
 
+	const buttonActionList = <ButtonList buttonList={buttonList} />;
+
 	const columns = useMemo(
 		() => [
 			// {
@@ -120,7 +123,7 @@ const useNotificationListing = () => {
 		formattedNotifications,
 		itemsPerPage,
 		onChangeRowsPerPage,
-		buttonList,
+		buttonActionList,
 		columns,
 	};
 };

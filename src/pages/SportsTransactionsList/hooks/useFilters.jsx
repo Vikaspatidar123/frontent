@@ -19,8 +19,8 @@ const keyMapping = {
 	searchString: 'Search',
 	purpose: 'Purpose',
 	status: 'Status',
-	toDate: 'Registration till',
-	fromDate: 'Registration from',
+	toDate: 'To Date',
+	fromDate: 'To Date',
 	betId: 'Bet Id',
 	betType: 'Bet Type',
 	gameId: 'Game id',
@@ -28,7 +28,7 @@ const keyMapping = {
 	previousTransactionId: 'Previous Transaction Id',
 	walletId: 'Wallet Id',
 	conversionRate: 'Conversion Id',
-	currencyId: 'Currency Id',
+	currencyId: 'Currency',
 	tagId: 'Segments',
 };
 
@@ -171,6 +171,7 @@ const useFilters = (userId = '') => {
 			filterFields={formFields}
 			validation={validation}
 			handleFilter={handleFilter}
+			showSearchInput={false}
 		/>
 	);
 

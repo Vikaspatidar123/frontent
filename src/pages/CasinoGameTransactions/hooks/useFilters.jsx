@@ -17,8 +17,8 @@ import CustomFilters from '../../../components/Common/CustomFilters';
 const keyMapping = {
 	gameName: 'Game Name',
 	tab: 'Tab',
-	toDate: 'Registration till',
-	fromDate: 'Registration from',
+	toDate: 'To Date',
+	fromDate: 'From Date',
 	dateOptions: 'Date Options',
 	orderBy: 'Order By',
 };
@@ -127,6 +127,7 @@ const useFilters = () => {
 			filterFields={formFields}
 			validation={validation}
 			handleFilter={handleFilter}
+			showSearchInput={false}
 		/>
 	);
 

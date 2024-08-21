@@ -20,8 +20,8 @@ import CustomFilters from '../../../components/Common/CustomFilters';
 const keyMapping = {
 	gameName: 'Game Name',
 	searchString: 'Search',
-	toDate: 'Registration till',
-	fromDate: 'Registration from',
+	toDate: 'To Date',
+	fromDate: 'From Date',
 	gameId: 'Game Id',
 	walletId: 'Wallet Id',
 	actioneeId: 'Actionee Id',
@@ -29,7 +29,7 @@ const keyMapping = {
 	conversionRate: 'Conversion Id',
 	purpose: 'Purpose',
 	status: 'Status',
-	currencyId: 'Currency Id',
+	currencyId: 'Currency',
 	tagId: 'Segments',
 };
 
@@ -159,6 +159,7 @@ const useFilters = (userId) => {
 			filterFields={formFields}
 			validation={validation}
 			handleFilter={handleFilter}
+			showSearchInput={false}
 		/>
 	);
 

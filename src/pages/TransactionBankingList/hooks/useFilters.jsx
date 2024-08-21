@@ -15,7 +15,6 @@ import {
 import { itemsPerPage } from '../../../constants/config';
 import CustomFilters from '../../../components/Common/CustomFilters';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
-import TableSearchInput from '../../../components/Common/TableSearchInput';
 
 const keyMapping = {
 	status: 'Status',
@@ -24,7 +23,7 @@ const keyMapping = {
 	type: 'Type',
 	purpose: 'Purpose',
 	tagIds: 'Segment',
-	currencyId: 'Currency Id',
+	currencyId: 'Currency',
 	searchString: 'Search',
 };
 
@@ -143,13 +142,7 @@ const useFilters = (userId = '') => {
 			filterFields={formFields}
 			validation={validation}
 			handleFilter={handleFilter}
-		/>
-	);
-
-	const customSearchInput = (
-		<TableSearchInput
-			validation={validation}
-			placeholder="Search by username"
+			showSearchInput={false}
 		/>
 	);
 
@@ -159,7 +152,6 @@ const useFilters = (userId = '') => {
 		handleFilter,
 		filterValidation: validation,
 		filterComponent,
-		customSearchInput,
 		selectedFiltersComponent,
 	};
 };

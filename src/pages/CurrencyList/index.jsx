@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 // import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
@@ -9,7 +9,6 @@ import useCurrencyListing from './hooks/useCurrencyListing';
 import { projectName } from '../../constants/config';
 import FormModal from '../../components/Common/FormModal';
 import useCreateCurrency from './hooks/useCreateCurrency';
-import CrudSection from '../../components/Common/CrudSection';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 import { formPageTitle } from '../../components/Common/constants';
 
@@ -38,7 +37,7 @@ const CurrencyList = () => {
 		showModal,
 		setShowModal,
 		toggleFormModal,
-		buttonList,
+		actionList,
 	} = useCreateCurrency();
 
 	return (
@@ -47,33 +46,23 @@ const CurrencyList = () => {
 				{showBreadcrumb && (
 					<Breadcrumb title="Site Configurations" breadcrumbItem="Currencies" />
 				)}
-				{/* <Breadcrumb
-					title={t('Site Configurations')}
-					breadcrumbItem={t('Currencies')}
-				/> */}
-				<Row>
-					<Col lg="12">
-						<Card>
-							<CrudSection buttonList={buttonList} title="Currency" />
-							<CardBody>
-								<TableContainer
-									isLoading={isCurrenciesLoading}
-									columns={columns}
-									data={formattedCurrencies}
-									isPagination
-									customPageSize={itemsPerPage}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalCurrenciesCount}
-									isManualPagination
-									onChangePagination={setCurrentPage}
-									currentPage={currentPage}
-									changeRowsPerPageCallback={onChangeRowsPerPage}
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
+
+				<TableContainer
+					isLoading={isCurrenciesLoading}
+					columns={columns}
+					data={formattedCurrencies}
+					isPagination
+					customPageSize={itemsPerPage}
+					paginationDiv="justify-content-center"
+					pagination="pagination justify-content-start pagination-rounded"
+					totalPageCount={totalCurrenciesCount}
+					isManualPagination
+					onChangePagination={setCurrentPage}
+					currentPage={currentPage}
+					changeRowsPerPageCallback={onChangeRowsPerPage}
+					actionList={actionList}
+				/>
+
 				<FormModal
 					isOpen={isOpen}
 					toggle={toggleFormModal}
