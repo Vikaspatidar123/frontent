@@ -19,6 +19,7 @@ import { modules } from '../../../constants/permissions';
 import Actions from '../../../components/Common/Actions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useEmailTemplate = () => {
 	const {
@@ -146,6 +147,8 @@ const useEmailTemplate = () => {
 		},
 	]);
 
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	const isDeleteDisabled = (row) => row?.isDefault;
 
 	const actionsList = [
@@ -228,7 +231,7 @@ const useEmailTemplate = () => {
 		customComponent,
 		columns,
 		clickId,
-		buttonList,
+		actionList,
 		handleDeleteSubmit,
 		handleDeleteClick,
 		useConfirmModal,
