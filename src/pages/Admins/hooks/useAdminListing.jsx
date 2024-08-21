@@ -21,6 +21,7 @@ import { modules } from '../../../constants/permissions';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useAdminListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -102,13 +103,20 @@ const useAdminListing = (filterValues = {}) => {
 
 	const buttonList = [
 		{
-			label: 'Create',
+			label: (
+				<>
+					{' '}
+					<i className="mdi mdi-plus" /> Create
+				</>
+			),
 			handleClick: handleAddClick,
 			link: '#!',
 			module: modules.admin,
 			operation: 'C',
 		},
 	];
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const isDisabled = (row) => row?.adminRole?.level === 1;
 
@@ -220,8 +228,8 @@ const useAdminListing = (filterValues = {}) => {
 		itemsPerPage,
 		columns,
 		formattedAdminDetails,
-		buttonList,
 		onChangeRowsPerPage,
+		actionList,
 	};
 };
 
