@@ -16,6 +16,7 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
 import { decryptCredentials } from '../../../network/storageUtils';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useUpdateSettings = () => {
 	const dispatch = useDispatch();
@@ -81,6 +82,8 @@ const useUpdateSettings = () => {
 			operation: 'C',
 		},
 	]);
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -150,7 +153,7 @@ const useUpdateSettings = () => {
 
 	return {
 		columns,
-		buttonList,
+		actionList,
 		referralsLoading: loading,
 		formattedReferrals,
 		itemsPerPage,
