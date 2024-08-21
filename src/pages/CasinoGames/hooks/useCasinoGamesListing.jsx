@@ -25,6 +25,7 @@ import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 	const [page, setPage] = useState(1);
@@ -113,6 +114,7 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 			operation: 'U',
 		},
 	]);
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const handleRestrictedCountries = (row) =>
 		navigate(`/casino-games/restrict-countries/${row?.id}`, {
@@ -233,8 +235,8 @@ const useCasinoGamesListings = (filterValues = {}, onClickEdit = () => {}) => {
 		setPage,
 		handleStatus,
 		toggleIsFeaturedGames,
-		buttonList,
 		columns,
+		actionList,
 	};
 };
 

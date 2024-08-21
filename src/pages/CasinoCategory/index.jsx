@@ -24,7 +24,7 @@ const GetCasinoCategoryDetails = () => {
 		// filterFields,
 		// actionButtons,
 		filterValidation,
-		customSearchInput,
+		filterComponent,
 		selectedFiltersComponent,
 		// isFilterChanged,
 	} = useFilters();
@@ -87,7 +87,7 @@ const GetCasinoCategoryDetails = () => {
 					onChangePagination={setPage}
 					currentPage={page}
 					changeRowsPerPageCallback={onChangeRowsPerPage}
-					customSearchInput={customSearchInput}
+					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
 					actionList={actionList}
 				/>

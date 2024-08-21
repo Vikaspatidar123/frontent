@@ -21,16 +21,8 @@ const CasinoProviders = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		// toggleAdvance,
-		// isAdvanceOpen,
-		// filterFields,
-		// actionButtons,
-		filterValidation,
-		// isFilterChanged,
-		customSearchInput,
-		selectedFiltersComponent,
-	} = useFilters();
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters();
 
 	const {
 		casinoProvidersData,
@@ -79,7 +71,7 @@ const CasinoProviders = () => {
 					currentPage={page}
 					isLoading={!isCasinoProvidersDataLoading}
 					changeRowsPerPageCallback={onChangeRowsPerPage}
-					customSearchInput={customSearchInput}
+					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
 					actionList={actionList}
 				/>

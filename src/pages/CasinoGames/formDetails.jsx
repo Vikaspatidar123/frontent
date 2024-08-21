@@ -46,13 +46,13 @@ const staticFormFields = [
 // Filters
 
 const staticFiltersFields = () => [
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by name',
-	},
+	// {
+	// 	name: 'searchString',
+	// 	fieldType: 'textField',
+	// 	type: 'search',
+	// 	label: '',
+	// 	placeholder: 'Search by name',
+	// },
 	{
 		name: 'isActive',
 		fieldType: 'select',

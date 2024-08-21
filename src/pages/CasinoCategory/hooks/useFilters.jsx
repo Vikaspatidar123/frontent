@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -8,18 +7,14 @@ import {
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getCasinoCategoryDetailStart } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { itemsPerPage } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
-import TableSearchInput from '../../../components/Common/TableSearchInput';
+import CustomFilters from '../../../components/Common/CustomFilters';
 
-let debounce;
 const useFilters = () => {
 	const dispatch = useDispatch();
 	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const prevValues = useRef(null);
-	const isFirst = useRef(true);
-	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
 	const fetchData = (values) => {
 		dispatch(
@@ -51,20 +46,20 @@ const useFilters = () => {
 		validation.resetForm(initialValues);
 	};
 
-	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
-			setIsFilterChanged(true);
-			debounce = setTimeout(() => {
-				handleFilter(validation.values);
-			}, debounceTime);
-			prevValues.current = validation.values;
-		}
-		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
-			setIsFilterChanged(false);
-		}
-		return () => clearTimeout(debounce);
-	}, [validation.values]);
+	// useEffect(() => {
+	// 	if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
+	// 		setIsFilterChanged(true);
+	// 		debounce = setTimeout(() => {
+	// 			handleFilter(validation.values);
+	// 		}, debounceTime);
+	// 		prevValues.current = validation.values;
+	// 	}
+	// 	isFirst.current = false;
+	// 	if (isEqual(filterValues(), validation.values)) {
+	// 		setIsFilterChanged(false);
+	// 	}
+	// 	return () => clearTimeout(debounce);
+	// }, [validation.values]);
 
 	const actionButtons = useMemo(() => [
 		{
@@ -82,19 +77,13 @@ const useFilters = () => {
 		<SelectedFilters validation={validation} />
 	);
 
-	// const filterComponent = (
-	// 	<CustomFilters
-	// 		filterFields={formFields}
-	// 		validation={validation}
-	// 		handleFilter={handleFilter}
-	// 	/>
-	// );
-
-	const customSearchInput = (
+	const filterComponent = (
 		// eslint-disable-next-line react/react-in-jsx-scope
-		<TableSearchInput
+		<CustomFilters
 			validation={validation}
-			placeholder="Search by Category"
+			handleFilter={handleFilter}
+			searchInputPlaceHolder="Search by Category"
+			hideCustomFilter
 		/>
 	);
 
@@ -104,8 +93,7 @@ const useFilters = () => {
 		filterFields: formFields,
 		actionButtons,
 		filterValidation: validation,
-		isFilterChanged,
-		customSearchInput,
+		filterComponent,
 		selectedFiltersComponent,
 	};
 };
