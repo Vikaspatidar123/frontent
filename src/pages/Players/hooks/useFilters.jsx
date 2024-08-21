@@ -21,7 +21,6 @@ import {
 } from '../../../store/actions';
 import { PER_PAGE } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
-import TableSearchInput from '../../../components/Common/TableSearchInput';
 
 const keyMapping = {
 	kycStatus: 'KYC Status',
@@ -163,13 +162,7 @@ const useFilters = () => {
 			filterFields={formFields}
 			validation={validation}
 			handleFilter={handleFilter}
-		/>
-	);
-
-	const customSearchInput = (
-		<TableSearchInput
-			validation={validation}
-			placeholder="Search by username"
+			searchInputPlaceHolder="Search by username or email"
 		/>
 	);
 
@@ -179,7 +172,6 @@ const useFilters = () => {
 		handleFilter,
 		filterValidation: validation,
 		filterComponent,
-		customSearchInput,
 		selectedFiltersComponent,
 	};
 };

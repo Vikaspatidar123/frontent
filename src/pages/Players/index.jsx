@@ -56,12 +56,8 @@ const PlayersList = ({
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		filterValidation,
-		filterComponent,
-		customSearchInput,
-		selectedFiltersComponent,
-	} = useFilters();
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters();
 
 	const {
 		currentPage,
@@ -106,7 +102,6 @@ const PlayersList = ({
 						changeRowsPerPageCallback={onChangeRowsPerPage}
 						isShowColSettings={!userIds}
 						filterComponent={filterComponent}
-						customSearchInput={customSearchInput}
 						selectedFiltersComponent={selectedFiltersComponent}
 						actionList={actionList}
 					/>

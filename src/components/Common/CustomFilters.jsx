@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
+import { createPortal } from 'react-dom';
 import {
 	Card,
 	Col,
@@ -13,6 +14,7 @@ import {
 import PropTypes, { oneOfType } from 'prop-types';
 import { getField } from '../../helpers/customForms';
 import { debounceTime } from '../../constants/config';
+import TableSearchInput from './TableSearchInput';
 
 let debounce;
 const CustomFilters = ({
@@ -20,6 +22,8 @@ const CustomFilters = ({
 	validation,
 	customFieldCols,
 	handleFilter,
+	showSearchInput,
+	searchInputPlaceHolder,
 }) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false); // State to control dropdown open/close
 	const ref = useRef({
@@ -47,72 +51,88 @@ const CustomFilters = ({
 		setDropdownOpen(false);
 	};
 
+	const tableElement =
+		showSearchInput && document.getElementById('search-input-portal');
+
 	return (
-		<UncontrolledDropdown isOpen={dropdownOpen}>
-			<DropdownToggle
-				type="button"
-				className="btn btn-light btn-outline-primary"
-				onClick={() => setDropdownOpen((prev) => !prev)} // Only open the dropdown on click
-			>
-				<i className="mdi mdi-plus" /> Add Filters
-			</DropdownToggle>
-			<DropdownMenu
-				className="dropdown-menu-md p-4"
-				style={{ width: '65vw', maxWidth: '40rem' }}
-			>
-				<h5>
-					<b>Filters</b>
-				</h5>
-				<hr />
-				<Row>
-					<Col lg={12}>
-						<Card className="filter-card">
-							<Row>
-								<Col xxl={12} xl={12} lg={12} md={12} sm={12}>
-									<Row className="g-3">
-										{filterFields?.map(
-											(field) =>
-												!field?.isHide && (
-													<Col
-														xxl={customFieldCols?.xxl}
-														xl={customFieldCols?.xl}
-														lg={customFieldCols?.lg}
-														md={customFieldCols?.md}
-														sm={customFieldCols?.sm}
-														key={field?.name || field?.label}
-													>
-														<div className="position-relative">
-															<input style={{ display: 'none' }} />
-															{getField(field, validation)}
-														</div>
-													</Col>
-												)
-										)}
-									</Row>
-									<Row className="mt-3">
-										<Col className="d-flex justify-content-end">
-											<Button
-												color="link"
-												className="btn btn-link waves-effect"
-												onClick={handleClose}
-											>
-												Close
-											</Button>
-										</Col>
-									</Row>
-								</Col>
-							</Row>
-						</Card>
-					</Col>
-				</Row>
-			</DropdownMenu>
-		</UncontrolledDropdown>
+		<>
+			{tableElement
+				? createPortal(
+						<TableSearchInput
+							validation={validation}
+							placeholder={searchInputPlaceHolder}
+						/>,
+						tableElement
+				  )
+				: null}
+			<UncontrolledDropdown isOpen={dropdownOpen}>
+				<DropdownToggle
+					type="button"
+					className="btn btn-light btn-outline-primary"
+					onClick={() => setDropdownOpen((prev) => !prev)} // Only open the dropdown on click
+				>
+					<i className="mdi mdi-plus" /> Add Filters
+				</DropdownToggle>
+				<DropdownMenu
+					className="dropdown-menu-md p-4"
+					style={{ width: '65vw', maxWidth: '40rem' }}
+				>
+					<h5>
+						<b>Filters</b>
+					</h5>
+					<hr />
+					<Row>
+						<Col lg={12}>
+							<Card className="filter-card">
+								<Row>
+									<Col xxl={12} xl={12} lg={12} md={12} sm={12}>
+										<Row className="g-3">
+											{filterFields?.map(
+												(field) =>
+													!field?.isHide && (
+														<Col
+															xxl={customFieldCols?.xxl}
+															xl={customFieldCols?.xl}
+															lg={customFieldCols?.lg}
+															md={customFieldCols?.md}
+															sm={customFieldCols?.sm}
+															key={field?.name || field?.label}
+														>
+															<div className="position-relative">
+																<input style={{ display: 'none' }} />
+																{getField(field, validation)}
+															</div>
+														</Col>
+													)
+											)}
+										</Row>
+										<Row className="mt-3">
+											<Col className="d-flex justify-content-end">
+												<Button
+													color="link"
+													className="btn btn-link waves-effect"
+													onClick={handleClose}
+												>
+													Close
+												</Button>
+											</Col>
+										</Row>
+									</Col>
+								</Row>
+							</Card>
+						</Col>
+					</Row>
+				</DropdownMenu>
+			</UncontrolledDropdown>
+		</>
 	);
 };
 
 CustomFilters.defaultProps = {
 	validation: {},
 	customFieldCols: { xxl: 6, xl: 6, lg: 6, md: 6, sm: 6 },
+	showSearchInput: true,
+	searchInputPlaceHolder: 'Search...',
 };
 
 CustomFilters.propTypes = {
@@ -130,6 +150,8 @@ CustomFilters.propTypes = {
 	customFieldCols: PropTypes.objectOf({
 		xxl: PropTypes.number,
 	}),
+	showSearchInput: PropTypes.bool,
+	searchInputPlaceHolder: PropTypes.string,
 };
 
 export default CustomFilters;

@@ -35,7 +35,6 @@ const TableContainer = ({
 	currentPage,
 	isShowColSettings,
 	customTableInfo,
-	customSearchInput,
 	filterComponent,
 	selectedFiltersComponent,
 	actionList,
@@ -64,7 +63,9 @@ const TableContainer = ({
 	return (
 		<>
 			<div className="table-actions">
-				{customTableInfo || customSearchInput}
+				<div id="search-input-portal" />{' '}
+				{/* Do not remove this empty div as it is used for creating portal of search input */}
+				{customTableInfo}
 				<div className="d-flex justify-content-end w-100 custom-btn-group">
 					{actionList}
 					{filterComponent}
