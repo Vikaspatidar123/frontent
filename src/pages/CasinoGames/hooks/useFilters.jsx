@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	filterValidationSchema,
@@ -17,8 +17,6 @@ import CustomFilters from '../../../components/Common/CustomFilters';
 
 const useFilters = () => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 
 	const { casinoProvidersData, casinoCategoryDetails } = useSelector(
 		(state) => state.CasinoManagementData
@@ -47,11 +45,6 @@ const useFilters = () => {
 	// const handleAdvance = () => {
 	// 	toggleAdvance();
 	// };
-
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
-	};
 
 	useEffect(() => {
 		if (!casinoCategoryDetails?.categories) {
@@ -94,17 +87,6 @@ const useFilters = () => {
 			]);
 		}
 	}, [casinoProvidersData]);
-
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
 
 	const keyMapping = {
 		isActive: 'Active',
@@ -160,10 +142,6 @@ const useFilters = () => {
 		/>
 	);
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields: formFields,
-		actionButtons,
 		filterValidation: validation,
 		selectedFiltersComponent,
 		filterComponent,

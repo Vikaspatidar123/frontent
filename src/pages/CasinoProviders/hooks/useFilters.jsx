@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
 	filterValidationSchema,
@@ -13,8 +13,6 @@ import CustomFilters from '../../../components/Common/CustomFilters';
 
 const useFilters = () => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 	const fetchData = (values) => {
 		dispatch(
 			getCasinoProvidersDataStart({
@@ -29,7 +27,7 @@ const useFilters = () => {
 		fetchData(values);
 	};
 
-	const { validation, formFields } = useForm({
+	const { validation } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
@@ -39,22 +37,6 @@ const useFilters = () => {
 	// const handleAdvance = () => {
 	// 	toggleAdvance();
 	// };
-
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
-	};
-
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
 
 	const selectedFiltersComponent = <SelectedFilters validation={validation} />;
 	const filterComponent = (
@@ -67,10 +49,6 @@ const useFilters = () => {
 	);
 
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields: formFields,
-		actionButtons,
 		filterValidation: validation,
 		selectedFiltersComponent,
 		filterComponent,
