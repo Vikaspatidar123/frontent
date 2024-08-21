@@ -16,6 +16,7 @@ import ActionButtons from '../ActionButtons';
 import { STORAGE_KEY } from '../../../components/Common/constants';
 import { encryptCredentials } from '../../../network/storageUtils';
 import { modules } from '../../../constants/permissions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const usePaymentListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -92,6 +93,8 @@ const usePaymentListing = (filterValues = {}) => {
 			operation: 'C',
 		},
 	]);
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const columns = useMemo(
 		() => [
@@ -196,7 +199,7 @@ const usePaymentListing = (filterValues = {}) => {
 		itemsPerPage,
 		columns,
 		paymentListing,
-		buttonList,
+		actionList,
 		onChangeRowsPerPage,
 		navigate,
 		fetchMoreData,

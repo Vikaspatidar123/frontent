@@ -21,8 +21,6 @@ import {
 	// tableCustomClass,
 	// tbodyClass,
 } from '../../constants/config';
-import CrudSection from '../../components/Common/CrudSection';
-import Filters from '../../components/Common/Filters';
 import useFilters from './hooks/useFilters';
 import usePaymentListing from './hooks/usePaymentListing';
 // import useAddNewProvider from './hooks/useAddNewProvider';
@@ -35,14 +33,8 @@ const PaymentProviders = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useFilters();
 
 	const {
 		isLoading,
@@ -52,7 +44,7 @@ const PaymentProviders = () => {
 		// itemsPerPage,
 		// columns,
 		paymentListing,
-		buttonList,
+		actionList,
 		navigate,
 		fetchMoreData,
 	} = usePaymentListing(false, filterValidation.values);
@@ -83,21 +75,20 @@ const PaymentProviders = () => {
 				{showBreadcrumb && (
 					<Breadcrumb title="Payment" breadcrumbItem="Payment" />
 				)}
+				<div className="table-actions">
+					<div id="search-input-portal" className="w-50" />
+					<div className="d-flex justify-content-end w-100 custom-btn-group">
+						{actionList}
+						{filterComponent}
+					</div>
+				</div>
 				<Row>
 					<Col lg="12">
 						<Card>
-							<CrudSection buttonList={buttonList} title="Payment" />
 							<CardBody>
-								<Filters
-									validation={filterValidation}
-									filterFields={filterFields}
-									actionButtons={actionButtons}
-									isAdvanceOpen={isAdvanceOpen}
-									toggleAdvance={toggleAdvance}
-									isFilterChanged={isFilterChanged}
-								/>
 								<Container fluid>
 									<Card className="">
+										{selectedFiltersComponent}
 										<Row className="pt-4">
 											{isLoading ? (
 												<div

@@ -7,7 +7,6 @@ import classnames from 'classnames';
 import { projectName } from '../../constants/config';
 import useEmailTemplate from './hooks/useEmailTemplate';
 import Spinners from '../../components/Common/Spinner';
-import CrudSection from '../../components/Common/CrudSection';
 import Modal from '../../components/Common/Modal';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 
@@ -28,7 +27,7 @@ const EmailTemplate = () => {
 		customComponent,
 		columns,
 		clickId,
-		buttonList,
+		actionList,
 		permissions,
 	} = useEmailTemplate();
 
@@ -125,13 +124,11 @@ const EmailTemplate = () => {
 				{showBreadcrumb && (
 					<Breadcrumb title="CRM" breadcrumbItem="Email Template" />
 				)}
+				<div className="d-flex justify-content-end w-100 custom-btn-group p-3">
+					{actionList}
+				</div>
 				<Card>
-					<CardBody>
-						<CrudSection
-							buttonList={buttonList}
-							title="Email Template Listing  "
-						/>
-
+					<CardBody className="my-3">
 						{emailTemplateloading ? (
 							<Spinners
 								color="primary"
