@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import uuid from 'react-uuid';
 import { isEmpty } from 'lodash';
@@ -178,7 +178,6 @@ const useCreateCategory = () => {
 		setIsOpen((prev) => !prev);
 	};
 
-	// eslint-disable-next-line react/react-in-jsx-scope
 	const actionList = <ButtonList buttonList={buttonList} />;
 
 	return {

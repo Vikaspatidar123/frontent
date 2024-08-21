@@ -280,7 +280,7 @@ const useCreateProvider = () => {
 
 	const buttonList = [
 		{
-			label: 'Create',
+			label: ' + Create',
 			handleClick: handleAddClick,
 			link: '#!',
 			module: modules.casinoManagement,

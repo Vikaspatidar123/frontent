@@ -1,4 +1,4 @@
-import { React, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import CustomFilters from '../../../components/Common/CustomFilters';
