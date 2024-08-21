@@ -49,7 +49,6 @@ const BonusDetail = () => {
 					changeRowsPerPageCallback={onChangeRowsPerPage}
 					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
-					customSearchClass="w-50"
 					actionList={actionList}
 				/>
 			</Container>

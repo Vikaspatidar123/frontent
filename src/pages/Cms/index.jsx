@@ -54,7 +54,6 @@ const Cms = () => {
 					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
 					actionList={actionList}
-					customSearchClass="w-50"
 				/>
 			</Container>
 		</div>

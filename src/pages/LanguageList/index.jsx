@@ -45,7 +45,6 @@ const LanguageList = () => {
 					changeRowsPerPageCallback={onChangeRowsPerPage}
 					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
-					customSearchClass="w-50"
 				/>
 			</Container>
 		</div>

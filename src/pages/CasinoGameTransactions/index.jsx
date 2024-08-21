@@ -77,6 +77,7 @@ const GameTransactionsList = () => {
 					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
 					actionList={actionList}
+					customSearchClass=""
 				/>
 			</Container>
 		</div>

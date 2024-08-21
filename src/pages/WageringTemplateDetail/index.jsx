@@ -58,7 +58,6 @@ const WageringTemplate = () => {
 					actionList={actionList}
 					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
-					customSearchClass="w-50"
 				/>
 			</Container>
 		</div>

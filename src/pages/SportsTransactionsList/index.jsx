@@ -79,6 +79,7 @@ const SportsTransactionsList = ({ userId }) => {
 					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
 					actionList={actionList}
+					customSearchClass=""
 				/>
 			</Container>
 		</div>

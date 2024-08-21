@@ -283,7 +283,7 @@ TableContainer.defaultProps = {
 	customSearchInput: null,
 	selectedFiltersComponent: null,
 	actionList: null,
-	customSearchClass: '',
+	customSearchClass: 'search-input-width',
 };
 
 TableContainer.propTypes = {

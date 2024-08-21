@@ -72,6 +72,7 @@ const TransactionBankingList = ({ userId }) => {
 							filterComponent={filterComponent}
 							selectedFiltersComponent={selectedFiltersComponent}
 							actionList={actionList}
+							customSearchClass=""
 						/>
 					</Col>
 				</Row>
