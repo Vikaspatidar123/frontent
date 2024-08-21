@@ -410,12 +410,12 @@ const currencyFields = () => [
 ];
 
 const staticFiltersFields = () => [
-	{
-		name: 'search',
-		fieldType: 'textField',
-		label: '',
-		placeholder: 'Search by tournament name',
-	},
+	// {
+	// 	name: 'search',
+	// 	fieldType: 'textField',
+	// 	label: '',
+	// 	placeholder: 'Search by tournament name',
+	// },
 	{
 		name: 'status',
 		fieldType: 'select',
