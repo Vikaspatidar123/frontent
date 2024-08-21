@@ -50,7 +50,6 @@ const SportsListing = () => {
 					currentPage={page}
 					isLoading={!isSportsListLoading}
 					changeRowsPerPageCallback={onChangeRowsPerPage}
-					filterValidation={filterValidation}
 					filterComponent={filterComponent}
 					selectedFiltersComponent={selectedFiltersComponent}
 				/>

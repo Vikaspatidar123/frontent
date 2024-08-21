@@ -10,15 +10,11 @@ import { getSportsList } from '../../../store/actions';
 import { itemsPerPage } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import CustomFilters from '../../../components/Common/CustomFilters';
+import { ACTIVE_KEY_MAP } from '../../../constants/common';
 
 const keyMapping = {
 	searchString: 'Search',
 	isActive: 'Active',
-};
-
-const isActiveMapping = {
-	true: 'Yes',
-	false: 'No',
 };
 
 const useFilters = () => {
@@ -52,7 +48,7 @@ const useFilters = () => {
 
 		switch (key) {
 			case 'isActive':
-				formattedValue = isActiveMapping[value] || value;
+				formattedValue = ACTIVE_KEY_MAP[value] || value;
 				break;
 			default:
 				break;

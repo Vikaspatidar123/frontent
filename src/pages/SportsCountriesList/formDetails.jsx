@@ -4,13 +4,6 @@ import { IS_ACTIVE_TYPES } from '../CasinoTransactionsList/constants';
 // CMS Filter
 const staticFiltersFields = () => [
 	{
-		name: 'searchString',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by name',
-	},
-	{
 		name: 'isActive',
 		fieldType: 'select',
 		label: '',
@@ -28,10 +21,6 @@ const filterValues = () => ({
 	searchString: '',
 });
 
-const filterValidationSchema = () =>
-	Yup.object({
-		isActive: Yup.string().nullable(),
-		searchString: Yup.string().nullable(),
-	});
+const filterValidationSchema = () => Yup.object();
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

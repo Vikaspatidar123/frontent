@@ -21,10 +21,6 @@ const filterValues = () => ({
 	searchString: '',
 });
 
-const filterValidationSchema = () =>
-	Yup.object({
-		isActive: Yup.string().nullable(),
-		searchString: Yup.string().nullable(),
-	});
+const filterValidationSchema = () => Yup.object();
 
 export { staticFiltersFields, filterValues, filterValidationSchema };

@@ -21,6 +21,7 @@ import {
 } from '../../../store/actions';
 import { PER_PAGE } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
+import { ACTIVE_KEY_MAP, KYC_STATUS_KEY_MAP } from '../../../constants/common';
 
 const keyMapping = {
 	kycStatus: 'KYC Status',
@@ -33,15 +34,6 @@ const keyMapping = {
 	dateOfBirth: 'Date of Birth',
 	userId: 'User Id',
 	gender: 'Gender',
-};
-
-const isActiveMapping = {
-	true: 'Yes',
-	false: 'No',
-};
-const isKycStatusMapping = {
-	true: 'Approved',
-	false: 'Pending',
 };
 
 const useFilters = () => {
@@ -122,10 +114,10 @@ const useFilters = () => {
 
 		switch (key) {
 			case 'kycStatus':
-				formattedValue = isKycStatusMapping[value];
+				formattedValue = KYC_STATUS_KEY_MAP[value];
 				break;
 			case 'isActive':
-				formattedValue = isActiveMapping[value] || value;
+				formattedValue = ACTIVE_KEY_MAP[value] || value;
 				break;
 			case 'toDate':
 			case 'fromDate':
