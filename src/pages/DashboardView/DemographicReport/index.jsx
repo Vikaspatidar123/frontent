@@ -5,7 +5,6 @@ import FlatPickr from 'react-flatpickr';
 import { CSVLink } from 'react-csv';
 import { isEmpty } from 'lodash';
 import GraphicChart from './GraphicChart';
-import DemoGraphicTable from './DemoGraphicTable';
 import { dateConstants } from '../constant';
 import useDemoGraphicReport from './hooks/useDemoGraphicReport';
 import { modules } from '../../../constants/permissions';
@@ -18,16 +17,14 @@ import { MultiSelectOption } from '../../../helpers/customForms';
 const DemographicReport = () => {
 	const { isGranted } = usePermission();
 	const {
-		demoGrapFormatedData,
-		demoGraphOptions,
 		formattedDemoGraphicData,
-		demoGraphColumn,
 		demoDateOptions: { selected, fromDate, toDate },
 		setDemoDateOptions,
 		isDemographicLoading,
 		countries,
 		setCountries,
 		countrySelectOptions,
+		layoutModeType,
 	} = useDemoGraphicReport();
 
 	return (
@@ -107,17 +104,11 @@ const DemographicReport = () => {
 								</Col>
 							</Row>
 							<Row>
-								<Col xl="7">
+								<Col xl="12">
 									<GraphicChart
-										demoGrapFormatedData={demoGrapFormatedData}
-										demoGraphOptions={demoGraphOptions}
-									/>
-								</Col>
-								<Col xl="5">
-									<DemoGraphicTable
-										formattedDemoGraphicData={formattedDemoGraphicData}
-										demoGraphColumn={demoGraphColumn}
-										isDemographicLoading={isDemographicLoading}
+										chartData={formattedDemoGraphicData}
+										layoutModeType={layoutModeType}
+										isLoading={isDemographicLoading}
 									/>
 								</Col>
 							</Row>
