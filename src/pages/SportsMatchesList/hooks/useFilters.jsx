@@ -1,23 +1,26 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+/* eslint-disable eqeqeq */
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
+	MATCH_STATUS,
 	staticFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { fetchSportsMatchesStart, getSportsList } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { itemsPerPage } from '../../../constants/config';
+import SelectedFilters from '../../../components/Common/SelectedFilters';
+import CustomFilters from '../../../components/Common/CustomFilters';
 
-let debounce;
+const keyMapping = {
+	searchString: 'Search',
+	sportId: 'Sport',
+	status: 'Match Status',
+};
+
 const useFilters = () => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const prevValues = useRef(null);
-	const isFirst = useRef(true);
-	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
 	const { sportsListInfo } = useSelector((state) => state.SportsList);
 
@@ -41,12 +44,6 @@ const useFilters = () => {
 		onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(),
 	});
-
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
-		fetchData(initialValues);
-	};
 
 	useEffect(() => {
 		if (!sportsListInfo?.sports) {
@@ -79,39 +76,45 @@ const useFilters = () => {
 		}
 	}, [sportsListInfo]);
 
-	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
-			setIsFilterChanged(true);
-			debounce = setTimeout(() => {
-				handleFilter(validation.values);
-			}, debounceTime);
-			prevValues.current = validation.values;
+	const filterFormatter = (key, value) => {
+		const formattedKey = keyMapping[key] || key;
+		let formattedValue = value;
+		switch (key) {
+			case 'sportId':
+				formattedValue =
+					sportsListInfo?.sports?.find((val) => val.id == value)?.name || '';
+				break;
+			case 'status':
+				formattedValue =
+					MATCH_STATUS?.find((val) => val.value == value)?.optionLabel || '';
+				break;
+			default:
+				break;
 		}
-		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
-			setIsFilterChanged(false);
-		}
-		return () => clearTimeout(debounce);
-	}, [validation.values]);
 
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
+		return `${formattedKey}: ${formattedValue}`;
+	};
+
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={filterFormatter}
+		/>
+	);
+
+	const filterComponent = (
+		<CustomFilters
+			filterFields={formFields}
+			validation={validation}
+			handleFilter={handleFilter}
+			searchInputPlaceHolder="Search by name"
+		/>
+	);
 
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields: formFields,
-		actionButtons,
 		filterValidation: validation,
-		isFilterChanged,
+		filterComponent,
+		selectedFiltersComponent,
 	};
 };
 
