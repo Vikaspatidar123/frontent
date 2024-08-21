@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { isEmpty } from 'lodash';
@@ -16,6 +16,7 @@ import {
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { modules } from '../../../constants/permissions';
 import { formPageTitle } from '../../../components/Common/constants';
+import ButtonList from '../../../components/Common/ButtonList';
 import { decryptCredentials } from '../../../network/storageUtils';
 
 const useCreateKYCLabels = () => {
@@ -161,6 +162,8 @@ const useCreateKYCLabels = () => {
 		},
 	]);
 
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	useEffect(() => {
 		dispatch(getLanguagesStart());
 	}, []);
@@ -195,7 +198,7 @@ const useCreateKYCLabels = () => {
 		validation,
 		formFields,
 		setFormFields,
-		buttonList,
+		actionList,
 		isCreateKYCLabelsLoading,
 		onClickEditButton,
 		isEditKYCLabelsLoading,
