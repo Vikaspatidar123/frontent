@@ -32,7 +32,7 @@ const TransactionBankingList = ({ userId }) => {
 	return (
 		<div className={`${userId ? '' : 'page-content'}`}>
 			<Container fluid>
-				{showBreadcrumb && (
+				{showBreadcrumb && !userId && (
 					<Breadcrumb title="Reports" breadcrumbItem="Transactions Banking" />
 				)}
 				<Row>

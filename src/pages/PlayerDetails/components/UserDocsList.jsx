@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Card, CardBody, Container } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 import TableContainer from '../../../components/Common/Table';
 import {
 	activateKyc,
@@ -14,13 +14,13 @@ import {
 } from '../../../store/actions';
 import { Actionee, Name, Reason, ThumbnailUrl } from './UserDocsListCol';
 import { Status } from '../TableCol';
-import CrudSection from '../../../components/Common/CrudSection';
 import { DOCUMENT_STATUS_TYPES } from '../constants';
 import ModalView from '../../../components/Common/Modal';
 import { CustomInputField } from '../../../helpers/customForms';
 import { modules } from '../../../constants/permissions';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const UserDocsList = ({ userDetails, userId }) => {
 	const dispatch = useDispatch();
@@ -221,60 +221,57 @@ const UserDocsList = ({ userDetails, userId }) => {
 		],
 		[userDetails]
 	);
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	return (
 		<Container fluid>
-			<Card className="p-2">
-				<CrudSection buttonList={buttonList} title="KYC Documents" />
-				<CardBody>
-					<TableContainer
-						isLoading={documentLabelsLoading}
-						columns={columns || []}
-						data={formattedKycLabels || []}
-						isGlobalFilter
-						isPagination
-						customPageSize={itemsPerPage}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={documentLabels?.totalPages || 0}
-						isManualPagination
-						onChangePagination={setPage}
-						currentPage={page}
-						changeRowsPerPageCallback={onChangeRowsPerPage}
-					/>
-					<ModalView
-						openModal={showModal.show}
-						toggleModal={() =>
-							setShowModal((prev) => ({
-								...prev,
-								show: !prev.show,
-							}))
-						}
-						headerTitle="Reject Document Reason"
-						className="modal-dialog"
-						hideFooter
-					>
-						<CustomInputField
-							name="reason"
-							type="text"
-							onChange={(e) => {
-								setReason(e?.target?.value);
-							}}
-							placeholder="Enter Reject Document Reason"
-							validate={{ required: { value: true } }}
-							value={reason}
-						/>
-						<Button
-							color="primary"
-							className="mt-2 float-end"
-							onClick={() => handleRejectDocument(showModal?.documentLabelId)}
-						>
-							Submit
-						</Button>
-					</ModalView>
-				</CardBody>
-			</Card>
+			<TableContainer
+				isLoading={documentLabelsLoading}
+				columns={columns || []}
+				data={formattedKycLabels || []}
+				isGlobalFilter
+				isPagination
+				customPageSize={itemsPerPage}
+				tableClass="table-bordered align-middle nowrap mt-2"
+				paginationDiv="justify-content-center"
+				pagination="pagination justify-content-start pagination-rounded"
+				totalPageCount={documentLabels?.totalPages || 0}
+				isManualPagination
+				onChangePagination={setPage}
+				currentPage={page}
+				changeRowsPerPageCallback={onChangeRowsPerPage}
+				actionList={actionList}
+			/>
+			<ModalView
+				openModal={showModal.show}
+				toggleModal={() =>
+					setShowModal((prev) => ({
+						...prev,
+						show: !prev.show,
+					}))
+				}
+				headerTitle="Reject Document Reason"
+				className="modal-dialog"
+				hideFooter
+			>
+				<CustomInputField
+					name="reason"
+					type="text"
+					onChange={(e) => {
+						setReason(e?.target?.value);
+					}}
+					placeholder="Enter Reject Document Reason"
+					validate={{ required: { value: true } }}
+					value={reason}
+				/>
+				<Button
+					color="primary"
+					className="mt-2 float-end"
+					onClick={() => handleRejectDocument(showModal?.documentLabelId)}
+				>
+					Submit
+				</Button>
+			</ModalView>
 		</Container>
 	);
 };

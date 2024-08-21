@@ -20,6 +20,7 @@ import { BETSLIP_TYPES, sportsBookStatus } from '../formDetails';
 import { downloadReport } from '../../../helpers/common';
 import { getSportsBet } from '../../../network/getRequests';
 import { showToastr } from '../../../utils/helpers';
+import ExportList from '../../../components/Common/ExportList';
 
 const useSportsBetListing = (filterValues = {}, userId = '') => {
 	const dispatch = useDispatch();
@@ -283,9 +284,9 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 		downloadReport('csv', json2csv(csvJsonData), 'Sports Bets Report');
 	};
 
-	const exportComponent = useMemo(() => [
+	const exportList = useMemo(() => [
 		{
-			label: 'All-Pages',
+			label: 'Download',
 			isDownload: true,
 			isCsv: true,
 			tooltip: 'Download CSV Report',
@@ -297,6 +298,8 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 		},
 	]);
 
+	const actionList = <ExportList exportList={exportList} />;
+
 	return {
 		currentPage,
 		setCurrentPage,
@@ -306,7 +309,7 @@ const useSportsBetListing = (filterValues = {}, userId = '') => {
 		itemsPerPage,
 		onChangeRowsPerPage,
 		columns,
-		exportComponent,
+		actionList,
 		viewModal,
 		setViewModal,
 		betSlipColumns,
