@@ -16,6 +16,7 @@ import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
 import { useConfirmModal } from '../../../components/Common/ConfirmModal';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useBonusListing = (filterValues = {}) => {
 	const { bonusDetails, isLoading, isDeleteBonusLoading } = useSelector(
@@ -120,6 +121,8 @@ const useBonusListing = (filterValues = {}) => {
 			operation: 'U',
 		},
 	]);
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const handleEdit = (row) =>
 		navigate(`/bonus/edit/${row?.id}/${row?.bonusType}`);
@@ -247,7 +250,7 @@ const useBonusListing = (filterValues = {}) => {
 		columns,
 		bonusDeleteHandler,
 		isDeleteBonusLoading,
-		buttonList,
+		actionList,
 	};
 };
 

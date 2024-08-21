@@ -1,8 +1,7 @@
 import React from 'react';
-import { Card, CardBody, Col, Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
-import CrudSection from '../../components/Common/CrudSection';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useUpdateSettings from './hooks/useUpdateSettings';
 import FormModal from '../../components/Common/FormModal';
@@ -12,7 +11,7 @@ const AllReferrals = () => {
 
 	const {
 		columns,
-		buttonList,
+		actionList,
 		referralsLoading,
 		formattedReferrals,
 		itemsPerPage,
@@ -36,35 +35,22 @@ const AllReferrals = () => {
 						breadcrumbItem="Referral Management"
 					/>
 				)}
-				<Row>
-					<Col lg="12">
-						<Card>
-							<CrudSection
-								buttonList={buttonList}
-								title="Referral Management"
-							/>
-							<CardBody>
-								<TableContainer
-									isLoading={referralsLoading}
-									columns={columns || []}
-									data={formattedReferrals}
-									isPagination
-									customPageSize={itemsPerPage}
-									tableClass="table-bordered align-middle nowrap mt-2"
-									// paginationDiv="col-sm-12 col-md-7"
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={1}
-									isManualPagination
-									onChangePagination={setCurrentPage}
-									currentPage={currentPage}
-									changeRowsPerPageCallback={onChangeRowsPerPage}
-									isShowColSettings={false}
-								/>
-							</CardBody>
-						</Card>
-					</Col>
-				</Row>
+
+				<TableContainer
+					isLoading={referralsLoading}
+					columns={columns || []}
+					data={formattedReferrals}
+					isPagination
+					customPageSize={itemsPerPage}
+					totalPageCount={1}
+					isManualPagination
+					onChangePagination={setCurrentPage}
+					currentPage={currentPage}
+					changeRowsPerPageCallback={onChangeRowsPerPage}
+					isShowColSettings={false}
+					actionList={actionList}
+				/>
+
 				<FormModal
 					isOpen={isOpen}
 					toggle={toggleFormModal}

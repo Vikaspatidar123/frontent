@@ -1,14 +1,6 @@
 import * as Yup from 'yup';
 
 // Filters
-const staticFiltersFields = () => [
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		label: '',
-		placeholder: 'Search by template name',
-	},
-];
 
 const filterValues = () => ({
 	searchString: '',
@@ -85,7 +77,6 @@ const staticFormFields = [
 ];
 
 export {
-	staticFiltersFields,
 	filterValues,
 	filterValidationSchema,
 	getInitialValues,

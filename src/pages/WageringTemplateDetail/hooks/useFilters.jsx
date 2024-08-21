@@ -1,23 +1,18 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
-import { isEqual } from 'lodash';
-import {
-	filterValidationSchema,
-	filterValues,
-	staticFiltersFields,
-} from '../formDetails';
+import { filterValidationSchema, filterValues } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getWageringTemplateDetails } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { itemsPerPage } from '../../../constants/config';
+import SelectedFilters from '../../../components/Common/SelectedFilters';
+import CustomFilters from '../../../components/Common/CustomFilters';
 
-let debounce;
+const keyMapping = {
+	searchString: 'Search',
+};
+
 const useFilters = () => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const prevValues = useRef(null);
-	const isFirst = useRef(true);
-	const [isFilterChanged, setIsFilterChanged] = useState(false);
 
 	const fetchData = (values) => {
 		dispatch(
@@ -36,52 +31,30 @@ const useFilters = () => {
 	const { validation, formFields } = useForm({
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
-		// onSubmitEntry: handleFilter,
-		staticFormFields: staticFiltersFields(),
+		staticFormFields: [],
 	});
 
-	// const handleAdvance = () => {
-	// 	toggleAdvance();
-	// };
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={(key, value) => `${keyMapping[key] || key}: ${value}`}
+		/>
+	);
 
-	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
-			setIsFilterChanged(true);
-			debounce = setTimeout(() => {
-				handleFilter(validation.values);
-			}, debounceTime);
-			prevValues.current = validation.values;
-		}
-		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
-			setIsFilterChanged(false);
-		}
-		return () => clearTimeout(debounce);
-	}, [validation.values]);
-
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
-	};
-
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
+	const filterComponent = (
+		<CustomFilters
+			filterFields={formFields}
+			validation={validation}
+			handleFilter={handleFilter}
+			searchInputPlaceHolder="Search by template name"
+		/>
+	);
 
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
 		filterFields: formFields,
-		actionButtons,
 		filterValidation: validation,
-		isFilterChanged,
+		selectedFiltersComponent,
+		filterComponent,
 	};
 };
 

@@ -16,6 +16,7 @@ import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import Actions from '../../../components/Common/Actions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useWageringTemplate = (filterValues = {}) => {
 	const { wageringTemplateDetail, wageringTemplateDetailLoading } = useSelector(
@@ -74,6 +75,8 @@ const useWageringTemplate = (filterValues = {}) => {
 			operation: 'C',
 		},
 	]);
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	const actionsList = [
 		{
@@ -142,7 +145,7 @@ const useWageringTemplate = (filterValues = {}) => {
 		setPage,
 		onChangeRowsPerPage,
 		columns,
-		buttonList,
+		actionList,
 	};
 };
 

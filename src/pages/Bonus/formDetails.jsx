@@ -219,13 +219,13 @@ const staticFiltersFields = () => [
 			id,
 		})),
 	},
-	{
-		name: 'search',
-		fieldType: 'textField',
-		type: 'search',
-		label: '',
-		placeholder: 'Search by title and description',
-	},
+	// {
+	// 	name: 'search',
+	// 	fieldType: 'textField',
+	// 	type: 'search',
+	// 	label: '',
+	// 	placeholder: 'Search by title and description',
+	// },
 	{
 		name: 'isActive',
 		fieldType: 'select',
