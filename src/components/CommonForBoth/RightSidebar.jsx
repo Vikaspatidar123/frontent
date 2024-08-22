@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, FormGroup } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
 import { connect } from 'react-redux';
 
@@ -15,13 +15,12 @@ import {
 	changeLayoutMode,
 	changeLayoutWidth,
 	changeSidebarTheme,
-	changeSidebarThemeImage,
 	changeSidebarType,
-	changePreloader,
+	// changePreloader,
 	changeTopbarTheme,
 	showRightSidebarAction,
-	setTableHeaderClass,
-	setBreadcrumb,
+	// setTableHeaderClass,
+	// setBreadcrumb,
 } from '../../store/actions';
 
 import './rightbar.scss';
@@ -324,7 +323,7 @@ const RightSidebar = (props) => (
 							</label>
 						</div> */}
 
-						<hr className="mt-1" />
+						{/* <hr className="mt-1" />
 
 						<div className="radio-toolbar">
 							<span className="mb-2 d-block" id="radio-title">
@@ -354,7 +353,7 @@ const RightSidebar = (props) => (
 							<label className="me-1" htmlFor="hideBreadcrumb">
 								HIDE
 							</label>
-						</div>
+						</div> */}
 
 						<hr className="mt-1" />
 
@@ -533,7 +532,7 @@ const RightSidebar = (props) => (
 								</Row>
 							</div>
 						)}
-						<hr className="mt-1" />
+						{/* <hr className="mt-1" />
 						<FormGroup>
 							<span className="mb-2 d-block" id="radio-title">
 								Preloader
@@ -554,7 +553,7 @@ const RightSidebar = (props) => (
 									Preloader
 								</label>
 							</div>
-						</FormGroup>
+						</FormGroup> */}
 					</div>
 				</div>
 			</SimpleBar>
@@ -566,11 +565,11 @@ const RightSidebar = (props) => (
 RightSidebar.propTypes = {
 	// changeLayout: PropTypes.func.isRequired,
 	changeLayoutWidth: PropTypes.func.isRequired,
-	changePreloader: PropTypes.func.isRequired,
+	// changePreloader: PropTypes.func.isRequired,
 	changeSidebarTheme: PropTypes.func.isRequired,
 	changeSidebarType: PropTypes.func.isRequired,
 	changeTopbarTheme: PropTypes.func.isRequired,
-	isPreloader: PropTypes.bool.isRequired,
+	// isPreloader: PropTypes.bool.isRequired,
 	layoutType: PropTypes.string.isRequired,
 	layoutModeType: PropTypes.string.isRequired,
 	changeLayoutMode: PropTypes.func.isRequired,
@@ -581,8 +580,8 @@ RightSidebar.propTypes = {
 	topbarTheme: PropTypes.string.isRequired,
 	// setTableHeaderClass: PropTypes.func.isRequired,
 	// tableHeaderClass: PropTypes.string.isRequired,
-	setBreadcrumb: PropTypes.func.isRequired,
-	showBreadcrumb: PropTypes.bool.isRequired,
+	// setBreadcrumb: PropTypes.func.isRequired,
+	// showBreadcrumb: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({ ...state.Layout });
@@ -591,12 +590,11 @@ export default connect(mapStateToProps, {
 	changeLayout,
 	changeLayoutMode,
 	changeSidebarTheme,
-	changeSidebarThemeImage,
 	changeSidebarType,
 	changeLayoutWidth,
 	changeTopbarTheme,
-	changePreloader,
+	// changePreloader,
 	showRightSidebarAction,
-	setTableHeaderClass,
-	setBreadcrumb,
+	// setTableHeaderClass,
+	// setBreadcrumb,
 })(RightSidebar);

@@ -42,7 +42,7 @@ export const LAYOUT_INIT_STATE = {
 	showSidebar: true,
 	leftMenu: false,
 	tableHeaderClass: tableHeaderClass.GREY,
-	showBreadcrumb: false,
+	showBreadcrumb: true,
 	error: null,
 	isLoading: true,
 };
