@@ -80,14 +80,33 @@ const currencyValidate = (allFields) =>
 				then: (schema) =>
 					schema
 						.required('Min deposit amount required')
-						.min(0.01, 'Amount should be greater than 0'),
+						.min(0.01, 'Amount should be greater than 0')
+						.test(
+							'is-less-than-maxBonusClaimed',
+							'Min deposit amount must be less than max bonus claimed',
+							function (value) {
+								const { maxBonusClaimed } = this.parent;
+								return !value || !maxBonusClaimed || value < maxBonusClaimed;
+							}
+						),
 			})
 			.nullable(),
 	});
 
+const MIN_TITLE_LENGTH = 3;
+const MAX_TITLE_LENGTH = 200;
 const generalFormSchema = () =>
 	Yup.object({
-		promotionTitle: Yup.string().required('Bonus Title Required'),
+		promotionTitle: Yup.string()
+			.min(
+				MIN_TITLE_LENGTH,
+				`Title must be at least ${MIN_TITLE_LENGTH} characters`
+			)
+			.max(
+				MAX_TITLE_LENGTH,
+				`Title must be at most ${MAX_TITLE_LENGTH} characters`
+			)
+			.required('Bonus Title is required'),
 		bonusType: Yup.string().required('Bonus Type Required'),
 		termAndCondition: Yup.string()
 			.when(['bonusType'], {
@@ -125,7 +144,8 @@ const generalFormSchema = () =>
 					schema
 						.required('Quantity Required')
 						.integer('Must be an integer')
-						.min(0.01, 'Must be greater than 0'),
+						.min(0.01, 'Must be greater than 0')
+						.max(100, 'Must be less than or equal to 100'),
 			})
 			.nullable(),
 
@@ -179,7 +199,8 @@ const generalFormSchema = () =>
 				then: (schema) =>
 					schema
 						.required('Bonus percentage required')
-						.min(1, 'Bonus percentage Must be greater than or equal to 1'),
+						.min(1, 'Bonus percentage Must be greater than or equal to 1')
+						.max(100, 'Bonus percentage must be less than or equal to 100'),
 			})
 			.nullable(),
 
@@ -195,7 +216,8 @@ const generalFormSchema = () =>
 					schema
 						.required('Days to clear required')
 						.integer('Must be an integer')
-						.min(0.01, 'Must be greater than 0'),
+						.min(0.01, 'Must be greater than 0')
+						.max(365, 'Must be less than or equal to 365'),
 			})
 			.nullable(),
 	});
