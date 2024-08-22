@@ -69,11 +69,37 @@ const DisputeDetails = ({
 		const copyText = ele
 			.closest('.conversation-list')
 			.querySelector('p').innerHTML;
-		navigator.clipboard.writeText(copyText);
-		showToastr({
-			message: 'Copied !',
-			type: 'success',
-		});
+
+		if (navigator.clipboard && navigator.clipboard.writeText) {
+			navigator.clipboard
+				.writeText(copyText)
+				.then(() => {
+					showToastr({
+						message: 'Copied!',
+						type: 'success',
+					});
+				})
+				.catch((err) => {
+					console.error('Failed to copy: ', err);
+				});
+		} else {
+			// Fallback for non-secure contexts or unsupported browsers
+			const textarea = document.createElement('textarea');
+			textarea.value = copyText;
+			document.body.appendChild(textarea);
+			textarea.select();
+			try {
+				document.execCommand('copy');
+				showToastr({
+					message: 'Copied!',
+					type: 'success',
+				});
+			} catch (err) {
+				console.error('Fallback copy failed: ', err);
+			} finally {
+				document.body.removeChild(textarea);
+			}
+		}
 	};
 
 	const onEmojiClick = (event, emojiObject) => {
@@ -210,18 +236,22 @@ const DisputeDetails = ({
 														<div className="conversation-name d-flex">
 															{adminId ? 'You' : user?.username}
 														</div>
-														<p className="mb-0">{content}</p>
+														<p className="mb-0" id="">
+															{content}
+														</p>
 														{threadAttachements?.length
 															? threadAttachements.map(({ filePath }) => (
 																	<img src={filePath} alt="" width="150px" />
 															  ))
 															: null}
-														{createdAt && (
-															<p className="chat-time mb-0">
-																<i className="bx bx-time-five align-middle me-1" />
-																{moment(createdAt).format('lll')}
-															</p>
-														)}
+														<div className="d-flex justify-content-end mt-2">
+															{createdAt && (
+																<p className="chat-time mb-0">
+																	<i className="bx bx-time-five align-middle me-1" />
+																	{moment(createdAt).format('lll')}
+																</p>
+															)}
+														</div>
 													</div>
 												</div>
 											</li>
