@@ -17,10 +17,11 @@ import CustomFilters from '../../../components/Common/CustomFilters';
 const keyMapping = {
 	gameName: 'Game Name',
 	tab: 'Tab',
-	toDate: 'To Date',
-	fromDate: 'From Date',
+	toDate: 'To',
+	fromDate: 'From',
 	dateOptions: 'Date Options',
 	orderBy: 'Order By',
+	currencyId: 'Currency',
 };
 
 const gameOrderByMapping = {
@@ -57,6 +58,7 @@ const useFilters = () => {
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(),
+		enableReinitialize: false,
 	});
 
 	useEffect(() => {
@@ -115,10 +117,15 @@ const useFilters = () => {
 		return `${formattedKey}: ${formattedValue}`;
 	};
 
+	const handleResetCallback = () => {
+		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
+	};
+
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
 			filterFormatter={filterFormatter}
+			handleResetCallback={handleResetCallback}
 		/>
 	);
 
