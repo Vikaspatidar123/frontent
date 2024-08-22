@@ -20,8 +20,8 @@ import CustomFilters from '../../../components/Common/CustomFilters';
 const keyMapping = {
 	gameName: 'Game Name',
 	searchString: 'Search',
-	toDate: 'To Date',
-	fromDate: 'From Date',
+	toDate: 'To',
+	fromDate: 'From',
 	gameId: 'Game Id',
 	walletId: 'Wallet Id',
 	actioneeId: 'Actionee Id',
@@ -70,6 +70,7 @@ const useFilters = (userId) => {
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(userId),
+		enableReinitialize: false,
 	});
 
 	useEffect(() => {
@@ -147,10 +148,15 @@ const useFilters = (userId) => {
 		return `${formattedKey}: ${formattedValue}`;
 	};
 
+	const handleResetCallback = () => {
+		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
+	};
+
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
 			filterFormatter={filterFormatter}
+			handleResetCallback={handleResetCallback}
 		/>
 	);
 

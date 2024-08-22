@@ -132,7 +132,12 @@ const useFilters = (userId = '') => {
 	};
 
 	const handleResetCallback = () => {
-		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
+		validation.resetForm({
+			values: {
+				...filterValues(),
+				currencyId: null,
+			},
+		});
 	};
 
 	const selectedFiltersComponent = (

@@ -16,11 +16,11 @@ import CustomFilters from '../../../components/Common/CustomFilters';
 
 const keyMapping = {
 	searchString: 'Search',
-	currencyId: 'Currency Id',
-	toDate: 'Registration till',
-	fromDate: 'Registration from',
+	toDate: 'To',
+	fromDate: 'From',
 	dateOptions: 'Date Options',
 	orderBy: 'Order By',
+	currencyId: 'Currency',
 };
 
 const gameOrderByMapping = {
@@ -53,6 +53,7 @@ const useFilters = () => {
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		staticFormFields: staticFiltersFields(),
+		enableReinitialize: false,
 	});
 
 	useEffect(() => {
@@ -108,10 +109,15 @@ const useFilters = () => {
 		return `${formattedKey}: ${formattedValue}`;
 	};
 
+	const handleResetCallback = () => {
+		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
+	};
+
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
 			filterFormatter={filterFormatter}
+			handleResetCallback={handleResetCallback}
 		/>
 	);
 
