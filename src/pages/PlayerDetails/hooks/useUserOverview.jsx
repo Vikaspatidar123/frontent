@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 import { useSelector } from 'react-redux';
 import { formatDateYMD } from '../../../utils/dateFormatter';
 import { genderTypes } from '../constants';
+// import moment from 'moment';
 
 const useUserOverview = ({ user }) => {
 	const { playerId } = useParams();
@@ -34,6 +35,7 @@ const useUserOverview = ({ user }) => {
 		userTags,
 		publicAddress,
 		referral,
+		// registration,
 	} = user || {};
 
 	const address = addresses?.length
@@ -58,10 +60,7 @@ const useUserOverview = ({ user }) => {
 		},
 		{ label: 'Full Name', value: `${firstName || ''} ${lastName || '-'}` },
 		{ label: 'User Name', value: username },
-		{
-			label: 'Gender',
-			value: genderTypes.find((gen) => gen.value === gender)?.label || '',
-		},
+
 		{ label: 'Date Of Birth', value: formatDateYMD(dateOfBirth) },
 
 		{
@@ -146,6 +145,17 @@ const useUserOverview = ({ user }) => {
 					? 'Completed'
 					: 'Pending',
 		},
+	];
+
+	const otherInfo = [
+		{
+			label: 'Gender',
+			value: genderTypes.find((gen) => gen.value === gender)?.label || '',
+		},
+		// {
+		// 	label: 'Registration Date',
+		// 	value: moment(registration).format('ll')
+		// },
 	];
 
 	const addNumbers = (a, b) => Number((a + b).toFixed(3));
@@ -247,6 +257,7 @@ const useUserOverview = ({ user }) => {
 		kycInfo,
 		totalPlayerStats,
 		userStatsData,
+		otherInfo,
 	};
 };
 

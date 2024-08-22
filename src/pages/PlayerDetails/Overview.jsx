@@ -63,10 +63,16 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 		setModalStates((prev) => ({ ...prev, [modalName]: false }));
 	};
 
-	const { basicInfo, contactInfo, kycInfo, totalPlayerStats, userStatsData } =
-		useUserOverview({
-			user: userDetails,
-		});
+	const {
+		basicInfo,
+		contactInfo,
+		kycInfo,
+		totalPlayerStats,
+		userStatsData,
+		otherInfo,
+	} = useUserOverview({
+		user: userDetails,
+	});
 
 	const updateUserStatus = () => {
 		dispatch(
@@ -376,66 +382,51 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 								</h4>
 								<div className="div-overview">
 									<h5 className="px-2 mx-3">
-										Contact Info <hr className="h5-hr m-0 mt-2" />
+										Contact <hr className="h5-hr m-0 mt-2" />
 									</h5>
-									{contactInfo?.map(({ label, value, subValue }) =>
-										userDetails?.kycMethod !== 1 && label === 'Applicant Id'
-											? ''
-											: (label === 'Reason' && value
-													? true
-													: label !== 'Reason') && (
-													<div
-														key={label}
-														className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
-														style={{ wordBreak: 'break-word' }}
-													>
-														<h6 className="px-2 overview-leftlabel">{label}</h6>
-														<span className={`${subValue} px-2`}>
-															{value || 'NA'}
-														</span>
-													</div>
-											  )
-									)}
-
-									{/* <h5 className="px-2 mx-1 mt-2">
-									Affiliate Info <hr className="h5-hr m-0 mt-2" />
-								</h5>
-								<div className="d-flex justify-content-between m-1">
-									<h6 className="px-2 overview-leftlabel">Affiliate Token</h6>
-									<span className="px-2">
-										{userDetails?.trackingToken || 'NA'}
-									</span>
-								</div>
-								<div className="d-flex justify-content-between m-1">
-									<h6 className="px-2 overview-leftlabel">Affiliate Status</h6>
-									{userDetails?.affiliateStatus ? (
-										<span className="text-success px-2">Linked</span>
-									) : (
-										<span className="text-danger px-2">Not Linked</span>
-									)}
-								</div> */}
+									{contactInfo?.map(({ label, value, subValue }) => (
+										<div
+											key={label}
+											className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
+											style={{ wordBreak: 'break-word' }}
+										>
+											<h6 className="px-2 overview-leftlabel">{label}</h6>
+											<span className={`${subValue} px-2`}>
+												{value || 'NA'}
+											</span>
+										</div>
+									))}
 
 									<h5 className="px-2 mx-3 mt-2">
-										KYC Info <hr className="h5-hr m-0 mt-2" />
+										KYC <hr className="h5-hr m-0 mt-2" />
 									</h5>
-									{kycInfo?.map(({ label, value, subValue }) =>
-										userDetails?.kycMethod !== 1 && label === 'Applicant Id'
-											? ''
-											: (label === 'Reason' && value
-													? true
-													: label !== 'Reason') && (
-													<div
-														key={label}
-														className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
-														style={{ wordBreak: 'break-word' }}
-													>
-														<h6 className="px-2 overview-leftlabel">{label}</h6>
-														<span className={`${subValue} px-2`}>
-															{value || 'NA'}
-														</span>
-													</div>
-											  )
-									)}
+									{kycInfo?.map(({ label, value, subValue }) => (
+										<div
+											key={label}
+											className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
+											style={{ wordBreak: 'break-word' }}
+										>
+											<h6 className="px-2 overview-leftlabel">{label}</h6>
+											<span className={`${subValue} px-2`}>
+												{value || 'NA'}
+											</span>
+										</div>
+									))}
+									<h5 className="px-2 mx-3 mt-2">
+										Other <hr className="h5-hr m-0 mt-2" />
+									</h5>
+									{otherInfo?.map(({ label, value, subValue }) => (
+										<div
+											key={label}
+											className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
+											style={{ wordBreak: 'break-word' }}
+										>
+											<h6 className="px-2 overview-leftlabel">{label}</h6>
+											<span className={`${subValue} px-2`}>
+												{value || 'NA'}
+											</span>
+										</div>
+									))}
 								</div>
 							</Card>
 						</Col>

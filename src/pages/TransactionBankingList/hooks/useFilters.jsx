@@ -135,8 +135,6 @@ const useFilters = (userId = '') => {
 		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
 	};
 
-	console.log('Values = ', validation.values);
-
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
