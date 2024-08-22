@@ -9,6 +9,7 @@ const useForm = ({
 	staticFormFields,
 	leftStaticFormFields,
 	rightStaticFormFields,
+	enableReinitialize = true,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [header, setHeader] = useState(initialHeader);
@@ -21,7 +22,7 @@ const useForm = ({
 	);
 
 	const validation = useFormik({
-		enableReinitialize: true,
+		enableReinitialize,
 		initialValues,
 		validationSchema,
 		onSubmit: onSubmitEntry,

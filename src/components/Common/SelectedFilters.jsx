@@ -4,7 +4,11 @@
 import React from 'react';
 import { Badge, Button } from 'reactstrap';
 
-const SelectedFilters = ({ validation, filterFormatter }) => {
+const SelectedFilters = ({
+	validation,
+	filterFormatter,
+	handleResetCallback,
+}) => {
 	const clearFilter = (filterName) => {
 		validation.setFieldValue(filterName, '');
 	};
@@ -38,7 +42,13 @@ const SelectedFilters = ({ validation, filterFormatter }) => {
 				<Button
 					color="link"
 					className="btn btn-link waves-effect"
-					onClick={() => validation.resetForm()}
+					onClick={() => {
+						if (handleResetCallback) {
+							handleResetCallback();
+						} else {
+							validation.resetForm();
+						}
+					}}
 				>
 					Clear all
 				</Button>

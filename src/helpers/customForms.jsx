@@ -126,7 +126,7 @@ export const CustomSelectField = ({
 				id={id}
 				type={type}
 				name={name}
-				value={value}
+				value={value === '' ? null : value} // To handle the select value null condition.
 				onChange={onChange}
 				disabled={disabled}
 				multiple={multiple}

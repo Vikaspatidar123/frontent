@@ -18,8 +18,8 @@ import SelectedFilters from '../../../components/Common/SelectedFilters';
 
 const keyMapping = {
 	status: 'Status',
-	fromDate: 'Registration from',
-	toDate: 'Registration till',
+	fromDate: 'From',
+	toDate: 'To',
 	type: 'Type',
 	purpose: 'Purpose',
 	tagIds: 'Segment',
@@ -56,6 +56,7 @@ const useFilters = (userId = '') => {
 		initialValues: filterValues(),
 		validationSchema: filterValidationSchema(),
 		staticFormFields: staticFiltersFields(userId),
+		enableReinitialize: false,
 	});
 
 	useEffect(() => {
@@ -130,10 +131,17 @@ const useFilters = (userId = '') => {
 		return `${formattedKey}: ${formattedValue}`;
 	};
 
+	const handleResetCallback = () => {
+		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
+	};
+
+	console.log('Values = ', validation.values);
+
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
 			filterFormatter={filterFormatter}
+			handleResetCallback={handleResetCallback}
 		/>
 	);
 
