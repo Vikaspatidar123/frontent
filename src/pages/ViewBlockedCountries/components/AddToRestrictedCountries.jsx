@@ -1,21 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Col, Row, Spinner } from 'reactstrap';
+import { Button, Card, Col, Input, Row, Spinner } from 'reactstrap';
 import TableContainer from '../../../components/Common/Table';
 import useAddToRestrictedCountriesListing from '../hooks/useAddToRestrictedCountriesListing';
-import useFilters from '../hooks/useFilters';
-import Filters from '../../../components/Common/Filters';
 
 const AddToRestrictedCountries = ({ unrestrictedCountries }) => {
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useFilters();
-
 	const {
 		columns,
 		unrestrictedCountriesState,
@@ -23,31 +12,38 @@ const AddToRestrictedCountries = ({ unrestrictedCountries }) => {
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
-	} = useAddToRestrictedCountriesListing(
-		filterValidation.values,
-		unrestrictedCountries
-	);
+		searchString,
+		setSearchString,
+	} = useAddToRestrictedCountriesListing(unrestrictedCountries);
 
 	return (
 		<Card className="p-2">
 			<Row className="col-reverse-sm">
 				<Col sm={12} md={6} lg={6}>
 					<h4 className="py-3">Unrestricted Countries</h4>
-					<Filters
-						validation={filterValidation}
-						filterFields={filterFields}
-						actionButtons={actionButtons}
-						isAdvanceOpen={isAdvanceOpen}
-						toggleAdvance={toggleAdvance}
-						isFilterChanged={isFilterChanged}
-						customFieldCols={{ xxl: 6, xl: 6, md: 6, sm: 6 }}
-					/>
+					<div className="filter-search me-2">
+						<div className="position-relative">
+							<Input
+								type="text"
+								value={searchString}
+								className="form-control border-0"
+								placeholder="Search..."
+								onChange={(e) => setSearchString(e.target.value)}
+							/>
+							<i
+								className="bx bx-search-alt search-icon"
+								style={{
+									position: 'absolute',
+									left: '10px',
+									top: '50%',
+									transform: 'translateY(-50%)',
+								}}
+							/>
+						</div>
+					</div>
 					<TableContainer
 						columns={columns}
 						data={unrestrictedCountriesState}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
 						isManualPagination
 						isShowColSettings={false}
 					/>

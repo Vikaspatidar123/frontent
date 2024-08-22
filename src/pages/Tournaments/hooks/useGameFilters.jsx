@@ -1,6 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-// import { useSelector } from 'react-redux';
-import { isEqual } from 'lodash';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	gameFilterValidationSchema,
@@ -8,25 +6,30 @@ import {
 	staticGameFiltersFields,
 } from '../formDetails';
 import useForm from '../../../components/Common/Hooks/useFormModal';
-import {
-	debounceTime,
-	itemsPerPage,
-	selectedLanguage,
-} from '../../../constants/config';
+import { itemsPerPage, selectedLanguage } from '../../../constants/config';
 import {
 	getCasinoCategoryDetailStart,
 	getCasinoGamesStart,
 	getCasinoProvidersDataStart,
 } from '../../../store/actions';
+import SelectedFilters from '../../../components/Common/SelectedFilters';
+import CustomFilters from '../../../components/Common/CustomFilters';
 
-let debounce;
+const keyMapping = {
+	isActive: 'Active',
+	searchString: 'Search',
+	casinoCategoryId: 'Category',
+	casinoProviderId: 'Provider',
+	isFeatured: 'Is Featured',
+};
+
+const ACTIVE_KEY_MAP = {
+	true: 'Yes',
+	false: 'No',
+};
+
 const useGameFilters = () => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
-	const prevValues = useRef(null);
-	const isFirst = useRef(true);
-	const [isFilterChanged, setIsFilterChanged] = useState(false);
 	const { casinoProvidersData, casinoCategoryDetails } = useSelector(
 		(state) => state.CasinoManagementData
 	);
@@ -51,11 +54,6 @@ const useGameFilters = () => {
 		// onSubmitEntry: handleFilter,
 		staticFormFields: staticGameFiltersFields(),
 	});
-
-	const handleClear = () => {
-		const initialValues = gameFilterValues();
-		validation.resetForm(initialValues);
-	};
 
 	useEffect(() => {
 		if (!casinoCategoryDetails?.categories) {
@@ -99,39 +97,54 @@ const useGameFilters = () => {
 		}
 	}, [casinoProvidersData]);
 
-	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
-			setIsFilterChanged(true);
-			debounce = setTimeout(() => {
-				handleFilter(validation.values);
-			}, debounceTime);
-			prevValues.current = validation.values;
-		}
-		isFirst.current = false;
-		if (isEqual(gameFilterValues(), validation.values)) {
-			setIsFilterChanged(false);
-		}
-		return () => clearTimeout(debounce);
-	}, [validation.values]);
+	const filterFormatter = (key, value) => {
+		const formattedKey = keyMapping[key] || key;
 
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
+		let formattedValue = value;
+
+		switch (key) {
+			case 'isFeatured':
+			case 'isActive':
+				formattedValue = ACTIVE_KEY_MAP[value] || value;
+				break;
+			case 'casinoProviderId':
+				formattedValue =
+					casinoProvidersData?.providers?.find((row) => row?.id === value)
+						?.name[selectedLanguage] || '';
+				break;
+			case 'casinoCategoryId':
+				formattedValue =
+					casinoCategoryDetails?.categories?.find((row) => row?.id === value)
+						?.name[selectedLanguage] || '';
+				break;
+			default:
+				break;
+		}
+
+		return `${formattedKey}: ${formattedValue}`;
+	};
+
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={filterFormatter}
+		/>
+	);
+
+	const filterComponent = (
+		<CustomFilters
+			filterFields={formFields}
+			validation={validation}
+			handleFilter={handleFilter}
+			searchInputPlaceHolder="Search by username or email"
+		/>
+	);
 
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
 		filterFields: formFields,
-		actionButtons,
 		filterValidation: validation,
-		isFilterChanged,
+		filterComponent,
+		selectedFiltersComponent,
 	};
 };
 

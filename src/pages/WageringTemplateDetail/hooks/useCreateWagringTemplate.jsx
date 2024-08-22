@@ -33,12 +33,9 @@ const useCreateWageringTemplate = () => {
 	const [existingFilledData, setExistingFilledData] = useState({});
 
 	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
 		filterValidation,
-		isFilterChanged,
+		filterComponent,
+		selectedFiltersComponent,
 		casinoProvidersData,
 	} = useCreateFilters();
 
@@ -123,12 +120,9 @@ const useCreateWageringTemplate = () => {
 				isCasinoGamesLoading={isCasinoGamesLoading}
 				page={page}
 				setPage={setPage}
-				toggleAdvance={toggleAdvance}
-				isAdvanceOpen={isAdvanceOpen}
-				filterFields={filterFields}
-				actionButtons={actionButtons}
 				filterValidation={filterValidation}
-				isFilterChanged={isFilterChanged}
+				filterComponent={filterComponent}
+				selectedFiltersComponent={selectedFiltersComponent}
 			/>
 		);
 	}, [

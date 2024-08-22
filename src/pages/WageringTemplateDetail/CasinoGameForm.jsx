@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { useMemo, useState } from 'react';
 
-import { Container, Row } from 'reactstrap';
+import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
-import Filters from '../../components/Common/Filters';
 
 import {
 	RTP,
@@ -126,12 +125,8 @@ const CasinoGamesForm = ({
 	isCasinoGamesLoading,
 	page,
 	setPage,
-	toggleAdvance,
-	isAdvanceOpen,
-	filterFields,
-	actionButtons,
-	filterValidation,
-	isFilterChanged,
+	filterComponent,
+	selectedFiltersComponent,
 }) => {
 	const [isAllSelected, setIsAllSelected] = useState(false);
 	const [commonContribution, setCommonContribution] = useState('');
@@ -215,16 +210,6 @@ const CasinoGamesForm = ({
 
 	return (
 		<Container fluid>
-			<Row className="ps-2">
-				<Filters
-					validation={filterValidation}
-					filterFields={filterFields}
-					actionButtons={actionButtons}
-					isAdvanceOpen={isAdvanceOpen}
-					toggleAdvance={toggleAdvance}
-					isFilterChanged={isFilterChanged}
-				/>
-			</Row>
 			<TableContainer
 				columns={columns(
 					handleChange,
@@ -238,15 +223,14 @@ const CasinoGamesForm = ({
 				data={formattedCasinoGames}
 				isPagination
 				customPageSize={itemsPerPage}
-				tableClass="table-bordered align-middle nowrap mt-2"
-				paginationDiv="justify-content-center"
-				pagination="pagination justify-content-start pagination-rounded"
 				totalPageCount={casinoGames?.totalPages}
 				isManualPagination
 				onChangePagination={setPage}
 				currentPage={page}
 				isLoading={isCasinoGamesLoading}
 				changeRowsPerPageCallback={onChangeRowsPerPage}
+				filterComponent={filterComponent}
+				selectedFiltersComponent={selectedFiltersComponent}
 			/>
 		</Container>
 	);
