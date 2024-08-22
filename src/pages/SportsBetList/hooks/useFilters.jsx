@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { isEqual } from 'lodash';
 import {
 	filterValidationSchema,
 	filterValues,
@@ -12,18 +11,14 @@ import {
 	fetchSportsBetStart,
 	getAllTags,
 } from '../../../store/actions';
-import { debounceTime, itemsPerPage } from '../../../constants/config';
+import { itemsPerPage } from '../../../constants/config';
+import SelectedFilters from '../../../components/Common/SelectedFilters';
+import CustomFilters from '../../../components/Common/CustomFilters';
 
-let debounce;
 const useFilters = (userId = '') => {
 	const dispatch = useDispatch();
-	const [isAdvanceOpen, setIsAdvanceOpen] = useState(false);
 	const { userTags } = useSelector((state) => state.UserDetails);
-	const toggleAdvance = () => setIsAdvanceOpen((pre) => !pre);
 	// const { currencies } = useSelector((state) => state.Currencies);
-	const prevValues = useRef(null);
-	const isFirst = useRef(true);
-	const [isFilterChanged, setIsFilterChanged] = useState(false);
 	const { currencies } = useSelector((state) => state.Currencies);
 
 	const fetchData = (values) => {
@@ -51,11 +46,6 @@ const useFilters = (userId = '') => {
 	// const handleAdvance = () => {
 	//   toggleAdvance();
 	// };
-
-	const handleClear = () => {
-		const initialValues = filterValues();
-		validation.resetForm(initialValues);
-	};
 
 	useEffect(() => {
 		if (!userTags) {
@@ -98,39 +88,63 @@ const useFilters = (userId = '') => {
 		}
 	}, [userTags]);
 
-	const actionButtons = useMemo(() => [
-		{
-			type: 'button', // if you pass type button handle the click event
-			label: '',
-			icon: 'mdi mdi-refresh',
-			handleClick: handleClear,
-			tooltip: 'Clear filter',
-			id: 'clear',
-		},
-	]);
+	const keyMapping = {
+		toDate: 'To Date',
+		fromDate: 'From Date',
+		tagId: 'Segment',
+		countryId: 'Country',
+		type: 'Bet Type',
+		settlementStatus: 'Bet Settlement Status',
+	};
 
-	useEffect(() => {
-		if (!isFirst.current && !isEqual(validation.values, prevValues.current)) {
-			setIsFilterChanged(true);
-			debounce = setTimeout(() => {
-				handleFilter(validation.values);
-			}, debounceTime);
-			prevValues.current = validation.values;
+	const filterFormatter = (key, value) => {
+		const formattedKey = keyMapping[key] || key;
+
+		let formattedValue = value;
+
+		switch (key) {
+			case 'toDate':
+			case 'fromDate': {
+				const date = new Date(value);
+				formattedValue = date.toLocaleDateString('en-GB');
+				break;
+			}
+			case 'currencyId':
+				formattedValue =
+					currencies?.currencies?.find((currency) => currency.id === value)
+						?.code || '';
+				break;
+			case 'tagId':
+				formattedValue =
+					userTags?.tags?.find((tag) => tag.id === value)?.tag || '';
+				break;
+			default:
+				break;
 		}
-		isFirst.current = false;
-		if (isEqual(filterValues(), validation.values)) {
-			setIsFilterChanged(false);
-		}
-		return () => clearTimeout(debounce);
-	}, [validation.values]);
+
+		return `${formattedKey}: ${formattedValue}`;
+	};
+
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={filterFormatter}
+		/>
+	);
+
+	const filterComponent = (
+		<CustomFilters
+			filterFields={formFields}
+			validation={validation}
+			handleFilter={handleFilter}
+			showSearchInput={false}
+		/>
+	);
 
 	return {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields: formFields,
-		actionButtons,
 		filterValidation: validation,
-		isFilterChanged,
+		selectedFiltersComponent,
+		filterComponent,
 	};
 };
 

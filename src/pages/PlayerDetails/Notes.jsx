@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Card, CardBody, Container } from 'reactstrap';
+import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import { Comment, KeyValueCell, KeyValueCellNA } from './TableCol';
 import FormModal from '../../components/Common/FormModal';
 import useCreateComment from './hooks/useCreateComment';
-import CrudSection from '../../components/Common/CrudSection';
 import { formPageTitle } from '../../components/Common/constants';
 import ConfirmationModal from '../../components/Common/ConfirmationModal';
 import { ICON_CLASS, TEXT_COLORS } from '../../utils/constant';
 import Actions from '../../components/Common/Actions';
+import ButtonList from '../../components/Common/ButtonList';
 
 const Notes = ({ userDetails, userId }) => {
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -119,52 +119,50 @@ const Notes = ({ userDetails, userId }) => {
 		return list;
 	}, [userComment]);
 
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	const onChangeRowsPerPage = (value) => {
 		setItemsPerPage(value);
 	};
 
 	return (
 		<Container fluid>
-			<Card className="p-2">
-				<CrudSection buttonList={buttonList} title="Notes" />
-				<CardBody>
-					<TableContainer
-						isLoading={false}
-						columns={columns || []}
-						data={userComment || []}
-						isPagination
-						customPageSize={itemsPerPage}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						// paginationDiv="col-sm-12 col-md-7"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
-						totalPageCount={1}
-						isManualPagination
-						onChangePagination={setCurrentPage}
-						currentPage={currentPage}
-						changeRowsPerPageCallback={onChangeRowsPerPage}
-					/>
-				</CardBody>
-				<FormModal
-					isOpen={isOpen}
-					setIsOpen={setIsOpen}
-					showConfirmationModal={showModal}
-					setShowConfirmationModal={setShowModal}
-					isEditOpen={false}
-					header={header}
-					validation={validation}
-					formFields={formFields}
-					submitLabel="Submit"
-					customColClasses="col-md-12"
-					isSubmitLoading={isCreateCommentLoading}
-				/>
-				<ConfirmationModal
-					openModal={showModal}
-					setOpenModal={setShowModal}
-					validation={validation}
-					pageType={formPageTitle.notes}
-				/>
-			</Card>
+			<TableContainer
+				isLoading={false}
+				columns={columns || []}
+				data={userComment || []}
+				isPagination
+				customPageSize={itemsPerPage}
+				tableClass="table-bordered align-middle nowrap mt-2"
+				// paginationDiv="col-sm-12 col-md-7"
+				paginationDiv="justify-content-center"
+				pagination="pagination justify-content-start pagination-rounded"
+				totalPageCount={1}
+				isManualPagination
+				onChangePagination={setCurrentPage}
+				currentPage={currentPage}
+				changeRowsPerPageCallback={onChangeRowsPerPage}
+				actionList={actionList}
+			/>
+			<FormModal
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+				showConfirmationModal={showModal}
+				setShowConfirmationModal={setShowModal}
+				isEditOpen={false}
+				header={header}
+				validation={validation}
+				formFields={formFields}
+				submitLabel="Submit"
+				customColClasses="col-md-12"
+				isSubmitLoading={isCreateCommentLoading}
+			/>
+			<ConfirmationModal
+				openModal={showModal}
+				setOpenModal={setShowModal}
+				validation={validation}
+				pageType={formPageTitle.notes}
+			/>
 		</Container>
 	);
 };

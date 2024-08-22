@@ -31,7 +31,7 @@ const CasinoTransactionsList = ({ userId }) => {
 	return (
 		<div className={`${userId ? '' : 'page-content'}`}>
 			<Container fluid>
-				{showBreadcrumb && (
+				{showBreadcrumb && !userId && (
 					<Breadcrumb title="Reports" breadcrumbItem="Casino Transactions" />
 				)}
 

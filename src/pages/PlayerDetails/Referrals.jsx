@@ -5,7 +5,6 @@ import { Card, CardBody, Container } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
 import { Id, IsActive, KeyValueCellNA, KycStatus, UserName } from './TableCol';
-import CrudSection from '../../components/Common/CrudSection';
 import { userReferrals } from '../../store/actions';
 
 const Referrals = ({ userId }) => {
@@ -79,7 +78,6 @@ const Referrals = ({ userId }) => {
 	return (
 		<Container fluid>
 			<Card className="p-2">
-				<CrudSection buttonList={[]} title="Referrals" />
 				<CardBody>
 					<TableContainer
 						isLoading={referralsLoading}
