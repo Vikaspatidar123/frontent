@@ -344,6 +344,7 @@ export const CustomRangeSelector = ({
 	isError,
 	errorMsg,
 	maxDate = 'today',
+	minDate = '',
 	validation,
 	// dateFormat = 'Y-m-d',
 	customInputClass,
@@ -358,7 +359,7 @@ export const CustomRangeSelector = ({
 			options={{
 				mode: 'range',
 				dateFormat: flatPickerFormat,
-				// minDate,
+				minDate,
 				maxDate,
 			}}
 			onChange={(date) => {

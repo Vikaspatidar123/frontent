@@ -122,7 +122,7 @@ const commonFields = (
 		fieldType: 'dateRangeSelector',
 		label: 'Bonus Validity',
 		placeholder: 'Select Range',
-		minDate: '',
+		minDate: 'today',
 		maxDate: '',
 		rangeKeys: ['validFrom', 'validTo'],
 		// isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
@@ -131,6 +131,7 @@ const commonFields = (
 	{
 		name: 'daysToClear',
 		fieldType: 'textField',
+		type: 'number',
 		label: 'Days to Clear',
 		placeholder: 'Days to Clear',
 		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
