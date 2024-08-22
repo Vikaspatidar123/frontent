@@ -79,6 +79,7 @@ const useFilters = (userId = '') => {
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(userId),
+		enableReinitialize: false,
 	});
 
 	useEffect(() => {
@@ -159,10 +160,15 @@ const useFilters = (userId = '') => {
 		return `${formattedKey}: ${formattedValue}`;
 	};
 
+	const handleResetCallback = () => {
+		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
+	};
+
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
 			filterFormatter={filterFormatter}
+			handleResetCallback={handleResetCallback}
 		/>
 	);
 

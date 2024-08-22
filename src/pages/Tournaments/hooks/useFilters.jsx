@@ -18,6 +18,7 @@ const keyMapping = {
 	startDate: 'From',
 	search: 'Search',
 	status: 'Status',
+	tagIds: 'Segment',
 };
 
 const statusMapping = {
@@ -26,6 +27,13 @@ const statusMapping = {
 	settled: 'Settled',
 	cancelled: 'Cancelled',
 };
+
+// const statusMapping = {
+// 	active: 'Active',
+// 	'in-active': 'In-Active',
+// 	settled: 'Settled',
+// 	cancelled: 'Cancelled',
+// };
 
 const useFilters = (itemsPerPage) => {
 	const dispatch = useDispatch();
@@ -95,6 +103,10 @@ const useFilters = (itemsPerPage) => {
 				formattedValue = date.toLocaleDateString('en-GB');
 				break;
 			}
+			case 'tagIds':
+				formattedValue =
+					userTags?.tags?.find((tag) => tag.id === value)?.tag || '';
+				break;
 			default:
 				break;
 		}

@@ -41,6 +41,7 @@ const useFilters = (userId = '') => {
 		validationSchema: filterValidationSchema(),
 		// onSubmitEntry: handleFilter,
 		staticFormFields: staticFiltersFields(userId),
+		enableReinitialize: false,
 	});
 
 	// const handleAdvance = () => {
@@ -74,7 +75,7 @@ const useFilters = (userId = '') => {
 					name: 'tagId',
 					fieldType: 'select',
 					label: '',
-					placeholder: 'Select tag',
+					placeholder: 'Select Segment',
 					optionList: tags,
 				},
 				{
@@ -89,12 +90,13 @@ const useFilters = (userId = '') => {
 	}, [userTags]);
 
 	const keyMapping = {
-		toDate: 'To Date',
-		fromDate: 'From Date',
-		tagId: 'Segment',
+		toDate: 'To ',
+		fromDate: 'From ',
+		tagId: 'Segments',
 		countryId: 'Country',
 		type: 'Bet Type',
 		settlementStatus: 'Bet Settlement Status',
+		currencyId: 'Currency',
 	};
 
 	const filterFormatter = (key, value) => {
@@ -125,10 +127,15 @@ const useFilters = (userId = '') => {
 		return `${formattedKey}: ${formattedValue}`;
 	};
 
+	const handleResetCallback = () => {
+		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
+	};
+
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
 			filterFormatter={filterFormatter}
+			handleResetCallback={handleResetCallback}
 		/>
 	);
 

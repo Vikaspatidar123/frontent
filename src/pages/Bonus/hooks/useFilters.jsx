@@ -17,12 +17,12 @@ const keyMapping = {
 	bonusType: 'Status',
 	search: 'Search',
 	isActive: 'Status',
-	tagId: 'Segments',
+	tagIds: 'Segments',
 };
 
 const isStatusMapping = {
 	true: 'Active',
-	false: 'In Active',
+	false: 'In-Active',
 };
 
 const bonusTypesMapper = {
@@ -87,7 +87,7 @@ const useFilters = () => {
 		let formattedValue = value;
 
 		switch (key) {
-			case 'status':
+			case 'isActive':
 				formattedValue = isStatusMapping[value];
 				break;
 			case 'tagIds':
