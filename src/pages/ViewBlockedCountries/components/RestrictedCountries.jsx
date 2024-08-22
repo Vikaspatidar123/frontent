@@ -14,9 +14,6 @@ const RestrictedCountries = ({ restrictedCountries }) => {
 					columns={columns}
 					data={restrictedCountries}
 					customPageSize={restrictedCountries?.length || 10}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
 				/>
 			</CardBody>
 		</Card>

@@ -2,12 +2,12 @@ import * as Yup from 'yup';
 
 // Filters
 const staticFiltersFields = () => [
-	{
-		name: 'searchString',
-		fieldType: 'textField',
-		label: '',
-		placeholder: 'Search by template name',
-	},
+	// {
+	// 	name: 'searchString',
+	// 	fieldType: 'textField',
+	// 	label: '',
+	// 	placeholder: 'Search by template name',
+	// },
 ];
 
 const filterValues = () => ({

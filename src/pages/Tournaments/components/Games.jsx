@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row } from 'reactstrap';
+import { Row } from 'reactstrap';
 import { isEmpty, uniqBy } from 'lodash';
 import { CustomSwitchButton } from '../../../helpers/customForms';
 import TableContainer from '../../../components/Common/Table';
-import Filters from '../../../components/Common/Filters';
 import {
 	Provider,
 	Status,
@@ -149,14 +148,8 @@ const Games = ({
 		(state) => state.CasinoManagementData
 	);
 
-	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
-		filterValidation,
-		isFilterChanged,
-	} = useGameFilters();
+	const { filterValidation, filterComponent, selectedFiltersComponent } =
+		useGameFilters();
 
 	useEffect(() => {
 		dispatch(
@@ -216,31 +209,23 @@ const Games = ({
 
 	return (
 		<Row>
-			<Filters
-				validation={filterValidation}
-				filterFields={filterFields}
-				actionButtons={actionButtons}
-				isAdvanceOpen={isAdvanceOpen}
-				toggleAdvance={toggleAdvance}
-				isFilterChanged={isFilterChanged}
+			<TableContainer
+				isLoading={isCasinoGamesLoading}
+				columns={columns || []}
+				data={formattedCasinoGames || []}
+				isPagination
+				customPageSize={itemsPerPage}
+				tableClass="table-bordered align-middle nowrap mt-2"
+				paginationDiv="justify-content-center"
+				pagination="pagination justify-content-start pagination-rounded"
+				totalPageCount={casinoGames?.totalPages || 1}
+				isManualPagination
+				onChangePagination={setCurrentPage}
+				currentPage={currentPage}
+				changeRowsPerPageCallback={setItemsPerPage}
+				filterComponent={filterComponent}
+				selectedFiltersComponent={selectedFiltersComponent}
 			/>
-			<Col lg="12" className="mb-3">
-				<TableContainer
-					isLoading={isCasinoGamesLoading}
-					columns={columns || []}
-					data={formattedCasinoGames || []}
-					isPagination
-					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={casinoGames?.totalPages || 1}
-					isManualPagination
-					onChangePagination={setCurrentPage}
-					currentPage={currentPage}
-					changeRowsPerPageCallback={setItemsPerPage}
-				/>
-			</Col>
 			<Actions
 				handleNextClick={handleNextClick}
 				submitButtonLoading={submitButtonLoading}

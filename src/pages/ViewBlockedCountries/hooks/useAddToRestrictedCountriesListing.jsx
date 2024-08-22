@@ -6,14 +6,12 @@ import { addRestrictedCountriesStart } from '../../../store/actions';
 import { KeyValueCell } from '../RestrictedCountriesListCol';
 import ActionButtons from '../ActionButtons';
 
-const useAddToRestrictedCountriesListing = (
-	filterValues = {},
-	unrestrictedCountries = []
-) => {
+const useAddToRestrictedCountriesListing = (unrestrictedCountries = []) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { state: casinoState } = useLocation();
 	const paramId = useParams();
+	const [searchString, setSearchString] = useState('');
 	const { addToRestrictedCountriesLoading } = useSelector(
 		(state) => state.RestrictedCountries
 	);
@@ -117,8 +115,8 @@ const useAddToRestrictedCountriesListing = (
 	useEffect(() => {
 		if (unrestrictedCountries?.length) {
 			setUnrestrictedCountriesState(() => {
-				if (filterValues?.searchString?.length > 1) {
-					const searchStr = filterValues?.searchString;
+				if (searchString?.length > 1) {
+					const searchStr = searchString;
 					return unrestrictedCountries?.filter(({ code, name }) =>
 						`${code?.toLowerCase()} ${name?.toLowerCase()}`?.includes(
 							searchStr?.toLowerCase()
@@ -128,7 +126,7 @@ const useAddToRestrictedCountriesListing = (
 				return unrestrictedCountries;
 			});
 		} else setUnrestrictedCountriesState([]);
-	}, [unrestrictedCountries, filterValues?.searchString]);
+	}, [unrestrictedCountries, searchString]);
 
 	const onSubmitSelected = () => {
 		const countries = selectedCountriesState.map((g) => g.code);
@@ -150,6 +148,8 @@ const useAddToRestrictedCountriesListing = (
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
+		searchString,
+		setSearchString,
 	};
 };
 
