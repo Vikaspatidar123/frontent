@@ -39,7 +39,7 @@ const useFilters = () => {
 	});
 
 	const keyMapping = {
-		isActive: 'Active',
+		isActive: 'Status',
 		searchString: 'Search',
 	};
 	const filterFormatter = (key, value) => {

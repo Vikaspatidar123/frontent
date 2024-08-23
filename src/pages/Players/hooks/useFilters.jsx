@@ -25,7 +25,7 @@ import { ACTIVE_KEY_MAP, KYC_STATUS_KEY_MAP } from '../../../constants/common';
 
 const keyMapping = {
 	kycStatus: 'KYC Status',
-	isActive: 'Active',
+	isActive: 'Status',
 	toDate: 'Registration till',
 	fromDate: 'Registration from',
 	tagIds: 'Segment',

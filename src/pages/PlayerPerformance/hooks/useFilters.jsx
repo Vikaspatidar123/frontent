@@ -126,6 +126,7 @@ const useFilters = () => {
 			filterFields={formFields}
 			validation={validation}
 			handleFilter={handleFilter}
+			searchInputPlaceHolder="Search by username"
 		/>
 	);
 

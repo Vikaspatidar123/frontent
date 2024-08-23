@@ -115,7 +115,13 @@ const useTableCustom = (
 				type="button"
 				className="btn btn-light btn-outline-primary"
 				onClick={() => {
-					dispatch(toggleDropdown('tableColumnDropdownOpen'));
+					dispatch(
+						toggleDropdown(
+							openDropdownType === 'tableColumnDropdownOpen'
+								? ''
+								: 'tableColumnDropdownOpen'
+						)
+					);
 				}}
 			>
 				Columns
