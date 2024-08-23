@@ -170,6 +170,7 @@ const CountryLineBarChart = ({
 					data: depositAmounts,
 					label: {
 						show: true,
+						color: layoutModeType === 'dark' ? '#fff' : '#000',
 						position: 'top',
 						formatter: (params) =>
 							`${defaultCurrency?.symbol || ''} ${addCommasToNumber(
@@ -213,11 +214,12 @@ const CountryLineBarChart = ({
 			axisLabelColor,
 			defaultCurrency?.symbol,
 			spineareaChartColors,
+			layoutModeType,
 		]
 	);
 
 	const resetChart = () => {
-		echartsRef.current?.getEchartsInstance().setOption(initialOptions, true);
+		echartsRef.current?.getEchartsInstance()?.setOption(initialOptions, true);
 	};
 
 	const options = useMemo(

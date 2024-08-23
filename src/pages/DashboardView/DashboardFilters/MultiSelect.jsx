@@ -6,6 +6,19 @@ import React from 'react';
 import Select, { components } from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const customStyles = {
+	multiValueLabel: (base) => ({
+		...base,
+		color: '#fff',
+		backgroundColor: '#556ee6',
+	}),
+	multiValueRemove: (base) => ({
+		...base,
+		color: '#fff',
+		backgroundColor: '#556ee6',
+	}),
+};
+
 const options = [
 	{ value: 'casino', label: 'Casino' },
 	{ value: 'sportsbook', label: 'SportsBook' },
@@ -40,6 +53,7 @@ const MultiSelect = ({ label, filters, setFilters }) => {
 				components={{ Option: CheckboxOption }}
 				onChange={handleChange}
 				value={filters?.categories || []}
+				styles={customStyles}
 			/>
 		</div>
 	);

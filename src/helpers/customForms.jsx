@@ -156,21 +156,16 @@ const customStyles = {
 		flexWrap: 'nowrap',
 		overflow: 'hidden',
 	}),
-	multiValue: (base) => ({
-		...base,
-		color:
-			document.body.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000',
-	}),
 	multiValueLabel: (base) => ({
 		...base,
-		color: '#000',
-		backgroundColor: '#E6E6E6',
+		color: '#fff',
+		backgroundColor: '#556ee6',
 		borderRadius: '0px',
 	}),
 	multiValueRemove: (base) => ({
 		...base,
-		color: '#000',
-		backgroundColor: '#E6E6E6',
+		color: '#fff',
+		backgroundColor: '#556ee6',
 		padding: '4px 1px 4px 1px',
 		borderRadius: '0px',
 		':hover': {

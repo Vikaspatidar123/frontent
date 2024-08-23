@@ -36,7 +36,7 @@ const GameReport = () => {
 	const { isGranted } = usePermission();
 
 	const tabComponent = (
-		<SimpleBar style={{ maxHeight: '300px', minHeight: '300px' }}>
+		<SimpleBar>
 			<TableContainer
 				isLoading={isGameReportLoading}
 				columns={gameReportColumn || []}
@@ -206,6 +206,7 @@ const GameReport = () => {
 									navClass="rounded p-0"
 									nonActiveClass="bg-light"
 									navLinkClass="custom-border"
+									tabCardClass="mb-0"
 								/>
 							</Row>
 							<Row>

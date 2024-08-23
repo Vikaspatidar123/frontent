@@ -40,7 +40,7 @@ const KpiSummary = () => {
 	lastDate.setDate(lastDate.getDate() + 1);
 
 	const tabComponent = (
-		<SimpleBar style={{ maxHeight: '250px', minHeight: '250px' }}>
+		<SimpleBar>
 			<TableContainer
 				isLoading={isKpiSummaryLoading}
 				columns={kPISummaryColumn || []}
@@ -153,6 +153,7 @@ const KpiSummary = () => {
 									navClass="rounded p-0"
 									nonActiveClass="bg-light"
 									navLinkClass="custom-border"
+									tabCardClass="mb-0"
 								/>
 							</Row>
 							<Row>
