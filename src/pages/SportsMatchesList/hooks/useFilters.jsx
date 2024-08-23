@@ -107,7 +107,7 @@ const useFilters = () => {
 			filterFields={formFields}
 			validation={validation}
 			handleFilter={handleFilter}
-			searchInputPlaceHolder="Search by Tournament"
+			searchInputPlaceHolder="Search by tournament"
 		/>
 	);
 

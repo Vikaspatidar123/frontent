@@ -97,6 +97,8 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 			currencies?.currencies?.find(
 				(curr) => curr.id === filterValues.currencyId
 			) || defaultCurrency;
+
+		console.log('Data = ', currency);
 		return [
 			// {
 			// 	Header: 'Ledger Id',

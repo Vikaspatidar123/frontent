@@ -12,6 +12,8 @@ const PieChart = ({
 	const series = data.map((item) => item.value);
 	const labels = data.map((item) => item.category);
 
+	const allZeros = series.every((value) => value === 0);
+
 	const options = {
 		chart: {
 			type: 'pie',
@@ -63,7 +65,11 @@ const PieChart = ({
 		],
 	};
 
-	return (
+	return allZeros ? (
+		<div style={{ textAlign: 'center', padding: '20px' }}>
+			<p>No Statistics Available.</p>
+		</div>
+	) : (
 		<ReactApexChart options={options} series={series} type="pie" height={320} />
 	);
 };

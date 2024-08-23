@@ -127,7 +127,7 @@ const useFilters = (itemsPerPage) => {
 			validation={validation}
 			handleFilter={handleFilter}
 			searchInputName="search"
-			searchInputPlaceHolder="Search by Tournament Name"
+			searchInputPlaceHolder="Search by tournament"
 		/>
 	);
 

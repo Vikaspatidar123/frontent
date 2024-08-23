@@ -7,14 +7,11 @@ const TransactionId = ({ value }) => value ?? 'NA';
 
 const PaymentProvider = ({ value }) => value ?? 'NA';
 
-const Amount = ({ value, type, defaultCurrency }) =>
-	value ? (
-		<div
-			className={type ? 'text-danger' : 'text-success'}
-		>{`${defaultCurrency.symbol} ${value}`}</div>
-	) : (
-		'-'
-	);
+const Amount = ({ value, type, defaultCurrency }) => (
+	<div className={type ? 'text-danger' : 'text-success'}>{`${
+		defaultCurrency.symbol
+	} ${value ?? '-'}`}</div>
+);
 
 const Actionee = ({ value }) => value ?? '-';
 
