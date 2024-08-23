@@ -36,7 +36,7 @@ const keyMapping = {
 const isStatusMapping = {
 	pending: 'Pending',
 	completed: 'Complete',
-	failes: 'Failed',
+	failed: 'Failed',
 };
 
 const purposeMapping = {
