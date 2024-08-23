@@ -360,13 +360,11 @@ export const CustomRangeSelector = ({
 			onChange={(date) => {
 				validation.setFieldValue(
 					rangeKeys[0],
-					new Date(date[0].getTime() - date[0].getTimezoneOffset() * 60000)
+					moment(date[0]).format('YYYY-MM-DD')
 				);
 				validation.setFieldValue(
 					rangeKeys[1],
-					new Date(
-						date[1].getTime() - date[1].getTimezoneOffset() * 60000 + 86398999
-					) // end of the day
+					moment(date[1]).format('YYYY-MM-DD')
 				);
 			}}
 		/>
