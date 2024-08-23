@@ -27,3 +27,6 @@ export const SET_TABLE_HEADER_THEME = 'SET_TABLE_HEADER_THEME';
 // Set show breadcrumb
 export const SET_BREADCRUMB = 'SET_BREADCRUMB';
 export const SAVE_SITE_DETAILS = 'SAVE_SITE_DETAILS';
+
+// Set dropdownOpen in filter & table column
+export const TOGGLE_DROPDOWN = 'TOGGLE_DROPDOWN';
