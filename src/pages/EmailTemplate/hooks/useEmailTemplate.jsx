@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'reactstrap';
 import {
 	getAllEmailTemplates,
-	getEmailTemplate,
+	// getEmailTemplate,
 	getLanguagesStart,
 	deleteEmailTemplate,
 	resetAllEmailTemplates,
@@ -101,10 +101,10 @@ const useEmailTemplate = () => {
 		setClickId('');
 	};
 
-	const handleViewClick = (row) => {
-		setClickId(row?.id);
-		dispatch(getEmailTemplate(row?.id));
-	};
+	// const handleViewClick = (row) => {
+	// 	setClickId(row?.id);
+	// 	dispatch(getEmailTemplate(row?.id));
+	// };
 
 	const handleDeleteSubmit = (id, eventType) =>
 		dispatch(
@@ -117,7 +117,7 @@ const useEmailTemplate = () => {
 	const handleDeleteClick = (row) => {
 		openConfirmModal(
 			'Are you sure you want to delete this Email Template?',
-			() => handleDeleteSubmit(row?.id, row?.eventType)
+			() => handleDeleteSubmit(row?.id, row?.eventype)
 		);
 	};
 
@@ -131,7 +131,7 @@ const useEmailTemplate = () => {
 			makeEmailTemplatePrimary({
 				data: {
 					emailTemplateId: parseInt(row?.id, 10),
-					eventType: row?.eventType,
+					eventType: row?.eventype,
 				},
 			})
 		);
@@ -159,13 +159,13 @@ const useEmailTemplate = () => {
 			icon: ICON_CLASS.markPrimary,
 			iconColor: TEXT_COLORS.info,
 		},
-		{
-			actionName: 'View',
-			actionHandler: handleViewClick,
-			isHidden: false,
-			icon: ICON_CLASS.view,
-			iconColor: TEXT_COLORS.secondary,
-		},
+		// {
+		// 	actionName: 'View',
+		// 	actionHandler: handleViewClick,
+		// 	isHidden: false,
+		// 	icon: ICON_CLASS.view,
+		// 	iconColor: TEXT_COLORS.secondary,
+		// },
 		{
 			actionName: 'Edit',
 			actionHandler: handleEditClick,

@@ -138,15 +138,12 @@ const Duplicates = ({ show, toggle, header }) => {
 					data={formattedDuplicates}
 					isPagination
 					customPageSize={itemsPerPage}
-					tableClass="table-bordered align-middle nowrap mt-2"
-					paginationDiv="justify-content-center"
-					pagination="pagination justify-content-start pagination-rounded"
-					totalPageCount={duplicateUsers?.count}
+					otalPageCount={duplicateUsers?.count}
 					isManualPagination
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}
 					changeRowsPerPageCallback={onChangeRowsPerPage}
-					isShowColSettings={false}
+					isShowColSettings
 				/>
 			</ModalBody>
 		</Modal>
