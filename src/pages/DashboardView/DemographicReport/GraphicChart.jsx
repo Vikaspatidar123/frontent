@@ -58,12 +58,12 @@ const CountryLineBarChart = ({
 
 	const echartsRef = useRef(null);
 
-	const initialOptions = useMemo(
+	const options = useMemo(
 		() => ({
 			grid: {
 				zlevel: 0,
-				x: 80,
-				x2: 40,
+				x: 60,
+				x2: 20,
 				y: 30,
 				y2: 30,
 				borderWidth: 0,
@@ -77,21 +77,6 @@ const CountryLineBarChart = ({
 					crossStyle: {
 						color: '#999',
 					},
-				},
-			},
-			toolbox: {
-				orient: 'start',
-				left: -5,
-				top: 25,
-				feature: {
-					dataView: { show: true, readOnly: false, title: 'Data View' },
-					magicType: {
-						show: true,
-						type: ['line', 'bar'],
-						title: { line: 'For line chart', bar: 'For bar chart' },
-					},
-					saveAsImage: { show: true, title: 'Download Image' },
-					restore: { show: true, title: 'Reset' },
 				},
 			},
 			color: spineareaChartColors,
@@ -216,37 +201,6 @@ const CountryLineBarChart = ({
 			spineareaChartColors,
 			layoutModeType,
 		]
-	);
-
-	const resetChart = () => {
-		echartsRef.current?.getEchartsInstance()?.setOption(initialOptions, true);
-	};
-
-	const options = useMemo(
-		() => ({
-			...initialOptions,
-			toolbox: {
-				orient: 'start',
-				left: -5,
-				top: 25,
-				feature: {
-					dataView: { show: true, readOnly: false, title: 'Data View' },
-					magicType: {
-						show: true,
-						type: ['line', 'bar'],
-						title: { line: 'For line chart', bar: 'For bar chart' },
-					},
-					saveAsImage: { show: true, title: 'Download Image' },
-					restore: {
-						show: true,
-						title: 'Reset',
-						icon: 'path://M512 0C229.236 0 0 229.236 0 512s229.236 512 512 512 512-229.236 512-512S794.964 0 512 0zm4.548 899.23c-123.816 0-241.752-47.564-330.299-133.338C112.67 677.546 64.105 559.61 64.105 435.794S112.67 193.988 186.249 120.409c73.578-73.578 191.514-122.143 315.33-122.143 33.092 0 60.062 26.97 60.062 60.062s-26.97 60.062-60.062 60.062c-96.36 0-187.266 37.452-254.883 104.744-67.617 67.292-105.069 158.198-105.069 254.558 0 96.36 37.452 187.266 105.069 254.883 67.617 67.617 158.198 105.069 254.558 105.069 96.36 0 187.266-37.452 254.883-105.069 67.617-67.617 105.069-158.198 105.069-254.558 0-33.092 26.97-60.062 60.062-60.062s60.062 26.97 60.062 60.062c0 123.816-47.564 241.752-133.338 330.299-87.882 87.882-204.358 136.082-330.3 136.082z',
-						onClick: resetChart,
-					},
-				},
-			},
-		}),
-		[initialOptions]
 	);
 
 	return (

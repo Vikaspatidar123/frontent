@@ -102,8 +102,8 @@ const RevenueChart = ({ statsData, dashFilters, statsDataLoading }) => {
 			labels: {
 				formatter: (value) =>
 					`${defaultCurrency?.symbol || ''} ${formatInKMB(value) || ''}`,
-				textStyle: {
-					fontWeight: 600,
+				style: {
+					fontWeight: 'bold',
 				},
 			},
 		},
