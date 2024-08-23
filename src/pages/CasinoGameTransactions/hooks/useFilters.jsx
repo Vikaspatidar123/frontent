@@ -118,7 +118,9 @@ const useFilters = () => {
 	};
 
 	const handleResetCallback = () => {
-		validation.resetForm({ values: { ...filterValues(), currencyId: null } });
+		validation.resetForm({
+			values: { ...filterValues(), currencyId: null, tab: '' },
+		});
 	};
 
 	const selectedFiltersComponent = (
