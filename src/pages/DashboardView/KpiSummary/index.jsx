@@ -49,6 +49,7 @@ const KpiSummary = () => {
 				customPageSize={kPISummary?.length || 300}
 				tableClass={`table-bordered align-middle table-striped nowrap ${tableCustomClass}`}
 				isShowColSettings={false}
+				tbodyHeight={isKpiSummaryLoading ? '133px' : ''}
 			/>
 		</SimpleBar>
 	);

@@ -44,6 +44,7 @@ const GameReport = () => {
 				isGlobalFilter={false}
 				customPageSize={gameReport?.length || 300}
 				isShowColSettings={false}
+				tbodyHeight={isGameReportLoading ? '220px' : ''}
 			/>
 		</SimpleBar>
 	);

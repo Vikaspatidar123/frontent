@@ -44,7 +44,7 @@ const PlayerReport = () => {
 				isGlobalFilter={false}
 				tableClass={`table-bordered align-middle table-striped nowrap ${tableCustomClass}`}
 				isShowColSettings={false}
-				tbodyHeight="300px"
+				tbodyHeight={topPlayersLoading ? '230px' : ''}
 			/>
 		</SimpleBar>
 	);

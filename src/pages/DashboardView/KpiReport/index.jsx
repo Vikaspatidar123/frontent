@@ -32,7 +32,7 @@ const KpiReport = () => {
 	const { isGranted } = usePermission();
 
 	const tabComponent = (
-		<SimpleBar style={{ maxHeight: '300px', minHeight: '300px' }}>
+		<SimpleBar>
 			<TableContainer
 				isLoading={isKpiReportLoading}
 				columns={kPIReportColumn}
@@ -40,6 +40,7 @@ const KpiReport = () => {
 				isGlobalFilter={false}
 				tableClass={`table-bordered align-middle table-striped nowrap ${tableCustomClass}`}
 				isShowColSettings={false}
+				tbodyHeight={isKpiReportLoading ? '440px' : ''}
 			/>
 		</SimpleBar>
 	);

@@ -143,7 +143,10 @@ const TableContainer = ({
 							<tbody
 								{...getTableBodyProps({
 									height: `${
-										tbodyHeight || (isLoading || !page?.length ? '500px' : '0')
+										noDataFound
+											? '280px'
+											: tbodyHeight ||
+											  (isLoading || !page?.length ? '500px' : '0')
 									}`,
 								})}
 								id="generic-table-body"
