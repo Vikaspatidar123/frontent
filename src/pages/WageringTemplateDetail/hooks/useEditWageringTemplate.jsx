@@ -43,12 +43,9 @@ const useEditWageringTemplate = () => {
 	);
 
 	const {
-		toggleAdvance,
-		isAdvanceOpen,
-		filterFields,
-		actionButtons,
 		filterValidation,
-		isFilterChanged,
+		filterComponent,
+		selectedFiltersComponent,
 		casinoProvidersData,
 	} = useCreateFilters();
 
@@ -159,16 +156,14 @@ const useEditWageringTemplate = () => {
 				isCasinoGamesLoading={isCasinoGamesLoading}
 				page={page}
 				setPage={setPage}
-				toggleAdvance={toggleAdvance}
-				isAdvanceOpen={isAdvanceOpen}
-				filterFields={filterFields}
-				actionButtons={actionButtons}
 				filterValidation={filterValidation}
-				isFilterChanged={isFilterChanged}
+				filterComponent={filterComponent}
+				selectedFiltersComponent={selectedFiltersComponent}
 			/>
 		);
 	}, [
-		filterValidation.values,
+		casinoProvidersData,
+		filterValidation?.values,
 		casinoGames,
 		itemsPerPage,
 		page,
