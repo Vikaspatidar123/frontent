@@ -89,7 +89,7 @@ const useFilters = () => {
 	}, [casinoProvidersData]);
 
 	const keyMapping = {
-		isActive: 'Active',
+		isActive: 'Status',
 		isFeatured: 'Featured',
 		casinoProviderId: 'Provider',
 		casinoCategoryId: 'Category',

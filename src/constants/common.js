@@ -1,6 +1,6 @@
 const ACTIVE_KEY_MAP = {
-	true: 'Yes',
-	false: 'No',
+	true: 'Active',
+	false: 'Inactive',
 };
 
 const KYC_STATUS_KEY_MAP = {

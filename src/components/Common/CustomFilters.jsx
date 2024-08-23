@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { isEqual } from 'lodash';
 import { createPortal } from 'react-dom';
 import {
@@ -15,6 +16,7 @@ import PropTypes, { oneOfType } from 'prop-types';
 import { getField } from '../../helpers/customForms';
 import { debounceTime } from '../../constants/config';
 import TableSearchInput from './TableSearchInput';
+import { toggleDropdown } from '../../store/actions';
 
 let debounce;
 const CustomFilters = ({
@@ -27,7 +29,11 @@ const CustomFilters = ({
 	hideCustomFilter,
 	searchInputName,
 }) => {
-	const [dropdownOpen, setDropdownOpen] = useState(false); // State to control dropdown open/close
+	const dispatch = useDispatch();
+	const openDropdownType = useSelector(
+		(state) => state.Layout.openDropdownType
+	);
+
 	const ref = useRef({
 		isFirst: true,
 		prevValues: null,
@@ -47,11 +53,11 @@ const CustomFilters = ({
 		return () => clearTimeout(debounce);
 	}, [validation.values]);
 
-	// const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
-
 	const handleClose = () => {
-		setDropdownOpen(false);
+		dispatch(toggleDropdown(''));
 	};
+
+	useEffect(() => () => dispatch(toggleDropdown('')), []);
 
 	const tableElement =
 		showSearchInput && document.getElementById('search-input-portal');
@@ -69,11 +75,17 @@ const CustomFilters = ({
 				  )
 				: null}
 			{!(hideCustomFilter || !filterFields?.length) ? (
-				<UncontrolledDropdown isOpen={dropdownOpen}>
+				<UncontrolledDropdown isOpen={openDropdownType === 'filterDropdown'}>
 					<DropdownToggle
 						type="button"
 						className="btn btn-light btn-outline-primary"
-						onClick={() => setDropdownOpen((prev) => !prev)} // Only open the dropdown on click
+						onClick={() =>
+							dispatch(
+								toggleDropdown(
+									openDropdownType === 'filterDropdown' ? '' : 'filterDropdown'
+								)
+							)
+						} // Only open the dropdown on click
 					>
 						<i className="mdi mdi-plus" /> Add Filters
 					</DropdownToggle>

@@ -13,6 +13,7 @@ import {
 	SET_TABLE_HEADER_THEME,
 	SET_BREADCRUMB,
 	SAVE_SITE_DETAILS,
+	TOGGLE_DROPDOWN,
 } from './actionTypes';
 
 export const changeLayout = (layout) => ({
@@ -83,4 +84,9 @@ export const setBreadcrumb = (value) => ({
 export const saveSiteDetails = (value) => ({
 	type: SAVE_SITE_DETAILS,
 	payload: value,
+});
+
+export const toggleDropdown = (dropdownId) => ({
+	type: TOGGLE_DROPDOWN,
+	payload: dropdownId,
 });

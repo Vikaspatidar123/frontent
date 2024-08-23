@@ -14,6 +14,7 @@ import {
 	SET_TABLE_HEADER_THEME,
 	SET_BREADCRUMB,
 	SAVE_SITE_DETAILS,
+	TOGGLE_DROPDOWN,
 } from './actionTypes';
 
 // constants
@@ -45,6 +46,7 @@ export const LAYOUT_INIT_STATE = {
 	showBreadcrumb: true,
 	error: null,
 	isLoading: true,
+	openDropdownType: '',
 };
 
 const Layout = (state = LAYOUT_INIT_STATE, { type, payload } = {}) => {
@@ -121,7 +123,12 @@ const Layout = (state = LAYOUT_INIT_STATE, { type, payload } = {}) => {
 				...payload,
 				error: '',
 			};
-
+		case TOGGLE_DROPDOWN: {
+			return {
+				...state,
+				openDropdownType: payload,
+			};
+		}
 		default:
 			return state;
 	}

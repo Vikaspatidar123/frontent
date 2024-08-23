@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import {
 	useTable,
 	useGlobalFilter,
@@ -14,7 +14,8 @@ import {
 	DropdownItem,
 	Button,
 } from 'reactstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleDropdown } from '../../../store/actions';
 
 const useTableCustom = (
 	data,
@@ -25,9 +26,10 @@ const useTableCustom = (
 	totalPageCount,
 	isLoading
 ) => {
-	const [dropdownOpen, setDropdownOpen] = useState(false);
-
-	const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+	const dispatch = useDispatch();
+	const openDropdownType = useSelector(
+		(state) => state.Layout.openDropdownType
+	);
 
 	const [filteredColumns, setFilteredColumns] = useState(() =>
 		columns.reduce((acc, column) => {
@@ -35,7 +37,12 @@ const useTableCustom = (
 			return acc;
 		}, {})
 	);
-
+	useEffect(
+		() => () => {
+			dispatch(toggleDropdown(''));
+		},
+		[]
+	);
 	const tableHeaderClass = useSelector(
 		(state) => state.Layout.tableHeaderClass
 	);
@@ -96,12 +103,26 @@ const useTableCustom = (
 		}));
 	}, []);
 
+	const handleClose = () => {
+		dispatch(toggleDropdown(''));
+	};
+
 	const customColSetting = (
-		<UncontrolledDropdown isOpen={dropdownOpen}>
+		<UncontrolledDropdown
+			isOpen={openDropdownType === 'tableColumnDropdownOpen'}
+		>
 			<DropdownToggle
 				type="button"
 				className="btn btn-light btn-outline-primary"
-				onClick={toggleDropdown}
+				onClick={() => {
+					dispatch(
+						toggleDropdown(
+							openDropdownType === 'tableColumnDropdownOpen'
+								? ''
+								: 'tableColumnDropdownOpen'
+						)
+					);
+				}}
 			>
 				Columns
 			</DropdownToggle>
@@ -129,7 +150,7 @@ const useTableCustom = (
 					<Button
 						color="link"
 						className="btn btn-link waves-effect"
-						onClick={toggleDropdown}
+						onClick={handleClose}
 					>
 						Close
 					</Button>

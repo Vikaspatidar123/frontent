@@ -14,7 +14,7 @@ import { ACTIVE_KEY_MAP } from '../../../constants/common';
 
 const keyMapping = {
 	searchString: 'Search',
-	isActive: 'Active',
+	isActive: 'Status',
 };
 
 const useFilters = () => {

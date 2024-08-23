@@ -14,18 +14,14 @@ import {
 } from '../../../store/actions';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import CustomFilters from '../../../components/Common/CustomFilters';
+import { ACTIVE_KEY_MAP } from '../../../constants/common';
 
 const keyMapping = {
-	isActive: 'Active',
+	isActive: 'Status',
 	searchString: 'Search',
 	casinoCategoryId: 'Category',
 	casinoProviderId: 'Provider',
 	isFeatured: 'Is Featured',
-};
-
-const ACTIVE_KEY_MAP = {
-	true: 'Yes',
-	false: 'No',
 };
 
 const useGameFilters = () => {

@@ -30,13 +30,13 @@ const keyMapping = {
 	purpose: 'Purpose',
 	status: 'Status',
 	currencyId: 'Currency',
-	tagId: 'Segments',
+	tagIds: 'Segment',
 };
 
 const isStatusMapping = {
 	pending: 'Pending',
 	completed: 'Complete',
-	failes: 'Failed',
+	failed: 'Failed',
 };
 
 const purposeMapping = {
