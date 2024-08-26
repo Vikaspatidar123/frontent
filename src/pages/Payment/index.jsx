@@ -14,22 +14,13 @@ import {
 } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import Breadcrumb from '../../components/Common/Breadcrumb';
-// import TableContainer from '../../components/Common/Table';
-import {
-	projectName,
-	selectedLanguage,
-	// tableCustomClass,
-	// tbodyClass,
-} from '../../constants/config';
+import { projectName, selectedLanguage } from '../../constants/config';
 import useFilters from './hooks/useFilters';
 import usePaymentListing from './hooks/usePaymentListing';
-// import useAddNewProvider from './hooks/useAddNewProvider';
-// import FormModal from '../../components/Common/FormModal';
 import NoDataFound from '../../components/Common/NoDataFound';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
 
 const PaymentProviders = () => {
-	// meta title
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
@@ -38,36 +29,12 @@ const PaymentProviders = () => {
 
 	const {
 		isLoading,
-		// totalPages,
 		page,
-		// setPage,
-		// itemsPerPage,
-		// columns,
 		paymentListing,
 		actionList,
 		navigate,
 		fetchMoreData,
 	} = usePaymentListing(false, filterValidation.values);
-
-	// const {
-	// 	validation,
-	// 	formFields,
-	// 	isOpen,
-	// 	handleProviderClick,
-	// 	setHeader,
-	// 	paymentProviderData,
-	// 	isLoadinpaymentProvider,
-	// 	// onBackClick,
-	// 	// buttonList,
-	// 	fetchMoreData,
-	// 	// page,
-	// 	toggleFormModal,
-	// 	header,
-	// 	selectedProvider,
-	// } = useAddNewProvider({
-	// 	// type,
-	// 	// setType,
-	// });
 
 	return (
 		<div className="page-content">
@@ -152,23 +119,6 @@ const PaymentProviders = () => {
 										)}
 									</Card>
 								</Container>
-								{/* <TableContainer
-									columns={columns || []}
-									data={paymentListing?.paymentProviders || []}
-									isGlobalFilter
-									isPagination
-									customPageSize={itemsPerPage}
-									tableClass={`table-bordered align-middle nowrap mt-2 ${tableCustomClass}`}
-									tbodyClass={tbodyClass}
-									paginationDiv="justify-content-center"
-									pagination="pagination justify-content-start pagination-rounded"
-									totalPageCount={totalPages}
-									isManualPagination
-									onChangePagination={setPage}
-									currentPage={page}
-									isLoading={isLoading}
-									changeRowsPerPageCallback={onChangeRowsPerPage}
-								/> */}
 							</CardBody>
 						</Card>
 					</Col>
