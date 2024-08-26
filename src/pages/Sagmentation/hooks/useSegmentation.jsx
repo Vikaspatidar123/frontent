@@ -144,6 +144,7 @@ const useSegmentation = () => {
 	);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 
@@ -177,13 +178,6 @@ const useSegmentation = () => {
 
 	const columns = useMemo(
 		() => [
-			// {
-			// 	Header: 'Id',
-			// 	accessor: 'id',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
-			// },
-
 			{
 				Header: 'Segment Name',
 				accessor: 'tag',
