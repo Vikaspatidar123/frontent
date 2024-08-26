@@ -16,32 +16,32 @@ import {
 function* addRestrictedCountriesWorker(action) {
 	try {
 		const payload = action && action.payload;
-		const { type, operation } = payload;
-		delete payload.type;
-		delete payload.case;
+		const { data, navigate } = payload;
+		const { type, operation } = data;
+		delete data.type;
+		delete data.case;
 
 		if (type === 'providers') {
 			if (operation === 'remove') {
 				delete payload.operation;
-				yield call(removeRestrictedCountriesProvider, payload);
+				yield call(removeRestrictedCountriesProvider, data);
 			} else {
-				yield call(addProviderRestrictedCountries, payload);
+				yield call(addProviderRestrictedCountries, data);
 			}
 		} else {
 			if (operation === 'remove') {
 				delete payload.operation;
-				yield call(removeRestrictedCountriesGame, payload);
+				yield call(removeRestrictedCountriesGame, data);
 			} else {
-				yield call(addGamesRestrictedCountries, payload);
+				yield call(addGamesRestrictedCountries, data);
 			}
 		}
 
+		if (navigate) navigate(`/casino-${type}`);
+
 		yield put(addRestrictedCountriesSuccess());
 		showToastr({
-			message:
-				payload.case === 'remove'
-					? 'Restricted Country Removed Successfully'
-					: 'Restricted Countries Updated Successfully',
+			message: 'Restricted Countries Updated Successfully',
 			type: 'success',
 		});
 	} catch (error) {

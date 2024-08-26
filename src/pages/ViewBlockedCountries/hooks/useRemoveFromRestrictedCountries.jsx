@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addRestrictedCountriesStart } from '../../../store/actions';
 import { KeyValueCell, Status } from '../RestrictedCountriesListCol';
 import ActionButtons from '../ActionButtons';
+import { modules } from '../../../constants/permissions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useRemoveFromRestrictedCountriesListing = (restrictedCountries) => {
 	const dispatch = useDispatch();
@@ -119,14 +121,29 @@ const useRemoveFromRestrictedCountriesListing = (restrictedCountries) => {
 		const key = casinoState?.type === 'providers' ? 'providerId' : 'gameId';
 		dispatch(
 			addRestrictedCountriesStart({
-				type: casinoState?.type,
-				countryCodes: countries,
-				[key]: id,
-				operation: 'remove',
+				data: {
+					type: casinoState?.type,
+					countryCodes: countries,
+					[key]: id,
+					operation: 'remove',
+				},
+				navigate,
 			})
 		);
-		navigate(`/casino-${casinoState?.type}`);
 	};
+
+	const buttonList = [
+		{
+			label: 'Submit',
+			link: '',
+			handleClick: onSubmitSelected,
+			module: modules.casinoManagement,
+			operation: 'U',
+			disabled: addToRestrictedCountriesLoading,
+		},
+	];
+
+	const actionList = <ButtonList buttonList={buttonList} />;
 
 	return {
 		restrictedCountriesState,
@@ -135,6 +152,7 @@ const useRemoveFromRestrictedCountriesListing = (restrictedCountries) => {
 		selectedTableColumns,
 		onSubmitSelected,
 		addToRestrictedCountriesLoading,
+		actionList,
 	};
 };
 

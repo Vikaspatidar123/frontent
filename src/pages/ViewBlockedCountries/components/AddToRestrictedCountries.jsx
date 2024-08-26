@@ -26,7 +26,7 @@ const AddToRestrictedCountries = ({ unrestrictedCountries }) => {
 								type="text"
 								value={searchString}
 								className="form-control border-0"
-								placeholder="Search..."
+								placeholder="Search by Unrestricted Countries"
 								onChange={(e) => setSearchString(e.target.value)}
 							/>
 							<i
