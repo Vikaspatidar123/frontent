@@ -163,7 +163,7 @@ const useSegmentation = () => {
 		{
 			actionName: 'Edit',
 			actionHandler: onClickEdit,
-			isHidden: !isGranted(modules.banner, 'U'),
+			isHidden: !isGranted(modules.tag, 'U'),
 			icon: ICON_CLASS.edit,
 			iconColor: TEXT_COLORS.primary,
 		},
