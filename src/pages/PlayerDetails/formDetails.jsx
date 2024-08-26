@@ -107,16 +107,10 @@ const userSchema = () =>
 			.min(3, 'Minimum 3 Characters Required')
 			.max(50, 'Maximum 50 Characters Allowed')
 			.required('Last Name Required'),
-		phone: Yup.string(),
-		// .test('Invalid', 'Invalid Phone', (value, context) => {
-		//   if (value && (value?.charAt(
-		//     context.phoneCode?.length
-		//   ) === '0' || context.phoneCode?.format?.replace(/[+ ()-]/g, '').length !== value?.length)) {
-		//     return 'Invalid Number'
-		//   }
-		//   return true
-		// }
-		// ),
+		phone: Yup.string()
+			.required('Phone Number Required')
+			.min(7, 'Invalid phone number, must be at least 7 digits')
+			.max(15, 'Invalid phone number, must be at most 15 digits'),
 		dateOfBirth: Yup.date()
 			.max(
 				new Date(

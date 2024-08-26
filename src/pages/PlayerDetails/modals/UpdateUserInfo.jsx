@@ -58,6 +58,7 @@ const staticFormFields = (countriesList, countryCodes) => [
 		maximum: 6,
 	},
 	{
+		name: 'phone',
 		fieldType: 'phone',
 		label: 'Phone',
 		// isRequired: true,

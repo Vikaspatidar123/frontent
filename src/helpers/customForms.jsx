@@ -1329,7 +1329,7 @@ export const getField = (
 									country?.format?.replace(/[+ ()-]/g, '').length !==
 										value?.length)
 							) {
-								return 'Invalid Number';
+								return '';
 								// validation?.setFieldError(namesArray?.[0], 'Invalid Phone')
 							}
 							return true;
@@ -1345,6 +1345,11 @@ export const getField = (
 						// buttonStyle={{ backgroundColor: '#22214b' }}
 						inputStyle={{ width: '100%' }}
 					/>
+					{validation.touched?.[name] && validation.errors?.[name] ? (
+						<FormFeedback type="invalid" className="d-block">
+							{validation.touched?.[name] && validation.errors?.[name]}
+						</FormFeedback>
+					) : null}
 				</>
 			);
 		case 'addKeyValue':
