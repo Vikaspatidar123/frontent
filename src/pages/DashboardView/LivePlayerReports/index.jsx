@@ -132,14 +132,22 @@ const Reports = (props) => {
 			},
 			{
 				title: 'Total Games',
-				description: `${statsData?.totalGames || 0}`,
+				description: `${
+					typeof statsData?.totalGames === 'object'
+						? 0
+						: statsData?.totalGames || 0
+				}`,
 				iconClass: 'bx bx-play',
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.warn,
 			},
 			{
 				title: 'Total Providers',
-				description: `${statsData?.totalProviders || 0}`,
+				description: `${
+					typeof statsData?.totalProviders === 'object'
+						? 0
+						: statsData?.totalProviders || 0
+				}`,
 				iconClass: 'bx bxs-chip',
 				reportClass: 'reportList4',
 				customClass: TAB_COLORS.info,
