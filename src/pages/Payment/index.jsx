@@ -19,10 +19,13 @@ import useFilters from './hooks/useFilters';
 import usePaymentListing from './hooks/usePaymentListing';
 import NoDataFound from '../../components/Common/NoDataFound';
 import fallbackImage from '../../assets/images/PayMentProvider/credit-card.png';
+import { modules } from '../../constants/permissions';
+import usePermission from '../../components/Common/Hooks/usePermission';
 
 const PaymentProviders = () => {
 	document.title = projectName;
 	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
+	const { isGranted } = usePermission();
 
 	const { filterValidation, filterComponent, selectedFiltersComponent } =
 		useFilters();
@@ -93,17 +96,19 @@ const PaymentProviders = () => {
 															<div className="provider-name">
 																{provider.name?.[selectedLanguage]}
 															</div>
-															<div
-																onClick={(e) => {
-																	e.preventDefault();
-																	e.stopPropagation();
-																	navigate(`edit/${provider.id}`);
-																}}
-																className={`status-icon active-icon
+															{isGranted(modules.paymentManagement, 'U') && (
+																<div
+																	onClick={(e) => {
+																		e.preventDefault();
+																		e.stopPropagation();
+																		navigate(`edit/${provider.id}`);
+																	}}
+																	className={`status-icon active-icon
 																}`}
-															>
-																<i className="mdi mdi-pencil-outline" />
-															</div>
+																>
+																	<i className="mdi mdi-pencil-outline" />
+																</div>
+															)}
 														</button>
 													</Col>
 												))
