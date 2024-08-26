@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addRestrictedCountriesStart } from '../../../store/actions';
 import { KeyValueCell } from '../RestrictedCountriesListCol';
 import ActionButtons from '../ActionButtons';
+import { modules } from '../../../constants/permissions';
+import ButtonList from '../../../components/Common/ButtonList';
 
 const useAddToRestrictedCountriesListing = (unrestrictedCountries = []) => {
 	const dispatch = useDispatch();
@@ -141,6 +143,19 @@ const useAddToRestrictedCountriesListing = (unrestrictedCountries = []) => {
 		navigate(`/casino-${casinoState?.type}`);
 	};
 
+	const buttonList = [
+		{
+			label: 'Submit',
+			link: '',
+			handleClick: onSubmitSelected,
+			module: modules.casinoManagement,
+			operation: 'U',
+			disabled: addToRestrictedCountriesLoading,
+		},
+	];
+
+	const actionList = <ButtonList buttonList={buttonList} />;
+
 	return {
 		columns,
 		unrestrictedCountriesState,
@@ -150,6 +165,7 @@ const useAddToRestrictedCountriesListing = (unrestrictedCountries = []) => {
 		addToRestrictedCountriesLoading,
 		searchString,
 		setSearchString,
+		actionList,
 	};
 };
 
