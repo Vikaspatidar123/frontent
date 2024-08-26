@@ -95,7 +95,7 @@ const DemographicReport = () => {
 											<CSVLink
 												data={formattedDemoGraphicData || []}
 												filename="downloaded_data.csv"
-												className="btn btn-sm btn-primary"
+												className="btn btn-md btn-primary"
 											>
 												<i className="bx bx-download align-baseline" />
 											</CSVLink>
