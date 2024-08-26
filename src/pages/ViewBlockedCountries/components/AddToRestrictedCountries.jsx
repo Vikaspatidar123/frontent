@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Col, Input, Row, Spinner } from 'reactstrap';
+import { Card, Col, Input, Row } from 'reactstrap';
 import TableContainer from '../../../components/Common/Table';
 import useAddToRestrictedCountriesListing from '../hooks/useAddToRestrictedCountriesListing';
 
@@ -10,8 +10,7 @@ const AddToRestrictedCountries = ({ unrestrictedCountries }) => {
 		unrestrictedCountriesState,
 		selectedCountriesState,
 		selectedTableColumns,
-		onSubmitSelected,
-		addToRestrictedCountriesLoading,
+		actionList,
 		searchString,
 		setSearchString,
 	} = useAddToRestrictedCountriesListing(unrestrictedCountries);
@@ -50,28 +49,21 @@ const AddToRestrictedCountries = ({ unrestrictedCountries }) => {
 				</Col>
 				<Col sm={12} md={6} lg={6}>
 					{selectedCountriesState?.length ? (
-						<Card>
-							<div className="d-flex justify-content-between my-2 align-items-center">
-								<h4>Selected Countries</h4>
-								<Button
-									color="primary"
-									disabled={addToRestrictedCountriesLoading}
-									onClick={onSubmitSelected}
-								>
-									{addToRestrictedCountriesLoading ? <Spinner /> : 'Submit'}
-								</Button>
-							</div>
+						<>
+							<h4 className="py-3 ps-3">Selected Countries</h4>
+
 							<TableContainer
 								columns={selectedTableColumns}
 								data={selectedCountriesState}
 								tableClass="table-bordered align-middle nowrap mt-2"
-								isShowColSettings={false}
+								isShowColSettings
+								actionList={actionList}
 							/>
-						</Card>
+						</>
 					) : (
 						<Card>
 							<h5 className="text-center text-primary p-5 mt-5">
-								Select countries you want to restrict
+								Select countries you want to restrict.
 							</h5>
 						</Card>
 					)}

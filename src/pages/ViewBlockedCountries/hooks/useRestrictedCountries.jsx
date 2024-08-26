@@ -24,12 +24,12 @@ const useRestrictedCountries = () => {
 		restricted: restrictedCountries,
 		unrestricted: unrestrictedCountries,
 	} = useMemo(() => {
-		const restrictedCountryIds = casinoState.restrictedCountries;
+		const restrictedCountryIds = casinoState?.restrictedCountries;
 		const restricted = [];
 		const unrestricted = [];
 		if (countries?.countries) {
 			countries?.countries?.forEach((country) => {
-				if (restrictedCountryIds?.includes(parseInt(country.id, 10))) {
+				if (restrictedCountryIds?.includes(country.code)) {
 					restricted.push(country);
 				} else {
 					unrestricted.push(country);
