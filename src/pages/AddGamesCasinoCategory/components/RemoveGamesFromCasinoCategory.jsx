@@ -53,6 +53,7 @@ const RemoveGamesFromCasinoCategory = () => {
 									currentPage={removedGamesCurrentPage}
 									isLoading={false}
 									changeRowsPerPageCallback={onChangeRemoveGamesRowsPerPage}
+									columnType="toggleColumns1"
 								/>
 							</CardBody>
 						</Card>
@@ -82,6 +83,7 @@ const RemoveGamesFromCasinoCategory = () => {
 								currentPage={currentPage}
 								isLoading={isCategoryAddedGamesLoading}
 								changeRowsPerPageCallback={onChangeRowsPerPage}
+								columnType="toggleColumns2"
 							/>
 						</CardBody>
 					</Card>
