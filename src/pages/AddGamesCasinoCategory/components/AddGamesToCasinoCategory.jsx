@@ -182,6 +182,7 @@ const AddGamesToCasinoCategory = () => {
 									currentPage={newGamepageNo}
 									isLoading={isCasinoGamesLoading}
 									changeRowsPerPageCallback={onChangeNewGameTableRowsPerPage}
+									columnType="toggleColumns1"
 								/>
 							</CardBody>
 						</Card>
@@ -211,6 +212,7 @@ const AddGamesToCasinoCategory = () => {
 								currentPage={pageNo}
 								isLoading={isCasinoGamesLoading}
 								changeRowsPerPageCallback={onChangeRowsPerPage}
+								columnType="toggleColumns2"
 							/>
 						</CardBody>
 					</Card>

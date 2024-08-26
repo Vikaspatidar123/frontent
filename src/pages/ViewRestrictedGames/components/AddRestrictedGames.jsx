@@ -53,6 +53,7 @@ const AddRestrictedGames = () => {
 									currentPage={addGamesCurrentPage}
 									isLoading={false}
 									changeRowsPerPageCallback={onChangeAddGamesRowsPerPage}
+									columnType="toggleColumns1"
 								/>
 							</CardBody>
 						</Card>
@@ -82,6 +83,7 @@ const AddRestrictedGames = () => {
 								currentPage={currentPage}
 								isLoading={unrestrictedGamesLoading}
 								changeRowsPerPageCallback={onChangeRowsPerPage}
+								columnType="toggleColumns2"
 							/>
 						</CardBody>
 					</Card>

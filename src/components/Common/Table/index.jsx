@@ -39,6 +39,7 @@ const TableContainer = ({
 	selectedFiltersComponent,
 	actionList,
 	customSearchClass,
+	columnType,
 }) => {
 	const {
 		getTableProps,
@@ -58,7 +59,8 @@ const TableContainer = ({
 		onChangePagination,
 		customPageSize,
 		totalPageCount,
-		isLoading
+		isLoading,
+		columnType
 	);
 
 	return (
@@ -287,6 +289,7 @@ TableContainer.defaultProps = {
 	selectedFiltersComponent: null,
 	actionList: null,
 	customSearchClass: 'search-input-width',
+	columnType: 'tableColumnDropdownOpen',
 };
 
 TableContainer.propTypes = {
@@ -325,6 +328,7 @@ TableContainer.propTypes = {
 	selectedFiltersComponent: PropTypes.element,
 	actionList: PropTypes.element,
 	customSearchClass: PropTypes.string,
+	columnType: PropTypes.string,
 };
 
 export default TableContainer;

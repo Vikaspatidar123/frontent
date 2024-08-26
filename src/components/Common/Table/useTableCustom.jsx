@@ -24,7 +24,8 @@ const useTableCustom = (
 	onChangePagination,
 	customPageSize,
 	totalPageCount,
-	isLoading
+	isLoading,
+	columnType
 ) => {
 	const dispatch = useDispatch();
 	const openDropdownType = useSelector(
@@ -108,19 +109,13 @@ const useTableCustom = (
 	};
 
 	const customColSetting = (
-		<UncontrolledDropdown
-			isOpen={openDropdownType === 'tableColumnDropdownOpen'}
-		>
+		<UncontrolledDropdown isOpen={openDropdownType === columnType}>
 			<DropdownToggle
 				type="button"
 				className="btn btn-light btn-outline-primary"
 				onClick={() => {
 					dispatch(
-						toggleDropdown(
-							openDropdownType === 'tableColumnDropdownOpen'
-								? ''
-								: 'tableColumnDropdownOpen'
-						)
+						toggleDropdown(openDropdownType === columnType ? '' : columnType)
 					);
 				}}
 			>
