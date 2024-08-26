@@ -23,6 +23,7 @@ const Segmentation = () => {
 		validation,
 		formFields,
 		userTagsLoading,
+		totalPlayerPages,
 	} = useSegmentation();
 
 	return (
@@ -39,7 +40,7 @@ const Segmentation = () => {
 					customPageSize={itemsPerPage}
 					tableClass="table-bordered align-middle nowrap mt-2"
 					isShowColSettings
-					totalPageCount={1}
+					totalPageCount={totalPlayerPages}
 					isManualPagination
 					onChangePagination={setCurrentPage}
 					currentPage={currentPage}
