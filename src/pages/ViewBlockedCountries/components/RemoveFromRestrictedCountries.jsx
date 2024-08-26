@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Col, Row, Spinner } from 'reactstrap';
+import { Card, Col, Row } from 'reactstrap';
 import TableContainer from '../../../components/Common/Table';
 import useRemoveFromRestrictedCountriesListing from '../hooks/useRemoveFromRestrictedCountries';
 
@@ -11,8 +11,7 @@ const RemoveFromRestrictedCountries = ({ restrictedCountries }) => {
 		columns,
 		selectedCountriesState,
 		selectedTableColumns,
-		onSubmitSelected,
-		addToRestrictedCountriesLoading,
+		actionList,
 	} = useRemoveFromRestrictedCountriesListing(restrictedCountries);
 
 	return (
@@ -24,33 +23,20 @@ const RemoveFromRestrictedCountries = ({ restrictedCountries }) => {
 						columns={columns}
 						isLoading={restrictedCountriesLoading}
 						data={restrictedCountriesState}
-						tableClass="table-bordered align-middle nowrap mt-2"
-						// paginationDiv="col-sm-12 col-md-7"
-						paginationDiv="justify-content-center"
-						pagination="pagination justify-content-start pagination-rounded"
 						isShowColSettings={false}
 					/>
 				</Col>
 				<Col sm={12} md={6} lg={6}>
 					{selectedCountriesState?.length ? (
-						<Card>
-							<div className="d-flex justify-content-between my-2 align-items-center">
-								<h4> Selected Countries </h4>
-								<Button
-									color="primary"
-									disabled={addToRestrictedCountriesLoading}
-									onClick={onSubmitSelected}
-								>
-									{addToRestrictedCountriesLoading ? <Spinner /> : 'Submit'}
-								</Button>
-							</div>
+						<>
+							<h4 className="ps-2 py-3"> Selected Countries </h4>
 							<TableContainer
 								columns={selectedTableColumns}
 								data={selectedCountriesState}
-								tableClass="table-bordered align-middle nowrap mt-2"
-								isShowColSettings={false}
+								isShowColSettings
+								actionList={actionList}
 							/>
-						</Card>
+						</>
 					) : (
 						<Card>
 							<h5 className="text-center text-primary p-5 mt-5">

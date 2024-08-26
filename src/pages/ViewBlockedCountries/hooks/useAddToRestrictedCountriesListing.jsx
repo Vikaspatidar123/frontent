@@ -135,12 +135,14 @@ const useAddToRestrictedCountriesListing = (unrestrictedCountries = []) => {
 		const key = casinoState?.type === 'providers' ? 'providerId' : 'gameId';
 		dispatch(
 			addRestrictedCountriesStart({
-				type: casinoState?.type,
-				countryCodes: countries,
-				[key]: id,
+				data: {
+					type: casinoState?.type,
+					countryCodes: countries,
+					[key]: id,
+				},
+				navigate,
 			})
 		);
-		navigate(`/casino-${casinoState?.type}`);
 	};
 
 	const buttonList = [
