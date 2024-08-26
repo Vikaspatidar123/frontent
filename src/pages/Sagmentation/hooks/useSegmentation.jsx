@@ -131,7 +131,7 @@ const useSegmentation = () => {
 				page: currentPage,
 			})
 		);
-	}, []);
+	}, [itemsPerPage, currentPage]);
 
 	const formattedSegments = useMemo(
 		() =>
@@ -212,6 +212,7 @@ const useSegmentation = () => {
 		buttonList,
 		formattedSegments,
 		itemsPerPage,
+		totalPlayerPages: userTags?.totalPages,
 		setCurrentPage,
 		currentPage,
 		onChangeRowsPerPage,
