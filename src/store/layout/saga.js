@@ -5,14 +5,10 @@ import {
 	CHANGE_LAYOUT,
 	CHANGE_LAYOUT_WIDTH,
 	CHANGE_SIDEBAR_THEME,
-	CHANGE_SIDEBAR_THEME_IMAGE,
 	CHANGE_SIDEBAR_TYPE,
 	CHANGE_TOPBAR_THEME,
 	SHOW_RIGHT_SIDEBAR,
 	CHANGE_LAYOUT_MODE,
-	CHANGE_PRELOADER,
-	SET_TABLE_HEADER_THEME,
-	SET_BREADCRUMB,
 } from './actionTypes';
 
 import { changeSidebarType as changeSidebarTypeAction } from './actions';
@@ -60,7 +56,11 @@ function* updateSiteDetailsWorker() {
 		if (!isEqual(siteLayoutPrevious, siteLayout)) {
 			siteLayoutPrevious = siteLayout;
 			yield updateSiteDetails({
-				siteLayout: { ...siteLayout, showRightSidebar: false },
+				siteLayout: {
+					...siteLayout,
+					showRightSidebar: false,
+					showBreadcrumb: true,
+				},
 			});
 		}
 	} catch (err) {
@@ -101,28 +101,6 @@ function* changeLayoutMode({ payload: mode }) {
 	}
 }
 
-function* changePreloader() {
-	try {
-		yield call(updateSiteDetailsWorker);
-	} catch (error) {
-		// console.log(error);
-	}
-}
-function* setTableHeader() {
-	try {
-		yield call(updateSiteDetailsWorker);
-	} catch (error) {
-		// console.log(error);
-	}
-}
-
-function* setBreadcrumbWatcher() {
-	try {
-		yield call(updateSiteDetailsWorker);
-	} catch (error) {
-		// console.log(error);
-	}
-}
 /**
  * Changes the layout width
  * @param {*} param0
@@ -154,19 +132,6 @@ function* changeLayoutWidth({ payload: width }) {
 function* changeLeftSidebarTheme({ payload: theme }) {
 	try {
 		yield call(changeBodyAttribute, 'data-sidebar', theme);
-		yield call(updateSiteDetailsWorker);
-	} catch (error) {
-		// console.log(error);
-	}
-}
-
-/**
- * Changes the left sidebar theme Image
- * @param {*} param0
- */
-function* changeLeftSidebarThemeImage({ payload: theme }) {
-	try {
-		yield call(changeBodyAttribute, 'data-sidebar-image', theme);
 		yield call(updateSiteDetailsWorker);
 	} catch (error) {
 		// console.log(error);
@@ -253,10 +218,6 @@ export function* watchChangeLeftSidebarTheme() {
 	yield takeEvery(CHANGE_SIDEBAR_THEME, changeLeftSidebarTheme);
 }
 
-export function* watchChangeLeftSidebarThemeImage() {
-	yield takeEvery(CHANGE_SIDEBAR_THEME_IMAGE, changeLeftSidebarThemeImage);
-}
-
 export function* watchChangeLeftSidebarType() {
 	yield takeEvery(CHANGE_SIDEBAR_TYPE, changeLeftSidebarType);
 }
@@ -271,9 +232,6 @@ export function* watchShowRightSidebar() {
 
 export function* watchSChangeLayoutMode() {
 	yield takeEvery(CHANGE_LAYOUT_MODE, changeLayoutMode);
-	yield takeEvery(CHANGE_PRELOADER, changePreloader);
-	yield takeEvery(SET_TABLE_HEADER_THEME, setTableHeader);
-	yield takeEvery(SET_BREADCRUMB, setBreadcrumbWatcher);
 }
 
 function* LayoutSaga() {
@@ -282,7 +240,6 @@ function* LayoutSaga() {
 		fork(watchChangeLayoutType),
 		fork(watchChangeLayoutWidth),
 		fork(watchChangeLeftSidebarTheme),
-		fork(watchChangeLeftSidebarThemeImage),
 		fork(watchChangeLeftSidebarType),
 		fork(watchShowRightSidebar),
 		fork(watchChangeTopbarTheme),

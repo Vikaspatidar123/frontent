@@ -6,13 +6,9 @@ import {
 	CHANGE_SIDEBAR_TYPE,
 	CHANGE_TOPBAR_THEME,
 	SHOW_RIGHT_SIDEBAR,
-	CHANGE_SIDEBAR_THEME_IMAGE,
-	CHANGE_PRELOADER,
 	TOGGLE_LEFTMENU,
 	SHOW_SIDEBAR,
 	CHANGE_LAYOUT_MODE,
-	SET_TABLE_HEADER_THEME,
-	SET_BREADCRUMB,
 	SAVE_SITE_DETAILS,
 	TOGGLE_DROPDOWN,
 } from './actionTypes';
@@ -56,11 +52,7 @@ const Layout = (state = LAYOUT_INIT_STATE, { type, payload } = {}) => {
 				...state,
 				layoutType: payload,
 			};
-		case CHANGE_PRELOADER:
-			return {
-				...state,
-				isPreloader: payload,
-			};
+
 		case CHANGE_LAYOUT_MODE:
 			return {
 				...state,
@@ -76,11 +68,7 @@ const Layout = (state = LAYOUT_INIT_STATE, { type, payload } = {}) => {
 				...state,
 				leftSideBarTheme: payload,
 			};
-		case CHANGE_SIDEBAR_THEME_IMAGE:
-			return {
-				...state,
-				leftSideBarThemeImage: payload,
-			};
+
 		case CHANGE_SIDEBAR_TYPE:
 			return {
 				...state,
@@ -106,21 +94,16 @@ const Layout = (state = LAYOUT_INIT_STATE, { type, payload } = {}) => {
 				...state,
 				leftMenu: payload,
 			};
-		case SET_TABLE_HEADER_THEME:
-			return {
-				...state,
-				tableHeaderClass: payload,
-			};
-		case SET_BREADCRUMB:
-			return {
-				...state,
-				showBreadcrumb: payload,
-			};
 
 		case SAVE_SITE_DETAILS:
 			return {
 				...state,
-				...payload,
+				...LAYOUT_INIT_STATE,
+				layoutModeType: payload.layoutModeType,
+				layoutWidth: payload.layoutWidth,
+				topbarTheme: payload.topbarTheme,
+				leftSideBarType: payload.leftSideBarType,
+				leftSideBarTheme: payload.leftSideBarTheme,
 				error: '',
 			};
 		case TOGGLE_DROPDOWN: {

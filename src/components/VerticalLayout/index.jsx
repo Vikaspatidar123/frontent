@@ -6,7 +6,6 @@ import {
 	changeLayout,
 	changeLayoutMode,
 	changeSidebarTheme,
-	changeSidebarThemeImage,
 	changeSidebarType,
 	changeTopbarTheme,
 	changeLayoutWidth,
@@ -123,12 +122,6 @@ const Layout = (props) => {
 	}, [layoutModeType, dispatch]);
 
 	useEffect(() => {
-		if (leftSideBarThemeImage) {
-			dispatch(changeSidebarThemeImage(leftSideBarThemeImage));
-		}
-	}, [leftSideBarThemeImage, dispatch]);
-
-	useEffect(() => {
 		if (layoutWidth) {
 			dispatch(changeLayoutWidth(layoutWidth));
 		}
@@ -179,7 +172,6 @@ const Layout = (props) => {
 Layout.propTypes = {
 	changeLayoutWidth: PropTypes.func,
 	changeSidebarTheme: PropTypes.func,
-	changeSidebarThemeImage: PropTypes.func,
 	changeSidebarType: PropTypes.func,
 	changeTopbarTheme: PropTypes.func,
 	// children: PropTypes.object,

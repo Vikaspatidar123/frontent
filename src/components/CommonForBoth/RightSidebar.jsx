@@ -16,24 +16,19 @@ import {
 	changeLayoutWidth,
 	changeSidebarTheme,
 	changeSidebarType,
-	// changePreloader,
 	changeTopbarTheme,
 	showRightSidebarAction,
-	// setTableHeaderClass,
-	// setBreadcrumb,
 } from '../../store/actions';
 
 import './rightbar.scss';
 
 // constants
 import {
-	// layoutTypes,
 	layoutModeTypes,
 	layoutWidthTypes,
 	topBarThemeTypes,
 	leftSidebarTypes,
 	leftSideBarThemeTypes,
-	// tableHeaderClass,
 } from '../../constants/layout';
 
 const RightSidebar = (props) => (
@@ -58,38 +53,6 @@ const RightSidebar = (props) => (
 					<hr className="my-0" />
 
 					<div className="p-4 scrollable-sidebar">
-						{/* <div className="radio-toolbar">
-							<span className="mb-2 d-block">Layouts</span>
-							<input
-								type="radio"
-								id="radioVertical"
-								name="radioFruit"
-								value={layoutTypes.VERTICAL}
-								checked={props.layoutType === layoutTypes.VERTICAL}
-								onChange={(e) => {
-									if (e.target.checked) {
-										props.changeLayout(e.target.value);
-									}
-								}}
-							/>
-							<label className="me-1" htmlFor="radioVertical">
-								Vertical
-							</label>
-							<input
-								type="radio"
-								id="radioHorizontal"
-								name="radioFruit"
-								value={layoutTypes.HORIZONTAL}
-								checked={props.layoutType === layoutTypes.HORIZONTAL}
-								onChange={(e) => {
-									if (e.target.checked) {
-										props.changeLayout(e.target.value);
-									}
-								}}
-							/>
-							<label htmlFor="radioHorizontal">Horizontal</label>
-						</div> */}
-						{/* <hr className="mt-1" /> */}
 						<div className="radio-toolbar">
 							<span className="mb-2 d-block">Layouts Mode</span>
 							<input
@@ -284,77 +247,6 @@ const RightSidebar = (props) => (
 							</>
 						)}
 
-						{/* <hr className="mt-1" />
-						<div className="radio-toolbar">
-							<span className="mb-2 d-block" id="radio-title">
-								Table Header{' '}
-							</span>
-							<input
-								type="radio"
-								id="darkHeader"
-								// name="sidebarType"
-								value={tableHeaderClass.GREY}
-								checked={props.tableHeaderClass === tableHeaderClass.GREY}
-								onChange={(e) => {
-									if (e.target.checked) {
-										props.setTableHeaderClass(e.target.value);
-									}
-								}}
-							/>
-							<label className="me-1" htmlFor="darkHeader">
-								GREY
-							</label>
-							<input
-								type="radio"
-								id="whiteHeader"
-								// name="sidebarType"
-								value={tableHeaderClass.TRANSPARENT}
-								checked={
-									props.tableHeaderClass === tableHeaderClass.TRANSPARENT
-								}
-								onChange={(e) => {
-									if (e.target.checked) {
-										props.setTableHeaderClass(e.target.value);
-									}
-								}}
-							/>
-							<label className="me-1" htmlFor="whiteHeader">
-								LIGHT
-							</label>
-						</div> */}
-
-						{/* <hr className="mt-1" />
-
-						<div className="radio-toolbar">
-							<span className="mb-2 d-block" id="radio-title">
-								Breadcrumb{' '}
-							</span>
-							<input
-								type="radio"
-								id="showBreadcrumb"
-								value
-								checked={props.showBreadcrumb}
-								onChange={() => {
-									props.setBreadcrumb(true);
-								}}
-							/>
-							<label className="me-1" htmlFor="showBreadcrumb">
-								SHOW
-							</label>
-							<input
-								type="radio"
-								id="hideBreadcrumb"
-								value={false}
-								checked={!props.showBreadcrumb}
-								onChange={() => {
-									props.setBreadcrumb(false);
-								}}
-							/>
-							<label className="me-1" htmlFor="hideBreadcrumb">
-								HIDE
-							</label>
-						</div> */}
-
 						<hr className="mt-1" />
 
 						{props.layoutType === 'vertical' && (
@@ -532,28 +424,6 @@ const RightSidebar = (props) => (
 								</Row>
 							</div>
 						)}
-						{/* <hr className="mt-1" />
-						<FormGroup>
-							<span className="mb-2 d-block" id="radio-title">
-								Preloader
-							</span>
-
-							<div className="form-check form-switch">
-								<input
-									type="checkbox"
-									className="form-check-input checkbox"
-									id="checkbox_1"
-									checked={props.isPreloader}
-									onChange={() => {
-										props.changePreloader(!props.isPreloader);
-									}}
-								/>
-
-								<label className="form-check-label" htmlFor="checkbox_1">
-									Preloader
-								</label>
-							</div>
-						</FormGroup> */}
 					</div>
 				</div>
 			</SimpleBar>
@@ -563,13 +433,10 @@ const RightSidebar = (props) => (
 );
 
 RightSidebar.propTypes = {
-	// changeLayout: PropTypes.func.isRequired,
 	changeLayoutWidth: PropTypes.func.isRequired,
-	// changePreloader: PropTypes.func.isRequired,
 	changeSidebarTheme: PropTypes.func.isRequired,
 	changeSidebarType: PropTypes.func.isRequired,
 	changeTopbarTheme: PropTypes.func.isRequired,
-	// isPreloader: PropTypes.bool.isRequired,
 	layoutType: PropTypes.string.isRequired,
 	layoutModeType: PropTypes.string.isRequired,
 	changeLayoutMode: PropTypes.func.isRequired,
@@ -578,10 +445,6 @@ RightSidebar.propTypes = {
 	leftSideBarType: PropTypes.string.isRequired,
 	showRightSidebarAction: PropTypes.func.isRequired,
 	topbarTheme: PropTypes.string.isRequired,
-	// setTableHeaderClass: PropTypes.func.isRequired,
-	// tableHeaderClass: PropTypes.string.isRequired,
-	// setBreadcrumb: PropTypes.func.isRequired,
-	// showBreadcrumb: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({ ...state.Layout });
@@ -593,8 +456,5 @@ export default connect(mapStateToProps, {
 	changeSidebarType,
 	changeLayoutWidth,
 	changeTopbarTheme,
-	// changePreloader,
 	showRightSidebarAction,
-	// setTableHeaderClass,
-	// setBreadcrumb,
 })(RightSidebar);
