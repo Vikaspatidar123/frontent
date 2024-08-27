@@ -104,11 +104,12 @@ export const CustomSelectField = ({
 	description,
 	dynamicDescription,
 	validation,
+	isRequired,
 	...props
 }) => (
 	<>
 		{label && <Label for={name}>{label}</Label>}
-		{isError && label && <span className="text-danger"> *</span>}
+		{isRequired && label && <span className="text-danger"> *</span>}
 		{isMulti ? (
 			<Select
 				name={name}
@@ -300,11 +301,13 @@ export const CustomDateTime = ({
 	minDate = moment().subtract(100, 'years').utc().toDate(),
 	validation,
 	minDateField,
+	isRequired,
 	dateFormat = 'MMMM d, yyyy h:mm aa',
 	...rest
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
+		{isRequired && label && <span className="text-danger"> *</span>}
 		<DatePicker
 			className="form-control"
 			// name={name}
@@ -343,9 +346,11 @@ export const CustomRangeSelector = ({
 	validation,
 	// dateFormat = 'Y-m-d',
 	customInputClass,
+	isRequired,
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
+		{isRequired && label && <span className="text-danger"> *</span>}
 		<FlatPickr
 			className={`form-control ${customInputClass || ''}`}
 			name={name}
@@ -835,6 +840,7 @@ export const getField = (
 					label={label}
 					name={name}
 					isMulti={multiple}
+					isRequired={isRequired}
 					type="select"
 					onChange={(e) => {
 						if (multiple) {
@@ -963,6 +969,7 @@ export const getField = (
 					minDate={minDate}
 					validation={validation}
 					minDateField={minDateField}
+					isRequired={isRequired}
 				/>
 			);
 
@@ -986,6 +993,7 @@ export const getField = (
 					validation={validation}
 					rangeKeys={rangeKeys}
 					customInputClass={customInputClass}
+					isRequired={isRequired}
 				/>
 			);
 		case 'file':
@@ -1183,6 +1191,7 @@ export const getField = (
 							<Label className="my-0" for={name}>
 								{label}
 							</Label>
+							{isRequired && label && <span className="text-danger"> *</span>}
 							<CustomSwitchButton
 								labelClassName="form-check-label"
 								label=""
@@ -1257,6 +1266,7 @@ export const getField = (
 			return (
 				<>
 					{label && <Label for={name}>{label}</Label>}
+					{isRequired && label && <span className="text-danger"> *</span>}
 					<CustomInputField
 						type={type}
 						name={name}

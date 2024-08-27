@@ -48,6 +48,7 @@ const UserDocsList = ({ userDetails, userId }) => {
 				url: label?.documents?.[0]?.url || 'Not Provided',
 				comment: label?.documents?.[0]?.comment || 'NA',
 				actionee: label?.documents?.[0]?.adminUser?.username || 'NA',
+				required: label?.required,
 				status:
 					DOCUMENT_STATUS_TYPES?.find(
 						(status) => status.value === label?.documents?.[0]?.status
@@ -152,7 +153,7 @@ const UserDocsList = ({ userDetails, userId }) => {
 				Header: 'NAME',
 				accessor: 'name',
 				filterable: true,
-				Cell: ({ cell }) => <Name value={cell.value} />,
+				Cell: ({ cell }) => <Name value={cell?.row?.original} />,
 			},
 			{
 				Header: 'DOCUMENT THUMBNAIL',

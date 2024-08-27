@@ -187,6 +187,7 @@ const Currencies = ({
 						<label htmlFor="currencyId" style={{ fontSize: '14px' }}>
 							Select currency
 						</label>
+						<span className="text-danger"> *</span>
 						<CustomSelectField
 							id="currencyId"
 							type="select"
@@ -217,6 +218,7 @@ const Currencies = ({
 							<label htmlFor={key} style={{ fontSize: '14px' }}>
 								{label}
 							</label>
+							<span className="text-danger"> *</span>
 							<CustomInputField
 								name={key}
 								value={validation?.values?.[key]}

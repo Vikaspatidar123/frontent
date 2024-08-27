@@ -31,6 +31,7 @@ const generalStaticFormFields = (isDisabled) => [
 		label: 'Channel Title',
 		placeholder: 'Channel Title',
 		maximum: 52,
+		isRequired: true,
 	},
 	{
 		name: 'description',

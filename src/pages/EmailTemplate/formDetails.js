@@ -29,12 +29,14 @@ const staticFormFields = (languageOptions) => [
 		label: 'Template Label',
 		placeholder: 'Enter Template Label',
 		fieldColOptions: { lg: 3 },
+		isRequired: true,
 	},
 	{
 		name: 'type',
 		label: 'Template Type',
 		placeholder: 'Select Template Type',
 		fieldType: 'select',
+		isRequired: true,
 		fieldColOptions: { lg: 3 },
 		// isDisabled: isEdit || false,
 		optionList: Object.keys(EMAIL_TEMPLATE_EVENT_TYPES || {})?.map((item) => ({

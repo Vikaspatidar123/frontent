@@ -117,6 +117,7 @@ const useEdit = (adminDetails = {}) => {
 					placeholder: 'Select Role',
 					optionList: roleOptions,
 					isDisabled: true,
+					isRequired: true,
 				},
 			]);
 		}

@@ -49,6 +49,7 @@ const staticFormFields = (currencySelect) => [
 		fieldType: 'radioGroup',
 		label: 'Transaction Type',
 		optionList: transactionTypeOptionsList,
+		isRequired: true,
 	},
 	{ ...currencySelect },
 	{
@@ -58,6 +59,7 @@ const staticFormFields = (currencySelect) => [
 		label: 'Amount',
 		type: 'number',
 		maximum: 15,
+		isRequired: true,
 	},
 ];
 

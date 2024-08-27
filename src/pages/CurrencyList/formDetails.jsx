@@ -46,24 +46,28 @@ const staticFormFields = (isEdit) => [
 		fieldType: 'textField',
 		label: 'Name',
 		placeholder: 'Enter name of your currency',
+		isRequired: true,
 	},
 	{
 		name: 'code',
 		fieldType: 'textField',
 		label: 'Code',
 		placeholder: 'Enter currency code',
+		isRequired: true,
 	},
 	{
 		name: 'symbol',
 		fieldType: 'textField',
 		label: 'Symbol',
 		placeholder: 'Enter currency symbol',
+		isRequired: true,
 	},
 	{
 		name: 'exchangeRate',
 		fieldType: 'textField',
 		label: 'Exchange Rate (with primary currency)',
 		placeholder: 'Enter currency exchange rate',
+		isRequired: true,
 	},
 	// {
 	//   name: 'loyaltyPoint',
@@ -78,6 +82,7 @@ const staticFormFields = (isEdit) => [
 		placeholder: 'Enter type',
 		optionList: currencyTypes,
 		isDisabled: isEdit,
+		isRequired: true,
 	},
 ];
 

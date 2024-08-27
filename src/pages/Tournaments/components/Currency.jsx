@@ -200,6 +200,7 @@ const Currencies = ({
 						</label>
 						<CustomSelectField
 							type="select"
+							isRequired
 							onChange={handleCurrencyChange}
 							options={
 								<>
@@ -235,13 +236,10 @@ const Currencies = ({
 								</Col>
 								{currencyFields()?.map(({ name, label, placeholder, type }) => (
 									<Col sm={6} lg={3} className="my-2 text-start" key={name}>
-										<label
-											htmlFor={name}
-											style={{ fontSize: '14px' }}
-											className="d-flex align-items-left"
-										>
+										<label htmlFor={name} style={{ fontSize: '14px' }}>
 											{label}
 										</label>
+										<span className="text-danger"> *</span>
 										<CustomInputField
 											name={`[${currencyCode}][${name}]`}
 											value={validation?.values?.[currencyCode]?.[name]}

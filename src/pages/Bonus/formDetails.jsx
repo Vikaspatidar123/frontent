@@ -93,6 +93,7 @@ const commonFields = (
 		type: 'text',
 		label: 'Bonus Title',
 		placeholder: 'Bonus Title',
+		isRequired: true,
 	},
 	{
 		name: 'bonusType',
@@ -106,6 +107,7 @@ const commonFields = (
 		})),
 		isDisabled: bonusDetails?.bonusType,
 		callBack: handleBonusTypeChange,
+		isRequired: true,
 	},
 	{
 		name: 'percentage',
@@ -113,6 +115,7 @@ const commonFields = (
 		type: 'number',
 		label: 'Bonus Percentage',
 		placeholder: 'Bonus Percentage',
+		isRequired: true,
 		isHidable: (form) =>
 			form.bonusType === BONUS_TYPES.JOINING ||
 			form.bonusType === BONUS_TYPES.FREESPINS,
@@ -125,6 +128,7 @@ const commonFields = (
 		minDate: 'today',
 		maxDate: '',
 		rangeKeys: ['validFrom', 'validTo'],
+		isRequired: true,
 		// isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
 	},
 	...otherFields,
@@ -142,6 +146,7 @@ const commonFields = (
 		type: 'number',
 		label: 'Quantity',
 		placeholder: 'Enter quantity',
+		isRequired: true,
 		isHidable: (form) =>
 			form.bonusType === BONUS_TYPES.JOINING ||
 			form.bonusType === BONUS_TYPES.DEPOSIT,
@@ -174,6 +179,7 @@ const commonFields = (
 		fieldColOptions: { lg: 12 },
 		isNewRow: true,
 		isHidable: (form) => form.bonusType === BONUS_TYPES.JOINING,
+		isRequired: true,
 	},
 	{
 		name: 'description',

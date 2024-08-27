@@ -88,6 +88,7 @@ const useEditCountry = () => {
 					label: 'Language',
 					placeholder: 'Select Language',
 					optionList: langOptions,
+					isRequired: true,
 				},
 			]);
 		}

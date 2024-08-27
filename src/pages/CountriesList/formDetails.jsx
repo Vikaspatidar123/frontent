@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 const getInitialValues = (defaultValue) => ({
 	countryName: defaultValue?.countryName || '',
-	languageId: defaultValue?.languageId || '',
+	languageId: defaultValue?.languageId || null,
 });
 
 const validationSchema = Yup.object().shape({
@@ -15,6 +15,7 @@ const staticFormFields = [
 		fieldType: 'textField',
 		label: 'Country Name',
 		isDisabled: true,
+		isRequired: true,
 	},
 ];
 
