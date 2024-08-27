@@ -59,7 +59,7 @@ const useCreateEmailTemplate = () => {
 	}, []);
 
 	const { header, validation, formFields, setFormFields } = useForm({
-		header: 'Create Email Template',
+		header: '',
 		initialValues: getInitialValues(),
 		validationSchema: emailTemplateSchema(),
 		staticFormFields: staticFormFields(languageOptions),

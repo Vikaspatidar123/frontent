@@ -56,11 +56,13 @@ const staticFormFields = [
 		label: 'Template Name',
 		placeholder: 'Enter name',
 		maximum: 51,
+		isRequired: true,
 	},
 	{
 		name: 'wageringRequirementType',
 		fieldType: 'select',
 		label: 'Select wagering type',
+		isRequired: true,
 		placeholder: 'Select wagering type',
 		optionList: [
 			{
@@ -81,6 +83,7 @@ const staticFormFields = [
 		label: 'Wagering Multiplier',
 		placeholder: 'Wagering Multiplier',
 		type: 'number',
+		isRequired: true,
 	},
 ];
 

@@ -32,6 +32,7 @@ const staticFormFields = [
 		required: true,
 		placeholder: 'Enter the Title',
 		maximum: 51,
+		isRequired: true,
 	},
 	{
 		name: 'comment',
@@ -40,6 +41,7 @@ const staticFormFields = [
 		required: true,
 		placeholder: 'Enter Note',
 		maximum: 201,
+		isRequired: true,
 	},
 ];
 

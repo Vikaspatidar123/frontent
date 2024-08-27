@@ -75,6 +75,7 @@ const staticFormFields = (isView, isEdit, languageOptions) => [
 		isDisabled: isView || false,
 		fieldColOptions: { lg: 3 },
 		containerClass: 'mt-4',
+		isRequired: true,
 	},
 	{
 		name: 'isActive',

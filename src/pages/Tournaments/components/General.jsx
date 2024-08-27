@@ -145,6 +145,7 @@ const General = ({
 								validation?.errors?.name?.[activeLangTab]
 							)
 						}
+						isRequired
 						isError
 						errorMsg={
 							validation?.touched?.name?.[activeLangTab] &&
@@ -158,6 +159,7 @@ const General = ({
 					label="Description"
 					name={`description[${activeLangTab}]`}
 					type="textarea"
+					isRequired
 					onChange={(e) => {
 						e.preventDefault();
 						validation.setFieldValue('description', {

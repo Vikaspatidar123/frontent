@@ -81,12 +81,14 @@ const leftStaticFormFields = (isEdit) => [
 		label: 'Username',
 		placeholder: 'Enter username',
 		isDisabled: isEdit,
+		isRequired: true,
 	},
 	{
 		name: 'firstName',
 		fieldType: 'textField',
 		label: 'First Name',
 		placeholder: 'Enter first name',
+		isRequired: true,
 	},
 ];
 
@@ -97,12 +99,14 @@ const rightStaticFormFields = (isEdit) => [
 		label: 'Email',
 		placeholder: 'Enter your email',
 		isDisabled: isEdit,
+		isRequired: true,
 	},
 	{
 		name: 'lastName',
 		fieldType: 'textField',
 		label: 'Last Name',
 		placeholder: 'Enter last name',
+		isRequired: true,
 	},
 	{
 		name: 'password',
@@ -111,6 +115,7 @@ const rightStaticFormFields = (isEdit) => [
 		placeholder: 'Enter password',
 		isPassword: true, // for showing visibility (if needed)
 		isHide: isEdit,
+		isRequired: true,
 	},
 ];
 

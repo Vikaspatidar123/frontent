@@ -18,11 +18,12 @@ const staticFormFields = () => [
 		fieldType: 'textField',
 		label: 'Segment Name',
 		placeholder: 'Enter Segment Name',
+		isRequired: true,
 	},
 	{
 		name: 'isActive',
 		fieldType: 'toggle',
-		label: 'isActive',
+		label: 'is Active',
 		isNewRow: true,
 	},
 ];

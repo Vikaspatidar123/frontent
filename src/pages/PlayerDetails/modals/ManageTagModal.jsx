@@ -61,6 +61,7 @@ const staticFormFields = (options, isCreateTag) => [
 		fieldType: 'radioGroup',
 		label: 'Segment Action',
 		optionList: tagActionsOptionsList,
+		isRequired: true,
 	},
 	{
 		name: 'tag',

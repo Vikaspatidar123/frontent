@@ -132,7 +132,7 @@ const useGameFilters = () => {
 			filterFields={formFields}
 			validation={validation}
 			handleFilter={handleFilter}
-			searchInputPlaceHolder="Search by username or email"
+			searchInputPlaceHolder="Search by game name"
 		/>
 	);
 

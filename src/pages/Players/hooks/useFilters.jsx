@@ -61,6 +61,7 @@ const useFilters = () => {
 		initialValues: filterValues(location?.state?.Segment?.id),
 		validationSchema: filterValidationSchema(),
 		staticFormFields: staticFiltersFields(),
+		enableReinitialize: false,
 	});
 
 	useEffect(() => {
@@ -142,10 +143,20 @@ const useFilters = () => {
 		return `${formattedKey}: ${formattedValue}`;
 	};
 
+	const handleResetCallback = () => {
+		validation.resetForm({
+			values: {
+				...filterValues(),
+				tagIds: null,
+			},
+		});
+	};
+
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
 			filterFormatter={filterFormatter}
+			handleResetCallback={handleResetCallback}
 		/>
 	);
 

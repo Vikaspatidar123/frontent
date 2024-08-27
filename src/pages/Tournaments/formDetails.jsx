@@ -302,6 +302,7 @@ const staticFormFields = (otherFields = []) => [
 		fieldType: 'dateTimePicker',
 		label: 'Registration End Date',
 		placeholder: 'Select End Date',
+		isRequired: true,
 		mandatory: true,
 		timeIntervals: 5,
 		minDate: new Date(),
@@ -310,6 +311,7 @@ const staticFormFields = (otherFields = []) => [
 	{
 		name: 'startDate',
 		fieldType: 'dateTimePicker',
+		isRequired: true,
 		label: 'Start Date',
 		placeholder: 'Select Start Date',
 		mandatory: true,
@@ -320,6 +322,7 @@ const staticFormFields = (otherFields = []) => [
 	{
 		name: 'endDate',
 		fieldType: 'dateTimePicker',
+		isRequired: true,
 		label: 'End Date',
 		placeholder: 'Select End Date',
 		timeIntervals: 5,
@@ -330,6 +333,7 @@ const staticFormFields = (otherFields = []) => [
 	{
 		name: 'creditPoints',
 		fieldType: 'textField',
+		isRequired: true,
 		label: 'Credit points',
 		placeholder: 'Example: 200',
 		type: 'number',
@@ -342,6 +346,7 @@ const staticFormFields = (otherFields = []) => [
 		showThumbnail: true,
 		customThumbnailBackground: '#1A1D29',
 		customPadding: '8px',
+		isRequired: true,
 	},
 	...otherFields,
 	{

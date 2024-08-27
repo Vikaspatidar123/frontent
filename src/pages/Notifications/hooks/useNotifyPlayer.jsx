@@ -96,6 +96,7 @@ const useNotifyPlayer = () => {
 					<Col className="mt-2" xl={4} xs={6}>
 						<CustomSelectField
 							name="language"
+							isRequired
 							type="select"
 							value={validation.values?.language}
 							label="Select language"

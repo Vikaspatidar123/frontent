@@ -125,6 +125,7 @@ const useCreate = () => {
 					label: 'Role',
 					placeholder: 'Select Role',
 					optionList: roleOptions,
+					isRequired: true,
 				},
 				customField,
 			]);

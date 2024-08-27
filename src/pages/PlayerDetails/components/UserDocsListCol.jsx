@@ -1,4 +1,5 @@
 import React from 'react';
+import { Badge } from 'reactstrap';
 import PropTypes from 'prop-types';
 import ImageCell from '../../../components/Common/ImageCell';
 
@@ -16,7 +17,18 @@ const statusMapper = (value) => {
 };
 
 const Id = ({ value }) => value ?? '';
-const Name = ({ value }) => value ?? '';
+
+const Name = ({ value }) => {
+	const isRequired = value?.required;
+	return (
+		<>
+			{value?.name}
+			<Badge className="ms-2 p-1" color={isRequired ? 'success' : 'warning'}>
+				{isRequired ? 'Required' : 'Not Required'}
+			</Badge>
+		</>
+	);
+};
 const Reason = ({ value }) => value ?? '-';
 const UpdatedAt = ({ value }) => value ?? '';
 const Actionee = ({ value }) => value ?? '-';
@@ -28,6 +40,10 @@ const ThumbnailUrl = ({ value }) => <ImageCell imgSrc={value} />;
 
 ThumbnailUrl.propTypes = {
 	value: PropTypes.string.isRequired,
+};
+
+Name.propTypes = {
+	value: PropTypes.objectOf().isRequired,
 };
 
 export {

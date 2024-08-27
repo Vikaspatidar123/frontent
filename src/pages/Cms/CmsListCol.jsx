@@ -26,9 +26,10 @@ const Status = ({ value }) =>
 const CustomComponent = ({ validation, isEdit, isView }) => (
 	<Col className="mb-2">
 		<Row lg={12}>
-			<Col lg={3}>
+			<Col lg={3} className="mb-2">
 				<CustomInputField
 					disabled={isView}
+					isRequired
 					formFeedBackClass="mb-3"
 					inputClassName={
 						!!validation?.errors?.title?.[validation?.values?.language] ||
