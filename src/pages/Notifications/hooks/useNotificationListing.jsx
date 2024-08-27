@@ -6,7 +6,7 @@ import { fetchNotificationsStart } from '../../../store/actions';
 import { selectedLanguage } from '../../../constants/config';
 import { modules } from '../../../constants/permissions';
 import usePermission from '../../../components/Common/Hooks/usePermission';
-import { KeyValueCell, Status } from '../NotificationListCol';
+import { KeyValueCell } from '../NotificationListCol';
 import Actions from '../../../components/Common/Actions';
 import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import ButtonList from '../../../components/Common/ButtonList';
@@ -54,7 +54,7 @@ const useNotificationListing = () => {
 	};
 	const buttonList = useMemo(() => [
 		{
-			label: 'Send Notification',
+			label: 'Send',
 			link: '/send-notification',
 			module: modules.page,
 			operation: 'C',
@@ -97,13 +97,13 @@ const useNotificationListing = () => {
 				// filterable: true,
 				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
 			},
-			{
-				Header: 'Status',
-				accessor: 'isActive',
-				disableSortBy: true,
-				disableFilters: true,
-				Cell: ({ cell }) => <Status value={cell.value} />,
-			},
+			// {
+			// 	Header: 'Status',
+			// 	accessor: 'isActive',
+			// 	disableSortBy: true,
+			// 	disableFilters: true,
+			// 	Cell: ({ cell }) => <Status value={cell.value} />,
+			// },
 			{
 				Header: 'ACTION',
 				accessor: 'actions',
