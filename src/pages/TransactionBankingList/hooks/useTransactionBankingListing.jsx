@@ -66,7 +66,11 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 				const transactionData = {
 					...transaction,
 					ledgerId: transaction?.ledgerId || '-',
-					amount: transaction?.ledger?.amount ?? '-',
+					amount: ['BonusDeposit', 'BonusWithdraw'].includes(
+						transaction?.ledger?.purpose
+					)
+						? transaction?.ledger?.bonusAmount ?? '-'
+						: transaction?.ledger?.amount ?? '-',
 					purpose: transaction?.ledger?.purpose || '-',
 					currency: transaction?.ledger?.currency?.code || '-',
 					from: transaction?.ledger?.fromWalletId
@@ -98,7 +102,6 @@ const useTransactionBankingListing = (filterValues = {}, userId = '') => {
 				(curr) => curr.id === filterValues.currencyId
 			) || defaultCurrency;
 
-		console.log('Data = ', currency);
 		return [
 			// {
 			// 	Header: 'Ledger Id',
