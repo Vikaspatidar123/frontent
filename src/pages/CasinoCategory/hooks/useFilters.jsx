@@ -11,6 +11,10 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getCasinoCategoryDetailStart } from '../../../store/actions';
 import { itemsPerPage } from '../../../constants/config';
 
+const keyMapping = {
+	searchString: 'Search',
+};
+
 const useFilters = () => {
 	const dispatch = useDispatch();
 
@@ -35,11 +39,17 @@ const useFilters = () => {
 		staticFormFields: staticFiltersFields(),
 	});
 
-	// const handleAdvance = () => {
-	// 	toggleAdvance();
-	// };
+	const filterFormatter = (key, value) => {
+		const formattedKey = keyMapping[key] || key;
+		return `${formattedKey}: ${value}`;
+	};
 
-	const selectedFiltersComponent = <SelectedFilters validation={validation} />;
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={filterFormatter}
+		/>
+	);
 
 	const filterComponent = (
 		<CustomFilters

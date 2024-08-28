@@ -11,6 +11,10 @@ import { itemsPerPage } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import CustomFilters from '../../../components/Common/CustomFilters';
 
+const keyMapping = {
+	searchString: 'Search',
+};
+
 const useFilters = () => {
 	const dispatch = useDispatch();
 	const fetchData = (values) => {
@@ -34,11 +38,17 @@ const useFilters = () => {
 		staticFormFields: staticFiltersFields(),
 	});
 
-	// const handleAdvance = () => {
-	// 	toggleAdvance();
-	// };
+	const filterFormatter = (key, value) => {
+		const formattedKey = keyMapping[key] || key;
+		return `${formattedKey}: ${value}`;
+	};
 
-	const selectedFiltersComponent = <SelectedFilters validation={validation} />;
+	const selectedFiltersComponent = (
+		<SelectedFilters
+			validation={validation}
+			filterFormatter={filterFormatter}
+		/>
+	);
 	const filterComponent = (
 		<CustomFilters
 			validation={validation}

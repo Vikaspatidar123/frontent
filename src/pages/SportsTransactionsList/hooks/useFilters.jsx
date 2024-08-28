@@ -17,7 +17,7 @@ import CustomFilters from '../../../components/Common/CustomFilters';
 const keyMapping = {
 	transactionId: 'Transaction Id',
 	searchString: 'Search',
-	purpose: 'Purpose',
+	purpose: 'Transaction Type',
 	status: 'Status',
 	toDate: 'To',
 	fromDate: 'From',

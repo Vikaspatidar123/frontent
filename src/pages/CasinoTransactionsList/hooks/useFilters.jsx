@@ -27,7 +27,7 @@ const keyMapping = {
 	actioneeId: 'Actionee Id',
 	transactionId: 'Transaction Id',
 	conversionRate: 'Conversion Id',
-	purpose: 'Purpose',
+	purpose: 'Transaction Type',
 	status: 'Status',
 	currencyId: 'Currency',
 	tagIds: 'Segment',

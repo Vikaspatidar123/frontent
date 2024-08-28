@@ -9,15 +9,11 @@ import useForm from '../../../components/Common/Hooks/useFormModal';
 import { getAllCmsDetails } from '../../../store/actions';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import CustomFilters from '../../../components/Common/CustomFilters';
+import { ACTIVE_KEY_MAP } from '../../../constants/common';
 
 const keyMapping = {
 	isActive: 'Status',
 	searchString: 'Search',
-};
-
-const isActiveMapping = {
-	true: 'Active',
-	false: 'In Active',
 };
 
 const useFilters = (itemsPerPage) => {
@@ -50,7 +46,7 @@ const useFilters = (itemsPerPage) => {
 
 		switch (key) {
 			case 'isActive':
-				formattedValue = isActiveMapping[value] || value;
+				formattedValue = ACTIVE_KEY_MAP[value] || value;
 				break;
 			default:
 				break;

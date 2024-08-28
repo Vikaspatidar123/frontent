@@ -12,17 +12,13 @@ import { getAllTags, getBonusesStart } from '../../../store/actions';
 import { itemsPerPage } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import CustomFilters from '../../../components/Common/CustomFilters';
+import { ACTIVE_KEY_MAP } from '../../../constants/common';
 
 const keyMapping = {
 	bonusType: 'Status',
 	search: 'Search',
 	isActive: 'Status',
 	tagIds: 'Segments',
-};
-
-const isStatusMapping = {
-	true: 'Active',
-	false: 'In-Active',
 };
 
 const bonusTypesMapper = {
@@ -88,7 +84,7 @@ const useFilters = () => {
 
 		switch (key) {
 			case 'isActive':
-				formattedValue = isStatusMapping[value];
+				formattedValue = ACTIVE_KEY_MAP[value];
 				break;
 			case 'tagIds':
 				formattedValue =

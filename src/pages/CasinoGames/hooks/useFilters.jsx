@@ -14,6 +14,15 @@ import {
 import { itemsPerPage, selectedLanguage } from '../../../constants/config';
 import SelectedFilters from '../../../components/Common/SelectedFilters';
 import CustomFilters from '../../../components/Common/CustomFilters';
+import { ACTIVE_KEY_MAP } from '../../../constants/common';
+
+const keyMapping = {
+	searchString: 'Search',
+	isActive: 'Status',
+	isFeatured: 'Featured',
+	casinoProviderId: 'Provider',
+	casinoCategoryId: 'Category',
+};
 
 const useFilters = () => {
 	const dispatch = useDispatch();
@@ -88,27 +97,15 @@ const useFilters = () => {
 		}
 	}, [casinoProvidersData]);
 
-	const keyMapping = {
-		isActive: 'Status',
-		isFeatured: 'Featured',
-		casinoProviderId: 'Provider',
-		casinoCategoryId: 'Category',
-	};
-
-	const isActiveMapping = {
-		true: 'Yes',
-		false: 'No',
-	};
-
 	const filterFormatter = (key, value) => {
 		const formattedKey = keyMapping[key] || key;
 		let formattedValue = value;
 		switch (key) {
 			case 'isActive':
-				formattedValue = isActiveMapping[value] || value;
+				formattedValue = ACTIVE_KEY_MAP[value] || value;
 				break;
 			case 'isFeatured':
-				formattedValue = isActiveMapping[value] || value;
+				formattedValue = ACTIVE_KEY_MAP[value] || value;
 				break;
 			case 'casinoProviderId':
 				formattedValue =

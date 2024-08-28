@@ -21,7 +21,7 @@ const keyMapping = {
 	fromDate: 'From',
 	toDate: 'To',
 	type: 'Type',
-	purpose: 'Purpose',
+	purpose: 'Transaction Type',
 	tagIds: 'Segment',
 	currencyId: 'Currency',
 	searchString: 'Search',
