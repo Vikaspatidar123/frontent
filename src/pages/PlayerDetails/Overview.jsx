@@ -173,10 +173,12 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 													<div
 														key={label}
 														className="d-flex align-items-center justify-content-between rounded bg-light bg-opacity-50 mb-2 px-3 py-2 mx-2"
-														style={{ wordBreak: 'break-word' }}
 													>
 														<h6 className="px-2">{label}</h6>
-														<span className={`${subValue} px-2 email-ellipsis`}>
+														<span
+															style={{ wordBreak: 'break-word' }}
+															className={`${subValue} px-2 w-75 text-end`}
+														>
 															{value || 'NA'}
 														</span>
 													</div>

@@ -129,11 +129,18 @@ const ManageTagModal = ({ userDetails, show, handleClose }) => {
 	useEffect(() => {
 		if (
 			userTags?.tags?.length > 0 &&
-			validation?.values?.tagAction === 'addTag'
+			validation?.values?.tagAction === 'addTag' &&
+			userDetails
 		) {
 			setOptions(
 				userTags?.tags
-					.filter((userTag) => userTag.isActive !== false)
+					.filter(
+						(userTag) =>
+							userTag.isActive !== false &&
+							!userDetails?.userTags?.some(
+								(tags) => tags?.tagId === userTag?.id
+							)
+					)
 					.map((tag) => ({
 						id: tag?.id,
 						optionLabel: tag?.tag,
