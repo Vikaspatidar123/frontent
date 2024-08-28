@@ -169,6 +169,12 @@ const useBulkUpdatePlayer = (selectedPlayers, onSuccess) => {
 		}
 	}, [options]);
 
+	useEffect(() => {
+		if (validation?.values?.tagAction) {
+			validation?.setFieldValue('tag', null);
+		}
+	}, [validation?.values?.tagAction]);
+
 	return {
 		validation,
 		formFields,

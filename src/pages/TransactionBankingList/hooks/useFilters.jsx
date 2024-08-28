@@ -32,6 +32,18 @@ const iskycStatusMapping = {
 	pending: 'Pending',
 };
 
+const purposeMapping = {
+	Deposit: 'Deposit',
+	Withdraw: 'Withdraw',
+	BonusDeposit: 'Bonus Deposit',
+	BonusWithdraw: 'Bonus Withdraw',
+	TournamentEnroll: 'Tournament Enroll',
+	TournamentWin: 'Tournament Win',
+	TournamentCancel: 'Tournament Cancel',
+	TournamentRebuy: 'Tournament Rebuy',
+	ReferralDeposit: 'Referral Deposit',
+};
+
 const useFilters = (userId = '') => {
 	const dispatch = useDispatch();
 	const { currencies } = useSelector((state) => state.Currencies);
@@ -108,6 +120,9 @@ const useFilters = (userId = '') => {
 		switch (key) {
 			case 'status':
 				formattedValue = iskycStatusMapping[value];
+				break;
+			case 'purpose':
+				formattedValue = purposeMapping[value] || value;
 				break;
 			case 'toDate':
 			case 'fromDate': {

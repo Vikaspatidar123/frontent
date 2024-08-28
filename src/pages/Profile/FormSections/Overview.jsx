@@ -68,7 +68,7 @@ const Overview = ({
 					role:
 						details?.adminRole?.name === 'Superadmin'
 							? 'Admin'
-							: details?.SuperadminRole?.name,
+							: details?.adminRole?.name,
 					agentName: details?.agentName || '',
 					group: details?.group || '', // to be updated
 				},

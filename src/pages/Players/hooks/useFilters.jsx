@@ -30,7 +30,7 @@ const keyMapping = {
 	fromDate: 'Registration from',
 	tagIds: 'Segment',
 	countryId: 'Country',
-	searchString: 'Search',
+	searchString: 'Email/Username',
 	dateOfBirth: 'Date of Birth',
 	userId: 'User Id',
 	gender: 'Gender',
