@@ -38,17 +38,13 @@ const useFilters = () => {
 		staticFormFields: staticFiltersFields(),
 	});
 
-	const filterFormatter = (key, value) => {
-		const formattedKey = keyMapping[key] || key;
-		return `${formattedKey}: ${value}`;
-	};
-
 	const selectedFiltersComponent = (
 		<SelectedFilters
 			validation={validation}
-			filterFormatter={filterFormatter}
+			filterFormatter={(key, value) => `${keyMapping[key]}: ${value}`}
 		/>
 	);
+
 	const filterComponent = (
 		<CustomFilters
 			validation={validation}

@@ -43,7 +43,7 @@ export const portalValues = [
 
 export const timePeriodValues = [
 	{
-		optionLabel: 'Custom day',
+		optionLabel: 'Custom days',
 		value: 'custom',
 	},
 	{
