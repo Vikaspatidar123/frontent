@@ -90,7 +90,7 @@ const FormPage = ({
 									</Col>
 									{!!field.tooltipContent && (
 										<UncontrolledTooltip
-											placement="bottom"
+											placement={field?.tooltipAlignment || 'bottom'}
 											target={`field-${field.name}`}
 										>
 											{field.tooltipContent}

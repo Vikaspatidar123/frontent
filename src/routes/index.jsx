@@ -589,7 +589,7 @@ const authProtectedRoutes = [
 		path: '/segmentation',
 		component: <Segmentation />,
 		modules: [modules.tag],
-		operation: 'C',
+		operation: 'R',
 	},
 
 	{ path: '*', component: <DashboardView /> },

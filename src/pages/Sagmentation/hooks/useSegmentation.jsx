@@ -144,6 +144,7 @@ const useSegmentation = () => {
 	);
 
 	const onChangeRowsPerPage = (value) => {
+		setCurrentPage(1);
 		setItemsPerPage(value);
 	};
 
@@ -162,7 +163,7 @@ const useSegmentation = () => {
 		{
 			actionName: 'Edit',
 			actionHandler: onClickEdit,
-			isHidden: !isGranted(modules.banner, 'U'),
+			isHidden: !isGranted(modules.tag, 'U'),
 			icon: ICON_CLASS.edit,
 			iconColor: TEXT_COLORS.primary,
 		},
@@ -177,13 +178,6 @@ const useSegmentation = () => {
 
 	const columns = useMemo(
 		() => [
-			// {
-			// 	Header: 'Id',
-			// 	accessor: 'id',
-			// 	filterable: true,
-			// 	Cell: ({ cell }) => <KeyValueCellNA value={cell.value} />,
-			// },
-
 			{
 				Header: 'Segment Name',
 				accessor: 'tag',
