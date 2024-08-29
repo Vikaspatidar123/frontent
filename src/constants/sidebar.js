@@ -680,6 +680,7 @@ const sideBarElements = [
 		id: 111,
 		isSeparator: true,
 		title: 'Chat',
+		groupedModules: [modules.paymentManagement],
 	},
 	{
 		id: 38,

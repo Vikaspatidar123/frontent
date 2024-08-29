@@ -112,7 +112,7 @@ const Overview = ({ userDetails, userDetailsLoading, duplicateUsers }) => {
 			`Are you sure you want to mark ${userDetails?.firstName} ${
 				userDetails?.lastName
 			} (${userDetails?.email}) ${
-				userDetails?.isActive ? 'Active' : 'Inactive'
+				userDetails?.isActive ? 'Inactive' : 'Active'
 			}?`,
 			updateUserStatus
 		);
