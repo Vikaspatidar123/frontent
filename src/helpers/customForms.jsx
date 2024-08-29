@@ -335,43 +335,60 @@ export const CustomRangeSelector = ({
 	name,
 	label,
 	placeholder,
-	value = null,
+	value = [],
 	rangeKeys = ['fromDate', 'toDate'],
 	// eslint-disable-next-line no-unused-vars
 	onChange = () => {}, // need for preventing code break
 	isError,
 	errorMsg,
-	maxDate = 'today',
-	minDate = '',
+	maxDate = moment().utc().startOf('day').toDate(),
+	minDate = moment().subtract(100, 'years').utc().toDate(),
 	validation,
-	// dateFormat = 'Y-m-d',
 	customInputClass,
 	isRequired,
+	showTimeSelect = false,
+	dateFormat = 'dd/MM/yyyy',
+	...rest
 }) => (
 	<div id="datepicker1">
 		{label && <Label for={name}>{label}</Label>}
 		{isRequired && label && <span className="text-danger"> *</span>}
-		<FlatPickr
-			className={`form-control ${customInputClass || ''}`}
-			name={name}
-			date={value}
-			placeholder={placeholder}
-			options={{
-				mode: 'range',
-				dateFormat: flatPickerFormat,
-				minDate,
-				maxDate,
-			}}
+		<DatePicker
+			selectsRange
+			className="form-control"
+			selected={value[0]}
+			placeholderText={placeholder}
+			showTimeSelect={showTimeSelect}
+			dateFormat={dateFormat}
 			onChange={(date) => {
-				validation.setFieldValue(
-					rangeKeys[0],
-					moment(date[0]).format('YYYY-MM-DD')
-				);
-				validation.setFieldValue(
-					rangeKeys[1],
-					moment(date[1]).format('YYYY-MM-DD')
-				);
+				const [startDate, endDate] = date;
+
+				if (startDate && endDate) {
+					validation.setFieldValue(
+						rangeKeys[0],
+						moment(Math.min(startDate, endDate)).format('YYYY-MM-DD')
+					);
+					validation.setFieldValue(
+						rangeKeys[1],
+						moment(Math.max(startDate, endDate)).format('YYYY-MM-DD')
+					);
+				} else {
+					// Only one date exists
+					validation.setFieldValue(
+						rangeKeys[0],
+						startDate ? moment(startDate).format('YYYY-MM-DD') : ''
+					);
+					validation.setFieldValue(
+						rangeKeys[1],
+						endDate ? moment(endDate).format('YYYY-MM-DD') : ''
+					);
+				}
 			}}
+			maxDate={maxDate}
+			minDate={minDate}
+			startDate={value[0]}
+			endDate={value[1]}
+			{...rest}
 		/>
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid" className="d-block">
@@ -980,8 +997,12 @@ export const getField = (
 					label={label}
 					placeholder={placeholder}
 					value={[
-						validation.values[rangeKeys?.[0] || 'fromDate'],
-						validation.values[rangeKeys?.[1] || 'toDate'],
+						validation.values[rangeKeys?.[0] || 'fromDate']
+							? new Date(validation.values[rangeKeys?.[0] || 'fromDate'])
+							: '',
+						validation.values[rangeKeys?.[1] || 'toDate']
+							? new Date(validation.values[rangeKeys?.[1] || 'toDate'])
+							: '',
 					]}
 					onChange={validation.onChange}
 					isError
