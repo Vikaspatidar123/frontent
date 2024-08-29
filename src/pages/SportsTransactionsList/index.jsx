@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { Container } from 'reactstrap';
 import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
@@ -8,10 +7,12 @@ import { projectName } from '../../constants/config';
 import useFilters from './hooks/useFilters';
 import useSportsTransactionsListing from './hooks/useSportsTransactionsListing';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
+import CrudSection from '../../components/Common/CrudSection';
+
+const pageTitle = 'Sports Transactions';
 
 const SportsTransactionsList = ({ userId }) => {
 	document.title = projectName;
-	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const { filterValidation, filterComponent, selectedFiltersComponent } =
 		useFilters(userId);
@@ -31,8 +32,10 @@ const SportsTransactionsList = ({ userId }) => {
 	return (
 		<div className={`${userId ? '' : 'page-content'}`}>
 			<Container fluid>
-				{showBreadcrumb && !userId && (
-					<Breadcrumb title="Reports" breadcrumbItem="Sports Transactions" />
+				{!userId ? (
+					<Breadcrumb title="Reports" breadcrumbItem={pageTitle} />
+				) : (
+					<CrudSection title={pageTitle} />
 				)}
 
 				<TableContainer

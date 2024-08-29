@@ -1,6 +1,5 @@
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import TableContainer from '../../components/Common/Table';
@@ -8,11 +7,13 @@ import useTransactionBankingListing from './hooks/useTransactionBankingListing';
 import { projectName } from '../../constants/config';
 import useFilters from './hooks/useFilters';
 import DepositWithdrawalInfo from '../../components/DepositWithdrawalInfo';
+import CrudSection from '../../components/Common/CrudSection';
+
+const pageTitle = 'Transactions Banking';
 
 const TransactionBankingList = ({ userId }) => {
 	// For user specific transactions
 	document.title = projectName;
-	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const { filterValidation, filterComponent, selectedFiltersComponent } =
 		useFilters();
@@ -32,8 +33,10 @@ const TransactionBankingList = ({ userId }) => {
 	return (
 		<div className={`${userId ? '' : 'page-content'}`}>
 			<Container fluid>
-				{showBreadcrumb && !userId && (
-					<Breadcrumb title="Reports" breadcrumbItem="Transactions Banking" />
+				{!userId ? (
+					<Breadcrumb title="Reports" breadcrumbItem={pageTitle} />
+				) : (
+					<CrudSection title={pageTitle} />
 				)}
 				<Row>
 					<Col lg="12">

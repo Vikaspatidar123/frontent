@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'reactstrap';
-import { useSelector } from 'react-redux';
 import TableContainer from '../../components/Common/Table';
 import Breadcrumb from '../../components/Common/Breadcrumb';
 import useSportsBetListing from './hooks/useSportsBetListing';
 import { projectName } from '../../constants/config';
 import useFilters from './hooks/useFilters';
 import ModalView from '../../components/Common/Modal';
+import CrudSection from '../../components/Common/CrudSection';
+
+const pageTitle = 'Sports Bets';
 
 const SportsBetList = ({ userId }) => {
 	document.title = projectName;
-	const showBreadcrumb = useSelector((state) => state.Layout.showBreadcrumb);
 
 	const { filterValidation, filterComponent, selectedFiltersComponent } =
 		useFilters(userId);
@@ -34,10 +35,12 @@ const SportsBetList = ({ userId }) => {
 
 	return (
 		<div className={`${userId ? '' : 'page-content'}`}>
+			fix: table heading.
 			<Container fluid>
-				{/* Render Breadcrumb */}
-				{showBreadcrumb && !userId && (
-					<Breadcrumb title="Reports" breadcrumbItem="Sports Bets" />
+				{!userId ? (
+					<Breadcrumb title="Reports" breadcrumbItem={pageTitle} />
+				) : (
+					<CrudSection title={pageTitle} />
 				)}
 
 				<TableContainer

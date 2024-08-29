@@ -1,8 +1,18 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
 
-const Id = ({ value }) => <div className="text-ellipsis">{value ?? '-'}</div>;
+const Id = ({ value }) => (
+	<>
+		<div id={`transaction-${value}`} className="text-ellipsis">
+			{value ?? '-'}
+		</div>
+		<UncontrolledTooltip placement="top" target={`transaction-${value}`}>
+			{value}
+		</UncontrolledTooltip>
+	</>
+);
 
 const UserEmail = ({ value }) => value ?? '';
 

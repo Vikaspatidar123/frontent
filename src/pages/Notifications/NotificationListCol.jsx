@@ -1,11 +1,18 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Badge } from 'reactstrap';
+import { Badge, UncontrolledTooltip } from 'reactstrap';
 
 const Id = ({ value }) => value ?? '';
 
-const KeyValueCell = ({ value }) => (
-	<div className="text-ellipsis">{value ?? '-'}</div>
+const KeyValueCell = ({ value, id }) => (
+	<>
+		<div id={`value-${id ?? '-'}`} className="text-ellipsis">
+			{value ?? '-'}
+		</div>
+		<UncontrolledTooltip placement="top" target={`value-${id ?? '-'}`}>
+			{value}
+		</UncontrolledTooltip>
+	</>
 );
 
 const Status = ({ value }) =>

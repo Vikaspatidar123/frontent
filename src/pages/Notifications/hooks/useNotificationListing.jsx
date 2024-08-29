@@ -95,7 +95,9 @@ const useNotificationListing = () => {
 				Header: 'Description',
 				accessor: 'descriptionEN',
 				// filterable: true,
-				Cell: ({ cell }) => <KeyValueCell value={cell.value} />,
+				Cell: ({ cell }) => (
+					<KeyValueCell value={cell.value} id={cell?.row?.original?.id} />
+				),
 			},
 			// {
 			// 	Header: 'Status',

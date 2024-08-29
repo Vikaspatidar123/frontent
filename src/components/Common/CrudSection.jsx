@@ -9,7 +9,7 @@ const CrudSection = ({ title, buttonList, exportComponent }) => {
 	const { isGranted } = usePermission();
 
 	return (
-		<CardBody className="border-bottom">
+		<CardBody className="">
 			<div className="d-flex align-items-center">
 				<h5 className="mb-0 card-title flex-grow-1">{title}</h5>
 				<div className="flex-shrink-0">
