@@ -9,6 +9,7 @@ import {
 	SEND_MESSAGE,
 	SEND_MESSAGE_FAIL,
 	SEND_MESSAGE_SUCCESS,
+	UPDATE_DISPUTE,
 } from './actionTypes';
 
 const initialState = {
@@ -88,6 +89,33 @@ const disputesReducer = (state = initialState, { type, payload } = {}) => {
 				disputes: null,
 				error: '',
 			};
+
+		case UPDATE_DISPUTE: {
+			const { threadId } = payload;
+			let tickets = [...(state?.disputes?.threadTickets || [])];
+			const disputeDetails = { ...(state.disputeDetails || {}) };
+			// eslint-disable-next-line eqeqeq
+			if (disputeDetails?.id == threadId) {
+				disputeDetails.threadMessages.push(payload);
+			} else {
+				tickets = tickets.map((dis) => {
+					// eslint-disable-next-line eqeqeq
+					if (dis.id == threadId) {
+						return {
+							...dis,
+							unread_message_count: Number(dis.unread_message_count || 0) + 1,
+						};
+					}
+					return dis;
+				});
+			}
+
+			return {
+				...state,
+				disputes: { ...state.disputes, threadTickets: tickets },
+				disputeDetails,
+			};
+		}
 		default:
 			return { ...state };
 	}

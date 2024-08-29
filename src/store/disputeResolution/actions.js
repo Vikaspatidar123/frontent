@@ -10,6 +10,7 @@ import {
 	SEND_MESSAGE_SUCCESS,
 	SEND_MESSAGE_FAIL,
 	UPDATE_DISPUTE_STATUS,
+	UPDATE_DISPUTE,
 } from './actionTypes';
 
 export const fetchDisputesStart = (payload) => ({
@@ -64,5 +65,10 @@ export const sendMessageFail = (payload) => ({
 
 export const updateDisputeStatus = (payload) => ({
 	type: UPDATE_DISPUTE_STATUS,
+	payload,
+});
+
+export const updateDispute = (payload) => ({
+	type: UPDATE_DISPUTE,
 	payload,
 });

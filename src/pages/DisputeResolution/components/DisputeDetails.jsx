@@ -44,7 +44,6 @@ const DisputeDetails = ({
 		statusDropDown: false,
 		username: '',
 	});
-	const cardRef = useRef(null);
 	const scrollRef = useRef();
 	const setInfo = (key, value) => {
 		setLocalInfo((prev) => ({
@@ -108,12 +107,9 @@ const DisputeDetails = ({
 	};
 
 	useEffect(() => {
-		const scrollToBottom = () => {
-			if (cardRef.current) {
-				cardRef.current.scrollTop = cardRef.current.scrollHeight;
-			}
-		};
-		setTimeout(scrollToBottom, 100);
+		if (scrollRef.current) {
+			scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+		}
 
 		for (let i = 0; i < disputeDetails?.threadMessages?.length; i += 1) {
 			if (disputeDetails?.threadMessages?.[i]?.user?.username) {
@@ -198,22 +194,34 @@ const DisputeDetails = ({
 
 				<div>
 					<div className="chat-conversation p-3">
-						<SimpleBar ref={scrollRef} style={{ height: '486px' }}>
+						<SimpleBar style={{ height: '486px' }}>
 							{detailsLoading ? (
 								<Spinners />
 							) : (
 								<ul className="list-unstyled mb-0">
 									{map(
 										disputeDetails?.threadMessages,
-										({
-											id,
-											content,
-											threadAttachements,
-											user,
-											adminId,
-											createdAt,
-										}) => (
-											<li key={id} className={adminId ? 'right' : ''}>
+										(
+											{
+												id,
+												content,
+												threadAttachements,
+												user,
+												adminId,
+												createdAt,
+											},
+											idx
+										) => (
+											<li
+												key={id}
+												className={adminId ? 'right' : ''}
+												ref={
+													(disputeDetails?.threadMessages?.length || 0) - 1 ===
+													idx
+														? scrollRef
+														: null
+												}
+											>
 												<div className="conversation-list">
 													<UncontrolledDropdown>
 														<DropdownToggle
@@ -234,7 +242,9 @@ const DisputeDetails = ({
 													</UncontrolledDropdown>
 													<div className="ctext-wrap">
 														<div className="conversation-name d-flex">
-															{adminId ? 'You' : user?.username}
+															{adminId
+																? 'You'
+																: user?.username || info.username}
 														</div>
 														<p className="mb-0" id="">
 															{content}

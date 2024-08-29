@@ -5,8 +5,13 @@ import {
 	fetchDisputeDetails,
 	sendMessage,
 	updateDisputeStatus,
+	updateDispute,
 } from '../../../store/actions';
 import { debounceTime } from '../../../constants/config';
+import useWebSocket from '../../../components/Common/Hooks/useWebSocket';
+import { getAccessToken } from '../../../network/storageUtils';
+
+const { VITE_APP_API_URL } = import.meta.env;
 
 let debounce;
 const useDisputeResolution = () => {
@@ -26,6 +31,18 @@ const useDisputeResolution = () => {
 		sendMessageLoading,
 		sendMessageSuccess,
 	} = useSelector((state) => state.Disputes);
+
+	const handleSocketData = (event, data) => {
+		if (event === 'dispute') {
+			dispatch(updateDispute(data));
+		}
+	};
+
+	useWebSocket(
+		`${VITE_APP_API_URL}/private`,
+		handleSocketData,
+		getAccessToken()
+	);
 
 	const handleDisputeDetails = () => {
 		if (selectedDispute) {
