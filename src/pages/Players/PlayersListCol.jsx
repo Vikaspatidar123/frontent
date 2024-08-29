@@ -6,12 +6,25 @@ import { Link } from 'react-router-dom';
 
 const PlayerId = ({ value }) => value ?? '';
 
-const UserName = ({ cell }) =>
-	cell.value ? (
-		<Link to={`/player-details/${cell?.row?.original?.id}`}>{cell.value}</Link>
-	) : (
-		''
-	);
+const UserName = ({ cell }) => (
+	<>
+		<div className="text-ellipsis" id={`username-${cell?.row?.original?.id}`}>
+			{cell.value ? (
+				<Link to={`/player-details/${cell?.row?.original?.id}`}>
+					{cell.value}
+				</Link>
+			) : (
+				''
+			)}
+		</div>
+		<UncontrolledTooltip
+			placement="top"
+			target={`username-${cell?.row?.original?.id}`}
+		>
+			{cell.value || '-'}
+		</UncontrolledTooltip>
+	</>
+);
 
 const Email = ({ value }) => {
 	const userId = value?.row?.original?.id;
@@ -49,12 +62,15 @@ const RegistrationDate = ({ value }) => value ?? '-';
 
 const IsInternal = ({ value }) => value ?? '-';
 
-const Tags = ({ value }) =>
-	value?.length
-		? value?.map((tag) => (
-				<Badge className="badge-soft-secondary me-1">{tag}</Badge>
-		  ))
-		: '-';
+const Tags = ({ value }) => (
+	<div className="text-ellipsis">
+		{value?.length
+			? value?.map((tag) => (
+					<Badge className="badge-soft-secondary me-1">{tag}</Badge>
+			  ))
+			: '-'}
+	</div>
+);
 
 const KycStatus = ({ value }) => {
 	switch (value) {
