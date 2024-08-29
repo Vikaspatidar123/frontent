@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Id = ({ value }) => value ?? '';
+const Id = ({ value }) => <div className="text-ellipsis">{value ?? '-'}</div>;
 
 const UserEmail = ({ value }) => value ?? '';
 

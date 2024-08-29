@@ -4,7 +4,9 @@ import { Badge } from 'reactstrap';
 
 const Id = ({ value }) => value ?? '';
 
-const KeyValueCell = ({ value }) => value ?? '';
+const KeyValueCell = ({ value }) => (
+	<div className="text-ellipsis">{value ?? '-'}</div>
+);
 
 const Status = ({ value }) =>
 	value ? (
