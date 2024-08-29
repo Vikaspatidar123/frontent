@@ -15,7 +15,7 @@ import {
 const initialState = {
 	disputes: null,
 	error: '',
-	loading: false,
+	loading: true,
 
 	disputeDetails: null,
 	detailsLoading: false,
@@ -49,6 +49,7 @@ const disputesReducer = (state = initialState, { type, payload } = {}) => {
 			return {
 				...state,
 				detailsLoading: true,
+				loading: false,
 			};
 		case FETCH_DISPUTE_FAIL:
 			return {
@@ -85,7 +86,7 @@ const disputesReducer = (state = initialState, { type, payload } = {}) => {
 		case RESET_DISPUTES_DATA:
 			return {
 				...state,
-				loading: false,
+				loading: true,
 				disputes: null,
 				error: '',
 			};
