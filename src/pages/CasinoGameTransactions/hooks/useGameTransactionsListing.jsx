@@ -135,7 +135,16 @@ const useGameTransactionsListing = (filterValues = {}) => {
 			});
 			return;
 		}
-		downloadReport('csv', json2csv(data?.data?.gameReport), 'Game Reports');
+		const csvJsonData = data?.data?.gameReport?.map((transaction) => ({
+			ID: transaction?.id,
+			NAME: transaction?.name,
+			'TOTAL REVENUE': transaction?.gameRevenue,
+			'PLAYED BY': transaction?.gameRevenue,
+			'TOTAL WAGERED': transaction?.totalBetAmount,
+			'TOTAL PAYOUT': transaction?.totalWinAmount,
+			RTP: transaction?.payout,
+		}));
+		downloadReport('csv', json2csv(csvJsonData), 'Game Reports');
 	};
 
 	const exportList = useMemo(() => [
