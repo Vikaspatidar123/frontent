@@ -19,6 +19,7 @@ const channelsList = channelCriteria.map((item) => ({
 	name: item.name,
 	fieldType: 'toggle',
 	label: item.label,
+	tooltipAlignment: 'left',
 	tooltipContent: item?.tooltipContent,
 	// isNewRow: true,
 }));
@@ -48,6 +49,7 @@ const generalStaticFormFields = (isDisabled) => [
 		label: 'Status',
 		isNewRow: true,
 		isDisabled,
+		tooltipAlignment: 'left',
 		tooltipContent: 'If True Channel Status is Active else In-Active',
 	},
 	{
@@ -55,6 +57,7 @@ const generalStaticFormFields = (isDisabled) => [
 		fieldType: 'toggle',
 		label: 'Global',
 		isDisabled,
+		tooltipAlignment: 'left',
 		tooltipContent: 'If True Channel is Global',
 	},
 	...channelsList,
