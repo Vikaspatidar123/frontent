@@ -22,7 +22,8 @@ import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
 import ButtonList from '../../../components/Common/ButtonList';
-
+import { Icon } from "@iconify/react";
+import { Button } from 'reactstrap';
 const useAdminListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -209,7 +210,28 @@ const useAdminListing = (filterValues = {}) => {
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => <Actions cell={cell} actionsList={actionsList} />,
+				Cell: ({ cell }) => <div className="flex gap-3 justify-end" style={{display:'flex'}}>
+					
+					<Button
+                    outline
+					onClick={()=>handleView(cell?.row?.original)}
+                  >
+                    <Icon icon="heroicons:pencil" height="15" width="15" />
+                  </Button>
+                  <Button
+                     onClick={()=>handleEdit(cell?.row?.original)}
+                    outline
+                  >
+                    <Icon icon="heroicons:eye" />
+                  </Button>
+                  <Button
+				  disabled={isDisabled(cell?.row?.original)}
+				  onClick={()=>handleStatus(cell?.row?.original)}
+                    outline
+                  >
+                    <Icon icon="heroicons:trash" className="h-4 w-4" />
+                  </Button>
+				</div>,
 			},
 		],
 		[adminDetails, permissions]

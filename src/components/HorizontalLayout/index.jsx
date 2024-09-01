@@ -140,12 +140,12 @@ const Layout = ({ children }) => {
 			</div>
 
 			<div id="layout-wrapper">
-				<Header
+				{/* <Header
 					theme={topbarTheme}
 					isMenuOpened={isMenuOpened}
 					openLeftMenuCallBack={openMenu}
-				/>
-				<Navbar menuOpen={isMenuOpened} />
+				/> */}
+				{/* <Navbar menuOpen={isMenuOpened} /> */}
 				<div className="main-content">{children}</div>
 				<Footer />
 			</div>

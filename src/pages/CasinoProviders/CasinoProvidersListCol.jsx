@@ -3,7 +3,7 @@ import { Badge } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import 'react-image-lightbox/style.css';
+// import 'react-image-lightbox/style.css';
 import ImageCell from '../../components/Common/ImageCell';
 import { selectedLanguage } from '../../constants/config';
 

@@ -2,29 +2,33 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
-import React from 'react';
-
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { connect,useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import './style.scss'
 // Import menuDropdown
 import { withTranslation } from 'react-i18next';
 // import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 
 import logo from '../../assets/images/logo-light.png';
+import sun from '../../assets/images/sun.svg';
+import moon from '../../assets/images/moon.svg';
 
 // i18n
 
 // Redux Store
 import {
 	showRightSidebarAction,
+	changeLayoutMode,
 	toggleLeftmenu,
 	changeSidebarType,
+	changeSidebarTheme
 } from '../../store/actions';
 import MegaMenu from '../CommonForBoth/TopbarDropdown/MegaMenu';
 
 const Header = (props) => {
+	const [themModem,setThemMode]=useState(false)
 	function toggleFullscreen() {
 		if (
 			!document.fullscreenElement &&
@@ -59,10 +63,17 @@ const Header = (props) => {
 			body.classList.toggle('sidebar-enable');
 		}
 	}
-
+	const topbarTheme = useSelector(
+		(state) => state.Layout.layoutModeType
+	);
+	const onThemChange=()=>{
+		setThemMode((prev)=>!prev);
+		props.changeLayoutMode(themModem?'light':'dark');
+		props.changeSidebarTheme(themModem?'light':'dark')
+	}
 	return (
 		<header id="page-topbar">
-			<div className="navbar-header">
+			<div className="navbar-header" style={{borderBottom: topbarTheme==='light'?'1px solid #e5e7eb':''}}>
 				<div className="d-flex">
 					<div className="navbar-brand-box d-lg-none d-md-block">
 						<Link to="/" className="logo">
@@ -143,14 +154,23 @@ const Header = (props) => {
 							onClick={() => {
 								toggleFullscreen();
 							}}
-							className="btn header-item noti-icon "
+							className="btn header-item noti-icon"
+							
 							data-toggle="fullscreen"
 						>
 							<i className="bx bx-fullscreen" />
+						
 						</button>
 					</div>
 
 					{/* <NotificationDropdown /> */}
+					<div className="dropdown d-none d-lg-inline-block ms-1 ">
+					<div  className='mode'>
+					<div className={`mode_img ${themModem?'dark_mode':''}`} role="button" onClick={onThemChange} tabIndex={0}>
+						<img src={themModem?moon:sun} alt='' width={20} height={20} />
+						</div>
+						</div>
+					</div>
 					<ProfileMenu
 						showRightSidebarAction={props.showRightSidebarAction}
 						showRightSidebar={props.showRightSidebar}
@@ -163,12 +183,15 @@ const Header = (props) => {
 						className="dropdown d-inline-block"
 						role="button"
 						tabIndex={0}
+						// style={{position:}}
 					>
-						<button
+						<button	
 							type="button"
 							className="btn header-item noti-icon right-bar-toggle "
 						>
+						<div className={`mode_img ${themModem?'dark_mode':''}`}>
 							<i className="bx bx-cog bx-spin" />
+							</div>
 						</button>
 					</div>
 				</div>
@@ -182,6 +205,8 @@ Header.defaultProps = {
 	// leftSideBarType: PropTypes.objectOf,
 	showRightSidebar: false,
 	showRightSidebarAction: () => {},
+	changeLayoutMode:()=>{},
+	changeSidebarTheme:()=>{}
 	// t: () => {},
 };
 
@@ -190,6 +215,8 @@ Header.propTypes = {
 	// leftSideBarType: PropTypes.objectOf,
 	showRightSidebar: PropTypes.bool,
 	showRightSidebarAction: PropTypes.func,
+	changeLayoutMode:PropTypes.func,
+	changeSidebarTheme:PropTypes.func,
 	// t: PropTypes.func,
 };
 
@@ -203,4 +230,6 @@ export default connect(mapStatetoProps, {
 	showRightSidebarAction,
 	toggleLeftmenu,
 	changeSidebarType,
+	changeLayoutMode,
+	changeSidebarTheme,
 })(withTranslation()(Header));

@@ -14,31 +14,32 @@ const Sidebar = () => {
 	const leftSideBarTheme = useSelector(
 		(state) => state.Layout.leftSideBarTheme
 	);
+
 	return (
-		<div className="vertical-menu">
-			<div className="navbar-brand-box">
-				<Link to="/" className="logo ">
+		<div className="vertical-menu" style={{borderRight: leftSideBarTheme==='light'?'1px solid #e5e7eb':''}}>
+			<div className="navbar-brand-box" style={{borderBottom: leftSideBarTheme==='light'?'1px solid #e5e7eb':'',top: '0px'}}> 
+				<Link to="/" className="logo">
 					<span className="logo-sm">
 						{/* <img src={logoLightSvg} alt="" height="22" /> */}
 					</span>
-					<span className="logo-lg">
+					<span className="logo-lg" style={{lineHeight: '68px'}}>
 						{leftSideBarTheme === 'light' ? (
 							<img
 								src={LogoLight}
-								style={{ height: '85px', width: '115px' }}
+								style={{ height: '58px', width: '115px' }}
 								alt=""
 							/>
 						) : (
 							<img
 								src={Logo}
-								style={{ height: '85px', width: '115px' }}
+								style={{ height: '58px', width: '115px' }}
 								alt=""
 							/>
 						)}
 					</span>
 				</Link>
 			</div>
-			<div data-simplebar className="h-100">
+			<div data-simplebar className="h-100" >
 				<SidebarContent />
 			</div>
 

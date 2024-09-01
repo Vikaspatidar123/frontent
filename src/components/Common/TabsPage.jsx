@@ -62,7 +62,11 @@ const TabsPage = ({
 		<div>
 			<Row>
 				<Col>
-					<Card className={tabCardClass}>
+					<div className={tabCardClass} style={{background:'#e2e8f0',
+						width: 'max-content',
+						padding: '5px',
+						borderRadius: '5px',
+						margin:'10px 0px'}}>
 						<CardBody className={`${navClass}`}>
 							<Nav
 								tabs={tabType !== 'pills'}
@@ -86,7 +90,8 @@ const TabsPage = ({
 										<NavItem key={tab.id}>
 											<NavLink
 												id={`tab-${tab.id}`}
-												style={{ cursor: 'pointer' }}
+												style={{ cursor: 'pointer',background:activeTab === tab.id ?'#fff':'' ,color:activeTab === tab.id?'#000':'', boxShadow: activeTab === tab.id?'0 0 8px rgba(98, 127, 172, .2)':''
+												}}
 												className={`${
 													activeTab === tab.id ? 'active' : `${nonActiveClass}`
 												} ${navLinkClass}`}
@@ -94,6 +99,7 @@ const TabsPage = ({
 													toggle(tab.id);
 												}}
 												disabled={disableTabSwitching}
+												
 											>
 												{tab.title}
 											</NavLink>
@@ -111,7 +117,7 @@ const TabsPage = ({
 								)}
 							</Nav>
 						</CardBody>
-					</Card>
+					</div>
 				</Col>
 			</Row>
 			<TabContent

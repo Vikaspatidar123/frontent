@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { highlight, languages } from 'prismjs';
 import { Button } from 'reactstrap';
-import uuid from 'react-uuid';
+import { v4 as uuidv4 } from 'uuid';
 import Editor from 'react-simple-code-editor';
 import { CreateDynamicStyles } from '../../pages/Cms/style';
 import '../../assets/scss/custom/pages/_cms.scss';
@@ -29,7 +29,8 @@ const CodeEditor = ({
 	}, [_HTML]);
 
 	const [selected, setSelected] = useState(initial || 'HTML');
-	const iFrameId = uuid();
+	const iFrameId = uuidv4();
+
 	const [iFrame, setIFrame] = useState(null);
 
 	useEffect(() => {

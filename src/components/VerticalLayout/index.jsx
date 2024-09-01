@@ -126,7 +126,6 @@ const Layout = (props) => {
 			dispatch(changeLayoutWidth(layoutWidth));
 		}
 	}, [layoutWidth, dispatch]);
-
 	useEffect(() => {
 		if (leftSideBarType) {
 			dispatch(changeSidebarType(leftSideBarType));
@@ -156,12 +155,15 @@ const Layout = (props) => {
 
 			<div id="layout-wrapper">
 				<Header toggleMenuCallback={toggleMenuCallback} />
+				
 				<Sidebar
 					theme={leftSideBarTheme}
 					type={leftSideBarType}
 					isMobile={isMobile}
 				/>
+				
 				<div className="main-content">{props.children}</div>
+				
 				<Footer />
 			</div>
 			{showRightSidebar ? <RightSidebar /> : null}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import 'react-image-lightbox/style.css';
+// import 'react-image-lightbox/style.css';
 import ImageCell from '../../components/Common/ImageCell';
 
 const Pages = ({ value }) => value?.toUpperCase() ?? '';

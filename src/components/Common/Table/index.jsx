@@ -75,9 +75,9 @@ const TableContainer = ({
 					{isShowColSettings ? customColSetting : null}
 				</div>
 			</div>
-			<Card>
+			<Card style={{borderRadius:'10px'}}>
 				{selectedFiltersComponent}
-				<CardBody>
+				<CardBody >
 					<div
 						className={`table-responsive react-table ${
 							isLongTable && 'scrollable'
@@ -85,8 +85,12 @@ const TableContainer = ({
 					>
 						<Table
 							{...getTableProps()}
-							className="mt-2 text-nowrap"
+							className="mt-2 text-nowrap "
 							id="generic-table"
+							style={{ 
+							border:'1px solid #f0f2f6',
+							boxShadow: '0 0 8px rgba(98, 127, 172, .2)'
+							}}
 						>
 							{!hideHeader && (
 								<thead

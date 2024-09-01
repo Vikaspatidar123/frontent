@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import uuid from 'react-uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { isEmpty } from 'lodash';
 import {
 	getInitialValues,
@@ -35,7 +35,7 @@ const useCreateCategory = () => {
 			createCasinoCategoryStart({
 				payload: {
 					...values,
-					uniqueId: uuid(),
+					uniqueId: uuidv4(),
 				},
 			})
 		);
