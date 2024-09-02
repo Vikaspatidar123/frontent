@@ -78,7 +78,7 @@ const CustomFilters = ({
 				<UncontrolledDropdown isOpen={openDropdownType === 'filterDropdown'}>
 					<DropdownToggle
 						type="button"
-						className="btn btn-light btn-outline-primary"
+						className="btn btn-light btn-outline-dark"
 						onClick={() =>
 							dispatch(
 								toggleDropdown(

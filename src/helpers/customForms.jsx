@@ -62,6 +62,7 @@ export const CustomInputField = ({
 		{label && <Label className="form-label">{label}</Label>}
 		{isRequired && label && <span className="text-danger"> *</span>}
 		<Input
+		style={{borderRadius:'10px'}}
 			name={name}
 			type={type}
 			label={label}
@@ -113,6 +114,7 @@ export const CustomSelectField = ({
 		{isMulti ? (
 			<Select
 				name={name}
+				style={{borderRadius:'10px'}}
 				value={value}
 				isMulti
 				onChange={onChange}
@@ -126,6 +128,7 @@ export const CustomSelectField = ({
 			<Input
 				id={id}
 				type={type}
+				style={{borderRadius:'10px'}}
 				name={name}
 				value={value === '' ? null : value} // To handle the select value null condition.
 				onChange={onChange}
@@ -226,6 +229,7 @@ export const MultiSelectOption = ({
 			{isRequired && label && <span className="text-danger"> *</span>}
 			<Select
 				options={options}
+				
 				isMulti
 				hideSelectedOptions={false}
 				closeMenuOnSelect={false}
@@ -239,6 +243,7 @@ export const MultiSelectOption = ({
 				onChange={handleChange}
 				value={value || []}
 				styles={customStyles}
+				style={{borderRadius:'10px'}}
 			/>
 		</div>
 	);
@@ -278,6 +283,7 @@ export const CustomDateField = ({
 					) // end of selected date
 				);
 			}}
+			style={{borderRadius:'10px'}}
 		/>
 		{isError && errorMsg ? (
 			<FormFeedback type="invalid" className="d-block">
@@ -310,6 +316,7 @@ export const CustomDateTime = ({
 		{isRequired && label && <span className="text-danger"> *</span>}
 		<DatePicker
 			className="form-control"
+			style={{borderRadius:'10px'}}
 			// name={name}
 			selected={value}
 			placeholderText={placeholder}
@@ -360,6 +367,7 @@ export const CustomRangeSelector = ({
 			placeholderText={placeholder}
 			showTimeSelect={showTimeSelect}
 			dateFormat={dateFormat}
+			style={{borderRadius:'10px'}}
 			onChange={(date) => {
 				const [startDate, endDate] = date;
 
@@ -1311,6 +1319,7 @@ export const getField = (
 					{label && <Label for={name}>{label}</Label>}
 					<InputGroup>
 						<Input
+						    style={{borderRadius:'10px 0px 0px 10px'}}
 							type={type}
 							name={name}
 							placeholder={placeholder}
@@ -1324,6 +1333,8 @@ export const getField = (
 						<InputGroupText
 							className="password-btn btn btn-primary font-size-14"
 							onClick={() => callBack()}
+						    style={{borderRadius:'0px 10px 10px 0px'}}
+
 						>
 							{icon}
 						</InputGroupText>

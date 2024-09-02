@@ -22,7 +22,7 @@ const FormPage = ({
 	formClass,
 	rowCustomClass,
 }) => (
-	<Card className="p-3">
+	<Card className="p-3" style={{borderRadius:'10px'}}>
 		<Row>
 			<Form
 				onSubmit={(e) => {
@@ -108,8 +108,9 @@ const FormPage = ({
 								<Button
 									type="submit"
 									className="waves-effect waves-light"
-									color="primary"
+									// color="primary"
 									disabled={isSubmitLoading}
+									// color="success"
 								>
 									{isSubmitLoading && (
 										<i className="bx bx-hourglass bx-spin font-size-16 align-middle me-2" />

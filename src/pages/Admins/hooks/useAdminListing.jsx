@@ -214,12 +214,13 @@ const useAdminListing = (filterValues = {}) => {
 					
 					<Button
                     outline
-					onClick={()=>handleView(cell?.row?.original)}
+					onClick={()=>handleEdit(cell?.row?.original)}
                   >
                     <Icon icon="heroicons:pencil" height="15" width="15" />
                   </Button>
                   <Button
-                     onClick={()=>handleEdit(cell?.row?.original)}
+					onClick={()=>handleView(cell?.row?.original)}
+                    
                     outline
                   >
                     <Icon icon="heroicons:eye" />

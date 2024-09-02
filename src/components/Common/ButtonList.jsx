@@ -28,7 +28,7 @@ const ButtonList = ({ buttonList }) => {
 						onClick={disabled ? null : handleClick}
 						className={`${
 							disabled ? 'disabled' : ''
-						} btn btn-light btn-outline-primary ${
+						} btn btn-light btn-outline-dark${
 							icon ? 'icon-button-padding' : ''
 						}`}
 						id={`id-${label}`}

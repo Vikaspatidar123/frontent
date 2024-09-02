@@ -17,6 +17,7 @@ import {
 	UncontrolledTooltip,
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 const Dropdown = ({ tab, selectedDropdown, setSelectedDropdown, toggle }) => (
 	<UncontrolledDropdown nav inNavbar>
@@ -58,11 +59,14 @@ const TabsPage = ({
 	nonActiveClass,
 }) => {
 	const [selectedDropdown, setSelectedDropdown] = useState('');
+	const topbarTheme = useSelector(
+		(state) => state.Layout.layoutModeType
+	);
 	return (
 		<div>
 			<Row>
 				<Col>
-					<div className={tabCardClass} style={{background:'#e2e8f0',
+					<div className={tabCardClass} style={{background:topbarTheme==='light'?'#e2e8f0':'rgb(42 48 66)',
 						width: 'max-content',
 						padding: '5px',
 						borderRadius: '5px',

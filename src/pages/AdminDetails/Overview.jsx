@@ -28,7 +28,7 @@ const OverView = ({ details, t }) => {
   return (
     <Row>
       <Col lg={12}>
-        <Card>
+        <Card style={{borderRadius:'10px'}}>
           <CardBody>
             {overViewCol.map((item) => (
               <Row key={item.row} className="list-unstyled hstack p-3">

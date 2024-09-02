@@ -112,7 +112,7 @@ const useTableCustom = (
 		<UncontrolledDropdown isOpen={openDropdownType === columnType}>
 			<DropdownToggle
 				type="button"
-				className="btn btn-light btn-outline-primary"
+				className="btn btn-light btn-outline-dark"
 				onClick={() => {
 					dispatch(
 						toggleDropdown(openDropdownType === columnType ? '' : columnType)

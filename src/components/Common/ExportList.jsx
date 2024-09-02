@@ -19,7 +19,7 @@ const ExportList = ({ exportList }) => (
 					{isCsv && (
 						<Button
 							onClick={() => handleDownload({ type })}
-							className="btn btn-light btn-outline-primary"
+							className="btn btn-light btn-outline-dark"
 							color={buttonColor || 'primary'}
 							id={`id-csv-${label}`}
 							style={{

@@ -2,7 +2,7 @@ const projectName = 'ARC';
 
 const role = 'Admin';
 
-const footerText = 'Design and powered by GAMMASTACK';
+const footerText = 'Design and powered by ';
 
 const tableCustomClass = '';
 // const tableCustomClass = 'table-dark'; // for dark table
