@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 import { connect, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/ARC-Logo.svg';
-import LogoLight from '../../assets/images/ARC-Logo-light.svg';
+import LogoLight from '../../assets/images/Frame 20541.jpg';
 
 import withRouter from '../Common/withRouter';
 // i18n

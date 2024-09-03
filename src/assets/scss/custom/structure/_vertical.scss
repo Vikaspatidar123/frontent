@@ -167,26 +167,26 @@
 }
 
 .mm-active {
-	color: $sidebar-menu-item-active-color !important;
+	color: $sidebar-menu-item-active-color;
 
 	> a {
-		color: $sidebar-menu-item-active-color !important;
+		color: $sidebar-menu-item-active-color;
 
 		i {
-			color: $sidebar-menu-item-active-color !important;
+			color: $sidebar-menu-item-active-color;
 		}
 	}
 
 	.active {
-		color: $sidebar-menu-item-active-color !important;
+		color: $sidebar-menu-item-active-color;
 
 		i {
-			color: $sidebar-menu-item-active-color !important;
+			color: $sidebar-menu-item-active-color ;
 		}
 	}
 
 	> i {
-		color: $sidebar-menu-item-active-color !important;
+		color: $sidebar-menu-item-active-color;
 	}
 }
 

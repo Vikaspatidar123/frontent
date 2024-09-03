@@ -22,3 +22,69 @@
 .dark_mode{
   background-color: #556ee6;;
 }
+
+.menu-title{
+  color: #000 !important;
+  font-size: .75rem !important;
+  line-height: 1rem !important;
+}
+
+
+.nav_title{
+  font-weight: 500 !important;
+  text-transform: capitalize !important;
+  font-size: .875rem !important;
+  line-height: 1.25rem !important;
+
+}
+
+.nav_title:hover{
+  border-radius: .25rem !important;
+  background-color: #000;
+  color: #fff !important;
+}
+
+.sub_nav_active{
+  border-radius: .25rem !important;
+  background-color: #000;
+  color: #fff !important;
+  > span  {
+  color: #fff !important;
+  }
+  >i {
+  color: #fff !important;
+
+  }
+}
+
+.icon_active{
+  color: #fff !important;
+
+}
+.active_sub_nav{
+  color: #fff !important;
+}
+.sun_title_nav{
+  font-weight: 500 !important;
+  position: relative;
+  padding: 2px 0;
+  
+}
+
+.inactive_sub{
+  border-left: 3px solid #e7e7e9;
+  // border-left: 3px solid #000;
+  height: 37px;
+  width: 4px;
+  position: absolute;
+  left: 20px;
+
+}
+
+.active_line_nav{
+  border-left: 3px solid #000;
+}
+
+.metismenu{
+  margin: 0 4px !important;
+}

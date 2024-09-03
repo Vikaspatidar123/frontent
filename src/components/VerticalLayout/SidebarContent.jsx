@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
-
+import React, { useEffect, useRef, useCallback, useMemo, useState } from 'react';
+import './style.scss'
 // //Import Scrollbar
 import SimpleBar from 'simplebar-react';
 
@@ -15,11 +15,20 @@ import { sideBarElements } from '../../constants/sidebar';
 import usePermission from '../Common/Hooks/usePermission';
 
 // i18n
-
+const apitalizeFirstLetter=(str)=> {
+	if (str.startsWith('/')) {
+		// eslint-disable-next-line no-param-reassign
+		str = str.slice(1);
+	  }
+	  
+	  // Capitalize the first letter
+	  return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 const SidebarContent = ({ t }) => {
 	const ref = useRef();
 	const path = useLocation();
 	const { isGranted, permissions } = usePermission();
+	const [activeNav,setActiveNav]=useState(apitalizeFirstLetter(path.pathname))
 	const superAdminUser = useSelector(
 		(state) => state.PermissionDetails.superAdminUser
 	);
@@ -34,6 +43,7 @@ const SidebarContent = ({ t }) => {
 	}
 	const activateParentDropdown = useCallback((item) => {
 		item.classList.add('active');
+		
 		const parent = item.parentElement;
 		const parent2El = parent.childNodes[1];
 		if (parent2El && parent2El.id !== 'side-menu') {
@@ -112,7 +122,6 @@ const SidebarContent = ({ t }) => {
 			}
 		}
 	};
-
 	const activeMenu = useCallback(() => {
 		const pathName = path.pathname;
 		let matchingMenuItem = null;
@@ -171,16 +180,16 @@ const SidebarContent = ({ t }) => {
 				?.map((nav) => {
 					if (nav?.isSeparator) {
 						return nav.title ? (
-							<li style={{fontWeight: 800 }} className="menu-title" key={nav?.id}>
+							<li className="menu-title" key={nav?.id}>
 								{nav.title}{' '}
 							</li>
 						) : null;
 					}
 					return (
 						<li key={nav?.id}>
-							<Link to={nav.link} className={nav.linkClass}>
-								<i className={nav.iconName} />
-								<span style={{fontWeight: 500 }} className={nav.spanClass}>{t(nav.label)}</span>
+							<Link to={nav.link} onClick={()=>setActiveNav(nav.label)} className={`${nav.linkClass} nav_title ${nav.label===activeNav?'sub_nav_active':''}`}>
+								<i className={`${nav.iconName} ${nav.label===activeNav?'icon_active':''}`} />
+								<span style={{fontWeight: 500 }} className={`${nav.spanClass} `}>{t(nav.label)}</span>
 							</Link>
 							{nav?.subMenu?.length && (
 								<ul className="sub-menu">
@@ -189,7 +198,8 @@ const SidebarContent = ({ t }) => {
 											return null;
 										}
 										return (
-											<li key={sub?.link}>
+											<li key={sub?.link} className={`sun_title_nav ${sub?.link===path.pathname ?'active_sub_nav':''}`}>
+											    <div className={`inactive_sub ${sub?.link===path.pathname ?'active_line_nav':''} `} />
 												<Link to={sub.link}>{t(sub.label)}</Link>
 											</li>
 										);
@@ -199,7 +209,7 @@ const SidebarContent = ({ t }) => {
 						</li>
 					);
 				}),
-		[sideBarElements, permissions]
+		[sideBarElements, permissions,activeNav,path.pathname]
 	);
 
 	return (
