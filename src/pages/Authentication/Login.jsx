@@ -82,9 +82,9 @@ const Login = (props) => {
 	return (
 		<>
 			<div className="home-btn d-none d-sm-block">
-				<Link to="/" className="text-dark">
+				{/* <Link to="/" className="text-dark">
 					<i className="bx bx-home h2" />
-				</Link>
+				</Link> */}
 			</div>
 			<div className="account-pages my-5 pt-sm-5">
 				<Container>

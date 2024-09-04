@@ -10,12 +10,13 @@ import {
 const Actions = ({ cell, actionsList }) => (
 	<UncontrolledDropdown>
 		<DropdownToggle
-			className="btn btn-primary"
+			// className="btn btn-primary"
 			color=""
 			type="button"
-			style={{ width: '95px' }}
+			size="sm"
+			style={{height:'28px' }}
 		>
-			Actions <i className="mdi mdi-chevron-down" />
+			 <i className="mdi mdi-dots-vertical"  style={{fontSize:'15px'}}/>
 		</DropdownToggle>
 		<DropdownMenu>
 			{actionsList?.map(

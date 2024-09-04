@@ -22,7 +22,7 @@ import { ICON_CLASS, TEXT_COLORS } from '../../../utils/constant';
 import usePermission from '../../../components/Common/Hooks/usePermission';
 import Actions from '../../../components/Common/Actions';
 import ButtonList from '../../../components/Common/ButtonList';
-import { Icon } from "@iconify/react";
+import { Icon } from '@iconify/react';
 import { Button } from 'reactstrap';
 const useAdminListing = (filterValues = {}) => {
 	const dispatch = useDispatch();
@@ -205,34 +205,42 @@ const useAdminListing = (filterValues = {}) => {
 				disableSortBy: true,
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
+			// {
+			// 	Header: 'Action',
+			// 	accessor: 'action',
+			// 	disableFilters: true,
+			// 	disableSortBy: true,
+			// 	Cell: ({ cell }) => <div className="flex gap-3 justify-end" style={{display:'flex'}}>
+
+			// 		<Button
+			//         outline
+			// 		onClick={()=>handleEdit(cell?.row?.original)}
+			//       >
+			//         <Icon icon="heroicons:pencil" height="15" width="15" />
+			//       </Button>
+			//       <Button
+			// 		onClick={()=>handleView(cell?.row?.original)}
+
+			//         outline
+			//       >
+			//         <Icon icon="heroicons:eye" />
+			//       </Button>
+			//       <Button
+			// 	  disabled={isDisabled(cell?.row?.original)}
+			// 	  onClick={()=>handleStatus(cell?.row?.original)}
+			//         outline
+			//       >
+			//         <Icon icon="heroicons:trash" className="h-4 w-4" />
+			//       </Button>
+			// 	</div>,
+			// },
+
 			{
 				Header: 'Action',
 				accessor: 'action',
 				disableFilters: true,
 				disableSortBy: true,
-				Cell: ({ cell }) => <div className="flex gap-3 justify-end" style={{display:'flex'}}>
-					
-					<Button
-                    outline
-					onClick={()=>handleEdit(cell?.row?.original)}
-                  >
-                    <Icon icon="heroicons:pencil" height="15" width="15" />
-                  </Button>
-                  <Button
-					onClick={()=>handleView(cell?.row?.original)}
-                    
-                    outline
-                  >
-                    <Icon icon="heroicons:eye" />
-                  </Button>
-                  <Button
-				  disabled={isDisabled(cell?.row?.original)}
-				  onClick={()=>handleStatus(cell?.row?.original)}
-                    outline
-                  >
-                    <Icon icon="heroicons:trash" className="h-4 w-4" />
-                  </Button>
-				</div>,
+				Cell: ({ cell }) => <Actions actionsList={actionsList} cell={cell} />,
 			},
 		],
 		[adminDetails, permissions]

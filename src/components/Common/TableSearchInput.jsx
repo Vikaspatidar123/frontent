@@ -14,7 +14,7 @@ const TableSearchInput = ({
 			<Input
 				type="text"
 				value={validation.values[searchInputName]}
-				className="form-control border-0"
+				className="form-control"
 				placeholder={placeholder || 'Search...'}
 				onChange={(e) =>
 					validation.setFieldValue(searchInputName, e.target.value)
