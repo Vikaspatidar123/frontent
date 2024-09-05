@@ -75,7 +75,7 @@ const useGameTransactionsListing = (filterValues = {}) => {
 				Cell: ({ cell }) => <Name cell={cell?.value || '-'} />,
 			},
 			{
-				Header: 'TOTAL REVENUE',
+				Header: 'Total Revenue',
 				accessor: 'gameRevenue',
 				disableFilters: true,
 				Cell: ({ cell }) => (
@@ -83,13 +83,13 @@ const useGameTransactionsListing = (filterValues = {}) => {
 				),
 			},
 			{
-				Header: 'PLAYED BY',
+				Header: 'Played By',
 				accessor: 'totalPlayers',
 				filterable: true,
 				Cell: ({ cell }) => <NumberPlayer cell={cell?.value ?? '0'} />,
 			},
 			{
-				Header: 'TOTAL WAGERED',
+				Header: 'Total Wagered',
 				accessor: 'totalBetAmount',
 				filterable: true,
 				Cell: ({ cell }) => (
@@ -97,7 +97,7 @@ const useGameTransactionsListing = (filterValues = {}) => {
 				),
 			},
 			{
-				Header: 'TOTAL PAYOUT',
+				Header: 'Total Payout',
 				accessor: 'totalWinAmount',
 				disableFilters: true,
 				Cell: ({ cell }) => (

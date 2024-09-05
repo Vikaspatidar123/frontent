@@ -20,7 +20,7 @@
     border-radius: 50%;
 }
 .dark_mode{
-  background-color: #556ee6;;
+  background-color: #556ee6 !important;
 }
 
 .menu-title{
@@ -87,4 +87,16 @@
 
 .metismenu{
   margin: 0 4px !important;
+}
+
+
+.not_div{
+  // cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: aliceblue;
+  border-radius: 50%;
 }

@@ -204,13 +204,13 @@ const useCreateCurrency = () => {
 			// 	Cell: ({ cell }) => <Id value={cell.value} />,
 			// },
 			{
-				Header: 'NAME',
+				Header: 'Name',
 				accessor: 'name',
 				// filterable: true,
 				Cell: ({ cell }) => <Name cell={cell} />,
 			},
 			{
-				Header: 'CODE',
+				Header: 'Code',
 				accessor: 'code',
 				// filterable: true,
 				Cell: ({ cell }) => <Code value={cell.value} />,
@@ -222,13 +222,13 @@ const useCreateCurrency = () => {
 				Cell: ({ cell }) => <Code value={cell.value} />,
 			},
 			{
-				Header: 'EXCHANGE RATES',
+				Header: 'Exchange Rates',
 				accessor: 'exchangeRate',
 				// filterable: true,
 				Cell: ({ cell }) => <ExchangeRate value={cell.value} />,
 			},
 			{
-				Header: 'TYPE',
+				Header: 'Type',
 				accessor: 'type',
 				// filterable: true,
 				Cell: ({ cell }) => <Type value={cell.value} />,
@@ -241,7 +241,7 @@ const useCreateCurrency = () => {
 				Cell: ({ cell }) => <Status value={cell.value} />,
 			},
 			{
-				Header: 'ACTION',
+				Header: 'Actions',
 				accessor: 'actions',
 				disableSortBy: true,
 				disableFilters: true,

@@ -1,0 +1,9 @@
+.input_box_card{
+    width: 70%;
+}
+
+@media only screen and (max-width: 919px) {
+    .input_box_card {
+        width: 100% !important;
+    }
+}

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import './style.scss'
 // Import menuDropdown
 import { withTranslation } from 'react-i18next';
-// import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
+import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 
 import logo from '../../assets/images/logo-light.png';
@@ -162,8 +162,12 @@ const Header = (props) => {
 						
 						</button>
 					</div>
-
-					{/* <NotificationDropdown /> */}
+					<div className='mode'>
+					<div  className={`not_div ${themModem?'dark_mode':''}`}>
+					<NotificationDropdown />
+					</div>
+					
+					</div>
 					<div className="dropdown d-none d-lg-inline-block ms-1 ">
 					<div  className='mode'>
 					<div className={`mode_img ${themModem?'dark_mode':''}`} role="button" onClick={onThemChange} tabIndex={0}>

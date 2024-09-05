@@ -31,7 +31,7 @@ const Sidebar = () => {
 							/>
 						) : (
 							<img
-								src={Logo}
+								src={LogoLight}
 								style={{ height: '58px', width: '115px' }}
 								alt=""
 							/>

@@ -214,7 +214,7 @@ const useTournaments = () => {
 				Cell: ({ cell }) => <DateComponent value={cell.value} />,
 			},
 			{
-				Header: 'END DATE',
+				Header: 'End Date',
 				accessor: 'endDate',
 				// filterable: true,
 				Cell: ({ cell }) => <DateComponent value={cell.value} />,
@@ -226,7 +226,7 @@ const useTournaments = () => {
 			// 	Cell: ({ cell }) => <Image value={cell.value} />,
 			// },
 			{
-				Header: 'REGISTRATION CLOSE DATE',
+				Header: 'Registration Close Date',
 				accessor: 'registrationEndDate',
 				// filterable: true,
 				Cell: ({ cell }) => <DateComponent value={cell.value} />,
