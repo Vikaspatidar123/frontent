@@ -1154,3 +1154,57 @@ body[data-bs-theme='dark'] .react-datepicker__day:hover {
 body[data-bs-theme='dark'] .react-datepicker__day--keyboard-selected {
 	color: #000;
 }
+
+
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0;
+
+	.page-item {
+		margin: 0 5px;
+	}
+
+	.page-link {
+		display: inline-block;
+		padding: 10px 13px;
+		border: 1px solid #222121;
+		border-radius: 7px;
+		color: $body-secondary-color;
+		text-decoration: none;
+		transition: background-color 0.3s;
+	}
+
+	.page-link:hover {
+		background-color: #958c8c;
+		color: white;
+	}
+
+	.active .page-link {
+		background-color: $header-dark-bg;
+		color: white;
+		// border: 1px solid #000000;
+	}
+
+	.break-item {
+		display: flex;
+		align-items: center;
+		padding: 10px 15px;
+		color: #6c757d;
+	}
+
+	.previous-link,
+	.next-link {
+		background-color: #f8f9fa;
+		color: #000000;
+		border: 1px solid #000000;
+	}
+
+	.previous-link:hover,
+	.next-link:hover {
+		background-color: #d5d0d0;
+		color: rgb(195, 191, 191);
+	}
+}
