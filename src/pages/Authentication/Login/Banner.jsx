@@ -2,7 +2,7 @@ import React from 'react';
 import logodark from '../../../assets/images/ARC-Logo.svg';
 
 // img
-import authOverlay from '../../../assets/images/login/login-back.png';
+import authOverlay from '../../../assets/images/login/login-banner.png';
 
 const Banner = () => (
     <div
